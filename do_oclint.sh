@@ -17,11 +17,15 @@ echo $h_files
   -I../RibiClasses/CppFileIo \
   -I../RibiClasses/CppQtHideAndShowDialog \
   -I../RibiClasses/CppQtKeyboardFriendlyGraphicsView \
+  -I../RibiClasses/CppQtImage \
+  -I../RibiClasses/CppQtRoundedEditRectItem \
+  -I../RibiClasses/CppQtRoundedRectItem \
   -I../RibiClasses/CppRibiRegex \
   -I../RibiClasses/CppTrace \
   -I../RibiClasses/CppXml \
   -I../BoostGraphTutorial/BoostGraphTutorial \
   -I/usr/include/c++/5 \
+  -I/usr/include/x86_64-linux-gnu/c++/5 \
   -I/usr/include/qt5 \
   -I/usr/include/qt5/QtCore \
   -I/usr/include/qt5/QtGui \
