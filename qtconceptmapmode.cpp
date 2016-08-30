@@ -1,0 +1,2 @@
+#include "qtconceptmapmode.h"
+

@@ -1,0 +1,48 @@
+sudo: true
+language: cpp
+compiler: gcc
+
+install:
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libstdc++6-4.7-dev  
+  - sudo pip install codecov
+  - ./install_oclint.sh
+  - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
+
+addons:
+  apt:
+    sources:
+    - boost-latest
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-5
+    - g++-5
+    - libboost1.55-all-dev
+#    - gcov-5
+
+
+# Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+script: 
+  - ./install_githubs.sh
+  - ./build_console.sh
+  - ./RibiClassesTestConsole
+  - ./build_desktop.sh
+  - ./RibiClassesTestDesktop
+  - ./get_code_cov.sh
+  - codecov
+  # - ./no_temp_files.sh # TODO: put this back in
+  # - ./do_oclint.sh #TODO: Put OCLint back in
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  #- cat oclint.log
+
+after_failure:
+  #- cat oclint.log
+

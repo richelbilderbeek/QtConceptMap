@@ -15,7 +15,6 @@
 
 # Fortran module files
 *.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -27,3 +26,23 @@
 *.exe
 *.out
 *.app
+*.autosafe
+*.autosave
+*.pro.user
+Makefile
+RibiClassesTest
+*.gcda
+*.gcno
+temp.txt
+*.gcov
+tmp*
+ui_*
+RibiClassesTestConsole
+*.tar.gz
+oclint-0.10.3/
+oclint.log
+qrc_*
+moc_*
+RibiClassesTestDesktop
+create_one_edge_with_head_command.dot
+QtQuadBezierArrowItemTest1.png
