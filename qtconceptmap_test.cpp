@@ -14,7 +14,7 @@
 #include "conceptmap.h"
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
-#include "counter.h"
+//#include "counter.h"
 #include "qtconceptmapcollect.h"
 #include "qtconceptmapcommandaddselectedrandom.h"
 #include "qtconceptmapcommandcreatenewedge.h"
@@ -28,8 +28,8 @@
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
-#include "ribi_system.h"
-#include "trace.h"
+//#include "ribi_system.h"
+//#include "trace.h"
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
 {

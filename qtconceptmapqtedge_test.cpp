@@ -9,7 +9,7 @@
 #include "conceptmapedge.h"
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
-#include "counter.h"
+//#include "counter.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtedgefactory.h"
 #include "qtquadbezierarrowitem.h"
