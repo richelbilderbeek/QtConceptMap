@@ -77,8 +77,10 @@ private:
   ///The std::vector index equals the row
   ///Every row is a pair of a Concept and an integer
   ///The Concept is the concept being judged,
-  ///  which might be the concept on the focal node and the concept on the egdes connected to the focal node
-  ///The index is the index of the example being judged, or -1, denoting it is the concept name being judged
+  ///  which might be the concept on the focal node and the concept
+  /// on the edges connected to the focal node
+  ///The index is the index of the example being judged, or -1,
+  /// denoting it is the concept name being judged
   //typedef std::pair<Concept,int> Row;
   typedef std::tuple<EdgeDescriptor,Concept,int> Row;
   const std::vector<Row> m_data;
@@ -86,12 +88,10 @@ private:
   ///The name of this concept, for example 'my own development'
   const std::string m_focus_name;
 
-  static std::vector<Row>
-    CreateData(const ConceptMap& map);
-
-  static std::string GetFocusName(const ConceptMap& sub_conceptmap);
+  std::vector<Row> CreateData(const ConceptMap& map);
 
 };
+
 
 } //~namespace cmap
 } //~namespace ribi

@@ -36,15 +36,11 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 //#include "qtgraphics.h"
 #pragma GCC diagnostic pop
 
-//const std::map<ribi::cmap::Competency,QColor> ribi::cmap::QtCompetency::m_color_map = ribi::cmap::QtCompetency::CreateColorMap();
-//const std::map<ribi::cmap::Competency,QIcon> ribi::cmap::QtCompetency::m_icon_map  = ribi::cmap::QtCompetency::CreateIconMap();
-std::map<ribi::cmap::Competency,QColor> ribi::cmap::QtCompetency::m_color_map;
-std::map<ribi::cmap::Competency,QIcon> ribi::cmap::QtCompetency::m_icon_map;
-
 ribi::cmap::QtCompetency::QtCompetency()
+  : m_color_map{CreateColorMap()},
+    m_icon_map{CreateIconMap()}
 {
-  if (m_color_map.empty()) m_color_map = CreateColorMap();
-  if (m_icon_map.empty()) m_icon_map = CreateIconMap();
+
 }
 
 ribi::cmap::Competency ribi::cmap::QtCompetency::ColorToCompetency(const QColor& color) const
@@ -81,7 +77,7 @@ QIcon ribi::cmap::QtCompetency::CompetencyToIcon(const cmap::Competency competen
   return icon;
 }
 
-std::map<ribi::cmap::Competency,QColor> ribi::cmap::QtCompetency::CreateColorMap()
+std::map<ribi::cmap::Competency,QColor> ribi::cmap::CreateColorMap() noexcept
 {
   return
   {
@@ -96,7 +92,7 @@ std::map<ribi::cmap::Competency,QColor> ribi::cmap::QtCompetency::CreateColorMap
   };
 }
 
-std::map<ribi::cmap::Competency,QIcon> ribi::cmap::QtCompetency::CreateIconMap()
+std::map<ribi::cmap::Competency,QIcon> ribi::cmap::CreateIconMap() noexcept
 {
   return
   {

@@ -55,17 +55,19 @@ struct QtCompetency
 
   private:
   ///The map between Competency and QColor
-  static std::map<Competency,QColor> m_color_map;
+  const std::map<Competency,QColor> m_color_map;
 
   ///The map between Competency and QIcon
-  static std::map<Competency,QIcon> m_icon_map;
+  const std::map<Competency,QIcon> m_icon_map;
 
-  ///Create map between Competency and QColor
-  static std::map<Competency,QColor> CreateColorMap();
-
-  ///Create map between Competency and QIcon
-  static std::map<Competency,QIcon> CreateIconMap();
 };
+
+///Create map between Competency and QColor
+std::map<Competency,QColor> CreateColorMap() noexcept;
+
+///Create map between Competency and QIcon
+std::map<Competency,QIcon> CreateIconMap() noexcept;
+
 
 } //~namespace cmap
 } //~namespace ribi

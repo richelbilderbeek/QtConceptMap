@@ -101,8 +101,10 @@ struct QtEdge : public QGraphicsItem
 
   void SetSelected(bool selected);
 
-  void SetShowBoundingRect(const bool show_bounding_rect) const noexcept { m_show_bounding_rect = show_bounding_rect; }
-
+  void SetShowBoundingRect(const bool show_bounding_rect) const noexcept
+  {
+    m_show_bounding_rect = show_bounding_rect;
+  }
 
   std::string ToStr() const noexcept;
 
@@ -112,7 +114,12 @@ protected:
   void focusInEvent(QFocusEvent *event) noexcept override final;
   void focusOutEvent(QFocusEvent *event) noexcept override final;
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) noexcept override final;
+  void paint(
+    QPainter* painter,
+    const QStyleOptionGraphicsItem* option,
+    QWidget* widget
+  ) noexcept override final;
+
   QPainterPath shape() const noexcept override final;
 
 private:

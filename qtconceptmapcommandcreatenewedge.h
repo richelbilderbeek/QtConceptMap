@@ -47,8 +47,12 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
     QGraphicsScene * const scene,
     QtTool * const tool_item
   );
-  CommandCreateNewEdgeBetweenTwoSelectedNodes(const CommandCreateNewEdgeBetweenTwoSelectedNodes&) = delete;
-  CommandCreateNewEdgeBetweenTwoSelectedNodes& operator=(const CommandCreateNewEdgeBetweenTwoSelectedNodes&) = delete;
+  CommandCreateNewEdgeBetweenTwoSelectedNodes(
+    const CommandCreateNewEdgeBetweenTwoSelectedNodes&
+  ) = delete;
+  CommandCreateNewEdgeBetweenTwoSelectedNodes& operator=(
+    const CommandCreateNewEdgeBetweenTwoSelectedNodes&
+  ) = delete;
   ~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept;
 
   void redo() override;

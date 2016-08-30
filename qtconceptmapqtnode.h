@@ -51,7 +51,6 @@ struct QtNode : public QtRoundedEditRectItem
   const Node& GetNode() const noexcept { return m_node; }
         Node& GetNode()       noexcept { return m_node; }
 
-  static int GetWordWrapLength() noexcept { return m_wordwrap_length; }
 
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
@@ -78,9 +77,10 @@ private:
   Node m_node;
 
   bool m_show_bounding_rect;
-
-  static const int m_wordwrap_length{80};
 };
+
+///Number of characters for wordwrapping
+constexpr int GetWordWrapLength() { return 80; }
 
 std::ostream& operator<<(std::ostream& os, const QtNode& qtnode) noexcept;
 

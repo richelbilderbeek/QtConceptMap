@@ -42,7 +42,12 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "trace.h"
 
 ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
-  : QtRoundedEditRectItem( { "..." }, ribi::QtRoundedEditRectItem::Padding(), QFont("monospace",9), parent),
+  : QtRoundedEditRectItem(
+      { "..." },
+      ribi::QtRoundedEditRectItem::Padding(),
+      QFont("monospace",9),
+      parent
+    ),
     m_brush_function{GetQtNodeBrushFunctionUninitialized()},
     m_node{node},
     m_show_bounding_rect{false}
@@ -142,7 +147,9 @@ void ribi::cmap::QtNode::paint(
   }
 }
 
-void ribi::cmap::QtNode::SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept
+void ribi::cmap::QtNode::SetBrushFunction(
+  const std::function<QBrush(const ribi::cmap::QtNode&)>& f
+) noexcept
 {
   m_brush_function = f;
   this->update();
@@ -152,7 +159,7 @@ void ribi::cmap::QtNode::SetNode(const Node& node) noexcept
 {
   m_node = node;
   this->SetCenterPos(m_node.GetX(), m_node.GetY());
-  this->SetText(Wordwrap(node.GetConcept().GetName(), m_wordwrap_length));
+  this->SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
 }
 
 std::string ribi::cmap::QtNode::ToStr() const noexcept

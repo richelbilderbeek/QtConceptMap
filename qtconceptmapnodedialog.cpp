@@ -96,7 +96,6 @@ void ribi::cmap::QtNodeDialog::SetNode(const Node& node) noexcept
 
 void ribi::cmap::QtNodeDialog::OnConceptChanged(const Node& node)
 {
-  assert(!"Am I called?");
   const bool verbose{false};
   const auto concept_before = m_qtconceptdialog->GetConcept();
   const Concept concept_after = node.GetConcept();
@@ -117,13 +116,11 @@ void ribi::cmap::QtNodeDialog::OnConceptChanged(const Node& node)
 
 void ribi::cmap::QtNodeDialog::OnXchanged(const Node& node)
 {
-  assert(!"Am I called?");
   ui->box_x->setValue(node.GetX());
 }
 
 void ribi::cmap::QtNodeDialog::OnYchanged(const Node& node)
 {
-  assert(!"Am I called?");
   ui->box_y->setValue(node.GetY());
 }
 

@@ -64,7 +64,11 @@ void ribi::cmap::QtTool::mousePressEvent(QGraphicsSceneMouseEvent * event)
   QGraphicsPixmapItem::mousePressEvent(event);
 }
 
-void ribi::cmap::QtTool::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void ribi::cmap::QtTool::paint(
+  QPainter* painter,
+  const QStyleOptionGraphicsItem* option,
+  QWidget* widget
+)
 {
   assert(m_item);
   assert(this->scene());
@@ -75,7 +79,11 @@ void ribi::cmap::QtTool::paint(QPainter* painter, const QStyleOptionGraphicsItem
 
   //Must be close
   assert(std::abs(this->x() - m_item->GetCenterX()) < 1.0);
-  assert(std::abs(m_item->GetCenterY() - (m_item->GetOuterHeight() / 2.0) - 16.0 - this->y()) < 1.0);
+  assert(
+    std::abs(
+      m_item->GetCenterY() - (m_item->GetOuterHeight() / 2.0) - 16.0 - this->y()
+    ) < 1.0
+  );
 
   QGraphicsPixmapItem::paint(painter,option,widget);
 }

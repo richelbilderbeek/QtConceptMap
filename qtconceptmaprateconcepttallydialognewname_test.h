@@ -8,7 +8,7 @@ namespace cmap {
 
 class qtconceptmaprateconcepttallydialognewname_test : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT //!OCLINT
 
 private slots:
   void construct_with_empty_conceptmap();

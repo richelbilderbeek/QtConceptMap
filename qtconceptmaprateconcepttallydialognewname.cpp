@@ -65,7 +65,8 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   ui->table->setRowCount(n_rows);
   ui->table->setWordWrap(true);
 
-  //From https://stackoverflow.com/questions/9544122/how-to-word-wrap-text-in-the-rows-and-columns-of-a-qtablewidget
+  //From https://stackoverflow.com/questions/9544122
+  //  /how-to-word-wrap-text-in-the-rows-and-columns-of-a-qtablewidget
   connect(
     ui->table->horizontalHeader(),
     SIGNAL(sectionResized(int, int, int)),
@@ -117,7 +118,8 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
           ribi::cmap::GetFrom(edge,conceptmap) == ribi::cmap::GetFirstNode(conceptmap)
         };
         const Node other {
-          center_is_from ? ribi::cmap::GetTo(edge,conceptmap) : ribi::cmap::GetFrom(edge, conceptmap)
+          center_is_from ? ribi::cmap::GetTo(edge,conceptmap)
+          : ribi::cmap::GetFrom(edge, conceptmap)
         };
         const std::string s {
             "via '"
@@ -141,13 +143,25 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
         if (col_index != 3)
         {
           QTableWidgetItem * const item = new QTableWidgetItem;
-          item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+          item->setFlags(
+            Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable
+          );
           switch (col_index)
           {
-            case 0: item->setCheckState(example.GetIsComplex() ? Qt::Checked : Qt::Unchecked); break;
-            case 1: item->setCheckState(example.GetIsConcrete() ? Qt::Checked : Qt::Unchecked); break;
-            case 2: item->setCheckState(example.GetIsSpecific() ? Qt::Checked : Qt::Unchecked); break;
-            default: assert(!"Should not get here");
+            case 0: item->setCheckState(example.GetIsComplex()
+              ? Qt::Checked : Qt::Unchecked);
+            break;
+            case 1: item->setCheckState(example.GetIsConcrete()
+              ? Qt::Checked : Qt::Unchecked);
+            break;
+            case 2: item->setCheckState(example.GetIsSpecific()
+              ? Qt::Checked : Qt::Unchecked);
+            break;
+            default:
+              throw std::logic_error(
+                "ribi::cmap::QtRateConceptTallyDialog::"
+                "QtRateConceptTallyDialog: Unknown col index"
+              );
           }
           ui->table->setItem(row_index, col_index, item);
         }
@@ -236,21 +250,6 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
   }
   #endif // FIX_ISSUE_10
   return data;
-}
-
-std::string ribi::cmap::QtRateConceptTallyDialog::GetFocusName(
-  const ConceptMap& sub_conceptmap)
-{
-  if (boost::num_vertices(sub_conceptmap) == 0)
-  {
-    std::stringstream msg;
-    msg << __func__ << ": cannot get the name of a focal node, "
-      << "when there are zero nodes"
-    ;
-    throw std::logic_error(msg.str());
-  }
-  const Concept focal_concept(ribi::cmap::GetFirstNode(sub_conceptmap).GetConcept());
-  return focal_concept.GetName();
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
@@ -348,7 +347,6 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
 
 void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
 {
-  assert(!"Am I called?");
   assert(row_index >= 0);
   assert(row_index < static_cast<int>(m_data.size()));
   assert(col >= 0);

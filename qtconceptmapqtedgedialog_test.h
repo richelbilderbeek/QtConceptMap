@@ -8,7 +8,7 @@ namespace cmap {
 
 class qtconceptmapqtedgedialog_test : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT //!OCLINT
 
 private slots:
   void all_tests();

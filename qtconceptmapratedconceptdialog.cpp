@@ -61,13 +61,19 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
     ("Cluster bij concept: " + node.GetConcept().GetName()).c_str()
   );
   ui->label_complexity->setText(
-    ("Complexiteit: " + boost::lexical_cast<std::string>(node.GetConcept().GetRatingComplexity())).c_str()
+    ("Complexiteit: " + boost::lexical_cast<std::string>(
+      node.GetConcept().GetRatingComplexity())
+    ).c_str()
   );
   ui->label_concreteness->setText(
-    ("Concreetheid: " + boost::lexical_cast<std::string>(node.GetConcept().GetRatingConcreteness())).c_str()
+    ("Concreetheid: " + boost::lexical_cast<std::string>(
+      node.GetConcept().GetRatingConcreteness())
+    ).c_str()
   );
   ui->label_specificity->setText(
-    ("Specificiteit: " + boost::lexical_cast<std::string>(node.GetConcept().GetRatingSpecificity())).c_str()
+    ("Specificiteit: " + boost::lexical_cast<std::string>(
+      node.GetConcept().GetRatingSpecificity())
+    ).c_str()
   );
 
   //Put examples in list
@@ -75,7 +81,9 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
   {
     ui->list_concept_examples->addItem(
       new QListWidgetItem(
-        (boost::lexical_cast<std::string>(static_cast<int>(example.GetCompetency())) + ". " + example.GetText()).c_str()
+        (boost::lexical_cast<std::string>(
+          static_cast<int>(example.GetCompetency())) + ". " + example.GetText()
+        ).c_str()
       )
     );
   }

@@ -24,11 +24,12 @@ boost::shared_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::Create(
 
 int ribi::cmap::QtNodeFactory::GetNumberOfTests() const noexcept
 {
-  const int n{static_cast<int>(GetTests().size())};
-  return n;
+  return static_cast<int>(GetTests().size());
 }
 
-boost::shared_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetTest(const int i) const noexcept
+boost::shared_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetTest(
+  const int i
+) const noexcept
 {
   const auto tests = GetTests();
   assert(i >= 0);
@@ -36,7 +37,8 @@ boost::shared_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetTest(const i
   return tests[i];
 }
 
-std::vector<boost::shared_ptr<ribi::cmap::QtNode>> ribi::cmap::QtNodeFactory::GetTests() const noexcept
+std::vector<boost::shared_ptr<ribi::cmap::QtNode>>
+ribi::cmap::QtNodeFactory::GetTests() const noexcept
 {
   std::vector<boost::shared_ptr<QtNode>> qtnodes;
   const auto v = NodeFactory().GetTests();
