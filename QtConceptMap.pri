@@ -1,5 +1,4 @@
-INCLUDEPATH += \
-    ../RibiClasses/CppQtConceptMap
+INCLUDEPATH += $$PWD
 
 HEADERS += \
     $$PWD/qtconceptmapbrushfactory.h \
@@ -91,4 +90,4 @@ FORMS += \
     $$PWD/qtconceptmaprateexamplesdialognewname.ui
 
 RESOURCES += \
-    $$PWD/CppQtConceptMap.qrc
+    $$PWD/QtConceptMap.qrc

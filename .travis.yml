@@ -30,19 +30,11 @@ before_script:
 
 script: 
   - ./install_githubs.sh
-  - ./build_console.sh
-  - ./RibiClassesTestConsole
-  - ./build_desktop.sh
-  - ./RibiClassesTestDesktop
+  - ./build.sh
+  - ./QtConceptMapTest
   - ./get_code_cov.sh
   - codecov
-  # - ./no_temp_files.sh # TODO: put this back in
-  # - ./do_oclint.sh #TODO: Put OCLint back in
+  - ./do_oclint.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  #- cat oclint.log
-
-after_failure:
-  #- cat oclint.log
-

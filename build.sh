@@ -1,4 +1,3 @@
 #!/bin/bash
-qmake RibiClassesTestDesktop.pro
+qmake
 make
-./RibiClassesTestDesktop
