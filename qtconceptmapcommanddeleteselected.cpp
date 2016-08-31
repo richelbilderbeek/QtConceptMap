@@ -54,31 +54,8 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
 
   //Count the number of vertices and edges selected
   {
-    const auto vip = vertices(m_conceptmap_after);
-    const int n_vertices_selected{
-      static_cast<int>(
-        std::count_if(vip.first, vip.second,
-          [this](const VertexDescriptor vd)
-          {
-            const auto is_selected_map = get(boost::vertex_is_selected, m_conceptmap_after);
-            return get(is_selected_map,vd);
-          }
-        )
-      )
-    };
-
-    const auto eip = edges(m_conceptmap_after);
-    const int n_edges_selected{
-      static_cast<int>(
-        std::count_if(eip.first, eip.second,
-          [this](const EdgeDescriptor vd)
-          {
-            const auto is_selected_map = get(boost::edge_is_selected, m_conceptmap_after);
-            return get(is_selected_map,vd);
-          }
-        )
-      )
-    };
+    const int n_vertices_selected{CountSelectedNodes(m_conceptmap_after)};
+    const int n_edges_selected{CountSelectedEdges(m_conceptmap_after)};
     if (n_vertices_selected + n_edges_selected == 0) {
       std::stringstream msg;
       msg << __func__ << ": no edges nor vertices selected, cannot delete zero selected items";
@@ -152,11 +129,8 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
       //Is selected itself
       if (qtedge->isSelected())
       {
-        //m_qtedges_removed.emplace_back(qtedge);
-        //m_qtnodes_removed.emplace_back(qtedge->GetQtNode()); //Also the QtNodes at the center of a QtEdge
         assert(qtedge->scene());
         m_qtedges_removed.insert(qtedge);
-        //NO m_qtnodes_removed.insert(qtedge->GetQtNode()); //Also the QtNodes at the center of a QtEdge
         continue;
       }
       //Is connected to a deleted QtNode
@@ -172,9 +146,6 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
       {
         assert(qtedge->scene());
         m_qtedges_removed.insert(qtedge);
-        //NO m_qtnodes_removed.insert(qtedge->GetQtNode()); //Also the QtNodes at the center of a QtEdge
-        //m_qtedges_removed.emplace_back(qtedge);
-        //m_qtnodes_removed.emplace_back(qtedge->GetQtNode()); //Also the QtNodes at the center of a QtEdge
       }
     }
   }

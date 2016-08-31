@@ -43,7 +43,8 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "trace.h"
 #pragma GCC diagnostic pop
 
-///QTreeWidgetItem with the only function of storing a cmap::Competency additionally, only used in testing
+///QTreeWidgetItem with the only function of storing a
+///cmap::Competency additionally, only used in testing
 struct QtConceptMapListWidgetItem : public QListWidgetItem
 {
   QtConceptMapListWidgetItem(
@@ -108,14 +109,15 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
 {
   if (e->key()  == Qt::Key_Escape) { close(); return; }
 
-  if (e->key()  == Qt::Key_Enter || e->key()  == Qt::Key_Return)
+  if (
+    (e->key() == Qt::Key_Enter || e->key()  == Qt::Key_Return)
+    && e->modifiers() & Qt::AltModifier
+  )
   {
-    if (e->modifiers() & Qt::AltModifier)
-    {
-      on_button_ok_clicked();
-      return;
-    }
+    on_button_ok_clicked();
+    return;
   }
+
   //QDialog::keyPressEvent(e); //Causes dialog to close unwanted?
 }
 
@@ -165,8 +167,11 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_ok_clicked()
   for (int i=0; i!=n_items; ++i)
   {
     const QListWidgetItem * const item = ui->list_examples->item(i);
-    const QtConceptMapListWidgetItem * const braw_item = dynamic_cast<const QtConceptMapListWidgetItem *>(item);
-    const Competency competency = braw_item ? braw_item->m_competency : Competency::uninitialized;
+    const QtConceptMapListWidgetItem * const braw_item
+      = dynamic_cast<const QtConceptMapListWidgetItem *>(item)
+    ;
+    const Competency competency = braw_item
+      ? braw_item->m_competency : Competency::uninitialized;
     Example p(
       item->text().toStdString(),
       competency
@@ -194,8 +199,10 @@ const ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::WriteToConc
   for (int i=0; i!=n_items; ++i)
   {
     const QListWidgetItem * const item = ui->list_examples->item(i);
-    const QtConceptMapListWidgetItem * const braw_item = dynamic_cast<const QtConceptMapListWidgetItem *>(item);
-    const Competency competency = braw_item ? braw_item->m_competency : cmap::Competency::uninitialized;
+    const QtConceptMapListWidgetItem * const braw_item
+      = dynamic_cast<const QtConceptMapListWidgetItem *>(item);
+    const Competency competency = braw_item
+      ? braw_item->m_competency : cmap::Competency::uninitialized;
     boost::shared_ptr<Example> p(
       cmap::ExampleFactory().Create(
         item->text().toStdString(),

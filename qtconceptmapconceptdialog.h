@@ -71,24 +71,6 @@ private:
   Concept m_concept;
 
   QtExamplesDialog * const m_qtexamplesdialog;
-
-  //concept is non-const, as its displayal by this dialog renders it editable
-  void OnExamplesChanged(Concept& concept) noexcept;
-
-  //concept is non-const, as its displayal by this dialog renders it editable
-  void OnIsComplexChanged(Concept& concept) noexcept;
-
-  //concept is non-const, as its displayal by this dialog renders it editable
-  void OnNameChanged(Concept& concept) noexcept;
-
-  //concept is non-const, as its displayal by this dialog renders it editable
-  void OnRatingComplexityChanged(Concept& concept) noexcept;
-
-  //concept is non-const, as its displayal by this dialog renders it editable
-  void OnRatingConcretenessChanged(Concept& concept) noexcept;
-
-  //concept is non-const, as its displayal by this dialog renders it editable
-  void OnRatingSpecificityChanged(Concept& concept) noexcept;
 };
 
 } //~namespace cmap

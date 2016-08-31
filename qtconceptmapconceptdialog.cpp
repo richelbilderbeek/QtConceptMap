@@ -80,175 +80,11 @@ std::string ribi::cmap::QtConceptDialog::GetUiName() const noexcept
 
 void ribi::cmap::QtConceptDialog::SetConcept(const Concept& concept) noexcept
 {
-  const bool verbose{false};
-
-  if (m_concept == concept)
-  {
-    return;
-  }
-  if (verbose)
-  {
-    std::stringstream s;
-    s << "Setting concept '" << concept.ToStr() << "'\n";
-  }
-  const auto examples_after = concept.GetExamples();
-  const auto is_complex_after = concept.GetIsComplex();
-  const auto name_after = concept.GetName();
-  const auto rating_complexity_after = concept.GetRatingComplexity();
-  const auto rating_concreteness_after = concept.GetRatingConcreteness();
-  const auto rating_specificity_after = concept.GetRatingSpecificity();
-
-  bool examples_changed  = true;
-  bool is_complex_changed  = true;
-  bool name_changed = true;
-  bool rating_complexity_changed = true;
-  bool rating_concreteness_changed = true;
-  bool rating_specificity_changed = true;
-
-  //if (m_concept)
-  {
-    const auto examples_before = m_concept.GetExamples();
-    const auto is_complex_before = m_concept.GetIsComplex();
-    const auto name_before = m_concept.GetName();
-    const auto rating_complexity_before = m_concept.GetRatingComplexity();
-    const auto rating_concreteness_before = m_concept.GetRatingConcreteness();
-    const auto rating_specificity_before = m_concept.GetRatingSpecificity();
-
-    examples_changed  = examples_before != examples_after;
-    is_complex_changed  = is_complex_before != is_complex_after;
-    name_changed = name_before != name_after;
-    rating_complexity_changed = rating_complexity_before != rating_complexity_after;
-    rating_concreteness_changed = rating_concreteness_before != rating_concreteness_after;
-    rating_specificity_changed = rating_specificity_before != rating_specificity_after;
-
-
-    if (verbose)
-    {
-      if (examples_changed)
-      {
-        std::stringstream s;
-        s
-          << "Examples will change from "
-          << examples_before.ToStr()
-          << " to "
-          << examples_after.ToStr()
-          << '\n'
-        ;
-        TRACE(s.str());
-      }
-      if (is_complex_changed)
-      {
-        std::stringstream s;
-        s << "IsComplex will change from " << is_complex_before
-          << " to " << is_complex_after << '\n';
-        TRACE(s.str());
-      }
-      if (name_changed)
-      {
-        std::stringstream s;
-        s << "Name will change from " << name_before
-          << " to " << name_after << '\n';
-        TRACE(s.str());
-      }
-      if (rating_complexity_changed)
-      {
-        std::stringstream s;
-        s << "Rating_complexity will change from " << rating_complexity_before
-          << " to " << rating_complexity_after << '\n';
-        TRACE(s.str());
-      }
-      if (rating_concreteness_changed)
-      {
-        std::stringstream s;
-        s << "Rating_concreteness_changed will change from '"
-          << rating_concreteness_before
-          << "' to '" << rating_concreteness_after
-          << "'\n";
-        TRACE(s.str());
-      }
-      if (rating_specificity_changed)
-      {
-        std::stringstream s;
-        s << "Rating_specificity will change from '" << rating_specificity_before
-          << "' to '" << rating_specificity_after << "'\n";
-        TRACE(s.str());
-      }
-    }
-  }
-
-  //Replace m_example by the new one
   m_concept = concept;
-
-  assert(m_concept.GetExamples() == examples_after );
-  assert(m_concept.GetIsComplex()  == is_complex_after );
-  assert(m_concept.GetName() == name_after);
-  assert(m_concept.GetRatingComplexity() == rating_complexity_after);
-  assert(m_concept.GetRatingConcreteness() == rating_concreteness_after);
-  assert(m_concept.GetRatingSpecificity() == rating_specificity_after);
 
   setMinimumHeight(GetMinimumHeight(m_concept));
 
-  assert( concept ==  m_concept);
-}
-
-void ribi::cmap::QtConceptDialog::OnExamplesChanged(Concept& concept) noexcept
-{
-  assert(!"Am I called?");
-  const bool verbose{false};
-
-  const auto examples_before = m_qtexamplesdialog->GetExamples();
-  const Examples examples_after = concept.GetExamples();
-
-  if (verbose)
-  {
-    std::stringstream s;
-    s << "Change examples from "
-      << examples_before.ToStr()
-      << " to "
-      << examples_after.ToStr()
-    ;
-    TRACE(s.str());
-  }
-
-  m_qtexamplesdialog->SetExamples(examples_after);
-
-  assert(m_qtexamplesdialog->GetExamples() == examples_after);
-}
-
-void ribi::cmap::QtConceptDialog::OnIsComplexChanged(Concept& concept) noexcept
-{
-  assert(!"Am I called?");
-  ui->box_is_complex->setChecked(concept.GetIsComplex());
-}
-
-void ribi::cmap::QtConceptDialog::OnNameChanged(Concept& concept) noexcept
-{
-  assert(!"Am I called?");
-  ui->edit_name->setText(concept.GetName().c_str());
-}
-
-void ribi::cmap::QtConceptDialog::OnRatingComplexityChanged(Concept& concept) noexcept
-{
-  assert(!"Am I called?");
-  ui->box_rating_complexity->setValue(
-    concept.GetRatingComplexity()
-  );
-}
-
-void ribi::cmap::QtConceptDialog::OnRatingConcretenessChanged(Concept& concept) noexcept
-{
-  assert(!"Am I called?");
-  ui->box_rating_concreteness->setValue(
-    concept.GetRatingConcreteness()
-  );
-}
-
-void ribi::cmap::QtConceptDialog::OnRatingSpecificityChanged(Concept& concept) noexcept
-{
-  assert(!"Am I called?");
-  ui->box_rating_specificity->setValue(
-    concept.GetRatingSpecificity()
-  );
+  assert(concept ==  m_concept);
 }
 
 void ribi::cmap::QtConceptDialog::SetUiName(const std::string& name) noexcept
@@ -257,47 +93,13 @@ void ribi::cmap::QtConceptDialog::SetUiName(const std::string& name) noexcept
   assert(GetUiName() == name);
 }
 
-/*
-void ribi::cmap::QtConceptDialog::on_box_competency_currentIndexChanged(int index)
-{
-  const bool verbose{false};
-
-  if (!m_concept)
-  {
-    //Used in construction
-    return;
-  }
-
-  assert(index >= 0);
-  assert(index < static_cast<int>(Competencies().GetAllCompetencies().size()));
-  const auto competency = Competencies().GetAllCompetencies()[index];
-
-  if (verbose)
-  {
-    std::stringstream s;
-    s << "QtConceptDialog will set competency " << Competencies().ToStr(competency)
-      << " (index " << index << ", current competency is "
-      << (m_concept ? Competencies().ToStr(m_concept.GetCompetency()) : "[nullptr]")
-      << ")";
-    TRACE(s.str());
-  }
-  //Let the Concept figure out itself if this changes anything;
-  //Allow setting a new competency if it equals the current
-  m_concept.SetCompetency(competency);
-
-  assert(m_concept.GetCompetency() == competency);
-}
-*/
-
 void ribi::cmap::QtConceptDialog::on_box_is_complex_stateChanged(int) noexcept
 {
-  //OK
   m_concept.SetIsComplex(ui->box_is_complex->isChecked());
 }
 
 void ribi::cmap::QtConceptDialog::on_edit_name_textChanged(const QString &arg1) noexcept
 {
-  //OK
   m_concept.SetName(arg1.toStdString());
 }
 
