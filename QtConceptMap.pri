@@ -3,14 +3,12 @@ INCLUDEPATH += $$PWD
 HEADERS += \
     $$PWD/qtconceptmapbrushfactory.h \
     $$PWD/qtconceptmapcollect.h \
-    $$PWD/qtconceptmapcommandaddselectedrandom.h \
     $$PWD/qtconceptmapcommandcreatenewedge.h \
     $$PWD/qtconceptmapcommandcreatenewnode.h \
     $$PWD/qtconceptmapcommanddeleteselected.h \
     $$PWD/qtconceptmapcommand.h \
     $$PWD/qtconceptmapcommandtogglearrowhead.h \
     $$PWD/qtconceptmapcommandtogglearrowtail.h \
-    $$PWD/qtconceptmapcommandunselectrandom.h \
     $$PWD/qtconceptmapcompetency.h \
     $$PWD/qtconceptmapconceptdialog.h \
     $$PWD/qtconceptmapconcepteditdialog.h \
@@ -41,14 +39,12 @@ HEADERS += \
 SOURCES += \
     $$PWD/qtconceptmapbrushfactory.cpp \
     $$PWD/qtconceptmapcenternode.cpp \
-    $$PWD/qtconceptmapcommandaddselectedrandom.cpp \
     $$PWD/qtconceptmapcommand.cpp \
     $$PWD/qtconceptmapcommandcreatenewedge.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode.cpp \
     $$PWD/qtconceptmapcommanddeleteselected.cpp \
     $$PWD/qtconceptmapcommandtogglearrowhead.cpp \
     $$PWD/qtconceptmapcommandtogglearrowtail.cpp \
-    $$PWD/qtconceptmapcommandunselectrandom.cpp \
     $$PWD/qtconceptmapcompetency.cpp \
     $$PWD/qtconceptmapconceptdialog.cpp \
     $$PWD/qtconceptmapconcepteditdialog.cpp \
