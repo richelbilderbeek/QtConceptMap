@@ -24,6 +24,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmapcenternode.h"
 
+#include <stdexcept>
 
 #include "qtconceptmapbrushfactory.h"
 #include "conceptmapnode.h"
@@ -33,6 +34,11 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 ribi::cmap::QtCenterNode::QtCenterNode(const Node& node)
   : QtNode(node)
 {
-  assert(IsCenterNode(node));
+  if (!IsCenterNode(node))
+  {
+    throw std::invalid_argument(
+      "QtCenterNode: must be constructed from a CenterNode"
+     );
+  }
   this->setFlags(QGraphicsItem::ItemIsFocusable);
 }

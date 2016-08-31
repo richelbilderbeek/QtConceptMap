@@ -1,4 +1,5 @@
 SOURCES += \
+    $$PWD/qtconceptmapcenternode_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
     $$PWD/qtconceptmapconcepteditdialog_test.cpp \
     $$PWD/qtconceptmapedgedialog_test.cpp \
@@ -15,6 +16,7 @@ SOURCES += \
     $$PWD/qtconceptmaphelper_test.cpp
 
 HEADERS += \
+    $$PWD/qtconceptmapcenternode_test.h \
     $$PWD/qtconceptmapcompetency_test.h \
     $$PWD/qtconceptmapconcepteditdialog_test.h \
     $$PWD/qtconceptmapedgedialog_test.h \

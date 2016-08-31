@@ -1,5 +1,6 @@
 #include <iostream>
 #include <QtTest/QtTest>
+#include "qtconceptmapcenternode_test.h"
 #include "qtconceptmapcompetency_test.h"
 #include "qtconceptmapconcepteditdialog_test.h"
 #include "qtconceptmapedgedialog_test.h"
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
   int error = 0;
 
   //These are all tests in alphabetical order
+  { ribi::cmap::qtconceptmapcenternode_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapcompetency_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapconcepteditdialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapedgedialog_test t; error |= QTest::qExec(&t, argc, argv); }
