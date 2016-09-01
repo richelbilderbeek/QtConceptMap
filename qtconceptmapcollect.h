@@ -6,10 +6,10 @@
 
 ///Collect all QGraphicsItems with class T in an unorderly way
 template <class T>
-std::vector<T*> Collect(const QGraphicsScene* const scene)
+std::vector<T*> Collect(const QGraphicsScene& scene)
 {
   std::vector<T*> v;
-  const QList<QGraphicsItem *> items = scene->items();
+  const QList<QGraphicsItem *> items = scene.items();
   std::transform(items.begin(),items.end(),std::back_inserter(v),
     [](QGraphicsItem* const item)
     {

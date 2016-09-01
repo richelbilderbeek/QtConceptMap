@@ -219,8 +219,22 @@ void ribi::cmap::QtConceptMap::CheckInvariants() const noexcept
   //QtNode as its buddy
   //For Issue #96, https://github.com/richelbilderbeek/Brainweaver/issues/96
   {
-    const auto qtnodes = ribi::cmap::GetSelectedQtNodesNotOnEdge(scene());
-    qDebug() << "QtNodes selected (that are not on an edge): " << qtnodes.size();
+    #ifndef NDEBUG
+    {
+      const int n1{CountSelectedQtNodes(scene())};
+      const int n2{static_cast<int>(ribi::cmap::GetSelectedQtNodes(scene()).size())};
+      qCritical() << n1 << " versus " << n2;
+      assert(n1 == n2);
+    }
+    #endif
+    assert(CountSelectedQtNodes(scene())
+      == static_cast<int>(ribi::cmap::GetSelectedQtNodes(scene()).size())
+    );
+    assert(CountSelectedQtEdges(scene())
+      == static_cast<int>(ribi::cmap::GetSelectedQtEdges(scene()).size())
+    );
+    const auto qtnodes = ribi::cmap::GetSelectedQtNodes(scene());
+    qDebug() << "QtNodes selected (that are not on an edge): " << CountSelectedQtNodes(scene());
     qDebug() << "QtNodes selected (that may be on an edge): " << ribi::cmap::GetSelectedQtNodes(scene()).size();
     if (qtnodes.size() == 1)
     {

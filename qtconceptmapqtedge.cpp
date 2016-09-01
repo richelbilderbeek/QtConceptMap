@@ -171,19 +171,6 @@ void ribi::cmap::QtEdge::EnableAll() noexcept
   this->m_arrow->setVisible(true);
 }
 
-std::string ribi::cmap::QtEdge::GetVersion() noexcept
-{
-  return "1.1";
-}
-
-std::vector<std::string> ribi::cmap::QtEdge::GetVersionHistory() noexcept
-{
-  return {
-    "201x-xx-xx: version 1.0: initial version"
-    "2014-08-01: version 1.1: start of versioning"
-  };
-}
-
 void ribi::cmap::QtEdge::focusInEvent(QFocusEvent* e) noexcept
 {
   QGraphicsItem::focusInEvent(e);

@@ -85,9 +85,6 @@ struct QtEdge : public QGraphicsItem
         QtNode * GetQtNode()       noexcept { return m_qtnode; }
   const QtNode * GetQtNode() const noexcept { return m_qtnode; }
 
-  static std::string GetVersion() noexcept;
-  static std::vector<std::string> GetVersionHistory() noexcept;
-
   bool HasHeadArrow() const noexcept;
   bool HasTailArrow() const noexcept;
 

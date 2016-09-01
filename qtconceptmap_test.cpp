@@ -2,6 +2,7 @@
 #include "qtconceptmap.h"
 #include "qtconceptmap.h"
 
+#include <cassert>
 #include <chrono>
 #include <cmath>
 #include <QApplication>
@@ -96,6 +97,10 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command_and_check_z_order()
       )
     );
   }
+  m.show();
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
+
   //Create edge between nodes
   m.DoCommand(
     new CommandCreateNewEdgeBetweenTwoSelectedNodes(
@@ -105,10 +110,14 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command_and_check_z_order()
       m.GetQtToolItem()
     )
   );
-  const auto qtnodes = GetQtNodesNotOnEdge(m.GetScene());
+  m.show();
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+
+  const auto qtnodes = GetQtNodes(m.GetScene());
   const auto qtedges = GetQtEdges(m.GetScene());
-  assert(qtnodes.size() == 2);
-  assert(qtedges.size() == 1);
+  QVERIFY(qtnodes.size() == 2);
+  QVERIFY(qtedges.size() == 1);
   const auto qtnode1 = qtnodes[0];
   const auto qtnode2 = qtnodes[1];
   const auto qtedge  = qtedges[0];
@@ -185,6 +194,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_command()
   const double x{314.15};
   const double y{42.69};
   QtConceptMap m;
+  m.show();
   m.DoCommand(
     new CommandCreateNewNode(
       m.GetConceptMap(),
@@ -195,6 +205,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_command()
       y
     )
   );
+  m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
   const auto v = GetSelectedQtNodes(*m.GetScene());
@@ -213,6 +224,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_keyboard()
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  m.show();
   const auto expected_vertices{1};
   const auto measured_vertices{boost::num_vertices(m.GetConceptMap())};
   const auto expected_edges{0};
@@ -228,6 +240,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_mouse()
   QtConceptMap m;
   m.show();
   QTest::mouseDClick(&m, Qt::MouseButton::LeftButton, 0, QPoint(0.0,0.0), 100);
+  m.show();
   const int n_nodes_in_scene{static_cast<int>(Collect<QtNode>(m.GetScene()).size())};
   const int n_nodes_in_conceptmap{static_cast<int>(boost::num_vertices(m.GetConceptMap()))};
   QVERIFY(n_nodes_in_scene == n_nodes_in_conceptmap);
@@ -236,6 +249,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_mouse()
 void ribi::cmap::qtconceptmap_test::create_ten_nodes_and_undo_command()
 {
   QtConceptMap m;
+  m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
 
   const int n{10};
@@ -250,6 +264,7 @@ void ribi::cmap::qtconceptmap_test::create_ten_nodes_and_undo_command()
         0.0
       )
     );
+    m.show();
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,i + 1));
   }
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,n));
@@ -265,6 +280,7 @@ void ribi::cmap::qtconceptmap_test::create_ten_nodes_and_undo_keyboard()
 void ribi::cmap::qtconceptmap_test::create_two_nodes_command()
 {
   QtConceptMap m;
+  m.show();
   for (int i=0; i!=2; ++i) {
     m.DoCommand(
       new CommandCreateNewNode(
@@ -277,6 +293,7 @@ void ribi::cmap::qtconceptmap_test::create_two_nodes_command()
       )
     );
   }
+  m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
 }
@@ -286,8 +303,11 @@ void ribi::cmap::qtconceptmap_test::create_two_nodes_command()
 void ribi::cmap::qtconceptmap_test::create_two_nodes_keyboard()
 {
   QtConceptMap m;
+  m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
 }
@@ -295,6 +315,7 @@ void ribi::cmap::qtconceptmap_test::create_two_nodes_keyboard()
 void ribi::cmap::qtconceptmap_test::default_construction()
 {
   QtConceptMap m;
+  m.show();
 
   //No nodes, no edges
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
@@ -326,8 +347,8 @@ void ribi::cmap::qtconceptmap_test::delete_one_edge_by_node_keyboard()
 
 void ribi::cmap::qtconceptmap_test::delete_one_edge_command()
 {
-  //WARNING
   QtConceptMap m;
+  m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
   const int n{2};
   for (int i=0; i!=n; ++i) {
@@ -341,6 +362,7 @@ void ribi::cmap::qtconceptmap_test::delete_one_edge_command()
         0.0
       )
     );
+    m.show();
   }
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
   m.DoCommand(
@@ -351,6 +373,7 @@ void ribi::cmap::qtconceptmap_test::delete_one_edge_command()
       m.GetQtToolItem()
     )
   );
+  m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
   m.DoCommand(
@@ -360,6 +383,7 @@ void ribi::cmap::qtconceptmap_test::delete_one_edge_command()
       m.GetQtToolItem()
     )
   );
+  m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
 
 }
@@ -490,7 +514,7 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
   QTest::keyClick(&m, Qt::Key_Left, Qt::NoModifier, 100);
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
-  QVERIFY(GetSelectedQtNodesNotOnEdge(*m.GetScene()).size() == 1);
+  QVERIFY(GetSelectedQtNodes(*m.GetScene()).size() == 1);
   QVERIFY(GetSelectedQtEdges(*m.GetScene()).size() == 0);
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
 }
@@ -913,7 +937,7 @@ void ribi::cmap::qtconceptmap_test::all_tests()
     QVERIFY(boost::num_edges(conceptmap) == 1);
     QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
     QVERIFY(conceptmap.GetSelectedNodes().size() == 0);
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodes().size());
+    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
     QVERIFY(conceptmap.GetSelectedEdges().size() == 1);
     QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
 
@@ -931,7 +955,7 @@ void ribi::cmap::qtconceptmap_test::all_tests()
     qtconceptmap.keyPressEvent(&up);
 
     TRACE(conceptmap.GetSelectedNodes().size());
-    TRACE(qtconceptmap.GetSelectedQtNodes().size());
+    TRACE(qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
     TRACE(conceptmap.GetSelectedEdges().size());
     TRACE(qtconceptmap.GetSelectedQtEdges().size());
 
@@ -940,7 +964,7 @@ void ribi::cmap::qtconceptmap_test::all_tests()
     QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
     QVERIFY(boost::num_edges(conceptmap) == 1);
     QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodes().size());
+    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
     QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
     QVERIFY(conceptmap.GetSelectedNodes().size() == 1);
     QVERIFY(conceptmap.GetSelectedEdges().size() == 0);
@@ -964,7 +988,7 @@ void ribi::cmap::qtconceptmap_test::all_tests()
     QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
     QVERIFY(boost::num_edges(conceptmap) == 1);
     QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodes().size());
+    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
     QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
     QVERIFY(conceptmap.GetSelectedNodes().size() == 0);
     QVERIFY(conceptmap.GetSelectedEdges().size() == 1);
@@ -975,7 +999,7 @@ void ribi::cmap::qtconceptmap_test::all_tests()
     qtconceptmap.keyPressEvent(&left);
 
     TRACE(conceptmap.GetSelectedNodes().size());
-    TRACE(qtconceptmap.GetSelectedQtNodes().size());
+    TRACE(qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
     TRACE(conceptmap.GetSelectedEdges().size());
     TRACE(qtconceptmap.GetSelectedQtEdges().size());
 
@@ -983,7 +1007,7 @@ void ribi::cmap::qtconceptmap_test::all_tests()
     QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
     QVERIFY(boost::num_edges(conceptmap) == 1);
     QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodes().size());
+    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
     QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
     QVERIFY(conceptmap.GetSelectedNodes().size() == 1);
     QVERIFY(conceptmap.GetSelectedEdges().size() == 0);
@@ -1001,7 +1025,7 @@ void ribi::cmap::qtconceptmap_test::all_tests()
     QVERIFY(boost::num_edges(conceptmap) == 1);
     QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
     QVERIFY(conceptmap.GetSelectedNodes().size() == 1);
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodes().size());
+    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
     QVERIFY(conceptmap.GetSelectedEdges().size() == 0);
     QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
 
