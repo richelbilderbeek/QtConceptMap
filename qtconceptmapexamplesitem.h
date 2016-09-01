@@ -58,9 +58,6 @@ private:
   const QtEdge * m_qtedge; //
   const QtNode * m_qtnode;
 
-  ///Item has updated, Examples must follow
-  void OnItemUpdated( /*const QGraphicsItem * const item*/ );
-
   void SetExamples(const Examples& examples);
 };
 

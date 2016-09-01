@@ -70,9 +70,6 @@ int ribi::cmap::QtExamplesDialog::GetMinimumHeight(const Examples& examples) noe
 
 void ribi::cmap::QtExamplesDialog::OnExamplesChanged(Examples& examples) noexcept
 {
-  const bool verbose{false};
-
-  //if (examples == m_examples.get()) return; //Will allways be true
 
   //Check if the dialog needs to change
   {
@@ -102,13 +99,6 @@ void ribi::cmap::QtExamplesDialog::OnExamplesChanged(Examples& examples) noexcep
     assert(layout());
     layout()->removeWidget(m_dialogs.back().get());
     m_dialogs.pop_back();
-
-    if (verbose)
-    {
-      std::stringstream s;
-      s << "QtExamplesDialog removed an Example instance";
-      TRACE(s.str());
-    }
   }
   while (examples.Get().size() > m_dialogs.size())
   {
@@ -116,31 +106,16 @@ void ribi::cmap::QtExamplesDialog::OnExamplesChanged(Examples& examples) noexcep
     assert(layout());
     layout()->addWidget(dialog.get());
     m_dialogs.push_back(dialog);
-
-    if (verbose)
-    {
-      std::stringstream s;
-      s << "QtExamplesDialog added an Example instance";
-      TRACE(s.str());
-    }
   }
   assert(examples.Get().size() == m_dialogs.size());
-
 
   const int n = static_cast<int>(m_dialogs.size());
   for (int i=0; i!=n; ++i)
   {
     assert(m_dialogs[i]);
     m_dialogs[i]->SetExample(examples.Get()[i]);
-    if (verbose)
-    {
-      std::stringstream s;
-      s << "QtExamplesDialog will set Example '" << examples.Get()[i].ToStr() << "'\n";
-      TRACE(s.str());
-    }
     assert( examples.Get()[i] ==  m_dialogs[i]->GetExample());
   }
-
 }
 
 void ribi::cmap::QtExamplesDialog::SetExamples(const Examples& examples)

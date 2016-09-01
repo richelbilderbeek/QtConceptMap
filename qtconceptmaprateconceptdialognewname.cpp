@@ -68,25 +68,37 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   assert(ui->conceptmap_layout);
 
   ui->conceptmap_layout->addWidget(m_widget.get());
-  ui->box_complexity->setCurrentIndex(GetFirstNode(conceptmap).GetConcept().GetRatingComplexity());
-  ui->box_concreteness->setCurrentIndex(GetFirstNode(conceptmap).GetConcept().GetRatingConcreteness());
-  ui->box_specificity->setCurrentIndex(GetFirstNode(conceptmap).GetConcept().GetRatingSpecificity());
+  ui->box_complexity->setCurrentIndex(
+    GetFirstNode(conceptmap).GetConcept().GetRatingComplexity()
+  );
+  ui->box_concreteness->setCurrentIndex(
+    GetFirstNode(conceptmap).GetConcept().GetRatingConcreteness()
+  );
+  ui->box_specificity->setCurrentIndex(
+    GetFirstNode(conceptmap).GetConcept().GetRatingSpecificity()
+  );
   ui->box_complexity->setFocus();
 
   //Set suggestions
   {
     const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(cmap::Rating().SuggestComplexity(m_conceptmap,*vertices(m_conceptmap).first));
+      + boost::lexical_cast<std::string>(
+        cmap::Rating().SuggestComplexity(m_conceptmap,*vertices(m_conceptmap).first)
+      );
     ui->box_complexity->setToolTip(s.c_str());
   }
   {
     const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(cmap::Rating().SuggestConcreteness(m_conceptmap,*vertices(m_conceptmap).first));
+      + boost::lexical_cast<std::string>(
+        cmap::Rating().SuggestConcreteness(m_conceptmap,*vertices(m_conceptmap).first)
+      );
     ui->box_concreteness->setToolTip(s.c_str());
   }
   {
     const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(cmap::Rating().SuggestSpecificity(m_conceptmap,*vertices(m_conceptmap).first));
+      + boost::lexical_cast<std::string>(
+        cmap::Rating().SuggestSpecificity(m_conceptmap,*vertices(m_conceptmap).first)
+      );
     ui->box_specificity->setToolTip(s.c_str());
   }
 

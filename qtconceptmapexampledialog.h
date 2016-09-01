@@ -64,12 +64,6 @@ private:
 
   ///The Example to work on
   Example m_example;
-
-  void OnCompetencyChanged(const Example& example);
-  void OnIsComplexChanged(const Example& example);
-  void OnIsConcreteChanged(const Example& example);
-  void OnIsSpecificChanged(const Example& example);
-  void OnTextChanged(const Example& example);
 };
 
 } //~namespace cmap

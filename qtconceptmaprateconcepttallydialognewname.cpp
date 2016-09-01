@@ -140,7 +140,18 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
       //Display index'th example
       for (int col_index=0; col_index!=n_cols; ++col_index)
       {
-        if (col_index != 3)
+        if (col_index == 3)
+        {
+          //Text
+          QTableWidgetItem * const item = new QTableWidgetItem;
+          item->setFlags(
+              Qt::ItemIsSelectable
+            | Qt::ItemIsEnabled);
+          const std::string s = example.GetText();
+          item->setText(s.c_str());
+          ui->table->setItem(row_index, col_index, item);
+        }
+        else
         {
           QTableWidgetItem * const item = new QTableWidgetItem;
           item->setFlags(
@@ -163,17 +174,6 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
                 "QtRateConceptTallyDialog: Unknown col index"
               );
           }
-          ui->table->setItem(row_index, col_index, item);
-        }
-        else
-        {
-          //Text
-          QTableWidgetItem * const item = new QTableWidgetItem;
-          item->setFlags(
-              Qt::ItemIsSelectable
-            | Qt::ItemIsEnabled);
-          const std::string s = example.GetText();
-          item->setText(s.c_str());
           ui->table->setItem(row_index, col_index, item);
         }
       }
@@ -366,6 +366,9 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
       case 1: break; //Empty cell
       case 2: break; //Empty cell
       case 3: break; //It's read-only! //concept.SetName( item->text().toStdString() ); break;
+      default: throw std::logic_error(
+        "QtRateConceptTallyDialog::OnCellChanged: unknown col, index -1"
+      );
     }
   }
   else
@@ -379,6 +382,9 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
       case 1: example.SetIsConcrete( item->checkState() == Qt::Checked ); break;
       case 2: example.SetIsSpecific( item->checkState() == Qt::Checked ); break;
       case 3: break; //It's read-only! //example->SetText( item->text().toStdString() ); break;
+      default: throw std::logic_error(
+        "QtRateConceptTallyDialog::OnCellChanged: unknown col, index not -1"
+      );
     }
   }
 

@@ -109,15 +109,12 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   //Find the selected nodes to be deleted
   for (const auto i: m_scene->items())
   {
-    if (QtNode* qtnode = dynamic_cast<QtNode*>(i))
+    QtNode * const qtnode = dynamic_cast<QtNode*>(i);
+    if (qtnode && qtnode->isSelected() && !qtnode->parentItem())
     {
-      //Only delete selected non-Edge nodes
-      if (qtnode->isSelected() && !qtnode->parentItem())
-      {
-        //m_qtnodes_removed.emplace_back(qtnode);
-        assert(qtnode->scene());
-        m_qtnodes_removed.insert(qtnode);
-      }
+      //m_qtnodes_removed.emplace_back(qtnode);
+      assert(qtnode->scene());
+      m_qtnodes_removed.insert(qtnode);
     }
   }
   //Find the edges connected to deleted nodes

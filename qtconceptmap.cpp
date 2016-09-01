@@ -65,7 +65,6 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommanddeleteselected.h"
-#include "qtconceptmapcommandselectrandomnode.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapconcepteditdialog.h"

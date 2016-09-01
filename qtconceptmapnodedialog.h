@@ -77,12 +77,6 @@ private:
   Node m_node;
 
   boost::shared_ptr<QtConceptDialog> m_qtconceptdialog;
-
-
-  //concept is non-const, as its displayal by this dialog renders it editable
-  void OnConceptChanged(const Node& node);
-  void OnXchanged(const Node& node);
-  void OnYchanged(const Node& node);
 };
 
 } //~namespace cmap

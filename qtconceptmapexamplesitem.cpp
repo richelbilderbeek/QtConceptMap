@@ -62,13 +62,9 @@ ribi::cmap::QtExamplesItem::QtExamplesItem(
   //this->SetBuddyItem(concept);
 }
 
-void ribi::cmap::QtExamplesItem::OnItemUpdated()
-{
-  assert(!"Am I called?");
-  this->update();
-}
-
-void ribi::cmap::QtExamplesItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) noexcept
+void ribi::cmap::QtExamplesItem::paint(
+  QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget
+) noexcept
 {
   //this->SetExamples(this->m_item->GetNode().GetConcept().GetExamples());
   const auto qtnode = m_qtedge ? m_qtedge->GetQtNode() : m_qtnode;
