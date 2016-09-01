@@ -74,11 +74,7 @@ void ribi::cmap::QtExamplesDialog::OnExamplesChanged(Examples& examples) noexcep
   //Check if the dialog needs to change
   {
     bool will_change = false;
-    if (examples.Get().size() != m_dialogs.size())
-    {
-      will_change = true;
-    }
-    else
+    if (examples.Get().size() == m_dialogs.size())
     {
       const int n = static_cast<int>(examples.Get().size());
       for (int i=0; i!=n; ++i)
@@ -88,6 +84,10 @@ void ribi::cmap::QtExamplesDialog::OnExamplesChanged(Examples& examples) noexcep
           will_change = true;
         }
       }
+    }
+    else
+    {
+      will_change = true;
     }
     if (!will_change) return;
   }

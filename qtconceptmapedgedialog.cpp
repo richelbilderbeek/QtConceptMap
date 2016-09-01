@@ -114,50 +114,7 @@ double ribi::cmap::QtEdgeDialog::GetUiY() const noexcept
 
 void ribi::cmap::QtEdgeDialog::SetEdge(const Edge& edge)
 {
-  const bool verbose{false};
-
-  if (m_edge == edge)
-  {
-    return;
-  }
-
-  if (verbose)
-  {
-    std::stringstream s;
-    s << "Setting edge '" << edge.ToStr() << "'\n";
-  }
-  const auto node_after = edge.GetNode();
-
-  bool node_changed  = true;
-
-  {
-    const auto node_before = m_edge.GetNode();
-
-
-    node_changed = node_before != node_after;
-
-
-    if (verbose)
-    {
-      if (node_changed)
-      {
-        std::stringstream s;
-        s
-          << "Node will change from "
-          << node_before.ToStr()
-          << " to "
-          << node_after.ToStr()
-          << '\n'
-        ;
-        TRACE(s.str());
-      }
-    }
-  }
-
-  //Replace m_example by the new one
   m_edge = edge;
-
-  assert(m_edge.GetNode() == node_after );
 
   setMinimumHeight(GetMinimumHeight(m_edge));
 

@@ -362,7 +362,7 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
     //Concept name
     switch (col)
     {
-      case 0: concept.SetIsComplex( item->checkState() == Qt::Checked );
+      case 0: concept.SetIsComplex( item->checkState() == Qt::Checked ); break;
       case 1: break; //Empty cell
       case 2: break; //Empty cell
       case 3: break; //It's read-only! //concept.SetName( item->text().toStdString() ); break;

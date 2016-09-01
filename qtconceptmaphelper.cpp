@@ -317,11 +317,10 @@ ribi::cmap::GetQtNodeBrushFunction(const Mode mode)
     case Mode::edit: return GetQtNodeBrushFunctionEdit();
     case Mode::rate: return GetQtNodeBrushFunctionRate();
     case Mode::uninitialized: return GetQtNodeBrushFunctionUninitialized();
-    default:
-      throw std::logic_error(
-        "ribi::cmap::QtConceptMap::GetNodeBrushFunction: unimplemented mode"
-      );
   }
+  throw std::logic_error(
+    "ribi::cmap::QtConceptMap::GetNodeBrushFunction: unimplemented mode"
+  );
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
@@ -357,9 +356,9 @@ ribi::cmap::GetQtNodeBrushFunctionRate() noexcept
       return QtBrushFactory().CreateGoldGradientBrush();
     }
     const int n_rated
-      = (node.GetConcept().GetRatingComplexity()   != -1 ? 1 : 0)
-      + (node.GetConcept().GetRatingConcreteness() != -1 ? 1 : 0)
-      + (node.GetConcept().GetRatingSpecificity()  != -1 ? 1 : 0);
+      = (node.GetConcept().GetRatingComplexity()   == -1 ? 0 : 1)
+      + (node.GetConcept().GetRatingConcreteness() == -1 ? 0 : 1)
+      + (node.GetConcept().GetRatingSpecificity()  == -1 ? 0 : 1);
     switch (n_rated)
     {
       case 0: return QtBrushFactory().CreateRedGradientBrush();
@@ -368,9 +367,9 @@ ribi::cmap::GetQtNodeBrushFunctionRate() noexcept
         return QtBrushFactory().CreateYellowGradientBrush();
       case 3:
         return QtBrushFactory().CreateGreenGradientBrush();
-      default: assert(!"Should not get here");
+      default:
+        throw std::logic_error("GetNodeBrushFunction: unimplemented rating");
     }
-    throw std::logic_error("GetNodeBrushFunction: unimplemented rating");
   };
 }
 
