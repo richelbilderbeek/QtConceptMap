@@ -49,7 +49,6 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
 {
   ui->setupUi(this);
 
-  //const int font_in_list_height = 16;
   {
     QFont font = ui->list_cluster_relations->font();
     font.setPointSize(8);
@@ -57,38 +56,28 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
     ui->list_cluster_relations->setFont(font);
   }
 
-  ui->label_name->setText(
-    ("Cluster bij concept: " + node.GetConcept().GetName()).c_str()
-  );
-  ui->label_complexity->setText(
-    ("Complexiteit: " + boost::lexical_cast<std::string>(
-      node.GetConcept().GetRatingComplexity())
-    ).c_str()
-  );
-  ui->label_concreteness->setText(
-    ("Concreetheid: " + boost::lexical_cast<std::string>(
-      node.GetConcept().GetRatingConcreteness())
-    ).c_str()
-  );
-  ui->label_specificity->setText(
-    ("Specificiteit: " + boost::lexical_cast<std::string>(
-      node.GetConcept().GetRatingSpecificity())
-    ).c_str()
-  );
+  DisplayHeading(node);
+  PutExamplesInList(node);
+  DisplayEdges(conceptmap, node);
 
-  //Put examples in list
-  for (const Example& example: node.GetConcept().GetExamples().Get())
-  {
-    ui->list_concept_examples->addItem(
-      new QListWidgetItem(
-        (boost::lexical_cast<std::string>(
-          static_cast<int>(example.GetCompetency())) + ". " + example.GetText()
-        ).c_str()
-      )
-    );
-  }
+  QObject::connect(
+    m_timer,SIGNAL(timeout()),
+    this,SLOT(DoResizeLists())
+  );
+  m_timer->setInterval(1);
+  m_timer->start();
+}
 
+ribi::cmap::QtConceptMapRatedConceptDialog::~QtConceptMapRatedConceptDialog()
+{
+  delete ui;
+}
 
+void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
+  const ConceptMap& conceptmap,
+  const Node& node
+) noexcept
+{
   for (const Edge& edge: GetEdges(conceptmap))
   {
     if (GetFrom(edge,conceptmap) == node || GetTo(edge, conceptmap) == node)
@@ -132,28 +121,31 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
       }
     }
   }
+}
 
-  QObject::connect(
-    m_timer,SIGNAL(timeout()),
-    this,SLOT(DoResizeLists())
+void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(const Node& node) noexcept
+{
+  ui->label_name->setText(
+    ("Cluster bij concept: " + node.GetConcept().GetName()).c_str()
   );
-  m_timer->setInterval(1);
-  m_timer->start();
+  ui->label_complexity->setText(
+    ("Complexiteit: " + boost::lexical_cast<std::string>(
+      node.GetConcept().GetRatingComplexity())
+    ).c_str()
+  );
+  ui->label_concreteness->setText(
+    ("Concreetheid: " + boost::lexical_cast<std::string>(
+      node.GetConcept().GetRatingConcreteness())
+    ).c_str()
+  );
+  ui->label_specificity->setText(
+    ("Specificiteit: " + boost::lexical_cast<std::string>(
+      node.GetConcept().GetRatingSpecificity())
+    ).c_str()
+  );
 }
 
-ribi::cmap::QtConceptMapRatedConceptDialog::~QtConceptMapRatedConceptDialog()
-{
-  delete ui;
-}
-
-void ribi::cmap::QtConceptMapRatedConceptDialog::HideRating()
-{
-  ui->label_complexity->hide();
-  ui->label_concreteness->hide();
-  ui->label_specificity->hide();
-}
-
-void ribi::cmap::QtConceptMapRatedConceptDialog::DoResizeLists()
+void ribi::cmap::QtConceptMapRatedConceptDialog::DoResizeLists() noexcept
 {
   //Set the list displaying the concept its height and widt
   bool done = true;
@@ -188,4 +180,27 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DoResizeLists()
   //  ui->list_concept_examples->count() * font_in_list_height);
   //ui->list_concept_examples->setMaximumHeight(
   //  ui->list_concept_examples->count() * font_in_list_height);
+}
+
+void ribi::cmap::QtConceptMapRatedConceptDialog::HideRating() noexcept
+{
+  ui->label_complexity->hide();
+  ui->label_concreteness->hide();
+  ui->label_specificity->hide();
+}
+
+void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
+  const Node& node
+) noexcept
+{
+  for (const Example& example: node.GetConcept().GetExamples().Get())
+  {
+    ui->list_concept_examples->addItem(
+      new QListWidgetItem(
+        (boost::lexical_cast<std::string>(
+          static_cast<int>(example.GetCompetency())) + ". " + example.GetText()
+        ).c_str()
+      )
+    );
+  }
 }

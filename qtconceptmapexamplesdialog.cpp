@@ -68,56 +68,6 @@ int ribi::cmap::QtExamplesDialog::GetMinimumHeight(const Examples& examples) noe
   return height;
 }
 
-void ribi::cmap::QtExamplesDialog::OnExamplesChanged(Examples& examples) noexcept
-{
-
-  //Check if the dialog needs to change
-  {
-    bool will_change = false;
-    if (examples.Get().size() == m_dialogs.size())
-    {
-      const int n = static_cast<int>(examples.Get().size());
-      for (int i=0; i!=n; ++i)
-      {
-        if (m_dialogs[i]->GetExample() != examples.Get()[i])
-        {
-          will_change = true;
-        }
-      }
-    }
-    else
-    {
-      will_change = true;
-    }
-    if (!will_change) return;
-  }
-
-  //Creating the right number of QtExampleDialog instances
-  while (examples.Get().size() < m_dialogs.size())
-  {
-    //Need to remove m_dialogs
-    assert(layout());
-    layout()->removeWidget(m_dialogs.back().get());
-    m_dialogs.pop_back();
-  }
-  while (examples.Get().size() > m_dialogs.size())
-  {
-    boost::shared_ptr<QtExampleDialog> dialog(new QtExampleDialog);
-    assert(layout());
-    layout()->addWidget(dialog.get());
-    m_dialogs.push_back(dialog);
-  }
-  assert(examples.Get().size() == m_dialogs.size());
-
-  const int n = static_cast<int>(m_dialogs.size());
-  for (int i=0; i!=n; ++i)
-  {
-    assert(m_dialogs[i]);
-    m_dialogs[i]->SetExample(examples.Get()[i]);
-    assert( examples.Get()[i] ==  m_dialogs[i]->GetExample());
-  }
-}
-
 void ribi::cmap::QtExamplesDialog::SetExamples(const Examples& examples)
 {
   m_examples = examples;

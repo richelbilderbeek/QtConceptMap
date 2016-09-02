@@ -80,6 +80,25 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   ui->box_complexity->setFocus();
 
   //Set suggestions
+  DisplaySuggestions();
+
+  //Center the dialog
+  {
+    const QRect screen = QApplication::desktop()->screenGeometry();
+    this->setGeometry(screen.adjusted(64,64,-64,-64));
+    this->move( screen.center() - this->rect().center() );
+  }
+  //The rating by the Tally dialog must be visible as of 2013-08-30
+  //so let this dialog follow the ratings done by the tally dialog
+}
+
+ribi::cmap::QtRateConceptDialog::~QtRateConceptDialog() noexcept
+{
+  delete ui;
+}
+
+void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
+{
   {
     const std::string s = "Formeel uitgangspunt: "
       + boost::lexical_cast<std::string>(
@@ -101,20 +120,6 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
       );
     ui->box_specificity->setToolTip(s.c_str());
   }
-
-  //Center the dialog
-  {
-    const QRect screen = QApplication::desktop()->screenGeometry();
-    this->setGeometry(screen.adjusted(64,64,-64,-64));
-    this->move( screen.center() - this->rect().center() );
-  }
-  //The rating by the Tally dialog must be visible as of 2013-08-30
-  //so let this dialog follow the ratings done by the tally dialog
-}
-
-ribi::cmap::QtRateConceptDialog::~QtRateConceptDialog() noexcept
-{
-  delete ui;
 }
 
 int ribi::cmap::QtRateConceptDialog::GetComplexity() const noexcept

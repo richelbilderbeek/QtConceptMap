@@ -31,6 +31,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "conceptmapconcept.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
+#include "remove_selected_custom_edges_and_vertices.h"
 
 ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   ConceptMap& conceptmap,
@@ -63,48 +64,8 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
     }
   }
 
-  //Remove the vertices from the concept map
-  while (1)
-  {
-    const auto vip = vertices(m_conceptmap_after);
-    const auto i = std::find_if(vip.first, vip.second,
-      [this](const VertexDescriptor vd)
-      {
-        const auto is_selected_map = get(boost::vertex_is_selected, m_conceptmap_after);
-        return get(is_selected_map,vd);
-      }
-    );
-    if (i == vip.second)
-    {
-      break;
-    }
-    else
-    {
-      boost::clear_vertex(*i,m_conceptmap_after);
-      boost::remove_vertex(*i,m_conceptmap_after);
-    }
-  }
-
-  //Remove the edges from the concept map
-  while (1)
-  {
-    const auto eip = edges(m_conceptmap_after);
-    const auto i = std::find_if(eip.first, eip.second,
-      [this](const EdgeDescriptor vd)
-      {
-        const auto is_selected_map = get(boost::edge_is_selected, m_conceptmap_after);
-        return get(is_selected_map,vd);
-      }
-    );
-    if (i == eip.second)
-    {
-      break;
-    }
-    else
-    {
-      boost::remove_edge(*i,m_conceptmap_after);
-    }
-  }
+  //Remove the selected vertices from the concept map
+  m_conceptmap_after = ::remove_selected_custom_edges_and_vertices(m_conceptmap_after);
 
   //Find the selected nodes to be deleted
   for (const auto i: m_scene->items())

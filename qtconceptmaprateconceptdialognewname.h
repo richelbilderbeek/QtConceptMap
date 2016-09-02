@@ -59,20 +59,14 @@ class QtRateConceptDialog : public ribi::QtHideAndShowDialog
   int GetConcreteness() const noexcept;
   int GetSpecificity() const noexcept;
 
-  ///Set suggested values for this concept
-  //void MakeSuggestions(const ConceptMap conceptmap);
 
 protected:
   void keyPressEvent(QKeyEvent *);
 
 private slots:
   void on_button_ok_clicked();
-
   void on_button_tally_relevancies_clicked();
 
-  //void on_box_complexity_currentIndexChanged(int index);
-  //void on_box_concreteness_currentIndexChanged(int index);
-  //void on_box_specificity_currentIndexChanged(int index);
 
 private:
   Ui::QtRateConceptDialog *ui;
@@ -88,9 +82,8 @@ private:
 
   const boost::shared_ptr<QtConceptMap> m_widget;
 
-//  void OnRatingComplexityChanged(const Concept& concept);
-//  void OnRatingConcretenessChanged(const Concept& concept);
-//  void OnRatingSpecificityChanged(const Concept& concept);
+  void DisplaySuggestions() noexcept;
+
 };
 
 } //~namespace cmap

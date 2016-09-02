@@ -57,15 +57,18 @@ public:
 
   ///Hides the rating. This is used when a student views his/her
   ///work before an assessor has rated his/her work
-  void HideRating();
+  void HideRating() noexcept;
 
 private slots:
-  void DoResizeLists();
+  void DoResizeLists() noexcept;
 
 private:
   Ui::QtConceptMapRatedConceptDialog *ui;
   QTimer * const m_timer;
 
+  void DisplayEdges(const ConceptMap& conceptmap, const Node& node) noexcept;
+  void DisplayHeading(const Node& node) noexcept;
+  void PutExamplesInList(const Node& node) noexcept;
 };
 
 } //~namespace cmap

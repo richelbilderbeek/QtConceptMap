@@ -69,6 +69,7 @@ class CommandDeleteSelected final : public Command
   ///All items in m_qtedges_removed and m_qtnodes_removed must all have
   /// either (1) no scene, or (2) the same scene
   bool AllHaveSameScene() const noexcept;
+
 };
 
 } //~namespace cmap

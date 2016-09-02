@@ -59,8 +59,6 @@ private:
   Ui::QtExamplesDialog *ui;
   std::vector<boost::shared_ptr<QtExampleDialog>> m_dialogs;
   Examples m_examples;
-
-  void OnExamplesChanged(Examples& examples) noexcept;
 };
 
 } //~namespace ribi
