@@ -2,9 +2,9 @@
 
 #include "qtconceptmap.h"
 
-
-void ribi::cmap::qtconceptmaphelper_test::count_qt_nodes()
+void ribi::cmap::qtconceptmaphelper_test::all_tests()
 {
   QtConceptMap m;
   m.show();
+
 }

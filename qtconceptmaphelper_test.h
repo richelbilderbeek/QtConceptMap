@@ -11,7 +11,7 @@ class qtconceptmaphelper_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void count_qt_nodes();
+  void all_tests();
 };
 
 } //~namespace cmap

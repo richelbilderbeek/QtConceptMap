@@ -85,9 +85,16 @@ struct QtEdge : public QGraphicsItem
         QtNode * GetQtNode()       noexcept { return m_qtnode; }
   const QtNode * GetQtNode() const noexcept { return m_qtnode; }
 
+  bool HasHeadArrow() const noexcept;
+  bool HasTailArrow() const noexcept;
+
   bool isSelected() const;
 
   void SetEdge(const Edge& edge) noexcept;
+
+
+  void SetHasHeadArrow(const bool has_head_arrow) noexcept;
+  void SetHasTailArrow(const bool has_tail_arrow) noexcept;
 
   void SetSelected(bool selected);
 

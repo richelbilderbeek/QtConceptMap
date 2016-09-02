@@ -10,12 +10,8 @@
 namespace ribi {
 namespace cmap {
 
-
 ///Counts the QtNodes that are Nodes, i.e. are not on an edge
 int CountQtNodes(const QGraphicsScene& scene) noexcept;
-
-///Counts the QtNodes that are solitary Nodes or are on an Edge
-int CountQtNodesAlsoOnEdges(const QGraphicsScene& scene) noexcept;
 
 int CountQtEdges(const QGraphicsScene& scene) noexcept;
 

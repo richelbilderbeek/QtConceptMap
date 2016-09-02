@@ -556,10 +556,8 @@ void ribi::cmap::qtconceptmap_test::setting_concept_maps_edges_qtedges_nodes_qtn
   for (const auto conceptmap: ConceptMapFactory().GetAllTests())
   {
     QtConceptMap m;
-    m.show();
     QVERIFY(CountQtNodes(m.GetScene()) == 0);
     m.SetConceptMap(conceptmap);
-    m.show();
     const auto n_nodes = static_cast<int>(boost::num_vertices(conceptmap));
     const auto n_edges = static_cast<int>(boost::num_edges(conceptmap));
     const auto n_qtnodes = CountQtNodes(m.GetScene());

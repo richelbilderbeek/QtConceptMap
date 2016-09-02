@@ -20,7 +20,6 @@
 #include "qtconceptmap.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtconceptmaphelper.h"
-#include "qtquadbezierarrowitem.h"
 
 ribi::cmap::CommandToggleArrowHead::CommandToggleArrowHead(
   ConceptMap& conceptmap,
@@ -50,10 +49,10 @@ void ribi::cmap::CommandToggleArrowHead::redo()
   ::set_my_custom_edge(current_edge, ed, m_conceptmap);
 
   //Put the current arrow head in the QtEdge
-  m_qtedge->GetArrow()->SetHasHead(has_arrow_new);
+  m_qtedge->SetHasHeadArrow(has_arrow_new);
 
-  assert(m_qtedge->GetArrow()->HasHead() == current_edge.HasHeadArrow());
-  assert(m_qtedge->GetArrow()->HasHead() == m_qtedge->GetEdge().HasHeadArrow());
+  assert(m_qtedge->HasHeadArrow() == current_edge.HasHeadArrow());
+  assert(m_qtedge->HasHeadArrow() == m_qtedge->GetEdge().HasHeadArrow());
 }
 
 void ribi::cmap::CommandToggleArrowHead::undo()

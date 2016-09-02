@@ -29,22 +29,10 @@ int ribi::cmap::CountQtNodes(const QGraphicsScene& scene) noexcept
 {
   int cnt{0};
   for (auto item: scene.items()) {
-    const QtNode* const qtnode = dynamic_cast<const QtNode*>(item);
+    const QtNode* const qtnode = dynamic_cast<QtNode*>(item);
     if (qtnode && !IsOnEdge(qtnode, scene)) ++cnt;
   }
   return cnt;
-}
-
-int ribi::cmap::CountQtNodesAlsoOnEdges(const QGraphicsScene& scene) noexcept
-{
-  const auto items = scene.items();
-  return std::accumulate(std::begin(items), std::end(items),
-    static_cast<int>(0),
-    [](const int sum, const QGraphicsItem* const item)
-    {
-      return sum + (dynamic_cast<const QtNode*>(item) ? 1 : 0);
-    }
-  );
 }
 
 int ribi::cmap::CountSelectedQtEdges(const QGraphicsScene& scene) noexcept
@@ -85,14 +73,12 @@ bool ribi::cmap::DoubleCheckEdgesAndNodes(
   const auto n_edges = static_cast<int>(boost::num_edges(g));
   const auto n_qtnodes = CountQtNodes(qtconceptmap.GetScene());
   const auto n_qtedges = CountQtEdges(qtconceptmap.GetScene());
-  const auto n_qtnodes_also_on_edges = CountQtNodesAlsoOnEdges(qtconceptmap.GetScene());
   if (n_nodes != n_qtnodes)
   {
     std::stringstream msg;
     msg << __func__ << ": "
       << "Internal inconsistency, "
-      << "n_nodes (" << n_nodes << ") != n_qtnodes (" << n_qtnodes << "), "
-      << " (with " << n_qtnodes_also_on_edges << " qtnodes when including those on edges"
+      << "n_nodes (" << n_nodes << ") != n_qtedges (" << n_qtedges << ")"
     ;
     throw std::logic_error(msg.str());
   }
