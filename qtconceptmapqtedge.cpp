@@ -66,13 +66,12 @@ ribi::cmap::QtEdge::QtEdge(
   {
     throw std::invalid_argument("QtEdge must have a non-nullptr to");
   }
-  //Allow mouse tracking
-  //OTOH: must be done by the other thing
-  //this->setAcceptHoverEvents(true);
+  if (from == to)
+  {
+    throw std::invalid_argument("QtEdge must have a different from and to");
+  }
 
-  //const_cast because Arrow constant
-  //I just need to have an initialized m_qtnode
-  const_cast<Arrow&>(m_arrow) = new QtQuadBezierArrowItem(
+  m_arrow = new QtQuadBezierArrowItem(
     from,
     false, //edge.HasTailArrow(),
     this->GetQtNode(),
@@ -81,21 +80,9 @@ ribi::cmap::QtEdge::QtEdge(
     this // parent
   );
 
-  //QtEdge is just the glue between a collection of things
-  //this->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
-
   this->m_arrow->setFlags(0);
 
-  #define BELIEF_THAT_QTEDGE_SHOULD_NOT_BE_SELECTABLE
-  #ifdef  BELIEF_THAT_QTEDGE_SHOULD_NOT_BE_SELECTABLE
   this->setFlags(0);
-  #else
-  this->setFlags(
-      QGraphicsItem::ItemIsFocusable
-    | QGraphicsItem::ItemIsMovable
-    | QGraphicsItem::ItemIsSelectable
-  );
-  #endif
 
   GetQtNode()->setFlags(
       QGraphicsItem::ItemIsFocusable
@@ -103,10 +90,6 @@ ribi::cmap::QtEdge::QtEdge(
     | QGraphicsItem::ItemIsSelectable
   );
 
-  assert(m_from);
-  assert(m_to);
-  assert(from != to);
-  assert(m_from != m_to);
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
   const bool is_connected_to_center_node
@@ -194,12 +177,14 @@ void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
 bool ribi::cmap::QtEdge::HasHeadArrow() const noexcept
 {
   assert(m_arrow);
+  assert(GetEdge().HasHeadArrow() == m_arrow->HasHead());
   return m_arrow->HasHead();
 }
 
 bool ribi::cmap::QtEdge::HasTailArrow() const noexcept
 {
   assert(m_arrow);
+  assert(GetEdge().HasTailArrow() == m_arrow->HasTail());
   return m_arrow->HasTail();
 }
 
@@ -346,10 +331,10 @@ QPainterPath ribi::cmap::QtEdge::shape() const noexcept
   ;
 }
 
-std::string ribi::cmap::QtEdge::ToStr() const noexcept
+std::string ribi::cmap::ToStr(const QtEdge& qtedge) noexcept
 {
   std::stringstream s;
-  s << (*this);
+  s << qtedge;
   return s.str();
 }
 

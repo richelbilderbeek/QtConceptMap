@@ -1,12 +1,12 @@
-#ifndef qtconceptmaprateconcepttallydialognewname_test_H
-#define qtconceptmaprateconcepttallydialognewname_test_H
+#ifndef qtconceptmaprateconcepttallydialog_test_H
+#define qtconceptmaprateconcepttallydialog_test_H
 
 #include <QtTest/QtTest>
 
 namespace ribi {
 namespace cmap {
 
-class qtconceptmaprateconcepttallydialognewname_test : public QObject
+class qtconceptmaprateconcepttallydialog_test : public QObject
 {
     Q_OBJECT //!OCLINT
 
@@ -20,4 +20,4 @@ private slots:
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // qtconceptmaprateconcepttallydialognewname_test_H
+#endif // qtconceptmaprateconcepttallydialog_test_H

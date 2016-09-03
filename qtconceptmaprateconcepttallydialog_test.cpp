@@ -1,5 +1,5 @@
-#include "qtconceptmaprateconcepttallydialognewname_test.h"
-#include "qtconceptmaprateconcepttallydialognewname.h"
+#include "qtconceptmaprateconcepttallydialog_test.h"
+#include "qtconceptmaprateconcepttallydialog.h"
 
 
 #include <sstream>
@@ -26,10 +26,10 @@
 
 #include "qtconceptmaprating.h"
 #include "trace.h"
-#include "ui_qtconceptmaprateconcepttallydialognewname.h"
+#include "ui_qtconceptmaprateconcepttallydialog.h"
 #pragma GCC diagnostic pop
 
-void ribi::cmap::qtconceptmaprateconcepttallydialognewname_test::construct_with_empty_conceptmap()
+void ribi::cmap::qtconceptmaprateconcepttallydialog_test::construct_with_empty_conceptmap()
 {
   using namespace ribi::cmap;
   const ConceptMap empty_conceptmap;
@@ -49,7 +49,7 @@ void ribi::cmap::qtconceptmaprateconcepttallydialognewname_test::construct_with_
 }
 
 
-void ribi::cmap::qtconceptmaprateconcepttallydialognewname_test::construct_with_test_conceptmap()
+void ribi::cmap::qtconceptmaprateconcepttallydialog_test::construct_with_test_conceptmap()
 {
   using namespace ribi::cmap;
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
@@ -57,7 +57,7 @@ void ribi::cmap::qtconceptmaprateconcepttallydialognewname_test::construct_with_
   QVERIFY("Should be no throw");
 }
 
-void ribi::cmap::qtconceptmaprateconcepttallydialognewname_test::measure_ui_from_test_concept_map()
+void ribi::cmap::qtconceptmaprateconcepttallydialog_test::measure_ui_from_test_concept_map()
 {
   return; // TODO, #define NOT_NOW_20160327
 

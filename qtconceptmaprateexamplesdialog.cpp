@@ -55,11 +55,11 @@ struct QtConceptMapListWidgetItem : public QListWidgetItem
 };
 
 
-ribi::cmap::QtRateExamplesDialogNewName::QtRateExamplesDialogNewName(
+ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
   const Concept& concept,
   QWidget* parent)
   : QtHideAndShowDialog(parent),
-    ui(new Ui::QtRateExamplesDialogNewName),
+    ui(new Ui::QtRateExamplesDialog),
     m_concept(concept),
     m_concept_at_start(concept)
 {
@@ -108,12 +108,12 @@ ribi::cmap::QtRateExamplesDialogNewName::QtRateExamplesDialogNewName(
 
 }
 
-ribi::cmap::QtRateExamplesDialogNewName::~QtRateExamplesDialogNewName() noexcept
+ribi::cmap::QtRateExamplesDialog::~QtRateExamplesDialog() noexcept
 {
   delete ui;
 }
 
-ribi::cmap::Examples ribi::cmap::QtRateExamplesDialogNewName::GetRatedExamples() const
+ribi::cmap::Examples ribi::cmap::QtRateExamplesDialog::GetRatedExamples() const
 {
   std::vector<Example> v;
 
@@ -135,7 +135,7 @@ ribi::cmap::Examples ribi::cmap::QtRateExamplesDialogNewName::GetRatedExamples()
   return Examples(v);
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::keyPressEvent(QKeyEvent* e)
+void ribi::cmap::QtRateExamplesDialog::keyPressEvent(QKeyEvent* e)
 {
   if (e->key()  == Qt::Key_Escape) { close(); return; }
   if ( (e->modifiers() & Qt::ControlModifier)
@@ -160,7 +160,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::keyPressEvent(QKeyEvent* e)
   QDialog::keyPressEvent(e);
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_prof_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_prof_clicked()
 {
   if (ui->list->currentItem())
   {
@@ -170,7 +170,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::on_button_prof_clicked()
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_organisations_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_organisations_clicked()
 {
   if (ui->list->currentItem())
   {
@@ -180,7 +180,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::on_button_organisations_clicked()
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_social_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_social_clicked()
 {
   if (ui->list->currentItem())
   {
@@ -190,7 +190,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::on_button_social_clicked()
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_target_audience_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_target_audience_clicked()
 {
   if (ui->list->currentItem())
   {
@@ -200,7 +200,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::on_button_target_audience_clicked(
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_prof_development_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_prof_development_clicked()
 {
   if (ui->list->currentItem())
   {
@@ -210,7 +210,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::on_button_prof_development_clicked
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_misc_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_misc_clicked()
 {
   if (ui->list->currentItem())
   {
@@ -220,7 +220,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::on_button_misc_clicked()
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_ti_knowledge_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_ti_knowledge_clicked()
 {
   if (ui->list->currentItem())
   {
@@ -230,7 +230,7 @@ void ribi::cmap::QtRateExamplesDialogNewName::on_button_ti_knowledge_clicked()
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogNewName::on_button_ok_clicked()
+void ribi::cmap::QtRateExamplesDialog::on_button_ok_clicked()
 {
   const Examples p = GetRatedExamples();
   m_concept.SetExamples(p);

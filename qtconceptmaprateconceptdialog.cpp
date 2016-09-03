@@ -22,7 +22,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include "qtconceptmaprateconceptdialognewname.h"
+#include "qtconceptmaprateconceptdialog.h"
 
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -37,17 +37,14 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "conceptmapfactory.h"
 #include "conceptmap.h"
 #include "conceptmapedge.h"
-
 #include "conceptmapexamplesfactory.h"
 #include "conceptmapexamples.h"
-//#include "conceptmapfile.h"
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
 #include "qtconceptmaprating.h"
 #include "qtconceptmap.h"
-#include "qtconceptmaprateconcepttallydialognewname.h"
-#include "trace.h"
-#include "ui_qtconceptmaprateconceptdialognewname.h"
+#include "qtconceptmaprateconcepttallydialog.h"
+#include "ui_qtconceptmaprateconceptdialog.h"
 #pragma GCC diagnostic pop
 
 

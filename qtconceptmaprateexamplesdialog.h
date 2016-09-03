@@ -32,24 +32,24 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "conceptmapconcept.h"
 #pragma GCC diagnostic pop
 
-namespace Ui { class QtRateExamplesDialogNewName; }
+namespace Ui { class QtRateExamplesDialog; }
 
 namespace ribi {
 namespace cmap {
 
 ///Allows the user to rate the examples of a concept
-class QtRateExamplesDialogNewName : public ribi::QtHideAndShowDialog
+class QtRateExamplesDialog : public ribi::QtHideAndShowDialog
 {
   Q_OBJECT //!OCLINT
   
 public:
-  explicit QtRateExamplesDialogNewName(
+  explicit QtRateExamplesDialog(
     const Concept& concept,
     QWidget* parent = 0
   );
-  QtRateExamplesDialogNewName(const QtRateExamplesDialogNewName&) = delete;
-  QtRateExamplesDialogNewName& operator=(const QtRateExamplesDialogNewName&) = delete;
-  ~QtRateExamplesDialogNewName() noexcept;
+  QtRateExamplesDialog(const QtRateExamplesDialog&) = delete;
+  QtRateExamplesDialog& operator=(const QtRateExamplesDialog&) = delete;
+  ~QtRateExamplesDialog() noexcept;
 
   ///Obtain the rated examples
   Examples GetRatedExamples() const;
@@ -68,7 +68,7 @@ private slots:
   void on_button_ok_clicked();
 
 private:
-  Ui::QtRateExamplesDialogNewName *ui;
+  Ui::QtRateExamplesDialog *ui;
 
   ///The concept, which is modified when clicking OK, but remains unmodified when
   ///the user clicks cancel

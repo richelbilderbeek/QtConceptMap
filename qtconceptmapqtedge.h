@@ -42,17 +42,17 @@ struct Node;
 ///It parents an arrow and a QtNode.
 struct QtEdge : public QGraphicsItem
 {
-  using Base = QGraphicsItem;
-  using Arrow = QtQuadBezierArrowItem *;
-  using ReadOnlyArrow = const QtQuadBezierArrowItem *;
-  using ReadOnlyNodePtr = boost::shared_ptr<const Node>;
-  using QtNodePtr =  QtNode *;
-  using ReadOnlyQtNodePtr = const QtNode *;
+  //using Base = QGraphicsItem;
+  //using Arrow = QtQuadBezierArrowItem *;
+  //using ReadOnlyArrow = const QtQuadBezierArrowItem *;
+  //using ReadOnlyNodePtr = boost::shared_ptr<const Node>;
+  //using QtNodePtr =  QtNode *;
+  //using ReadOnlyQtNodePtr = const QtNode *;
 
-  using From = QtNodePtr;
-  using ReadOnlyFrom = ReadOnlyQtNodePtr;
-  using To = QtNodePtr;
-  using ReadOnlyTo = ReadOnlyQtNodePtr;
+  //using From = QtNodePtr;
+  //using ReadOnlyFrom = ReadOnlyQtNodePtr;
+  //using To = QtNodePtr;
+  //using ReadOnlyTo = ReadOnlyQtNodePtr;
 
   QtEdge(
     const Edge& edge,
@@ -68,19 +68,19 @@ struct QtEdge : public QGraphicsItem
   void DisableAll() noexcept;
   void EnableAll() noexcept;
 
-  ReadOnlyArrow GetArrow() const noexcept { return m_arrow; }
-  const Arrow& GetArrow() noexcept { return m_arrow; }
+        QtQuadBezierArrowItem * GetArrow() const noexcept { return m_arrow; }
+  const QtQuadBezierArrowItem * GetArrow() noexcept { return m_arrow; }
 
   const Edge& GetEdge() const noexcept { return m_edge; }
         Edge& GetEdge()       noexcept { return m_edge; }
 
   ///The node item the arrow originates from
-  ReadOnlyFrom GetFrom() const noexcept { return m_from; }
-  From GetFrom() noexcept { return m_from; }
+  const QtNode * GetFrom() const noexcept { return m_from; }
+        QtNode * GetFrom() noexcept { return m_from; }
 
   ///The node item the arrow targets
-  ReadOnlyTo GetTo() const noexcept { return m_to; }
-  To GetTo() noexcept { return m_to; }
+  const QtNode * GetTo() const noexcept { return m_to; }
+        QtNode * GetTo() noexcept { return m_to; }
 
         QtNode * GetQtNode()       noexcept { return m_qtnode; }
   const QtNode * GetQtNode() const noexcept { return m_qtnode; }
@@ -92,7 +92,6 @@ struct QtEdge : public QGraphicsItem
 
   void SetEdge(const Edge& edge) noexcept;
 
-
   void SetHasHeadArrow(const bool has_head_arrow) noexcept;
   void SetHasTailArrow(const bool has_tail_arrow) noexcept;
 
@@ -102,8 +101,6 @@ struct QtEdge : public QGraphicsItem
   {
     m_show_bounding_rect = show_bounding_rect;
   }
-
-  std::string ToStr() const noexcept;
 
   void keyPressEvent(QKeyEvent *event) noexcept override final;
 
@@ -121,7 +118,9 @@ protected:
 
 private:
   ///The arrow used for drawing, deleted by this class
-  Arrow m_arrow;
+  ///Cannot make this const, as I need an initialized m_qtnode
+  ///before I can construct this
+  QtQuadBezierArrowItem *  m_arrow;
 
   ///The edge
   Edge m_edge;
@@ -142,6 +141,8 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;
+
+std::string ToStr(const QtEdge& qtedge) noexcept;
 
 bool operator==(const QtEdge& lhs, const QtEdge& rhs) noexcept;
 

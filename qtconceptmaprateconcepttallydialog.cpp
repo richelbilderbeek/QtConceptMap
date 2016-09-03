@@ -20,7 +20,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 //---------------------------------------------------------------------------
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
-#include "qtconceptmaprateconcepttallydialognewname.h"
+#include "qtconceptmaprateconcepttallydialog.h"
 
 #include <cassert>
 #include <sstream>
@@ -47,7 +47,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include "qtconceptmaprating.h"
 #include "trace.h"
-#include "ui_qtconceptmaprateconcepttallydialognewname.h"
+#include "ui_qtconceptmaprateconcepttallydialog.h"
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(

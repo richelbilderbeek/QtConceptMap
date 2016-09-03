@@ -769,7 +769,7 @@ void ribi::cmap::QtConceptMap::OnNodeKeyDownPressed(QtNode* const item, const in
     //Rate examples
     if (item->GetNode().GetConcept().GetExamples().Get().empty()) return;
     QtScopedDisable<QtConceptMap> disable(this);
-    ribi::cmap::QtRateExamplesDialogNewName d(item->GetNode().GetConcept());
+    ribi::cmap::QtRateExamplesDialog d(item->GetNode().GetConcept());
     d.exec();
     //Find the original Node
     const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), m_conceptmap);
