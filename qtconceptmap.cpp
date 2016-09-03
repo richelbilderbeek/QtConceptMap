@@ -213,11 +213,8 @@ void ribi::cmap::QtConceptMap::CheckInvariantOneQtNodeWithExamplesHasExamplesIte
       const bool is_close{IsClose(*GetQtExamplesItem(), *qtnode)};
       if (!is_close)
       {
-        qCritical() << GetQtExamplesItem()->x() << " and " <<  qtnode->GetCenterX();
-        qCritical() << (qtnode->GetCenterY() - (qtnode->GetOuterHeight() / 2.0) - 16.0) << " and " << GetQtExamplesItem()->y();
+        qDebug() << "QtExamplesItem and QtNode not close";
       }
-      //assert(std::abs(GetQtExamplesItem()->x() - qtnode->GetCenterX()) < 1.0);
-      //assert(std::abs(qtnode->GetCenterY() - (qtnode->GetOuterHeight() / 2.0) - 16.0 - GetQtExamplesItem()->y()) < 1.0);
     }
   }
   #endif
@@ -923,7 +920,6 @@ void ribi::cmap::QtConceptMap::UpdateExamplesItem()
   //If nothing is selected, hide the Examples
   assert(m_examples_item);
   m_examples_item->SetBuddyItem(nullptr); //Handles visibility
-  qDebug() << "CountSelectedQtNodes(GetScene()): " << CountSelectedQtNodes(GetScene());
   const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(GetScene());
   if (selected_qtnodes.size() == 1)
   {
