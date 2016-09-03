@@ -44,7 +44,7 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   CommandCreateNewEdgeBetweenTwoSelectedNodes(
     ConceptMap& conceptmap,
     const Mode mode,
-    QGraphicsScene * const scene,
+    QGraphicsScene& scene,
     QtTool * const tool_item
   );
   CommandCreateNewEdgeBetweenTwoSelectedNodes(
@@ -66,7 +66,7 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   ConceptMap m_after;
   const ConceptMap m_before;
   const Mode m_mode;
-  QGraphicsScene * const m_scene;
+  QGraphicsScene& m_scene;
   const QList<QGraphicsItem *> m_selected_before;
   QtTool * const m_tool_item;
 };

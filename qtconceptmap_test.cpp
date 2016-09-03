@@ -208,7 +208,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_command()
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
-  const auto v = GetSelectedQtNodes(*m.GetScene());
+  const auto v = GetSelectedQtNodes(m.GetScene());
   QVERIFY(v.size() == 1);
   const auto n = v[0];
   QVERIFY(n);
@@ -327,9 +327,6 @@ void ribi::cmap::qtconceptmap_test::default_construction()
 
   //No nodes with a Tool icon above it
   QVERIFY(m.GetQtToolItem());
-
-  //Scene
-  QVERIFY(m.GetScene());
 
   //No undo info yet
   QVERIFY(m.GetUndo().count() == 0);
@@ -530,8 +527,8 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
   QTest::keyClick(&m, Qt::Key_Left, Qt::NoModifier, 100);
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
-  QVERIFY(GetSelectedQtNodes(*m.GetScene()).size() == 1);
-  QVERIFY(GetSelectedQtEdges(*m.GetScene()).size() == 0);
+  QVERIFY(GetSelectedQtNodes(m.GetScene()).size() == 1);
+  QVERIFY(GetSelectedQtEdges(m.GetScene()).size() == 0);
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
 }
 
@@ -544,15 +541,15 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard()
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
   m.show();
 
-  QVERIFY(GetSelectedQtNodes(*m.GetScene()).size() == 2);
+  QVERIFY(GetSelectedQtNodes(m.GetScene()).size() == 2);
 
   std::vector<int> ids;
   for (int i=0; i!=10; ++i)
   {
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
-    QVERIFY(GetSelectedQtNodes(*m.GetScene()).size() == 1);
-    assert(GetSelectedQtNodes(*m.GetScene()).size() == 1);
-    ids.push_back(GetSelectedQtNodes(*m.GetScene())[0]->GetNode().GetId());
+    QVERIFY(GetSelectedQtNodes(m.GetScene()).size() == 1);
+    assert(GetSelectedQtNodes(m.GetScene()).size() == 1);
+    ids.push_back(GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetId());
   }
   //Test if there are two IDs, both occuring multiple times
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])

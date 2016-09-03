@@ -28,8 +28,8 @@ int ribi::cmap::CountQtEdges(const QGraphicsScene& scene) noexcept
 int ribi::cmap::CountQtNodes(const QGraphicsScene& scene) noexcept
 {
   int cnt{0};
-  for (auto item: scene.items()) {
-    const QtNode* const qtnode = dynamic_cast<QtNode*>(item);
+  for (const auto item: scene.items()) {
+    const QtNode* const qtnode{dynamic_cast<const QtNode*>(item)};
     if (qtnode && !IsOnEdge(qtnode, scene)) ++cnt;
   }
   return cnt;
@@ -246,9 +246,9 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
 }
 
 ribi::cmap::QtNode * ribi::cmap::FindQtNode(
-  const int node_id, const QGraphicsScene * const scene) noexcept
+  const int node_id, const QGraphicsScene& scene) noexcept
 {
-  for (auto item: scene->items())
+  for (auto item: scene.items())
   {
     QtNode * const qtnode = dynamic_cast<QtNode*>(item);
     if (qtnode && qtnode->GetNode().GetId() == node_id)

@@ -57,7 +57,7 @@ QtEdge * FindQtEdge(
   const QGraphicsScene& scene
 ) noexcept;
 
-QtNode * FindQtNode(const int node_id, const QGraphicsScene * const scene) noexcept;
+QtNode * FindQtNode(const int node_id, const QGraphicsScene& scene) noexcept;
 
 ///Obtain the center node, if there is any
 QtNode * GetCenterNode(const QGraphicsScene& scene) noexcept;
@@ -86,7 +86,6 @@ std::function<QBrush(const QtNode&)> GetQtNodeBrushFunctionUninitialized() noexc
 std::vector<QtNode *> GetQtNodes(const QGraphicsScene& scene) noexcept;
 
 std::vector<QtEdge *> GetSelectedQtEdges(const QGraphicsScene& scene) noexcept;
-std::vector<QtNode *> GetSelectedQtNodes(const QGraphicsScene& scene) noexcept;
 
 ///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;
 std::vector<QtNode *> GetSelectedQtNodes(const QGraphicsScene& scene) noexcept;

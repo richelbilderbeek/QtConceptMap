@@ -23,11 +23,11 @@
 
 ribi::cmap::CommandToggleArrowHead::CommandToggleArrowHead(
   ConceptMap& conceptmap,
-  QGraphicsScene * const scene
+  QGraphicsScene& scene
 ) : m_conceptmap(conceptmap),
-    m_edge_before{ExtractTheOneSelectedEdge(conceptmap,*scene)},
+    m_edge_before{ExtractTheOneSelectedEdge(conceptmap,scene)},
     m_scene{scene},
-    m_qtedge{ExtractTheOneSelectedQtEdge(*scene)}
+    m_qtedge{ExtractTheOneSelectedQtEdge(scene)}
 {
   this->setText("Toggle arrow head");
 }

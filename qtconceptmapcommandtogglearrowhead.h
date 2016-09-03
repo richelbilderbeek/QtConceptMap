@@ -20,7 +20,7 @@ class CommandToggleArrowHead final : public Command
 
   CommandToggleArrowHead(
     ConceptMap& conceptmap,
-    QGraphicsScene * const scene
+    QGraphicsScene& scene
   );
   CommandToggleArrowHead(const CommandToggleArrowHead&) = delete;
   CommandToggleArrowHead& operator=(const CommandToggleArrowHead&) = delete;
@@ -31,7 +31,7 @@ class CommandToggleArrowHead final : public Command
   private:
   ConceptMap& m_conceptmap; //The concept map to modify
   const Edge m_edge_before;
-  QGraphicsScene * const m_scene;
+  QGraphicsScene& m_scene;
   QtEdge * const m_qtedge; //The QtEdge to modify
 };
 

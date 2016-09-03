@@ -31,7 +31,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   ConceptMap& conceptmap,
   const Mode mode,
-  QGraphicsScene * const scene,
+  QGraphicsScene& scene,
   QtTool * const tool_item,
   const double x,
   const double y
@@ -47,7 +47,6 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
     m_x{x},
     m_y{y}
 {
-  assert(scene);
   assert(tool_item);
 
 
@@ -83,7 +82,7 @@ void ribi::cmap::CommandCreateNewNode::redo()
 {
   m_conceptmap = m_conceptmap_after;
   assert(!m_qtnode->scene());
-  m_scene->addItem(m_qtnode);
+  m_scene.addItem(m_qtnode);
   assert(m_qtnode->scene());
   m_qtnode->setSelected(true); //Additively select node
   m_qtnode->setFocus();
@@ -95,7 +94,7 @@ void ribi::cmap::CommandCreateNewNode::undo()
 {
   m_conceptmap = m_conceptmap_before;
   assert(m_qtnode->scene());
-  m_scene->removeItem(m_qtnode);
+  m_scene.removeItem(m_qtnode);
   assert(!m_qtnode->scene());
   m_tool_item->SetBuddyItem(m_tool_item_old_buddy);
 }

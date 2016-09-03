@@ -42,7 +42,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CommandCreateNewEdgeBetweenTwoSelectedNodes(
   ConceptMap& conceptmap,
   const Mode mode,
-  QGraphicsScene * const scene,
+  QGraphicsScene& scene,
   QtTool * const tool_item
 ) : m_conceptmap(conceptmap),
     m_added_edge{Edge()},
@@ -52,7 +52,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CommandCreateNewEdgeBet
     m_before{conceptmap},
     m_mode{mode},
     m_scene{scene},
-    m_selected_before{scene->selectedItems()},
+    m_selected_before{scene.selectedItems()},
     m_tool_item{tool_item}
 {
   if (count_vertices_with_selectedness(true, m_after) != 2)
@@ -114,12 +114,12 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   assert(!m_added_qtedge->scene());
   assert(!m_added_qtnode->scene());
   assert(!m_added_qtedge->GetArrow()->scene());
-  m_scene->addItem(m_added_qtedge);
+  m_scene.addItem(m_added_qtedge);
   //m_scene->addItem(m_added_qtnode); // Get these for free by adding QtEdge
   //m_scene->addItem(m_added_qtedge->GetArrow()); // Get these for free by adding QtEdge
-  assert(m_added_qtedge->scene() == m_scene);
-  assert(m_added_qtnode->scene() == m_scene);
-  assert(m_added_qtedge->GetArrow()->scene() == m_scene);
+  assert(m_added_qtedge->scene() == &m_scene);
+  assert(m_added_qtnode->scene() == &m_scene);
+  assert(m_added_qtedge->GetArrow()->scene() == &m_scene);
 
   m_added_qtnode->setFocus();
   m_added_qtnode->setSelected(true);
@@ -152,10 +152,10 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   m_added_qtedge->GetTo()->setSelected(true);
   m_added_qtedge->GetTo()->setFocus();
 
-  assert(m_added_qtedge->scene() == m_scene);
-  assert(m_added_qtnode->scene() == m_scene);
-  assert(m_added_qtedge->GetArrow()->scene() == m_scene);
-  m_scene->removeItem(m_added_qtedge);
+  assert(m_added_qtedge->scene() == &m_scene);
+  assert(m_added_qtnode->scene() == &m_scene);
+  assert(m_added_qtedge->GetArrow()->scene() == &m_scene);
+  m_scene.removeItem(m_added_qtedge);
   //m_scene->removeItem(m_added_qtnode); //Get these for free
   //m_scene->removeItem(m_added_qtedge->GetArrow()); //Get these for free
   assert(!m_added_qtedge->scene());

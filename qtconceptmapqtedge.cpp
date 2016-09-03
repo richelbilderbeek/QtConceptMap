@@ -58,6 +58,14 @@ ribi::cmap::QtEdge::QtEdge(
     m_show_bounding_rect{false},
     m_to{to}
 {
+  if (!from)
+  {
+    throw std::invalid_argument("QtEdge must have a non-nullptr from");
+  }
+  if (!to)
+  {
+    throw std::invalid_argument("QtEdge must have a non-nullptr to");
+  }
   //Allow mouse tracking
   //OTOH: must be done by the other thing
   //this->setAcceptHoverEvents(true);
@@ -257,7 +265,7 @@ void ribi::cmap::QtEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem
 {
   if (!this->scene())
   {
-    qDebug() << "BREAK";
+    qCritical() << "BREAK";
   }
   assert(this->scene());
   assert(this->m_from->scene());

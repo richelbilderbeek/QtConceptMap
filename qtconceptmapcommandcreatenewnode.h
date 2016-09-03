@@ -47,7 +47,7 @@ class CommandCreateNewNode final : public Command
   CommandCreateNewNode(
     ConceptMap& conceptmap,
     const Mode mode,
-    QGraphicsScene * const scene,
+    QGraphicsScene& scene,
     QtTool * const tool_item,
     const double x,
     const double y
@@ -65,7 +65,7 @@ class CommandCreateNewNode final : public Command
   const ConceptMap m_conceptmap_before;
   const Mode m_mode;
   QtNode * m_qtnode;
-  QGraphicsScene * const m_scene;
+  QGraphicsScene& m_scene;
   QtTool * const m_tool_item;
   QtNode * const m_tool_item_old_buddy;
   const double m_x;
