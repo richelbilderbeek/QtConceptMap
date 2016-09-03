@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
+  { ribi::cmap::qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
 
   //These are all tests in alphabetical order
   { ribi::cmap::qtconceptmapcenternode_test t; error |= QTest::qExec(&t, argc, argv); }

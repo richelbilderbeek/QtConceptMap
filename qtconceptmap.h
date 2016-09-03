@@ -64,7 +64,7 @@ public:
 
   ///The square showing the examples
   const QtExamplesItem * GetQtExamplesItem() const noexcept { return m_examples_item; }
-  QtExamplesItem * GetQtExamplesItem() noexcept { return m_examples_item; }
+        QtExamplesItem * GetQtExamplesItem() noexcept { return m_examples_item; }
 
   ///The arrow that must be clicked to add a new edge
   const QtTool * GetQtToolItem() const noexcept { return m_tools; }
@@ -133,6 +133,7 @@ private:
   ///All QtNodes must have a QScene
   void CheckInvariantAllQtEdgesHaveAscene() const noexcept;
   void CheckInvariantAllQtNodesHaveAscene() const noexcept;
+  void CheckInvariantOneQtNodeWithExamplesHasExamplesItem() const noexcept;
 
   ///The function how a QtEdge determines it is colored
   std::function<QBrush(const QtEdge&)> GetEdgeBrushFunction(const Mode mode);

@@ -90,6 +90,9 @@ std::vector<QtEdge *> GetSelectedQtEdges(const QGraphicsScene& scene) noexcept;
 ///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;
 std::vector<QtNode *> GetSelectedQtNodes(const QGraphicsScene& scene) noexcept;
 
+///Get all the selected QtNodes, also those on a QtEdge
+std::vector<QtNode *> GetSelectedQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept;
+
 ///Check if this item is the center node
 bool IsQtCenterNode(const QGraphicsItem* const item);
 

@@ -191,6 +191,38 @@ void ribi::cmap::QtConceptMap::CheckInvariantAllQtNodesHaveAscene() const noexce
   }
 }
 
+void ribi::cmap::QtConceptMap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem() const noexcept
+{
+  #ifndef NDEBUG
+  assert(CountSelectedQtNodes(GetScene())
+    == static_cast<int>(ribi::cmap::GetSelectedQtNodes(GetScene()).size())
+  );
+  assert(CountSelectedQtEdges(GetScene())
+    == static_cast<int>(ribi::cmap::GetSelectedQtEdges(GetScene()).size())
+  );
+  const auto qtnodes = ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(GetScene());
+  if (qtnodes.size() == 1)
+  {
+    //QtNode must have an example
+    const ribi::cmap::QtNode * const qtnode = qtnodes[0];
+    if (!qtnode->GetNode().GetConcept().GetExamples().Get().empty())
+    {
+      //QtExamplesItem must have that QtNode as its buddy
+      assert(GetQtExamplesItem()->GetBuddyItem() == qtnode);
+      assert(GetQtExamplesItem()->isVisible());
+      const bool is_close{IsClose(*GetQtExamplesItem(), *qtnode)};
+      if (!is_close)
+      {
+        qCritical() << GetQtExamplesItem()->x() << " and " <<  qtnode->GetCenterX();
+        qCritical() << (qtnode->GetCenterY() - (qtnode->GetOuterHeight() / 2.0) - 16.0) << " and " << GetQtExamplesItem()->y();
+      }
+      //assert(std::abs(GetQtExamplesItem()->x() - qtnode->GetCenterX()) < 1.0);
+      //assert(std::abs(qtnode->GetCenterY() - (qtnode->GetOuterHeight() / 2.0) - 16.0 - GetQtExamplesItem()->y()) < 1.0);
+    }
+  }
+  #endif
+}
+
 void ribi::cmap::QtConceptMap::CheckInvariants() const noexcept
 {
   #ifndef NDEBUG
@@ -217,41 +249,7 @@ void ribi::cmap::QtConceptMap::CheckInvariants() const noexcept
   //If a QtNode with a vignette is selected, the QtExamplesItem must have that
   //QtNode as its buddy
   //For Issue #96, https://github.com/richelbilderbeek/Brainweaver/issues/96
-  {
-    #ifndef NDEBUG
-    {
-      const int n1{CountSelectedQtNodes(GetScene())};
-      const int n2{static_cast<int>(ribi::cmap::GetSelectedQtNodes(GetScene()).size())};
-      if (n1 != n2)
-      {
-        qCritical() << n1 << " versus " << n2;
-      }
-      assert(n1 == n2);
-    }
-    #endif
-    assert(CountSelectedQtNodes(GetScene())
-      == static_cast<int>(ribi::cmap::GetSelectedQtNodes(GetScene()).size())
-    );
-    assert(CountSelectedQtEdges(GetScene())
-      == static_cast<int>(ribi::cmap::GetSelectedQtEdges(GetScene()).size())
-    );
-    const auto qtnodes = ribi::cmap::GetSelectedQtNodes(GetScene());
-    if (qtnodes.size() == 1)
-    {
-      //QtNode must have an example
-      const ribi::cmap::QtNode * const qtnode = qtnodes[0];
-      if (!qtnode->GetNode().GetConcept().GetExamples().Get().empty())
-      {
-        //QtExamplesItem must have that QtNode as its buddy
-        assert(GetQtExamplesItem()->GetBuddyItem() == qtnode);
-        assert(GetQtExamplesItem()->isVisible());
-        //Must be close
-        assert(std::abs(GetQtExamplesItem()->x() - qtnode->GetCenterX()) < 1.0);
-        assert(std::abs(qtnode->GetCenterY() - (qtnode->GetOuterHeight() / 2.0) - 16.0 - GetQtExamplesItem()->y()) < 1.0);
-      }
-    }
-  }
-
+  CheckInvariantOneQtNodeWithExamplesHasExamplesItem();
   #endif
 }
 
@@ -388,6 +386,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   }
 
   UpdateConceptMap();
+
   CheckInvariants();
 }
 
@@ -645,9 +644,9 @@ void ribi::cmap::QtConceptMap::onCheckCollision()
       const double dx = node->x() - other_node->x() > 0.0 ? 1.0 : -1.0;
       const double dy = node->y() - other_node->y() > 0.0 ? 1.0 : -1.0;
       node->SetCenterPos(node->x()  + dx, node->y()  + dy);
-
     }
   }
+  UpdateExamplesItem();
 }
 
 void ribi::cmap::QtConceptMap::onFocusItemChanged(
@@ -912,23 +911,30 @@ void ribi::cmap::QtConceptMap::Undo() noexcept
 
 void ribi::cmap::QtConceptMap::UpdateConceptMap()
 {
-  UpdateExamplesItem();
   for (const auto item: GetScene().items()) { item->update(); }
   onSelectionChanged();
+  UpdateExamplesItem();
+  this->update();
+  this->scene()->update();
 }
 
 void ribi::cmap::QtConceptMap::UpdateExamplesItem()
 {
   //If nothing is selected, hide the Examples
+  assert(m_examples_item);
   m_examples_item->SetBuddyItem(nullptr); //Handles visibility
   qDebug() << "CountSelectedQtNodes(GetScene()): " << CountSelectedQtNodes(GetScene());
-  if (CountSelectedQtNodes(GetScene()) == 1)
+  const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(GetScene());
+  if (selected_qtnodes.size() == 1)
   {
-    const auto selected_qtnodes = GetSelectedQtNodes(GetScene());
-    assert(selected_qtnodes.size() == 1);
     const auto selected_qtnode = selected_qtnodes[0];
     m_examples_item->SetBuddyItem(selected_qtnode); //Handles visibility
   }
+  this->update();
+  this->show();
+  this->scene()->update();
+  qApp->processEvents();
+  CheckInvariantOneQtNodeWithExamplesHasExamplesItem();
 }
 
 void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)

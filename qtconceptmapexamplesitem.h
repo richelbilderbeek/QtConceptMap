@@ -59,7 +59,13 @@ private:
   const QtNode * m_qtnode;
 
   void SetExamples(const Examples& examples);
+
+  ///Set the position of the QtExamplesItem
+  void Reposition();
 };
+
+///Is the QtExamplesItem close to the QtNode?
+bool IsClose(const QtExamplesItem& item, const QtNode& qtnode) noexcept;
 
 } //~namespace cmap
 } //~namespace ribi

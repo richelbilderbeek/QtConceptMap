@@ -514,6 +514,20 @@ void ribi::cmap::qtconceptmap_test::is_command_put_on_undo_stack()
   QVERIFY(m.GetUndo().count() == 1);
 }
 
+void ribi::cmap::qtconceptmap_test::aaa_issue_96()
+{
+  QtConceptMap m;
+  m.show();
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.show();
+  for (int i=0; i!=100; ++i)
+  {
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+    m.show();
+  }
+
+}
+
 void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 {
   QtConceptMap m;

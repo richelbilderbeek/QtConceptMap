@@ -26,6 +26,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include <boost/lambda/lambda.hpp>
 
+#include <QDebug>
 #include <QFont>
 #include <QPainter>
 #include <QGraphicsScene>
@@ -66,23 +67,80 @@ void ribi::cmap::QtExamplesItem::paint(
   QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget
 ) noexcept
 {
-  //this->SetExamples(this->m_item->GetNode().GetConcept().GetExamples());
+  //Reposition();
+  QtRoundedEditRectItem::paint(painter,option,widget);
+}
+
+bool ribi::cmap::IsClose(const QtExamplesItem& item, const QtNode& qtnode) noexcept
+{
+  /*
+
+                        x2
+                        |
+   +--------------------+
+   |      QtNode        |
+   +--------------------+         - y2
+               +----------------+ - y1
+               | QtExamplesItem |
+               +----------------+
+                        |
+                        x1
+  */
+  const double x1{item.GetCenterX()};
+  const double x2{qtnode.GetOuterRect().right()};
+  const double y1{item.GetOuterRect().top()};
+  const double y2{qtnode.GetOuterRect().bottom()};
+  const bool is_close{
+    std::abs(x1 - x2) < 10.0  && std::abs(y1 - y2) < 10.0
+  };
+  return is_close;
+}
+
+void ribi::cmap::QtExamplesItem::Reposition()
+{
+  /*
+
+             w
+   +--------------------+
+   |       QtNode       |
+ h |         p          |
+   |                    |
+   +--------------------+
+                +----------------+
+                | QtExamplesItem |
+                |        q       |
+                |                |
+                +----------------+
+
+  */
   const auto qtnode = m_qtedge ? m_qtedge->GetQtNode() : m_qtnode;
   assert(qtnode);
   const QPointF p = qtnode->GetCenterPos();
   const auto w = qtnode->GetOuterWidth();
   const auto h = qtnode->GetOuterHeight();
-  const QRectF r(-0.5 * w,-0.5 * h,0.5 * w,0.5 * h);
-  this->SetCenterPos(
-    p.x() + (0.5 * r.width() ) + 4.0 + (0.5 * GetInnerWidth() ),
-    p.y() + (0.5 * r.height()) + 4.0 + (0.5 * GetInnerHeight())
+  const QPointF q(
+    p.x() + (0.5 * w) + 4.0,
+    p.y() + (0.5 * h) + 4.0 + (this->GetOuterHeight() / 2.0)
   );
-
-  QtRoundedEditRectItem::paint(painter,option,widget);
+  this->SetCenterPos(q);
+  if (!IsClose(*this, *qtnode))
+  {
+    qCritical() << "Not close";
+  }
 }
 
 void ribi::cmap::QtExamplesItem::SetBuddyItem(const QGraphicsItem * const item)
 {
+  /*
+
+   +--------------------+
+   |  QGraphicsItem     |
+   +--------------------+
+               +----------------+
+               | QtExamplesItem |
+               +----------------+
+
+  */
   this->setVisible(false);
   m_item = item;
   if (m_item)
@@ -99,6 +157,7 @@ void ribi::cmap::QtExamplesItem::SetBuddyItem(const QGraphicsItem * const item)
       this->SetExamples(m_qtnode->GetNode().GetConcept().GetExamples());
       this->setVisible(true);
     }
+    Reposition();
   }
 }
 
