@@ -20,7 +20,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 //---------------------------------------------------------------------------
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
-#include "qtconceptmaprateexamplesdialognewname.h"
+#include "qtconceptmaprateexamplesdialog.h"
 
 #include <QDesktopWidget>
 #include <QKeyEvent>
@@ -34,7 +34,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapcompetency.h"
 
 #include "trace.h"
-#include "ui_qtconceptmaprateexamplesdialognewname.h"
+#include "ui_qtconceptmaprateexamplesdialog.h"
 #pragma GCC diagnostic pop
 
 struct QtConceptMapListWidgetItem : public QListWidgetItem

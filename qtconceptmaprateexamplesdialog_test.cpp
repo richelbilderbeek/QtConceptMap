@@ -1,5 +1,5 @@
-#include "qtconceptmaprateexamplesdialognewname_test.h"
-#include "qtconceptmaprateexamplesdialognewname.h"
+#include "qtconceptmaprateexamplesdialog_test.h"
+#include "qtconceptmaprateexamplesdialog.h"
 
 
 #include <QDesktopWidget>
@@ -14,9 +14,9 @@
 #include "qtconceptmapcompetency.h"
 
 #include "trace.h"
-#include "ui_qtconceptmaprateexamplesdialognewname.h"
+#include "ui_qtconceptmaprateexamplesdialog.h"
 
-void ribi::cmap::qtconceptmaprateexamplesdialognewname_test::all_tests()
+void ribi::cmap::qtconceptmaprateexamplesdialog_test::all_tests()
 {
   using namespace ribi::cmap;
   {

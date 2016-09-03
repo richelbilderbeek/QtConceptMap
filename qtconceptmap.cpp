@@ -75,8 +75,8 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
-#include "qtconceptmaprateconceptdialognewname.h"
-#include "qtconceptmaprateexamplesdialognewname.h"
+#include "qtconceptmaprateconceptdialog.h"
+#include "qtconceptmaprateexamplesdialog.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtquadbezierarrowitem.h"
 #include "qtscopeddisable.h"
@@ -222,7 +222,10 @@ void ribi::cmap::QtConceptMap::CheckInvariants() const noexcept
     {
       const int n1{CountSelectedQtNodes(GetScene())};
       const int n2{static_cast<int>(ribi::cmap::GetSelectedQtNodes(GetScene()).size())};
-      qCritical() << n1 << " versus " << n2;
+      if (n1 != n2)
+      {
+        qCritical() << n1 << " versus " << n2;
+      }
       assert(n1 == n2);
     }
     #endif

@@ -80,7 +80,8 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
 {
   for (const Edge& edge: GetEdges(conceptmap))
   {
-    if (GetFrom(edge,conceptmap) == node || GetTo(edge, conceptmap) == node)
+    if (IsConnectedTo(edge, GetCenterNode(conceptmap), conceptmap)) continue;
+    if (IsConnectedTo(edge, node, conceptmap))
     {
 
       //Dependent on arrow
@@ -97,7 +98,7 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
           + GetTo(edge, conceptmap).GetConcept().GetName();
         ui->list_cluster_relations->addItem(new QListWidgetItem(text.c_str()));
       }
-      else if (GetTo(edge, conceptmap) == node && !IsCenterNode(GetFrom(edge, conceptmap)))
+      else if (GetTo(edge, conceptmap) == node)
       {
         assert(GetTo(edge, conceptmap) == node);
         const std::string first_arrow  = edge.HasHeadArrow() ? "<- " : "-- ";

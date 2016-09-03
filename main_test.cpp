@@ -12,8 +12,8 @@
 #include "qtconceptmapqtnodedialog_test.h"
 #include "qtconceptmapqtnodefactory_test.h"
 #include "qtconceptmapqtnode_test.h"
-#include "qtconceptmaprateconcepttallydialognewname_test.h"
-#include "qtconceptmaprateexamplesdialognewname_test.h"
+#include "qtconceptmaprateconcepttallydialog_test.h"
+#include "qtconceptmaprateexamplesdialog_test.h"
 #include "qtconceptmap_test.h"
 
 int main(int argc, char *argv[])
@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
   { ribi::cmap::qtconceptmaphelper_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtnodedialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtnodefactory_test t; error |= QTest::qExec(&t, argc, argv); }
-  { ribi::cmap::qtconceptmaprateconcepttallydialognewname_test t; error |= QTest::qExec(&t, argc, argv); }
-  { ribi::cmap::qtconceptmaprateexamplesdialognewname_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmaprateconcepttallydialog_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmaprateexamplesdialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtnode_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
 

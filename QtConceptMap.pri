@@ -29,10 +29,10 @@ HEADERS += \
     $$PWD/qtconceptmapqtnodedialog.h \
     $$PWD/qtconceptmapqtnodefactory.h \
     $$PWD/qtconceptmapqtnode.h \
-    $$PWD/qtconceptmaprateconceptdialognewname.h \
-    $$PWD/qtconceptmaprateconcepttallydialognewname.h \
+    $$PWD/qtconceptmaprateconceptdialog.h \
+    $$PWD/qtconceptmaprateconcepttallydialog.h \
     $$PWD/qtconceptmapratedconceptdialog.h \
-    $$PWD/qtconceptmaprateexamplesdialognewname.h \
+    $$PWD/qtconceptmaprateexamplesdialog.h \
     $$PWD/qtconceptmaprating.h \
     $$PWD/qtconceptmaptoolsitem.h
 
@@ -64,10 +64,10 @@ SOURCES += \
     $$PWD/qtconceptmapqtnode.cpp \
     $$PWD/qtconceptmapqtnodedialog.cpp \
     $$PWD/qtconceptmapqtnodefactory.cpp \
-    $$PWD/qtconceptmaprateconceptdialognewname.cpp \
-    $$PWD/qtconceptmaprateconcepttallydialognewname.cpp \
+    $$PWD/qtconceptmaprateconceptdialog.cpp \
+    $$PWD/qtconceptmaprateconcepttallydialog.cpp \
     $$PWD/qtconceptmapratedconceptdialog.cpp \
-    $$PWD/qtconceptmaprateexamplesdialognewname.cpp \
+    $$PWD/qtconceptmaprateexamplesdialog.cpp \
     $$PWD/qtconceptmaprating.cpp \
     $$PWD/qtconceptmaptoolsitem.cpp
 
@@ -80,10 +80,10 @@ FORMS += \
     $$PWD/qtconceptmapnodedialog.ui \
     $$PWD/qtconceptmapqtedgedialog.ui \
     $$PWD/qtconceptmapqtnodedialog.ui \
-    $$PWD/qtconceptmaprateconceptdialognewname.ui \
-    $$PWD/qtconceptmaprateconcepttallydialognewname.ui \
+    $$PWD/qtconceptmaprateconceptdialog.ui \
+    $$PWD/qtconceptmaprateconcepttallydialog.ui \
     $$PWD/qtconceptmapratedconceptdialog.ui \
-    $$PWD/qtconceptmaprateexamplesdialognewname.ui
+    $$PWD/qtconceptmaprateexamplesdialog.ui
 
 RESOURCES += \
     $$PWD/QtConceptMap.qrc
