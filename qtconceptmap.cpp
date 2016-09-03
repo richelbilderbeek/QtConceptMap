@@ -921,13 +921,13 @@ void ribi::cmap::QtConceptMap::UpdateExamplesItem()
 {
   //If nothing is selected, hide the Examples
   m_examples_item->SetBuddyItem(nullptr); //Handles visibility
-  if (GetScene().selectedItems().count() == 1)
+  qDebug() << "CountSelectedQtNodes(GetScene()): " << CountSelectedQtNodes(GetScene());
+  if (CountSelectedQtNodes(GetScene()) == 1)
   {
-    QtNode * const selected_qtnode = dynamic_cast<QtNode*>(GetScene().selectedItems().first());
-    if (selected_qtnode)
-    {
-      m_examples_item->SetBuddyItem(selected_qtnode); //Handles visibility
-    }
+    const auto selected_qtnodes = GetSelectedQtNodes(GetScene());
+    assert(selected_qtnodes.size() == 1);
+    const auto selected_qtnode = selected_qtnodes[0];
+    m_examples_item->SetBuddyItem(selected_qtnode); //Handles visibility
   }
 }
 
