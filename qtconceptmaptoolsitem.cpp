@@ -90,17 +90,7 @@ void ribi::cmap::QtTool::paint(
 
 void ribi::cmap::QtTool::SetBuddyItem(QtNode * const item)
 {
-  if (item != m_item)
-  {
-    m_item = item;
-    if (m_item)
-    {
-      this->setVisible(true);
-      this->update();
-    }
-    else
-    {
-      this->setVisible(false);
-    }
-  }
+  m_item = item;
+  this->setVisible(m_item);
+  this->update();
 }

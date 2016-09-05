@@ -101,28 +101,11 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   this->setScene(new QGraphicsScene(this));
   assert(!m_highlighter->GetItem());
 
-  //Add QtNewArrow
-  assert(!m_arrow->scene());
+  //Add items
   GetScene().addItem(m_arrow); //Add the QtNewArrow so it has a parent
-  assert(m_arrow->scene());
-
-  m_arrow->hide();
-  assert(!m_arrow->isVisible());
-
-  //Add QtExamplesItem
-  assert(!m_examples_item->scene());
   GetScene().addItem(m_examples_item); //Add the examples so it has a parent
-  assert(m_examples_item->scene());
-
-  //Add QtTool
-  assert(!m_tools->scene());
   GetScene().addItem(m_tools);
-  assert(m_tools->scene());
-
-  //Responds when selectionChanged is triggered
-
-
-  assert(Collect<QtNode>(GetScene()).empty());
+  m_arrow->hide();
 
   //Without this line, mouseMoveEvent won't be called
   this->setMouseTracking(true);
@@ -149,7 +132,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
 
   {
     QTimer * const timer{new QTimer(this)};
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(onCheckCollision()));
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(Respond()));
     timer->start(10);
   }
 }
@@ -223,6 +206,13 @@ void ribi::cmap::QtConceptMap::CheckInvariantOneQtNodeWithExamplesHasExamplesIte
 void ribi::cmap::QtConceptMap::CheckInvariants() const noexcept
 {
   #ifndef NDEBUG
+  assert(m_arrow);
+  assert(m_arrow->scene());
+  assert(m_examples_item);
+  assert(m_examples_item->scene());
+  assert(m_tools);
+  assert(m_tools->scene());
+
   CheckInvariantAllQtNodesHaveAscene();
   CheckInvariantAllQtEdgesHaveAscene();
 
@@ -625,8 +615,9 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   assert(!m_arrow->isSelected());
 }
 
-void ribi::cmap::QtConceptMap::onCheckCollision()
+void ribi::cmap::QtConceptMap::Respond()
 {
+  CheckInvariants();
   for (const auto item: GetScene().items())
   {
     if (!(item->flags() & QGraphicsItem::ItemIsMovable)) continue;
@@ -644,27 +635,16 @@ void ribi::cmap::QtConceptMap::onCheckCollision()
     }
   }
   UpdateExamplesItem();
+  UpdateQtToolItem();
+  CheckInvariants();
 }
 
 void ribi::cmap::QtConceptMap::onFocusItemChanged(
   QGraphicsItem * newFocus, QGraphicsItem */*oldFocus*/, Qt::FocusReason reason
 )
 {
-  //Focus on QtNode
-  if (QtNode * const qtnode = dynamic_cast<QtNode*>(newFocus)) {
-    if (!IsOnEdge(qtnode, GetScene()))
-    {
-      m_tools->SetBuddyItem(qtnode);
-      onSelectionChanged();
-      m_arrow->hide();
-    }
-    else
-    {
-      m_tools->SetBuddyItem(nullptr);
-      onSelectionChanged();
-    }
-    return;
-  }
+  assert(m_arrow);
+  assert(m_tools);
   //Focus on m_tools
   if (newFocus == m_tools && !m_arrow->isVisible() && m_tools->GetBuddyItem() && reason == Qt::MouseFocusReason) {
     m_arrow->Start(m_tools->GetBuddyItem()); //Also sets visibility
@@ -672,6 +652,12 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
     m_tools->GetBuddyItem()->setSelected(true); //Will tigger onSelectionChanged and hide the arrow
     m_tools->GetBuddyItem()->setFocus();
     m_arrow->setVisible(true);
+  }
+  else
+  {
+    UpdateQtToolItem();
+    m_arrow->setVisible(false);
+
   }
 }
 
@@ -933,15 +919,31 @@ void ribi::cmap::QtConceptMap::UpdateExamplesItem()
   CheckInvariantOneQtNodeWithExamplesHasExamplesItem();
 }
 
+void ribi::cmap::QtConceptMap::UpdateQtToolItem()
+{
+  assert(m_tools);
+  const auto selected_qtnodes = GetSelectedQtNodes(GetScene());
+  if (selected_qtnodes.size() == 1)
+  {
+    const auto selected_qtnode = selected_qtnodes[0];
+    m_tools->SetBuddyItem(selected_qtnode);
+  }
+  else
+  {
+    m_tools->SetBuddyItem(nullptr);
+  }
+}
+
 void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)
 {
+  const double s{1.1};
   if (event->delta() > 0)
   {
-    this->scale(1.1,1.1);
+    this->scale(s,s);
   }
   else if (event->delta() < 0)
   {
-    this->scale(0.9,0.9);
+    this->scale(1.0 / s,1.0 / s);
   }
 
 }

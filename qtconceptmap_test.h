@@ -42,7 +42,7 @@ private slots:
   void delete_two_nodes_command();
   void delete_two_nodes_keyboard();
   void is_command_put_on_undo_stack();
-  void aaa_issue_96();
+  void issue_96();
   void select_left_node_keyboard();
   void select_random_node_keyboard();
   void set_concept_maps();

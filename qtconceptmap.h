@@ -166,10 +166,14 @@ private:
   ///The QtExamplesItem must be shown on nodes with examples
   void UpdateExamplesItem();
 
+  ///The QtToolItem must be shown on nodes
+  void UpdateQtToolItem();
+
 private slots:
 
-  ///A timed event to check for collisions
-  void onCheckCollision();
+  ///A timed event to check for collisions, update QtExamplesItem and QtToolItem
+  void Respond();
+
   void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
   void onSelectionChanged();
 };
