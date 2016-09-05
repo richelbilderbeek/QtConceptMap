@@ -90,10 +90,7 @@ bool ribi::cmap::IsClose(const QtExamplesItem& item, const QtNode& qtnode) noexc
   const double x2{qtnode.GetOuterRect().right()};
   const double y1{item.GetOuterRect().top()};
   const double y2{qtnode.GetOuterRect().bottom()};
-  const bool is_close{
-    std::abs(x1 - x2) < 10.0  && std::abs(y1 - y2) < 10.0
-  };
-  return is_close;
+  return std::abs(x1 - x2) < 10.0  && std::abs(y1 - y2) < 10.0;
 }
 
 void ribi::cmap::QtExamplesItem::Reposition()

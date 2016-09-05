@@ -69,7 +69,8 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   //Find the selected nodes to be deleted
   CollectQtNodesRemoved();
 
-  //Find the edges to be deleted. These can be selected themselves, or connected to a selected qtnode
+  //Find the edges to be deleted. These can be selected themselves,
+  // or connected to a selected qtnode
   CollectQtEdgesRemoved();
 
   assert(AllHaveSameScene());

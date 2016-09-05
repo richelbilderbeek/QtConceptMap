@@ -42,18 +42,6 @@ struct Node;
 ///It parents an arrow and a QtNode.
 struct QtEdge : public QGraphicsItem
 {
-  //using Base = QGraphicsItem;
-  //using Arrow = QtQuadBezierArrowItem *;
-  //using ReadOnlyArrow = const QtQuadBezierArrowItem *;
-  //using ReadOnlyNodePtr = boost::shared_ptr<const Node>;
-  //using QtNodePtr =  QtNode *;
-  //using ReadOnlyQtNodePtr = const QtNode *;
-
-  //using From = QtNodePtr;
-  //using ReadOnlyFrom = ReadOnlyQtNodePtr;
-  //using To = QtNodePtr;
-  //using ReadOnlyTo = ReadOnlyQtNodePtr;
-
   QtEdge(
     const Edge& edge,
     QtNode * const from,
@@ -65,25 +53,22 @@ struct QtEdge : public QGraphicsItem
 
   QRectF boundingRect() const override final;
 
-  void DisableAll() noexcept;
-  void EnableAll() noexcept;
-
-        QtQuadBezierArrowItem * GetArrow() const noexcept { return m_arrow; }
-  const QtQuadBezierArrowItem * GetArrow() noexcept { return m_arrow; }
+  const QtQuadBezierArrowItem * GetArrow() const noexcept { return m_arrow; }
+        QtQuadBezierArrowItem * GetArrow()       noexcept { return m_arrow; }
 
   const Edge& GetEdge() const noexcept { return m_edge; }
         Edge& GetEdge()       noexcept { return m_edge; }
 
   ///The node item the arrow originates from
   const QtNode * GetFrom() const noexcept { return m_from; }
-        QtNode * GetFrom() noexcept { return m_from; }
+        QtNode * GetFrom()       noexcept { return m_from; }
 
   ///The node item the arrow targets
   const QtNode * GetTo() const noexcept { return m_to; }
-        QtNode * GetTo() noexcept { return m_to; }
+        QtNode * GetTo()       noexcept { return m_to; }
 
-        QtNode * GetQtNode()       noexcept { return m_qtnode; }
   const QtNode * GetQtNode() const noexcept { return m_qtnode; }
+        QtNode * GetQtNode()       noexcept { return m_qtnode; }
 
   bool HasHeadArrow() const noexcept;
   bool HasTailArrow() const noexcept;
@@ -139,6 +124,9 @@ private:
 
   void setSelected(bool selected) = delete;
 };
+
+void DisableAll(QtEdge& qtedge) noexcept;
+void EnableAll(QtEdge& qtedge) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;
 

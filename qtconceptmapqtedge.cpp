@@ -146,20 +146,20 @@ QRectF ribi::cmap::QtEdge::boundingRect() const
   //  .united(m_arrow->boundingRect().translated(m_qtnode->GetCenterPos()));
 }
 
-void ribi::cmap::QtEdge::DisableAll() noexcept
+void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept
 {
-  this->setEnabled(false);
-  this->setVisible(false);
-  this->m_arrow->setEnabled(false);
-  this->m_arrow->setVisible(false);
+  qtedge.setEnabled(false);
+  qtedge.setVisible(false);
+  qtedge.GetArrow()->setEnabled(false);
+  qtedge.GetArrow()->setVisible(false);
 }
 
-void ribi::cmap::QtEdge::EnableAll() noexcept
+void ribi::cmap::EnableAll(QtEdge& qtedge) noexcept
 {
-  this->setEnabled(true);
-  this->setVisible(true);
-  this->m_arrow->setEnabled(true);
-  this->m_arrow->setVisible(true);
+  qtedge.setEnabled(true);
+  qtedge.setVisible(true);
+  qtedge.GetArrow()->setEnabled(true);
+  qtedge.GetArrow()->setVisible(true);
 }
 
 void ribi::cmap::QtEdge::focusInEvent(QFocusEvent* e) noexcept
