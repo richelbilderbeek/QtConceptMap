@@ -123,6 +123,9 @@ private:
   ///The item showing the tools
   QtTool * const m_tools;
 
+  ///Responds to many things
+  QTimer * const m_timer;
+
   QUndoStack m_undo;
 
   ///The function how a QtEdge determines it is colored

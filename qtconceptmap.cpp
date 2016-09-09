@@ -93,6 +93,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
     m_examples_item(new QtExamplesItem),
     m_highlighter{new QtItemHighlighter},
     m_mode{Mode::uninitialized},
+    m_timer{new QTimer(this)},
     m_tools{new QtTool}
 {
   #ifndef NDEBUG
@@ -131,14 +132,14 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   CheckInvariants(*this);
 
   {
-    QTimer * const timer{new QTimer(this)};
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(Respond()));
-    timer->start(10);
+    QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(Respond()));
+    m_timer->start(10);
   }
 }
 
 ribi::cmap::QtConceptMap::~QtConceptMap()
 {
+  m_timer->stop();
   delete m_examples_item;
   delete m_tools;
   if (m_highlighter) m_highlighter->SetItem(nullptr); //Do this before destroying items

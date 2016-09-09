@@ -16,6 +16,7 @@ echo $h_files
   -I../RibiClasses/CppContainer \
   -I../RibiClasses/CppFileIo \
   -I../RibiClasses/CppFuzzy_equal_to \
+  -I../RibiClasses/CppQtArrowItem \
   -I../RibiClasses/CppQtHideAndShowDialog \
   -I../RibiClasses/CppQtKeyboardFriendlyGraphicsView \
   -I../RibiClasses/CppQtImage \
