@@ -39,7 +39,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmaphelper.h"
 #include "qtconceptmaptoolsitem.h"
 
-ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CommandCreateNewEdgeBetweenTwoSelectedNodes(
+ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
+  ::CommandCreateNewEdgeBetweenTwoSelectedNodes(
   ConceptMap& conceptmap,
   const Mode mode,
   QGraphicsScene& scene,
@@ -98,7 +99,8 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CommandCreateNewEdgeBet
   m_added_qtnode = m_added_qtedge->GetQtNode();
 }
 
-ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept
+ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
+  ::~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept
 {
   delete m_added_qtedge;
 }

@@ -312,6 +312,15 @@ void ribi::cmap::QtRateConceptTallyDialog::on_button_ok_clicked()
   close();
 }
 
+void ribi::cmap::QtRateConceptTallyDialog::PutNothing(
+  const int row, const int col
+) noexcept
+{
+  QTableWidgetItem * const i = new QTableWidgetItem;
+  i->setFlags(Qt::ItemIsEnabled);
+  ui->table->setItem(row, col, i);
+}
+
 void ribi::cmap::QtRateConceptTallyDialog::resizeEvent(QResizeEvent *)
 {
   const int small_col_width = 28;
@@ -391,7 +400,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
   const int row_index,
   const Row& row,
   const ConceptMap& conceptmap
-) const noexcept
+) noexcept
 {
   //Display concept text
   //Put X checkbox in the relation's name
@@ -404,20 +413,8 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
     i->setCheckState(concept.GetIsComplex() ? Qt::Checked : Qt::Unchecked);
     ui->table->setItem(row_index, column, i);
   }
-  {
-    //Put uneditable nothing column[1]
-    const int column = 1;
-    QTableWidgetItem * const i = new QTableWidgetItem;
-    i->setFlags(Qt::ItemIsEnabled);
-    ui->table->setItem(row_index, column, i);
-  }
-  {
-    //Put uneditable nothing column[2]
-    const int column = 2;
-    QTableWidgetItem * const i = new QTableWidgetItem;
-    i->setFlags(Qt::ItemIsEnabled);
-    ui->table->setItem(row_index, column, i);
-  }
+  PutNothing(row_index, 1);
+  PutNothing(row_index, 2);
   {
     //Put the relation's name in place
     QTableWidgetItem * const i = new QTableWidgetItem;

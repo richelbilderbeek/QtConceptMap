@@ -66,9 +66,13 @@ class CommandDeleteSelected final : public Command
   QtTool& m_tool_item;
   QtNode * const m_tool_item_old_buddy;
 
+  void AddToScene(const std::set<QtEdge *>& qtedges);
+  void AddToScene(const std::set<QtNode *>& qtnodes);
+
   ///All items in m_qtedges_removed and m_qtnodes_removed must all have
   /// either (1) no scene, or (2) the same scene
   bool AllHaveSameScene() const noexcept;
+
 
   ///Checks if the QtNodes are in a valid state before deletion
   void CheckQtNodesBeforeDelete() const noexcept;

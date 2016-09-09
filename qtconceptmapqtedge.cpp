@@ -58,19 +58,7 @@ ribi::cmap::QtEdge::QtEdge(
     m_show_bounding_rect{false},
     m_to{to}
 {
-  if (!from)
-  {
-    throw std::invalid_argument("QtEdge must have a non-nullptr from");
-  }
-  if (!to)
-  {
-    throw std::invalid_argument("QtEdge must have a non-nullptr to");
-  }
-  if (from == to)
-  {
-    throw std::invalid_argument("QtEdge must have a different from and to");
-  }
-
+  CheckInput(from, to);
   m_arrow = new QtQuadBezierArrowItem(
     from,
     false, //edge.HasTailArrow(),
@@ -84,11 +72,7 @@ ribi::cmap::QtEdge::QtEdge(
 
   this->setFlags(0);
 
-  GetQtNode()->setFlags(
-      QGraphicsItem::ItemIsFocusable
-    | QGraphicsItem::ItemIsMovable
-    | QGraphicsItem::ItemIsSelectable
-  );
+  GetQtNode()->setFlags(GetQtNodeFlags());
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
@@ -146,6 +130,22 @@ QRectF ribi::cmap::QtEdge::boundingRect() const
   //  .united(m_arrow->boundingRect().translated(m_qtnode->GetCenterPos()));
 }
 
+void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
+{
+  if (!from)
+  {
+    throw std::invalid_argument("QtEdge must have a non-nullptr from");
+  }
+  if (!to)
+  {
+    throw std::invalid_argument("QtEdge must have a non-nullptr to");
+  }
+  if (from == to)
+  {
+    throw std::invalid_argument("QtEdge must have a different from and to");
+  }
+}
+
 void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept
 {
   qtedge.setEnabled(false);
@@ -172,6 +172,14 @@ void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
 {
   QGraphicsItem::focusOutEvent(e);
   assert(!hasFocus());
+}
+
+QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
+{
+  return QGraphicsItem::ItemIsFocusable
+    | QGraphicsItem::ItemIsMovable
+    | QGraphicsItem::ItemIsSelectable
+  ;
 }
 
 bool ribi::cmap::QtEdge::HasHeadArrow() const noexcept
@@ -213,12 +221,14 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
 {  
   if (event->modifiers() & Qt::ShiftModifier)
   {
-    if ((event->pos() - this->m_arrow->GetTail() + m_qtnode->GetCenterPos()).manhattanLength() < 20.0)
+    if ((event->pos() - this->m_arrow->GetTail()
+      + m_qtnode->GetCenterPos()).manhattanLength() < 20.0)
     {
       this->SetHasTailArrow( !m_arrow->HasTail() );
       //this->update(); //Don't!
     }
-    else if ((event->pos() - this->m_arrow->GetHead() + m_qtnode->GetCenterPos()).manhattanLength() < 20.0)
+    else if ((event->pos() - this->m_arrow->GetHead()
+      + m_qtnode->GetCenterPos()).manhattanLength() < 20.0)
     {
       this->SetHasHeadArrow( !m_arrow->HasHead() );
       //this->update(); //Don't!
@@ -234,8 +244,10 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
     QPointF pos_on_arrow = event->pos();
     pos_on_arrow += (m_qtnode->GetCenterPos());
     if (m_arrow->shape().contains(pos_on_arrow)
-      || (event->pos() - this->m_arrow->GetTail() + m_qtnode->GetCenterPos()).manhattanLength() < 20.0
-      || (event->pos() - this->m_arrow->GetHead() + m_qtnode->GetCenterPos()).manhattanLength() < 20.0
+      || (event->pos() - this->m_arrow->GetTail()
+        + m_qtnode->GetCenterPos()).manhattanLength() < 20.0
+      || (event->pos() - this->m_arrow->GetHead()
+        + m_qtnode->GetCenterPos()).manhattanLength() < 20.0
       )
     {
       //give focus to the arrow
@@ -246,7 +258,11 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
   //QtConceptMapElement::mousePressEvent(event);
 }
 
-void ribi::cmap::QtEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/) noexcept
+void ribi::cmap::QtEdge::paint(
+  QPainter* painter,
+  const QStyleOptionGraphicsItem* /*option*/,
+  QWidget* /*widget*/
+) noexcept
 {
   if (!this->scene())
   {

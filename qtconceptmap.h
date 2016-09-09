@@ -95,8 +95,8 @@ public slots:
   void mouseMoveEvent(QMouseEvent * event);
   void mouseDoubleClickEvent(QMouseEvent *event);
   void mousePressEvent(QMouseEvent *event);
+  void onSelectionChanged();
   void wheelEvent(QWheelEvent *event);
-
 
 private:
 
@@ -120,11 +120,11 @@ private:
   /// edit (modify the graph) or rate (only grade the existing nodes)
   Mode m_mode;
 
-  ///The item showing the tools
-  QtTool * const m_tools;
-
   ///Responds to many things
   QTimer * const m_timer;
+
+  ///The item showing the tools
+  QtTool * const m_tools;
 
   QUndoStack m_undo;
 
@@ -183,7 +183,6 @@ void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);
 ///Called when an item wants to be edited
 void OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const int key);
 
-void onSelectionChanged(QtConceptMap& q);
 
 /// Writes the selecteness of the QtConceptMap
 /// to the ConceptMap

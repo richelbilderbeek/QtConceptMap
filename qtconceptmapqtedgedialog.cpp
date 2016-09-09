@@ -115,12 +115,6 @@ double ribi::cmap::QtQtEdgeDialog::GetUiY() const noexcept
   return this->m_qtedgedialog->GetUiY();
 }
 
-void ribi::cmap::QtQtEdgeDialog::OnQtRoundedRectItemChanged(QtEdge * const qtedge) noexcept
-{
-  assert(!"Am I called?");
-  m_qtedgedialog->SetEdge(qtedge->GetEdge());
-}
-
 void ribi::cmap::QtQtEdgeDialog::SetQtEdge(const boost::shared_ptr<QtEdge>& qtedge) noexcept
 {
   m_qtedge = qtedge;

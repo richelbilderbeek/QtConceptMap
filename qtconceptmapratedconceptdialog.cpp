@@ -73,6 +73,18 @@ ribi::cmap::QtConceptMapRatedConceptDialog::~QtConceptMapRatedConceptDialog()
   delete ui;
 }
 
+void ribi::cmap::QtConceptMapRatedConceptDialog::AddExamples(const Edge& edge) noexcept
+{
+  for (const Example& example: edge.GetNode().GetConcept().GetExamples().Get())
+  {
+    ui->list_cluster_relations->addItem(
+      new QListWidgetItem(
+        ("  " + example.GetText()).c_str()
+      )
+    );
+  }
+}
+
 void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
   const ConceptMap& conceptmap,
   const Node& node
@@ -112,14 +124,8 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
         ui->list_cluster_relations->addItem(new QListWidgetItem(text.c_str()));
       }
       //Indendent on arrow: all examples
-      for (const Example& example: edge.GetNode().GetConcept().GetExamples().Get())
-      {
-        ui->list_cluster_relations->addItem(
-          new QListWidgetItem(
-            ("  " + example.GetText()).c_str()
-          )
-        );
-      }
+      AddExamples(edge);
+
     }
   }
 }

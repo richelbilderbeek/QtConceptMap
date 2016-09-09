@@ -76,6 +76,32 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   assert(AllHaveSameScene());
 }
 
+
+void ribi::cmap::CommandDeleteSelected::AddToScene(const std::set<QtEdge *>& qtedges)
+{
+  for (const auto qtedge: qtedges)
+  {
+    assert(qtedge);
+    assert(!qtedge->scene());
+    assert(!m_scene.items().contains(qtedge));
+    m_scene.addItem(qtedge);
+    assert(qtedge->scene());
+    qtedge->setZValue(-1.0);
+  }
+}
+
+void ribi::cmap::CommandDeleteSelected::AddToScene(const std::set<QtNode *>& qtnodes)
+{
+  for (const auto qtnode: qtnodes)
+  {
+    assert(qtnode);
+    assert(!qtnode->scene());
+    assert(!m_scene.items().contains(qtnode));
+    m_scene.addItem(qtnode);
+    assert(qtnode->scene());
+  }
+}
+
 bool ribi::cmap::CommandDeleteSelected::AllHaveSameScene() const noexcept
 {
   std::set<QGraphicsScene*> s;
@@ -201,24 +227,8 @@ void ribi::cmap::CommandDeleteSelected::undo()
   assert(AllHaveSameScene());
 
   m_conceptmap = m_conceptmap_before;
-  for (const auto qtnode: m_qtnodes_removed)
-  {
-    assert(qtnode);
-    assert(!qtnode->scene());
-    assert(!m_scene.items().contains(qtnode));
-    m_scene.addItem(qtnode);
-    assert(qtnode->scene());
-  }
-  for (const auto qtedge: m_qtedges_removed)
-  {
-    assert(qtedge);
-    assert(!qtedge->scene());
-    assert(!m_scene.items().contains(qtedge));
-    m_scene.addItem(qtedge);
-    assert(qtedge->scene());
-
-    qtedge->setZValue(-1.0);
-  }
+  AddToScene(m_qtnodes_removed);
+  AddToScene(m_qtedges_removed);
   SetSelected(m_selected_before, true);
 
   m_tool_item.SetBuddyItem(m_tool_item_old_buddy);

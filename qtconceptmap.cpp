@@ -840,18 +840,19 @@ void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const
 
 
 
-void ribi::cmap::onSelectionChanged(QtConceptMap& q)
+void ribi::cmap::QtConceptMap::onSelectionChanged()
 {
-  ConceptMap& g = q.GetConceptMap();
+  ConceptMap& g = this->GetConceptMap();
 
   //Selectness of vertices
   const auto vip = vertices(g);
   std::for_each(vip.first,vip.second,
-    [&q, &g](const VertexDescriptor vd) {
+    [this, &g](const VertexDescriptor vd) {
       const auto vertex_map = get(boost::vertex_custom_type,g);
       const auto is_selected_map = get(boost::vertex_is_selected,g);
-      const auto qtnode = FindQtNode(get(vertex_map,vd).GetId(), q.GetScene());
-      //qtnode can be nullptr when onSelectionChanged is called while building up the QtConceptMap
+      const auto qtnode = FindQtNode(get(vertex_map,vd).GetId(), this->GetScene());
+      //qtnode can be nullptr when onSelectionChanged is called
+      //while building up the QtConceptMap
       if (qtnode) { put(is_selected_map,vd,qtnode->isSelected()); }
     }
   );
@@ -859,14 +860,14 @@ void ribi::cmap::onSelectionChanged(QtConceptMap& q)
   //Selectness of edges
   const auto eip = edges(g);
   std::for_each(eip.first,eip.second,
-    [&q, &g](const EdgeDescriptor ed) {
+    [this, &g](const EdgeDescriptor ed) {
       const auto edge_map = get(boost::edge_custom_type,g);
       const auto is_selected_map = get(boost::edge_is_selected,g);
-      const auto qtedge = FindQtEdge(get(edge_map,ed).GetId(), q.GetScene());
+      const auto qtedge = FindQtEdge(get(edge_map,ed).GetId(), this->GetScene());
       if (qtedge) { put(is_selected_map,ed,qtedge->isSelected()); }
     }
   );
-  q.GetScene().update();
+  this->GetScene().update();
 }
 
 
@@ -967,7 +968,7 @@ void ribi::cmap::QtConceptMap::Undo() noexcept
 void ribi::cmap::UpdateConceptMap(QtConceptMap& q)
 {
   for (const auto item: q.GetScene().items()) { item->update(); }
-  onSelectionChanged(q);
+  q.onSelectionChanged();
   UpdateExamplesItem(q);
   q.update();
   q.GetScene().update();

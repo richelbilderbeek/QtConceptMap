@@ -66,6 +66,7 @@ private:
   Ui::QtConceptMapRatedConceptDialog *ui;
   QTimer * const m_timer;
 
+  void AddExamples(const Edge& edge) noexcept;
   void DisplayEdges(const ConceptMap& conceptmap, const Node& node) noexcept;
   void DisplayHeading(const Node& node) noexcept;
   void PutExamplesInList(const Node& node) noexcept;

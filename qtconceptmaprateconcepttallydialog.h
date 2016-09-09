@@ -88,11 +88,18 @@ private:
   ///The name of this concept, for example 'my own development'
   const std::string m_focus_name;
 
-  void ChangeConceptExample(Concept& concept, const int index, const QTableWidgetItem& item, const int col) noexcept;
-  void ChangeConceptName(Concept& concept, const QTableWidgetItem& item, const int col) noexcept;
+  void ChangeConceptExample(
+    Concept& concept, const int index, const QTableWidgetItem& item, const int col
+  ) noexcept;
+  void ChangeConceptName(
+    Concept& concept, const QTableWidgetItem& item, const int col
+  ) noexcept;
 
 
   std::vector<Row> CreateData(const ConceptMap& map);
+
+  ///Put uneditable nothing in the table its cell
+  void PutNothing(const int row, const int col) noexcept;
 
   void ShowDebugLabel() const noexcept;
 
@@ -107,7 +114,7 @@ private:
     const int row_index,
     const Row& row,
     const ConceptMap& conceptmap
-  ) const noexcept;
+  ) noexcept;
 };
 
 

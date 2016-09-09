@@ -122,11 +122,16 @@ private:
   ///The node item the arrow targets
   QtNode * const m_to;
 
+  ///Will throw if input is invalid
+  void CheckInput(QtNode * const from, QtNode * const to);
+
   void setSelected(bool selected) = delete;
 };
 
 void DisableAll(QtEdge& qtedge) noexcept;
 void EnableAll(QtEdge& qtedge) noexcept;
+
+QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
 
 std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;
 
