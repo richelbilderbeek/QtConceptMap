@@ -16,6 +16,8 @@ echo $h_files
   -I../RibiClasses/CppContainer \
   -I../RibiClasses/CppFileIo \
   -I../RibiClasses/CppFuzzy_equal_to \
+  -I../RibiClasses/CppGeometry \
+  -I../RibiClasses/CppPlane \
   -I../RibiClasses/CppQtArrowItem \
   -I../RibiClasses/CppQtHideAndShowDialog \
   -I../RibiClasses/CppQtKeyboardFriendlyGraphicsView \
@@ -23,6 +25,7 @@ echo $h_files
   -I../RibiClasses/CppQtRoundedEditRectItem \
   -I../RibiClasses/CppQtRoundedRectItem \
   -I../RibiClasses/CppQtQuadBezierArrowItem \
+  -I../RibiClasses/CppQtScopedDisable \
   -I../RibiClasses/CppRibiRegex \
   -I../RibiClasses/CppTrace \
   -I../RibiClasses/CppXml \
