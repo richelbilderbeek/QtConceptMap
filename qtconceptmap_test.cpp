@@ -52,6 +52,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
         )
       );
     }
+    m.show();
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
   }
   catch (std::exception& e)
@@ -70,6 +71,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
         m.GetQtToolItem()
       )
     );
+    m.show();
     QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
   }
