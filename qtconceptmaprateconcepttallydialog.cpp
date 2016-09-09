@@ -61,7 +61,6 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   ui->setupUi(this);
 
   const int n_rows = static_cast<int>(m_data.size());
-  const int n_cols = 4;
   ui->table->setRowCount(n_rows);
   ui->table->setWordWrap(true);
 
@@ -71,7 +70,8 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
     ui->table->horizontalHeader(),
     SIGNAL(sectionResized(int, int, int)),
     ui->table,
-    SLOT(resizeRowsToContents()));
+    SLOT(resizeRowsToContents())
+  );
 
   for (int row_index=0; row_index!=n_rows; ++row_index)
   {
@@ -81,104 +81,12 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 
     if (example_index == -1)
     {
-      //Display concept text
-      //Put X checkbox in the relation's name
-      //Keep C and S columns empty
-      {
-        //Put X checkbox in the relation's name in column[0]
-        const int column = 0;
-        QTableWidgetItem * const i = new QTableWidgetItem;
-        i->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-        i->setCheckState(concept.GetIsComplex() ? Qt::Checked : Qt::Unchecked);
-        ui->table->setItem(row_index, column, i);
-      }
-      {
-        //Put uneditable nothing column[1]
-        const int column = 1;
-        QTableWidgetItem * const i = new QTableWidgetItem;
-        i->setFlags(Qt::ItemIsEnabled);
-        ui->table->setItem(row_index, column, i);
-      }
-      {
-        //Put uneditable nothing column[2]
-        const int column = 2;
-        QTableWidgetItem * const i = new QTableWidgetItem;
-        i->setFlags(Qt::ItemIsEnabled);
-        ui->table->setItem(row_index, column, i);
-      }
-      {
-        //Put the relation's name in place
-        QTableWidgetItem * const i = new QTableWidgetItem;
-        i->setFlags(
-            Qt::ItemIsSelectable
-          | Qt::ItemIsEnabled
-        );
-        const EdgeDescriptor edge { std::get<0>(row) };
-        const bool center_is_from {
-          ribi::cmap::GetFrom(edge,conceptmap) == ribi::cmap::GetFirstNode(conceptmap)
-        };
-        const Node other {
-          center_is_from ? ribi::cmap::GetTo(edge,conceptmap)
-          : ribi::cmap::GetFrom(edge, conceptmap)
-        };
-        const std::string s {
-            "via '"
-          + concept.GetName() + "' verbonden met '"
-          + other.GetConcept().GetName()
-          + "'"
-        };
-        i->setText(s.c_str());
-
-        const int column = 3;
-        ui->table->setItem(row_index, column, i);
-      }
+      ShowNoExample(concept, row_index, row, conceptmap);
     }
     else
     {
-      assert(example_index < static_cast<int>(concept.GetExamples().Get().size()));
-      const Example& example = concept.GetExamples().Get()[example_index];
-      //Display index'th example
-      for (int col_index=0; col_index!=n_cols; ++col_index)
-      {
-        if (col_index == 3)
-        {
-          //Text
-          QTableWidgetItem * const item = new QTableWidgetItem;
-          item->setFlags(
-              Qt::ItemIsSelectable
-            | Qt::ItemIsEnabled);
-          const std::string s = example.GetText();
-          item->setText(s.c_str());
-          ui->table->setItem(row_index, col_index, item);
-        }
-        else
-        {
-          QTableWidgetItem * const item = new QTableWidgetItem;
-          item->setFlags(
-            Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable
-          );
-          switch (col_index)
-          {
-            case 0: item->setCheckState(example.GetIsComplex()
-              ? Qt::Checked : Qt::Unchecked);
-            break;
-            case 1: item->setCheckState(example.GetIsConcrete()
-              ? Qt::Checked : Qt::Unchecked);
-            break;
-            case 2: item->setCheckState(example.GetIsSpecific()
-              ? Qt::Checked : Qt::Unchecked);
-            break;
-            default:
-              throw std::logic_error(
-                "ribi::cmap::QtRateConceptTallyDialog::"
-                "QtRateConceptTallyDialog: Unknown col index"
-              );
-          }
-          ui->table->setItem(row_index, col_index, item);
-        }
-      }
+      ShowExample(concept, example_index, row_index);
     }
-
   }
 
   //Set text on top
@@ -191,14 +99,7 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   ui->label_debug->setVisible(true);
   QObject::connect(ui->table,SIGNAL(cellChanged(int,int)),this,SLOT(OnCellChanged(int,int)));
 
-  {
-    const int x = GetSuggestedComplexity();
-    const int c = GetSuggestedConcreteness();
-    const int s = GetSuggestedSpecificity();
-    std::stringstream m;
-    m << "Complexiteit: " << x << ", concreetheid: " << c << ", specificiteit: " << s;
-    ui->label_debug->setText(m.str().c_str());
-  }
+  ShowDebugLabel();
 }
 
 ribi::cmap::QtRateConceptTallyDialog::~QtRateConceptTallyDialog() noexcept
@@ -347,10 +248,8 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
 
 void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
 {
-  assert(row_index >= 0);
-  assert(row_index < static_cast<int>(m_data.size()));
-  assert(col >= 0);
-  assert(col < 4);
+  assert(row_index >= 0 && row_index < static_cast<int>(m_data.size()));
+  assert(col >= 0 && col < 4);
   const QTableWidgetItem * const item = ui->table->item(row_index,col);
   assert(item);
   const Row& row = m_data[row_index];
@@ -387,15 +286,12 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
       );
     }
   }
+  ShowDebugLabel();
+}
 
-  {
-    const int x = GetSuggestedComplexity();
-    const int c = GetSuggestedConcreteness();
-    const int s = GetSuggestedSpecificity();
-    std::stringstream m;
-    m << "Complexiteit: " << x << ", concreetheid: " << c << ", specificiteit: " << s;
-    ui->label_debug->setText(m.str().c_str());
-  }
+void ribi::cmap::QtRateConceptTallyDialog::on_button_ok_clicked()
+{
+  close();
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::resizeEvent(QResizeEvent *)
@@ -408,7 +304,126 @@ void ribi::cmap::QtRateConceptTallyDialog::resizeEvent(QResizeEvent *)
   ui->table->setColumnWidth(3,ui->table->width() - (3 * small_col_width) - (3 * extra_space));
 }
 
-void ribi::cmap::QtRateConceptTallyDialog::on_button_ok_clicked()
+
+void ribi::cmap::QtRateConceptTallyDialog::ShowDebugLabel() const noexcept
 {
-  close();
+  const int x = GetSuggestedComplexity();
+  const int c = GetSuggestedConcreteness();
+  const int s = GetSuggestedSpecificity();
+  std::stringstream m;
+  m << "Complexiteit: " << x << ", concreetheid: " << c << ", specificiteit: " << s;
+  ui->label_debug->setText(m.str().c_str());
+}
+
+
+void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
+  const Concept& concept,
+  const int example_index,
+  const int row_index
+) const noexcept
+{
+  assert(example_index < static_cast<int>(concept.GetExamples().Get().size()));
+  const int n_cols = 4;
+
+  const Example& example = concept.GetExamples().Get()[example_index];
+  //Display index'th example
+  for (int col_index=0; col_index!=n_cols; ++col_index)
+  {
+    if (col_index == 3)
+    {
+      //Text
+      QTableWidgetItem * const item = new QTableWidgetItem;
+      item->setFlags(
+          Qt::ItemIsSelectable
+        | Qt::ItemIsEnabled);
+      const std::string s = example.GetText();
+      item->setText(s.c_str());
+      ui->table->setItem(row_index, col_index, item);
+    }
+    else
+    {
+      QTableWidgetItem * const item = new QTableWidgetItem;
+      item->setFlags(
+        Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable
+      );
+      switch (col_index)
+      {
+        case 0: item->setCheckState(example.GetIsComplex()
+          ? Qt::Checked : Qt::Unchecked);
+        break;
+        case 1: item->setCheckState(example.GetIsConcrete()
+          ? Qt::Checked : Qt::Unchecked);
+        break;
+        case 2: item->setCheckState(example.GetIsSpecific()
+          ? Qt::Checked : Qt::Unchecked);
+        break;
+        default:
+          throw std::logic_error(
+            "ribi::cmap::QtRateConceptTallyDialog::"
+            "QtRateConceptTallyDialog: Unknown col index"
+          );
+      }
+      ui->table->setItem(row_index, col_index, item);
+    }
+  }
+}
+
+void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
+  const Concept& concept,
+  const int row_index,
+  const Row& row,
+  const ConceptMap& conceptmap
+) const noexcept
+{
+  //Display concept text
+  //Put X checkbox in the relation's name
+  //Keep C and S columns empty
+  {
+    //Put X checkbox in the relation's name in column[0]
+    const int column = 0;
+    QTableWidgetItem * const i = new QTableWidgetItem;
+    i->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    i->setCheckState(concept.GetIsComplex() ? Qt::Checked : Qt::Unchecked);
+    ui->table->setItem(row_index, column, i);
+  }
+  {
+    //Put uneditable nothing column[1]
+    const int column = 1;
+    QTableWidgetItem * const i = new QTableWidgetItem;
+    i->setFlags(Qt::ItemIsEnabled);
+    ui->table->setItem(row_index, column, i);
+  }
+  {
+    //Put uneditable nothing column[2]
+    const int column = 2;
+    QTableWidgetItem * const i = new QTableWidgetItem;
+    i->setFlags(Qt::ItemIsEnabled);
+    ui->table->setItem(row_index, column, i);
+  }
+  {
+    //Put the relation's name in place
+    QTableWidgetItem * const i = new QTableWidgetItem;
+    i->setFlags(
+        Qt::ItemIsSelectable
+      | Qt::ItemIsEnabled
+    );
+    const EdgeDescriptor edge { std::get<0>(row) };
+    const bool center_is_from {
+      ribi::cmap::GetFrom(edge,conceptmap) == ribi::cmap::GetFirstNode(conceptmap)
+    };
+    const Node other {
+      center_is_from ? ribi::cmap::GetTo(edge,conceptmap)
+      : ribi::cmap::GetFrom(edge, conceptmap)
+    };
+    const std::string s {
+        "via '"
+      + concept.GetName() + "' verbonden met '"
+      + other.GetConcept().GetName()
+      + "'"
+    };
+    i->setText(s.c_str());
+
+    const int column = 3;
+    ui->table->setItem(row_index, column, i);
+  }
 }

@@ -37,7 +37,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   ConceptMap& conceptmap,
   QGraphicsScene& scene,
-  QtTool * const tool_item
+  QtTool& tool_item
 )
   : m_conceptmap(conceptmap),
     m_conceptmap_after(conceptmap),
@@ -48,7 +48,7 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
     m_scene(scene),
     m_selected_before{scene.selectedItems()},
     m_tool_item{tool_item},
-    m_tool_item_old_buddy{tool_item->GetBuddyItem()}
+    m_tool_item_old_buddy{tool_item.GetBuddyItem()}
 {
   setText("delete selected nodes and edges");
 
@@ -94,6 +94,17 @@ bool ribi::cmap::CommandDeleteSelected::AllHaveSameScene() const noexcept
   return s.empty() || s.size() == 1;
 }
 
+
+void ribi::cmap::CommandDeleteSelected::CheckQtNodesBeforeDelete() const noexcept
+{
+  for (const auto qtnode: m_qtnodes_removed)
+  {
+    assert(qtnode->scene());
+    assert(!qtnode->parentItem()); //Just to measure
+    assert(!qtnode->parentObject()); //Just to measure
+    assert(!qtnode->parentWidget()); //Just to measure
+  }
+}
 
 void ribi::cmap::CommandDeleteSelected::CollectQtEdgesRemoved()
 {
@@ -153,13 +164,7 @@ void ribi::cmap::CommandDeleteSelected::redo()
 
   m_conceptmap = m_conceptmap_after;
 
-  for (const auto qtnode: m_qtnodes_removed)
-  {
-    assert(qtnode->scene());
-    assert(!qtnode->parentItem()); //Just to measure
-    assert(!qtnode->parentObject()); //Just to measure
-    assert(!qtnode->parentWidget()); //Just to measure
-  }
+  CheckQtNodesBeforeDelete();
 
   for (const auto qtedge: m_qtedges_removed)
   {
@@ -173,8 +178,11 @@ void ribi::cmap::CommandDeleteSelected::redo()
     m_scene.removeItem(qtnode);
     assert(!qtnode->scene());
   }
-  for (auto item: m_selected_before) { item->setSelected(false); }
-  m_tool_item->SetBuddyItem(nullptr);
+  for (auto item: m_selected_before)
+  {
+    item->setSelected(false);
+  }
+  m_tool_item.SetBuddyItem(nullptr);
 
   assert(AllHaveSameScene());
 }
@@ -202,9 +210,12 @@ void ribi::cmap::CommandDeleteSelected::undo()
 
     qtedge->setZValue(-1.0);
   }
-  for (auto item: m_selected_before) { item->setSelected(true); }
+  for (auto item: m_selected_before)
+  {
+    item->setSelected(true);
+  }
 
-  m_tool_item->SetBuddyItem(m_tool_item_old_buddy);
+  m_tool_item.SetBuddyItem(m_tool_item_old_buddy);
   m_scene.setFocusItem(m_focus_item_before);
 
   assert(AllHaveSameScene());

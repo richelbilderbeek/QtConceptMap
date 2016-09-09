@@ -52,9 +52,6 @@ public:
   QtConceptMap& operator=(const QtConceptMap&) = delete;
   ~QtConceptMap() noexcept;
 
-  ///Checks if the QtConceptMap is in a valid state
-  void CheckInvariants() const noexcept;
-
   ///Raw pointer, because ConceptMap its QUndoStack will take over ownership of pointer
   void DoCommand(Command * const command) noexcept;
 
@@ -63,12 +60,16 @@ public:
         ConceptMap& GetConceptMap()       noexcept { return m_conceptmap; }
 
   ///The square showing the examples
-  const QtExamplesItem * GetQtExamplesItem() const noexcept { return m_examples_item; }
-        QtExamplesItem * GetQtExamplesItem() noexcept { return m_examples_item; }
+  const QtExamplesItem& GetQtExamplesItem() const noexcept;
+        QtExamplesItem& GetQtExamplesItem() noexcept;
 
   ///The arrow that must be clicked to add a new edge
-  const QtTool * GetQtToolItem() const noexcept { return m_tools; }
-  QtTool * GetQtToolItem() noexcept { return m_tools; }
+  const QtNewArrow& GetQtNewArrow() const noexcept;
+        QtNewArrow& GetQtNewArrow()       noexcept;
+
+  ///The arrow that must be clicked to add a new edge
+  const QtTool& GetQtToolItem() const noexcept;
+        QtTool& GetQtToolItem()       noexcept;
 
   ///Obtain the QGraphicsScene
   const QGraphicsScene& GetScene() const noexcept;
@@ -93,15 +94,6 @@ public slots:
   void mousePressEvent(QMouseEvent *event);
   void wheelEvent(QWheelEvent *event);
 
-protected:
-
-
-  ///Obtain the first QtNode under the cursor
-  ///Returns nullptr if none is present
-  QtNode* GetItemBelowCursor(const QPointF& pos) const;
-
-  ///Set the rectangle with text showing the examples
-  void SetExamplesItem(QtExamplesItem * const item);
 
 private:
 
@@ -130,13 +122,12 @@ private:
 
   QUndoStack m_undo;
 
-  ///All QtNodes must have a QScene
-  void CheckInvariantAllQtEdgesHaveAscene() const noexcept;
-  void CheckInvariantAllQtNodesHaveAscene() const noexcept;
-  void CheckInvariantOneQtNodeWithExamplesHasExamplesItem() const noexcept;
-
   ///The function how a QtEdge determines it is colored
   std::function<QBrush(const QtEdge&)> GetEdgeBrushFunction(const Mode mode);
+
+  ///Obtain the first QtNode under the cursor
+  ///Returns nullptr if none is present
+  QtNode* GetItemBelowCursor(const QPointF& pos) const;
 
   void keyPressEventDelete(QKeyEvent *event) noexcept;
   void keyPressEventE(QKeyEvent *event) noexcept;
@@ -159,6 +150,9 @@ private:
   ///Remove all Qt and non-Qt items
   void RemoveConceptMap();
 
+  ///Set the rectangle with text showing the examples
+  void SetExamplesItem(QtExamplesItem * const item);
+
   /// Writes the selecteness of the QtConceptMap
   /// to the ConceptMap
   void UpdateConceptMap();
@@ -177,6 +171,19 @@ private slots:
   void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
   void onSelectionChanged();
 };
+
+///Checks if the QtConceptMap is in a valid state
+void CheckInvariants(const QtConceptMap& q) noexcept;
+
+///All QtEdges must have a QScene
+void CheckInvariantAllQtEdgesHaveAscene(const QtConceptMap& q) noexcept;
+
+///All QtNodes must have a QScene
+void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
+
+///If one QtNode with examples is selected, the ExamplesItem must be visible and close
+void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
+
 
 } //~namespace cmap
 } //~namespace ribi

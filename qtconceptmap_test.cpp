@@ -322,11 +322,10 @@ void ribi::cmap::qtconceptmap_test::default_construction()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 
   //No examples selected, QGraphicsItem is created though (is that a good idea?)
-  QVERIFY(m.GetQtExamplesItem());
-  QVERIFY(!m.GetQtExamplesItem()->GetBuddyItem());
+  QVERIFY(!m.GetQtExamplesItem().GetBuddyItem());
 
   //No nodes with a Tool icon above it
-  QVERIFY(m.GetQtToolItem());
+  QVERIFY(!m.GetQtToolItem().isVisible());
 
   //No undo info yet
   QVERIFY(m.GetUndo().count() == 0);

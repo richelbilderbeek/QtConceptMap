@@ -43,7 +43,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CommandCreateNewEdgeBet
   ConceptMap& conceptmap,
   const Mode mode,
   QGraphicsScene& scene,
-  QtTool * const tool_item
+  QtTool& tool_item
 ) : m_conceptmap(conceptmap),
     m_added_edge{Edge()},
     m_added_qtedge{nullptr},

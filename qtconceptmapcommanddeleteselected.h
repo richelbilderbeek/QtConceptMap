@@ -44,7 +44,7 @@ class CommandDeleteSelected final : public Command
   CommandDeleteSelected(
     ConceptMap& conceptmap,
     QGraphicsScene& scene,
-    QtTool * const tool_item
+    QtTool& tool_item
   );
   CommandDeleteSelected(const CommandDeleteSelected&) = delete;
   CommandDeleteSelected& operator=(const CommandDeleteSelected&) = delete;
@@ -63,12 +63,15 @@ class CommandDeleteSelected final : public Command
 
   QGraphicsScene& m_scene;
   const QList<QGraphicsItem *> m_selected_before;
-  QtTool * const m_tool_item;
+  QtTool& m_tool_item;
   QtNode * const m_tool_item_old_buddy;
 
   ///All items in m_qtedges_removed and m_qtnodes_removed must all have
   /// either (1) no scene, or (2) the same scene
   bool AllHaveSameScene() const noexcept;
+
+  ///Checks if the QtNodes are in a valid state before deletion
+  void CheckQtNodesBeforeDelete() const noexcept;
 
   ///Collect the QtEdges to be removed, must be called after CollectQtNodesRemoved
   void CollectQtEdgesRemoved();

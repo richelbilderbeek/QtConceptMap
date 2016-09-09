@@ -32,7 +32,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   ConceptMap& conceptmap,
   const Mode mode,
   QGraphicsScene& scene,
-  QtTool * const tool_item,
+  QtTool& tool_item,
   const double x,
   const double y
 )
@@ -43,11 +43,10 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
     m_qtnode{nullptr},
     m_scene(scene),
     m_tool_item{tool_item},
-    m_tool_item_old_buddy{tool_item ? tool_item->GetBuddyItem() : nullptr},
+    m_tool_item_old_buddy{tool_item.GetBuddyItem()},
     m_x{x},
     m_y{y}
 {
-  assert(tool_item);
 
 
   this->setText("Create new node");
@@ -87,7 +86,7 @@ void ribi::cmap::CommandCreateNewNode::redo()
   m_qtnode->setSelected(true); //Additively select node
   m_qtnode->setFocus();
   m_qtnode->SetBrushFunction(GetQtNodeBrushFunction(m_mode));
-  m_tool_item->SetBuddyItem(m_qtnode);
+  m_tool_item.SetBuddyItem(m_qtnode);
 }
 
 void ribi::cmap::CommandCreateNewNode::undo()
@@ -96,5 +95,5 @@ void ribi::cmap::CommandCreateNewNode::undo()
   assert(m_qtnode->scene());
   m_scene.removeItem(m_qtnode);
   assert(!m_qtnode->scene());
-  m_tool_item->SetBuddyItem(m_tool_item_old_buddy);
+  m_tool_item.SetBuddyItem(m_tool_item_old_buddy);
 }

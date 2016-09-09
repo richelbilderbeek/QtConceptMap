@@ -81,8 +81,7 @@ private:
   /// on the edges connected to the focal node
   ///The index is the index of the example being judged, or -1,
   /// denoting it is the concept name being judged
-  //typedef std::pair<Concept,int> Row;
-  typedef std::tuple<EdgeDescriptor,Concept,int> Row;
+  using Row = std::tuple<EdgeDescriptor,Concept,int>;
   const std::vector<Row> m_data;
 
   ///The name of this concept, for example 'my own development'
@@ -90,6 +89,20 @@ private:
 
   std::vector<Row> CreateData(const ConceptMap& map);
 
+  void ShowDebugLabel() const noexcept;
+
+  void ShowExample(
+    const Concept& concept,
+    const int example_index,
+    const int row_index
+  ) const noexcept;
+
+  void ShowNoExample(
+    const Concept& concept,
+    const int row_index,
+    const Row& row,
+    const ConceptMap& conceptmap
+  ) const noexcept;
 };
 
 
