@@ -59,6 +59,8 @@ public:
   const ConceptMap& GetConceptMap() const noexcept { return m_conceptmap; }
         ConceptMap& GetConceptMap()       noexcept { return m_conceptmap; }
 
+  Mode GetMode() const noexcept { return m_mode; }
+
   ///The square showing the examples
   const QtExamplesItem& GetQtExamplesItem() const noexcept;
         QtExamplesItem& GetQtExamplesItem() noexcept;
@@ -78,7 +80,8 @@ public:
   const QUndoStack& GetUndo() const noexcept { return m_undo; }
         QUndoStack& GetUndo()       noexcept { return m_undo; }
 
-  void HideExamplesItem() noexcept;
+
+  void Redo() noexcept;
 
   void SetConceptMap(const ConceptMap& conceptmap);
 
@@ -129,23 +132,6 @@ private:
   ///Returns nullptr if none is present
   QtNode* GetItemBelowCursor(const QPointF& pos) const;
 
-  void keyPressEventDelete(QKeyEvent *event) noexcept;
-  void keyPressEventE(QKeyEvent *event) noexcept;
-  void keyPressEventEscape(QKeyEvent *event) noexcept;
-  void keyPressEventF1() noexcept;
-  void keyPressEventF2() noexcept;
-  void keyPressEventF4(QKeyEvent *event) noexcept;
-  void keyPressEventH(QKeyEvent *event) noexcept;
-  void keyPressEventN(QKeyEvent *event) noexcept;
-  void keyPressEventQuestion(QKeyEvent *) noexcept;
-  void keyPressEventT(QKeyEvent *event) noexcept;
-  void keyPressEventZ(QKeyEvent *event) noexcept;
-
-  ///Called when an item wants to be edited
-  void OnEdgeKeyDownPressed(QtEdge * const item, const int key);
-
-  ///Called when an item wants to be edited
-  void OnNodeKeyDownPressed(QtNode* const item, const int key);
 
   ///Remove all Qt and non-Qt items
   void RemoveConceptMap();
@@ -153,23 +139,12 @@ private:
   ///Set the rectangle with text showing the examples
   void SetExamplesItem(QtExamplesItem * const item);
 
-  /// Writes the selecteness of the QtConceptMap
-  /// to the ConceptMap
-  void UpdateConceptMap();
-
-  ///The QtExamplesItem must be shown on nodes with examples
-  void UpdateExamplesItem();
-
-  ///The QtToolItem must be shown on nodes
-  void UpdateQtToolItem();
-
 private slots:
 
   ///A timed event to check for collisions, update QtExamplesItem and QtToolItem
   void Respond();
 
   void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
-  void onSelectionChanged();
 };
 
 ///Checks if the QtConceptMap is in a valid state
@@ -183,6 +158,39 @@ void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
 
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
+
+///Hide the QtExamplesItem
+void HideExamplesItem(QtConceptMap& q) noexcept;
+
+void keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventF1(QtConceptMap& q) noexcept;
+void keyPressEventF2(QtConceptMap& q) noexcept;
+void keyPressEventF4(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept;
+void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
+
+///Called when an item wants to be edited
+void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);
+
+///Called when an item wants to be edited
+void OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const int key);
+
+void onSelectionChanged(QtConceptMap& q);
+
+/// Writes the selecteness of the QtConceptMap
+/// to the ConceptMap
+void UpdateConceptMap(QtConceptMap& q);
+
+///The QtExamplesItem must be shown on nodes with examples
+void UpdateExamplesItem(QtConceptMap& q);
+
+///The QtToolItem must be shown on nodes
+void UpdateQtToolItem(QtConceptMap& q);
 
 
 } //~namespace cmap

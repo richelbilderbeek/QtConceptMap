@@ -244,9 +244,9 @@ void ribi::cmap::CheckInvariants(const QtConceptMap& q) noexcept
   #endif
 }
 
-void ribi::cmap::QtConceptMap::HideExamplesItem() noexcept
+void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
 {
-  m_examples_item->hide();
+  q.GetQtExamplesItem().hide();
 }
 
 void ribi::cmap::QtConceptMap::RemoveConceptMap()
@@ -256,8 +256,7 @@ void ribi::cmap::QtConceptMap::RemoveConceptMap()
   assert(m_examples_item);
   m_examples_item->hide();
   if (m_highlighter) m_highlighter->SetItem(nullptr); //Do this before destroying items
-  assert(m_tools);
-  m_tools->SetBuddyItem(nullptr);
+  GetQtToolItem().SetBuddyItem(nullptr);
   assert(!m_arrow->isVisible());
 
   for (auto qtedge: Collect<QtEdge>(GetScene()))
@@ -283,7 +282,7 @@ void ribi::cmap::QtConceptMap::DoCommand(Command * const command) noexcept
 
   CheckInvariants(*this);
 
-  this->UpdateConceptMap();
+  UpdateConceptMap(*this);
 
   CheckInvariants(*this);
 
@@ -373,29 +372,29 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 {
   event->setAccepted(false);
   CheckInvariants(*this);
-  UpdateConceptMap();
+  UpdateConceptMap(*this);
   CheckInvariants(*this);
 
   //Pass event
   switch (event->key())
   {
-    case Qt::Key_F1: keyPressEventF1(); break;
-    case Qt::Key_F2: keyPressEventF2(); break;
-    case Qt::Key_F4: keyPressEventF4(event); break;
-    case Qt::Key_Delete: keyPressEventDelete(event); break;
+    case Qt::Key_F1: keyPressEventF1(*this); break;
+    case Qt::Key_F2: keyPressEventF2(*this); break;
+    case Qt::Key_F4: keyPressEventF4(*this, event); break;
+    case Qt::Key_Delete: keyPressEventDelete(*this, event); break;
     #ifndef NDEBUG
     case Qt::Key_F8: MessUp(GetScene()); break;
     case Qt::Key_F9: std::exit(1); //Cause a deliberate hard crash
     #endif
-    case Qt::Key_Escape: keyPressEventEscape(event); break;
+    case Qt::Key_Escape: keyPressEventEscape(*this, event); break;
     case Qt::Key_Equal: this->scale(1.1,1.1); break;
     case Qt::Key_Minus: this->scale(0.9,0.9); break;
-    case Qt::Key_E: keyPressEventE(event); break;
-    case Qt::Key_H: keyPressEventH(event); break;
-    case Qt::Key_N: keyPressEventN(event); break;
-    case Qt::Key_T: keyPressEventT(event); break;
-    case Qt::Key_Z: keyPressEventZ(event); break;
-    case Qt::Key_Question: keyPressEventQuestion(event); break;
+    case Qt::Key_E: keyPressEventE(*this, event); break;
+    case Qt::Key_H: keyPressEventH(*this, event); break;
+    case Qt::Key_N: keyPressEventN(*this, event); break;
+    case Qt::Key_T: keyPressEventT(*this, event); break;
+    case Qt::Key_Z: keyPressEventZ(*this, event); break;
+    case Qt::Key_Question: keyPressEventQuestion(*this, event); break;
   }
 
   //Pass event to QtEdges
@@ -413,51 +412,52 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
     QtKeyboardFriendlyGraphicsView::keyPressEvent(event);
   }
 
-  UpdateConceptMap();
+  UpdateConceptMap(*this);
 
   CheckInvariants(*this);
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventDelete(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
-  if (GetVerbosity()) { TRACE("Pressing delete"); }
+  if (q.GetVerbosity()) { TRACE("Pressing delete"); }
   try
   {
-    DoCommand(
-      new CommandDeleteSelected(m_conceptmap, GetScene(), GetQtToolItem())
+    q.DoCommand(
+      new CommandDeleteSelected(q.GetConceptMap(), q.GetScene(), q.GetQtToolItem())
     );
   }
-  catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
   event->setAccepted(true);
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventE(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (GetVerbosity()) { TRACE("Pressing CTRL-E"); }
+    if (q.GetVerbosity()) { TRACE("Pressing CTRL-E"); }
     try
     {
-      this->DoCommand(
+      q.DoCommand(
         new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-          GetConceptMap(), m_mode, GetScene(), GetQtToolItem()
+          q.GetConceptMap(), q.GetMode(), q.GetScene(), q.GetQtToolItem()
         )
       );
     }
-    catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
     event->setAccepted(true);
   }
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventEscape(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept
 {
-  if (GetVerbosity()) { TRACE("Pressing Escape"); }
+  if (q.GetVerbosity()) { TRACE("Pressing Escape"); }
   //Only remove the 'new arrow' if present
-  if (m_arrow->isVisible())
+  if (q.GetQtNewArrow().isVisible())
   {
-    if (GetVerbosity()) { TRACE("Remove the new arrow"); }
-    m_arrow->hide();
-    assert(!m_arrow->isVisible());
+    if (q.GetVerbosity()) { TRACE("Remove the new arrow"); }
+    q.GetQtNewArrow().hide();
+
+    assert(!q.GetQtNewArrow().isVisible());
     return;
   }
   else
@@ -466,96 +466,103 @@ void ribi::cmap::QtConceptMap::keyPressEventEscape(QKeyEvent *event) noexcept
   }
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventF1() noexcept
+void ribi::cmap::keyPressEventF1(QtConceptMap& q) noexcept
 {
   try
   {
-    const auto items = GetScene().selectedItems();
+    const auto items = q.GetScene().selectedItems();
     if (items.size() != 1) return;
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(items.front()))
     {
-      OnNodeKeyDownPressed(qtnode, Qt::Key_F1);
+      OnNodeKeyDownPressed(q, qtnode, Qt::Key_F1);
     }
   }
-  catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventF2() noexcept
+void ribi::cmap::keyPressEventF2(QtConceptMap& q) noexcept
 {
   try
   {
-    const auto items = GetScene().selectedItems();
+    const auto items = q.GetScene().selectedItems();
     if (items.size() != 1) return;
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(items.front()))
     {
-      OnNodeKeyDownPressed(qtnode, Qt::Key_F2);
+      OnNodeKeyDownPressed(q, qtnode, Qt::Key_F2);
     }
   }
-  catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventF4(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventF4(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::AltModifier)
   {
-    if (GetVerbosity()) { TRACE("Pressing Alt-F4"); }
+    if (q.GetVerbosity()) { TRACE("Pressing Alt-F4"); }
     event->setAccepted(false); //Signal to dialog to close
   }
 }
 
 
-void ribi::cmap::QtConceptMap::keyPressEventH(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (GetVerbosity()) { TRACE("Pressing CTRL-H"); }
+    if (q.GetVerbosity()) { TRACE("Pressing CTRL-H"); }
     try
     {
-      const auto cmd = new CommandToggleArrowHead(GetConceptMap(), GetScene());
-      this->DoCommand(cmd);
+      const auto cmd = new CommandToggleArrowHead(q.GetConceptMap(), q.GetScene());
+      q.DoCommand(cmd);
     }
-    catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
     event->setAccepted(true);
   }
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventN(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (GetVerbosity()) { TRACE("Pressing CTRL-N"); }
+    if (q.GetVerbosity()) { TRACE("Pressing CTRL-N"); }
     try
     {
-      this->DoCommand(
-        new CommandCreateNewNode(m_conceptmap,m_mode,GetScene(),GetQtToolItem(),0.0,0.0)
+      q.DoCommand(
+        new CommandCreateNewNode(
+          q.GetConceptMap(),
+          q.GetMode(),
+          q.GetScene(),
+          q.GetQtToolItem(),
+          0.0,
+          0.0
+        )
       );
     }
-    catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
   }
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventQuestion(QKeyEvent *) noexcept
+void ribi::cmap::keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept
 {
-  if (GetVerbosity()) { TRACE("Pressing Qt::Key_Question"); }
-  UpdateConceptMap();
+  if (q.GetVerbosity()) { TRACE("Pressing Qt::Key_Question"); }
+  UpdateConceptMap(q);
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventT(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (GetVerbosity()) { TRACE("Pressing CTRL-T"); }
+    if (q.GetVerbosity()) { TRACE("Pressing CTRL-T"); }
     try
     {
-      const auto cmd = new CommandToggleArrowTail(GetConceptMap(), GetScene());
-      this->DoCommand(cmd);
+      const auto cmd = new CommandToggleArrowTail(q.GetConceptMap(), q.GetScene());
+      q.DoCommand(cmd);
     }
-    catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
     event->setAccepted(true);
   }
 }
 
-void ribi::cmap::QtConceptMap::keyPressEventZ(QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   try
   {
@@ -563,15 +570,15 @@ void ribi::cmap::QtConceptMap::keyPressEventZ(QKeyEvent *event) noexcept
     {
       if (event->modifiers() & Qt::ShiftModifier)
       {
-        this->m_undo.redo();
+        q.Redo();
       }
       else
       {
-        this->m_undo.undo();
+        q.Undo();
       }
     }
   }
-  catch (std::exception& e) { if (GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
 }
 
 void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
@@ -598,7 +605,7 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
     );
   }
   catch (std::logic_error& ) {}
-  UpdateExamplesItem();
+  UpdateExamplesItem(*this);
 
   CheckInvariants(*this);
 }
@@ -633,7 +640,7 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
   if (GetVerbosity()) { TRACE_FUNC(); }
-  UpdateConceptMap();
+  UpdateConceptMap(*this);
   assert(m_highlighter);
   assert(!m_arrow->isSelected());
   if (m_arrow->isVisible())
@@ -654,7 +661,7 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
           GetQtToolItem()
         );
         DoCommand(command);
-        UpdateConceptMap();
+        UpdateConceptMap(*this);
         m_arrow->hide();
         assert(m_highlighter);
         m_highlighter->SetItem(nullptr);
@@ -667,7 +674,7 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   assert(!m_arrow->isSelected());
   QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
   assert(!m_arrow->isSelected());
-  UpdateExamplesItem();
+  UpdateExamplesItem(*this);
   assert(!m_arrow->isSelected());
 }
 
@@ -690,8 +697,8 @@ void ribi::cmap::QtConceptMap::Respond()
       node->SetCenterPos(node->x()  + dx, node->y()  + dy);
     }
   }
-  UpdateExamplesItem();
-  UpdateQtToolItem();
+  UpdateExamplesItem(*this);
+  UpdateQtToolItem(*this);
   CheckInvariants(*this);
 }
 
@@ -699,44 +706,47 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
   QGraphicsItem * newFocus, QGraphicsItem */*oldFocus*/, Qt::FocusReason reason
 )
 {
-  assert(m_arrow);
-  assert(m_tools);
-  //Focus on m_tools
-  if (newFocus == m_tools && !m_arrow->isVisible() && m_tools->GetBuddyItem() && reason == Qt::MouseFocusReason) {
-    m_arrow->Start(m_tools->GetBuddyItem()); //Also sets visibility
-    m_tools->setSelected(false);
-    m_tools->GetBuddyItem()->setSelected(true); //Will tigger onSelectionChanged and hide the arrow
-    m_tools->GetBuddyItem()->setFocus();
-    m_arrow->setVisible(true);
+  //Focus on QtToolItem
+  if (newFocus == &GetQtToolItem()
+    && !GetQtNewArrow().isVisible()
+    && GetQtToolItem().GetBuddyItem()
+    && reason == Qt::MouseFocusReason
+  )
+  {
+    GetQtNewArrow().Start(GetQtToolItem().GetBuddyItem()); //Also sets visibility
+    GetQtToolItem().setSelected(false);
+    GetQtToolItem().GetBuddyItem()->setSelected(true); //Will tigger onSelectionChanged and hide the arrow
+    GetQtToolItem().GetBuddyItem()->setFocus();
+    GetQtNewArrow().setVisible(true);
   }
   else
   {
-    UpdateQtToolItem();
-    m_arrow->setVisible(false);
+    UpdateQtToolItem(*this);
+    GetQtNewArrow().setVisible(false);
 
   }
 }
 
-void ribi::cmap::QtConceptMap::OnNodeKeyDownPressed(QtNode* const item, const int key)
+void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const int key)
 {
   //Note: item can also be the QtNode on a QtEdge
   assert(item);
-  if (m_mode == Mode::edit && key == Qt::Key_F2)
+  if (q.GetMode() == Mode::edit && key == Qt::Key_F2)
   {
     //Edit concept
-    QtScopedDisable<QtConceptMap> disable(this);
+    QtScopedDisable<QtConceptMap> disable(&q);
     QtConceptMapConceptEditDialog d(item->GetNode().GetConcept());
     d.exec();
     //Find the original Node or Edge
-    if (::has_custom_vertex_with_my_vertex(item->GetNode(), m_conceptmap))
+    if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
     {
-      assert(::has_custom_vertex_with_my_vertex(item->GetNode(), m_conceptmap));
-      const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), m_conceptmap);
+      assert(::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()));
+      const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
       //Update the node here
       auto node = item->GetNode();
       node.SetConcept(d.GetConcept());
       //Update the node in the concept map
-      set_my_custom_vertex(node, vd, m_conceptmap);
+      set_my_custom_vertex(node, vd, q.GetConceptMap());
     }
     else
     {
@@ -745,15 +755,15 @@ void ribi::cmap::QtConceptMap::OnNodeKeyDownPressed(QtNode* const item, const in
       Node node = item->GetNode();
       const auto ed = ::find_first_custom_edge(
         [node](const Edge& e) { return e.GetNode() == node; },
-        m_conceptmap
+        q.GetConceptMap()
       );
       //Get hold of the Edge
-      Edge edge = ::get_my_custom_edge(ed, m_conceptmap);
+      Edge edge = ::get_my_custom_edge(ed, q.GetConceptMap());
       //Update the Edge here
       node.SetConcept(d.GetConcept());
       edge.SetNode(node);
       //Update the node in the concept map
-      set_my_custom_edge(edge, ed, m_conceptmap);
+      set_my_custom_edge(edge, ed, q.GetConceptMap());
     }
     //Update the QtNode
     item->GetNode().SetConcept(d.GetConcept());
@@ -761,12 +771,12 @@ void ribi::cmap::QtConceptMap::OnNodeKeyDownPressed(QtNode* const item, const in
     item->SetText(Wordwrap(d.GetConcept().GetName(), GetWordWrapLength()));
 
   }
-  else if (m_mode == Mode::rate && key == Qt::Key_F1)
+  else if (q.GetMode() == Mode::rate && key == Qt::Key_F1)
   {
     //Rate concept
-    QtScopedDisable<QtConceptMap> disable(this);
-    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), m_conceptmap);
-    const auto subgraph = create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph(vd, m_conceptmap);
+    QtScopedDisable<QtConceptMap> disable(&q);
+    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
+    const auto subgraph = create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph(vd, q.GetConceptMap());
     ribi::cmap::QtRateConceptDialog d(subgraph);
     d.exec();
     if (d.GetOkClicked())
@@ -779,7 +789,7 @@ void ribi::cmap::QtConceptMap::OnNodeKeyDownPressed(QtNode* const item, const in
       node.GetConcept().SetRatingConcreteness(d.GetConcreteness());
       node.GetConcept().SetRatingSpecificity(d.GetSpecificity());
       //Update the node in the concept map
-      set_my_custom_vertex(node, vd, m_conceptmap);
+      set_my_custom_vertex(node, vd, q.GetConceptMap());
       //Update the QtNode
       item->GetNode().SetConcept(node.GetConcept());
       const int n_rated
@@ -802,44 +812,44 @@ void ribi::cmap::QtConceptMap::OnNodeKeyDownPressed(QtNode* const item, const in
       }
     }
   }
-  else if (m_mode == Mode::rate && key == Qt::Key_F2)
+  else if (q.GetMode() == Mode::rate && key == Qt::Key_F2)
   {
     //Rate examples
     if (item->GetNode().GetConcept().GetExamples().Get().empty()) return;
-    QtScopedDisable<QtConceptMap> disable(this);
+    QtScopedDisable<QtConceptMap> disable(&q);
     ribi::cmap::QtRateExamplesDialog d(item->GetNode().GetConcept());
     d.exec();
     //Find the original Node
-    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), m_conceptmap);
+    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
     //Update the node here
     auto node = item->GetNode();
     node.GetConcept().SetExamples(d.GetRatedExamples());
     //Update the node in the concept map
-    set_my_custom_vertex(node, vd, m_conceptmap);
+    set_my_custom_vertex(node, vd, q.GetConceptMap());
     //Update the QtNode
     item->GetNode().GetConcept().SetExamples(d.GetRatedExamples());
   }
 
-  this->show();
-  this->setFocus();
-  GetScene().setFocusItem(item);
+  q.show();
+  q.setFocus();
+  q.GetScene().setFocusItem(item);
   item->setSelected(true);
-  GetScene().update();
+  q.GetScene().update();
 }
 
 
 
-void ribi::cmap::QtConceptMap::onSelectionChanged()
+void ribi::cmap::onSelectionChanged(QtConceptMap& q)
 {
-  ConceptMap& g = m_conceptmap;
+  ConceptMap& g = q.GetConceptMap();
 
   //Selectness of vertices
   const auto vip = vertices(g);
   std::for_each(vip.first,vip.second,
-    [this, &g](const VertexDescriptor vd) {
+    [&q, &g](const VertexDescriptor vd) {
       const auto vertex_map = get(boost::vertex_custom_type,g);
       const auto is_selected_map = get(boost::vertex_is_selected,g);
-      const auto qtnode = FindQtNode(get(vertex_map,vd).GetId(),GetScene());
+      const auto qtnode = FindQtNode(get(vertex_map,vd).GetId(), q.GetScene());
       //qtnode can be nullptr when onSelectionChanged is called while building up the QtConceptMap
       if (qtnode) { put(is_selected_map,vd,qtnode->isSelected()); }
     }
@@ -848,16 +858,21 @@ void ribi::cmap::QtConceptMap::onSelectionChanged()
   //Selectness of edges
   const auto eip = edges(g);
   std::for_each(eip.first,eip.second,
-    [this, &g](const EdgeDescriptor ed) {
+    [&q, &g](const EdgeDescriptor ed) {
       const auto edge_map = get(boost::edge_custom_type,g);
       const auto is_selected_map = get(boost::edge_is_selected,g);
-      const auto qtedge = FindQtEdge(get(edge_map,ed).GetId(),GetScene());
+      const auto qtedge = FindQtEdge(get(edge_map,ed).GetId(), q.GetScene());
       if (qtedge) { put(is_selected_map,ed,qtedge->isSelected()); }
     }
   );
-  GetScene().update();
+  q.GetScene().update();
 }
 
+
+void ribi::cmap::QtConceptMap::Redo() noexcept
+{
+  m_undo.redo();
+}
 
 void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
 {
@@ -948,45 +963,43 @@ void ribi::cmap::QtConceptMap::Undo() noexcept
   m_undo.undo();
 }
 
-void ribi::cmap::QtConceptMap::UpdateConceptMap()
+void ribi::cmap::UpdateConceptMap(QtConceptMap& q)
 {
-  for (const auto item: GetScene().items()) { item->update(); }
-  onSelectionChanged();
-  UpdateExamplesItem();
-  this->update();
-  this->scene()->update();
+  for (const auto item: q.GetScene().items()) { item->update(); }
+  onSelectionChanged(q);
+  UpdateExamplesItem(q);
+  q.update();
+  q.GetScene().update();
 }
 
-void ribi::cmap::QtConceptMap::UpdateExamplesItem()
+void ribi::cmap::UpdateExamplesItem(QtConceptMap& q)
 {
   //If nothing is selected, hide the Examples
-  assert(m_examples_item);
-  m_examples_item->SetBuddyItem(nullptr); //Handles visibility
-  const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(GetScene());
+  q.GetQtExamplesItem().SetBuddyItem(nullptr); //Handles visibility
+  const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(q.GetScene());
   if (selected_qtnodes.size() == 1)
   {
     const auto selected_qtnode = selected_qtnodes[0];
-    m_examples_item->SetBuddyItem(selected_qtnode); //Handles visibility
+    q.GetQtExamplesItem().SetBuddyItem(selected_qtnode); //Handles visibility
   }
-  this->update();
-  this->show();
-  this->scene()->update();
+  q.update();
+  q.show();
+  q.GetScene().update();
   qApp->processEvents();
-  CheckInvariantOneQtNodeWithExamplesHasExamplesItem(*this);
+  CheckInvariantOneQtNodeWithExamplesHasExamplesItem(q);
 }
 
-void ribi::cmap::QtConceptMap::UpdateQtToolItem()
+void ribi::cmap::UpdateQtToolItem(QtConceptMap& q)
 {
-  assert(m_tools);
-  const auto selected_qtnodes = GetSelectedQtNodes(GetScene());
+  const auto selected_qtnodes = GetSelectedQtNodes(q.GetScene());
   if (selected_qtnodes.size() == 1)
   {
     const auto selected_qtnode = selected_qtnodes[0];
-    m_tools->SetBuddyItem(selected_qtnode);
+    q.GetQtToolItem().SetBuddyItem(selected_qtnode);
   }
   else
   {
-    m_tools->SetBuddyItem(nullptr);
+    q.GetQtToolItem().SetBuddyItem(nullptr);
   }
 }
 

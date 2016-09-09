@@ -79,6 +79,8 @@ class CommandDeleteSelected final : public Command
   ///Collect the QtNodes to be removed
   void CollectQtNodesRemoved();
 
+  void SetSelected(const QList<QGraphicsItem *>& v, const bool is_selected) const noexcept;
+
 };
 
 } //~namespace cmap

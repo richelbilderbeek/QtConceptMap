@@ -31,6 +31,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "conceptmap.h"
 #pragma GCC diagnostic pop
 
+struct QTableWidgetItem;
 namespace Ui { class QtRateConceptTallyDialog; }
 
 namespace ribi {
@@ -82,10 +83,14 @@ private:
   ///The index is the index of the example being judged, or -1,
   /// denoting it is the concept name being judged
   using Row = std::tuple<EdgeDescriptor,Concept,int>;
-  const std::vector<Row> m_data;
+  std::vector<Row> m_data;
 
   ///The name of this concept, for example 'my own development'
   const std::string m_focus_name;
+
+  void ChangeConceptExample(Concept& concept, const int index, const QTableWidgetItem& item, const int col) noexcept;
+  void ChangeConceptName(Concept& concept, const QTableWidgetItem& item, const int col) noexcept;
+
 
   std::vector<Row> CreateData(const ConceptMap& map);
 

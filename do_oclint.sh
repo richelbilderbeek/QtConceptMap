@@ -15,11 +15,13 @@ echo $h_files
   -I../ConceptMap \
   -I../RibiClasses/CppContainer \
   -I../RibiClasses/CppFileIo \
+  -I../RibiClasses/CppFuzzy_equal_to \
   -I../RibiClasses/CppQtHideAndShowDialog \
   -I../RibiClasses/CppQtKeyboardFriendlyGraphicsView \
   -I../RibiClasses/CppQtImage \
   -I../RibiClasses/CppQtRoundedEditRectItem \
   -I../RibiClasses/CppQtRoundedRectItem \
+  -I../RibiClasses/CppQtQuadBezierArrowItem \
   -I../RibiClasses/CppRibiRegex \
   -I../RibiClasses/CppTrace \
   -I../RibiClasses/CppXml \

@@ -107,6 +107,45 @@ ribi::cmap::QtRateConceptTallyDialog::~QtRateConceptTallyDialog() noexcept
   delete ui;
 }
 
+void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptExample(
+  Concept& concept,
+  const int index,
+  const QTableWidgetItem& item,
+  const int col
+) noexcept
+{
+  assert(index < static_cast<int>(concept.GetExamples().Get().size()));
+  Example& example = concept.GetExamples().Get()[index];
+  switch (col)
+  {
+    case 0: example.SetIsComplex(item.checkState() == Qt::Checked ); break;
+    case 1: example.SetIsConcrete(item.checkState() == Qt::Checked ); break;
+    case 2: example.SetIsSpecific(item.checkState() == Qt::Checked ); break;
+    case 3: break; //It's read-only! //example->SetText( item->text().toStdString() ); break;
+    default: throw std::logic_error(
+      "QtRateConceptTallyDialog::OnCellChanged: unknown col, index not -1"
+    );
+  }
+}
+
+void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptName(
+  Concept& concept,
+  const QTableWidgetItem& item,
+  const int col
+) noexcept
+{
+  switch (col)
+  {
+    case 0: concept.SetIsComplex(item.checkState() == Qt::Checked ); break;
+    case 1: break; //Empty cell
+    case 2: break; //Empty cell
+    case 3: break; //It's read-only! //concept.SetName( item->text().toStdString() ); break;
+    default: throw std::logic_error(
+      "QtRateConceptTallyDialog::ChangeConceptName: unknown col, index -1"
+    );
+  }
+}
+
 std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
   ribi::cmap::QtRateConceptTallyDialog::CreateData(
   const ConceptMap& /* map */
@@ -252,39 +291,18 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
   assert(col >= 0 && col < 4);
   const QTableWidgetItem * const item = ui->table->item(row_index,col);
   assert(item);
-  const Row& row = m_data[row_index];
-  Concept concept = std::get<1>(row);
+  Row& row = m_data[row_index];
+  Concept& concept = std::get<1>(row);
   const int index = std::get<2>(row);
 
   if (index == -1)
   {
-    //Concept name
-    switch (col)
-    {
-      case 0: concept.SetIsComplex( item->checkState() == Qt::Checked ); break;
-      case 1: break; //Empty cell
-      case 2: break; //Empty cell
-      case 3: break; //It's read-only! //concept.SetName( item->text().toStdString() ); break;
-      default: throw std::logic_error(
-        "QtRateConceptTallyDialog::OnCellChanged: unknown col, index -1"
-      );
-    }
+    ChangeConceptName(concept, *item, col);
+
   }
   else
   {
-    //Concept example
-    assert(index < static_cast<int>(concept.GetExamples().Get().size()));
-    Example& example = concept.GetExamples().Get()[index];
-    switch (col)
-    {
-      case 0: example.SetIsComplex( item->checkState() == Qt::Checked ); break;
-      case 1: example.SetIsConcrete( item->checkState() == Qt::Checked ); break;
-      case 2: example.SetIsSpecific( item->checkState() == Qt::Checked ); break;
-      case 3: break; //It's read-only! //example->SetText( item->text().toStdString() ); break;
-      default: throw std::logic_error(
-        "QtRateConceptTallyDialog::OnCellChanged: unknown col, index not -1"
-      );
-    }
+    ChangeConceptExample(concept, index, *item, col);
   }
   ShowDebugLabel();
 }

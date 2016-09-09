@@ -178,13 +178,22 @@ void ribi::cmap::CommandDeleteSelected::redo()
     m_scene.removeItem(qtnode);
     assert(!qtnode->scene());
   }
-  for (auto item: m_selected_before)
-  {
-    item->setSelected(false);
-  }
+  SetSelected(m_selected_before, false);
+
   m_tool_item.SetBuddyItem(nullptr);
 
   assert(AllHaveSameScene());
+}
+
+void ribi::cmap::CommandDeleteSelected::SetSelected(
+  const QList<QGraphicsItem *>& v,
+  const bool is_selected
+) const noexcept
+{
+  for (auto item: v)
+  {
+    item->setSelected(is_selected);
+  }
 }
 
 void ribi::cmap::CommandDeleteSelected::undo()
@@ -210,10 +219,7 @@ void ribi::cmap::CommandDeleteSelected::undo()
 
     qtedge->setZValue(-1.0);
   }
-  for (auto item: m_selected_before)
-  {
-    item->setSelected(true);
-  }
+  SetSelected(m_selected_before, true);
 
   m_tool_item.SetBuddyItem(m_tool_item_old_buddy);
   m_scene.setFocusItem(m_focus_item_before);
