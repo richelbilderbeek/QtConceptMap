@@ -382,7 +382,7 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
     pos.x(),pos.y(),2.0,2.0,Qt::IntersectsItemShape,Qt::AscendingOrder
   );
   #else
-  const QList<QGraphicsItem*> v = GetScene().items(pos.x(),pos.y(),2.0,2.0);
+  const QList<QGraphicsItem*> v = q.GetScene().items(pos.x(),pos.y(),2.0,2.0);
   #endif
   std::vector<QtNode*> qtnodes;
   std::for_each(v.begin(),v.end(),
