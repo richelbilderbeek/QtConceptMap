@@ -1,3 +1,3 @@
 #!/bin/bash
-qmake debug
-make
+qmake
+make debug
