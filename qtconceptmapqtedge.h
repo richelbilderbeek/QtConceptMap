@@ -70,9 +70,6 @@ struct QtEdge : public QGraphicsItem
   const QtNode * GetQtNode() const noexcept { return m_qtnode; }
         QtNode * GetQtNode()       noexcept { return m_qtnode; }
 
-  bool HasHeadArrow() const noexcept;
-  bool HasTailArrow() const noexcept;
-
   bool isSelected() const;
 
   void SetEdge(const Edge& edge) noexcept;
@@ -126,12 +123,19 @@ private:
   void CheckInput(QtNode * const from, QtNode * const to);
 
   void setSelected(bool selected) = delete;
+
+  ///Shows the bounding rectangle if desired
+  void ShowBoundingRect(QPainter* const painter);
 };
 
 void DisableAll(QtEdge& qtedge) noexcept;
 void EnableAll(QtEdge& qtedge) noexcept;
 
 QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
+
+bool HasHeadArrow(const QtEdge& qtedge) noexcept;
+bool HasTailArrow(const QtEdge& qtedge) noexcept;
+
 
 std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;
 

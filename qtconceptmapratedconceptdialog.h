@@ -69,6 +69,14 @@ private:
   void AddExamples(const Edge& edge) noexcept;
   void DisplayEdges(const ConceptMap& conceptmap, const Node& node) noexcept;
   void DisplayHeading(const Node& node) noexcept;
+
+  std::string GetFromArrowText(
+    const Edge& edge, const ConceptMap& conceptmap
+  ) const noexcept;
+  std::string GetToArrowText(
+    const Edge& edge, const ConceptMap& conceptmap
+  ) const noexcept;
+
   void PutExamplesInList(const Node& node) noexcept;
 };
 

@@ -69,6 +69,10 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   QGraphicsScene& m_scene;
   const QList<QGraphicsItem *> m_selected_before;
   QtTool& m_tool_item;
+
+  ///Checks if added elements have already or not the supplied
+  ///QScene. scene may be nullptr
+  bool AllHaveScene(const QGraphicsScene * const scene) noexcept;
 };
 
 } //~namespace cmap

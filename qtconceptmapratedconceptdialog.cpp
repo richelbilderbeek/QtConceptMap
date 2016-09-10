@@ -95,33 +95,22 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
     if (IsConnectedTo(edge, GetCenterNode(conceptmap), conceptmap)) continue;
     if (IsConnectedTo(edge, node, conceptmap))
     {
-
       //Dependent on arrow
       if (GetFrom(edge, conceptmap) == node && !IsCenterNode(GetTo(edge, conceptmap)))
       {
-        const std::string first_arrow
-          = edge.HasTailArrow() ? "<- " : "-- ";
-        const std::string second_arrow
-          = edge.HasHeadArrow() ? " -> " : " -- ";
-        const std::string text
-          = first_arrow
-          + edge.GetNode().GetConcept().GetName()
-          + second_arrow
-          + GetTo(edge, conceptmap).GetConcept().GetName();
-        ui->list_cluster_relations->addItem(new QListWidgetItem(text.c_str()));
+        ui->list_cluster_relations->addItem(
+          new QListWidgetItem(
+            GetFromArrowText(edge, conceptmap).c_str()
+          )
+        );
       }
       else if (GetTo(edge, conceptmap) == node)
       {
-        assert(GetTo(edge, conceptmap) == node);
-        const std::string first_arrow  = edge.HasHeadArrow() ? "<- " : "-- ";
-        const std::string second_arrow = edge.HasTailArrow() ? " -> " : " -- ";
-        const std::string text
-          = first_arrow
-          + edge.GetNode().GetConcept().GetName()
-          + second_arrow
-          + GetFrom(edge, conceptmap).GetConcept().GetName()
-        ;
-        ui->list_cluster_relations->addItem(new QListWidgetItem(text.c_str()));
+        ui->list_cluster_relations->addItem(
+          new QListWidgetItem(
+            GetToArrowText(edge, conceptmap).c_str()
+          )
+        );
       }
       //Indendent on arrow: all examples
       AddExamples(edge);
@@ -187,6 +176,34 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DoResizeLists() noexcept
   //  ui->list_concept_examples->count() * font_in_list_height);
   //ui->list_concept_examples->setMaximumHeight(
   //  ui->list_concept_examples->count() * font_in_list_height);
+}
+
+std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetFromArrowText(
+  const Edge& edge, const ConceptMap& conceptmap
+) const noexcept
+{
+  const std::string first_arrow
+    = edge.HasTailArrow() ? "<- " : "-- ";
+  const std::string second_arrow
+    = edge.HasHeadArrow() ? " -> " : " -- ";
+  return first_arrow
+    + edge.GetNode().GetConcept().GetName()
+    + second_arrow
+    + GetTo(edge, conceptmap).GetConcept().GetName()
+  ;
+}
+
+std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetToArrowText(
+  const Edge& edge, const ConceptMap& conceptmap
+) const noexcept
+{
+  const std::string first_arrow  = edge.HasHeadArrow() ? "<- " : "-- ";
+  const std::string second_arrow = edge.HasTailArrow() ? " -> " : " -- ";
+  return first_arrow
+    + edge.GetNode().GetConcept().GetName()
+    + second_arrow
+    + GetFrom(edge, conceptmap).GetConcept().GetName()
+  ;
 }
 
 void ribi::cmap::QtConceptMapRatedConceptDialog::HideRating() noexcept

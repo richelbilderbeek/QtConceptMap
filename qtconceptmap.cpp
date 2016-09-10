@@ -26,6 +26,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
 #include <set>
+#include <stdexcept>
 
 #include <boost/bind.hpp>
 #include <boost/graph/isomorphism.hpp>
@@ -120,11 +121,12 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   }
 
   //Connect the scene
-  #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
-  QObject::connect(scene(),SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),this,SLOT(onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)));
-  #else
-
-  #endif
+  QObject::connect(
+    scene(),
+    SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
+    this,
+    SLOT(onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason))
+  );
   QObject::connect(scene(),SIGNAL(selectionChanged()),this,SLOT(onSelectionChanged()));
 
   m_examples_item->SetCenterPos(123,456); //Irrelevant where
@@ -229,7 +231,12 @@ void ribi::cmap::CheckInvariants(const QtConceptMap& q) noexcept
     //Can only compare IDs, as QtEdge::GetEdge() and its equivalent in the concept map may mismatch
     assert(
       has_custom_edge_with_my_edge(
-        qtedge->GetEdge(), q.GetConceptMap(), [](const Edge& lhs, const Edge& rhs) { return lhs.GetId() == rhs.GetId(); }
+        qtedge->GetEdge(),
+        q.GetConceptMap(),
+        [](const Edge& lhs, const Edge& rhs)
+        {
+          return lhs.GetId() == rhs.GetId();
+        }
       )
     );
     const auto edge = ExtractTheOneSelectedEdge(q.GetConceptMap(), q.GetScene());
@@ -298,7 +305,9 @@ void ribi::cmap::QtConceptMap::DoCommand(Command * const command) noexcept
 ribi::cmap::QtNode* ribi::cmap::QtConceptMap::GetItemBelowCursor(const QPointF& pos) const
 {
   #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
-  const QList<QGraphicsItem*> v = GetScene().items(pos.x(),pos.y(),2.0,2.0,Qt::IntersectsItemShape,Qt::AscendingOrder);
+  const QList<QGraphicsItem*> v = GetScene().items(
+    pos.x(),pos.y(),2.0,2.0,Qt::IntersectsItemShape,Qt::AscendingOrder
+  );
   #else
   const QList<QGraphicsItem*> v = GetScene().items(pos.x(),pos.y(),2.0,2.0);
   #endif
@@ -385,7 +394,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Delete: keyPressEventDelete(*this, event); break;
     #ifndef NDEBUG
     case Qt::Key_F8: MessUp(GetScene()); break;
-    case Qt::Key_F9: std::exit(1); //Cause a deliberate hard crash
+    case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
     #endif
     case Qt::Key_Escape: keyPressEventEscape(*this, event); break;
     case Qt::Key_Equal: this->scale(1.1,1.1); break;
@@ -396,6 +405,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
     case Qt::Key_T: keyPressEventT(*this, event); break;
     case Qt::Key_Z: keyPressEventZ(*this, event); break;
     case Qt::Key_Question: keyPressEventQuestion(*this, event); break;
+    default: break;
   }
 
   //Pass event to QtEdges
@@ -716,7 +726,9 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
   {
     GetQtNewArrow().Start(GetQtToolItem().GetBuddyItem()); //Also sets visibility
     GetQtToolItem().setSelected(false);
-    GetQtToolItem().GetBuddyItem()->setSelected(true); //Will tigger onSelectionChanged and hide the arrow
+
+    //Will tigger onSelectionChanged and hide the arrow
+    GetQtToolItem().GetBuddyItem()->setSelected(true);
     GetQtToolItem().GetBuddyItem()->setFocus();
     GetQtNewArrow().setVisible(true);
   }
@@ -776,8 +788,14 @@ void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const
   {
     //Rate concept
     QtScopedDisable<QtConceptMap> disable(&q);
-    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
-    const auto subgraph = create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph(vd, q.GetConceptMap());
+    const auto vd = ::find_first_custom_vertex_with_my_vertex(
+      item->GetNode(), q.GetConceptMap()
+    );
+    const auto subgraph
+      = create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph(
+        vd,
+        q.GetConceptMap()
+      );
     ribi::cmap::QtRateConceptDialog d(subgraph);
     d.exec();
     if (d.GetOkClicked())
@@ -809,7 +827,10 @@ void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const
         case 3:
           item->setBrush(QtBrushFactory().CreateGreenGradientBrush());
           break;
-        default: assert(!"Should not get here");
+        default:
+          throw std::logic_error(
+            "ribi::cmap::OnNodeKeyDownPressed: invalid n_rated"
+          );
       }
     }
   }

@@ -105,6 +105,15 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   delete m_added_qtedge;
 }
 
+bool ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
+  ::AllHaveScene(const QGraphicsScene * const scene) noexcept
+{
+  return m_added_qtedge->scene() == scene
+    && m_added_qtnode->scene() == scene
+    && m_added_qtedge->GetArrow()->scene() == scene
+  ;
+}
+
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
 {
   m_conceptmap = m_after;
@@ -113,15 +122,9 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   m_added_qtedge->GetFrom()->setSelected(false);
   m_added_qtedge->GetTo()->setSelected(false);
 
-  assert(!m_added_qtedge->scene());
-  assert(!m_added_qtnode->scene());
-  assert(!m_added_qtedge->GetArrow()->scene());
+  assert(AllHaveScene(nullptr));
   m_scene.addItem(m_added_qtedge);
-  //m_scene->addItem(m_added_qtnode); // Get these for free by adding QtEdge
-  //m_scene->addItem(m_added_qtedge->GetArrow()); // Get these for free by adding QtEdge
-  assert(m_added_qtedge->scene() == &m_scene);
-  assert(m_added_qtnode->scene() == &m_scene);
-  assert(m_added_qtedge->GetArrow()->scene() == &m_scene);
+  assert(AllHaveScene(&m_scene));
 
   m_added_qtnode->setFocus();
   m_added_qtnode->setSelected(true);
@@ -154,15 +157,11 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   m_added_qtedge->GetTo()->setSelected(true);
   m_added_qtedge->GetTo()->setFocus();
 
-  assert(m_added_qtedge->scene() == &m_scene);
-  assert(m_added_qtnode->scene() == &m_scene);
-  assert(m_added_qtedge->GetArrow()->scene() == &m_scene);
+  assert(AllHaveScene(&m_scene));
   m_scene.removeItem(m_added_qtedge);
   //m_scene->removeItem(m_added_qtnode); //Get these for free
   //m_scene->removeItem(m_added_qtedge->GetArrow()); //Get these for free
-  assert(!m_added_qtedge->scene());
-  assert(!m_added_qtnode->scene());
-  assert(!m_added_qtedge->GetArrow()->scene());
+  assert(AllHaveScene(nullptr));
 
   for (auto item: m_selected_before) { item->setSelected(true); }
 

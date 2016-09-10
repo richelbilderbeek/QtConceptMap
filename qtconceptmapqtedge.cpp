@@ -76,9 +76,9 @@ ribi::cmap::QtEdge::QtEdge(
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
-  const bool is_connected_to_center_node
+  const bool ictcn //is_connected_to_center_node
     = dynamic_cast<QtCenterNode*>(from) || dynamic_cast<QtCenterNode*>(to);
-  if (is_connected_to_center_node)
+  if (ictcn)
   {
     m_arrow->SetMidX( (m_arrow->GetFromX() + m_arrow->GetToX()) / 2.0 );
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
@@ -182,18 +182,16 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
   ;
 }
 
-bool ribi::cmap::QtEdge::HasHeadArrow() const noexcept
+bool ribi::cmap::HasHeadArrow(const QtEdge& qtedge) noexcept
 {
-  assert(m_arrow);
-  assert(GetEdge().HasHeadArrow() == m_arrow->HasHead());
-  return m_arrow->HasHead();
+  assert(qtedge.GetEdge().HasHeadArrow() == qtedge.GetArrow()->HasHead());
+  return qtedge.GetArrow()->HasHead();
 }
 
-bool ribi::cmap::QtEdge::HasTailArrow() const noexcept
+bool ribi::cmap::HasTailArrow(const QtEdge& qtedge) noexcept
 {
-  assert(m_arrow);
-  assert(GetEdge().HasTailArrow() == m_arrow->HasTail());
-  return m_arrow->HasTail();
+  assert(qtedge.GetEdge().HasTailArrow() == qtedge.GetArrow()->HasTail());
+  return qtedge.GetArrow()->HasTail();
 }
 
 bool ribi::cmap::QtEdge::isSelected() const
@@ -205,14 +203,11 @@ void ribi::cmap::QtEdge::keyPressEvent(QKeyEvent *event) noexcept
 {
   //Don't forward the keyPressEvent!
   //These are handled by Commands in the QtConceptMap
-  if (1 == 2)
+  //if (1 == 2)
   {
-    assert(m_arrow);
-    m_arrow->keyPressEvent(event);
-    m_edge.SetHeadArrow(m_arrow->HasHead());
-    m_edge.SetTailArrow(m_arrow->HasTail());
-    assert(m_edge.HasHeadArrow() == m_arrow->HasHead());
-    assert(m_edge.HasTailArrow() == m_arrow->HasTail());
+    //m_arrow->keyPressEvent(event);
+    //m_edge.SetHeadArrow(m_arrow->HasHead());
+    //m_edge.SetTailArrow(m_arrow->HasTail());
   }
   QGraphicsItem::keyPressEvent(event);
 }
@@ -290,16 +285,7 @@ void ribi::cmap::QtEdge::paint(
   m_arrow->SetPen(pen);
   m_qtnode->setPen(pen);
 
-  if (m_show_bounding_rect)
-  {
-    const QPen prev_pen = painter->pen();
-    const QBrush prev_brush = painter->brush();
-    painter->setPen(QPen(QColor(96,0,0)));
-    painter->setBrush(QBrush(QColor(255,0,0,32)));
-    painter->drawRect(this->boundingRect().adjusted(1.0,1.0,-1.0,-1.0));
-    painter->setPen(prev_pen);
-    painter->setBrush(prev_brush);
-  }
+  ShowBoundingRect(painter);
 }
 
 void ribi::cmap::QtEdge::SetEdge(const Edge& edge) noexcept
@@ -345,6 +331,21 @@ QPainterPath ribi::cmap::QtEdge::shape() const noexcept
   return m_qtnode->shape().translated(m_qtnode->GetCenterPos())
     .united(m_arrow->shape())
   ;
+}
+
+void ribi::cmap::QtEdge::ShowBoundingRect(QPainter* const painter)
+{
+  if (m_show_bounding_rect)
+  {
+    assert(painter);
+    const QPen prev_pen = painter->pen();
+    const QBrush prev_brush = painter->brush();
+    painter->setPen(QPen(QColor(96,0,0)));
+    painter->setBrush(QBrush(QColor(255,0,0,32)));
+    painter->drawRect(this->boundingRect().adjusted(1.0,1.0,-1.0,-1.0));
+    painter->setPen(prev_pen);
+    painter->setBrush(prev_brush);
+  }
 }
 
 std::string ribi::cmap::ToStr(const QtEdge& qtedge) noexcept

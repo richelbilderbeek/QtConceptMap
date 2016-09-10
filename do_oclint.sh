@@ -29,6 +29,7 @@ echo $h_files
   -I../RibiClasses/CppRibiRegex \
   -I../RibiClasses/CppTrace \
   -I../RibiClasses/CppXml \
+  -I../RibiLibraries/Apfloat \
   -I../BoostGraphTutorial/BoostGraphTutorial \
   -I/usr/include/c++/5 \
   -I/usr/include/x86_64-linux-gnu/c++/5 \

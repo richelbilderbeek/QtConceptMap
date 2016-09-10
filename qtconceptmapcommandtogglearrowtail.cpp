@@ -51,8 +51,8 @@ void ribi::cmap::CommandToggleArrowTail::redo()
   //Put the current arrow tail in the QtEdge
   m_qtedge->SetHasTailArrow(has_arrow_new);
 
-  assert(m_qtedge->HasTailArrow() == current_edge.HasTailArrow());
-  assert(m_qtedge->HasTailArrow() == m_qtedge->GetEdge().HasTailArrow());
+  assert(HasTailArrow(*m_qtedge) == current_edge.HasTailArrow());
+  assert(HasTailArrow(*m_qtedge) == m_qtedge->GetEdge().HasTailArrow());
 }
 
 void ribi::cmap::CommandToggleArrowTail::undo()
