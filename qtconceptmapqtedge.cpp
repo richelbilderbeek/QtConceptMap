@@ -146,6 +146,24 @@ void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
   }
 }
 
+void ribi::cmap::CheckInvariants(const QtEdge& qtedge)
+{
+  assert(qtedge.scene());
+  assert(qtedge.GetFrom()->scene());
+  assert(qtedge.GetTo()->scene());
+  assert(qtedge.scene() == qtedge.GetFrom()->scene());
+  assert(qtedge.scene() == qtedge.GetTo()->scene());
+
+  assert(qtedge.GetArrow());
+  assert(qtedge.GetArrow()->scene());
+  assert(qtedge.scene() == qtedge.GetArrow()->scene());
+
+  assert(qtedge.GetQtNode());
+  assert(qtedge.GetQtNode()->scene());
+  assert(qtedge.scene() == qtedge.GetQtNode()->scene());
+
+}
+
 void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept
 {
   qtedge.setEnabled(false);
@@ -263,19 +281,7 @@ void ribi::cmap::QtEdge::paint(
   {
     qCritical() << "BREAK";
   }
-  assert(this->scene());
-  assert(this->m_from->scene());
-  assert(this->m_to->scene());
-  assert(this->scene() == m_from->scene());
-  assert(this->scene() == m_to->scene());
-
-  assert(m_arrow);
-  assert(this->m_arrow->scene());
-  assert(this->scene() == this->m_arrow->scene());
-
-  assert(m_qtnode);
-  assert(this->m_qtnode->scene());
-  assert(this->scene() == this->m_qtnode->scene());
+  CheckInvariants(*this);
 
   const QPen pen{
     this->hasFocus() || this->isSelected()

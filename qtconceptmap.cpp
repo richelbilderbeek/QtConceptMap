@@ -148,6 +148,81 @@ ribi::cmap::QtConceptMap::~QtConceptMap()
   delete m_arrow;
 }
 
+void ribi::cmap::AddEdgesToScene(
+  QtConceptMap& qtconceptmap
+) noexcept
+{
+  const ConceptMap& conceptmap = qtconceptmap.GetConceptMap();
+  QGraphicsScene& scene = qtconceptmap.GetScene();
+
+  //Add the Edges
+  const auto eip = edges(conceptmap);
+  for(auto i = eip.first; i != eip.second; ++i)
+  {
+    assert(boost::num_edges(conceptmap));
+    const VertexDescriptor vd_from = boost::source(*i, conceptmap);
+    const VertexDescriptor vd_to = boost::target(*i, conceptmap);
+    assert(vd_from != vd_to);
+    const auto vertex_map = get(boost::vertex_custom_type, conceptmap);
+    const Node from = get(vertex_map, vd_from);
+    const Node to = get(vertex_map, vd_to);
+    assert(from.GetId() != to.GetId());
+    QtNode * const qtfrom = FindQtNode(from.GetId(), scene);
+    QtNode * const qtto = FindQtNode(to.GetId(), scene);
+    assert(qtfrom != qtto);
+    const auto edge_map = get(boost::edge_custom_type, conceptmap);
+    const Edge edge = get(edge_map, *i);
+    QtEdge * const qtedge{new QtEdge(edge,qtfrom,qtto)};
+    if (qtfrom->GetNode().IsCenterNode() || qtto->GetNode().IsCenterNode())
+    {
+      qtedge->GetQtNode()->setVisible(false);
+    }
+
+    assert(!qtedge->scene());
+    assert(!qtedge->GetQtNode()->scene());
+    assert(!qtedge->GetArrow()->scene());
+    scene.addItem(qtedge);
+    //scene()->addItem(qtedge->GetQtNode()); //Get these for free when adding a QtEdge
+    //scene()->addItem(qtedge->GetArrow()); //Get these for free when adding a QtEdge
+    assert(qtedge->scene());
+    assert(qtedge->GetQtNode()->scene());
+    assert(qtedge->GetArrow()->scene());
+  }
+}
+
+
+void ribi::cmap::AddNodesToScene(
+  QtConceptMap& qtconceptmap
+) noexcept
+{
+  const ConceptMap& conceptmap = qtconceptmap.GetConceptMap();
+  QGraphicsScene& scene = qtconceptmap.GetScene();
+
+  //Add the nodes to the scene, if there are any
+  const auto vip = vertices(conceptmap);
+  for(auto i=vip.first; i!=vip.second; ++i)
+  {
+    assert(boost::num_vertices(conceptmap));
+    const auto pmap = get(boost::vertex_custom_type, conceptmap);
+    const Node node = get(pmap, *i);
+    const bool is_focal_node{i == vip.first};
+    QtNode * const qtnode{new QtNode(node)};
+    if (is_focal_node)
+    {
+      qtnode->setFlags(
+          QGraphicsItem::ItemIsFocusable
+        // | QGraphicsItem::ItemIsMovable
+        | QGraphicsItem::ItemIsSelectable
+      );
+    }
+    assert(qtnode);
+    assert(!qtnode->scene());
+    scene.addItem(qtnode);
+    assert(qtnode->scene());
+    assert(FindQtNode(node.GetId(), scene));
+  }
+}
+
 void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene(
   const QtConceptMap& q
 ) noexcept
@@ -257,25 +332,23 @@ void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
   q.GetQtExamplesItem().hide();
 }
 
-void ribi::cmap::QtConceptMap::RemoveConceptMap()
+void ribi::cmap::RemoveConceptMap(QtConceptMap& q)
 {
-  assert(m_arrow);
-  m_arrow->hide();  
-  assert(m_examples_item);
-  m_examples_item->hide();
-  if (m_highlighter) m_highlighter->SetItem(nullptr); //Do this before destroying items
-  GetQtToolItem().SetBuddyItem(nullptr);
-  assert(!m_arrow->isVisible());
+  q.GetQtNewArrow().hide();
+  q.GetQtExamplesItem().hide();
+  q.GetQtHighlighter().SetItem(nullptr); //Do this before destroying items
+  q.GetQtToolItem().SetBuddyItem(nullptr);
+  assert(!q.GetQtNewArrow().isVisible());
 
-  for (auto qtedge: Collect<QtEdge>(GetScene()))
+  for (auto qtedge: Collect<QtEdge>(q.GetScene()))
   {
-    GetScene().removeItem(qtedge);
+    q.GetScene().removeItem(qtedge);
     delete qtedge;
   }
 
-  for (auto qtnode: Collect<QtNode>(GetScene()))
+  for (auto qtnode: Collect<QtNode>(q.GetScene()))
   {
-    GetScene().removeItem(qtnode);
+    q.GetScene().removeItem(qtnode);
     delete qtnode;
   }
 }
@@ -299,13 +372,13 @@ void ribi::cmap::QtConceptMap::DoCommand(Command * const command) noexcept
   CheckInvariants(*this);
 }
 
-
-
-
-ribi::cmap::QtNode* ribi::cmap::QtConceptMap::GetItemBelowCursor(const QPointF& pos) const
+ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
+  const QtConceptMap& q,
+  const QPointF& pos
+) noexcept
 {
   #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
-  const QList<QGraphicsItem*> v = GetScene().items(
+  const QList<QGraphicsItem*> v = q.GetScene().items(
     pos.x(),pos.y(),2.0,2.0,Qt::IntersectsItemShape,Qt::AscendingOrder
   );
   #else
@@ -341,7 +414,18 @@ ribi::cmap::QtExamplesItem& ribi::cmap::QtConceptMap::GetQtExamplesItem() noexce
   return *m_examples_item;
 }
 
-///The arrow that must be clicked to add a new edge
+const ribi::cmap::QtItemHighlighter& ribi::cmap::QtConceptMap::GetQtHighlighter() const noexcept
+{
+  assert(m_highlighter);
+  return *m_highlighter;
+}
+
+ribi::cmap::QtItemHighlighter& ribi::cmap::QtConceptMap::GetQtHighlighter() noexcept
+{
+  assert(m_highlighter);
+  return *m_highlighter;
+}
+
 const ribi::cmap::QtNewArrow& ribi::cmap::QtConceptMap::GetQtNewArrow() const noexcept
 {
   assert(m_arrow);
@@ -629,7 +713,7 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
     m_arrow->SetHeadPos(pos.x(),pos.y());
 
     //Move the item under the arrow
-    QtNode* const item_below = GetItemBelowCursor(mapToScene(event->pos()));
+    QtNode* const item_below = GetItemBelowCursor(*this, mapToScene(event->pos()));
 
     //If there is no item, set nullptr to be highlighted
     //Alse, only highlight solitary QtNodes, not the QtNodes on the QtEdges
@@ -899,7 +983,7 @@ void ribi::cmap::QtConceptMap::Redo() noexcept
 
 void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
 {
-  RemoveConceptMap();
+  RemoveConceptMap(*this);
   m_conceptmap = conceptmap;
   assert(GetConceptMap() == conceptmap);
 
@@ -908,63 +992,9 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   //std::vector<QtNode*> qtnodes;
 
   assert(Collect<QtNode>(GetScene()).empty());
+  AddNodesToScene(*this);
+  AddEdgesToScene(*this);
 
-  //Add the nodes to the scene, if there are any
-  const auto vip = vertices(m_conceptmap);
-  for(auto i=vip.first; i!=vip.second; ++i)
-  {
-    assert(boost::num_vertices(m_conceptmap));
-    const auto pmap = get(boost::vertex_custom_type, m_conceptmap);
-    const Node node = get(pmap, *i);
-    const bool is_focal_node{i == vip.first};
-    QtNode * const qtnode{new QtNode(node)};
-    if (is_focal_node)
-    {
-      qtnode->setFlags(
-          QGraphicsItem::ItemIsFocusable
-        // | QGraphicsItem::ItemIsMovable
-        | QGraphicsItem::ItemIsSelectable
-      );
-    }
-    assert(qtnode);
-    assert(!qtnode->scene());
-    GetScene().addItem(qtnode);
-    assert(qtnode->scene());
-    assert(FindQtNode(node.GetId(), GetScene()));
-  }
-  //Add the Edges
-  const auto eip = edges(m_conceptmap);
-  for(auto i = eip.first; i != eip.second; ++i)
-  {
-    assert(boost::num_edges(m_conceptmap));
-    const VertexDescriptor vd_from = boost::source(*i, m_conceptmap);
-    const VertexDescriptor vd_to = boost::target(*i, m_conceptmap);
-    assert(vd_from != vd_to);
-    const auto vertex_map = get(boost::vertex_custom_type, m_conceptmap);
-    const Node from = get(vertex_map, vd_from);
-    const Node to = get(vertex_map, vd_to);
-    assert(from.GetId() != to.GetId());
-    QtNode * const qtfrom = FindQtNode(from.GetId(), GetScene());
-    QtNode * const qtto = FindQtNode(to.GetId(), GetScene());
-    assert(qtfrom != qtto);
-    const auto edge_map = get(boost::edge_custom_type, m_conceptmap);
-    const Edge edge = get(edge_map, *i);
-    QtEdge * const qtedge{new QtEdge(edge,qtfrom,qtto)};
-    if (qtfrom->GetNode().IsCenterNode() || qtto->GetNode().IsCenterNode())
-    {
-      qtedge->GetQtNode()->setVisible(false);
-    }
-
-    assert(!qtedge->scene());
-    assert(!qtedge->GetQtNode()->scene());
-    assert(!qtedge->GetArrow()->scene());
-    GetScene().addItem(qtedge);
-    //scene()->addItem(qtedge->GetQtNode()); //Get these for free when adding a QtEdge
-    //scene()->addItem(qtedge->GetArrow()); //Get these for free when adding a QtEdge
-    assert(qtedge->scene());
-    assert(qtedge->GetQtNode()->scene());
-    assert(qtedge->GetArrow()->scene());
-  }
   assert(GetConceptMap() == conceptmap);
 
   CheckInvariants(*this);

@@ -63,7 +63,11 @@ public:
 
   ///The square showing the examples
   const QtExamplesItem& GetQtExamplesItem() const noexcept;
-        QtExamplesItem& GetQtExamplesItem() noexcept;
+        QtExamplesItem& GetQtExamplesItem()       noexcept;
+
+  ///The QGraphicsItem that can highlight selected QGraphicsItems
+  const QtItemHighlighter& GetQtHighlighter() const noexcept;
+        QtItemHighlighter& GetQtHighlighter()       noexcept;
 
   ///The arrow that must be clicked to add a new edge
   const QtNewArrow& GetQtNewArrow() const noexcept;
@@ -95,8 +99,14 @@ public slots:
   void mouseMoveEvent(QMouseEvent * event);
   void mouseDoubleClickEvent(QMouseEvent *event);
   void mousePressEvent(QMouseEvent *event);
+  void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
   void onSelectionChanged();
   void wheelEvent(QWheelEvent *event);
+
+private slots:
+
+  ///A timed event to check for collisions, update QtExamplesItem and QtToolItem
+  void Respond();
 
 private:
 
@@ -127,28 +137,11 @@ private:
   QtTool * const m_tools;
 
   QUndoStack m_undo;
-
-  ///The function how a QtEdge determines it is colored
-  std::function<QBrush(const QtEdge&)> GetEdgeBrushFunction(const Mode mode);
-
-  ///Obtain the first QtNode under the cursor
-  ///Returns nullptr if none is present
-  QtNode* GetItemBelowCursor(const QPointF& pos) const;
-
-
-  ///Remove all Qt and non-Qt items
-  void RemoveConceptMap();
-
-  ///Set the rectangle with text showing the examples
-  void SetExamplesItem(QtExamplesItem * const item);
-
-private slots:
-
-  ///A timed event to check for collisions, update QtExamplesItem and QtToolItem
-  void Respond();
-
-  void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
 };
+
+void AddEdgesToScene(QtConceptMap& qtconceptmap) noexcept;
+
+void AddNodesToScene(QtConceptMap& qtconceptmap) noexcept;
 
 ///Checks if the QtConceptMap is in a valid state
 void CheckInvariants(const QtConceptMap& q) noexcept;
@@ -161,6 +154,10 @@ void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
 
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
+
+///Obtain the first QtNode under the cursor
+///Returns nullptr if none is present
+QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
 ///Hide the QtExamplesItem
 void HideExamplesItem(QtConceptMap& q) noexcept;
@@ -182,6 +179,9 @@ void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);
 
 ///Called when an item wants to be edited
 void OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const int key);
+
+///Remove all Qt and non-Qt items
+void RemoveConceptMap(QtConceptMap& q);
 
 
 /// Writes the selecteness of the QtConceptMap

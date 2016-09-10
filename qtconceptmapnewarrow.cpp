@@ -73,7 +73,9 @@ void ribi::cmap::QtNewArrow::Start(QtNode * const from)
   assert(!this->isSelected());
 }
 
-void ribi::cmap::QtNewArrow::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void ribi::cmap::QtNewArrow::paint(
+  QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget
+)
 {
   assert(!this->isSelected());
   assert(!this->hasFocus());
