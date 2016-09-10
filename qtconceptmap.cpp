@@ -178,15 +178,11 @@ void ribi::cmap::AddEdgesToScene(
       qtedge->GetQtNode()->setVisible(false);
     }
 
-    assert(!qtedge->scene());
-    assert(!qtedge->GetQtNode()->scene());
-    assert(!qtedge->GetArrow()->scene());
+    assert(HasScene(qtedge, nullptr));
     scene.addItem(qtedge);
     //scene()->addItem(qtedge->GetQtNode()); //Get these for free when adding a QtEdge
     //scene()->addItem(qtedge->GetArrow()); //Get these for free when adding a QtEdge
-    assert(qtedge->scene());
-    assert(qtedge->GetQtNode()->scene());
-    assert(qtedge->GetArrow()->scene());
+    assert(HasScene(qtedge, &scene));
   }
 }
 
@@ -228,8 +224,7 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene(
 ) noexcept
 {
   //All QtEdges, their QtNodes and Arrows must have a scene
-  const auto qtedges = GetQtEdges(q.GetScene());
-  for (const auto qtedge: qtedges)
+  for (const auto qtedge: GetQtEdges(q.GetScene()))
   {
     assert(qtedge);
     assert(qtedge->scene());
@@ -317,7 +312,7 @@ void ribi::cmap::CheckInvariants(const QtConceptMap& q) noexcept
     const auto edge = ExtractTheOneSelectedEdge(q.GetConceptMap(), q.GetScene());
     assert(qtedge->GetEdge().GetId() == edge.GetId());
   }
-  catch (...) {} //No problem
+  catch (...) {} //!OCLINT This should be an empty catch statement
 
 
   //If a QtNode with a vignette is selected, the QtExamplesItem must have that
@@ -462,6 +457,14 @@ const QGraphicsScene& ribi::cmap::QtConceptMap::GetScene() const noexcept
   return *scene();
 }
 
+bool ribi::cmap::HasScene(QtEdge& qtedge, const QGraphicsScene * const scene) noexcept
+{
+  return qtedge->scene() == scene
+    && qtedge->GetQtNode()->scene() == scene
+    && qtedge->GetArrow()->scene() == scene
+  ;
+}
+
 void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 {
   event->setAccepted(false);
@@ -469,28 +472,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   UpdateConceptMap(*this);
   CheckInvariants(*this);
 
-  //Pass event
-  switch (event->key())
-  {
-    case Qt::Key_F1: keyPressEventF1(*this); break;
-    case Qt::Key_F2: keyPressEventF2(*this); break;
-    case Qt::Key_F4: keyPressEventF4(*this, event); break;
-    case Qt::Key_Delete: keyPressEventDelete(*this, event); break;
-    #ifndef NDEBUG
-    case Qt::Key_F8: MessUp(GetScene()); break;
-    case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
-    #endif
-    case Qt::Key_Escape: keyPressEventEscape(*this, event); break;
-    case Qt::Key_Equal: this->scale(1.1,1.1); break;
-    case Qt::Key_Minus: this->scale(0.9,0.9); break;
-    case Qt::Key_E: keyPressEventE(*this, event); break;
-    case Qt::Key_H: keyPressEventH(*this, event); break;
-    case Qt::Key_N: keyPressEventN(*this, event); break;
-    case Qt::Key_T: keyPressEventT(*this, event); break;
-    case Qt::Key_Z: keyPressEventZ(*this, event); break;
-    case Qt::Key_Question: keyPressEventQuestion(*this, event); break;
-    default: break;
-  }
+  ProcessKey(*this, event);
 
   //Pass event to QtEdges
   for (auto qtedge: GetSelectedQtEdges(GetScene())) {
@@ -555,10 +537,7 @@ void ribi::cmap::keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept
     assert(!q.GetQtNewArrow().isVisible());
     return;
   }
-  else
-  {
-    event->setAccepted(false); //Signal to dialog to close
-  }
+  event->setAccepted(false); //Signal to dialog to close
 }
 
 void ribi::cmap::keyPressEventF1(QtConceptMap& q) noexcept
@@ -699,7 +678,7 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
       )
     );
   }
-  catch (std::logic_error& ) {}
+  catch (std::logic_error& ) {} //!OCLINT This should be an empty catch statement
   UpdateExamplesItem(*this);
 
   CheckInvariants(*this);
@@ -830,110 +809,15 @@ void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const
   assert(item);
   if (q.GetMode() == Mode::edit && key == Qt::Key_F2)
   {
-    //Edit concept
-    QtScopedDisable<QtConceptMap> disable(&q);
-    QtConceptMapConceptEditDialog d(item->GetNode().GetConcept());
-    d.exec();
-    //Find the original Node or Edge
-    if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
-    {
-      assert(::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()));
-      const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
-      //Update the node here
-      auto node = item->GetNode();
-      node.SetConcept(d.GetConcept());
-      //Update the node in the concept map
-      set_my_custom_vertex(node, vd, q.GetConceptMap());
-    }
-    else
-    {
-      //It is a node on an edge
-      //Find the first (and hopefully only) edge with the node on it
-      Node node = item->GetNode();
-      const auto ed = ::find_first_custom_edge(
-        [node](const Edge& e) { return e.GetNode() == node; },
-        q.GetConceptMap()
-      );
-      //Get hold of the Edge
-      Edge edge = ::get_my_custom_edge(ed, q.GetConceptMap());
-      //Update the Edge here
-      node.SetConcept(d.GetConcept());
-      edge.SetNode(node);
-      //Update the node in the concept map
-      set_my_custom_edge(edge, ed, q.GetConceptMap());
-    }
-    //Update the QtNode
-    item->GetNode().SetConcept(d.GetConcept());
-    //Set the word-wrapped text
-    item->SetText(Wordwrap(d.GetConcept().GetName(), GetWordWrapLength()));
-
+    OnNodeKeyDownPressedEditF2(q, item);
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F1)
   {
-    //Rate concept
-    QtScopedDisable<QtConceptMap> disable(&q);
-    const auto vd = ::find_first_custom_vertex_with_my_vertex(
-      item->GetNode(), q.GetConceptMap()
-    );
-    const auto subgraph
-      = create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph(
-        vd,
-        q.GetConceptMap()
-      );
-    ribi::cmap::QtRateConceptDialog d(subgraph);
-    d.exec();
-    if (d.GetOkClicked())
-    {
-      //Find the original Node
-      //const auto vd = FindNode(item->GetNode(), m_conceptmap);
-      //Update the node here
-      auto node = item->GetNode();
-      node.GetConcept().SetRatingComplexity(d.GetComplexity());
-      node.GetConcept().SetRatingConcreteness(d.GetConcreteness());
-      node.GetConcept().SetRatingSpecificity(d.GetSpecificity());
-      //Update the node in the concept map
-      set_my_custom_vertex(node, vd, q.GetConceptMap());
-      //Update the QtNode
-      item->GetNode().SetConcept(node.GetConcept());
-      const int n_rated
-        = (node.GetConcept().GetRatingComplexity()   != -1 ? 1 : 0)
-        + (node.GetConcept().GetRatingConcreteness() != -1 ? 1 : 0)
-        + (node.GetConcept().GetRatingSpecificity()  != -1 ? 1 : 0);
-      switch (n_rated)
-      {
-        case 0:
-          item->setBrush(QtBrushFactory().CreateRedGradientBrush());
-          break;
-        case 1:
-        case 2:
-          item->setBrush(QtBrushFactory().CreateYellowGradientBrush());
-          break;
-        case 3:
-          item->setBrush(QtBrushFactory().CreateGreenGradientBrush());
-          break;
-        default:
-          throw std::logic_error(
-            "ribi::cmap::OnNodeKeyDownPressed: invalid n_rated"
-          );
-      }
-    }
+    OnNodeKeyDownPressedRateF1(q, item);
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F2)
   {
-    //Rate examples
-    if (item->GetNode().GetConcept().GetExamples().Get().empty()) return;
-    QtScopedDisable<QtConceptMap> disable(&q);
-    ribi::cmap::QtRateExamplesDialog d(item->GetNode().GetConcept());
-    d.exec();
-    //Find the original Node
-    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
-    //Update the node here
-    auto node = item->GetNode();
-    node.GetConcept().SetExamples(d.GetRatedExamples());
-    //Update the node in the concept map
-    set_my_custom_vertex(node, vd, q.GetConceptMap());
-    //Update the QtNode
-    item->GetNode().GetConcept().SetExamples(d.GetRatedExamples());
+    OnNodeKeyDownPressedRateF2(q, item);
   }
 
   q.show();
@@ -944,6 +828,114 @@ void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const
 }
 
 
+void ribi::cmap::OnNodeKeyDownPressedEditF2(QtConceptMap& q, QtNode* const item)
+{
+  //Edit concept
+  QtScopedDisable<QtConceptMap> disable(&q); //!OCLINT This is an unused variable, and should be
+  QtConceptMapConceptEditDialog d(item->GetNode().GetConcept());
+  d.exec();
+  //Find the original Node or Edge
+  if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
+  {
+    assert(::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()));
+    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
+    //Update the node here
+    auto node = item->GetNode();
+    node.SetConcept(d.GetConcept());
+    //Update the node in the concept map
+    set_my_custom_vertex(node, vd, q.GetConceptMap());
+  }
+  else
+  {
+    //It is a node on an edge
+    //Find the first (and hopefully only) edge with the node on it
+    Node node = item->GetNode();
+    const auto ed = ::find_first_custom_edge(
+      [node](const Edge& e) { return e.GetNode() == node; },
+      q.GetConceptMap()
+    );
+    //Get hold of the Edge
+    Edge edge = ::get_my_custom_edge(ed, q.GetConceptMap());
+    //Update the Edge here
+    node.SetConcept(d.GetConcept());
+    edge.SetNode(node);
+    //Update the node in the concept map
+    set_my_custom_edge(edge, ed, q.GetConceptMap());
+  }
+  //Update the QtNode
+  item->GetNode().SetConcept(d.GetConcept());
+  //Set the word-wrapped text
+  item->SetText(Wordwrap(d.GetConcept().GetName(), GetWordWrapLength()));
+}
+
+void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)
+{
+  //Rate concept
+  QtScopedDisable<QtConceptMap> disable(&q); //!OCLINT This is an unused variable, and should be
+  const auto vd = ::find_first_custom_vertex_with_my_vertex(
+    item->GetNode(), q.GetConceptMap()
+  );
+  const auto subgraph
+    = create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph(
+      vd,
+      q.GetConceptMap()
+    );
+  ribi::cmap::QtRateConceptDialog d(subgraph);
+  d.exec();
+  if (d.GetOkClicked())
+  {
+    //Find the original Node
+    //const auto vd = FindNode(item->GetNode(), m_conceptmap);
+    //Update the node here
+    auto node = item->GetNode();
+    node.GetConcept().SetRatingComplexity(d.GetComplexity());
+    node.GetConcept().SetRatingConcreteness(d.GetConcreteness());
+    node.GetConcept().SetRatingSpecificity(d.GetSpecificity());
+    //Update the node in the concept map
+    set_my_custom_vertex(node, vd, q.GetConceptMap());
+    //Update the QtNode
+    item->GetNode().SetConcept(node.GetConcept());
+    const int n_rated
+      = (node.GetConcept().GetRatingComplexity()   == -1 ? 0 : 1)
+      + (node.GetConcept().GetRatingConcreteness() == -1 ? 0 : 1)
+      + (node.GetConcept().GetRatingSpecificity()  == -1 ? 0 : 1);
+    switch (n_rated)
+    {
+      case 0:
+        item->setBrush(QtBrushFactory().CreateRedGradientBrush());
+        break;
+      case 1:
+      case 2:
+        item->setBrush(QtBrushFactory().CreateYellowGradientBrush());
+        break;
+      case 3:
+        item->setBrush(QtBrushFactory().CreateGreenGradientBrush());
+        break;
+      default:
+        throw std::logic_error(
+          "ribi::cmap::OnNodeKeyDownPressed: invalid n_rated"
+        );
+    }
+  }
+}
+
+void ribi::cmap::OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode* const item)
+{
+  //Rate examples
+  if (item->GetNode().GetConcept().GetExamples().Get().empty()) return;
+  QtScopedDisable<QtConceptMap> disable(&q); //!OCLINT This is an unused variable, and should be
+  ribi::cmap::QtRateExamplesDialog d(item->GetNode().GetConcept());
+  d.exec();
+  //Find the original Node
+  const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
+  //Update the node here
+  auto node = item->GetNode();
+  node.GetConcept().SetExamples(d.GetRatedExamples());
+  //Update the node in the concept map
+  set_my_custom_vertex(node, vd, q.GetConceptMap());
+  //Update the QtNode
+  item->GetNode().GetConcept().SetExamples(d.GetRatedExamples());
+}
 
 void ribi::cmap::QtConceptMap::onSelectionChanged()
 {
@@ -973,6 +965,33 @@ void ribi::cmap::QtConceptMap::onSelectionChanged()
     }
   );
   this->GetScene().update();
+}
+
+void ribi::cmap::ProcessKey(QtConceptMap& q, QEvent * const event)
+{
+  //Pass event
+  switch (event->key())
+  {
+    case Qt::Key_F1: keyPressEventF1(*this); break;
+    case Qt::Key_F2: keyPressEventF2(*this); break;
+    case Qt::Key_F4: keyPressEventF4(*this, event); break;
+    case Qt::Key_Delete: keyPressEventDelete(*this, event); break;
+    #ifndef NDEBUG
+    case Qt::Key_F8: MessUp(GetScene()); break;
+    case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
+    #endif
+    case Qt::Key_Escape: keyPressEventEscape(*this, event); break;
+    case Qt::Key_Equal: this->scale(1.1,1.1); break;
+    case Qt::Key_Minus: this->scale(0.9,0.9); break;
+    case Qt::Key_E: keyPressEventE(*this, event); break;
+    case Qt::Key_H: keyPressEventH(*this, event); break;
+    case Qt::Key_N: keyPressEventN(*this, event); break;
+    case Qt::Key_T: keyPressEventT(*this, event); break;
+    case Qt::Key_Z: keyPressEventZ(*this, event); break;
+    case Qt::Key_Question: keyPressEventQuestion(*this, event); break;
+    default: break;
+  }
+
 }
 
 

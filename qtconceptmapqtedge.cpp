@@ -148,19 +148,14 @@ void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
 
 void ribi::cmap::CheckInvariants(const QtEdge& qtedge)
 {
-  assert(qtedge.scene());
-  assert(qtedge.GetFrom()->scene());
-  assert(qtedge.GetTo()->scene());
-  assert(qtedge.scene() == qtedge.GetFrom()->scene());
-  assert(qtedge.scene() == qtedge.GetTo()->scene());
-
+  QGraphicsScene * const scene = qtedge.scene();
+  assert(scene);
+  assert(scene == qtedge.GetFrom()->scene());
+  assert(scene == qtedge.GetTo()->scene());
   assert(qtedge.GetArrow());
-  assert(qtedge.GetArrow()->scene());
-  assert(qtedge.scene() == qtedge.GetArrow()->scene());
-
+  assert(scene == qtedge.GetArrow()->scene());
   assert(qtedge.GetQtNode());
-  assert(qtedge.GetQtNode()->scene());
-  assert(qtedge.scene() == qtedge.GetQtNode()->scene());
+  assert(scene == qtedge.GetQtNode()->scene());
 
 }
 

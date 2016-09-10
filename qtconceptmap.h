@@ -159,6 +159,10 @@ void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) n
 ///Returns nullptr if none is present
 QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
+///Checks if the qtedge has its QGraphicsScenes in place
+///scene can be nullptr
+bool HasScene(QtEdge& qtedge, const QGraphicsScene * const scene) noexcept;
+
 ///Hide the QtExamplesItem
 void HideExamplesItem(QtConceptMap& q) noexcept;
 
@@ -179,6 +183,17 @@ void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);
 
 ///Called when an item wants to be edited
 void OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const int key);
+
+///An item wants to be edited from F2 in edit mode
+void OnNodeKeyDownPressedEditF2(QtConceptMap& q, QtNode* const item);
+
+///An item wants to be edited from F1 in rate mode
+void OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item);
+
+///An item wants to be edited from F2 in rate mode
+void OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode* const item);
+
+void ProcessKey(QtConceptMap& q, QEvent * const event);
 
 ///Remove all Qt and non-Qt items
 void RemoveConceptMap(QtConceptMap& q);
