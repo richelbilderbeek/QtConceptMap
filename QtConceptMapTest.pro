@@ -3,6 +3,8 @@
 # apfloat does not go well with -Weffc++
 # RInside does not go well with -Weffc++
 
+CONFIG += debug_and_release
+
 win32 {
   # Windows only
   message("Desktop application, no effc++, built for Windows")
