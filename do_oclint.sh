@@ -17,9 +17,12 @@ echo $h_files
   -I../RibiClasses/CppFileIo \
   -I../RibiClasses/CppFuzzy_equal_to \
   -I../RibiClasses/CppGeometry \
+  -I../RibiClasses/CppHelp \
   -I../RibiClasses/CppPlane \
+  -I../RibiClasses/CppQtAboutDialog \
   -I../RibiClasses/CppQtArrowItem \
   -I../RibiClasses/CppQtHideAndShowDialog \
+  -I../RibiClasses/CppQtLeftRightRectItem \
   -I../RibiClasses/CppQtKeyboardFriendlyGraphicsView \
   -I../RibiClasses/CppQtImage \
   -I../RibiClasses/CppQtRoundedEditRectItem \
