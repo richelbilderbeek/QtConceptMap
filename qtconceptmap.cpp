@@ -703,41 +703,39 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
   if (GetVerbosity()) { TRACE_FUNC(); }
   UpdateConceptMap(*this);
-  assert(m_highlighter);
-  assert(!m_arrow->isSelected());
-  if (m_arrow->isVisible())
+  assert(!GetArrow().isSelected());
+  if (GetArrow().isVisible())
   {
-    assert(!m_arrow->isSelected());
-    if (m_highlighter->GetItem() && m_arrow->GetFrom() != m_highlighter->GetItem())
+    assert(!GetArrow().isSelected());
+    if (GetQtHighlighter().GetItem() && GetArrow().GetFrom() != GetQtHighlighter().GetItem())
     {
       //The command needs to find the two selected vertices
       for (auto& i: GetScene().selectedItems()) { i->setSelected(false); }
-      m_highlighter->GetItem()->setSelected(true);
-      m_arrow->GetFrom()->setSelected(true);
+      GetQtHighlighter().GetItem()->setSelected(true);
+      GetArrow().GetFrom()->setSelected(true);
       try
       {
         const auto command = new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-          m_conceptmap,
-          m_mode,
-          GetScene(),
-          GetQtToolItem()
+          this->GetConceptMap(),
+          this->GetMode(),
+          this->GetScene(),
+          this->GetQtToolItem()
         );
-        DoCommand(command);
+        this->DoCommand(command);
         UpdateConceptMap(*this);
-        m_arrow->hide();
-        assert(m_highlighter);
-        m_highlighter->SetItem(nullptr);
+        this->GetArrow().hide();
+        this->GetQtHighlighter().SetItem(nullptr);
       }
       catch (std::logic_error&) { return; }
     }
-    assert(!m_arrow->isSelected());
+    assert(!GetArrow().isSelected());
   }
 
-  assert(!m_arrow->isSelected());
+  assert(!GetArrow().isSelected());
   QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
-  assert(!m_arrow->isSelected());
+  assert(!GetArrow().isSelected());
   UpdateExamplesItem(*this);
-  assert(!m_arrow->isSelected());
+  assert(!GetArrow().isSelected());
 }
 
 void ribi::cmap::QtConceptMap::Respond()
@@ -955,8 +953,9 @@ void ribi::cmap::QtConceptMap::onSelectionChanged()
   this->GetScene().update();
 }
 
-void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event)
+void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT Although the NCSS is high, the code is easy to read
 {
+
   //Pass event
   switch (event->key())
   {
