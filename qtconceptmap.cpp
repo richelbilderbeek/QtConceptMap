@@ -965,12 +965,12 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event)
     case Qt::Key_F4: keyPressEventF4(q, event); break;
     case Qt::Key_Delete: keyPressEventDelete(q, event); break;
     #ifndef NDEBUG
-    case Qt::Key_F8: MessUp(GetScene()); break;
+    case Qt::Key_F8: MessUp(q.GetScene()); break;
     case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
     #endif
     case Qt::Key_Escape: keyPressEventEscape(q, event); break;
-    case Qt::Key_Equal: this->scale(1.1,1.1); break;
-    case Qt::Key_Minus: this->scale(0.9,0.9); break;
+    case Qt::Key_Equal: q.scale(1.1,1.1); break;
+    case Qt::Key_Minus: q.scale(0.9,0.9); break;
     case Qt::Key_E: keyPressEventE(q, event); break;
     case Qt::Key_H: keyPressEventH(q, event); break;
     case Qt::Key_N: keyPressEventN(q, event); break;

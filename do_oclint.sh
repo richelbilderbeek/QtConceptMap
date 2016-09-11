@@ -23,7 +23,7 @@ echo $h_files
   -I../RibiClasses/CppQtArrowItem \
   -I../RibiClasses/CppQtHideAndShowDialog \
   -I../RibiClasses/CppQtLeftRightRectItem \
-  -I../RibiClasses/CppQtKeyboardFriendlyGraphicsView \
+  -I../QtKeyboardFriendlyGraphicsView \
   -I../RibiClasses/CppQtImage \
   -I../RibiClasses/CppQtRoundedEditRectItem \
   -I../RibiClasses/CppQtRoundedRectItem \
