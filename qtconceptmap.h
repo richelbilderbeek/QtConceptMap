@@ -77,10 +77,6 @@ public:
   const QtTool& GetQtToolItem() const noexcept;
         QtTool& GetQtToolItem()       noexcept;
 
-  ///Obtain the QGraphicsScene
-  const QGraphicsScene& GetScene() const noexcept;
-        QGraphicsScene& GetScene() noexcept;
-
   const QUndoStack& GetUndo() const noexcept { return m_undo; }
         QUndoStack& GetUndo()       noexcept { return m_undo; }
 
@@ -161,7 +157,7 @@ QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
 ///Checks if the qtedge has its QGraphicsScenes in place
 ///scene can be nullptr
-bool HasScene(QtEdge& qtedge, const QGraphicsScene * const scene) noexcept;
+bool HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept;
 
 ///Hide the QtExamplesItem
 void HideExamplesItem(QtConceptMap& q) noexcept;
@@ -193,7 +189,7 @@ void OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item);
 ///An item wants to be edited from F2 in rate mode
 void OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode* const item);
 
-void ProcessKey(QtConceptMap& q, QEvent * const event);
+void ProcessKey(QtConceptMap& q, QKeyEvent * const event);
 
 ///Remove all Qt and non-Qt items
 void RemoveConceptMap(QtConceptMap& q);

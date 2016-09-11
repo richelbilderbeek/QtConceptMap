@@ -177,12 +177,11 @@ void ribi::cmap::AddEdgesToScene(
     {
       qtedge->GetQtNode()->setVisible(false);
     }
-
-    assert(HasScene(qtedge, nullptr));
+    assert(qtedge && HasScene(*qtedge, nullptr));
     scene.addItem(qtedge);
     //scene()->addItem(qtedge->GetQtNode()); //Get these for free when adding a QtEdge
     //scene()->addItem(qtedge->GetArrow()); //Get these for free when adding a QtEdge
-    assert(HasScene(qtedge, &scene));
+    assert(qtedge && HasScene(*qtedge, &scene));
   }
 }
 
@@ -445,23 +444,12 @@ ribi::cmap::QtTool& ribi::cmap::QtConceptMap::GetQtToolItem() noexcept
   return *m_tools;
 }
 
-QGraphicsScene& ribi::cmap::QtConceptMap::GetScene() noexcept
-{
-  assert(scene());
-  return *scene();
-}
 
-const QGraphicsScene& ribi::cmap::QtConceptMap::GetScene() const noexcept
+bool ribi::cmap::HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept
 {
-  assert(scene());
-  return *scene();
-}
-
-bool ribi::cmap::HasScene(QtEdge& qtedge, const QGraphicsScene * const scene) noexcept
-{
-  return qtedge->scene() == scene
-    && qtedge->GetQtNode()->scene() == scene
-    && qtedge->GetArrow()->scene() == scene
+  return qtedge.scene() == scene
+    && qtedge.GetQtNode()->scene() == scene
+    && qtedge.GetArrow()->scene() == scene
   ;
 }
 
@@ -967,28 +955,28 @@ void ribi::cmap::QtConceptMap::onSelectionChanged()
   this->GetScene().update();
 }
 
-void ribi::cmap::ProcessKey(QtConceptMap& q, QEvent * const event)
+void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event)
 {
   //Pass event
   switch (event->key())
   {
-    case Qt::Key_F1: keyPressEventF1(*this); break;
-    case Qt::Key_F2: keyPressEventF2(*this); break;
-    case Qt::Key_F4: keyPressEventF4(*this, event); break;
-    case Qt::Key_Delete: keyPressEventDelete(*this, event); break;
+    case Qt::Key_F1: keyPressEventF1(q); break;
+    case Qt::Key_F2: keyPressEventF2(q); break;
+    case Qt::Key_F4: keyPressEventF4(q, event); break;
+    case Qt::Key_Delete: keyPressEventDelete(q, event); break;
     #ifndef NDEBUG
     case Qt::Key_F8: MessUp(GetScene()); break;
     case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
     #endif
-    case Qt::Key_Escape: keyPressEventEscape(*this, event); break;
+    case Qt::Key_Escape: keyPressEventEscape(q, event); break;
     case Qt::Key_Equal: this->scale(1.1,1.1); break;
     case Qt::Key_Minus: this->scale(0.9,0.9); break;
-    case Qt::Key_E: keyPressEventE(*this, event); break;
-    case Qt::Key_H: keyPressEventH(*this, event); break;
-    case Qt::Key_N: keyPressEventN(*this, event); break;
-    case Qt::Key_T: keyPressEventT(*this, event); break;
-    case Qt::Key_Z: keyPressEventZ(*this, event); break;
-    case Qt::Key_Question: keyPressEventQuestion(*this, event); break;
+    case Qt::Key_E: keyPressEventE(q, event); break;
+    case Qt::Key_H: keyPressEventH(q, event); break;
+    case Qt::Key_N: keyPressEventN(q, event); break;
+    case Qt::Key_T: keyPressEventT(q, event); break;
+    case Qt::Key_Z: keyPressEventZ(q, event); break;
+    case Qt::Key_Question: keyPressEventQuestion(q, event); break;
     default: break;
   }
 
