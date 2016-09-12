@@ -195,7 +195,7 @@ void ribi::cmap::AddNodesToScene(
 
   //Add the nodes to the scene, if there are any
   const auto vip = vertices(conceptmap);
-  for(auto i=vip.first; i!=vip.second; ++i)
+  for(auto i = vip.first; i!=vip.second; ++i)
   {
     assert(boost::num_vertices(conceptmap));
     const auto pmap = get(boost::vertex_custom_type, conceptmap);
@@ -703,16 +703,16 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
   if (GetVerbosity()) { TRACE_FUNC(); }
   UpdateConceptMap(*this);
-  assert(!GetArrow().isSelected());
-  if (GetArrow().isVisible())
+  assert(!GetQtNewArrow().isSelected());
+  if (GetQtNewArrow().isVisible())
   {
-    assert(!GetArrow().isSelected());
-    if (GetQtHighlighter().GetItem() && GetArrow().GetFrom() != GetQtHighlighter().GetItem())
+    assert(!GetQtNewArrow().isSelected());
+    if (GetQtHighlighter().GetItem() && GetQtNewArrow().GetFrom() != GetQtHighlighter().GetItem())
     {
       //The command needs to find the two selected vertices
       for (auto& i: GetScene().selectedItems()) { i->setSelected(false); }
       GetQtHighlighter().GetItem()->setSelected(true);
-      GetArrow().GetFrom()->setSelected(true);
+      GetQtNewArrow().GetFrom()->setSelected(true);
       try
       {
         const auto command = new CommandCreateNewEdgeBetweenTwoSelectedNodes(
@@ -723,19 +723,19 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
         );
         this->DoCommand(command);
         UpdateConceptMap(*this);
-        this->GetArrow().hide();
+        this->GetQtNewArrow().hide();
         this->GetQtHighlighter().SetItem(nullptr);
       }
       catch (std::logic_error&) { return; }
     }
-    assert(!GetArrow().isSelected());
+    assert(!GetQtNewArrow().isSelected());
   }
 
-  assert(!GetArrow().isSelected());
+  assert(!GetQtNewArrow().isSelected());
   QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
-  assert(!GetArrow().isSelected());
+  assert(!GetQtNewArrow().isSelected());
   UpdateExamplesItem(*this);
-  assert(!GetArrow().isSelected());
+  assert(!GetQtNewArrow().isSelected());
 }
 
 void ribi::cmap::QtConceptMap::Respond()
