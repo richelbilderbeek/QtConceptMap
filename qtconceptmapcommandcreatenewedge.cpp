@@ -102,6 +102,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ::~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept
 {
   delete m_added_qtedge;
+  m_added_qtedge = nullptr;
 }
 
 bool ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes

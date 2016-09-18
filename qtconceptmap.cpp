@@ -247,7 +247,10 @@ void ribi::cmap::CheckInvariantAllQtNodesHaveAscene(
 }
 
 void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
-  const QtConceptMap& q
+  const QtConceptMap&
+  #ifndef NDEBUG
+    q
+  #endif
 ) noexcept
 {
   #ifndef NDEBUG
@@ -277,7 +280,11 @@ void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
   #endif
 }
 
-void ribi::cmap::CheckInvariants(const QtConceptMap& q) noexcept
+void ribi::cmap::CheckInvariants(const QtConceptMap&
+  #ifndef NDEBUG
+  q
+  #endif
+) noexcept
 {
   #ifndef NDEBUG
 
