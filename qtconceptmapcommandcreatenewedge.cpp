@@ -29,7 +29,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "conceptmapnode.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
-#include "trace.h"
 #include "count_vertices_with_selectedness.h"
 #include "qtquadbezierarrowitem.h"
 #include "add_edge_between_selected_vertices.h"

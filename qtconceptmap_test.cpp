@@ -27,7 +27,6 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
 //#include "ribi_system.h"
-//#include "trace.h"
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
 {

@@ -9,7 +9,7 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnodefactory.h"
 
-#include "trace.h"
+
 
 ribi::cmap::QtEdgeFactory::QtEdgeFactory()
 {
@@ -39,12 +39,6 @@ boost::shared_ptr<ribi::cmap::QtEdge> ribi::cmap::QtEdgeFactory::GetTest(
 {
   const auto tests = GetTests(from,to);
   assert(i >= 0);
-  #ifndef NDEBUG
-  if(i >= static_cast<int>(tests.size()))
-  {
-    TRACE("BREAK");
-  }
-  #endif
   assert(i < static_cast<int>(tests.size()));
   return tests[i];
 }

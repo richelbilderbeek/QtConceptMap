@@ -28,7 +28,6 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 #include "qtconceptmapbrushfactory.h"
 #include "conceptmapnode.h"
-#include "trace.h"
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtCenterNode::QtCenterNode(const Node& node)

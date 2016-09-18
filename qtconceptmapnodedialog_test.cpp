@@ -15,7 +15,7 @@
 #include "qtconceptmapexamplesdialog.h"
 #include "ui_qtconceptmapnodedialog.h"
 
-#include "trace.h"
+
 
 void ribi::cmap::qtconceptmapnodedialog_test::all_tests()
 {

@@ -40,7 +40,6 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmapconcepteditdialog.h"
 
-#include "trace.h"
 #pragma GCC diagnostic pop
 
 ///QTreeWidgetItem with the only function of storing a

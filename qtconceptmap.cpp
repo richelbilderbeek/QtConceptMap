@@ -82,7 +82,6 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtquadbezierarrowitem.h"
 #include "qtscopeddisable.h"
 #include "set_my_custom_vertex.h"
-#include "trace.h"
 #include "xml.h"
 
 #pragma GCC diagnostic pop
@@ -97,9 +96,6 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
     m_timer{new QTimer(this)},
     m_tools{new QtTool}
 {
-  #ifndef NDEBUG
-  this->SetVerbosity(false);
-  #endif
   this->setScene(new QGraphicsScene(this));
   assert(!m_highlighter->GetItem());
 
@@ -218,7 +214,7 @@ void ribi::cmap::AddNodesToScene(
   }
 }
 
-void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene(
+void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclomatic complexity is acceptable here
   const QtConceptMap& q
 ) noexcept
 {
@@ -484,14 +480,13 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 
 void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
-  if (q.GetVerbosity()) { TRACE("Pressing delete"); }
   try
   {
     q.DoCommand(
       new CommandDeleteSelected(q.GetConceptMap(), q.GetScene(), q.GetQtToolItem())
     );
   }
-  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
   event->setAccepted(true);
 }
 
@@ -499,7 +494,6 @@ void ribi::cmap::keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (q.GetVerbosity()) { TRACE("Pressing CTRL-E"); }
     try
     {
       q.DoCommand(
@@ -508,20 +502,17 @@ void ribi::cmap::keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept
         )
       );
     }
-    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
     event->setAccepted(true);
   }
 }
 
 void ribi::cmap::keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept
 {
-  if (q.GetVerbosity()) { TRACE("Pressing Escape"); }
   //Only remove the 'new arrow' if present
   if (q.GetQtNewArrow().isVisible())
   {
-    if (q.GetVerbosity()) { TRACE("Remove the new arrow"); }
     q.GetQtNewArrow().hide();
-
     assert(!q.GetQtNewArrow().isVisible());
     return;
   }
@@ -539,7 +530,7 @@ void ribi::cmap::keyPressEventF1(QtConceptMap& q) noexcept
       OnNodeKeyDownPressed(q, qtnode, Qt::Key_F1);
     }
   }
-  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
 
 void ribi::cmap::keyPressEventF2(QtConceptMap& q) noexcept
@@ -553,14 +544,13 @@ void ribi::cmap::keyPressEventF2(QtConceptMap& q) noexcept
       OnNodeKeyDownPressed(q, qtnode, Qt::Key_F2);
     }
   }
-  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
 
-void ribi::cmap::keyPressEventF4(QtConceptMap& q, QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventF4(QtConceptMap&, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::AltModifier)
   {
-    if (q.GetVerbosity()) { TRACE("Pressing Alt-F4"); }
     event->setAccepted(false); //Signal to dialog to close
   }
 }
@@ -570,13 +560,12 @@ void ribi::cmap::keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (q.GetVerbosity()) { TRACE("Pressing CTRL-H"); }
     try
     {
       const auto cmd = new CommandToggleArrowHead(q.GetConceptMap(), q.GetScene());
       q.DoCommand(cmd);
     }
-    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
     event->setAccepted(true);
   }
 }
@@ -585,7 +574,6 @@ void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (q.GetVerbosity()) { TRACE("Pressing CTRL-N"); }
     try
     {
       q.DoCommand(
@@ -599,13 +587,12 @@ void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
         )
       );
     }
-    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception& e) {} //!OCLINT Correct, nothing happens in catch
   }
 }
 
 void ribi::cmap::keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept
 {
-  if (q.GetVerbosity()) { TRACE("Pressing Qt::Key_Question"); }
   UpdateConceptMap(q);
 }
 
@@ -613,13 +600,12 @@ void ribi::cmap::keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    if (q.GetVerbosity()) { TRACE("Pressing CTRL-T"); }
     try
     {
       const auto cmd = new CommandToggleArrowTail(q.GetConceptMap(), q.GetScene());
       q.DoCommand(cmd);
     }
-    catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+    catch (std::exception& e) {} //!OCLINT Correct, nothing happens in catch
     event->setAccepted(true);
   }
 }
@@ -640,7 +626,7 @@ void ribi::cmap::keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept
       }
     }
   }
-  catch (std::exception& e) { if (q.GetVerbosity()) { TRACE(e.what()); } }
+  catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
 
 void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
@@ -701,7 +687,6 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 
 void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
-  if (GetVerbosity()) { TRACE_FUNC(); }
   UpdateConceptMap(*this);
   assert(!GetQtNewArrow().isSelected());
   if (GetQtNewArrow().isVisible())
@@ -728,12 +713,9 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
       }
       catch (std::logic_error&) { return; }
     }
-    assert(!GetQtNewArrow().isSelected());
   }
 
-  assert(!GetQtNewArrow().isSelected());
   QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
-  assert(!GetQtNewArrow().isSelected());
   UpdateExamplesItem(*this);
   assert(!GetQtNewArrow().isSelected());
 }

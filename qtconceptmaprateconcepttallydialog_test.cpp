@@ -25,7 +25,7 @@
 #include "conceptmapexamples.h"
 
 #include "qtconceptmaprating.h"
-#include "trace.h"
+
 #include "ui_qtconceptmaprateconcepttallydialog.h"
 #pragma GCC diagnostic pop
 

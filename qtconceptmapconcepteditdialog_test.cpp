@@ -16,7 +16,7 @@
 #include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmapconcepteditdialog.h"
 
-#include "trace.h"
+
 
 void ribi::cmap::qtconceptmapconcepteditdialog_test::all_tests()
 {

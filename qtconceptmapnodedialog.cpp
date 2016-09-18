@@ -38,7 +38,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapexamplesdialog.h"
 #include "ui_qtconceptmapnodedialog.h"
 
-#include "trace.h"
+
 
 #pragma GCC diagnostic pop
 

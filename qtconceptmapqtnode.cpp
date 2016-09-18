@@ -39,7 +39,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapqtnodefactory.h"
-#include "trace.h"
+
 
 ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
   : QtRoundedEditRectItem(

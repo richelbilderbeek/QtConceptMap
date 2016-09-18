@@ -43,7 +43,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapcenternode.h"
 #include "qtquadbezierarrowitem.h"
-#include "trace.h"
+
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtEdge::QtEdge(

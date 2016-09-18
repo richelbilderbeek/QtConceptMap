@@ -13,7 +13,7 @@
 #include "conceptmapexamplesfactory.h"
 #include "qtconceptmapexampledialog.h"
 
-#include "trace.h"
+
 
 void ribi::cmap::qtconceptmapexamplesdialog_test::all_tests()
 {

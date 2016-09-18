@@ -6,7 +6,7 @@
 #include "qtconceptmapqtnode.h"
 
 
-#include "trace.h"
+
 
 ribi::cmap::QtNodeFactory::QtNodeFactory()
 {

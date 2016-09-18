@@ -11,7 +11,6 @@
 #include "set_my_custom_edge.h"
 #include "qtconceptmap.h"
 #include "qtconceptmapqtnode.h"
-#include "trace.h"
 #include "count_vertices_with_selectedness.h"
 #include "add_edge_between_selected_vertices.h"
 #include <boost/graph/isomorphism.hpp>

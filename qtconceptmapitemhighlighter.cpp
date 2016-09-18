@@ -30,7 +30,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include <QTimer>
 //#include "qtconceptmapconceptitem.h"
 #include "qtconceptmapqtnode.h"
-#include "trace.h"
+
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtItemHighlighter::QtItemHighlighter(QObject *parent)

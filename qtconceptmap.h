@@ -50,7 +50,7 @@ public:
   explicit QtConceptMap(QWidget* parent = 0);
   QtConceptMap(const QtConceptMap&) = delete;
   QtConceptMap& operator=(const QtConceptMap&) = delete;
-  ~QtConceptMap() noexcept;
+  ~QtConceptMap();
 
   ///Raw pointer, because ConceptMap its QUndoStack will take over ownership of pointer
   void DoCommand(Command * const command) noexcept;
@@ -91,13 +91,13 @@ public:
 
 public slots:
 
-  void keyPressEvent(QKeyEvent* event);
-  void mouseMoveEvent(QMouseEvent * event);
-  void mouseDoubleClickEvent(QMouseEvent *event);
-  void mousePressEvent(QMouseEvent *event);
+  void keyPressEvent(QKeyEvent* event) override;
+  void mouseMoveEvent(QMouseEvent * event) override;
+  void mouseDoubleClickEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
   void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
   void onSelectionChanged();
-  void wheelEvent(QWheelEvent *event);
+  void wheelEvent(QWheelEvent *event) override;
 
 private slots:
 
@@ -135,6 +135,7 @@ private:
   QUndoStack m_undo;
 };
 
+void AddEdgeToScene(QtConceptMap& qtconceptmap, const EdgeDescriptor ed) noexcept;
 void AddEdgesToScene(QtConceptMap& qtconceptmap) noexcept;
 
 void AddNodesToScene(QtConceptMap& qtconceptmap) noexcept;

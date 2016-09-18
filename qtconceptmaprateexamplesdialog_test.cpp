@@ -12,8 +12,6 @@
 #include "conceptmapexamplesfactory.h"
 #include "conceptmaphelper.h"
 #include "qtconceptmapcompetency.h"
-
-#include "trace.h"
 #include "ui_qtconceptmaprateexamplesdialog.h"
 
 void ribi::cmap::qtconceptmaprateexamplesdialog_test::all_tests()

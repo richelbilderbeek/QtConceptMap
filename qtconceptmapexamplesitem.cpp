@@ -40,7 +40,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
-#include "trace.h"
+
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtExamplesItem::QtExamplesItem(
