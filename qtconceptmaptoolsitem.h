@@ -74,7 +74,7 @@ struct QtTool : public QGraphicsPixmapItem
   ///The item the tools item floats above
   QtNode * m_item;
 
-  void setVisible(bool visible) { QGraphicsPixmapItem::setVisible(visible); }
+  void setVisible(bool visible);
 };
 
 } //~namespace cmap

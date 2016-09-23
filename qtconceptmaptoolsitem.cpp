@@ -94,3 +94,9 @@ void ribi::cmap::QtTool::SetBuddyItem(QtNode * const item)
   this->setVisible(m_item);
   this->update();
 }
+
+void ribi::cmap::QtTool::setVisible(bool visible)
+{
+  QGraphicsPixmapItem::setVisible(visible);
+}
+

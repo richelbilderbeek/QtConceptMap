@@ -52,6 +52,9 @@ public:
   ///If set with the same item twice, nothing new happens
   void SetItem(QtNode* const item);
 
+  ///Stop the timer
+  void Stop() noexcept;
+
 private:
   ///A simple counter
   int m_cnt;

@@ -75,6 +75,10 @@ void ribi::cmap::QtItemHighlighter::SetItem(QtNode* const item)
   m_item = item;
 }
 
+void ribi::cmap::QtItemHighlighter::Stop() noexcept
+{
+  m_timer->stop();
+}
 
 void ribi::cmap::QtItemHighlighter::OnTimer()
 {

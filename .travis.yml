@@ -8,6 +8,7 @@ install:
   - sudo apt-get install -qq libstdc++6-4.7-dev  
   - sudo pip install codecov
   - ./install_oclint.sh
+  - sudo apt-get install -qq valgrind
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
 
 addons:
@@ -31,10 +32,18 @@ before_script:
 script: 
   - ./install_githubs.sh
   - ./build.sh
+  - valgrind --leak-check=full -v --show-reachable=yes --log-file=memcheck.log ./QtConceptMapTest
+  - valgrind --tool=helgrind --log-file=helgrind.log -v ./QtConceptMapTest
   - ./QtConceptMapTest
   - ./get_code_cov.sh
   - codecov
   - ./do_oclint.sh
 
+after_failure:
+  - cat memcheck.log
+  - cat helgrind.log
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - cat memcheck.log
+  - cat helgrind.log
