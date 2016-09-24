@@ -475,17 +475,6 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 
   ProcessKey(*this, event);
 
-  //Pass event to QtEdges
-  /*
-  for (auto qtedge: GetSelectedQtEdges(GetScene())) {
-    if (!event->isAccepted())
-    {
-      qtedge->keyPressEvent(event);
-    }
-    qtedge->update();
-  }
-  */
-
   //Pass event to base class
   if (!event->isAccepted())
   {
@@ -538,7 +527,7 @@ void ribi::cmap::keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept
   event->setAccepted(false); //Signal to dialog to close
 }
 
-void ribi::cmap::keyPressEventF1(QtConceptMap& q) noexcept
+void ribi::cmap::keyPressEventF1(QtConceptMap& q, QKeyEvent * const event) noexcept
 {
   try
   {
@@ -546,13 +535,13 @@ void ribi::cmap::keyPressEventF1(QtConceptMap& q) noexcept
     if (items.size() != 1) return;
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(items.front()))
     {
-      OnNodeKeyDownPressed(q, qtnode, Qt::Key_F1);
+      OnNodeKeyDownPressed(q, qtnode, event);
     }
   }
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
 
-void ribi::cmap::keyPressEventF2(QtConceptMap& q) noexcept
+void ribi::cmap::keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexcept
 {
   try
   {
@@ -560,7 +549,7 @@ void ribi::cmap::keyPressEventF2(QtConceptMap& q) noexcept
     if (items.size() != 1) return;
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(items.front()))
     {
-      OnNodeKeyDownPressed(q, qtnode, Qt::Key_F2);
+      OnNodeKeyDownPressed(q, qtnode, event);
     }
   }
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
@@ -796,13 +785,19 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
   }
 }
 
-void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const int key)
+void ribi::cmap::OnNodeKeyDownPressed(
+  QtConceptMap& q,
+  QtNode* const item,
+  QKeyEvent * const event
+)
 {
+  const int key{event->key()};
+
   //Note: item can also be the QtNode on a QtEdge
   assert(item);
   if (q.GetMode() == Mode::edit && key == Qt::Key_F2)
   {
-    OnNodeKeyDownPressedEditF2(q, item);
+    OnNodeKeyDownPressedEditF2(q, item, event);
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F1)
   {
@@ -821,12 +816,20 @@ void ribi::cmap::OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const
 }
 
 
-void ribi::cmap::OnNodeKeyDownPressedEditF2(QtConceptMap& q, QtNode* const item)
+void ribi::cmap::OnNodeKeyDownPressedEditF2(
+  QtConceptMap& q,
+  QtNode* const item,
+  QKeyEvent * const event
+)
 {
+  event->setAccepted(true);
+
   //Edit concept
-  QtScopedDisable<QtConceptMap> disable(&q); //!OCLINT This is an unused variable, and should be
   QtConceptMapConceptEditDialog d(item->GetNode().GetConcept());
+  //q.setEnabled(false);
   d.exec();
+  //q.setEnabled(true);
+
   //Find the original Node or Edge
   if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
   {
@@ -970,8 +973,8 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_E: keyPressEventE(q, event); break;
     case Qt::Key_Equal: q.scale(1.1,1.1); break;
     case Qt::Key_Escape: keyPressEventEscape(q, event); break;
-    case Qt::Key_F1: keyPressEventF1(q); break;
-    case Qt::Key_F2: keyPressEventF2(q); break;
+    case Qt::Key_F1: keyPressEventF1(q, event); break;
+    case Qt::Key_F2: keyPressEventF2(q, event); break;
     case Qt::Key_F4: keyPressEventF4(q, event); break;
     #ifndef NDEBUG
     case Qt::Key_F8: MessUp(q.GetScene()); break;
@@ -1070,6 +1073,16 @@ void ribi::cmap::SetRandomFocus(
       qDebug() << "Warning: setFocus did not set focus to the item";
     }
   }
+}
+
+void ribi::cmap::QtConceptMap::StartTimer()
+{
+  m_timer->start();
+}
+
+void ribi::cmap::QtConceptMap::StopTimer()
+{
+  m_timer->stop();
 }
 
 void ribi::cmap::QtConceptMap::Undo() noexcept

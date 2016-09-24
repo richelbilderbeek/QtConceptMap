@@ -87,6 +87,12 @@ public:
 
   void SetMode(const Mode mode) noexcept;
 
+  ///Restart the timer
+  void StartTimer();
+
+  ///Stop the timer
+  void StopTimer();
+
   void Undo() noexcept;
 
 public slots:
@@ -166,8 +172,8 @@ void HideExamplesItem(QtConceptMap& q) noexcept;
 void keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept;
-void keyPressEventF1(QtConceptMap& q) noexcept;
-void keyPressEventF2(QtConceptMap& q) noexcept;
+void keyPressEventF1(QtConceptMap& q, QKeyEvent * const event) noexcept;
+void keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexcept;
 void keyPressEventF4(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept;
@@ -180,10 +186,18 @@ void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);
 
 ///Called when an item wants to be edited
-void OnNodeKeyDownPressed(QtConceptMap& q, QtNode* const item, const int key);
+void OnNodeKeyDownPressed(
+  QtConceptMap& q,
+  QtNode* const item,
+  QKeyEvent * const event
+);
 
 ///An item wants to be edited from F2 in edit mode
-void OnNodeKeyDownPressedEditF2(QtConceptMap& q, QtNode* const item);
+void OnNodeKeyDownPressedEditF2(
+  QtConceptMap& q,
+  QtNode* const item,
+  QKeyEvent * const event
+);
 
 ///An item wants to be edited from F1 in rate mode
 void OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item);
