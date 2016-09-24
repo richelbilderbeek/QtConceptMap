@@ -36,8 +36,8 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
   QtConceptMap m;
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
-  try
-  {
+  //try
+  //{
     const int n{2};
     for (int i=0; i!=n; ++i) {
       m.DoCommand(
@@ -53,15 +53,15 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
     }
     m.show();
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
-  }
-  catch (std::exception& e)
-  {
-    qDebug() << __func__ << ": caught exception " << e.what();
-    QVERIFY(!"Should not get here");
-  }
+  //}
+  //catch (std::exception& e)
+  //{
+  //  qDebug() << __func__ << ": caught exception " << e.what();
+  //  QVERIFY(!"Should not get here");
+  //}
 
-  try
-  {
+  //try
+  //{
     m.DoCommand(
       new CommandCreateNewEdgeBetweenTwoSelectedNodes(
         m.GetConceptMap(),
@@ -70,15 +70,16 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
         m.GetQtToolItem()
       )
     );
-    m.show();
-    QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
-    QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
-  }
-  catch (std::exception& e)
-  {
-    qDebug() << __func__ << ": caught exception " << e.what();
-    QVERIFY(!"Should not get here");
-  }
+  //}
+  //catch (std::exception& e)
+  //{
+  //  qDebug() << __func__ << ": caught exception " << e.what();
+  //  QVERIFY(!"Should not get here");
+  //}
+  m.show();
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+  m.show();
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command_and_check_z_order()

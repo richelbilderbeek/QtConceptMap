@@ -141,6 +141,7 @@ ribi::cmap::QtConceptMap::~QtConceptMap() noexcept
   {
     m_timer->stop();
     m_highlighter->Stop();
+    m_undo.clear();
     m_highlighter->SetItem(nullptr); //Do this before destroying items
     m_tools->SetBuddyItem(nullptr);
     delete m_examples_item;
