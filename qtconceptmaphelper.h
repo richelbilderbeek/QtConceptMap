@@ -85,6 +85,9 @@ std::function<QBrush(const QtNode&)> GetQtNodeBrushFunctionUninitialized() noexc
 ///Get all the 'standalone' QtNodes
 std::vector<QtNode *> GetQtNodes(const QGraphicsScene& scene) noexcept;
 
+///Get all the 'standalone' QtNodes
+std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept;
+
 std::vector<QtEdge *> GetSelectedQtEdges(const QGraphicsScene& scene) noexcept;
 
 ///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;

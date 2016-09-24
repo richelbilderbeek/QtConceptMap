@@ -36,46 +36,29 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
   QtConceptMap m;
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
-  //try
-  //{
-    const int n{2};
-    for (int i=0; i!=n; ++i) {
-      m.DoCommand(
-        new CommandCreateNewNode(
-          m.GetConceptMap(),
-          Mode::uninitialized,
-          m.GetScene(),
-          m.GetQtToolItem(),
-          0.0,
-          0.0
-        )
-      );
-    }
-    m.show();
-    QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
-  //}
-  //catch (std::exception& e)
-  //{
-  //  qDebug() << __func__ << ": caught exception " << e.what();
-  //  QVERIFY(!"Should not get here");
-  //}
-
-  //try
-  //{
+  const int n{2};
+  for (int i=0; i!=n; ++i) {
     m.DoCommand(
-      new CommandCreateNewEdgeBetweenTwoSelectedNodes(
+      new CommandCreateNewNode(
         m.GetConceptMap(),
         Mode::uninitialized,
         m.GetScene(),
-        m.GetQtToolItem()
+        m.GetQtToolItem(),
+        0.0,
+        0.0
       )
     );
-  //}
-  //catch (std::exception& e)
-  //{
-  //  qDebug() << __func__ << ": caught exception " << e.what();
-  //  QVERIFY(!"Should not get here");
-  //}
+  }
+  m.show();
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
+  m.DoCommand(
+    new CommandCreateNewEdgeBetweenTwoSelectedNodes(
+      m.GetConceptMap(),
+      Mode::uninitialized,
+      m.GetScene(),
+      m.GetQtToolItem()
+    )
+  );
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
@@ -559,9 +542,10 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard()
   QVERIFY(GetSelectedQtNodes(m.GetScene()).size() == 2);
 
   std::vector<int> ids;
-  for (int i=0; i!=10; ++i)
+  for (int i=0; i!=100; ++i)
   {
-    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 10);
+    m.show();
     QVERIFY(GetSelectedQtNodes(m.GetScene()).size() == 1);
     assert(GetSelectedQtNodes(m.GetScene()).size() == 1);
     ids.push_back(GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetId());

@@ -61,6 +61,7 @@ struct QtNode : public QtRoundedEditRectItem
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem *, QWidget *) noexcept final;
 
+  int type() const override { return UserType + 3; }
 protected:
 
   void focusInEvent(QFocusEvent *event) noexcept final override;

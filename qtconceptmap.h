@@ -172,6 +172,7 @@ void keyPressEventF4(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept;
+void keyPressEventSpace(QtConceptMap& q, QKeyEvent *) noexcept;
 void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 
@@ -195,6 +196,8 @@ void ProcessKey(QtConceptMap& q, QKeyEvent * const event);
 ///Remove all Qt and non-Qt items
 void RemoveConceptMap(QtConceptMap& q);
 
+///Focus on a random QtNode (both as vertices as those on the edges)
+void SetRandomFocus(QtConceptMap& q);
 
 /// Writes the selecteness of the QtConceptMap
 /// to the ConceptMap

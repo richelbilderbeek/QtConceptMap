@@ -84,7 +84,8 @@ struct QtEdge : public QGraphicsItem
     m_show_bounding_rect = show_bounding_rect;
   }
 
-  void keyPressEvent(QKeyEvent *event) noexcept override final;
+  //void keyPressEvent(QKeyEvent *event) noexcept override final;
+  int type() const override { return UserType + 4; }
 
 protected:
   void focusInEvent(QFocusEvent *event) noexcept override final;

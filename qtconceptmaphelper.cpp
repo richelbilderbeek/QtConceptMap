@@ -406,6 +406,12 @@ ribi::cmap::GetQtNodes(const QGraphicsScene& scene) noexcept
   return qtnodes;
 }
 
+std::vector<ribi::cmap::QtNode *>
+ribi::cmap::GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept
+{
+  return Collect<QtNode>(scene);
+}
+
 
 std::vector<ribi::cmap::QtEdge *>
 ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept

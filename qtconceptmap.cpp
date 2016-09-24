@@ -476,6 +476,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   ProcessKey(*this, event);
 
   //Pass event to QtEdges
+  /*
   for (auto qtedge: GetSelectedQtEdges(GetScene())) {
     if (!event->isAccepted())
     {
@@ -483,6 +484,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
     }
     qtedge->update();
   }
+  */
 
   //Pass event to base class
   if (!event->isAccepted())
@@ -611,6 +613,12 @@ void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
 void ribi::cmap::keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept
 {
   UpdateConceptMap(q);
+}
+
+void ribi::cmap::keyPressEventSpace(QtConceptMap& q, QKeyEvent * event) noexcept
+{
+  SetRandomFocus(q);
+  event->setAccepted(true);
 }
 
 void ribi::cmap::keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept
@@ -958,23 +966,24 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
   //Pass event
   switch (event->key())
   {
+    case Qt::Key_Delete: keyPressEventDelete(q, event); break;
+    case Qt::Key_E: keyPressEventE(q, event); break;
+    case Qt::Key_Equal: q.scale(1.1,1.1); break;
+    case Qt::Key_Escape: keyPressEventEscape(q, event); break;
     case Qt::Key_F1: keyPressEventF1(q); break;
     case Qt::Key_F2: keyPressEventF2(q); break;
     case Qt::Key_F4: keyPressEventF4(q, event); break;
-    case Qt::Key_Delete: keyPressEventDelete(q, event); break;
     #ifndef NDEBUG
     case Qt::Key_F8: MessUp(q.GetScene()); break;
     case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
     #endif
-    case Qt::Key_Escape: keyPressEventEscape(q, event); break;
-    case Qt::Key_Equal: q.scale(1.1,1.1); break;
-    case Qt::Key_Minus: q.scale(0.9,0.9); break;
-    case Qt::Key_E: keyPressEventE(q, event); break;
     case Qt::Key_H: keyPressEventH(q, event); break;
+    case Qt::Key_Minus: q.scale(0.9,0.9); break;
     case Qt::Key_N: keyPressEventN(q, event); break;
+    case Qt::Key_Question: keyPressEventQuestion(q, event); break;
+    case Qt::Key_Space: keyPressEventSpace(q, event); break;
     case Qt::Key_T: keyPressEventT(q, event); break;
     case Qt::Key_Z: keyPressEventZ(q, event); break;
-    case Qt::Key_Question: keyPressEventQuestion(q, event); break;
     default: break;
   }
 
@@ -1015,6 +1024,54 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
     qtnode->SetBrushFunction(f);
   }
 }
+
+void ribi::cmap::SetRandomFocus(
+  QtConceptMap& q
+)
+{
+  ReallyLoseFocus(q);
+
+  for (auto item: q.GetScene().selectedItems())
+  {
+    assert(item->isSelected());
+    item->setSelected(false);
+  }
+
+  //Let a random QtNode receive focus
+  const auto all_items = GetQtNodesAlsoOnQtEdge(q.GetScene());
+  QList<QGraphicsItem *> items;
+  std::copy_if(std::begin(all_items),std::end(all_items),std::back_inserter(items),
+    [](const QGraphicsItem* const item)
+    {
+      return (item->flags() & QGraphicsItem::ItemIsFocusable)
+        && (item->flags() & QGraphicsItem::ItemIsSelectable)
+        && item->isVisible()
+      ;
+    }
+  );
+  if (!items.empty())
+  {
+    static std::mt19937 rng_engine{0};
+    std::uniform_int_distribution<int> distribution(0, static_cast<int>(items.size()) - 1);
+    const int i{distribution(rng_engine)};
+    assert(i >= 0);
+    assert(i < items.size());
+    auto& new_focus_item = items[i];
+    assert(!new_focus_item->isSelected());
+    new_focus_item->setSelected(true);
+    new_focus_item->setFocus();
+    q.update();
+    if (!new_focus_item->isSelected())
+    {
+      qDebug() << "Warning: setSelected did not select the item";
+    }
+    if (!new_focus_item->hasFocus())
+    {
+      qDebug() << "Warning: setFocus did not set focus to the item";
+    }
+  }
+}
+
 void ribi::cmap::QtConceptMap::Undo() noexcept
 {
   assert(m_undo.count() > 0);

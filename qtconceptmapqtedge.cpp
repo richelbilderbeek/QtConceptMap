@@ -212,6 +212,7 @@ bool ribi::cmap::QtEdge::isSelected() const
   return GetQtNode()->isSelected();
 }
 
+/*
 void ribi::cmap::QtEdge::keyPressEvent(QKeyEvent *event) noexcept
 {
   //Don't forward the keyPressEvent!
@@ -224,6 +225,7 @@ void ribi::cmap::QtEdge::keyPressEvent(QKeyEvent *event) noexcept
   }
   QGraphicsItem::keyPressEvent(event);
 }
+*/
 
 void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept
 {  
