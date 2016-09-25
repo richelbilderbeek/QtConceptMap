@@ -15,10 +15,11 @@
 namespace ribi {
 namespace cmap {
 
-struct QtEdgeFactory
-{
-  QtEdgeFactory();
+//struct QtEdgeFactory
+//{
+  //QtEdgeFactory();
 
+  /*
   boost::shared_ptr<QtEdge> Create(
     const Edge& node,
     QtNode* const from,
@@ -26,13 +27,14 @@ struct QtEdgeFactory
     QtNode* const to
     //const boost::shared_ptr<QtNode>& to
   ) const noexcept;
-
+  */
 
   ///Obtain a Edge or CenterEdge from an XML std::string
-  Edge FromXml(const std::string& s) const noexcept;
+  //Edge FromXml(const std::string& s) const noexcept;
 
-  int GetNumberOfTests() const noexcept;
+  //int GetNumberOfTests() const noexcept;
 
+  /*
   std::vector<boost::shared_ptr<QtEdge>> GetTests(
     const boost::shared_ptr<QtNode>& from,
     const boost::shared_ptr<QtNode>& to
@@ -43,7 +45,8 @@ struct QtEdgeFactory
     const boost::shared_ptr<QtNode>& from,
     const boost::shared_ptr<QtNode>& to
   ) const noexcept;
-};
+  */
+//};
 
 } //~namespace cmap
 } //~namespace ribi

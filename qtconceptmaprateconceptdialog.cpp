@@ -133,6 +133,10 @@ int ribi::cmap::QtRateConceptDialog::GetConcreteness() const noexcept
   return ui->box_concreteness->currentIndex();
 }
 
+bool ribi::cmap::QtRateConceptDialog::GetOkClicked() const noexcept {
+  return m_button_ok_clicked;
+}
+
 int ribi::cmap::QtRateConceptDialog::GetSpecificity() const noexcept
 {
   return ui->box_specificity->currentIndex();

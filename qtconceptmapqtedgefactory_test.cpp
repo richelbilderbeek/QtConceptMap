@@ -4,6 +4,6 @@
 
 void ribi::cmap::qtconceptmapqtedgefactory_test::all_tests()
 {
-  QtEdgeFactory f;
-  QVERIFY(f.GetNumberOfTests() > 0);
+  //QtEdgeFactory f;
+  //QVERIFY(f.GetNumberOfTests() > 0);
 }

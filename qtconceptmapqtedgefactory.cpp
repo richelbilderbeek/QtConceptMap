@@ -1,5 +1,6 @@
 #include "qtconceptmapqtedgefactory.h"
 
+/*
 #include <cassert>
 
 #include "conceptmapedgefactory.h"
@@ -8,7 +9,6 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnodefactory.h"
-
 
 
 ribi::cmap::QtEdgeFactory::QtEdgeFactory()
@@ -64,3 +64,4 @@ std::vector<boost::shared_ptr<ribi::cmap::QtEdge>> ribi::cmap::QtEdgeFactory::Ge
   assert(GetNumberOfTests() == static_cast<int>(qtedges.size()));
   return qtedges;
 }
+*/

@@ -53,7 +53,7 @@ class QtRateConceptDialog : public ribi::QtHideAndShowDialog
   ~QtRateConceptDialog() noexcept;
 
   ///To distinguish between closing the dialog by clicking OK, or by ALT-F4
-  bool GetOkClicked() const noexcept { return m_button_ok_clicked; }
+  bool GetOkClicked() const noexcept;
 
   int GetComplexity() const noexcept;
   int GetConcreteness() const noexcept;
