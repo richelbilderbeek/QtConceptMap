@@ -57,9 +57,13 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
     m_conceptmap(conceptmap),
     m_widget(new QtConceptMap)
 {
+  if (!boost::num_vertices(conceptmap))
+  {
+    throw std::invalid_argument("Need at least one concept");
+  }
+
   ui->setupUi(this);
   m_widget->SetConceptMap(conceptmap);
-  assert(boost::num_vertices(m_conceptmap));
 
   assert(m_widget);
   assert(ui->conceptmap_layout);

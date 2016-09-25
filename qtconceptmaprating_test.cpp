@@ -10,9 +10,16 @@ void ribi::cmap::qtconceptmaprating_test::all_tests()
   QVERIFY(r.SuggestComplexity(0, 0) == 0);
   QVERIFY(r.SuggestComplexity(1, 0) == 0);
   QVERIFY(r.SuggestComplexity(1, 1) == 1);
+  QVERIFY(r.SuggestComplexity(1, 2) == 1);
+  QVERIFY(r.SuggestComplexity(1, 3) == 1);
+  QVERIFY(r.SuggestComplexity(1, 4) == 1);
+  QVERIFY(r.SuggestComplexity(1, 5) == 1);
   QVERIFY(r.SuggestComplexity(2, 0) == 1);
-  QVERIFY(r.SuggestComplexity(1, 2) == 2);
   QVERIFY(r.SuggestComplexity(2, 1) == 2);
+  QVERIFY(r.SuggestComplexity(2, 2) == 2);
+  QVERIFY(r.SuggestComplexity(2, 3) == 2);
+  QVERIFY(r.SuggestComplexity(2, 4) == 2);
+  QVERIFY(r.SuggestComplexity(2, 5) == 2);
 
   //Number of examples
   QVERIFY(r.SuggestConcreteness(0) == 0);

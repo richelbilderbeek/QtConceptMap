@@ -21,7 +21,14 @@ void ribi::cmap::qtconceptmaprateconceptdialog_test::show_concept_map_with_only_
 void ribi::cmap::qtconceptmaprateconceptdialog_test::show_empty_concept_map()
 {
   ConceptMap m = ConceptMapFactory().Get0();
-  QtRateConceptDialog d(m);
-  d.show();
-
+  try
+  {
+    QtRateConceptDialog d(m);
+    d.show();
+    QVERIFY(!"Should not get here");
+  }
+  catch (std::invalid_argument&)
+  {
+    QVERIFY("OK");
+  }
 }
