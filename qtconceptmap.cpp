@@ -224,6 +224,21 @@ void ribi::cmap::AddNodesToScene(
   }
 }
 
+void ribi::cmap::QtConceptMap::changeEvent(QEvent * event)
+{
+  if (event->type() == QEvent::EnabledChange)
+  {
+    if (isEnabled())
+    {
+      this->StartTimer();
+    }
+    else
+    {
+      this->StopTimer();
+    }
+  }
+}
+
 void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclomatic complexity is acceptable here
   const QtConceptMap& q
 ) noexcept
@@ -736,6 +751,8 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 
 void ribi::cmap::QtConceptMap::Respond()
 {
+  assert(this->isVisible());
+  assert(this->isEnabled());
   CheckInvariants(*this);
   for (const auto item: GetScene().items())
   {

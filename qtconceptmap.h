@@ -97,6 +97,7 @@ public:
 
 public slots:
 
+  void changeEvent(QEvent *) override;
   void keyPressEvent(QKeyEvent* event) override;
   void mouseMoveEvent(QMouseEvent * event) override;
   void mouseDoubleClickEvent(QMouseEvent *event) override;
