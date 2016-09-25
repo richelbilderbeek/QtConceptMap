@@ -13,21 +13,13 @@ SOURCES += \
     $$PWD/qtconceptmaprateexamplesdialog_test.cpp \
     $$PWD/qtconceptmapqtnode_test.cpp \
     $$PWD/qtconceptmap_test.cpp \
-    $$PWD/qtconceptmaphelper_test.cpp
+    $$PWD/qtconceptmaphelper_test.cpp \
+    $$PWD/qtconceptmapbrushfactory_test.cpp \
+    $$PWD/qtconceptmapexampledialog_test.cpp \
+    $$PWD/qtconceptmapqtedgefactory_test.cpp \
+    $$PWD/qtconceptmaprateconceptdialog_test.cpp \
+    $$PWD/qtconceptmapratedconceptdialog_test.cpp \
+    $$PWD/qtconceptmaprating_test.cpp
 
 HEADERS += \
-    $$PWD/qtconceptmapcenternode_test.h \
-    $$PWD/qtconceptmapcompetency_test.h \
-    $$PWD/qtconceptmapconcepteditdialog_test.h \
-    $$PWD/qtconceptmapedgedialog_test.h \
-    $$PWD/qtconceptmapexamplesdialog_test.h \
-    $$PWD/qtconceptmapnodedialog_test.h \
-    $$PWD/qtconceptmapqtedgedialog_test.h \
-    $$PWD/qtconceptmapqtedge_test.h \
-    $$PWD/qtconceptmapqtnodedialog_test.h \
-    $$PWD/qtconceptmapqtnodefactory_test.h \
-    $$PWD/qtconceptmaprateconcepttallydialog_test.h \
-    $$PWD/qtconceptmaprateexamplesdialog_test.h \
-    $$PWD/qtconceptmapqtnode_test.h \
-    $$PWD/qtconceptmap_test.h \
-    $$PWD/qtconceptmaphelper_test.h
+    $$PWD/*_test.h

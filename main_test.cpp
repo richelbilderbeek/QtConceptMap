@@ -15,14 +15,25 @@
 #include "qtconceptmaprateconcepttallydialog_test.h"
 #include "qtconceptmaprateexamplesdialog_test.h"
 #include "qtconceptmap_test.h"
+#include "qtconceptmaprating_test.h"
+#include "qtconceptmapbrushfactory_test.h"
+#include "qtconceptmapratedconceptdialog_test.h"
+#include "qtconceptmaprateconceptdialog_test.h"
+#include "qtconceptmapqtedgefactory_test.h"
+#include "qtconceptmapexampledialog_test.h"
 
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  { ribi::cmap::qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
 
   //These are all tests in alphabetical order
+  { ribi::cmap::qtconceptmaprating_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmapratedconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmaprateconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmapqtedgefactory_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmapexampledialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapcenternode_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapcompetency_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapconcepteditdialog_test t; error |= QTest::qExec(&t, argc, argv); }
