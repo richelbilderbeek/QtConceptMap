@@ -159,6 +159,13 @@ void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
 
+///Get all the items that can be focused and selected on
+///This also depends on the mode: if the user is rating a concept map,
+///the center node is not selectable.
+std::vector<QGraphicsItem *> GetFocusableItems(const QtConceptMap& q);
+
+
+
 ///Obtain the first QtNode under the cursor
 ///Returns nullptr if none is present
 QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;

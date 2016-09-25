@@ -158,14 +158,9 @@ void ribi::cmap::AddEdgesToScene(
   const auto eip = edges(conceptmap);
   for(auto i = eip.first; i != eip.second; ++i)
   {
-    assert(boost::num_edges(conceptmap));
-    const VertexDescriptor vd_from = boost::source(*i, conceptmap);
-    const VertexDescriptor vd_to = boost::target(*i, conceptmap);
-    assert(vd_from != vd_to);
-    const auto vertex_map = get(boost::vertex_custom_type, conceptmap);
-    const Node from = get(vertex_map, vd_from);
-    const Node to = get(vertex_map, vd_to);
-    assert(from.GetId() != to.GetId());
+    const std::pair<Node, Node> from_to = GetFromTo(*i, conceptmap);
+    const Node from{from_to.first};
+    const Node to{from_to.second};
     QtNode * const qtfrom = FindQtNode(from.GetId(), scene);
     QtNode * const qtto = FindQtNode(to.GetId(), scene);
     assert(qtfrom != qtto);
@@ -386,6 +381,39 @@ void ribi::cmap::QtConceptMap::DoCommand(Command * const command) noexcept
 
   CheckInvariants(*this);
 }
+
+std::vector<QGraphicsItem *> ribi::cmap::GetFocusableItems(
+  const QtConceptMap& q
+)
+{
+  auto all_items = GetQtNodesAlsoOnQtEdge(q.GetScene());
+
+  //In Rate mode, one cannot select the center node
+  if (q.GetMode() == Mode::rate)
+  {
+    all_items.erase(
+      std::remove_if(
+        std::begin(all_items),
+        std::end(all_items),
+        [](ribi::cmap::QtNode * const qtnode) { return IsCenterNode(qtnode->GetNode());  }
+      ),
+      std::end(all_items)
+    );
+  }
+
+  std::vector<QGraphicsItem *> items;
+  std::copy_if(std::begin(all_items),std::end(all_items),std::back_inserter(items),
+    [](const QGraphicsItem* const item)
+    {
+      return (item->flags() & QGraphicsItem::ItemIsFocusable)
+        && (item->flags() & QGraphicsItem::ItemIsSelectable)
+        && item->isVisible()
+      ;
+    }
+  );
+  return items;
+}
+
 
 ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
   const QtConceptMap& q,
@@ -1053,38 +1081,15 @@ void ribi::cmap::SetRandomFocus(
   }
 
   //Let a random QtNode receive focus
-  auto all_items = GetQtNodesAlsoOnQtEdge(q.GetScene());
+  const auto items = GetFocusableItems(q);
 
-  //In Rate mode, one cannot select the center node
-  if (q.GetMode() == Mode::rate)
-  {
-    all_items.erase(
-      std::remove_if(
-        std::begin(all_items),
-        std::end(all_items),
-        [](ribi::cmap::QtNode * const qtnode) { return IsCenterNode(qtnode->GetNode());  }
-      ),
-      std::end(all_items)
-    );
-  }
-
-  QList<QGraphicsItem *> items;
-  std::copy_if(std::begin(all_items),std::end(all_items),std::back_inserter(items),
-    [](const QGraphicsItem* const item)
-    {
-      return (item->flags() & QGraphicsItem::ItemIsFocusable)
-        && (item->flags() & QGraphicsItem::ItemIsSelectable)
-        && item->isVisible()
-      ;
-    }
-  );
   if (!items.empty())
   {
     static std::mt19937 rng_engine{0};
     std::uniform_int_distribution<int> distribution(0, static_cast<int>(items.size()) - 1);
     const int i{distribution(rng_engine)};
     assert(i >= 0);
-    assert(i < items.size());
+    assert(i < static_cast<int>(items.size()));
     auto& new_focus_item = items[i];
     assert(!new_focus_item->isSelected());
     new_focus_item->setSelected(true);
