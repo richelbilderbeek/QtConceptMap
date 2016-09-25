@@ -137,21 +137,14 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
 
 ribi::cmap::QtConceptMap::~QtConceptMap() noexcept
 {
-  try
-  {
-    m_timer->stop();
-    m_highlighter->Stop();
-    m_undo.clear();
-    m_highlighter->SetItem(nullptr); //Do this before destroying items
-    m_tools->SetBuddyItem(nullptr);
-    delete m_examples_item;
-    delete m_tools;
-    delete m_arrow;
-  }
-  catch (...)
-  {
-    assert(!"Should not get here");
-  }
+  m_timer->stop();
+  m_highlighter->Stop();
+  m_undo.clear();
+  m_highlighter->SetItem(nullptr); //Do this before destroying items
+  m_tools->SetBuddyItem(nullptr);
+  delete m_examples_item;
+  delete m_tools;
+  delete m_arrow;
 }
 
 void ribi::cmap::AddEdgesToScene(

@@ -41,7 +41,7 @@ namespace cmap {
 ///  2: QtNewArrow
 ///  0: QtNodes
 /// -1: QtEdges
-class QtConceptMap : public ribi::QtKeyboardFriendlyGraphicsView
+class QtConceptMap : public ribi::QtKeyboardFriendlyGraphicsView //!OCLINT cannot get it smaller
 {
   Q_OBJECT //!OCLINT
 
