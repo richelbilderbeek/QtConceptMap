@@ -148,47 +148,50 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptName(
 
 std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
   ribi::cmap::QtRateConceptTallyDialog::CreateData(
-  const ConceptMap& /* map */
+  const ConceptMap& map
 )
 {
   std::vector<Row> data;
-
-  #ifdef FIX_ISSUE_10
-  assert(map);
-  assert(map->GetFocalNode());
-
   //Add the focal concept its examples (not its name: this cannot be judged)
+  /*
   {
-    const Concept focal_concept = map->GetFocalNode()->GetConcept();
-    const int n_examples = boost::numeric_cast<int>(focal_concept.GetExamples().Get().size());
+    const auto focal_concept = GetCenterNode(map).GetConcept();
+    const int n_examples{
+      boost::numeric_cast<int>(
+        focal_concept.GetExamples().Get().size()
+      )
+    };
     for (int i=0; i!=n_examples; ++i)
     {
       Edge empty_edge;
       data.push_back(std::make_tuple(empty_edge,focal_concept,i));
     }
   }
+  */
 
   //Collect all relations of the focal node of this sub concept map
-  for(const Edge edge: map->GetEdges())
+  //for(const Edge edge: map->GetEdges())
+  const auto eip = boost::edges(map);
+  for (auto ed = eip.first; ed != eip.second; ++ed)
   {
+
     //But skip the connections to the focal question
-    if (IsCenterNode(*edge.GetTo())
-      || IsCenterNode(*edge.GetFrom()))
+    if (IsCenterNode(GetFrom(*ed, map))
+      || IsCenterNode(GetTo(*ed, map)))
     {
       continue;
     }
 
 
+    const Edge edge = GetEdge(*ed, map);
     const Concept concept = edge.GetNode().GetConcept();
-    data.push_back(std::make_tuple(edge,concept,-1));
+    data.push_back(std::make_tuple(*ed, concept,-1));
     const int n_examples = boost::numeric_cast<int>(concept.GetExamples().Get().size());
     for (int i=0; i!=n_examples; ++i)
     {
-      Edge empty_edge;
-      data.push_back(std::make_tuple(empty_edge,concept,i));
+      data.push_back(std::make_tuple(*ed,concept,i));
     }
   }
-  #endif // FIX_ISSUE_10
   return data;
 }
 
