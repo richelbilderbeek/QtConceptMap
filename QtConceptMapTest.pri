@@ -4,6 +4,7 @@ SOURCES += \
     $$PWD/qtconceptmapconcepteditdialog_test.cpp \
     $$PWD/qtconceptmapedgedialog_test.cpp \
     $$PWD/qtconceptmapexamplesdialog_test.cpp \
+    $$PWD/qtconceptmapnewarrow_test.cpp \
     $$PWD/qtconceptmapnodedialog_test.cpp \
     $$PWD/qtconceptmapqtedgedialog_test.cpp \
     $$PWD/qtconceptmapqtedge_test.cpp \
