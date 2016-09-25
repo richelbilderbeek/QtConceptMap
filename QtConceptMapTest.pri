@@ -16,7 +16,6 @@ SOURCES += \
     $$PWD/qtconceptmaphelper_test.cpp \
     $$PWD/qtconceptmapbrushfactory_test.cpp \
     $$PWD/qtconceptmapexampledialog_test.cpp \
-    $$PWD/qtconceptmapqtedgefactory_test.cpp \
     $$PWD/qtconceptmaprateconceptdialog_test.cpp \
     $$PWD/qtconceptmapratedconceptdialog_test.cpp \
     $$PWD/qtconceptmaprating_test.cpp

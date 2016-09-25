@@ -19,7 +19,6 @@
 #include "qtconceptmapbrushfactory_test.h"
 #include "qtconceptmapratedconceptdialog_test.h"
 #include "qtconceptmaprateconceptdialog_test.h"
-#include "qtconceptmapqtedgefactory_test.h"
 #include "qtconceptmapexampledialog_test.h"
 
 int main(int argc, char *argv[])
@@ -34,7 +33,6 @@ int main(int argc, char *argv[])
   { ribi::cmap::qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapratedconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmaprateconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }
-  { ribi::cmap::qtconceptmapqtedgefactory_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapexampledialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapcenternode_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapcompetency_test t; error |= QTest::qExec(&t, argc, argv); }
