@@ -843,9 +843,9 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
 
   //Edit concept
   QtConceptMapConceptEditDialog d(item->GetNode().GetConcept());
-  //q.setEnabled(false);
+  q.setEnabled(false);
   d.exec();
-  //q.setEnabled(true);
+  q.setEnabled(true);
 
   //Find the original Node or Edge
   if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
@@ -884,7 +884,6 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
 void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)
 {
   //Rate concept
-  QtScopedDisable<QtConceptMap> disable(&q); //!OCLINT This is an unused variable, and should be
   const auto vd = ::find_first_custom_vertex_with_my_vertex(
     item->GetNode(), q.GetConceptMap()
   );
@@ -894,7 +893,9 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)
       q.GetConceptMap()
     );
   ribi::cmap::QtRateConceptDialog d(subgraph);
+  q.setEnabled(false);
   d.exec();
+  q.setEnabled(true);
   if (d.GetOkClicked())
   {
     //Find the original Node
@@ -936,9 +937,10 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode* const item)
 {
   //Rate examples
   if (item->GetNode().GetConcept().GetExamples().Get().empty()) return;
-  QtScopedDisable<QtConceptMap> disable(&q); //!OCLINT This is an unused variable, and should be
   ribi::cmap::QtRateExamplesDialog d(item->GetNode().GetConcept());
+  q.setEnabled(false);
   d.exec();
+  q.setEnabled(true);
   //Find the original Node
   const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
   //Update the node here
@@ -1058,7 +1060,21 @@ void ribi::cmap::SetRandomFocus(
   }
 
   //Let a random QtNode receive focus
-  const auto all_items = GetQtNodesAlsoOnQtEdge(q.GetScene());
+  auto all_items = GetQtNodesAlsoOnQtEdge(q.GetScene());
+
+  //In Rate mode, one cannot select the center node
+  if (q.GetMode() == Mode::rate)
+  {
+    all_items.erase(
+      std::remove_if(
+        std::begin(all_items),
+        std::end(all_items),
+        [](ribi::cmap::QtNode * const qtnode) { return IsCenterNode(qtnode->GetNode());  }
+      ),
+      std::end(all_items)
+    );
+  }
+
   QList<QGraphicsItem *> items;
   std::copy_if(std::begin(all_items),std::end(all_items),std::back_inserter(items),
     [](const QGraphicsItem* const item)
