@@ -6,6 +6,7 @@
 #include "qtconceptmapedgedialog_test.h"
 #include "qtconceptmapexamplesdialog_test.h"
 #include "qtconceptmaphelper_test.h"
+#include "qtconceptmapitemhighlighter_test.h"
 #include "qtconceptmapnewarrow_test.h"
 #include "qtconceptmapnodedialog_test.h"
 #include "qtconceptmapqtedgedialog_test.h"
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ ribi::cmap::qtconceptmapnewarrow_test t; error |= QTest::qExec(&t, argc, argv); }
+  //{ ribi::cmap::qtconceptmapitemhighlighter_test t; error |= QTest::qExec(&t, argc, argv); }
   //return 0;
 
   //These are all tests in alphabetical order
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
   { ribi::cmap::qtconceptmapconcepteditdialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapedgedialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapexamplesdialog_test t; error |= QTest::qExec(&t, argc, argv); }
+  { ribi::cmap::qtconceptmapitemhighlighter_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapnewarrow_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapnodedialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtedgedialog_test t; error |= QTest::qExec(&t, argc, argv); }
