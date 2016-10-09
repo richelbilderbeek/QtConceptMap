@@ -11,7 +11,8 @@ class qtconceptmaprateexamplesdialog_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void all_tests();
+  void get_rated_examples();
+  void key_presses();
 };
 
 } //~namespace cmap
