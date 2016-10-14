@@ -3,6 +3,8 @@
 
 #include <climits>
 #include <cmath>
+#include <sstream>
+#include <iostream>
 
 //#include <QCursor>
 //#include <QKeyEvent>
@@ -65,7 +67,7 @@ void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem_with_e
 void ribi::cmap::qtconceptmapqtnode_test::to_str()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
-  QVERIFY(!QtNode().ToStr().empty());
+  QVERIFY(!qtnode->ToStr().empty());
 }
 
 void ribi::cmap::qtconceptmapqtnode_test::to_stream()
