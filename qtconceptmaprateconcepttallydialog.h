@@ -51,6 +51,9 @@ public:
   QtRateConceptTallyDialog& operator=(const QtRateConceptTallyDialog&) = delete;
   ~QtRateConceptTallyDialog() noexcept;
 
+  ///
+  Concept GetConcept() const noexcept;
+
   ///Obtain the suggested complexity, calculated from this dialog
   int GetSuggestedComplexity() const;
 

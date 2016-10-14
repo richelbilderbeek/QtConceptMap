@@ -57,100 +57,72 @@ void ribi::cmap::qtconceptmaprateconcepttallydialog_test::construct_with_test_co
   QVERIFY("Should be no throw");
 }
 
+void ribi::cmap::qtconceptmaprateconcepttallydialog_test::key_presses()
+{
+  using namespace ribi::cmap;
+  const ConceptMap conceptmap = ConceptMapFactory().Get6();
+  QtRateConceptTallyDialog d(conceptmap);
+  //Translate
+  QTest::keyClick(&d, Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier);
+  //Close
+  QTest::keyClick(&d, Qt::Key_Escape);
+}
+
 void ribi::cmap::qtconceptmaprateconcepttallydialog_test::measure_ui_from_test_concept_map()
 {
-  return; // TODO, #define NOT_NOW_20160327
+  //return; // TODO, #define NOT_NOW_20160327
 
   using namespace ribi::cmap;
 
-  const ConceptMap conceptmap = ConceptMapFactory().Get6();
+  const ConceptMap conceptmap = ConceptMapFactory().GetRateConceptTallyDialogExample();
   QtRateConceptTallyDialog d{conceptmap};
   d.show();
+  d.resize(500,500);
   for (int i=0; i!=1000; ++i) qApp->processEvents();
 
   QCOMPARE(d.GetUi()->table->columnCount(), 4);
-  QCOMPARE(d.GetUi()->table->rowCount(), 3);
-  QCOMPARE(boost::num_vertices(conceptmap), 2);
-  QCOMPARE(boost::num_edges(conceptmap), 1);
-  const Node focal_node = GetFirstNode(conceptmap);
-  //const Node other_node = conceptmap.GetNodes()[1]; //Don't care
-  const Edge edge = ribi::cmap::GetFirstEdge(conceptmap);
+  QCOMPARE(d.GetUi()->table->rowCount(), 5);
+  QVERIFY(boost::num_vertices(conceptmap) == 3);
+  QVERIFY(boost::num_edges(conceptmap) == 2);
 
+  // [X] [empty] [empty] via 'prerequisite' verbonden met 'order'
   QVERIFY(d.GetUi()->table->item(0,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(0,1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(0,2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.GetUi()->table->item(0,1)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.GetUi()->table->item(0,2)->flags() == Qt::ItemIsEnabled); //Empty
   QVERIFY(d.GetUi()->table->item(0,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
 
+  // [X] [C] [S] Always establish order first
   QVERIFY(d.GetUi()->table->item(1,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(1,1)->flags() == Qt::ItemIsEnabled); //Empty
-  QVERIFY(d.GetUi()->table->item(1,2)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.GetUi()->table->item(1,1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.GetUi()->table->item(1,2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
   QVERIFY(d.GetUi()->table->item(1,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
 
+  // [X] [C] [S] Punishment
   QVERIFY(d.GetUi()->table->item(2,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
   QVERIFY(d.GetUi()->table->item(2,1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
   QVERIFY(d.GetUi()->table->item(2,2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
   QVERIFY(d.GetUi()->table->item(2,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
 
-  //Check current state, before modification
+  // [X] [empty] [empty] via 'strengthen' verbonden met 'order'
+  QVERIFY(d.GetUi()->table->item(3,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.GetUi()->table->item(3,1)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.GetUi()->table->item(3,2)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.GetUi()->table->item(3,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
 
-  QVERIFY(d.GetUi()->table->item(0,0)->checkState() == (focal_node.GetConcept().GetExamples().Get()[0].GetIsComplex() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(0,1)->checkState() == (focal_node.GetConcept().GetExamples().Get()[0].GetIsConcrete() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(0,2)->checkState() == (focal_node.GetConcept().GetExamples().Get()[0].GetIsSpecific() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(0,3)->text() == QString(focal_node.GetConcept().GetExamples().Get()[0].GetText().c_str()));
+  // [X] [C] [S] Students teaching each other get to know each other
+  QVERIFY(d.GetUi()->table->item(4,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.GetUi()->table->item(4,1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.GetUi()->table->item(4,2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.GetUi()->table->item(4,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
 
-  QVERIFY(d.GetUi()->table->item(1,0)->checkState() == (edge.GetNode().GetConcept().GetIsComplex() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(1,1)->text() == "");
-  QVERIFY(d.GetUi()->table->item(1,2)->text() == "");
-  //NEW 20131231: now the text contains both
-  //- the concept name of the edge
-  //- the name of the node the edge is connected to
-  #ifdef NOT_NOW_20160201
-  QVERIFY(d.GetUi()->table->item(1,3)->text().toStdString().find(edge.GetNode().GetConcept().GetName()) != std::string::npos);
-  QVERIFY(d.GetUi()->table->item(1,3)->text().toStdString().find(edge.GetTo()->GetConcept().GetName()) != std::string::npos);
-  //OLD QVERIFY(d.GetUi()->table->item(1,3)->text() == QString(edge.GetConcept().GetName().c_str()));
-  #endif // NOT_NOW_20160201
-
-  QVERIFY(d.GetUi()->table->item(2,0)->checkState() == (edge.GetNode().GetConcept().GetExamples().Get()[0].GetIsComplex() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(2,1)->checkState() == (edge.GetNode().GetConcept().GetExamples().Get()[0].GetIsConcrete() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(2,2)->checkState() == (edge.GetNode().GetConcept().GetExamples().Get()[0].GetIsSpecific() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(2,3)->text() == QString(edge.GetNode().GetConcept().GetExamples().Get()[0].GetText().c_str()));
-
-  //Modify table
+  //Modify first row
   d.GetUi()->table->item(0,0)->setCheckState(d.GetUi()->table->item(0,0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(0,1)->setCheckState(d.GetUi()->table->item(0,1)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(0,2)->setCheckState(d.GetUi()->table->item(0,2)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  //d.GetUi()->table->item(0,3)->setText("MODIFIED"); //User should not be able to modify this
+  d.GetUi()->table->item(0,3)->setText("order (as in peace and quiet)");
 
+  //Modify second row
   d.GetUi()->table->item(1,0)->setCheckState(d.GetUi()->table->item(1,0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  //d.GetUi()->table->item(1,3)->setText("MODIFIED TOO"); //User should not be able to modify this
+  d.GetUi()->table->item(1,1)->setCheckState(d.GetUi()->table->item(1,1)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
+  d.GetUi()->table->item(1,2)->setCheckState(d.GetUi()->table->item(1,2)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
+  d.GetUi()->table->item(1,3)->setText("Order should be established first");
 
-  d.GetUi()->table->item(2,0)->setCheckState(d.GetUi()->table->item(2,0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(2,1)->setCheckState(d.GetUi()->table->item(2,1)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(2,2)->setCheckState(d.GetUi()->table->item(2,2)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  //d.GetUi()->table->item(2,3)->setText("MODIFIED AS WELL"); //User should not be able to modify this
-
-  //Check that data is modified by GUI
-
-  QVERIFY(d.GetUi()->table->item(0,0)->checkState() == (focal_node.GetConcept().GetExamples().Get()[0].GetIsComplex() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(0,1)->checkState() == (focal_node.GetConcept().GetExamples().Get()[0].GetIsConcrete() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(0,2)->checkState() == (focal_node.GetConcept().GetExamples().Get()[0].GetIsSpecific() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(0,3)->text() == QString(focal_node.GetConcept().GetExamples().Get()[0].GetText().c_str()));
-
-  QVERIFY(d.GetUi()->table->item(1,0)->checkState() == (edge.GetNode().GetConcept().GetIsComplex() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(1,1)->text() == "");
-  QVERIFY(d.GetUi()->table->item(1,2)->text() == "");
-
-  //NEW 20131231: now the text contains both
-  //- the concept name of the edge
-  //- the name of the node the edge is connected to
-  #ifdef NOT_NOW_20160201
-  QVERIFY(d.GetUi()->table->item(1,3)->text().toStdString().find(edge.GetNode().GetConcept().GetName()) != std::string::npos);
-  QVERIFY(d.GetUi()->table->item(1,3)->text().toStdString().find(edge.GetTo()->GetConcept().GetName()) != std::string::npos);
-  //OLD QVERIFY(d.GetUi()->table->item(1,3)->text() == QString(edge.GetConcept().GetName().c_str()));
-  #endif // NOT_NOW_20160201
-
-  QVERIFY(d.GetUi()->table->item(2,0)->checkState() == (edge.GetNode().GetConcept().GetExamples().Get()[0].GetIsComplex() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(2,1)->checkState() == (edge.GetNode().GetConcept().GetExamples().Get()[0].GetIsConcrete() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(2,2)->checkState() == (edge.GetNode().GetConcept().GetExamples().Get()[0].GetIsSpecific() ? Qt::Checked : Qt::Unchecked));
-  QVERIFY(d.GetUi()->table->item(2,3)->text() == QString(edge.GetNode().GetConcept().GetExamples().Get()[0].GetText().c_str()));
 }

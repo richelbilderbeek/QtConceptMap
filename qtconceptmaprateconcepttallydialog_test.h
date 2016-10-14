@@ -13,6 +13,7 @@ class qtconceptmaprateconcepttallydialog_test : public QObject
 private slots:
   void construct_with_empty_conceptmap();
   void construct_with_test_conceptmap();
+  void key_presses();
   void measure_ui_from_test_concept_map();
 
 };

@@ -286,6 +286,7 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
     }
     return;
   }
+
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
