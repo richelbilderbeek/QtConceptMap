@@ -192,7 +192,7 @@ const ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::WriteToConc
   //Name
   const std::string name = ui->edit_concept->text().toStdString();
   //Examples
-  std::vector<boost::shared_ptr<cmap::Example> > v;
+  std::vector<std::shared_ptr<cmap::Example> > v;
 
   const int n_items = ui->list_examples->count();
   for (int i=0; i!=n_items; ++i)
@@ -202,7 +202,7 @@ const ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::WriteToConc
       = dynamic_cast<const QtConceptMapListWidgetItem *>(item);
     const Competency competency = braw_item
       ? braw_item->m_competency : cmap::Competency::uninitialized;
-    boost::shared_ptr<Example> p(
+    std::shared_ptr<Example> p(
       cmap::ExampleFactory().Create(
         item->text().toStdString(),
         competency
@@ -212,7 +212,7 @@ const ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::WriteToConc
   }
   assert(n_items == boost::numeric_cast<int>(v.size()));
   //Set to concept
-  const boost::shared_ptr<ribi::cmap::Examples> examples(new cmap::Examples(v));
+  const std::shared_ptr<ribi::cmap::Examples> examples(new cmap::Examples(v));
   assert(examples);
   const Concept concept
     = ribi::cmap::ConceptFactory().Create(

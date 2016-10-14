@@ -1,5 +1,6 @@
 #include "qtconceptmapqtnodefactory_test.h"
 #include "qtconceptmapqtnodefactory.h"
+#include "qtconceptmapqtnode.h"
 
 void ribi::cmap::qtconceptmapqtnodefactory_test::all_tests()
 {

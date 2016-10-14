@@ -4,56 +4,74 @@
 #include <climits>
 #include <cmath>
 
-#include <boost/lambda/lambda.hpp>
-#include <boost/signals2.hpp>
+//#include <QCursor>
+//#include <QKeyEvent>
+//#include <QPainter>
+//#include <QPen>
 
-#include <QCursor>
-#include <QKeyEvent>
-#include <QPainter>
-#include <QPen>
-
-#include "conceptmapconcept.h"
-#include "conceptmapexamples.h"
-#include "conceptmapnodefactory.h"
-#include "conceptmapnode.h"
-#include "container.h"
-#include "qtconceptmapbrushfactory.h"
+//#include "conceptmapconcept.h"
+//#include "conceptmapexamples.h"
+//#include "conceptmapnodefactory.h"
+//#include "conceptmapnode.h"
+//#include "container.h"
+//#include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapqtnodefactory.h"
 
-
-
-
-void ribi::cmap::qtconceptmapqtnode_test::all_tests()
+void ribi::cmap::qtconceptmapqtnode_test::disable_and_enable()
 {
-  using namespace ribi;
-  using namespace ribi::cmap;
-  //const bool verbose{false};
-  const double max_error = 2.0;
+  const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
+  qtnode->show();
+  qtnode->DisableAll();
+  qtnode->show();
+  qtnode->EnableAll();
+  qtnode->show();
+}
 
-  //if (verbose) { TRACE("QtNode can be converted to QtRoundedEditRectItem"); }
-  {
-    const auto qtnode = QtNodeFactory().GetTest(1);
-    const boost::shared_ptr<QtRoundedEditRectItem> edit_rect{boost::dynamic_pointer_cast<QtRoundedEditRectItem>(qtnode)};
-    QVERIFY(edit_rect.get());
-    QVERIFY(qtnode == edit_rect);
-  }
+void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem()
+{
+  const auto qtnode = QtNodeFactory().GetTest(1);
+  const QtRoundedEditRectItem * edit_rect{
+    dynamic_cast<QtRoundedEditRectItem*>(qtnode.get())
+  };
+  QVERIFY(edit_rect);
+  QVERIFY(qtnode.get() == edit_rect);
+}
 
-  //if (verbose) { TRACE("Test X coordinat in Node and QtRoundedEditRectItem being equal at creation"); }
-  {
-    const auto qtnode = QtNodeFactory().GetTest(1);
-    const boost::shared_ptr<QtRoundedEditRectItem> edit_rect{boost::dynamic_pointer_cast<QtRoundedEditRectItem>(qtnode)};
-    const auto node = qtnode->GetNode();
-    const double node_x = node.GetX();
-    const double edit_rect_x = edit_rect->GetCenterX();
-    QVERIFY(std::abs(node_x - edit_rect_x) < max_error);
-  }
-  //if (verbose) { TRACE("Test Y coordinat in Node and QtRoundedEditRectItem being equal at creation"); }
-  {
-    const auto qtnode = QtNodeFactory().GetTest(1);
-    const boost::shared_ptr<QtRoundedEditRectItem> edit_rect{boost::dynamic_pointer_cast<QtRoundedEditRectItem>(qtnode)};
-    const auto node = qtnode->GetNode();
-    const double node_y = node.GetY();
-    const double edit_rect_y = edit_rect->GetCenterY();
-    QVERIFY(std::abs(node_y - edit_rect_y) < max_error);
-  }
+void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem_with_equal_x()
+{
+  const auto qtnode = QtNodeFactory().GetTest(1);
+  const QtRoundedEditRectItem * edit_rect{
+    dynamic_cast<QtRoundedEditRectItem*>(qtnode.get())
+  };
+  const auto node = qtnode->GetNode();
+  const double node_x = node.GetX();
+  const double edit_rect_x = edit_rect->GetCenterX();
+  QVERIFY(std::abs(node_x - edit_rect_x) < 2.0);
+
+}
+
+void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem_with_equal_y()
+{
+  const auto qtnode = QtNodeFactory().GetTest(1);
+  const QtRoundedEditRectItem * edit_rect{
+    dynamic_cast<QtRoundedEditRectItem*>(qtnode.get())
+  };
+  const auto node = qtnode->GetNode();
+  const double node_y = node.GetY();
+  const double edit_rect_y = edit_rect->GetCenterY();
+  QVERIFY(std::abs(node_y - edit_rect_y) < 2.0);
+}
+
+void ribi::cmap::qtconceptmapqtnode_test::to_str()
+{
+  const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
+  QVERIFY(!QtNode().ToStr().empty());
+}
+
+void ribi::cmap::qtconceptmapqtnode_test::to_stream()
+{
+  const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
+  std::stringstream s;
+  s << (*qtnode);
+  QVERIFY(!s.str().empty());
 }

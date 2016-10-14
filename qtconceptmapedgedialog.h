@@ -25,7 +25,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmapedge.h"
@@ -79,9 +79,9 @@ private:
   ///The Edge to work on
   Edge m_edge;
 
-  boost::shared_ptr<QtNodeDialog> m_qtnodedialog; //The center node
-  boost::shared_ptr<QtNodeDialog> m_qtnodedialog_from;
-  boost::shared_ptr<QtNodeDialog> m_qtnodedialog_to;
+  std::shared_ptr<QtNodeDialog> m_qtnodedialog; //The center node
+  std::shared_ptr<QtNodeDialog> m_qtnodedialog_from;
+  std::shared_ptr<QtNodeDialog> m_qtnodedialog_to;
 
 };
 

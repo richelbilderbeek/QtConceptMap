@@ -13,11 +13,11 @@ ribi::cmap::QtNodeFactory::QtNodeFactory()
 
 }
 
-boost::shared_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::Create(
+std::unique_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::Create(
   const Node& node
 ) const noexcept
 {
-  boost::shared_ptr<QtNode> qtnode{new QtNode(node)};
+  std::unique_ptr<QtNode> qtnode{new QtNode(node)};
   assert(qtnode);
   return qtnode;
 }
@@ -27,25 +27,22 @@ int ribi::cmap::QtNodeFactory::GetNumberOfTests() const noexcept
   return static_cast<int>(GetTests().size());
 }
 
-boost::shared_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetTest(
+std::unique_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetTest(
   const int i
-) const noexcept
+) const
 {
-  const auto tests = GetTests();
-  assert(i >= 0);
-  assert(i < static_cast<int>(tests.size()));
-  return tests[i];
+  return Create(NodeFactory().GetTest(i));
 }
 
-std::vector<boost::shared_ptr<ribi::cmap::QtNode>>
+std::vector<std::shared_ptr<ribi::cmap::QtNode>>
 ribi::cmap::QtNodeFactory::GetTests() const noexcept
 {
-  std::vector<boost::shared_ptr<QtNode>> qtnodes;
+  std::vector<std::shared_ptr<QtNode>> qtnodes;
   const auto v = NodeFactory().GetTests();
   std::transform(v.begin(),v.end(),std::back_inserter(qtnodes),
     [](const Node& c)
     {
-      const boost::shared_ptr<QtNode> q{QtNodeFactory().Create(c)};
+      const std::shared_ptr<QtNode> q{QtNodeFactory().Create(c)};
       assert(q);
       return q;
     }

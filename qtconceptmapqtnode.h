@@ -43,8 +43,6 @@ struct QtNode : public QtRoundedEditRectItem
   ///concept_item contains the Stategy to display (and respond to the concept)
   explicit QtNode(const Node& node, QGraphicsItem* parent = 0);
 
-  //virtual QRectF boundingRect() const { return QtRoundedEditRectItem::boundingRect(); }
-
   void DisableAll();
   void EnableAll();
 

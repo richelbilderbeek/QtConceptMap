@@ -21,13 +21,13 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #ifndef QTCONCEPTMAPEXAMPLESDIALOG_H
 #define QTCONCEPTMAPEXAMPLESDIALOG_H
 
+#include <memory>
 #include <vector>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include <boost/shared_ptr.hpp>
 #include "conceptmapexamples.h"
 #include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
@@ -57,7 +57,7 @@ public:
 
 private:
   Ui::QtExamplesDialog *ui;
-  std::vector<boost::shared_ptr<QtExampleDialog>> m_dialogs;
+  std::vector<std::shared_ptr<QtExampleDialog>> m_dialogs;
   Examples m_examples;
 };
 

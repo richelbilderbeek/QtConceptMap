@@ -5,7 +5,7 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmapnode.h"
@@ -18,7 +18,7 @@ struct QtNodeFactory
 {
   QtNodeFactory();
 
-  boost::shared_ptr<QtNode> Create(const Node& node) const noexcept;
+  std::unique_ptr<QtNode> Create(const Node& node) const noexcept;
 
 
   ///Obtain a Node or CenterNode from an XML std::string
@@ -26,8 +26,10 @@ struct QtNodeFactory
 
   ///Obtain testing nodes
   int GetNumberOfTests() const noexcept;
-  std::vector<boost::shared_ptr<QtNode>> GetTests() const noexcept;
-  boost::shared_ptr<QtNode> GetTest(const int test) const noexcept;
+  std::vector<std::shared_ptr<QtNode>> GetTests() const noexcept;
+
+  ///Will throw if index is invalid
+  std::unique_ptr<QtNode> GetTest(const int i) const;
 };
 
 } //~namespace cmap
