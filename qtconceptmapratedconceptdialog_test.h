@@ -11,7 +11,9 @@ class qtconceptmapratedconceptdialog_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void show_normal();
+  void do_resize_lists();
+  void hide_rating();
+  void show_example();
 };
 
 } //~namespace cmap

@@ -92,7 +92,14 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
 {
   for (const Edge& edge: GetEdges(conceptmap))
   {
-    if (IsConnectedTo(edge, GetCenterNode(conceptmap), conceptmap)) continue;
+    //Do not display edges connected to the center node,
+    //as there is no text on these anyways
+    if (IsCenterNode(GetFrom(edge, conceptmap))
+      || IsCenterNode(GetTo(edge, conceptmap))
+    )
+    {
+      continue;
+    }
     if (IsConnectedTo(edge, node, conceptmap))
     {
       //Dependent on arrow
