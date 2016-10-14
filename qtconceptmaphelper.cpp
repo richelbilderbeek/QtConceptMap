@@ -206,6 +206,7 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   return nullptr;
 }
 
+/*
 ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   const QtNode* const from,
   const QtNode* const to,
@@ -228,6 +229,7 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   if (iter == edge_concepts.end()) return nullptr;
   return * iter;
 }
+*/
 
 ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   const QtNode * const qtnode,

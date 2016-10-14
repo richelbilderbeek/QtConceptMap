@@ -58,6 +58,16 @@ ribi::cmap::QtItemHighlighter::QtItemHighlighter(QObject *parent)
   #endif
 }
 
+ribi::cmap::QtNode* ribi::cmap::QtItemHighlighter::GetItem() noexcept
+{
+  return m_item;
+}
+
+const ribi::cmap::QtNode* ribi::cmap::QtItemHighlighter::GetItem() const noexcept
+{
+  return m_item;
+}
+
 void ribi::cmap::QtItemHighlighter::SetItem(QtNode* const item)
 {
   if (m_item == item) return;

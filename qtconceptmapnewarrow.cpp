@@ -61,6 +61,16 @@ ribi::cmap::QtNewArrow::QtNewArrow()
   assert(!this->isSelected());
 }
 
+const ribi::cmap::QtNode * ribi::cmap::QtNewArrow::GetFrom() const noexcept
+{
+  return m_from;
+}
+
+ribi::cmap::QtNode * ribi::cmap::QtNewArrow::GetFrom() noexcept
+{
+  return m_from;
+}
+
 void ribi::cmap::QtNewArrow::Start(QtNode * const from)
 {
   assert(from);

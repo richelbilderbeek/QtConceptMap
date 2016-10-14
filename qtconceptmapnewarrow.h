@@ -47,9 +47,10 @@ struct QtNewArrow : public QtArrowItem
 
   QtNewArrow(const QtNewArrow&) = delete;
   QtNewArrow& operator=(const QtNewArrow&) = delete;
-  ///Obtain the source node
-  const QtNode * GetFrom() const { return m_from; }
-        QtNode * GetFrom()       { return m_from; }
+
+  ///Obtain the source node, can be nullptr
+  const QtNode * GetFrom() const noexcept;
+  QtNode * GetFrom() noexcept;
 
   private:
   ///Must be suppplied

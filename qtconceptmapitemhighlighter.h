@@ -44,8 +44,8 @@ public:
 
   ///Get the item being highlighted
   ///Returns nullptr if no item is highlighted
-        QtNode* GetItem()       noexcept { return m_item; }
-  const QtNode* GetItem() const noexcept { return m_item; }
+  QtNode* GetItem() noexcept;
+  const QtNode* GetItem() const noexcept;
 
   ///Set the item to highlight.
   ///If set with a nullptr, highlighting the current item stops

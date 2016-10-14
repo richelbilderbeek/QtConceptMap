@@ -44,11 +44,13 @@ QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
 QtEdge * FindQtEdge(const int edge_id, const QGraphicsScene& scene) noexcept;
 
 //Find the Qt edge with the same from and to
+/*
 QtEdge * FindQtEdge(
   const QtNode* const from,
   const QtNode* const to,
   const QGraphicsScene& scene
 ) noexcept;
+*/
 
 ///Find the edge this QtNode is in the center of
 ///Returns nullptr if the QtNode is not on a QtEdge
