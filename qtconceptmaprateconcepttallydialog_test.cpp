@@ -70,8 +70,6 @@ void ribi::cmap::qtconceptmaprateconcepttallydialog_test::key_presses()
 
 void ribi::cmap::qtconceptmaprateconcepttallydialog_test::measure_ui_from_test_concept_map()
 {
-  //return; // TODO, #define NOT_NOW_20160327
-
   using namespace ribi::cmap;
 
   const ConceptMap conceptmap = ConceptMapFactory().GetRateConceptTallyDialogExample();
