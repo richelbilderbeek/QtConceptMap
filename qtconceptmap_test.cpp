@@ -498,6 +498,20 @@ void ribi::cmap::qtconceptmap_test::delete_two_nodes_keyboard()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 }
 
+void ribi::cmap::qtconceptmap_test::get_focusable_items()
+{
+  //In rate mode, the center node cannot be focused on
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.SetMode(Mode::edit);
+  assert(CountCenterNodes(m) > 0);
+  const auto n_edit = GetFocusableItems(m).size();
+  m.SetMode(Mode::rate);
+  const auto n_rate = GetFocusableItems(m).size();
+  QVERIFY(n_rate < n_edit);
+}
+
+
 void ribi::cmap::qtconceptmap_test::is_command_put_on_undo_stack()
 {
   QtConceptMap m;

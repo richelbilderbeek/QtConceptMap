@@ -42,6 +42,7 @@ private slots:
   void delete_one_node_keyboard();
   void delete_two_nodes_command();
   void delete_two_nodes_keyboard();
+  void get_focusable_items();
   void is_command_put_on_undo_stack();
   void issue_96();
   void select_left_node_keyboard();
