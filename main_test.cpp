@@ -12,7 +12,6 @@
 #include "qtconceptmapitemhighlighter_test.h"
 #include "qtconceptmapnewarrow_test.h"
 #include "qtconceptmapnodedialog_test.h"
-#include "qtconceptmapqtedgedialog_test.h"
 #include "qtconceptmapqtedge_test.h"
 #include "qtconceptmapqtnodedialog_test.h"
 #include "qtconceptmapqtnodefactory_test.h"
@@ -44,7 +43,6 @@ int main(int argc, char *argv[])
   { ribi::cmap::qtconceptmapitemhighlighter_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapnewarrow_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapnodedialog_test t; error |= QTest::qExec(&t, argc, argv); }
-  { ribi::cmap::qtconceptmapqtedgedialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtnodedialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtnodefactory_test t; error |= QTest::qExec(&t, argc, argv); }
