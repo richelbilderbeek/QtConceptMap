@@ -64,6 +64,14 @@ QtNode * FindQtNode(const int node_id, const QGraphicsScene& scene) noexcept;
 ///Obtain the center node, if there is any
 QtNode * GetCenterNode(const QGraphicsScene& scene) noexcept;
 
+///Find the first QtEdge
+///Returns nullpt if there are no QtEdges in the scene
+QtEdge * GetFirstQtEdge(const QGraphicsScene& scene) noexcept;
+
+///Find the last QtEdge
+///Returns nullpt if there are no QtEdges in the scene
+QtEdge * GetLastQtEdge(const QGraphicsScene& scene) noexcept;
+
 std::vector<QtEdge *> GetQtEdges(const QGraphicsScene& scene) noexcept;
 
 ///Get all the edges connected to the concept

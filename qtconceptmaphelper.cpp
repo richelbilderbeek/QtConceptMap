@@ -286,6 +286,20 @@ ribi::cmap::GetCenterNode(const QGraphicsScene& scene) noexcept
   return center_node;
 }
 
+ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QGraphicsScene& scene) noexcept
+{
+  const auto qtedges = GetQtEdges(scene);
+  if (qtedges.empty()) return nullptr;
+  return qtedges.front();
+}
+
+ribi::cmap::QtEdge * ribi::cmap::GetLastQtEdge(const QGraphicsScene& scene) noexcept
+{
+  const auto qtedges = GetQtEdges(scene);
+  if (qtedges.empty()) return nullptr;
+  return qtedges.back();
+}
+
 std::vector<ribi::cmap::QtEdge*> ribi::cmap::GetQtEdges(
   const QtNode* const from,
   const QGraphicsScene& scene

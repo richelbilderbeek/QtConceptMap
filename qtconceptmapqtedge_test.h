@@ -12,6 +12,11 @@ class qtconceptmapqtedge_test : public QObject
 
 private slots:
   void all_tests();
+  void change_focus();
+  void enable_and_disable();
+  void show_bounding_rect();
+  void to_str();
+  void to_stream();
 };
 
 } //~namespace cmap

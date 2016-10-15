@@ -3,15 +3,83 @@
 #include <cmath>
 #include <boost/lambda/lambda.hpp>
 
-#include "qtconceptmapqtedge.h"
 #include "conceptmapconcept.h"
 #include "conceptmapedgefactory.h"
 #include "conceptmapedge.h"
+#include "conceptmapfactory.h"
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
+#include "qtconceptmap.h"
+#include "qtconceptmaphelper.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtquadbezierarrowitem.h"
 #include "qtroundededitrectitem.h"
+
+void ribi::cmap::qtconceptmapqtedge_test::change_focus()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  const auto qtedges = GetQtEdges(m.GetScene());
+  assert(qtedges.size() >= 2);
+  QtEdge * const qtedge1 = qtedges.front();
+  QtEdge * const qtedge2 = qtedges.back();
+  assert(qtedge1 != qtedge2);
+  m.show();
+  qtedge1->setFocus();
+  m.show();
+  qtedge2->setFocus();
+  m.show();
+}
+
+void ribi::cmap::qtconceptmapqtedge_test::enable_and_disable()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.show();
+  const auto qtedge = GetFirstQtEdge(m.GetScene());
+  assert(qtedge);
+  DisableAll(*qtedge);
+  m.show();
+  QVERIFY(!qtedge->isEnabled());
+  QVERIFY(!qtedge->GetArrow()->isEnabled());
+  EnableAll(*qtedge);
+  m.show();
+  QVERIFY(qtedge->isEnabled());
+  QVERIFY(qtedge->GetArrow()->isEnabled());
+}
+
+void ribi::cmap::qtconceptmapqtedge_test::show_bounding_rect()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  const auto qtedge = GetLastQtEdge(m.GetScene());
+  assert(qtedge);
+  qtedge->SetShowBoundingRect(true);
+  m.showFullScreen();
+  QTest::qWait(1000);
+}
+
+void ribi::cmap::qtconceptmapqtedge_test::to_str()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.show();
+  const auto qtedge = GetFirstQtEdge(m.GetScene());
+  assert(qtedge);
+  QVERIFY(!ToStr(*qtedge).empty());
+}
+
+void ribi::cmap::qtconceptmapqtedge_test::to_stream()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.show();
+  const auto qtedge = GetFirstQtEdge(m.GetScene());
+  std::stringstream s;
+  s << (*qtedge);
+  QVERIFY(!s.str().empty());
+}
 
 void ribi::cmap::qtconceptmapqtedge_test::all_tests()
 {

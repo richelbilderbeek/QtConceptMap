@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ ribi::cmap::qtconceptmapconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }
+  //{ ribi::cmap::qtconceptmapqtedge_test t; error |= QTest::qExec(&t, argc, argv); }
   //return 1;
 
   //These are all tests in alphabetical order
