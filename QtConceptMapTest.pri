@@ -12,7 +12,6 @@ SOURCES += \
     $$PWD/qtconceptmapnewarrow_test.cpp \
     $$PWD/qtconceptmapnodedialog_test.cpp \
     $$PWD/qtconceptmapqtedge_test.cpp \
-    $$PWD/qtconceptmapqtnodedialog_test.cpp \
     $$PWD/qtconceptmapqtnodefactory_test.cpp \
     $$PWD/qtconceptmapqtnode_test.cpp \
     $$PWD/qtconceptmaprateconceptdialog_test.cpp \
