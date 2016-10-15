@@ -11,6 +11,7 @@ class qtconceptmap_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void change_modes();
   void create_one_edge_command();
   void create_one_edge_command_and_check_z_order();
   void create_one_edge_keyboard();

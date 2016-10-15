@@ -28,6 +28,18 @@
 #include "qtconceptmapqtnode.h"
 //#include "ribi_system.h"
 
+void ribi::cmap::qtconceptmap_test::change_modes()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.SetMode(Mode::edit);
+  m.show();
+  m.SetMode(Mode::rate);
+  m.show();
+  m.SetMode(Mode::uninitialized);
+  m.show();
+}
+
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
 {
   //When there are two selected nodes, an edge can be created

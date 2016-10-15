@@ -262,28 +262,11 @@ ribi::cmap::QtNode * ribi::cmap::FindQtNode(
 }
 
 ribi::cmap::QtNode *
-ribi::cmap::GetCenterNode(const QGraphicsScene& scene) noexcept
+ribi::cmap::GetQtCenterNode(const QGraphicsScene& scene) noexcept
 {
-  if (scene.items().isEmpty()) return nullptr;
-  assert(scene.items()[0]);
-  QList<QGraphicsItem *> v = scene.items();
-  const int n_centernodes{
-    static_cast<int>(
-      std::count_if(v.begin(),v.end(),
-        [](const QGraphicsItem * const item) { return IsQtCenterNode(item); }
-      )
-    )
-  };
-  assert(n_centernodes == 0 || n_centernodes == 1);
-  if (n_centernodes == 0) return nullptr;
-  assert(n_centernodes == 1);
-  const auto iter = std::find_if(v.begin(),v.end(),
-    [](const QGraphicsItem * const item) { return IsQtCenterNode(item); } );
-  assert(iter != v.end());
-  QtNode * const center_node = dynamic_cast<QtNode*>(*iter);
-  assert(center_node);
-  assert(IsQtCenterNode(center_node));
-  return center_node;
+  const auto qtnodes = GetQtCenterNodes(scene);
+  if (qtnodes.empty()) return nullptr;
+  return qtnodes.front();
 }
 
 ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QGraphicsScene& scene) noexcept
@@ -298,6 +281,19 @@ ribi::cmap::QtEdge * ribi::cmap::GetLastQtEdge(const QGraphicsScene& scene) noex
   const auto qtedges = GetQtEdges(scene);
   if (qtedges.empty()) return nullptr;
   return qtedges.back();
+}
+
+std::vector<ribi::cmap::QtNode *>
+ribi::cmap::GetQtCenterNodes(const QGraphicsScene& scene) noexcept
+{
+  const auto v = GetQtNodes(scene);
+  std::vector<QtNode *> w;
+  std::copy_if(
+    std::begin(v), std::end(v),
+    std::back_inserter(w),
+    [](const auto qtnode) { return IsCenterNode(qtnode->GetNode()); }
+  );
+  return w;
 }
 
 std::vector<ribi::cmap::QtEdge*> ribi::cmap::GetQtEdges(
@@ -507,6 +503,7 @@ bool ribi::cmap::IsOnEdge(
 {
   return FindQtEdge(qtnode, scene);
 }
+
 
 void ribi::cmap::MessUp(QGraphicsScene& scene)
 {
