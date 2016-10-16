@@ -504,7 +504,7 @@ void ribi::cmap::qtconceptmap_test::get_focusable_items()
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.SetMode(Mode::edit);
-  assert(CountCenterNodes(m) > 0);
+  assert(CountCenterNodes(m.GetConceptMap()) > 0);
   const auto n_edit = GetFocusableItems(m).size();
   m.SetMode(Mode::rate);
   const auto n_rate = GetFocusableItems(m).size();
