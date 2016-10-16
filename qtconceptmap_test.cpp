@@ -595,7 +595,7 @@ void ribi::cmap::qtconceptmap_test::mouse_wheel()
 {
   QtConceptMap m;
   m.show();
-  QWheelEvent e(QPointF(10,10), 10,Qt::NoButton,Qt::NoModifier);
+  QWheelEvent e(QPoint(10,10), 10,Qt::NoButton,Qt::NoModifier);
   m.wheelEvent(&e);
 }
 
