@@ -119,7 +119,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   //Connect the scene
   QObject::connect(
     scene(),
-    SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
+    SIGNAL(selectionChanged()),
     this,
     SLOT(onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason))
   );
