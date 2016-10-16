@@ -117,12 +117,14 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   }
 
   //Connect the scene
+  /*
   QObject::connect(
     scene(),
-    SIGNAL(selectionChanged()),
+    SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)), //DOES NOT EXIST
     this,
     SLOT(onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason))
   );
+  */
   QObject::connect(scene(),SIGNAL(selectionChanged()),this,SLOT(onSelectionChanged()));
 
   m_examples_item->SetCenterPos(123,456); //Irrelevant where
