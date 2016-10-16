@@ -57,7 +57,7 @@ public:
 protected:
   void keyPressEvent(QKeyEvent *);
 
-private slots:
+public slots:
   void on_button_prof_clicked();
   void on_button_organisations_clicked();
   void on_button_social_clicked();

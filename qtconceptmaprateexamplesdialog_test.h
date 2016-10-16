@@ -13,6 +13,7 @@ class qtconceptmaprateexamplesdialog_test : public QObject
 private slots:
   void get_rated_examples();
   void key_presses();
+  void key_presses_from_slots();
 };
 
 } //~namespace cmap
