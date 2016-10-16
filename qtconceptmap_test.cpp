@@ -45,7 +45,7 @@ void ribi::cmap::qtconceptmap_test::change_modes()
 void ribi::cmap::qtconceptmap_test::click()
 {
   QtConceptMap m;
-  QTest::mouseClick(&m, Qt::LeftButton);
+  QTest::mouseClick(m.viewport(), Qt::LeftButton);
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
@@ -248,7 +248,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_mouse()
 {
   QtConceptMap m;
   m.show();
-  QTest::mouseDClick(&m, Qt::MouseButton::LeftButton, 0, QPoint(0.0,0.0), 100);
+  QTest::mouseDClick(m.viewport(), Qt::MouseButton::LeftButton, 0, QPoint(0.0,0.0), 100);
   m.show();
   const int n_nodes_in_scene{static_cast<int>(Collect<QtNode>(m.GetScene()).size())};
   const int n_nodes_in_conceptmap{static_cast<int>(boost::num_vertices(m.GetConceptMap()))};
@@ -511,7 +511,7 @@ void ribi::cmap::qtconceptmap_test::double_click()
   QtConceptMap m;
   m.show();
   assert(boost::num_vertices(m.GetConceptMap()) == 0);
-  QTest::mouseDClick(&m, Qt::LeftButton);
+  QTest::mouseDClick(m.viewport(), Qt::LeftButton);
   QVERIFY(boost::num_vertices(m.GetConceptMap()) == 1);
 }
 
@@ -521,11 +521,11 @@ void ribi::cmap::qtconceptmap_test::double_click_twice()
   m.show();
   assert(boost::num_vertices(m.GetConceptMap()) == 0);
   //Creates a new node
-  QTest::mouseDClick(&m, Qt::LeftButton);
+  QTest::mouseDClick(m.viewport(), Qt::LeftButton);
   m.show();
   assert(boost::num_vertices(m.GetConceptMap()) == 1);
   //Does not create a new node, as the double-click took place on an existing node
-  QTest::mouseDClick(&m, Qt::LeftButton);
+  QTest::mouseDClick(m.viewport(), Qt::LeftButton);
   m.show();
   QVERIFY(boost::num_vertices(m.GetConceptMap()) == 1);
 }

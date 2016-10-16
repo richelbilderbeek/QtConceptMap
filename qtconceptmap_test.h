@@ -11,6 +11,9 @@ class qtconceptmap_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void double_click();
+  void double_click_twice();
+
   void change_modes();
   void click();
   void create_one_edge_command();
@@ -43,8 +46,6 @@ private slots:
   void delete_one_node_keyboard();
   void delete_two_nodes_command();
   void delete_two_nodes_keyboard();
-  void double_click();
-  void double_click_twice();
   void get_focusable_items();
   void get_highlighter();
   void hide_examples();
