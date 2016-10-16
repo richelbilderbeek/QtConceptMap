@@ -546,6 +546,28 @@ void ribi::cmap::qtconceptmap_test::issue_96()
 
 }
 
+void ribi::cmap::qtconceptmap_test::press_escape()
+{
+  QtConceptMap m;
+  m.show();
+  QTest::keyClick(&m, Qt::Key_Escape);
+}
+
+void ribi::cmap::qtconceptmap_test::press_f1()
+{
+  QtConceptMap m;
+  m.show();
+  QTest::keyClick(&m, Qt::Key_F1);
+}
+
+void ribi::cmap::qtconceptmap_test::press_f2()
+{
+  QtConceptMap m;
+  m.show();
+  QTest::keyClick(&m, Qt::Key_F2);
+}
+
+
 void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 {
   QtConceptMap m;

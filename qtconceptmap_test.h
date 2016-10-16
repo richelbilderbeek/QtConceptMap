@@ -45,6 +45,9 @@ private slots:
   void get_focusable_items();
   void is_command_put_on_undo_stack();
   void issue_96();
+  void press_escape();
+  void press_f1();
+  void press_f2();
   void select_left_node_keyboard();
   void select_random_node_keyboard();
   void set_concept_maps();
