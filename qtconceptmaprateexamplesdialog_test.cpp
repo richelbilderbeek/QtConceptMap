@@ -41,22 +41,31 @@ void ribi::cmap::qtconceptmaprateexamplesdialog_test::key_presses()
 {
   QtRateExamplesDialog d(ConceptFactory().Get1());
   d.show();
+  QTest::qWait(1000);
   //Press all buttons
   QTest::keyPress(&d, Qt::Key_B, Qt::AltModifier);
   d.show();
+  QTest::qWait(1000);
   QTest::keyPress(&d, Qt::Key_R, Qt::AltModifier);
   d.show();
+  QTest::qWait(1000);
   QTest::keyPress(&d, Qt::Key_S, Qt::AltModifier);
   d.show();
+  QTest::qWait(1000);
   QTest::keyPress(&d, Qt::Key_D, Qt::AltModifier);
   d.show();
+  QTest::qWait(1000);
   QTest::keyPress(&d, Qt::Key_T, Qt::AltModifier);
   d.show();
+  QTest::qWait(1000);
   QTest::keyPress(&d, Qt::Key_P, Qt::AltModifier);
   d.show();
+  QTest::qWait(1000);
   QTest::keyPress(&d, Qt::Key_V, Qt::AltModifier);
   d.show();
+  QTest::qWait(1000);
   //Translate
   QTest::keyPress(&d, Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier);
   d.show();
+  QTest::qWait(1000);
 }
