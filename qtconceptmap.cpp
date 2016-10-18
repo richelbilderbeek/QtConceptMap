@@ -762,12 +762,18 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
         UpdateConceptMap(*this);
         this->GetQtNewArrow().hide();
         this->GetQtHighlighter().SetItem(nullptr);
+        event->setAccepted(true);
       }
-      catch (std::logic_error&) { return; }
+      catch (std::logic_error&)
+      {
+        return;
+      }
     }
   }
-
-  QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
+  if (!event->isAccepted())
+  {
+    QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
+  }
   UpdateExamplesItem(*this);
   assert(!GetQtNewArrow().isSelected());
 }

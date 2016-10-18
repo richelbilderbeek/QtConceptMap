@@ -477,6 +477,7 @@ void ribi::cmap::qtconceptmap_test::delete_two_nodes_command()
 
   for (int i{0}; i!=2; ++i) {
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+    m.show();
     const int n_selected_measured{m.scene()->selectedItems().count()};
     const int n_selected_expected{1};
     assert(n_selected_measured == n_selected_expected);
