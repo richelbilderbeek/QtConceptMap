@@ -93,7 +93,8 @@ public:
   ///Stop the timer
   void StopTimer();
 
-  void Undo() noexcept;
+  ///Will throw if there is nothing to be undone
+  void Undo();
 
 public slots:
 

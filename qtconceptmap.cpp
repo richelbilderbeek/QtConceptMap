@@ -1124,9 +1124,14 @@ void ribi::cmap::QtConceptMap::StopTimer()
   m_timer->stop();
 }
 
-void ribi::cmap::QtConceptMap::Undo() noexcept
+void ribi::cmap::QtConceptMap::Undo()
 {
-  assert(m_undo.count() > 0);
+  if (!m_undo.count())
+  {
+    throw std::logic_error(
+      "Cannot undo if nothing has been done yet"
+    );
+  }
   m_undo.undo();
 }
 
