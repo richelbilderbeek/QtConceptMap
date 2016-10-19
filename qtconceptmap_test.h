@@ -43,6 +43,7 @@ private slots:
   void delete_one_edge_command();
   void delete_one_edge_keyboard();
   void delete_one_node_command();
+  void delete_one_node_command_and_undo();
   void delete_one_node_keyboard();
   void delete_two_nodes_command();
   void delete_two_nodes_keyboard();

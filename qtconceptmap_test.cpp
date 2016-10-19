@@ -438,6 +438,38 @@ void ribi::cmap::qtconceptmap_test::delete_one_node_command()
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
 }
 
+void ribi::cmap::qtconceptmap_test::delete_one_node_command_and_undo()
+{
+  QtConceptMap m;
+  m.show();
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
+  m.DoCommand(
+    new CommandCreateNewNode(
+      m.GetConceptMap(),
+      Mode::uninitialized,
+      m.GetScene(),
+      m.GetQtToolItem(),
+      0.0,
+      0.0
+    )
+  );
+  m.show();
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
+  m.DoCommand(
+    new CommandDeleteSelected(
+      m.GetConceptMap(),
+      m.GetScene(),
+      m.GetQtToolItem()
+    )
+  );
+  m.show();
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
+  m.Undo();
+  m.show();
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
+}
 
 void ribi::cmap::qtconceptmap_test::delete_one_node_keyboard()
 {
