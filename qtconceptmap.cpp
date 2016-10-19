@@ -133,7 +133,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
 
   {
     QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(Respond()));
-    m_timer->start(10);
+    //Timer is started in showEvent
   }
 }
 
@@ -502,6 +502,11 @@ bool ribi::cmap::HasScene(const QtEdge& qtedge, const QGraphicsScene * const sce
     && qtedge.GetQtNode()->scene() == scene
     && qtedge.GetArrow()->scene() == scene
   ;
+}
+
+void ribi::cmap::QtConceptMap::hideEvent(QHideEvent *)
+{
+  m_timer->stop();
 }
 
 void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
@@ -1112,6 +1117,11 @@ void ribi::cmap::SetRandomFocus(
       qDebug() << "Warning: setFocus did not set focus to the item";
     }
   }
+}
+
+void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)
+{
+  m_timer->start(10);
 }
 
 void ribi::cmap::QtConceptMap::StartTimer()
