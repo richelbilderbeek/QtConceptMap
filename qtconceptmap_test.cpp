@@ -45,7 +45,9 @@ void ribi::cmap::qtconceptmap_test::change_modes()
 void ribi::cmap::qtconceptmap_test::click()
 {
   QtConceptMap m;
-  QTest::mouseClick(m.viewport(), Qt::LeftButton);
+  QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
+
+  //QTest::mouseClick(m.viewport(), Qt::LeftButton);
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
@@ -651,6 +653,18 @@ void ribi::cmap::qtconceptmap_test::press_f2()
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_F2);
+}
+
+void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question()
+{
+  //Cannot add a center node in Edit mode
+  QtConceptMap m;
+  m.SetMode(Mode::edit);
+  m.SetConceptMap(ConceptMapFactory().Get1());
+  QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  event->setAccepted(false);
+  m.keyPressEvent(event);
+  QVERIFY(!event->isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::press_f4()

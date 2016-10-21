@@ -56,6 +56,7 @@ private slots:
   void press_escape();
   void press_f1();
   void press_f2();
+  void press_f2_cannot_edit_focal_question();
   void press_f4();
   void press_h();
   void press_n();
