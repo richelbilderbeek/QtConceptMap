@@ -45,7 +45,7 @@ void ribi::cmap::qtconceptmap_test::change_modes()
 void ribi::cmap::qtconceptmap_test::click()
 {
   QtConceptMap m;
-  QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
+  QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
 
   //QTest::mouseClick(m.viewport(), Qt::LeftButton);
 }
