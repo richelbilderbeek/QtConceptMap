@@ -30,6 +30,16 @@
 #include "qtconceptmapqtnode.h"
 //#include "ribi_system.h"
 
+void ribi::cmap::qtconceptmap_test::aaa_fix_issue_105()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.show();
+  QTest::qWait(100000);
+  QVERIFY(1 + 1 == 2);
+}
+
+
 void ribi::cmap::qtconceptmap_test::change_modes()
 {
   QtConceptMap m;

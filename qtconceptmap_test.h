@@ -11,6 +11,7 @@ class qtconceptmap_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void aaa_fix_issue_105();
   void double_click();
   void double_click_twice();
 
