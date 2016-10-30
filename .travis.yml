@@ -31,7 +31,8 @@ before_script:
 
 script: 
   - ./install_githubs.sh
-  - ./build.sh
+  - qmake -qt=qt5
+  - make debug  
   #- valgrind --leak-check=full -v --show-reachable=yes --log-file=memcheck.log ./QtConceptMapTest
   #- valgrind --tool=helgrind --log-file=helgrind.log -v ./QtConceptMapTest
   - ./QtConceptMapTest
