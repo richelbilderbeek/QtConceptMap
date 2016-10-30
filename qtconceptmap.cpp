@@ -784,6 +784,22 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 
 void ribi::cmap::QtConceptMap::Respond()
 {
+  if (!this->isEnabled())
+  {
+    qDebug() << "Warning: Respond called for disabled QtConceptMap";
+    return;
+  }
+  if (!this->isVisible())
+  {
+    qDebug() << "Warning: Respond called for invisible QtConceptMap";
+    return;
+  }
+  if (!this->scene())
+  {
+    qDebug() << "Warning: Respond called when there is no scene";
+    return;
+  }
+
   assert(this->isVisible());
   assert(this->isEnabled());
   CheckInvariants(*this);
@@ -1166,7 +1182,7 @@ void ribi::cmap::UpdateExamplesItem(QtConceptMap& q)
   q.update();
   q.show();
   q.GetScene().update();
-  qApp->processEvents();
+  //qApp->processEvents();
   CheckInvariantOneQtNodeWithExamplesHasExamplesItem(q);
 }
 

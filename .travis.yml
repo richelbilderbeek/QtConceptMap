@@ -2,9 +2,18 @@ sudo: true
 language: cpp
 compiler: gcc
 
-install:
+before_install:
+  # Qt5, from https://gist.github.com/jreese/6207161#gistcomment-1462109
+  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libqt5webkit5-dev qtdeclarative5-dev
+  - export QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  # C++11
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install -qq g++-5
   - sudo apt-get install -qq libstdc++6-4.7-dev  
   - sudo pip install codecov
   - ./install_oclint.sh
@@ -20,7 +29,6 @@ addons:
     - gcc-5
     - g++-5
     - libboost1.55-all-dev
-#    - gcov-5
 
 
 # Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
