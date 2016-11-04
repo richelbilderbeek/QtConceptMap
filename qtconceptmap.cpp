@@ -684,7 +684,7 @@ void ribi::cmap::keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
 
-void ribi::cmap::MoveItemsAwayFromEachOther(QtConceptMap& q) noexcept
+void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexcept
 {
   for (const auto item: q.GetScene().items())
   {
@@ -824,7 +824,7 @@ void ribi::cmap::QtConceptMap::Respond()
   assert(this->isVisible());
   assert(this->isEnabled());
   CheckInvariants(*this);
-  MoveItemsAwayFromEachOther(*this);
+  MoveQtNodesAwayFromEachOther(*this);
   UpdateExamplesItem(*this);
   UpdateQtToolItem(*this);
   CheckInvariants(*this);
