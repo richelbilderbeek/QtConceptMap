@@ -3,6 +3,15 @@
 # apfloat does not go well with -Weffc++
 # RInside does not go well with -Weffc++
 
+equals(QT_MAJOR_VERSION, 4) {
+  message(Using Qt4)
+}
+
+greaterThan(QT_MAJOR_VERSION, 4){
+  message(Using Qt5)
+}
+
+
 CONFIG += debug_and_release
 
 win32 {
@@ -29,11 +38,11 @@ unix:!macx{
   QMAKE_CXXFLAGS += -Wall -Wextra -Werror -std=c++14
 
   equals(QT_MAJOR_VERSION, 4): LIBS +=  -lQtSvg
-  greaterThan(QT_MAJOR_VERSION, 4): QT +=  concurrent opengl printsupport svg
+  greaterThan(QT_MAJOR_VERSION, 4): QT +=  concurrent opengl printsupport
 }
 
 QT       += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets svg
 
 TEMPLATE = app
 
