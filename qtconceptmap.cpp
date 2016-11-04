@@ -684,6 +684,27 @@ void ribi::cmap::keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
 
+void ribi::cmap::MoveItemsAwayFromEachOther(QtConceptMap& q) noexcept
+{
+  for (const auto item: q.GetScene().items())
+  {
+    if (!(item->flags() & QGraphicsItem::ItemIsMovable)) continue;
+    QtNode* const node = dynamic_cast<QtNode*>(item);
+    if (!node) continue;
+    const auto others = item->collidingItems();
+    for (const auto other: others)
+    {
+      if (!(other->flags() & QGraphicsItem::ItemIsMovable)) continue;
+      const QtNode* const other_node = dynamic_cast<const QtNode*>(other);
+      if (!other_node) continue;
+      const double dx = node->x() - other_node->x() > 0.0 ? 1.0 : -1.0;
+      const double dy = node->y() - other_node->y() > 0.0 ? 1.0 : -1.0;
+      node->SetCenterPos(node->x()  + dx, node->y()  + dy);
+    }
+  }
+
+}
+
 void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
 {
   CheckInvariants(*this);
@@ -803,22 +824,7 @@ void ribi::cmap::QtConceptMap::Respond()
   assert(this->isVisible());
   assert(this->isEnabled());
   CheckInvariants(*this);
-  for (const auto item: GetScene().items())
-  {
-    if (!(item->flags() & QGraphicsItem::ItemIsMovable)) continue;
-    QtNode* const node = dynamic_cast<QtNode*>(item);
-    if (!node) continue;
-    const auto others = item->collidingItems();
-    for (const auto other: others)
-    {
-      if (!(other->flags() & QGraphicsItem::ItemIsMovable)) continue;
-      const QtNode* const other_node = dynamic_cast<const QtNode*>(other);
-      if (!other_node) continue;
-      const double dx = node->x() - other_node->x() > 0.0 ? 1.0 : -1.0;
-      const double dy = node->y() - other_node->y() > 0.0 ? 1.0 : -1.0;
-      node->SetCenterPos(node->x()  + dx, node->y()  + dy);
-    }
-  }
+  MoveItemsAwayFromEachOther(*this);
   UpdateExamplesItem(*this);
   UpdateQtToolItem(*this);
   CheckInvariants(*this);

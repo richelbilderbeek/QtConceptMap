@@ -193,6 +193,10 @@ void keyPressEventSpace(QtConceptMap& q, QKeyEvent *) noexcept;
 void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 
+///Checks for QtNodes that are colliding and move these
+///away from each other
+void MoveQtNodesAwayFromEachOther(QtConceptMap& q) noexcept;
+
 ///Called when an item wants to be edited
 void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);
 
