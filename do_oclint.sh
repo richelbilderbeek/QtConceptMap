@@ -11,7 +11,7 @@ echo $h_files
   $cpp_files \
   $h_files \
   -- \
-  -c -std=c++14 -fPIC \
+  -c -std=c++14 -fPIE \
   -I../ConceptMap \
   -I../RibiClasses/CppContainer \
   -I../RibiClasses/CppFileIo \
@@ -36,9 +36,10 @@ echo $h_files
   -I../BoostGraphTutorial/BoostGraphTutorial \
   -I/usr/include/c++/5 \
   -I/usr/include/x86_64-linux-gnu/c++/5 \
-  -I/usr/include/qt4 \
-  -I/usr/include/qt4/QtCore \
-  -I/usr/include/qt4/QtGui
+  -I/usr/include/qt5 \
+  -I/usr/include/qt5/QtCore \
+  -I/usr/include/qt5/QtGui \
+  -I/usr/include/qt5/QtWidgets 
 
 cat oclint.log
 
