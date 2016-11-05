@@ -33,19 +33,6 @@
 #define FIX_ISSUE_105
 
 
-void ribi::cmap::qtconceptmap_test::aaa_fix_issue_105()
-{
-  #ifdef FIX_ISSUE_105
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get11());
-  m.show();
-  QTest::qWait(1000);
-  QVERIFY(!m.verticalScrollBar()->isVisible());
-  QVERIFY(!m.horizontalScrollBar()->isVisible());
-  #endif //FIX_ISSUE_105
-}
-
-
 void ribi::cmap::qtconceptmap_test::change_modes()
 {
   QtConceptMap m;
@@ -64,6 +51,26 @@ void ribi::cmap::qtconceptmap_test::click()
   QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
 
   //QTest::mouseClick(m.viewport(), Qt::LeftButton);
+}
+
+void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.show();
+  QTest::qWait(100);
+  QVERIFY(!m.verticalScrollBar()->isVisible());
+  QVERIFY(!m.horizontalScrollBar()->isVisible());
+}
+
+void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window_after_setting()
+{
+  QtConceptMap m;
+  m.show();
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  QTest::qWait(100);
+  QVERIFY(!m.verticalScrollBar()->isVisible());
+  QVERIFY(!m.horizontalScrollBar()->isVisible());
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()

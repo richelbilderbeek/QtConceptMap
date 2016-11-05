@@ -1090,6 +1090,10 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   assert(GetConceptMap() == conceptmap);
 
   CheckInvariants(*this);
+
+  //The new concept map must be displayed in full
+  this->fitInView(this->sceneRect());
+
 }
 
 void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
