@@ -30,8 +30,6 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
 //#include "ribi_system.h"
-#define FIX_ISSUE_105
-
 
 void ribi::cmap::qtconceptmap_test::change_modes()
 {
