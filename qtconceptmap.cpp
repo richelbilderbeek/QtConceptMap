@@ -38,6 +38,7 @@ along with this program.If not, see <http://www.gnu.org/licenses/>.
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QScrollBar>
 
 #include "fuzzy_equal_to.h"
 #include "qtconceptmapcollect.h"
@@ -1143,6 +1144,7 @@ void ribi::cmap::SetRandomFocus(
 void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)
 {
   m_timer->start(10);
+  this->fitInView(this->sceneRect());
 }
 
 void ribi::cmap::QtConceptMap::StartTimer()

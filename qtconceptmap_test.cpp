@@ -39,6 +39,7 @@ void ribi::cmap::qtconceptmap_test::aaa_fix_issue_105()
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.show();
+  QTest::qWait(1000);
   QVERIFY(!m.verticalScrollBar()->isVisible());
   QVERIFY(!m.horizontalScrollBar()->isVisible());
   #endif //FIX_ISSUE_105
