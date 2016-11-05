@@ -11,8 +11,10 @@ class qtconceptmap_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void aaa_click_on_nothing();
+  void aaa_click_on_qtnode();
+  void aaa_fix_issue_83();
   void change_modes();
-  void click();
   void concept_map_must_fit_window();
   void concept_map_must_fit_window_after_setting();
   void create_one_edge_command();

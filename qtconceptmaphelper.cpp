@@ -276,6 +276,13 @@ ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QGraphicsScene& scene) noe
   return qtedges.front();
 }
 
+ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QGraphicsScene& scene) noexcept
+{
+  const auto qtnodes = GetQtNodes(scene);
+  if (qtnodes.empty()) return nullptr;
+  return qtnodes.front();
+}
+
 ribi::cmap::QtEdge * ribi::cmap::GetLastQtEdge(const QGraphicsScene& scene) noexcept
 {
   const auto qtedges = GetQtEdges(scene);

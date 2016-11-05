@@ -9,6 +9,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QScrollBar>
+#include <QPoint>
 #include <boost/graph/isomorphism.hpp>
 
 #include "conceptmapedgefactory.h"
@@ -29,7 +30,82 @@
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
-//#include "ribi_system.h"
+
+//#define FIX_ISSUE_83
+
+void ribi::cmap::qtconceptmap_test::aaa_click_on_nothing()
+{
+  #ifdef FIX_ISSUE_83
+  QtConceptMap m;
+  QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.SetMode(Mode::edit);
+  m.show();
+  const auto qtnode = GetFirstQtNode(m.GetScene());
+  const QPoint nothing{
+    qtnode->mapToScene(qtnode->boundingRect().bottomRight()).toPoint()
+  };
+  QTest::mouseClick(&m ,Qt::LeftButton, 0, nothing);
+  #endif // FIX_ISSUE_83
+}
+
+void ribi::cmap::qtconceptmap_test::aaa_click_on_qtnode()
+{
+  #ifdef FIX_ISSUE_83
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.SetMode(Mode::edit);
+  m.show();
+  const auto qtnode = GetFirstQtNode(m.GetScene());
+  const QPoint here{qtnode->mapToScene(qtnode->boundingRect().center()).toPoint()};
+  QTest::mouseClick(&m ,Qt::LeftButton, 0, here);
+  QTest::qWait(10000000);
+  #endif // FIX_ISSUE_83
+}
+
+void ribi::cmap::qtconceptmap_test::aaa_fix_issue_83()
+{
+  #ifdef FIX_ISSUE_83
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.SetMode(Mode::edit);
+  m.showFullScreen();
+
+  //Select a QtNode
+  while (GetSelectedQtNodes(m.GetScene()).size() != 1)
+  {
+    QTest::keyPress(&m, Qt::Key_Space, 0, 100);
+  }
+  QVERIFY(m.GetQtToolItem().isVisible());
+  //Move it out of the screen
+  for (int i=0; i!=80; ++i)
+  {
+    qDebug() << i;
+    const auto pos_before = m.GetQtToolItem().pos();
+    QTest::keyPress(&m, Qt::Key_Left, Qt::ControlModifier);
+    QTest::qWait(10);
+    const auto pos_after = m.GetQtToolItem().pos();
+    QVERIFY(pos_before != pos_after);
+  }
+  //Move it back in the screen
+  for (int i=0; i!=80; ++i)
+  {
+    qDebug() << i;
+    const auto pos_before = m.GetQtToolItem().pos();
+    QTest::keyPress(&m, Qt::Key_Right, Qt::ControlModifier);
+    QTest::qWait(10);
+    const auto pos_after = m.GetQtToolItem().pos();
+    QVERIFY(pos_before != pos_after);
+  }
+  //Weird, it always stays visible, even though me, a mere human, cannot see it on my screen
+  QVERIFY(m.GetQtToolItem().isVisible());
+
+  qDebug() << "SOLVED ISSUE #83!";
+  QTest::qWait(100000);
+  #endif // FIX_ISSUE_83
+}
+
+
 
 void ribi::cmap::qtconceptmap_test::change_modes()
 {
@@ -41,14 +117,6 @@ void ribi::cmap::qtconceptmap_test::change_modes()
   m.show();
   m.SetMode(Mode::uninitialized);
   m.show();
-}
-
-void ribi::cmap::qtconceptmap_test::click()
-{
-  QtConceptMap m;
-  QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
-
-  //QTest::mouseClick(m.viewport(), Qt::LeftButton);
 }
 
 void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window()
