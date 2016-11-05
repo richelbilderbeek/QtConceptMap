@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#include <QScrollBar>
 #include <boost/graph/isomorphism.hpp>
 
 #include "conceptmapedgefactory.h"
@@ -29,6 +30,8 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
 //#include "ribi_system.h"
+#define FIX_ISSUE_105
+
 
 void ribi::cmap::qtconceptmap_test::aaa_fix_issue_105()
 {
@@ -36,8 +39,8 @@ void ribi::cmap::qtconceptmap_test::aaa_fix_issue_105()
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.show();
-  QTest::qWait(100000);
-  QVERIFY(1 + 1 == 2);
+  QVERIFY(!m.verticalScrollBar()->isVisible());
+  QVERIFY(!m.horizontalScrollBar()->isVisible());
   #endif //FIX_ISSUE_105
 }
 
