@@ -1,23 +1,3 @@
-
-/*
-ConceptMap, concept map classes
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-//From http://www.richelbilderbeek.nl/CppConceptMap.htm
-
 #ifndef CONCEPTMAPCOMMANDCREATENEWEDGE_H
 #define CONCEPTMAPCOMMANDCREATENEWEDGE_H
 
