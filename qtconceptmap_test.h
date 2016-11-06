@@ -11,6 +11,7 @@ class qtconceptmap_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void aaaa_fix_issue_104_cannot_click_on_focal_question();
   void aaa_click_on_nothing();
   void aaa_click_on_qtnode();
   void aaa_fix_issue_83();

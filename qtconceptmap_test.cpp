@@ -9,6 +9,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QScrollBar>
+#include <QKeyEvent>
 #include <QPoint>
 #include <boost/graph/isomorphism.hpp>
 
@@ -32,6 +33,24 @@
 #include "qtconceptmapqtnode.h"
 
 //#define FIX_ISSUE_83
+//#define FIX_ISSUE_104
+
+void ribi::cmap::qtconceptmap_test::aaaa_fix_issue_104_cannot_click_on_focal_question()
+{
+  #ifdef FIX_ISSUE_104
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get1());
+  m.SetMode(Mode::edit);
+  m.show();
+  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
+  qtnode->setSelected(true);
+  qtnode->setFocus();
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  m.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
+  QTest::qWait(100000);
+  #endif // FIX_ISSUE_104
+}
 
 void ribi::cmap::qtconceptmap_test::aaa_click_on_nothing()
 {
