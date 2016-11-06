@@ -1068,22 +1068,13 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   RemoveConceptMap(*this);
   m_conceptmap = conceptmap;
   assert(GetConceptMap() == conceptmap);
-
-  //This std::vector keeps the QtNodes in the same order as the nodes in the concept map
-  //You cannot rely on Collect<QtConceptMapNodeConcept*>(scene), as this shuffles the order
-  //std::vector<QtNode*> qtnodes;
-
   assert(Collect<QtNode>(GetScene()).empty());
   AddNodesToScene(*this);
   AddEdgesToScene(*this);
-
-  assert(GetConceptMap() == conceptmap);
-
   CheckInvariants(*this);
 
   //The new concept map must be displayed in full
   this->fitInView(this->sceneRect());
-
 }
 
 void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept

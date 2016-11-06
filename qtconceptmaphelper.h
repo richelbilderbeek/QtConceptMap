@@ -10,6 +10,10 @@
 namespace ribi {
 namespace cmap {
 
+///Counts the QtNodes that are center nodes
+int CountQtCenterNodes(const QGraphicsScene& scene) noexcept;
+
+
 ///Counts the QtNodes that are Nodes, i.e. are not on an edge
 int CountQtNodes(const QGraphicsScene& scene) noexcept;
 

@@ -13,7 +13,8 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Work on progress
-  void press_f2_can_edit_non_focal_question();
+  void count_center_nodes();
+  void press_f2_cannot_edit_focal_question_on_fuller_conceptmap();
 
 
   void aaaa_fix_issue_104_cannot_click_on_focal_question();
@@ -23,6 +24,7 @@ private slots:
 
   //Done
   void change_modes();
+
   void concept_map_must_fit_window();
   void concept_map_must_fit_window_after_setting();
   void create_one_edge_command();
@@ -68,6 +70,7 @@ private slots:
   void press_f1_on_empty_concept_map_is_rejected();
   void press_f2_on_empty_concept_map_is_rejected();
   void press_f2_cannot_edit_focal_question();
+  void press_f2_can_edit_non_focal_question();
   void press_f4_is_rejected();
   void press_h();
   void press_n();

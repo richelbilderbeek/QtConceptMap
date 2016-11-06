@@ -14,6 +14,15 @@
 #include "find_first_custom_edge_with_my_edge.h"
 #include "has_custom_edge_with_my_edge.h"
 
+int ribi::cmap::CountQtCenterNodes(const QGraphicsScene& scene) noexcept
+{
+  int cnt{0};
+  for (const auto item: scene.items()) {
+    if (IsQtCenterNode(item)) ++cnt;
+  }
+  return cnt;
+}
+
 int ribi::cmap::CountQtEdges(const QGraphicsScene& scene) noexcept
 {
   int cnt{0};

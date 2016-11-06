@@ -124,8 +124,6 @@ void ribi::cmap::qtconceptmap_test::aaa_fix_issue_83()
   #endif // FIX_ISSUE_83
 }
 
-
-
 void ribi::cmap::qtconceptmap_test::change_modes()
 {
   QtConceptMap m;
@@ -156,6 +154,22 @@ void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window_after_setting()
   QTest::qWait(100);
   QVERIFY(!m.verticalScrollBar()->isVisible());
   QVERIFY(!m.horizontalScrollBar()->isVisible());
+}
+
+void ribi::cmap::qtconceptmap_test::count_center_nodes()
+{
+  #ifdef FIX_ISSUE_113
+  for (const auto conceptmap: ConceptMapFactory().GetAllTests())
+  {
+    const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
+    QtConceptMap m;
+    m.SetConceptMap(conceptmap);
+    const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
+    QVERIFY(n_center_nodes == n_qt_center_nodes);
+  }
+  qDebug() << "SOLVED ISSUE #113!";
+  QTest::qWait(100000);
+  #endif // FIX_ISSUE_113
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
@@ -773,10 +787,40 @@ void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question()
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.SetConceptMap(ConceptMapFactory().Get1());
-  m.SetPopupMode(PopupMode::muted); //
+  m.SetPopupMode(PopupMode::normal); //
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
   m.keyPressEvent(event);
   QVERIFY(!event->isAccepted());
+}
+
+void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question_on_fuller_conceptmap()
+{
+  #ifdef FIX_ISSUE_113
+  QtConceptMap m;
+  m.SetMode(Mode::edit);
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  assert(CountCenterNodes(GetNodes(m.GetConceptMap())) == 1);
+  assert(ribi::cmap::CountQtCenterNodes(m.GetScene()) == 1);
+
+  m.SetPopupMode(PopupMode::normal); //
+  //Press space until center QtNode is selected again
+  m.show();
+  QTest::keyClick(&m, Qt::Key_Space);
+  while (1)
+  {
+    qApp->processEvents();
+    QTest::qWait(1);
+    m.show();
+    QTest::keyClick(&m, Qt::Key_Space);
+    const auto qtnodes = GetSelectedQtNodes(m.GetScene());
+    assert(qtnodes.size() <= 1);
+    if (qtnodes.empty()) continue;
+    if (IsQtCenterNode(qtnodes[0])) break;
+  }
+  QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  m.keyPressEvent(&event);
+  QVERIFY(!event.isAccepted());
+  #endif // FIX_ISSUE_113
 }
 
 void ribi::cmap::qtconceptmap_test::press_f2_can_edit_non_focal_question()
