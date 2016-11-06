@@ -749,18 +749,23 @@ void ribi::cmap::qtconceptmap_test::press_escape()
   QTest::keyClick(&m, Qt::Key_Escape);
 }
 
-void ribi::cmap::qtconceptmap_test::press_f1()
+void ribi::cmap::qtconceptmap_test
+  ::press_f1_on_empty_concept_map_is_rejected()
 {
   QtConceptMap m;
   m.show();
-  QTest::keyClick(&m, Qt::Key_F1);
+  QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
+  m.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::qtconceptmap_test::press_f2()
+void ribi::cmap::qtconceptmap_test::press_f2_on_empty_concept_map_is_rejected()
 {
   QtConceptMap m;
   m.show();
-  QTest::keyClick(&m, Qt::Key_F2);
+  QKeyEvent e(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  m.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question()
@@ -801,6 +806,15 @@ void ribi::cmap::qtconceptmap_test::press_question_mark()
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_Question);
+}
+
+void ribi::cmap::qtconceptmap_test::press_space_on_empty_concept_map_is_rejected()
+{
+  QtConceptMap m;
+  m.show();
+  QKeyEvent e(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+  m.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::press_t()

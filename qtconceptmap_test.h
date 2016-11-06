@@ -58,13 +58,14 @@ private slots:
   void issue_96();
   void mouse_wheel();
   void press_escape();
-  void press_f1();
-  void press_f2();
+  void press_f1_on_empty_concept_map_is_rejected();
+  void press_f2_on_empty_concept_map_is_rejected();
   void press_f2_cannot_edit_focal_question();
   void press_f4();
   void press_h();
   void press_n();
   void press_question_mark();
+  void press_space_on_empty_concept_map_is_rejected();
   void press_t();
   void press_z();
   void select_left_node_keyboard();
