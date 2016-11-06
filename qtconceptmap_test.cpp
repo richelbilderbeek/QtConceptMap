@@ -770,21 +770,48 @@ void ribi::cmap::qtconceptmap_test::press_f2_on_empty_concept_map_is_rejected()
 
 void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question()
 {
-  //Cannot add a center node in Edit mode
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.SetConceptMap(ConceptMapFactory().Get1());
+  m.SetPopupMode(PopupMode::muted); //
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
-  event->setAccepted(false);
   m.keyPressEvent(event);
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::qtconceptmap_test::press_f4()
+void ribi::cmap::qtconceptmap_test::press_f2_can_edit_non_focal_question()
 {
+  //Cannot do this test: the popup freezes the test
+  //Can edit a non-center node in edit mode
+  QtConceptMap m;
+  m.SetMode(Mode::edit);
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.SetPopupMode(PopupMode::muted); //
+  //Press space until other non-center QtNode is selected
+  while (1)
+  {
+    QTest::keyClick(&m, Qt::Key_Space);
+    const auto qtnodes = GetSelectedQtNodes(m.GetScene());
+    assert(qtnodes.size() == 1);
+    if (!IsQtCenterNode(qtnodes[0])) break;
+
+  }
+  //F2 should activate 'Edit Concept' popup
+  QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  m.keyPressEvent(event);
+  QVERIFY(event->isAccepted());
+}
+
+
+
+void ribi::cmap::qtconceptmap_test::press_f4_is_rejected()
+{
+  //F4 has no purpose
   QtConceptMap m;
   m.show();
-  QTest::keyClick(&m, Qt::Key_F2);
+  QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F4, Qt::NoModifier);
+  m.keyPressEvent(event);
+  QVERIFY(!event->isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::press_h()

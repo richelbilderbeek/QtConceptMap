@@ -31,7 +31,8 @@ HEADERS += \
     $$PWD/qtconceptmapratedconceptdialog.h \
     $$PWD/qtconceptmaprateexamplesdialog.h \
     $$PWD/qtconceptmaprating.h \
-    $$PWD/qtconceptmaptoolsitem.h
+    $$PWD/qtconceptmaptoolsitem.h \
+    qtconceptmappopupmode.h
 
 SOURCES += \
     $$PWD/qtconceptmapbrushfactory.cpp \
@@ -63,7 +64,8 @@ SOURCES += \
     $$PWD/qtconceptmapratedconceptdialog.cpp \
     $$PWD/qtconceptmaprateexamplesdialog.cpp \
     $$PWD/qtconceptmaprating.cpp \
-    $$PWD/qtconceptmaptoolsitem.cpp
+    $$PWD/qtconceptmaptoolsitem.cpp \
+    qtconceptmappopupmode.cpp
 
 FORMS += \
     $$PWD/qtconceptmapconceptdialog.ui \

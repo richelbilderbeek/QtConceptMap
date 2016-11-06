@@ -29,6 +29,14 @@ void ribi::cmap::qtconceptmapqtnode_test::disable_and_enable()
   qtnode->show();
 }
 
+void ribi::cmap::qtconceptmapqtnode_test::press_nonsense_is_rejected()
+{
+  const auto qtnode = QtNodeFactory().GetTest(1);
+  QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F4, Qt::NoModifier);
+  qtnode->keyPressEvent(event);
+  QVERIFY(!event->isAccepted());
+}
+
 void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);

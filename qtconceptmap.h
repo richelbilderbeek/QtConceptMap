@@ -1,23 +1,3 @@
- 
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPCONCEPTMAP_H
 #define QTCONCEPTMAPCONCEPTMAP_H
 
@@ -26,6 +6,7 @@
 #include "qtkeyboardfriendlygraphicsview.h"
 #include "qtconceptmapfwd.h"
 #include "qtconceptmapmode.h"
+#include "qtconceptmappopupmode.h"
 #include "qtconceptmapqtedge.h"
 #include "conceptmap.h"
 
@@ -61,6 +42,8 @@ public:
 
   Mode GetMode() const noexcept { return m_mode; }
 
+  PopupMode GetPopupMode() const noexcept { return m_popup_mode; }
+
   ///The square showing the examples
   const QtExamplesItem& GetQtExamplesItem() const noexcept;
         QtExamplesItem& GetQtExamplesItem()       noexcept;
@@ -84,6 +67,8 @@ public:
   void Redo() noexcept;
 
   void SetConceptMap(const ConceptMap& conceptmap);
+
+  void SetPopupMode(const PopupMode mode) noexcept;
 
   void SetMode(const Mode mode) noexcept;
 
@@ -135,6 +120,10 @@ private:
   ///The type of concept map: plain (best for printing),
   /// edit (modify the graph) or rate (only grade the existing nodes)
   Mode m_mode;
+
+  ///The type of concept map: plain (best for printing),
+  /// edit (modify the graph) or rate (only grade the existing nodes)
+  PopupMode m_popup_mode;
 
   ///Responds to many things
   QTimer * const m_timer;

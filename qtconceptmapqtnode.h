@@ -35,6 +35,7 @@ namespace ribi {
 namespace cmap {
 
 class qtconceptmap_test;
+class qtconceptmapqtnode_test;
 
 ///QtNode displays a Node as a QtConceptMapElement
 struct QtNode : public QtRoundedEditRectItem
@@ -80,6 +81,7 @@ private:
   bool m_show_bounding_rect;
 
   friend class qtconceptmap_test;
+  friend class qtconceptmapqtnode_test;
 };
 
 ///Number of characters for wordwrapping

@@ -12,6 +12,7 @@ class qtconceptmapqtnode_test : public QObject
 
 private slots:
   void disable_and_enable();
+  void press_nonsense_is_rejected();
   void qtnode_is_qtroundededitrectitem();
   void qtnode_is_qtroundededitrectitem_with_equal_x();
   void qtnode_is_qtroundededitrectitem_with_equal_y();

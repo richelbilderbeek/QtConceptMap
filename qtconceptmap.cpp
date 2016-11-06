@@ -74,6 +74,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
     m_examples_item(new QtExamplesItem),
     m_highlighter{new QtItemHighlighter},
     m_mode{Mode::uninitialized},
+    m_popup_mode{PopupMode::normal},
     m_timer{new QTimer(this)},
     m_tools{new QtTool}
 {
@@ -490,6 +491,7 @@ void ribi::cmap::QtConceptMap::hideEvent(QHideEvent *)
 
 void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 {
+  event->ignore();
   //event->setAccepted(false);
   CheckInvariants(*this);
   UpdateConceptMap(*this);
@@ -498,7 +500,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   ProcessKey(*this, event);
 
   //Pass event to base class
-  //if (!event->isAccepted())
+  if (!event->isAccepted())
   {
     QtKeyboardFriendlyGraphicsView::keyPressEvent(event);
   }
@@ -628,8 +630,12 @@ void ribi::cmap::keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept
 
 void ribi::cmap::keyPressEventSpace(QtConceptMap& q, QKeyEvent * event) noexcept
 {
-  SetRandomFocus(q);
-  event->setAccepted(true);
+  const auto items = GetFocusableItems(q);
+  if (items.size())
+  {
+    SetRandomFocus(q);
+    event->setAccepted(true);
+  }
 }
 
 void ribi::cmap::keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept
@@ -875,12 +881,16 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   QKeyEvent * const event
 )
 {
-  event->setAccepted(true);
+  event->accept();
 
   //Edit concept
   QtConceptMapConceptEditDialog d(item->GetNode().GetConcept());
   q.setEnabled(false);
-  d.exec();
+  //Block pop-ups in testing
+  if (q.GetPopupMode() == PopupMode::normal)
+  {
+    d.exec();
+  }
   q.setEnabled(true);
 
   //Find the original Node or Edge
@@ -1085,6 +1095,13 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
     const auto f = GetQtNodeBrushFunction(m_mode);
     qtnode->SetBrushFunction(f);
   }
+}
+
+void ribi::cmap::QtConceptMap::SetPopupMode(
+  const ribi::cmap::PopupMode mode
+) noexcept
+{
+  m_popup_mode = mode;
 }
 
 void ribi::cmap::SetRandomFocus(
