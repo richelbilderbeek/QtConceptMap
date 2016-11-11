@@ -51,22 +51,6 @@ void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::qtconceptmap_test::aaa_click_on_nothing()
-{
-  #ifdef FIX_ISSUE_83
-  QtConceptMap m;
-  QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
-  m.SetConceptMap(ConceptMapFactory().Get2());
-  m.SetMode(Mode::edit);
-  m.show();
-  const auto qtnode = GetFirstQtNode(m.GetScene());
-  const QPoint nothing{
-    qtnode->mapToScene(qtnode->boundingRect().bottomRight()).toPoint()
-  };
-  QTest::mouseClick(&m ,Qt::LeftButton, 0, nothing);
-  #endif // FIX_ISSUE_83
-}
-
 void ribi::cmap::qtconceptmap_test::aaa_click_on_qtnode()
 {
   #ifdef FIX_ISSUE_83
@@ -133,6 +117,22 @@ void ribi::cmap::qtconceptmap_test::change_modes()
   m.show();
   m.SetMode(Mode::uninitialized);
   m.show();
+}
+
+void ribi::cmap::qtconceptmap_test::click_on_nothing_should_be_ignored()
+{
+  QtConceptMap m;
+  QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.SetMode(Mode::edit);
+  m.show();
+  const auto qtnode = GetFirstQtNode(m.GetScene());
+  const QPoint nothing{
+    qtnode->mapToScene(qtnode->boundingRect().bottomRight()).toPoint()
+  };
+  QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  m.mousePressEvent(&e);
+  QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window()
