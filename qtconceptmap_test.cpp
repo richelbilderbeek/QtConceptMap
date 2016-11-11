@@ -682,18 +682,10 @@ void ribi::cmap::qtconceptmap_test::rate_concept_map_has_less_focusable_items()
   assert(CountCenterNodes(m.GetConceptMap()) > 0);
   assert(CountQtCenterNodes(m.GetScene()) > 0);
   assert(CountCenterNodes(m.GetConceptMap()) == CountQtCenterNodes(m.GetScene()));
-
   const auto n_edit = GetFocusableItems(m).size();
   m.SetMode(Mode::rate);
   const auto n_rate = GetFocusableItems(m).size();
-  if (n_rate >= n_edit)
-  {
-    qCritical() << "n_rate: " << n_rate;
-    qCritical() << "n_edit: " << n_edit;
-    //QTest::qWait(10000);
-  }
   QVERIFY(n_rate < n_edit);
-
 }
 
 

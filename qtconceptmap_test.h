@@ -12,17 +12,7 @@ class qtconceptmap_test : public QObject
 
 private slots:
 
-  void qtcenter_node_must_be_gold(); //#111
-
-
-  void n_center_nodes_and_qt_center_nodes_must_match_edit(); //#113
-  void n_center_nodes_and_qt_center_nodes_must_match_rate(); //#113
-  void n_center_nodes_and_qt_center_nodes_must_match_uninitialized(); //#113
-
   //Work on progress
-  void rate_concept_map_has_less_focusable_items();
-
-
   void press_f2_cannot_edit_focal_question_on_fuller_conceptmap(); //#113
   void cannot_click_on_focal_question(); //#114
   void aaa_click_on_nothing();
@@ -31,7 +21,6 @@ private slots:
 
   //Done
   void change_modes();
-
   void concept_map_must_fit_window();
   void concept_map_must_fit_window_after_setting();
   void create_one_edge_command();
@@ -71,6 +60,9 @@ private slots:
   void hide_examples();
   void is_command_put_on_undo_stack();
   void mouse_wheel();
+  void n_center_nodes_and_qt_center_nodes_must_match_edit(); //#113
+  void n_center_nodes_and_qt_center_nodes_must_match_rate(); //#113
+  void n_center_nodes_and_qt_center_nodes_must_match_uninitialized(); //#113
   void press_escape();
   void press_f1_on_empty_concept_map_is_rejected();
   void press_f2_on_empty_concept_map_is_rejected();
@@ -83,7 +75,9 @@ private slots:
   void press_space_on_empty_concept_map_is_rejected();
   void press_t();
   void press_z();
+  void qtcenter_node_must_be_gold(); //#111
   void qtnodes_must_show_example_when_focused(); //#96
+  void rate_concept_map_has_less_focusable_items();
   void relations_should_be_blue_in_edit_mode(); //#112
   void select_left_node_keyboard();
   void select_random_node_keyboard();
