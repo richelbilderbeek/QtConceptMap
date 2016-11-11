@@ -43,8 +43,10 @@ QBrush ribi::cmap::QtBrushFactory::CreateBlueGradientBrush() noexcept
 QBrush ribi::cmap::QtBrushFactory::CreateGoldGradientBrush() noexcept
 {
   QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
-  linearGradient.setColorAt(0.0,QColor( sm_color_mid_value, sm_color_mid_value,sm_color_low_value));
-  linearGradient.setColorAt(1.0,QColor(255,255,sm_color_low_value));
+  //USC gold: 255, 204, 0
+  linearGradient.setColorAt(0.0,QColor(255, 204, 0));
+  //UCLA gold: 255, 232, 0
+  linearGradient.setColorAt(1.0,QColor(255, 232, 0));
   return linearGradient;
 }
 

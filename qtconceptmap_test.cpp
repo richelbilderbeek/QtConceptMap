@@ -923,6 +923,14 @@ void ribi::cmap::qtconceptmap_test::press_z()
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier);
 }
 
+void ribi::cmap::qtconceptmap_test::qtcenter_node_must_be_gold()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get1());
+  m.SetMode(Mode::edit);
+  m.show();
+}
+
 void ribi::cmap::qtconceptmap_test::qtnodes_must_show_example_when_focused()
 {
   QtConceptMap m;

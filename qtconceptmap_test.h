@@ -12,6 +12,9 @@ class qtconceptmap_test : public QObject
 
 private slots:
 
+  void qtcenter_node_must_be_gold(); //#111
+
+
   void n_center_nodes_and_qt_center_nodes_must_match_edit(); //#113
   void n_center_nodes_and_qt_center_nodes_must_match_rate(); //#113
   void n_center_nodes_and_qt_center_nodes_must_match_uninitialized(); //#113
