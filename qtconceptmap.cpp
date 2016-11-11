@@ -831,6 +831,11 @@ void ribi::cmap::OnNodeKeyDownPressed(
   QKeyEvent * const event
 )
 {
+  if (IsQtCenterNode(item))
+  {
+    event->ignore();
+    return;
+  }
   const int key{event->key()};
 
   //Note: item can also be the QtNode on a QtEdge

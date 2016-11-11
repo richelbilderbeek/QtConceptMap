@@ -15,12 +15,12 @@ private slots:
   //Work on progress
 
   void press_f2_cannot_edit_focal_question_on_fuller_conceptmap(); //#113
-  void cannot_click_on_focal_question(); //#114
   void aaa_click_on_nothing();
   void aaa_click_on_qtnode();
   void qttoolitem_should_remain_when_moving_out_and_in_of_screen(); //#83
 
   //Done
+  void cannot_edit_center_node(); //#104
   void change_modes();
   void concept_map_must_fit_window();
   void concept_map_must_fit_window_after_setting();
