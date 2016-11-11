@@ -976,7 +976,6 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 
 void ribi::cmap::qtconceptmap_test::select_random_node_keyboard()
 {
-  #ifdef FIX_ISSUE_108
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
@@ -1001,7 +1000,6 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard()
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])
     != static_cast<int>(ids.size())
   ); //Good enough?
-  #endif //FIX_ISSUE_108
 }
 
 void ribi::cmap::qtconceptmap_test::set_concept_maps()

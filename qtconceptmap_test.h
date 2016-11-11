@@ -13,6 +13,7 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Work on progress
+
   void press_f2_cannot_edit_focal_question_on_fuller_conceptmap(); //#113
   void cannot_click_on_focal_question(); //#114
   void aaa_click_on_nothing();
@@ -80,7 +81,7 @@ private slots:
   void rate_concept_map_has_less_focusable_items();
   void relations_should_be_blue_in_edit_mode(); //#112
   void select_left_node_keyboard();
-  void select_random_node_keyboard();
+  void select_random_node_keyboard(); //#108
   void set_concept_maps();
   void setting_concept_maps_edges_qtedges_nodes_qtnodes_must_match();
   void all_tests();
