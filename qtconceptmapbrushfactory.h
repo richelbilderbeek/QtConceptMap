@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPBRUSHFACTORY_H
 #define QTCONCEPTMAPBRUSHFACTORY_H
 
@@ -59,6 +39,9 @@ struct QtBrushFactory
 
   ///Near-white brush, to be used in all derived classes for uniform coloring
   QBrush CreateWhiteGradientBrush() noexcept;
+
+  QColor GetBlue() const noexcept;
+  QColor GetWhite() const noexcept;
 
   //private:
   ///The bottom coordinat of a gradient

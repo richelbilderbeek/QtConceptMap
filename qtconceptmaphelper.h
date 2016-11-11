@@ -45,6 +45,10 @@ Edge ExtractTheOneSelectedEdge(const ConceptMap& conceptmap, const QGraphicsScen
 ///Get the one selected QtEdge. Throws if there is not exactly one edge selected
 QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
 
+///Finds the one QtCenterNode
+///Returns nullptr if there is non
+QtNode * FindQtCenterNode(const QGraphicsScene& scene) noexcept;
+
 QtEdge * FindQtEdge(const int edge_id, const QGraphicsScene& scene) noexcept;
 
 //Find the Qt edge with the same from and to

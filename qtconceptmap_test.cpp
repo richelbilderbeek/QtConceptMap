@@ -6,6 +6,7 @@
 #include <chrono>
 #include <cmath>
 #include <QApplication>
+#include <QLinearGradient>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QScrollBar>
@@ -31,11 +32,12 @@
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
+#include "qtconceptmapbrushfactory.h"
 
 //#define FIX_ISSUE_83
 //#define FIX_ISSUE_104
 
-void ribi::cmap::qtconceptmap_test::aaaa_fix_issue_104_cannot_click_on_focal_question()
+void ribi::cmap::qtconceptmap_test::cannot_click_on_focal_question()
 {
   #ifdef FIX_ISSUE_104
   QtConceptMap m;
@@ -82,7 +84,7 @@ void ribi::cmap::qtconceptmap_test::aaa_click_on_qtnode()
   #endif // FIX_ISSUE_83
 }
 
-void ribi::cmap::qtconceptmap_test::aaa_fix_issue_83()
+void ribi::cmap::qtconceptmap_test::qttoolitem_should_remain_when_moving_out_and_in_of_screen()
 {
   #ifdef FIX_ISSUE_83
   QtConceptMap m;
@@ -154,18 +156,6 @@ void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window_after_setting()
   QTest::qWait(100);
   QVERIFY(!m.verticalScrollBar()->isVisible());
   QVERIFY(!m.horizontalScrollBar()->isVisible());
-}
-
-void ribi::cmap::qtconceptmap_test::count_center_nodes()
-{
-  for (const auto conceptmap: ConceptMapFactory().GetAllTests())
-  {
-    const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
-    QtConceptMap m;
-    m.SetConceptMap(conceptmap);
-    const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
-    QVERIFY(n_center_nodes == n_qt_center_nodes);
-  }
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
@@ -683,17 +673,27 @@ void ribi::cmap::qtconceptmap_test::double_click_twice()
   QVERIFY(boost::num_vertices(m.GetConceptMap()) == 1);
 }
 
-void ribi::cmap::qtconceptmap_test::get_focusable_items()
+void ribi::cmap::qtconceptmap_test::rate_concept_map_has_less_focusable_items()
 {
   //In rate mode, the center node cannot be focused on
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.SetMode(Mode::edit);
   assert(CountCenterNodes(m.GetConceptMap()) > 0);
+  assert(CountQtCenterNodes(m.GetScene()) > 0);
+  assert(CountCenterNodes(m.GetConceptMap()) == CountQtCenterNodes(m.GetScene()));
+
   const auto n_edit = GetFocusableItems(m).size();
   m.SetMode(Mode::rate);
   const auto n_rate = GetFocusableItems(m).size();
+  if (n_rate >= n_edit)
+  {
+    qCritical() << "n_rate: " << n_rate;
+    qCritical() << "n_edit: " << n_edit;
+    //QTest::qWait(10000);
+  }
   QVERIFY(n_rate < n_edit);
+
 }
 
 
@@ -731,25 +731,50 @@ void ribi::cmap::qtconceptmap_test::is_command_put_on_undo_stack()
   QVERIFY(m.GetUndo().count() == 1);
 }
 
-void ribi::cmap::qtconceptmap_test::issue_96()
-{
-  QtConceptMap m;
-  m.show();
-  m.SetConceptMap(ConceptMapFactory().Get11());
-  m.show();
-  for (int i=0; i!=100; ++i)
-  {
-    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
-    m.show();
-  }
-}
-
 void ribi::cmap::qtconceptmap_test::mouse_wheel()
 {
   QtConceptMap m;
   m.show();
   QWheelEvent e(QPoint(10,10), 10,Qt::NoButton,Qt::NoModifier);
   m.wheelEvent(&e);
+}
+
+void ribi::cmap::qtconceptmap_test::n_center_nodes_and_qt_center_nodes_must_match_edit()
+{
+  for (const auto conceptmap: ConceptMapFactory().GetAllTests())
+  {
+    QtConceptMap m;
+    m.SetConceptMap(conceptmap);
+    m.SetMode(Mode::edit);
+    const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
+    const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
+    QVERIFY(n_center_nodes == n_qt_center_nodes);
+  }
+}
+
+void ribi::cmap::qtconceptmap_test::n_center_nodes_and_qt_center_nodes_must_match_rate()
+{
+  for (const auto conceptmap: ConceptMapFactory().GetAllTests())
+  {
+    QtConceptMap m;
+    m.SetConceptMap(conceptmap);
+    m.SetMode(Mode::edit);
+    const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
+    const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
+    QVERIFY(n_center_nodes == n_qt_center_nodes);
+  }
+}
+
+void ribi::cmap::qtconceptmap_test::n_center_nodes_and_qt_center_nodes_must_match_uninitialized()
+{
+  for (const auto conceptmap: ConceptMapFactory().GetAllTests())
+  {
+    QtConceptMap m;
+    m.SetConceptMap(conceptmap);
+    const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
+    const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
+    QVERIFY(n_center_nodes == n_qt_center_nodes);
+  }
 }
 
 void ribi::cmap::qtconceptmap_test::press_escape()
@@ -832,7 +857,7 @@ void ribi::cmap::qtconceptmap_test::press_f2_can_edit_non_focal_question()
   {
     QTest::keyClick(&m, Qt::Key_Space);
     const auto qtnodes = GetSelectedQtNodes(m.GetScene());
-    assert(qtnodes.size() == 1);
+    QVERIFY(qtnodes.size() == 1);
     if (!IsQtCenterNode(qtnodes[0])) break;
 
   }
@@ -896,6 +921,39 @@ void ribi::cmap::qtconceptmap_test::press_z()
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier);
+}
+
+void ribi::cmap::qtconceptmap_test::qtnodes_must_show_example_when_focused()
+{
+  QtConceptMap m;
+  m.show();
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.show();
+  for (int i=0; i!=100; ++i)
+  {
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+    m.show();
+  }
+}
+
+void ribi::cmap::qtconceptmap_test::relations_should_be_blue_in_edit_mode()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.SetMode(Mode::edit);
+  m.show();
+  #ifdef CAN_TEST_112
+  for (const QtNode * const qtnode: GetQtNodesAlsoOnQtEdge(m.GetScene()))
+  {
+    if (IsOnEdge(qtnode, m.GetScene()))
+    {
+      //This test does not work :-(
+      QVERIFY(qtnode->brush() == QtBrushFactory().CreateBlueGradientBrush());
+    }
+  }
+  qCritical() << "Tested #112 to be solved";
+  QTest::qWait(10000);
+  #endif //~ CAN_TEST_112
 }
 
 void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()

@@ -6,17 +6,6 @@
 #include <iostream>
 #include <sstream>
 
-//#include <QCursor>
-//#include <QKeyEvent>
-//#include <QPainter>
-//#include <QPen>
-
-//#include "conceptmapconcept.h"
-//#include "conceptmapexamples.h"
-//#include "conceptmapnodefactory.h"
-//#include "conceptmapnode.h"
-//#include "container.h"
-//#include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapqtnodefactory.h"
 
 void ribi::cmap::qtconceptmapqtnode_test::disable_and_enable()

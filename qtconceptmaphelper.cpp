@@ -199,6 +199,18 @@ ribi::cmap::ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene)
   throw std::invalid_argument(msg.str());
 }
 
+ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) noexcept
+{
+  if (!CountQtCenterNodes(scene)) return nullptr;
+  assert(CountQtCenterNodes(scene) == 1);
+  for (QtNode * const qtnode: GetQtNodes(scene))
+  {
+    if (IsQtCenterNode(qtnode)) return qtnode;
+  }
+  assert(!"Should not get here");
+  throw std::logic_error("FindQtCenterNode");
+}
+
 ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   const int edge_id,
   const QGraphicsScene& scene

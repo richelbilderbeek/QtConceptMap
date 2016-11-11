@@ -12,16 +12,19 @@ class qtconceptmap_test : public QObject
 
 private slots:
 
+  void n_center_nodes_and_qt_center_nodes_must_match_edit(); //#113
+  void n_center_nodes_and_qt_center_nodes_must_match_rate(); //#113
+  void n_center_nodes_and_qt_center_nodes_must_match_uninitialized(); //#113
+
   //Work on progress
-  void count_center_nodes();
-
-  void press_f2_cannot_edit_focal_question_on_fuller_conceptmap();
+  void rate_concept_map_has_less_focusable_items();
 
 
-  void aaaa_fix_issue_104_cannot_click_on_focal_question();
+  void press_f2_cannot_edit_focal_question_on_fuller_conceptmap(); //#113
+  void cannot_click_on_focal_question(); //#114
   void aaa_click_on_nothing();
   void aaa_click_on_qtnode();
-  void aaa_fix_issue_83();
+  void qttoolitem_should_remain_when_moving_out_and_in_of_screen(); //#83
 
   //Done
   void change_modes();
@@ -61,11 +64,9 @@ private slots:
   void delete_two_nodes_keyboard();
   void double_click();
   void double_click_twice();
-  void get_focusable_items();
   void get_highlighter();
   void hide_examples();
   void is_command_put_on_undo_stack();
-  void issue_96();
   void mouse_wheel();
   void press_escape();
   void press_f1_on_empty_concept_map_is_rejected();
@@ -79,6 +80,8 @@ private slots:
   void press_space_on_empty_concept_map_is_rejected();
   void press_t();
   void press_z();
+  void qtnodes_must_show_example_when_focused(); //#96
+  void relations_should_be_blue_in_edit_mode(); //#112
   void select_left_node_keyboard();
   void select_random_node_keyboard();
   void set_concept_maps();

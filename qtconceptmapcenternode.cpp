@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -39,5 +19,5 @@ ribi::cmap::QtCenterNode::QtCenterNode(const Node& node)
       "QtCenterNode: must be constructed from a CenterNode"
      );
   }
-  this->setFlags(QGraphicsItem::ItemIsFocusable);
+  this->setFlags(0);
 }
