@@ -176,16 +176,11 @@ void ribi::cmap::AddNodesToScene(
     assert(boost::num_vertices(conceptmap));
     const auto pmap = get(boost::vertex_custom_type, conceptmap);
     const Node node = get(pmap, *i);
-    const bool is_focal_node{i == vip.first};
-    QtNode * const qtnode{new QtNode(node)};
-    if (is_focal_node)
-    {
-      qtnode->setFlags(
-          QGraphicsItem::ItemIsFocusable
-        // | QGraphicsItem::ItemIsMovable
-        | QGraphicsItem::ItemIsSelectable
-      );
-    }
+    QtNode * const qtnode{
+      IsCenterNode(node)
+      ? new QtCenterNode(node)
+      : new QtNode(node)
+    };
     assert(qtnode);
     assert(!qtnode->scene());
     scene.addItem(qtnode);

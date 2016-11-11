@@ -14,6 +14,7 @@ private slots:
 
   //Work on progress
   void count_center_nodes();
+
   void press_f2_cannot_edit_focal_question_on_fuller_conceptmap();
 
 

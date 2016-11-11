@@ -158,7 +158,6 @@ void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window_after_setting()
 
 void ribi::cmap::qtconceptmap_test::count_center_nodes()
 {
-  #ifdef FIX_ISSUE_113
   for (const auto conceptmap: ConceptMapFactory().GetAllTests())
   {
     const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
@@ -167,9 +166,6 @@ void ribi::cmap::qtconceptmap_test::count_center_nodes()
     const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
     QVERIFY(n_center_nodes == n_qt_center_nodes);
   }
-  qDebug() << "SOLVED ISSUE #113!";
-  QTest::qWait(100000);
-  #endif // FIX_ISSUE_113
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_edge_command()
