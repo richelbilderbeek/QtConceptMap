@@ -35,7 +35,7 @@
 #include "qtconceptmapbrushfactory.h"
 
 //#define FIX_ISSUE_83
-//#define FIX_ISSUE_104
+#define FIX_ISSUE_104
 
 void ribi::cmap::qtconceptmap_test::cannot_click_on_focal_question()
 {
@@ -48,8 +48,10 @@ void ribi::cmap::qtconceptmap_test::cannot_click_on_focal_question()
   qtnode->setSelected(true);
   qtnode->setFocus();
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  m.SetPopupMode(PopupMode::muted);
   m.keyPressEvent(&e);
   QVERIFY(!e.isAccepted());
+  qCritical() << "Fixed #104";
   QTest::qWait(100000);
   #endif // FIX_ISSUE_104
 }
