@@ -36,20 +36,7 @@
 
 //#define FIX_ISSUE_83
 
-void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
-{
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get1());
-  m.SetMode(Mode::edit);
-  m.show();
-  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
-  qtnode->setSelected(true);
-  qtnode->setFocus();
-  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);
-  m.SetPopupMode(PopupMode::muted);
-  m.keyPressEvent(&e);
-  QVERIFY(!e.isAccepted());
-}
+
 
 void ribi::cmap::qtconceptmap_test::aaa_click_on_qtnode()
 {
@@ -59,8 +46,12 @@ void ribi::cmap::qtconceptmap_test::aaa_click_on_qtnode()
   m.SetMode(Mode::edit);
   m.show();
   const auto qtnode = GetFirstQtNode(m.GetScene());
-  const QPoint here{qtnode->mapToScene(qtnode->boundingRect().center()).toPoint()};
-  QTest::mouseClick(&m ,Qt::LeftButton, 0, here);
+  const QPoint here{qtnode->boundingRect().center().toPoint()};
+  //const QPoint here{qtnode->mapToScene(qtnode->boundingRect().center()).toPoint()};
+  QMouseEvent event(QEvent::MouseButtonPress, here, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  m.mousePressEvent(&event);
+  QVERIFY(event.isAccepted());
+  qCritical() << "OK";
   QTest::qWait(10000000);
   #endif // FIX_ISSUE_83
 }
@@ -105,6 +96,21 @@ void ribi::cmap::qtconceptmap_test::qttoolitem_should_remain_when_moving_out_and
   qDebug() << "SOLVED ISSUE #83!";
   QTest::qWait(100000);
   #endif // FIX_ISSUE_83
+}
+
+void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get1());
+  m.SetMode(Mode::edit);
+  m.show();
+  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
+  qtnode->setSelected(true);
+  qtnode->setFocus();
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  m.SetPopupMode(PopupMode::muted);
+  m.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::change_modes()

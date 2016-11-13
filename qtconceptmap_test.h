@@ -13,9 +13,9 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Work on progress
+  void aaa_click_on_qtnode();
 
   void press_f2_cannot_edit_focal_question_on_fuller_conceptmap(); //#113
-  void aaa_click_on_qtnode();
   void qttoolitem_should_remain_when_moving_out_and_in_of_screen(); //#83
 
   //Done

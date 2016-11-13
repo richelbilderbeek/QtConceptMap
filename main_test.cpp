@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ ribi::cmap::qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
-  //return 1;
+  { ribi::cmap::qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
+  return 1;
 
   //These are all tests in alphabetical order
   { ribi::cmap::qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
