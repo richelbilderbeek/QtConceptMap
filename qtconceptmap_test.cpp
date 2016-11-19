@@ -745,34 +745,6 @@ void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question()
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question_on_fuller_conceptmap()
-{
-  QtConceptMap m;
-  m.SetMode(Mode::edit);
-  m.SetConceptMap(ConceptMapFactory().Get11());
-  assert(CountCenterNodes(GetNodes(m.GetConceptMap())) == 1);
-  assert(ribi::cmap::CountQtCenterNodes(m.GetScene()) == 1);
-
-  m.SetPopupMode(PopupMode::normal); //
-  //Press space until center QtNode is selected again
-  m.show();
-  QTest::keyClick(&m, Qt::Key_Space);
-  while (1)
-  {
-    qApp->processEvents();
-    QTest::qWait(1);
-    m.show();
-    QTest::keyClick(&m, Qt::Key_Space);
-    const auto qtnodes = GetSelectedQtNodes(m.GetScene());
-    assert(qtnodes.size() <= 1);
-    if (qtnodes.empty()) continue;
-    if (IsQtCenterNode(qtnodes[0])) break;
-  }
-  QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
-  m.keyPressEvent(&event);
-  QVERIFY(!event.isAccepted());
-}
-
 void ribi::cmap::qtconceptmap_test::press_f2_can_edit_non_focal_question()
 {
   //Cannot do this test: the popup freezes the test

@@ -13,7 +13,6 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
-  void press_f2_cannot_edit_focal_question_on_fuller_conceptmap(); //#113
 
   //Done
   void cannot_edit_center_node(); //#104
