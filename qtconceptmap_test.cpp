@@ -34,70 +34,6 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapbrushfactory.h"
 
-//#define FIX_ISSUE_83
-
-
-
-void ribi::cmap::qtconceptmap_test::aaa_click_on_qtnode()
-{
-  #ifdef FIX_ISSUE_83
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get2());
-  m.SetMode(Mode::edit);
-  m.show();
-  const auto qtnode = GetFirstQtNode(m.GetScene());
-  const QPoint here{qtnode->boundingRect().center().toPoint()};
-  //const QPoint here{qtnode->mapToScene(qtnode->boundingRect().center()).toPoint()};
-  QMouseEvent event(QEvent::MouseButtonPress, here, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-  m.mousePressEvent(&event);
-  QVERIFY(event.isAccepted());
-  qCritical() << "OK";
-  QTest::qWait(10000000);
-  #endif // FIX_ISSUE_83
-}
-
-void ribi::cmap::qtconceptmap_test::qttoolitem_should_remain_when_moving_out_and_in_of_screen()
-{
-  #ifdef FIX_ISSUE_83
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get2());
-  m.SetMode(Mode::edit);
-  m.showFullScreen();
-
-  //Select a QtNode
-  while (GetSelectedQtNodes(m.GetScene()).size() != 1)
-  {
-    QTest::keyPress(&m, Qt::Key_Space, 0, 100);
-  }
-  QVERIFY(m.GetQtToolItem().isVisible());
-  //Move it out of the screen
-  for (int i=0; i!=80; ++i)
-  {
-    qDebug() << i;
-    const auto pos_before = m.GetQtToolItem().pos();
-    QTest::keyPress(&m, Qt::Key_Left, Qt::ControlModifier);
-    QTest::qWait(10);
-    const auto pos_after = m.GetQtToolItem().pos();
-    QVERIFY(pos_before != pos_after);
-  }
-  //Move it back in the screen
-  for (int i=0; i!=80; ++i)
-  {
-    qDebug() << i;
-    const auto pos_before = m.GetQtToolItem().pos();
-    QTest::keyPress(&m, Qt::Key_Right, Qt::ControlModifier);
-    QTest::qWait(10);
-    const auto pos_after = m.GetQtToolItem().pos();
-    QVERIFY(pos_before != pos_after);
-  }
-  //Weird, it always stays visible, even though me, a mere human, cannot see it on my screen
-  QVERIFY(m.GetQtToolItem().isVisible());
-
-  qDebug() << "SOLVED ISSUE #83!";
-  QTest::qWait(100000);
-  #endif // FIX_ISSUE_83
-}
-
 void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
 {
   QtConceptMap m;
@@ -811,7 +747,6 @@ void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question()
 
 void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question_on_fuller_conceptmap()
 {
-  #ifdef FIX_ISSUE_113
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -836,7 +771,6 @@ void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question_on_fulle
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
   m.keyPressEvent(&event);
   QVERIFY(!event.isAccepted());
-  #endif // FIX_ISSUE_113
 }
 
 void ribi::cmap::qtconceptmap_test::press_f2_can_edit_non_focal_question()
@@ -937,26 +871,6 @@ void ribi::cmap::qtconceptmap_test::qtnodes_must_show_example_when_focused()
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
     m.show();
   }
-}
-
-void ribi::cmap::qtconceptmap_test::relations_should_be_blue_in_edit_mode()
-{
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get11());
-  m.SetMode(Mode::edit);
-  m.show();
-  #ifdef CAN_TEST_112
-  for (const QtNode * const qtnode: GetQtNodesAlsoOnQtEdge(m.GetScene()))
-  {
-    if (IsOnEdge(qtnode, m.GetScene()))
-    {
-      //This test does not work :-(
-      QVERIFY(qtnode->brush() == QtBrushFactory().CreateBlueGradientBrush());
-    }
-  }
-  qCritical() << "Tested #112 to be solved";
-  QTest::qWait(10000);
-  #endif //~ CAN_TEST_112
 }
 
 void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()

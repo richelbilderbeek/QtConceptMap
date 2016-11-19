@@ -1175,10 +1175,11 @@ void ribi::cmap::UpdateExamplesItem(QtConceptMap& q)
 {
   //If nothing is selected, hide the Examples
   q.GetQtExamplesItem().SetBuddyItem(nullptr); //Handles visibility
-  const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(q.GetScene());
-  if (selected_qtnodes.size() == 1)
+  const auto selected_items = q.GetScene().selectedItems();
+  //const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(q.GetScene());
+  if (selected_items.size() == 1 && IsQtNodeNotOnEdge(selected_items[0], q.GetScene()))
   {
-    const auto selected_qtnode = selected_qtnodes[0];
+    const auto selected_qtnode = selected_items[0];
     q.GetQtExamplesItem().SetBuddyItem(selected_qtnode); //Handles visibility
   }
   q.update();

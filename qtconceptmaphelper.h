@@ -131,6 +131,12 @@ bool IsOnEdge(
   const QGraphicsScene& scene
 ) noexcept;
 
+///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
+bool IsQtNodeNotOnEdge(
+  const QGraphicsItem * const item,
+  const QGraphicsScene& scene
+) noexcept;
+
 ///Messes up the scene, by moving items, etc
 void MessUp(QGraphicsScene& scene);
 
