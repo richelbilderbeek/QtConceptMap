@@ -1078,7 +1078,7 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
   }
   if (QtNode * const qtnode = FindQtCenterNode(GetScene()))
   {
-    if (m_mode == Mode::rate)
+    if (m_mode == Mode::rate || IsQtCenterNode(qtnode))
     {
       qtnode->setFlags(0);
     }

@@ -20,4 +20,6 @@ ribi::cmap::QtCenterNode::QtCenterNode(const Node& node)
      );
   }
   this->setFlags(0);
+
+  assert(!(flags() & QGraphicsItem::ItemIsMovable));
 }

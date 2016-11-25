@@ -65,6 +65,26 @@ void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
   QVERIFY(!e.isAccepted());
 }
 
+void ribi::cmap::qtconceptmap_test::cannot_move_center_node()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get1());
+  m.SetMode(Mode::edit);
+  m.show();
+  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
+  assert(IsQtCenterNode(qtnode));
+  qtnode->setSelected(true);
+  qtnode->setFocus();
+  assert(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
+  const auto pos_before = qtnode->GetCenterPos();
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Down, Qt::ControlModifier);
+  m.keyPressEvent(&e);
+  m.show();
+  const auto pos_after = qtnode->GetCenterPos();
+  QVERIFY(!e.isAccepted());
+  QVERIFY(pos_before == pos_after);
+}
+
 void ribi::cmap::qtconceptmap_test::change_modes()
 {
   QtConceptMap m;
