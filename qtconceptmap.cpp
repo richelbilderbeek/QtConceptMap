@@ -1074,21 +1074,38 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
   {
     const auto f = GetQtNodeBrushFunction(m_mode);
     qtnode->SetBrushFunction(f);
-
+    switch (mode)
+    {
+      case Mode::edit:
+        qtnode->setFlags(
+            QGraphicsItem::ItemIsMovable
+          | QGraphicsItem::ItemIsFocusable
+          | QGraphicsItem::ItemIsSelectable
+        );
+      break;
+      case Mode::rate:
+        qtnode->setFlags(
+            QGraphicsItem::ItemIsFocusable
+          | QGraphicsItem::ItemIsSelectable
+        );
+      break;
+      case Mode::uninitialized:
+        qtnode->setFlags(0);
+      break;
+    }
   }
   if (QtNode * const qtnode = FindQtCenterNode(GetScene()))
   {
-    if (m_mode == Mode::rate || IsQtCenterNode(qtnode))
-    {
-      qtnode->setFlags(0);
-    }
-    else
+    if (m_mode == Mode::edit)
     {
       qtnode->setFlags(
           QGraphicsItem::ItemIsFocusable
-        | QGraphicsItem::ItemIsMovable
         | QGraphicsItem::ItemIsSelectable
       );
+    }
+    else
+    {
+      qtnode->setFlags(0);
     }
   }
 }

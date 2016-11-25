@@ -648,6 +648,29 @@ void ribi::cmap::qtconceptmap_test::double_click_twice()
   QVERIFY(boost::num_vertices(m.GetConceptMap()) == 1);
 }
 
+void ribi::cmap::qtconceptmap_test::edit_mode_flags()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.show();
+  m.SetMode(Mode::edit);
+  for (const auto qtnode: GetQtNodes(m.GetScene()))
+  {
+    if (IsQtCenterNode(qtnode))
+    {
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsSelectable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsFocusable));
+    }
+    else
+    {
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsMovable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsSelectable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsFocusable));
+    }
+  }
+}
+
 void ribi::cmap::qtconceptmap_test::rate_concept_map_has_less_focusable_items()
 {
   //In rate mode, the center node cannot be focused on
@@ -661,6 +684,29 @@ void ribi::cmap::qtconceptmap_test::rate_concept_map_has_less_focusable_items()
   m.SetMode(Mode::rate);
   const auto n_rate = GetFocusableItems(m).size();
   QVERIFY(n_rate < n_edit);
+}
+
+void ribi::cmap::qtconceptmap_test::rate_mode_flags()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.show();
+  m.SetMode(Mode::edit);
+  for (const auto qtnode: GetQtNodes(m.GetScene()))
+  {
+    if (IsQtCenterNode(qtnode))
+    {
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsSelectable));
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsFocusable));
+    }
+    else
+    {
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsSelectable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsFocusable));
+    }
+  }
 }
 
 
@@ -1276,6 +1322,28 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_tail_keyboard()
   QVERIFY(qtedge->GetEdge().HasTailArrow());
 }
 
+void ribi::cmap::qtconceptmap_test::uninitialized_mode_flags()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get2());
+  m.show();
+  m.SetMode(Mode::uninitialized);
+  for (const auto qtnode: GetQtNodes(m.GetScene()))
+  {
+    if (IsQtCenterNode(qtnode))
+    {
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsSelectable));
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsFocusable));
+    }
+    else
+    {
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsSelectable));
+      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsFocusable));
+    }
+  }
+}
 
 void ribi::cmap::qtconceptmap_test::all_tests()
 {

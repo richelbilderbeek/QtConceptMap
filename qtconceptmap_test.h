@@ -17,7 +17,7 @@ private slots:
   //Done
   void cannot_delete_center_node(); //#114
   void cannot_edit_center_node(); //#104
-  void cannot_move_center_node(); //#1115
+  void cannot_move_center_node(); //#115
   void change_modes();
   void click_on_nothing_should_be_ignored();
   void concept_map_must_fit_window();
@@ -55,6 +55,7 @@ private slots:
   void delete_two_nodes_keyboard();
   void double_click();
   void double_click_twice();
+  void edit_mode_flags();
   void get_highlighter();
   void hide_examples();
   void is_command_put_on_undo_stack();
@@ -77,10 +78,12 @@ private slots:
   void qtcenter_node_must_be_gold(); //#111
   void qtnodes_must_show_example_when_focused(); //#96
   void rate_concept_map_has_less_focusable_items();
+  void rate_mode_flags();
   void select_left_node_keyboard();
   void select_random_node_keyboard(); //#108
   void set_concept_maps();
   void setting_concept_maps_edges_qtedges_nodes_qtnodes_must_match();
+  void uninitialized_mode_flags();
   void all_tests();
 };
 
