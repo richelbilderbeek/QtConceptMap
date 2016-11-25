@@ -13,6 +13,7 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
+  void cannot_delete_center_node(); //#114
 
   //Done
   void cannot_edit_center_node(); //#104

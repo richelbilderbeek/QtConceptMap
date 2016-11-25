@@ -34,6 +34,21 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapbrushfactory.h"
 
+void ribi::cmap::qtconceptmap_test::cannot_delete_center_node() //#114
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().Get1());
+  m.SetMode(Mode::edit);
+  m.show();
+  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
+  assert(IsQtCenterNode(qtnode));
+  qtnode->setSelected(true);
+  qtnode->setFocus();
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Delete, Qt::NoModifier);
+  m.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
+}
+
 void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
 {
   QtConceptMap m;
@@ -41,6 +56,7 @@ void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
   m.SetMode(Mode::edit);
   m.show();
   QtNode * const qtnode = GetFirstQtNode(m.GetScene());
+  assert(IsQtCenterNode(qtnode));
   qtnode->setSelected(true);
   qtnode->setFocus();
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);

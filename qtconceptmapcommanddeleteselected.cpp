@@ -30,6 +30,14 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
     m_tool_item{tool_item},
     m_tool_item_old_buddy{tool_item.GetBuddyItem()}
 {
+  for (const auto item: scene.selectedItems())
+  {
+    if (IsQtCenterNode(item))
+    {
+      throw std::invalid_argument("Cannot delete center node");
+    }
+  }
+
   setText("delete selected nodes and edges");
 
   //Count the number of vertices and edges selected

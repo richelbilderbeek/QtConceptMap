@@ -498,9 +498,12 @@ void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
     q.DoCommand(
       new CommandDeleteSelected(q.GetConceptMap(), q.GetScene(), q.GetQtToolItem())
     );
+    event->accept();
   }
-  catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
-  event->setAccepted(true);
+  catch (std::exception&)
+  {
+    event->ignore();
+  }
 }
 
 void ribi::cmap::keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept
