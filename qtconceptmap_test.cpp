@@ -691,7 +691,7 @@ void ribi::cmap::qtconceptmap_test::rate_mode_flags()
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
   m.show();
-  m.SetMode(Mode::edit);
+  m.SetMode(Mode::rate);
   for (const auto qtnode: GetQtNodes(m.GetScene()))
   {
     if (IsQtCenterNode(qtnode))
