@@ -1042,6 +1042,7 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_Z: keyPressEventZ(q, event); break;
     case Qt::Key_Space:
       assert(!event->isAccepted());
+      break;
       //Processed by QtKeyboardFriendlyGraphicsView
     default: break;
   }
