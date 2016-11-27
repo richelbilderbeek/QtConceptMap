@@ -425,7 +425,7 @@ void ribi::cmap::qtconceptmap_test::default_construction()
   QVERIFY(m.GetUndo().count() == 0);
 }
 
-void ribi::cmap::qtconceptmap_test::delete_edge_and_node_that_is_head_of_edge_command()
+void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_edge_command()
 {
   QtConceptMap m;
   m.show();
@@ -435,10 +435,16 @@ void ribi::cmap::qtconceptmap_test::delete_edge_and_node_that_is_head_of_edge_co
   QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+  const auto qtedges = GetQtEdges(m.GetScene());
+  assert(qtedges.size() == 1);
+  const auto qtedge = qtedges[0];
+  assert(qtedge);
+  const auto head = qtedge->GetTo();
   std::srand(42);
   //Select only one single QtNode (not on edge)
-  while (CountSelectedQtNodes(m.GetScene()) != 1
-    || CountSelectedQtEdges(m.GetScene()) != 0
+  while (CountSelectedQtEdges(m.GetScene()) != 0
+    || CountSelectedQtNodes(m.GetScene()) != 1
+    || GetSelectedQtNodes(m.GetScene())[0] != head
   ) {
     m.show();
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
@@ -449,6 +455,73 @@ void ribi::cmap::qtconceptmap_test::delete_edge_and_node_that_is_head_of_edge_co
   //Deleting the QtNode should also delete the QtEdge that is connected to it
   QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
+}
+
+void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_command()
+{
+  QtConceptMap m;
+  m.show();
+  //Create nodes and edge
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+  const auto qtedges = GetQtEdges(m.GetScene());
+  assert(qtedges.size() == 1);
+  const auto qtedge = qtedges[0];
+  assert(qtedge);
+  const auto tail = qtedge->GetFrom();
+  std::srand(42);
+  //Select only one single QtNode (not on edge)
+  while (CountSelectedQtEdges(m.GetScene()) != 0
+    || CountSelectedQtNodes(m.GetScene()) != 1
+    || GetSelectedQtNodes(m.GetScene())[0] != tail
+  ) {
+    m.show();
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+  }
+  QVERIFY(CountSelectedQtEdges(m.GetScene()) == 0);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
+  //Deleting the QtNode should also delete the QtEdge that is connected to it
+  QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
+}
+
+void ribi::cmap::qtconceptmap_test::delete_nodes_that_are_head_and_tail_of_edge_command()
+{
+  QtConceptMap m;
+  m.show();
+  //Create nodes and edge
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+  const auto qtedges = GetQtEdges(m.GetScene());
+  assert(qtedges.size() == 1);
+  const auto qtedge = qtedges[0];
+  assert(qtedge);
+  std::srand(42);
+  //Select only one single QtNode (not on edge)
+  while (CountSelectedQtEdges(m.GetScene()) != 0
+    || CountSelectedQtNodes(m.GetScene()) != 2
+  ) {
+    m.show();
+    //Select first
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+    //Add-select second
+    QTest::keyClick(&m, Qt::Key_Space, Qt::ShiftModifier, 100);
+  }
+  QVERIFY(CountSelectedQtEdges(m.GetScene()) == 0);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
+  //Deleting the QtNode should also delete the QtEdge that is connected to it
+  QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 }
 

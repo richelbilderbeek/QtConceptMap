@@ -13,6 +13,9 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
+  void delete_node_that_is_head_of_edge_command();
+  void delete_node_that_is_tail_of_edge_command();
+  void delete_nodes_that_are_head_and_tail_of_edge_command();
 
   //Done
   void cannot_delete_center_node(); //#114
@@ -44,7 +47,6 @@ private slots:
   void create_two_nodes_command();
   void create_two_nodes_keyboard();
   void default_construction();
-  void delete_edge_and_node_that_is_head_of_edge_command();
   void delete_one_edge_by_node_command();
   void delete_one_edge_by_node_keyboard();
   void delete_one_edge_command();
