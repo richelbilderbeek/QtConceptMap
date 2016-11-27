@@ -425,6 +425,33 @@ void ribi::cmap::qtconceptmap_test::default_construction()
   QVERIFY(m.GetUndo().count() == 0);
 }
 
+void ribi::cmap::qtconceptmap_test::delete_edge_and_node_that_is_head_of_edge_command()
+{
+  QtConceptMap m;
+  m.show();
+  //Create nodes and edge
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+  std::srand(42);
+  //Select only one single QtNode (not on edge)
+  while (CountSelectedQtNodes(m.GetScene()) != 1
+    || CountSelectedQtEdges(m.GetScene()) != 0
+  ) {
+    m.show();
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+  }
+  QVERIFY(CountSelectedQtEdges(m.GetScene()) == 0);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
+  //Deleting the QtNode should also delete the QtEdge that is connected to it
+  QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
+}
+
 void ribi::cmap::qtconceptmap_test::delete_one_edge_by_node_command()
 {
 
@@ -1347,49 +1374,8 @@ void ribi::cmap::qtconceptmap_test::uninitialized_mode_flags()
 
 void ribi::cmap::qtconceptmap_test::all_tests()
 {
-  using namespace ribi::cmap;
-  bool verbose{false};
-  //#define FOR_LUCAS_20160130
-  #ifdef FOR_LUCAS_20160130
-  if (verbose) { TRACE("Delete Edge and Node-that-is-head-of-Edge: delete from QtConceptMap"); }
-  {
-    QtConceptMap qtconceptmap;
-    QTest::keyClick(&d, Qt::Key_N, Qt::ControlModifier, 100);
-    QTest::keyClick(&d, Qt::Key_N, Qt::ControlModifier, 100);
-    auto ctrl_e = CreateControlE();
-    qtconceptmap.keyPressEvent(&ctrl_e);
-    QVERIFY(DoubleCheckEdgesAndNodes(qtconceptmap,1,2));
-    QVERIFY(DoubleCheckSelectedEdgesAndNodes(qtconceptmap,1,0));
-    std::srand(42);
-    //Select only one single QtNode
-    //PROBLEM: This is an infinite loop. Why?
-    while (CountSelectedQtNodes(qtconceptmap.GetScene()) != 1
-      || CountSelectedQtEdges(qtconceptmap.GetScene()) != 0
-    ) {
-      auto ctrl_space = CreateControlSpace();
-      qtconceptmap.keyPressEvent(&ctrl_space);
-      std::cerr
-        << CountSelectedQtNodes(qtconceptmap.GetScene())
-        << ","
-        << CountSelectedQtEdges(qtconceptmap.GetScene())
-      ;
-    }
-    QVERIFY(!"You've fixed the problem halfways");
-    QVERIFY(CountSelectedQtEdges(qtconceptmap.GetScene()) == 0);
-    QVERIFY(DoubleCheckEdgesAndNodes(qtconceptmap,1,2));
-    QVERIFY(DoubleCheckSelectedEdgesAndNodes(qtconceptmap,0,1));
-    //Deleting the QtNode should also delete the QtEdge that is connected to it
-    auto del = CreateDel();
-    qtconceptmap.keyPressEvent(&del);
-    QVERIFY(DoubleCheckEdgesAndNodes(qtconceptmap,0,1));
-    QVERIFY(DoubleCheckSelectedEdgesAndNodes(qtconceptmap,0,0));
-  }
-  QVERIFY(!"You've fixed it!");
-  #endif // FOR_LUCAS_20160130
-  //#define FIX_ISSUE_1
   #ifdef  FIX_ISSUE_1
   verbose = true;
-  if (verbose) { TRACE("FIX_ISSUE_1"); }
   if (verbose) { TRACE("CTRL-N, CTRL-N, CTRL-E, Left: should select one Node"); }
   {
     QtConceptMap qtconceptmap;
