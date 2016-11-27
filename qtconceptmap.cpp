@@ -1038,9 +1038,11 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_Minus: q.scale(0.9,0.9); break;
     case Qt::Key_N: keyPressEventN(q, event); break;
     case Qt::Key_Question: keyPressEventQuestion(q, event); break;
-    //case Qt::Key_Space: keyPressEventSpace(q, event); break;
     case Qt::Key_T: keyPressEventT(q, event); break;
     case Qt::Key_Z: keyPressEventZ(q, event); break;
+    case Qt::Key_Space:
+      assert(!event->isAccepted());
+      //Processed by QtKeyboardFriendlyGraphicsView
     default: break;
   }
 

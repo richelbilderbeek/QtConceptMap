@@ -425,7 +425,7 @@ void ribi::cmap::qtconceptmap_test::default_construction()
   QVERIFY(m.GetUndo().count() == 0);
 }
 
-void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_edge_command()
+void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_edge_keyboard()
 {
   QtConceptMap m;
   m.show();
@@ -458,7 +458,15 @@ void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_edge_command()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 }
 
-void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_command()
+void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_multiple_edges_keyboard()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  m.showFullScreen();
+  //QTest::qWait(100000);
+}
+
+void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_keyboard()
 {
   QtConceptMap m;
   m.show();
@@ -491,7 +499,7 @@ void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_command()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 }
 
-void ribi::cmap::qtconceptmap_test::delete_nodes_that_are_head_and_tail_of_edge_command()
+void ribi::cmap::qtconceptmap_test::delete_nodes_that_are_head_and_tail_of_edge_keyboard()
 {
   QtConceptMap m;
   m.show();
@@ -1045,9 +1053,10 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
 }
 
-void ribi::cmap::qtconceptmap_test::select_random_node_keyboard()
+void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
 {
   QtConceptMap m;
+  m.SetMode(Mode::edit);
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
   m.show();
@@ -1061,8 +1070,8 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard()
   {
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 10);
     m.show();
-    const auto n_selected = GetSelectedQtNodes(m.GetScene()).size();
-    if (n_selected != 1) { qCritical() << n_selected; }
+    //The QtNodes on the edges can also be selected
+    const auto n_selected = GetSelectedQtNodesAlsoOnQtEdge(m.GetScene()).size();
     QVERIFY(n_selected == 1);
     assert(GetSelectedQtNodes(m.GetScene()).size() == 1);
     ids.push_back(GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetId());
