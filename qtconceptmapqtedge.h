@@ -1,30 +1,8 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPEDGEITEM_H
 #define QTCONCEPTMAPEDGEITEM_H
 
-//#include <boost/shared_ptr.hpp>
 #include <QGraphicsItem>
 #include "qtconceptmapfwd.h"
-//#include "conceptmapnode.h"
 #include "qtconceptmapqtnode.h"
 #include "conceptmapedge.h"
 

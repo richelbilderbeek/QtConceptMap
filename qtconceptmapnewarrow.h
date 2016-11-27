@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPNEWARROW_H
 #define QTCONCEPTMAPNEWARROW_H
 

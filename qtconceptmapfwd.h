@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPFWD_H
 #define QTCONCEPTMAPFWD_H
 

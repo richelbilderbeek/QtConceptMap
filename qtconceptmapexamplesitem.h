@@ -1,30 +1,8 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPEXAMPLESITEM_H
 #define QTCONCEPTMAPEXAMPLESITEM_H
 
-//#include <boost/shared_ptr.hpp>
 #include "qtroundededitrectitem.h"
 #include "qtconceptmapfwd.h"
-//#include "qtconceptmapqtedge.h"
 
 namespace ribi {
 namespace cmap {

@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPCOMPETENCY_H
 #define QTCONCEPTMAPCOMPETENCY_H
 

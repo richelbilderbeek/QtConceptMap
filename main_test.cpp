@@ -36,13 +36,11 @@ int main(int argc, char *argv[])
   { ribi::cmap::qtconceptmapcompetency_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapconcepteditdialog_test t; error |= QTest::qExec(&t, argc, argv); }
-  { ribi::cmap::qtconceptmapedgedialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapexampledialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapexamplesdialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmaphelper_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapitemhighlighter_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapnewarrow_test t; error |= QTest::qExec(&t, argc, argv); }
-  { ribi::cmap::qtconceptmapnodedialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtnodefactory_test t; error |= QTest::qExec(&t, argc, argv); }
   { ribi::cmap::qtconceptmapqtnode_test t; error |= QTest::qExec(&t, argc, argv); }

@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPEXAMPLEDIALOG_H
 #define QTCONCEPTMAPEXAMPLEDIALOG_H
 

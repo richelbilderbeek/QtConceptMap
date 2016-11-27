@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #include "qtconceptmapratedconceptdialog.h"
 
 #include <cassert>

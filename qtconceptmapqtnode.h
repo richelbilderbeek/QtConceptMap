@@ -1,31 +1,12 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPNODEITEM_H
 #define QTCONCEPTMAPNODEITEM_H
+
+#include <functional>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include <boost/shared_ptr.hpp>
 #include "qtroundededitrectitem.h"
 #include "conceptmapnode.h"
 #include "conceptmapfwd.h"

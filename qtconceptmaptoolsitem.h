@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTCONCEPTMAPTOOLSITEM_H
 #define QTCONCEPTMAPTOOLSITEM_H
 
@@ -30,11 +10,7 @@
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include <QBrush>
 #include <QGraphicsPixmapItem>
-
-#include <boost/shared_ptr.hpp>
-
 #include "conceptmapnode.h"
-
 #include "qtconceptmapfwd.h"
 #pragma GCC diagnostic pop
 

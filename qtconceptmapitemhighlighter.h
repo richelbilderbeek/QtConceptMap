@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #ifndef QTHIGHLIGHTER_H
 #define QTHIGHLIGHTER_H
 

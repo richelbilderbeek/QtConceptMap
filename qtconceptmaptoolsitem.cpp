@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -25,6 +5,7 @@
 #include "qtconceptmaptoolsitem.h"
 
 #include <cmath>
+#include <cassert>
 #include <QCursor>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>

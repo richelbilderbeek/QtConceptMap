@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #include "qtconceptmapqtnode.h"
 
 #include <cassert>
