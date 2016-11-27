@@ -122,13 +122,6 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
 
 void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
 {
-  //Close when the user has entered an empty edit
-  if (ui->edit_text->text().isEmpty())
-  {
-    close();
-    return;
-  }
-
   {
     QListWidgetItem * const item = new QListWidgetItem;
     item->setText(ui->edit_text->text());
