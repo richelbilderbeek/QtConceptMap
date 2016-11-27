@@ -4,6 +4,7 @@
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmapcenternode.h"
 
+#include <cassert>
 #include <stdexcept>
 
 #include "qtconceptmapbrushfactory.h"
