@@ -17,80 +17,66 @@
 #include "ui_qtconceptmapconcepteditdialog.h"
 
 
+using namespace ribi::cmap;
 
-void ribi::cmap::qtconceptmapconcepteditdialog_test::all_tests()
+void ribi::cmap::qtconceptmapconcepteditdialog_test
+  ::add_should_not_close_the_dialog()
 {
-  using namespace ribi::cmap;
+  QtConceptMapConceptEditDialog d(
+    ConceptFactory().Get0()
+  );
+  d.show();
+  QVERIFY(d.isVisible());
+  d.ui->button_add->click();
+  QVERIFY(d.isVisible());
+  d.ui->button_ok->click();
+  QVERIFY(!d.isVisible());
+}
+
+void ribi::cmap::qtconceptmapconcepteditdialog_test
+  ::press_ok_with_changing_examples_should_result_in_changed_concept()
+{
+  //Assume reading in a concept and clicking OK after adding an example
+  for (const auto concept: ConceptFactory().GetTests())
   {
-    //Assume reading in a concept and clicking OK without modification does not modify anything
-    const auto v = ribi::cmap::ConceptFactory().GetTests();
-    std::for_each(v.begin(),v.end(),
-      [](const Concept& concept)
-      {
-        const Concept old_concept(concept);
-        QVERIFY(concept == old_concept);
-        QtConceptMapConceptEditDialog d(concept);
-        //Do nothing...
-        d.on_button_ok_clicked();
-        #ifdef CONCEPTMAP_WRITE_TO_CONCEPT
-        QVERIFY(d.WriteToConcept() == old_concept);
-        #else
-        QVERIFY(concept == old_concept);
-        #endif
-      }
-    );
-  }
-  {
-    //Assume reading in a concept and clicking OK after modification of the name does modify concept
-    const auto v = ribi::cmap::ConceptFactory().GetTests();
-    std::for_each(v.begin(),v.end(),
-      [](const Concept& concept)
-      {
-        const Concept old_concept(concept);
-        QVERIFY(concept == old_concept);
-        QtConceptMapConceptEditDialog d(concept);
-        d.GetUi()->edit_concept->setText(d.GetUi()->edit_concept->text() + "MODIFICATION");
-        d.on_button_ok_clicked();
-        QVERIFY(d.GetConcept() != old_concept);
-      }
-    );
-  }
-  {
-    //Assume reading in a concept and clicking OK after adding an example
-    const auto v = ribi::cmap::ConceptFactory().GetTests();
-    std::for_each(v.begin(),v.end(),
-      [](const Concept& concept)
-      {
-        const Concept old_concept(concept);
-        QVERIFY(concept == old_concept);
-        QtConceptMapConceptEditDialog d(concept);
-        QVERIFY(d.GetUi()->edit_text->text().isEmpty());
-        d.GetUi()->edit_text->setText("TO BE ADDED EXAMPLE");
-        d.on_button_add_clicked(); //Should add
-        d.on_button_ok_clicked();
-        QVERIFY(d.GetConcept() != old_concept);
-      }
-    );
-  }
-  {
-    //Assume reading in a concept and NOT clicking OK does not change the concept,
-    //even when having changed the name and examples in the GUI
-    const auto v = ribi::cmap::ConceptFactory().GetTests();
-    std::for_each(v.begin(),v.end(),
-      [](const Concept& concept)
-      {
-        const Concept old_concept(concept);
-        QVERIFY(concept == old_concept);
-        QtConceptMapConceptEditDialog d(concept);
-        //Change name
-        d.GetUi()->edit_concept->setText(d.GetUi()->edit_concept->text() + "MODIFICATION");
-        //Change examples
-        QVERIFY(d.GetUi()->edit_text->text().isEmpty());
-        d.GetUi()->edit_text->setText("TO BE ADDED EXAMPLE");
-        d.on_button_add_clicked(); //Should add
-        //DO NOT PRESS OK d.on_button_ok_clicked();
-        QVERIFY(d.GetConcept() == old_concept);
-      }
-    );
+    QtConceptMapConceptEditDialog d(concept);
+    QVERIFY(d.ui->edit_text->text().isEmpty());
+    d.ui->edit_text->setText("TO BE ADDED EXAMPLE");
+    d.on_button_add_clicked(); //Should add
+    d.on_button_ok_clicked();
+    const Concept after(d.GetConcept());
+    QVERIFY(concept != after);
   }
 }
+
+
+
+void ribi::cmap::qtconceptmapconcepteditdialog_test
+  ::press_ok_with_changing_name_should_result_in_changed_concept()
+{
+  //Assume reading in a concept and clicking OK after modification of the name does modify concept
+  for (const auto concept: ConceptFactory().GetTests())
+  {
+    QtConceptMapConceptEditDialog d(concept);
+    d.ui->edit_concept->setText(d.ui->edit_concept->text() + "MODIFICATION");
+    d.on_button_ok_clicked();
+    const Concept after(d.GetConcept());
+    QVERIFY(concept != after);
+  }
+}
+
+
+void ribi::cmap::qtconceptmapconcepteditdialog_test
+  ::press_ok_without_changes_should_result_in_unchanged_concept()
+{
+  //Assume reading in a concept and clicking OK without modification does not modify anything
+  for (const auto concept: ConceptFactory().GetTests())
+  {
+    QtConceptMapConceptEditDialog d(concept);
+    //Do nothing...
+    d.on_button_ok_clicked();
+    const Concept after(d.GetConcept());
+    QVERIFY(concept == after);
+  }
+}
+
