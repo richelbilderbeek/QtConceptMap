@@ -425,6 +425,29 @@ void ribi::cmap::qtconceptmap_test::default_construction()
   QVERIFY(m.GetUndo().count() == 0);
 }
 
+void ribi::cmap::qtconceptmap_test::delete_node_that_is_connected_to_multiple_edges_keyboard()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  m.showFullScreen();
+  //Select the node at the center of the star
+  while (CountSelectedQtEdges(m.GetScene()) != 0
+    || CountSelectedQtNodes(m.GetScene()) != 1
+    || GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetConcept().GetName()
+      != std::string("X")
+  ) {
+    m.show();
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+  }
+  m.show();
+  QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
+  m.show();
+  m.Undo();
+  m.show();
+  m.Redo();
+  m.show();
+}
+
 void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_edge_keyboard()
 {
   QtConceptMap m;
@@ -458,27 +481,38 @@ void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_edge_keyboard()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 }
 
-void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_multiple_edges_keyboard()
+void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_edge_and_undo_keyboard()
 {
   QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
-  m.showFullScreen();
-  //Select the node at the center of the star
+  m.show();
+  //Create nodes and edge
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+  const auto qtedges = GetQtEdges(m.GetScene());
+  assert(qtedges.size() == 1);
+  const auto qtedge = qtedges[0];
+  assert(qtedge);
+  const auto head = qtedge->GetTo();
+  std::srand(42);
+  //Select only one single QtNode (not on edge)
   while (CountSelectedQtEdges(m.GetScene()) != 0
     || CountSelectedQtNodes(m.GetScene()) != 1
-    || GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetConcept().GetName()
-      != std::string("X")
+    || GetSelectedQtNodes(m.GetScene())[0] != head
   ) {
     m.show();
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
   }
-  m.show();
+  QVERIFY(CountSelectedQtEdges(m.GetScene()) == 0);
+  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
+  //Deleting the QtNode should also delete the QtEdge that is connected to it
   QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
-  m.show();
-  m.Undo();
-  m.show();
-  m.Redo();
-  m.show();
+  QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
+  m.Undo(); //New
 }
 
 void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_keyboard()
@@ -1467,135 +1501,4 @@ void ribi::cmap::qtconceptmap_test::uninitialized_mode_flags()
       QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsFocusable));
     }
   }
-}
-
-void ribi::cmap::qtconceptmap_test::all_tests()
-{
-  #ifdef  FIX_ISSUE_1
-  verbose = true;
-  if (verbose) { TRACE("CTRL-N, CTRL-N, CTRL-E, Left: should select one Node"); }
-  {
-    QtConceptMap qtconceptmap;
-    ConceptMap conceptmap = ribi::cmap::ConceptMapFactory().GetEmptyConceptMap();
-    qtconceptmap.SetConceptMap(conceptmap);
-    conceptmap.SetVerbosity(true);
-    qtconceptmap.SetVerbosity(true);
-
-    if (verbose) { TRACE("Create two nodes"); }
-    auto ctrln = CreateControlN();
-    qtconceptmap.keyPressEvent(&ctrln);
-    qtconceptmap.keyPressEvent(&ctrln);
-
-    if (verbose) { TRACE("Create an edge, edge is selected"); }
-    auto ctrle = CreateControlE();
-    qtconceptmap.keyPressEvent(&ctrle);
-
-    QVERIFY(qtconceptmap.GetQtNodes().size() == 2);
-    qtconceptmap.GetQtNodes()[0]->SetCenterPos(-100.0,0.0);
-    qtconceptmap.GetQtNodes()[0]->setToolTip("QtNodes[0]");
-    qtconceptmap.GetQtNodes()[1]->SetCenterPos( 100.0,0.0);
-    qtconceptmap.GetQtNodes()[1]->setToolTip("QtNodes[1]");
-    qtconceptmap.GetQtEdges()[0]->setToolTip("QtEdges[0]");
-    qtconceptmap.GetQtEdges()[0]->GetQtNode()->setToolTip("QtEdges[0] its center QtNode");
-
-    QVERIFY(boost::num_vertices(conceptmap) == 2);
-    QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
-    QVERIFY(boost::num_edges(conceptmap) == 1);
-    QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == 0);
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
-    QVERIFY(conceptmap.GetSelectedEdges().size() == 1);
-    QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
-
-    //Fails if item is invisible
-    qtconceptmap.showFullScreen();
-    for (int i=0; i!=100; ++i) qApp->processEvents();
-    QVERIFY(qtconceptmap.scene()->selectedItems().count() > 0);
-
-
-    if (verbose) { TRACE("Unselect the edge, select the node by pressing an arrow key"); }
-    auto up = CreateRight(); //Selects
-    TRACE("START");
-    conceptmap.SetVerbosity(true);
-    qtconceptmap.SetVerbosity(true);
-    qtconceptmap.keyPressEvent(&up);
-
-    TRACE(conceptmap.GetSelectedNodes().size());
-    TRACE(qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
-    TRACE(conceptmap.GetSelectedEdges().size());
-    TRACE(qtconceptmap.GetSelectedQtEdges().size());
-
-
-    QVERIFY(boost::num_vertices(conceptmap) == 2);
-    QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
-    QVERIFY(boost::num_edges(conceptmap) == 1);
-    QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
-    QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == 1);
-    QVERIFY(conceptmap.GetSelectedEdges().size() == 0);
-  }
-  if (verbose) { TRACE("Delete Node-that-is-head-of-Edge, then Undo"); }
-  {
-    QtConceptMap qtconceptmap;
-    ConceptMap conceptmap = ribi::cmap::ConceptMapFactory().GetEmptyConceptMap();
-    qtconceptmap.SetConceptMap(conceptmap);
-
-    //Create two nodes
-    auto ctrln = CreateControlN();
-    qtconceptmap.keyPressEvent(&ctrln);
-    qtconceptmap.keyPressEvent(&ctrln);
-
-    //Create an edge
-    auto ctrle = CreateControlE();
-    qtconceptmap.keyPressEvent(&ctrle);
-
-    QVERIFY(boost::num_vertices(conceptmap) == 2);
-    QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
-    QVERIFY(boost::num_edges(conceptmap) == 1);
-    QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
-    QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == 0);
-    QVERIFY(conceptmap.GetSelectedEdges().size() == 1);
-
-
-    //Select a node
-    auto left = CreateLeft();
-    qtconceptmap.keyPressEvent(&left);
-
-    TRACE(conceptmap.GetSelectedNodes().size());
-    TRACE(qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
-    TRACE(conceptmap.GetSelectedEdges().size());
-    TRACE(qtconceptmap.GetSelectedQtEdges().size());
-
-    QVERIFY(boost::num_vertices(conceptmap) == 2);
-    QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
-    QVERIFY(boost::num_edges(conceptmap) == 1);
-    QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
-    QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == 1);
-    QVERIFY(conceptmap.GetSelectedEdges().size() == 0);
-
-    //Delete the node, edge will be deleted as well
-    auto del = CreateDel();
-    qtconceptmap.keyPressEvent(&del);
-
-    //Undo the deletion, should bring back node and edge
-    auto cntrlz = CreateControlZ();
-    qtconceptmap.keyPressEvent(&cntrlz);
-
-    QVERIFY(boost::num_vertices(conceptmap) == 2);
-    QVERIFY(boost::num_vertices(conceptmap) == qtconceptmap.GetQtNodes().size());
-    QVERIFY(boost::num_edges(conceptmap) == 1);
-    QVERIFY(boost::num_edges(conceptmap) == qtconceptmap.GetQtEdges().size());
-    QVERIFY(conceptmap.GetSelectedNodes().size() == 1);
-    QVERIFY(conceptmap.GetSelectedNodes().size() == qtconceptmap.GetSelectedQtNodesNotOnEdge().size());
-    QVERIFY(conceptmap.GetSelectedEdges().size() == 0);
-    QVERIFY(conceptmap.GetSelectedEdges().size() == qtconceptmap.GetSelectedQtEdges().size());
-
-  }
-  QVERIFY(!"Fixed issue #1");
-  #endif // FIX_ISSUE_1
 }

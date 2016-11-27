@@ -13,7 +13,8 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
-  void delete_node_that_is_head_of_multiple_edges_keyboard();
+  void delete_node_that_is_head_of_edge_and_undo_keyboard();
+
 
   //Done
   void cannot_delete_center_node(); //#114
@@ -45,6 +46,7 @@ private slots:
   void create_two_nodes_command();
   void create_two_nodes_keyboard();
   void default_construction();
+  void delete_node_that_is_connected_to_multiple_edges_keyboard();
   void delete_node_that_is_head_of_edge_keyboard();
   void delete_node_that_is_tail_of_edge_keyboard();
   void delete_nodes_that_are_head_and_tail_of_edge_keyboard();
@@ -88,7 +90,6 @@ private slots:
   void set_concept_maps();
   void setting_concept_maps_edges_qtedges_nodes_qtnodes_must_match();
   void uninitialized_mode_flags();
-  void all_tests();
 };
 
 } //~namespace cmap
