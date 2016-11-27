@@ -60,6 +60,16 @@ void ribi::cmap::qtconceptmapqtedge_test::show_bounding_rect()
   QTest::qWait(1000);
 }
 
+void ribi::cmap::qtconceptmapqtedge_test::node_must_have_white_border()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  m.show();
+  const QtEdge * const qtedge = GetLastQtEdge(m.GetScene());
+  const QtNode * const qtnode = qtedge->GetQtNode();
+  QVERIFY(qtnode->GetContourPen().color() == Qt::white);
+}
+
 void ribi::cmap::qtconceptmapqtedge_test::to_str()
 {
   QtConceptMap m;

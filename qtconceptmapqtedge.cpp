@@ -52,6 +52,8 @@ ribi::cmap::QtEdge::QtEdge(
 
   this->setFlags(0);
 
+  GetQtNode()->SetContourPen(QPen(Qt::white));
+  GetQtNode()->SetFocusPen(QPen(Qt::white));
   GetQtNode()->setFlags(GetQtNodeFlags());
 
   //m_edge must be initialized before m_arrow
@@ -78,8 +80,6 @@ ribi::cmap::QtEdge::QtEdge(
   this->setZValue(-1.0);
   m_arrow->setZValue(-1.0);
   m_qtnode->setZValue(1.0);
-
-
 }
 
 ribi::cmap::QtEdge::~QtEdge() noexcept
@@ -136,6 +136,8 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge)
   assert(scene == qtedge.GetArrow()->scene());
   assert(qtedge.GetQtNode());
   assert(scene == qtedge.GetQtNode()->scene());
+  assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
+  assert(qtedge.GetArrow()->GetPen().color() == Qt::black);
 
 }
 
@@ -259,15 +261,22 @@ void ribi::cmap::QtEdge::paint(
     qCritical() << "BREAK";
   }
   CheckInvariants(*this);
-
-  const QPen pen{
-    this->hasFocus() || this->isSelected()
-    ? this->GetQtNode()->GetFocusPen()
-    : this->GetQtNode()->GetContourPen()
-  };
-  m_arrow->SetPen(pen);
-  m_qtnode->setPen(pen);
-
+  {
+    const QPen pen{
+      this->hasFocus() || this->isSelected()
+      ? QPen(Qt::black)
+      : QPen(Qt::black)
+    };
+    m_arrow->SetPen(pen);
+  }
+  {
+    const QPen pen{
+      this->hasFocus() || this->isSelected()
+      ? QPen(Qt::white)
+      : QPen(Qt::white)
+    };
+    m_qtnode->setPen(pen);
+  }
   ShowBoundingRect(painter);
 }
 

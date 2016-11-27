@@ -158,6 +158,7 @@ void ribi::cmap::AddEdgesToScene(
     //scene()->addItem(qtedge->GetQtNode()); //Get these for free when adding a QtEdge
     //scene()->addItem(qtedge->GetArrow()); //Get these for free when adding a QtEdge
     assert(qtedge && HasScene(*qtedge, &scene));
+    CheckInvariants(*qtedge);
   }
 }
 

@@ -1105,7 +1105,7 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
 {
   QtConceptMap m;
-  m.SetMode(Mode::edit);
+  m.SetMode(Mode::rate);
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
   m.show();
@@ -1120,8 +1120,13 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 10);
     m.show();
     //The QtNodes on the edges can also be selected
-    const auto n_selected = GetSelectedQtNodesAlsoOnQtEdge(m.GetScene()).size();
-    QVERIFY(n_selected == 1);
+    const auto n_items_selected = m.GetScene().selectedItems().size();
+    const auto n_qtnodes_selected = GetSelectedQtNodesAlsoOnQtEdge(m.GetScene()).size();
+    qDebug()
+      << "n_items_selected: " << n_items_selected
+      << ", n_qtnodes_selected: " << n_qtnodes_selected;
+    QVERIFY(n_items_selected == 1);
+    QVERIFY(n_qtnodes_selected == 1);
     assert(GetSelectedQtNodes(m.GetScene()).size() == 1);
     ids.push_back(GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetId());
   }
