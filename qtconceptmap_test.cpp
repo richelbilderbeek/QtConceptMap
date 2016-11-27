@@ -463,7 +463,22 @@ void ribi::cmap::qtconceptmap_test::delete_node_that_is_head_of_multiple_edges_k
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
   m.showFullScreen();
-  //QTest::qWait(100000);
+  //Select the node at the center of the star
+  while (CountSelectedQtEdges(m.GetScene()) != 0
+    || CountSelectedQtNodes(m.GetScene()) != 1
+    || GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetConcept().GetName()
+      != std::string("X")
+  ) {
+    m.show();
+    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
+  }
+  m.show();
+  QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
+  m.show();
+  m.Undo();
+  m.show();
+  m.Redo();
+  m.show();
 }
 
 void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_keyboard()
