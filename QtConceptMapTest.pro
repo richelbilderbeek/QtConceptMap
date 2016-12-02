@@ -14,6 +14,28 @@ greaterThan(QT_MAJOR_VERSION, 4){
 
 CONFIG += debug_and_release
 
+CONFIG(release, debug|release) {
+
+  DEFINES += NDEBUG
+
+  # gprof
+  QMAKE_CXXFLAGS += -pg
+  QMAKE_LFLAGS += -pg
+}
+
+CONFIG(debug, debug|release) {
+
+  # gcov
+  QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+  LIBS += -lgcov
+
+  # UBSAN
+  QMAKE_CXXFLAGS += -fsanitize=undefined
+  QMAKE_LFLAGS += -fsanitize=undefined
+  LIBS += -lubsan
+}
+
+
 win32 {
   # Windows only
   message("Desktop application, no effc++, built for Windows")
@@ -35,7 +57,9 @@ unix:!macx{
   QMAKE_CXX = g++-5
   QMAKE_LINK = g++-5
   QMAKE_CC = gcc-5
-  QMAKE_CXXFLAGS += -Wall -Wextra -Werror -std=c++14
+  CONFIG += c++14
+  QMAKE_CXXFLAGS += -std=c++14
+  QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
 
   equals(QT_MAJOR_VERSION, 4): LIBS +=  -lQtSvg
   greaterThan(QT_MAJOR_VERSION, 4): QT +=  concurrent opengl printsupport
@@ -84,10 +108,6 @@ include(../RibiClasses/CppQtScopedDisable/CppQtScopedDisable.pri)
 
 SOURCES += \
     main_test.cpp
-
-# gcov
-QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-LIBS += -lgcov
 
 # Boost.Graph
 LIBS += \
