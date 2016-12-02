@@ -1238,10 +1238,10 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_head_command()
     //Postconditions
     QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
-    const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
-    const auto qtedge = qtedges.back();
-    QVERIFY(qtedge->GetEdge().HasHeadArrow());
+    const auto qtedges_now = GetQtEdges(m.GetScene());
+    QVERIFY(qtedges_now.size() == 1);
+    const auto qtedge_now = qtedges_now.back();
+    QVERIFY(qtedge_now->GetEdge().HasHeadArrow());
 
   }
   catch (std::exception& e)
@@ -1448,10 +1448,10 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_tail_command()
     //Postconditions
     QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
-    const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
-    const auto qtedge = qtedges.back();
-    QVERIFY(qtedge->GetEdge().HasTailArrow());
+    const auto qtedges_now = GetQtEdges(m.GetScene());
+    QVERIFY(qtedges_now.size() == 1);
+    const auto qtedge_now = qtedges_now.back();
+    QVERIFY(qtedge_now->GetEdge().HasTailArrow());
 
   }
   catch (std::exception& e)

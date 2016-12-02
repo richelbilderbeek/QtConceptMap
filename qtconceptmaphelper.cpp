@@ -185,8 +185,8 @@ ribi::cmap::ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene)
   else if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
   {
     //Or is it the node on an edge?
-    QtEdge * const qtedge = FindQtEdge(qtnode, scene);
-    if (qtedge) return qtedge;
+    QtEdge * const qtedge_behind_node = FindQtEdge(qtnode, scene);
+    if (qtedge_behind_node) return qtedge_behind_node;
   }
 
   //Nope, it cannot be found

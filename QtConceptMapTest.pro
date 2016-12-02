@@ -3,17 +3,8 @@
 # apfloat does not go well with -Weffc++
 # RInside does not go well with -Weffc++
 
-equals(QT_MAJOR_VERSION, 4) {
-  message(Using Qt4)
-}
-
-greaterThan(QT_MAJOR_VERSION, 4){
-  message(Using Qt5)
-}
-
-
+# Debug and release build
 CONFIG += debug_and_release
-
 CONFIG(release, debug|release) {
 
   DEFINES += NDEBUG
@@ -34,7 +25,6 @@ CONFIG(debug, debug|release) {
   QMAKE_LFLAGS += -fsanitize=undefined
   LIBS += -lubsan
 }
-
 
 win32 {
   # Windows only
@@ -80,7 +70,6 @@ include(../RibiClasses/CppFileIo/CppFileIo.pri)
 include(../RibiClasses/CppHelp/CppHelp.pri)
 include(../RibiClasses/CppMenuDialog/CppMenuDialog.pri)
 
-include(../RibiLibraries/Apfloat.pri)
 include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial.pri)
 
 include(../RibiClasses/CppContainer/CppContainer.pri)

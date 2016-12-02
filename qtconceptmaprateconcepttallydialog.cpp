@@ -131,7 +131,7 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
   const ConceptMap& map
 )
 {
-  std::vector<Row> data;
+  std::vector<Row> rows;
   //Add the focal concept its examples (not its name: this cannot be judged)
   /*
   {
@@ -165,14 +165,14 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 
     const Edge edge = GetEdge(*ed, map);
     const Concept concept = edge.GetNode().GetConcept();
-    data.push_back(std::make_tuple(*ed, concept,-1));
+    rows.push_back(std::make_tuple(*ed, concept,-1));
     const int n_examples = boost::numeric_cast<int>(concept.GetExamples().Get().size());
     for (int i=0; i!=n_examples; ++i)
     {
-      data.push_back(std::make_tuple(*ed,concept,i));
+      rows.push_back(std::make_tuple(*ed,concept,i));
     }
   }
-  return data;
+  return rows;
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const

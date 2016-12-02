@@ -27,8 +27,8 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
-  //assert(!"Don't forget to let Travis test everything");
+  { qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
+  assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
   { qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
