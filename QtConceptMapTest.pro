@@ -1,19 +1,20 @@
-# Qt does not go well with -Weffc++
-# Qwt does not go well with -Weffc++
-# apfloat does not go well with -Weffc++
-# RInside does not go well with -Weffc++
+# C++14
+CONFIG += c++14
+QMAKE_CXX = g++-5
+QMAKE_LINK = g++-5
+QMAKE_CC = gcc-5
+# Qt and Qwt do not go well with -Weffc++
+QMAKE_CXXFLAGS += -std=c++14 -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
 
-# Debug and release build
+# Debug and release mode
 CONFIG += debug_and_release
+
+# In release mode, define NDEBUG
 CONFIG(release, debug|release) {
-
   DEFINES += NDEBUG
-
-  # gprof
-  QMAKE_CXXFLAGS += -pg
-  QMAKE_LFLAGS += -pg
 }
 
+# In debug mode, turn on gcov and UBSAN
 CONFIG(debug, debug|release) {
 
   # gcov
@@ -26,52 +27,23 @@ CONFIG(debug, debug|release) {
   LIBS += -lubsan
 }
 
-win32 {
-  # Windows only
-  message("Desktop application, no effc++, built for Windows")
-  greaterThan(QT_MAJOR_VERSION, 4): QT += svg
-  QMAKE_CXXFLAGS += -std=c++1y -Wall -Wextra #-Weffc++
-}
+# Boost.Graph
+LIBS += -lboost_graph
 
-macx {
-  # Mac only
-  message("Desktop application, no effc++, built for Mac")
-  QMAKE_CXXFLAGS = -mmacosx-version-min=10.7 -std=gnu0x -stdlib=libc+
-  CONFIG +=c++1y
-}
+# Qt4 and Qt5
+QT += core gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-unix:!macx{
-  # Linux only
-  message("Desktop application, no effc++, built for Linux")
-  message(Host name: $$QMAKE_HOST.name)
-  QMAKE_CXX = g++-5
-  QMAKE_LINK = g++-5
-  QMAKE_CC = gcc-5
-  CONFIG += c++14
-  QMAKE_CXXFLAGS += -std=c++14
-  QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
-
-  equals(QT_MAJOR_VERSION, 4): LIBS +=  -lQtSvg
-  greaterThan(QT_MAJOR_VERSION, 4): QT +=  concurrent opengl printsupport
-}
-
-QT       += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets svg
-
-TEMPLATE = app
-
-CONFIG(release, debug|release) {
-  message(Release mode)
-  DEFINES += NDEBUG
-}
+# Prevent Qt for failing with this error:
+# qrc_[*].cpp:400:44: error: ‘qInitResources_[*]__init_variable__’ defined but not used
+# [*]: the resource filename
+QMAKE_CXXFLAGS += -Wno-unused-variable
 
 include(../RibiClasses/CppAbout/CppAbout.pri)
 include(../RibiClasses/CppFileIo/CppFileIo.pri)
 include(../RibiClasses/CppHelp/CppHelp.pri)
 include(../RibiClasses/CppMenuDialog/CppMenuDialog.pri)
-
 include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial.pri)
-
 include(../RibiClasses/CppContainer/CppContainer.pri)
 include(../ConceptMap/ConceptMap.pri)
 include(../RibiClasses/CppGeometry/CppGeometry.pri)
@@ -79,8 +51,6 @@ include(../RibiClasses/CppFuzzy_equal_to/CppFuzzy_equal_to.pri)
 include(../RibiClasses/CppPlane/CppPlane.pri)
 include(../RibiClasses/CppRibiRegex/CppRibiRegex.pri)
 include(../RibiClasses/CppXml/CppXml.pri)
-
-# Desktop classes
 include(QtConceptMap.pri)
 include(QtConceptMapTest.pri)
 include(../RibiClasses/CppGrabber/CppGrabber.pri)
@@ -103,9 +73,6 @@ LIBS += \
   -lboost_date_time \
   -lboost_graph \
   -lboost_regex
-
-# QResources give this error
-QMAKE_CXXFLAGS += -Wno-unused-variable
 
 # Qt:
 # QtConcurrent::filterInternal(Sequence&, KeepFunctor, ReduceFunctor)’:
