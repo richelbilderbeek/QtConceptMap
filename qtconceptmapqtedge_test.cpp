@@ -60,7 +60,24 @@ void ribi::cmap::qtconceptmapqtedge_test::show_bounding_rect()
   QTest::qWait(1000);
 }
 
-void ribi::cmap::qtconceptmapqtedge_test::node_must_have_white_border()
+
+
+void ribi::cmap::qtconceptmapqtedge_test::node_must_have_dotted_black_line_when_selected()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  m.show();
+  ReallyLoseFocus(m);
+  QtEdge * const qtedge = GetLastQtEdge(m.GetScene());
+  QtNode * const qtnode = qtedge->GetQtNode();
+  qtnode->setSelected(true);
+  qtnode->setFocus();
+  QVERIFY(qtnode->GetFocusPen().color() == Qt::black);
+  QVERIFY(qtnode->GetFocusPen().style() == Qt::DashLine);
+}
+
+
+void ribi::cmap::qtconceptmapqtedge_test::node_must_have_white_border_when_not_selected()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
@@ -68,6 +85,7 @@ void ribi::cmap::qtconceptmapqtedge_test::node_must_have_white_border()
   const QtEdge * const qtedge = GetLastQtEdge(m.GetScene());
   const QtNode * const qtnode = qtedge->GetQtNode();
   QVERIFY(qtnode->GetContourPen().color() == Qt::white);
+  QVERIFY(qtnode->GetContourPen().style() == Qt::SolidLine);
 }
 
 void ribi::cmap::qtconceptmapqtedge_test::to_str()

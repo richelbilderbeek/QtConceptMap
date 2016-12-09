@@ -11,7 +11,8 @@ class qtconceptmapqtedge_test : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void node_must_have_white_border();
+  void node_must_have_dotted_black_line_when_selected(); //#127
+  void node_must_have_white_border_when_not_selected(); //#127
 
   void all_tests();
   void change_focus();

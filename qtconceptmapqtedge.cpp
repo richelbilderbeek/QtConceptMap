@@ -53,7 +53,11 @@ ribi::cmap::QtEdge::QtEdge(
   this->setFlags(0);
 
   GetQtNode()->SetContourPen(QPen(Qt::white));
-  GetQtNode()->SetFocusPen(QPen(Qt::white));
+  {
+    QPen focus_pen(Qt::black);
+    focus_pen.setStyle(Qt::DashLine);
+    GetQtNode()->SetFocusPen(focus_pen);
+  }
   GetQtNode()->setFlags(GetQtNodeFlags());
 
   //m_edge must be initialized before m_arrow
