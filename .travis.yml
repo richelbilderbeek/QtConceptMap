@@ -22,6 +22,8 @@ install:
   # C++14
   - sudo apt-get install -qq g++-5
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
+  # cppcheck
+  - sudo apt-get install -qq cppcheck
   # Codecov
   - sudo pip install codecov
   # OCLint
@@ -38,6 +40,8 @@ script:
   - qmake -qt=qt5
   - make debug  
   - ./QtConceptMapTest
+  # cppcheck
+  - cppcheck --quiet --error-exitcode=1 . 
   # Get code coverage
   - ./get_code_cov.sh
   - codecov
@@ -46,12 +50,4 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
-
-
-
-
-
-
-
 
