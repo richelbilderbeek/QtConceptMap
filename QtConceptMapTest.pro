@@ -46,7 +46,6 @@ include(../RibiClasses/CppAbout/CppAbout.pri)
 include(../RibiClasses/CppFileIo/CppFileIo.pri)
 include(../RibiClasses/CppHelp/CppHelp.pri)
 include(../RibiClasses/CppMenuDialog/CppMenuDialog.pri)
-include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial.pri)
 include(../RibiClasses/CppContainer/CppContainer.pri)
 include(../ConceptMap/ConceptMap.pri)
 include(../RibiClasses/CppGeometry/CppGeometry.pri)
@@ -67,6 +66,12 @@ include(../RibiClasses/CppQtImage/CppQtImage.pri)
 include(../RibiClasses/CppQtRoundedEditRectItem/CppQtRoundedEditRectItem.pri)
 include(../RibiClasses/CppQtRoundedRectItem/CppQtRoundedRectItem.pri)
 include(../RibiClasses/CppQtScopedDisable/CppQtScopedDisable.pri)
+
+# Boost Graph Tutorial, just take the subset we need
+INCLUDEPATH += ../BoostGraphTutorial/BoostGraphTutorial
+include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz_helper.pri)
+include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz_no_properties.pri)
+
 
 SOURCES += \
     main_test.cpp
