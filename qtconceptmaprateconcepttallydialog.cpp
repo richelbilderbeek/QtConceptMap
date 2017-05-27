@@ -92,7 +92,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptExample(
   const int index,
   const QTableWidgetItem& item,
   const int col
-) noexcept
+)
 {
   assert(index < static_cast<int>(concept.GetExamples().Get().size()));
   Example& example = concept.GetExamples().Get()[index];
@@ -112,7 +112,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptName(
   Concept& concept,
   const QTableWidgetItem& item,
   const int col
-) noexcept
+)
 {
   switch (col)
   {
@@ -331,7 +331,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   const Concept& concept,
   const int example_index,
   const int row_index
-) const noexcept
+) const
 {
   assert(example_index < static_cast<int>(concept.GetExamples().Get().size()));
   const int n_cols = 4;

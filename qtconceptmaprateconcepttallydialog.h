@@ -71,12 +71,15 @@ private:
   ///The name of this concept, for example 'my own development'
   const std::string m_focus_name;
 
+  ///Will throw if col is absent
   void ChangeConceptExample(
     Concept& concept, const int index, const QTableWidgetItem& item, const int col
-  ) noexcept;
+  );
+
+  ///Will throw if col is absent
   void ChangeConceptName(
     Concept& concept, const QTableWidgetItem& item, const int col
-  ) noexcept;
+  );
 
 
   std::vector<Row> CreateData(const ConceptMap& map);
@@ -86,11 +89,12 @@ private:
 
   void ShowDebugLabel() const noexcept;
 
+  ///Will throw if table has not exactly the right number of columns
   void ShowExample(
     const Concept& concept,
     const int example_index,
     const int row_index
-  ) const noexcept;
+  ) const;
 
   void ShowNoExample(
     const Concept& concept,
