@@ -10,6 +10,7 @@
 #include "qtconceptmapexamplesdialog_test.h"
 #include "qtconceptmaphelper_test.h"
 #include "qtconceptmapitemhighlighter_test.h"
+#include "qtconceptmapcommandcreatenewnode_test.h"
 #include "qtconceptmapnewarrow_test.h"
 #include "qtconceptmapqtedge_test.h"
 #include "qtconceptmapqtnodefactory_test.h"
@@ -27,8 +28,9 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
-  //assert(!"Don't forget to let Travis test everything");
+  { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
+  assert(!"Don't forget to let Travis test everything");
+
 
   //These are all tests in alphabetical order
   { qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }

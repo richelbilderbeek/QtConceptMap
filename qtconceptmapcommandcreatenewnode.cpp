@@ -62,7 +62,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
 
 ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(const std::string& /* s */)
 {
-  //STUB
+  //STUB4
   return nullptr;
 }
 

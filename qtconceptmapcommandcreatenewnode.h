@@ -26,10 +26,6 @@ class CommandCreateNewNode final : public Command
 
   CommandCreateNewNode(
     QtConceptMap& qtconceptmap,
-    //ConceptMap& conceptmap,
-    //const Mode mode,
-    //QGraphicsScene& scene,
-    //QtTool& tool_item,
     const double x,
     const double y
   );
@@ -39,6 +35,7 @@ class CommandCreateNewNode final : public Command
 
   void redo() override;
   void undo() override;
+
 
   private:
   ConceptMap& m_conceptmap;
