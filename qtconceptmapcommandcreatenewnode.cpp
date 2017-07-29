@@ -2,8 +2,11 @@
 
 #include <cassert>
 #include <boost/graph/isomorphism.hpp>
-
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include "container.h"
 #include "conceptmap.h"
+#include "conceptmaphelper.h"
 #include "conceptmapnode.h"
 #include "qtconceptmap.h"
 #include "qtconceptmapqtnode.h"
@@ -11,12 +14,9 @@
 
 ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   QtConceptMap& qtconceptmap,
-  //ConceptMap& conceptmap,
-  //const Mode mode,
-  //QGraphicsScene& scene,
-  //QtTool& tool_item,
   const double x,
-  const double y
+  const double y,
+  const std::string& text
 )
   : Command(qtconceptmap),
     m_conceptmap(qtconceptmap.GetConceptMap()),
@@ -32,7 +32,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
 {
 
 
-  this->setText("Create new node");
+  this->setText("Create new node with text ''");
 
   //Add the vertex to the concept map
   VertexDescriptor vd = boost::add_vertex(m_conceptmap_after);
@@ -41,6 +41,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   Node node;
   node.SetX(m_x);
   node.SetY(m_y);
+  node.SetConcept(Concept(text));
 
   //Set the node
   {
@@ -58,11 +59,47 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   assert(m_qtnode);
   assert(m_qtnode->GetCenterX() == node.GetX());
   assert(m_qtnode->GetCenterY() == node.GetY());
+  assert(Unwordwrap(m_qtnode->GetText()) == text);
 }
 
-ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(const std::string& /* s */)
+double ribi::cmap::CommandCreateNewNode::GetX() const noexcept
 {
-  //STUB4
+  return m_qtnode->GetCenterX();
+}
+
+double ribi::cmap::CommandCreateNewNode::GetY() const noexcept
+{
+  return m_qtnode->GetCenterY();
+}
+
+std::string ribi::cmap::CommandCreateNewNode::GetText() const noexcept
+{
+  return Unwordwrap(m_qtnode->GetText());
+}
+
+ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(
+  QtConceptMap& qtconceptmap, std::string s)
+{
+  //"create_new_node(10, 20, my text)"
+  boost::algorithm::trim(s);
+  const std::string str_begin = "create_new_node(";
+  if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
+  if (s.back() != ')') return nullptr;
+  //"10, 20, my text"
+  const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
+  assert(t[0] != '(');
+  assert(t.back() != ')');
+  // "10", "20, "my text"
+  std::vector<std::string> v = Container().SeperateString(t, ',');
+  for (std::string& u: v) boost::algorithm::trim(u);
+  try
+  {
+    const double x = std::stod(v.at(0));
+    const double y = std::stod(v.at(1));
+    const std::string text = v.at(2);
+    return new CommandCreateNewNode(qtconceptmap, x, y, text);
+  }
+  catch (std::exception&) {} //OK
   return nullptr;
 }
 

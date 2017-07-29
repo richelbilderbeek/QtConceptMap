@@ -16,6 +16,7 @@ struct QtKeyboardFriendlyGraphicsView;
 
 namespace cmap {
 
+struct Command;
 struct QtConceptDialog;
 struct QtConceptMap;
 struct QtEdge;

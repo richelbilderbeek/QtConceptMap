@@ -26,13 +26,17 @@ class CommandCreateNewNode final : public Command
 
   CommandCreateNewNode(
     QtConceptMap& qtconceptmap,
-    const double x,
-    const double y
+    const double x = 0.0,
+    const double y = 0.0,
+    const std::string& text = ""
   );
   CommandCreateNewNode(const CommandCreateNewNode&) = delete;
   CommandCreateNewNode& operator=(const CommandCreateNewNode&) = delete;
   ~CommandCreateNewNode() noexcept {}
 
+  double GetX() const noexcept;
+  double GetY() const noexcept;
+  std::string GetText() const noexcept;
   void redo() override;
   void undo() override;
 
@@ -51,7 +55,8 @@ class CommandCreateNewNode final : public Command
 };
 
 /// Works on, for example  'create_new_node(0, 0, from)'
-CommandCreateNewNode * parse_command_create_new_node(const std::string& s);
+CommandCreateNewNode * parse_command_create_new_node(
+  QtConceptMap& qtconceptmap, std::string s);
 
 } //~namespace cmap
 } //~namespace ribi

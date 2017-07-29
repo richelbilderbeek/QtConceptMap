@@ -1,4 +1,5 @@
 #include "qtconceptmapcommands.h"
+#include "qtconceptmap.h"
 #include "container.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 std::string ribi::cmap::get_commands(const std::vector<std::string>& args)
@@ -14,26 +15,28 @@ std::string ribi::cmap::get_commands(const std::vector<std::string>& args)
 }
 
 /// Works on, for example  'create_node(0, 0, from)', 'create_edge(relation)'
-ribi::cmap::Command* ribi::cmap::parse_command(const std::string& s)
+ribi::cmap::Command* ribi::cmap::parse_command(QtConceptMap& q, const std::string& s)
 {
-  if (parse_command_create_new_node(s)) { return parse_command_create_new_node(s); }
+  if (auto p = parse_command_create_new_node(q, s)) { return p; }
   return nullptr;
 }
 
-std::vector<ribi::cmap::Command*> ribi::cmap::parse_commands(const std::vector<std::string>& args)
+std::vector<ribi::cmap::Command*> ribi::cmap::parse_commands(
+  QtConceptMap& q,
+  const std::vector<std::string>& args)
 {
   //Get the commands as one string
   const std::string s = get_commands(args);
   if (s.empty()) return {};
 
-  const std::vector<std::string> v = Container().SeperateString(s, ',');
+  const std::vector<std::string> v = Container().SeperateString(s, ';');
   std::vector<Command*> commands;
   commands.reserve(v.size());
   std::transform(
     std::begin(v), std::end(v), std::back_inserter(commands),
-    [](const std::string& command)
+    [&q](const std::string& t)
     {
-      return parse_command(command);
+      return parse_command(q, t);
     }
   );
   return commands;

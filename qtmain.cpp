@@ -71,6 +71,7 @@ void show_help()
     << "--help: show help" << '\n'
     << "--width 640: set width of screen to 640" << '\n'
     << "--height 400: set width of screen to 400" << '\n'
+    << "--command \"create_new_node(10, 20, my text)\"" << '\n'
   ;
 }
 
@@ -92,7 +93,7 @@ int main(int argc, char *argv[])
   const QRect screen = QApplication::desktop()->screenGeometry();
   d.move(screen.center() - d.rect().center() );
 
-  std::vector<ribi::cmap::Command*> commands = ribi::cmap::parse_commands(args);
+  std::vector<ribi::cmap::Command*> commands = ribi::cmap::parse_commands(d, args);
   for (const auto command: commands) d.DoCommand(command);
 
   return a.exec();

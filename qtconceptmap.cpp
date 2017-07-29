@@ -345,6 +345,8 @@ void ribi::cmap::RemoveConceptMap(QtConceptMap& q)
 
 void ribi::cmap::QtConceptMap::DoCommand(Command * const command) noexcept
 {
+  if (!command) return;
+
   CheckInvariants(*this);
 
   m_undo.push(command);
