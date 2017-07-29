@@ -207,7 +207,7 @@ ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) n
     if (IsQtCenterNode(qtnode)) return qtnode;
   }
   assert(!"Should not get here"); //!OCLINT accepted idiom
-  throw std::logic_error("FindQtCenterNode");
+  return nullptr;
 }
 
 ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(

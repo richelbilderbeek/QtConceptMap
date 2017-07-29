@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
   //Put the dialog in the screen center
   const QRect screen = QApplication::desktop()->screenGeometry();
   d.move(screen.center() - d.rect().center() );
-  d.DoCommand
+
 
   return a.exec();
 }

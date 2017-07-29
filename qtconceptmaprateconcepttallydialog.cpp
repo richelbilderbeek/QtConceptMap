@@ -102,9 +102,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptExample(
     case 1: example.SetIsConcrete(item.checkState() == Qt::Checked ); break;
     case 2: example.SetIsSpecific(item.checkState() == Qt::Checked ); break;
     case 3: break; //It's read-only! //example->SetText( item->text().toStdString() ); break;
-    default: throw std::logic_error(
-      "QtRateConceptTallyDialog::OnCellChanged: unknown col, index not -1"
-    );
+    default: assert(!"QtRateConceptTallyDialog::OnCellChanged: unknown col, index not -1");
   }
 }
 
@@ -120,9 +118,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptName(
     case 1: break; //Empty cell
     case 2: break; //Empty cell
     case 3: break; //It's read-only! //concept.SetName( item->text().toStdString() ); break;
-    default: throw std::logic_error(
-      "QtRateConceptTallyDialog::ChangeConceptName: unknown col, index -1"
-    );
+    default: assert(!"QtRateConceptTallyDialog::ChangeConceptName: unknown col, index -1");
   }
 }
 
@@ -369,10 +365,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
           ? Qt::Checked : Qt::Unchecked);
         break;
         default:
-          throw std::logic_error(
-            "ribi::cmap::QtRateConceptTallyDialog::"
-            "QtRateConceptTallyDialog: Unknown col index"
-          );
+          assert(!"ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog: Unknown col index");
       }
       ui->table->setItem(row_index, col_index, item);
     }
