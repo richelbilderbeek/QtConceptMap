@@ -19,8 +19,7 @@ class CommandToggleArrowTail final : public Command
   public:
 
   CommandToggleArrowTail(
-    ConceptMap& conceptmap,
-    QGraphicsScene& scene
+    QtConceptMap& qt4conceptmap
   );
   CommandToggleArrowTail(const CommandToggleArrowTail&) = delete;
   CommandToggleArrowTail& operator=(const CommandToggleArrowTail&) = delete;

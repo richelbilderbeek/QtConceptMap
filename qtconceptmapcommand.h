@@ -9,23 +9,26 @@
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include <QUndoCommand>
 #include "conceptmapfwd.h"
+#include "qtconceptmapfwd.h"
 #pragma GCC diagnostic pop
 
 namespace ribi {
 namespace cmap {
 
-///Command can be used to do and undo commands to a concept map Widget
-///Command must use a Widget* because a Widget will call a Command with this:
-///
-///  some_command->CanDo(this);
-///
+///Command can be used to do and undo commands to a QtConceptMap
 struct Command : public QUndoCommand
 {
-  Command() noexcept {}
+  Command(QtConceptMap& qtconceptmap) noexcept;
   virtual ~Command() noexcept {}
+
+  auto& get_qtconceptmap() noexcept { return m_qtconceptmap; }
+  const auto& get_qtconceptmap() const noexcept { return m_qtconceptmap; }
 
   virtual void undo() = 0;
   virtual void redo() = 0;
+
+  private:
+  QtConceptMap& m_qtconceptmap;
 };
 
 } //~namespace cmap

@@ -22,9 +22,7 @@ class CommandDeleteSelected final : public Command
 {
   public:
   CommandDeleteSelected(
-    ConceptMap& conceptmap,
-    QGraphicsScene& scene,
-    QtTool& tool_item
+    QtConceptMap& qtconceptmap
   );
   CommandDeleteSelected(const CommandDeleteSelected&) = delete;
   CommandDeleteSelected& operator=(const CommandDeleteSelected&) = delete;

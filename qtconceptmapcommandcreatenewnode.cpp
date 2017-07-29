@@ -5,25 +5,28 @@
 
 #include "conceptmap.h"
 #include "conceptmapnode.h"
+#include "qtconceptmap.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
-  ConceptMap& conceptmap,
-  const Mode mode,
-  QGraphicsScene& scene,
-  QtTool& tool_item,
+  QtConceptMap& qtconceptmap,
+  //ConceptMap& conceptmap,
+  //const Mode mode,
+  //QGraphicsScene& scene,
+  //QtTool& tool_item,
   const double x,
   const double y
 )
-  : m_conceptmap(conceptmap),
-    m_conceptmap_after{conceptmap},
-    m_conceptmap_before{conceptmap},
-    m_mode{mode},
+  : Command(qtconceptmap),
+    m_conceptmap(qtconceptmap.GetConceptMap()),
+    m_conceptmap_after{qtconceptmap.GetConceptMap()},
+    m_conceptmap_before{qtconceptmap.GetConceptMap()},
+    m_mode{qtconceptmap.GetMode()},
     m_qtnode{nullptr},
-    m_scene(scene),
-    m_tool_item{tool_item},
-    m_tool_item_old_buddy{tool_item.GetBuddyItem()},
+    m_scene(qtconceptmap.GetScene()),
+    m_tool_item{qtconceptmap.GetQtToolItem()},
+    m_tool_item_old_buddy{qtconceptmap.GetQtToolItem().GetBuddyItem()},
     m_x{x},
     m_y{y}
 {

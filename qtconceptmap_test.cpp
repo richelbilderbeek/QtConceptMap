@@ -143,27 +143,11 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
   const int n{2};
   for (int i=0; i!=n; ++i) {
-    m.DoCommand(
-      new CommandCreateNewNode(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem(),
-        0.0,
-        0.0
-      )
-    );
+    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
   }
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
-  m.DoCommand(
-    new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem()
-    )
-  );
+  m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
@@ -176,30 +160,14 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command_and_check_z_order()
   m.show();
   //Create two nodes
   for (int i=0; i!=2; ++i) {
-    m.DoCommand(
-      new CommandCreateNewNode(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem(),
-        0.0,
-        0.0
-      )
-    );
+    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
     m.show();
   }
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
 
   //Create edge between nodes
-  m.DoCommand(
-    new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem()
-    )
-  );
+  m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
@@ -251,16 +219,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_and_undo_command()
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
-  m.DoCommand(
-    new CommandCreateNewNode(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem(),
-      0.0,
-      0.0
-    )
-  );
+  m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
   m.Undo();
@@ -289,16 +248,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_command()
   const double y{42.69};
   QtConceptMap m;
   m.show();
-  m.DoCommand(
-    new CommandCreateNewNode(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem(),
-      x,
-      y
-    )
-  );
+  m.DoCommand(new CommandCreateNewNode(m, x, y));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
@@ -348,16 +298,7 @@ void ribi::cmap::qtconceptmap_test::create_ten_nodes_and_undo_command()
 
   const int n{10};
   for (int i=0; i!=n; ++i) {
-    m.DoCommand(
-      new CommandCreateNewNode(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem(),
-        0.0,
-        0.0
-      )
-    );
+    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
     m.show();
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,i + 1));
   }
@@ -376,16 +317,7 @@ void ribi::cmap::qtconceptmap_test::create_two_nodes_command()
   QtConceptMap m;
   m.show();
   for (int i=0; i!=2; ++i) {
-    m.DoCommand(
-      new CommandCreateNewNode(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem(),
-        0.0,
-        0.0
-      )
-    );
+    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
   }
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
@@ -599,37 +531,15 @@ void ribi::cmap::qtconceptmap_test::delete_one_edge_command()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
   const int n{2};
   for (int i=0; i!=n; ++i) {
-    m.DoCommand(
-      new CommandCreateNewNode(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem(),
-        0.0,
-        0.0
-      )
-    );
+    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
     m.show();
   }
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
-  m.DoCommand(
-    new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem()
-    )
-  );
+  m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
-  m.DoCommand(
-    new CommandDeleteSelected(
-      m.GetConceptMap(),
-      m.GetScene(),
-      m.GetQtToolItem()
-    )
-  );
+  m.DoCommand(new CommandDeleteSelected(m));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
 
@@ -656,26 +566,11 @@ void ribi::cmap::qtconceptmap_test::delete_one_node_command()
   QtConceptMap m;
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
-  m.DoCommand(
-    new CommandCreateNewNode(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem(),
-      0.0,
-      0.0
-    )
-  );
+  m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
-  m.DoCommand(
-    new CommandDeleteSelected(
-      m.GetConceptMap(),
-      m.GetScene(),
-      m.GetQtToolItem()
-    )
-  );
+  m.DoCommand(new CommandDeleteSelected(m));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
 }
@@ -685,26 +580,11 @@ void ribi::cmap::qtconceptmap_test::delete_one_node_command_and_undo()
   QtConceptMap m;
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
-  m.DoCommand(
-    new CommandCreateNewNode(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem(),
-      0.0,
-      0.0
-    )
-  );
+  m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
-  m.DoCommand(
-    new CommandDeleteSelected(
-      m.GetConceptMap(),
-      m.GetScene(),
-      m.GetQtToolItem()
-    )
-  );
+  m.DoCommand(new CommandDeleteSelected(m));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
   m.Undo();
@@ -734,16 +614,7 @@ void ribi::cmap::qtconceptmap_test::delete_two_nodes_command()
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
   for (int i{0}; i!=2; ++i) {
-    m.DoCommand(
-      new CommandCreateNewNode(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem(),
-        0.0,
-        0.0
-      )
-    );
+    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
     m.show();
   }
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
@@ -755,13 +626,7 @@ void ribi::cmap::qtconceptmap_test::delete_two_nodes_command()
     const int n_selected_measured{m.scene()->selectedItems().count()};
     const int n_selected_expected{1};
     assert(n_selected_measured == n_selected_expected);
-    m.DoCommand(
-      new CommandDeleteSelected(
-        m.GetConceptMap(),
-        m.GetScene(),
-        m.GetQtToolItem()
-      )
-    );
+    m.DoCommand(new CommandDeleteSelected(m));
     m.show();
   }
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
@@ -885,16 +750,7 @@ void ribi::cmap::qtconceptmap_test::is_command_put_on_undo_stack()
 {
   QtConceptMap m;
   m.show();
-  CommandCreateNewNode * const command {
-    new CommandCreateNewNode(
-      m.GetConceptMap(),
-      Mode::uninitialized,
-      m.GetScene(),
-      m.GetQtToolItem(),
-      0.0,
-      0.0
-    )
-  };
+  CommandCreateNewNode * const command = new CommandCreateNewNode(m, 0.0, 0.0);
   QVERIFY(m.GetUndo().count() == 0);
   m.DoCommand(command);
   m.show();
@@ -1182,16 +1038,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_head_command()
   {
     const int n{2};
     for (int i=0; i!=n; ++i) {
-      m.DoCommand(
-        new CommandCreateNewNode(
-          m.GetConceptMap(),
-          Mode::uninitialized,
-          m.GetScene(),
-          m.GetQtToolItem(),
-          0.0,
-          0.0
-        )
-      );
+      m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
     }
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
   }
@@ -1203,14 +1050,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_head_command()
 
   try
   {
-    m.DoCommand(
-      new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem()
-      )
-    );
+    m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
     QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
   }
@@ -1230,12 +1070,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_head_command()
 
   try
   {
-    m.DoCommand(
-      new CommandToggleArrowHead(
-        m.GetConceptMap(),
-        m.GetScene()
-      )
-    );
+    m.DoCommand(new CommandToggleArrowHead(m));
 
     //Postconditions
     QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
@@ -1389,17 +1224,9 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_tail_command()
   try
   {
     const int n{2};
-    for (int i=0; i!=n; ++i) {
-      m.DoCommand(
-        new CommandCreateNewNode(
-          m.GetConceptMap(),
-          Mode::uninitialized,
-          m.GetScene(),
-          m.GetQtToolItem(),
-          0.0,
-          0.0
-        )
-      );
+    for (int i=0; i!=n; ++i)
+    {
+      m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
       m.show();
     }
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
@@ -1412,14 +1239,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_tail_command()
 
   try
   {
-    m.DoCommand(
-      new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-        m.GetConceptMap(),
-        Mode::uninitialized,
-        m.GetScene(),
-        m.GetQtToolItem()
-      )
-    );
+    m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
     m.show();
     QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
@@ -1440,12 +1260,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_tail_command()
 
   try
   {
-    m.DoCommand(
-      new CommandToggleArrowTail(
-        m.GetConceptMap(),
-        m.GetScene()
-      )
-    );
+    m.DoCommand(new CommandToggleArrowTail(m));
     m.show();
     //Postconditions
     QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));

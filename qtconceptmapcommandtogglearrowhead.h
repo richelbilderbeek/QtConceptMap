@@ -19,8 +19,7 @@ class CommandToggleArrowHead final : public Command
   public:
 
   CommandToggleArrowHead(
-    ConceptMap& conceptmap,
-    QGraphicsScene& scene
+    QtConceptMap& qtconceptmap
   );
   CommandToggleArrowHead(const CommandToggleArrowHead&) = delete;
   CommandToggleArrowHead& operator=(const CommandToggleArrowHead&) = delete;

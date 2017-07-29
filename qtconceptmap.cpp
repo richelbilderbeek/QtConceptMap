@@ -496,9 +496,7 @@ void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   try
   {
-    q.DoCommand(
-      new CommandDeleteSelected(q.GetConceptMap(), q.GetScene(), q.GetQtToolItem())
-    );
+    q.DoCommand(new CommandDeleteSelected(q));
     event->accept();
   }
   catch (std::exception&)
@@ -513,11 +511,7 @@ void ribi::cmap::keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept
   {
     try
     {
-      q.DoCommand(
-        new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-          q.GetConceptMap(), q.GetMode(), q.GetScene(), q.GetQtToolItem()
-        )
-      );
+      q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q));
     }
     catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
     event->setAccepted(true);
@@ -579,7 +573,7 @@ void ribi::cmap::keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept
   {
     try
     {
-      const auto cmd = new CommandToggleArrowHead(q.GetConceptMap(), q.GetScene());
+      const auto cmd = new CommandToggleArrowHead(q);
       q.DoCommand(cmd);
     }
     catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
@@ -593,16 +587,7 @@ void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
   {
     try
     {
-      q.DoCommand(
-        new CommandCreateNewNode(
-          q.GetConceptMap(),
-          q.GetMode(),
-          q.GetScene(),
-          q.GetQtToolItem(),
-          0.0,
-          0.0
-        )
-      );
+      q.DoCommand(new CommandCreateNewNode(q, 0.0, 0.0));
     }
     catch (std::exception& e) {} //!OCLINT Correct, nothing happens in catch
   }
@@ -629,7 +614,7 @@ void ribi::cmap::keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept
   {
     try
     {
-      const auto cmd = new CommandToggleArrowTail(q.GetConceptMap(), q.GetScene());
+      const auto cmd = new CommandToggleArrowTail(q);
       q.DoCommand(cmd);
     }
     catch (std::exception& e) {} //!OCLINT Correct, nothing happens in catch
@@ -689,16 +674,7 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
   //Create new node at the mouse cursor its position
   try
   {
-    this->DoCommand(
-      new CommandCreateNewNode(
-        m_conceptmap,
-        m_mode,
-        GetScene(),
-        GetQtToolItem(),
-        pos.x(),
-        pos.y()
-      )
-    );
+    this->DoCommand(new CommandCreateNewNode(*this, pos.x(), pos.y()));
   }
   catch (std::logic_error& ) {} //!OCLINT This should be an empty catch statement
   UpdateExamplesItem(*this);
@@ -748,12 +724,7 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
       GetQtNewArrow().GetFrom()->setSelected(true);
       try
       {
-        const auto command = new CommandCreateNewEdgeBetweenTwoSelectedNodes(
-          this->GetConceptMap(),
-          this->GetMode(),
-          this->GetScene(),
-          this->GetQtToolItem()
-        );
+        const auto command = new CommandCreateNewEdgeBetweenTwoSelectedNodes(*this);
         this->DoCommand(command);
         UpdateConceptMap(*this);
         this->GetQtNewArrow().hide();

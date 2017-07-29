@@ -20,20 +20,22 @@
 
 ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ::CommandCreateNewEdgeBetweenTwoSelectedNodes(
-  ConceptMap& conceptmap,
-  const Mode mode,
-  QGraphicsScene& scene,
-  QtTool& tool_item
-) : m_conceptmap(conceptmap),
+  QtConceptMap& qtconceptmap
+  //ConceptMap& conceptmap,
+  //const Mode mode,
+  //QGraphicsScene& scene,
+  //QtTool& tool_item
+) : Command(qtconceptmap),
+    m_conceptmap(qtconceptmap.GetConceptMap()),
     m_added_edge{Edge()},
     m_added_qtedge{nullptr},
     m_added_qtnode{nullptr},
-    m_after{conceptmap},
-    m_before{conceptmap},
-    m_mode{mode},
-    m_scene{scene},
-    m_selected_before{scene.selectedItems()},
-    m_tool_item{tool_item}
+    m_after{qtconceptmap.GetConceptMap()},
+    m_before{qtconceptmap.GetConceptMap()},
+    m_mode{qtconceptmap.GetMode()},
+    m_scene{qtconceptmap.GetScene()},
+    m_selected_before{qtconceptmap.GetScene().selectedItems()},
+    m_tool_item{qtconceptmap.GetQtToolItem()}
 {
   if (count_vertices_with_selectedness(true, m_after) != 2)
   {
@@ -61,8 +63,8 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   assert(from.GetId() != to.GetId());
 
   //Find the QtNodes where a new QtEdge needs to be created in between
-  QtNode * const qtfrom = FindQtNode(from.GetId(), scene);
-  QtNode * const qtto = FindQtNode(to.GetId(), scene);
+  QtNode * const qtfrom = FindQtNode(from.GetId(), m_scene);
+  QtNode * const qtto = FindQtNode(to.GetId(), m_scene);
 
   //Create the new QtEdge
   m_added_qtedge = new QtEdge(m_added_edge, qtfrom, qtto);

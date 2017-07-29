@@ -25,10 +25,11 @@ class CommandCreateNewNode final : public Command
   public:
 
   CommandCreateNewNode(
-    ConceptMap& conceptmap,
-    const Mode mode,
-    QGraphicsScene& scene,
-    QtTool& tool_item,
+    QtConceptMap& qtconceptmap,
+    //ConceptMap& conceptmap,
+    //const Mode mode,
+    //QGraphicsScene& scene,
+    //QtTool& tool_item,
     const double x,
     const double y
   );

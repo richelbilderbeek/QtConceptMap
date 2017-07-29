@@ -22,10 +22,11 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   public:
 
   CommandCreateNewEdgeBetweenTwoSelectedNodes(
-    ConceptMap& conceptmap,
-    const Mode mode,
-    QGraphicsScene& scene,
-    QtTool& tool_item
+    QtConceptMap& qtconceptmap
+    //ConceptMap& conceptmap,
+    //const Mode mode,
+    //QGraphicsScene& scene,
+    //QtTool& tool_item
   );
   CommandCreateNewEdgeBetweenTwoSelectedNodes(
     const CommandCreateNewEdgeBetweenTwoSelectedNodes&

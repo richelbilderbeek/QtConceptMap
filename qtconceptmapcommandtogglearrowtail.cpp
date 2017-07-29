@@ -21,12 +21,12 @@
 #include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandToggleArrowTail::CommandToggleArrowTail(
-  ConceptMap& conceptmap,
-  QGraphicsScene& scene
-) : m_conceptmap(conceptmap),
-    m_edge_before{ExtractTheOneSelectedEdge(conceptmap,scene)},
-    m_scene{scene},
-    m_qtedge{ExtractTheOneSelectedQtEdge(scene)}
+  QtConceptMap& qtconceptmap
+) : Command(qtconceptmap),
+    m_conceptmap(qtconceptmap.GetConceptMap()),
+    m_edge_before{ExtractTheOneSelectedEdge(qtconceptmap.GetConceptMap(),qtconceptmap.GetScene())},
+    m_scene{qtconceptmap.GetScene()},
+    m_qtedge{ExtractTheOneSelectedQtEdge(qtconceptmap.GetScene())}
 {
   this->setText("Toggle arrow tail");
 }

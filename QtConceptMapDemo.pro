@@ -1,8 +1,5 @@
 # C++14
 CONFIG += c++14
-QMAKE_CXX = g++-5
-QMAKE_LINK = g++-5
-QMAKE_CC = gcc-5
 QMAKE_CXXFLAGS += -std=c++14
 
 # High warning level
@@ -54,7 +51,6 @@ include(../plane/plane.pri)
 include(../RibiClasses/CppRibiRegex/CppRibiRegex.pri)
 include(../RibiClasses/CppXml/CppXml.pri)
 include(QtConceptMap.pri)
-include(QtConceptMapTest.pri)
 include(../RibiClasses/CppGrabber/CppGrabber.pri)
 include(../RibiClasses/CppQtArrowItem/CppQtArrowItem.pri)
 include(../RibiClasses/CppQtDisplayPosItem/CppQtDisplayPosItem.pri)

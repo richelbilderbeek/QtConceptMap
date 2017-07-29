@@ -9,28 +9,28 @@
 #include "conceptmapedge.h"
 #include "conceptmapnode.h"
 #include "conceptmapconcept.h"
+#include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 #include "remove_selected_custom_edges_and_vertices.h"
 
 ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
-  ConceptMap& conceptmap,
-  QGraphicsScene& scene,
-  QtTool& tool_item
+  QtConceptMap& qtconceptmap
 )
-  : m_conceptmap(conceptmap),
-    m_conceptmap_after(conceptmap),
-    m_conceptmap_before(conceptmap),
-    m_focus_item_before{scene.focusItem()},
+  : Command(qtconceptmap),
+    m_conceptmap(qtconceptmap.GetConceptMap()),
+    m_conceptmap_after(qtconceptmap.GetConceptMap()),
+    m_conceptmap_before(qtconceptmap.GetConceptMap()),
+    m_focus_item_before{qtconceptmap.GetScene().focusItem()},
     m_qtedges_removed{},
     m_qtnodes_removed{},
-    m_scene(scene),
-    m_selected_before{scene.selectedItems()},
-    m_tool_item{tool_item},
-    m_tool_item_old_buddy{tool_item.GetBuddyItem()}
+    m_scene(qtconceptmap.GetScene()),
+    m_selected_before{qtconceptmap.GetScene().selectedItems()},
+    m_tool_item{qtconceptmap.GetQtToolItem()},
+    m_tool_item_old_buddy{qtconceptmap.GetQtToolItem().GetBuddyItem()}
 {
-  for (const auto item: scene.selectedItems())
+  for (const auto item: m_scene.selectedItems())
   {
     if (IsQtCenterNode(item))
     {
