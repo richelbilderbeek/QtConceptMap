@@ -8,6 +8,8 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
+#include "qtconceptmapcommands.h"
+
 std::vector<std::string> get_args(const int argc, char ** argv)
 {
   std::vector<std::string> v(argc);
@@ -90,6 +92,8 @@ int main(int argc, char *argv[])
   const QRect screen = QApplication::desktop()->screenGeometry();
   d.move(screen.center() - d.rect().center() );
 
+  std::vector<ribi::cmap::Command*> commands = ribi::cmap::parse_commands(args);
+  for (const auto command: commands) d.DoCommand(command);
 
   return a.exec();
 }

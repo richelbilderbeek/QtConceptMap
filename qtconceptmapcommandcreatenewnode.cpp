@@ -60,6 +60,12 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   assert(m_qtnode->GetCenterY() == node.GetY());
 }
 
+ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(const std::string& /* s */)
+{
+  //STUB
+  return nullptr;
+}
+
 void ribi::cmap::CommandCreateNewNode::redo()
 {
   m_conceptmap = m_conceptmap_after;

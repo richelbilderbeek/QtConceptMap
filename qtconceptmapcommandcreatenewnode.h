@@ -53,6 +53,9 @@ class CommandCreateNewNode final : public Command
   const double m_y;
 };
 
+/// Works on, for example  'create_new_node(0, 0, from)'
+CommandCreateNewNode * parse_command_create_new_node(const std::string& s);
+
 } //~namespace cmap
 } //~namespace ribi
 
