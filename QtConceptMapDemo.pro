@@ -74,7 +74,7 @@ include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphvi
 
 
 SOURCES += \
-    main_test.cpp
+    qtmain.cpp
 
 # Boost.Graph
 LIBS += \
@@ -93,6 +93,3 @@ QMAKE_CXXFLAGS += -Wno-unused-local-typedefs
 #   BOOST_DEFINE_MATH_CONSTANT(half, 5.000000000000000000000000000000000000e-01, "5.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e-01")
 #   ^
 QMAKE_CXXFLAGS += -fext-numeric-literals
-
-# QTest
-QT += testlib
