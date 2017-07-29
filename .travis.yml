@@ -38,9 +38,13 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
-  - qmake -qt=qt5
+  # Build and run tests
+  - qmake -qt=qt5 QtConceptMapTest.pro
   - make debug  
   - ./QtConceptMapTest
+  # Build demo
+  - qmake -qt=qt5 QtConceptMapDemo.pro
+  - make debug  
   # cppcheck
   - cppcheck --quiet --error-exitcode=1 . 
   # Get code coverage
