@@ -78,7 +78,17 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::parse_comm
 
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
 {
-  m_selected_before = m_qtconceptmap.GetScene().selectedItems();
+  if (CountSelectedQtNodes(m_qtconceptmap)
+    != count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()))
+  {
+    std::stringstream msg;
+    msg << __func__ << ": "
+      << "Must have as much selected vertices ("
+      << count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap())
+      << ") as selected QtNodes (" << CountSelectedQtNodes(m_qtconceptmap) << ")"
+    ;
+    throw std::invalid_argument(msg.str());
+  }
 
   assert(CountSelectedQtNodes(m_qtconceptmap)
     == count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()));
@@ -93,6 +103,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
     throw std::invalid_argument(msg.str());
   }
 
+  m_selected_before = m_qtconceptmap.GetScene().selectedItems();
   //-------------
   // Concept map
   //-------------
