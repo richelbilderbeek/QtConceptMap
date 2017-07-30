@@ -181,6 +181,11 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
   ;
 }
 
+std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
+{
+  return GetText(qtedge.GetEdge());
+}
+
 bool ribi::cmap::HasHeadArrow(const QtEdge& qtedge) noexcept
 {
   assert(qtedge.GetEdge().HasHeadArrow() == qtedge.GetArrow()->HasHead());

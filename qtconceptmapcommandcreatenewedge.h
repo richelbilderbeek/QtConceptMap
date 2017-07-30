@@ -22,11 +22,8 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   public:
 
   CommandCreateNewEdgeBetweenTwoSelectedNodes(
-    QtConceptMap& qtconceptmap
-    //ConceptMap& conceptmap,
-    //const Mode mode,
-    //QGraphicsScene& scene,
-    //QtTool& tool_item
+    QtConceptMap& qtconceptmap,
+    const std::string& text = ""
   );
   CommandCreateNewEdgeBetweenTwoSelectedNodes(
     const CommandCreateNewEdgeBetweenTwoSelectedNodes&
@@ -36,8 +33,12 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   ) = delete;
   ~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept;
 
+
   void redo() override;
   void undo() override;
+
+  ///Get the added QtEdge
+  const QtEdge& GetQtEdge() const noexcept { return *m_added_qtedge; }
 
   private:
   ConceptMap& m_conceptmap;
@@ -55,6 +56,11 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   ///QScene. scene may be nullptr
   bool AllHaveScene(const QGraphicsScene * const scene) noexcept;
 };
+
+CommandCreateNewEdgeBetweenTwoSelectedNodes * parse_command_create_new_edge(
+  QtConceptMap& qtconceptmap, std::string s);
+
+std::string GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept;
 
 } //~namespace cmap
 } //~namespace ribi

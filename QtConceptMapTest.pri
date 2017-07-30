@@ -1,5 +1,7 @@
 SOURCES += \
+    $$PWD/qtconceptmapcommandcreatenewedge_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode_test.cpp \
+    $$PWD/qtconceptmapcommands_test.cpp \
     $$PWD/qtconceptmapbrushfactory_test.cpp \
     $$PWD/qtconceptmapcenternode_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \

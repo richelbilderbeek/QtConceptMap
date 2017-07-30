@@ -36,6 +36,8 @@ class CommandCreateNewNode final : public Command
 
   double GetX() const noexcept;
   double GetY() const noexcept;
+
+  ///Get the Node its text
   std::string GetText() const noexcept;
   void redo() override;
   void undo() override;

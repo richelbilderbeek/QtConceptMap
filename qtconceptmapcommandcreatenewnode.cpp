@@ -31,7 +31,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
     m_y{y}
 {
 
-
+  //QCommand have a text
   this->setText("Create new node with text ''");
 
   //Add the vertex to the concept map

@@ -3,8 +3,11 @@
 #include <cassert>
 #include <sstream>
 
+#include <boost/algorithm/string/trim.hpp>
+
 #include "conceptmap.h"
 
+#include "set_my_bundled_edge.h"
 #include "conceptmapedgefactory.h"
 #include "conceptmapnode.h"
 #include "qtconceptmapqtnode.h"
@@ -13,6 +16,7 @@
 #include "qtquadbezierarrowitem.h"
 #include "add_edge_between_selected_vertices.h"
 #include <boost/graph/isomorphism.hpp>
+#include <QDebug>
 #include <QGraphicsScene>
 #include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
@@ -20,14 +24,11 @@
 
 ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ::CommandCreateNewEdgeBetweenTwoSelectedNodes(
-  QtConceptMap& qtconceptmap
-  //ConceptMap& conceptmap,
-  //const Mode mode,
-  //QGraphicsScene& scene,
-  //QtTool& tool_item
+  QtConceptMap& qtconceptmap,
+  const std::string& text
 ) : Command(qtconceptmap),
     m_conceptmap(qtconceptmap.GetConceptMap()),
-    m_added_edge{Edge()},
+    m_added_edge{},
     m_added_qtedge{nullptr},
     m_added_qtnode{nullptr},
     m_after{qtconceptmap.GetConceptMap()},
@@ -37,6 +38,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
     m_selected_before{qtconceptmap.GetScene().selectedItems()},
     m_tool_item{qtconceptmap.GetQtToolItem()}
 {
+  //assert(GetText(m_added_edge) == text);
   if (count_vertices_with_selectedness(true, m_after) != 2)
   {
     std::stringstream msg;
@@ -48,10 +50,15 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   }
   this->setText("Create new edge");
 
-  //Create a new edge on the concept map 'm_after'
+  //Create a new edge on the concept map 'm_after' with the correct text
   const auto ed = add_edge_between_selected_vertices(m_after);
+  auto my_edge_map = get(boost::edge_custom_type, m_after);
+  put(my_edge_map, ed, Edge(Node(Concept(text))));
+
   assert(!boost::isomorphism(m_before,m_after));
   m_added_edge = get(get(boost::edge_custom_type, m_after), ed);
+
+  assert(GetText(m_added_edge) == text);
 
   //Obtain the nodes where this edge was created
   const VertexDescriptor vd_from = boost::source(ed, m_after);
@@ -78,6 +85,9 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
 
   //m_qtedge has added a QtNode itself. Store it
   m_added_qtnode = m_added_qtedge->GetQtNode();
+
+  //Post-condition
+  assert(GetText(*this) == text);
 }
 
 ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
@@ -94,6 +104,27 @@ bool ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
     && m_added_qtnode->scene() == scene
     && m_added_qtedge->GetArrow()->scene() == scene
   ;
+}
+
+std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
+{
+  return GetText(c.GetQtEdge());
+}
+
+ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::parse_command_create_new_edge(
+  QtConceptMap& qtconceptmap, std::string s)
+{
+  //"create_new_edge(my text)"
+  boost::algorithm::trim(s);
+  const std::string str_begin = "create_new_edge(";
+  if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
+  if (s.back() != ')') return nullptr;
+  //"text"
+  const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
+  assert(t[0] != '(');
+  assert(t.back() != ')');
+  // "my text"
+  return new CommandCreateNewEdgeBetweenTwoSelectedNodes(qtconceptmap, t);
 }
 
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()

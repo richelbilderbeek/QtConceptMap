@@ -10,6 +10,8 @@
 #include "qtconceptmapexamplesdialog_test.h"
 #include "qtconceptmaphelper_test.h"
 #include "qtconceptmapitemhighlighter_test.h"
+#include "qtconceptmapcommands_test.h"
+#include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
 #include "qtconceptmapnewarrow_test.h"
 #include "qtconceptmapqtedge_test.h"
@@ -28,14 +30,18 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
-  //assert(!"Don't forget to let Travis test everything");
+  { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
+  assert(!"Don't forget to let Travis test everything");
 
 
   //These are all tests in alphabetical order
   { qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcenternode_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcompetency_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapconcepteditdialog_test t; error |= QTest::qExec(&t, argc, argv); }
