@@ -26,7 +26,6 @@ void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_command() const 
 {
   QtConceptMap q;
   const auto cmds = parse_commands(q, { "--command", "create_new_node(10, 20, my text)" } );
-  qDebug() << "Must be one: " << cmds.size();
   QVERIFY(cmds.size() == 1);
 }
 

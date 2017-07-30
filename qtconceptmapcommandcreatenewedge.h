@@ -38,19 +38,28 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   void undo() override;
 
   ///Get the added QtEdge
-  const QtEdge& GetQtEdge() const noexcept { return *m_added_qtedge; }
+  const std::string& GetText() const noexcept { return m_text; }
 
   private:
-  ConceptMap& m_conceptmap;
-  Edge m_added_edge; //The Edge being added or removed
-  QtEdge * m_added_qtedge; //The QtEdge being added or removed
-  QtNode * m_added_qtnode; //The QtNode being at the center of m_qtedge
-  ConceptMap m_after;
-  const ConceptMap m_before;
-  const Mode m_mode;
-  QGraphicsScene& m_scene;
-  const QList<QGraphicsItem *> m_selected_before;
-  QtTool& m_tool_item;
+  QtConceptMap& m_qtconceptmap;
+
+  ///The text to appear on the edge
+  const std::string m_text;
+
+  ///The QtEdge being added
+  QtEdge * m_added_qtedge;
+
+  ///The QtNode being at the center of m_added_qtedge
+  QtNode * m_added_qtnode;
+
+  ///The first selected QtNode
+  QtNode * m_qtfrom;
+
+  ///The second selected QtNode
+  QtNode * m_qtto;
+
+  ///All selected QGraphicsItem before the command
+  QList<QGraphicsItem *> m_selected_before;
 
   ///Checks if added elements have already or not the supplied
   ///QScene. scene may be nullptr

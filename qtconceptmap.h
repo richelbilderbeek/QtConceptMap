@@ -121,8 +121,7 @@ private:
   /// edit (modify the graph) or rate (only grade the existing nodes)
   Mode m_mode;
 
-  ///The type of concept map: plain (best for printing),
-  /// edit (modify the graph) or rate (only grade the existing nodes)
+  ///The type of pop ups: absent (best for printing) or present (best for UX)
   PopupMode m_popup_mode;
 
   ///Responds to many things
@@ -151,6 +150,9 @@ void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
 
+int CountSelectedQtNodes(const QtConceptMap& q) noexcept;
+int CountSelectedQtEdges(const QtConceptMap& q) noexcept;
+
 ///Get all the items that can be focused and selected on
 ///This also depends on the mode: if the user is rating a concept map,
 ///the center node is not selectable.
@@ -161,6 +163,9 @@ std::vector<QGraphicsItem *> GetFocusableItems(const QtConceptMap& q);
 ///Obtain the first QtNode under the cursor
 ///Returns nullptr if none is present
 QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
+
+///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;
+std::vector<QtNode *> GetSelectedQtNodes(const QtConceptMap& q) noexcept;
 
 ///Checks if the qtedge has its QGraphicsScenes in place
 ///scene can be nullptr

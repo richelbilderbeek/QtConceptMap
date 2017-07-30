@@ -13,8 +13,10 @@ void ribi::cmap::qtconceptmapcommandcreatenewedge_test::parse() const noexcept
   {
     const auto c1 = parse_command_create_new_node(q, "create_new_node(10, 20, my text)");
     q.DoCommand(c1);
+    assert(CountSelectedQtNodes(q) == 1);
     const auto c2 = parse_command_create_new_node(q, "create_new_node(10, 40, my text)");
     q.DoCommand(c2);
+    assert(CountSelectedQtNodes(q) == 2);
     const auto c3 = parse_command_create_new_edge(q, "create_new_edge(my text)");
     QVERIFY(c3 != nullptr);
     QVERIFY(GetText(*c3) == "my text");

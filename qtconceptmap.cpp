@@ -315,6 +315,16 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   #endif
 }
 
+int ribi::cmap::CountSelectedQtNodes(const QtConceptMap& q) noexcept
+{
+  return CountSelectedQtNodes(q.GetScene());
+}
+
+int ribi::cmap::CountSelectedQtEdges(const QtConceptMap& q) noexcept
+{
+  return CountSelectedQtEdges(q.GetScene());
+}
+
 void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
 {
   q.GetQtExamplesItem().hide();
@@ -409,6 +419,11 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
     return qtnodes[0];
   }
   return nullptr;
+}
+
+std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodes(const QtConceptMap& q) noexcept
+{
+  return GetSelectedQtNodes(q.GetScene());
 }
 
 const ribi::cmap::QtExamplesItem& ribi::cmap::QtConceptMap::GetQtExamplesItem() const noexcept

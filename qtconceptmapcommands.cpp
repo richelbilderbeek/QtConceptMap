@@ -19,7 +19,7 @@ std::string ribi::cmap::get_commands(const std::vector<std::string>& args)
 ribi::cmap::Command* ribi::cmap::parse_command(QtConceptMap& q, const std::string& s)
 {
   if (auto p = parse_command_create_new_node(q, s)) { return p; }
-  //if (auto p = parse_command_create_new_edge(q, s)) { return p; }
+  if (auto p = parse_command_create_new_edge(q, s)) { return p; }
   return nullptr;
 }
 
