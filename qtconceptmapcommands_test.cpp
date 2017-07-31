@@ -42,7 +42,7 @@ void ribi::cmap::qtconceptmapcommands_test::create_two_new_node_commands() const
   QVERIFY(cmds.size() == 2);
 }
 
-void ribi::cmap::qtconceptmapcommands_test::create_new_edge_command() const noexcept
+void ribi::cmap::qtconceptmapcommands_test::create_new_edge_between_two_selected_nodes_command() const noexcept
 {
   QtConceptMap q;
   const auto cmds = parse_commands(q,
@@ -54,6 +54,21 @@ void ribi::cmap::qtconceptmapcommands_test::create_new_edge_command() const noex
     }
   );
   QVERIFY(cmds.size() == 3);
+}
+
+void ribi::cmap::qtconceptmapcommands_test::create_new_edge_between_two_nodes_command() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "create_new_node(A, false, 10, 20); "
+      "create_new_node(B, false, 10, 20); "
+      "create_new_node(C, false, 10, 40); "
+      "create_new_edge(my text, A, C)"
+    }
+  );
+  QVERIFY(cmds.size() == 4);
 }
 
 void ribi::cmap::qtconceptmapcommands_test::set_mode_command() const noexcept
