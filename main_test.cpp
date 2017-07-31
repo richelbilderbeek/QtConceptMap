@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
   { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
-  assert(!"Don't forget to let Travis test everything");
+  //assert(!"Don't forget to let Travis test everything");
 
 
   //These are all tests in alphabetical order
