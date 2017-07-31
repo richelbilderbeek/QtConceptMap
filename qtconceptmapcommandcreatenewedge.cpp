@@ -3,6 +3,7 @@
 #include <cassert>
 #include <sstream>
 
+#include <gsl/gsl_assert>
 #include <boost/algorithm/string/trim.hpp>
 
 #include "conceptmap.h"
@@ -110,7 +111,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
 
   m_selected_before = m_qtconceptmap.GetScene().selectedItems();
 
-  //std::tuple<Node, Edge, Node>
   //-------------
   // Concept map
   //-------------
@@ -195,8 +195,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   }
 
   //Post-condition: the text must be on the added QtEdge
-  assert(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
-  assert(CountSelectedQtNodes(m_qtconceptmap)
+  Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
+  Ensures(CountSelectedQtNodes(m_qtconceptmap)
     == count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()));
 }
 
@@ -223,6 +223,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   for (auto item: m_selected_before) { item->setSelected(true); }
 
   //Post-conditions
-  assert(CountSelectedQtNodes(m_qtconceptmap)
+  Ensures(CountSelectedQtNodes(m_qtconceptmap)
     == count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()));
 }

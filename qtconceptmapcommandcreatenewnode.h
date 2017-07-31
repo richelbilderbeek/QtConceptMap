@@ -44,14 +44,10 @@ class CommandCreateNewNode final : public Command
 
 
   private:
-  ConceptMap& m_conceptmap;
-  ConceptMap m_conceptmap_after;
-  const ConceptMap m_conceptmap_before;
-  const Mode m_mode;
-  QtNode * m_qtnode;
-  QGraphicsScene& m_scene;
-  QtTool& m_tool_item;
-  QtNode * const m_tool_item_old_buddy;
+  QtNode * m_added_qtnode;
+  const std::string m_text; //Text on the added QtNode
+  QtTool * m_tool_item;
+  QtNode * m_tool_item_old_buddy;
   const double m_x;
   const double m_y;
 };

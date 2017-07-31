@@ -21,8 +21,8 @@ struct Command : public QUndoCommand
   Command(QtConceptMap& qtconceptmap) noexcept;
   virtual ~Command() noexcept {}
 
-  auto& get_qtconceptmap() noexcept { return m_qtconceptmap; }
-  const auto& get_qtconceptmap() const noexcept { return m_qtconceptmap; }
+  auto& GetQtConceptMap() noexcept { return m_qtconceptmap; }
+  const auto& GetQtConceptMap() const noexcept { return m_qtconceptmap; }
 
   virtual void undo() = 0;
   virtual void redo() = 0;

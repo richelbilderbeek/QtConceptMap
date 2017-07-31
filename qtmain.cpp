@@ -94,7 +94,11 @@ int main(int argc, char *argv[])
   d.move(screen.center() - d.rect().center() );
 
   std::vector<ribi::cmap::Command*> commands = ribi::cmap::parse_commands(d, args);
-  for (const auto command: commands) d.DoCommand(command);
-
+  for (const auto command: commands)
+  {
+    d.DoCommand(command);
+    d.update();
+    qApp->processEvents();
+  }
   return a.exec();
 }

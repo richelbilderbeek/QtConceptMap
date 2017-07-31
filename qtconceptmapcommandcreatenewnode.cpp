@@ -4,7 +4,11 @@
 #include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
+#include <gsl/gsl_assert>
+#include <QApplication>
+#include "count_vertices_with_selectedness.h"
 #include "container.h"
+#include "find_first_custom_vertex_with_my_vertex.h"
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
@@ -19,62 +23,41 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   const std::string& text
 )
   : Command(qtconceptmap),
-    m_conceptmap(qtconceptmap.GetConceptMap()),
-    m_conceptmap_after{qtconceptmap.GetConceptMap()},
-    m_conceptmap_before{qtconceptmap.GetConceptMap()},
-    m_mode{qtconceptmap.GetMode()},
-    m_qtnode{nullptr},
-    m_scene(qtconceptmap.GetScene()),
-    m_tool_item{qtconceptmap.GetQtToolItem()},
-    m_tool_item_old_buddy{qtconceptmap.GetQtToolItem().GetBuddyItem()},
+    m_added_qtnode{nullptr},
+    m_text{text},
+    m_tool_item{nullptr},
+    m_tool_item_old_buddy{nullptr},
     m_x{x},
     m_y{y}
 {
+  Expects(CountSelectedQtNodes(GetQtConceptMap())
+    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
 
-  //QCommand have a text
-  this->setText("Create new node with text ''");
-
-  //Add the vertex to the concept map
-  VertexDescriptor vd = boost::add_vertex(m_conceptmap_after);
-
-  //Create the node
-  Node node;
-  node.SetX(m_x);
-  node.SetY(m_y);
-  node.SetConcept(Concept(text));
-
-  //Set the node
+  //QCommands have a text
   {
-    const auto pmap = get(boost::vertex_custom_type, m_conceptmap_after);
-    put(pmap, vd, node);
-  }
-  //Additively select node
-  {
-    const auto pmap = get(boost::vertex_is_selected, m_conceptmap_after);
-    put(pmap, vd, true);
+    std::stringstream msg;
+    msg << "Create new node with text '" << m_text << "'";
+    this->setText(msg.str().c_str());
   }
 
-  //Modify the QGraphicsScene
-  m_qtnode = new QtNode(node);
-  assert(m_qtnode);
-  assert(m_qtnode->GetCenterX() == node.GetX());
-  assert(m_qtnode->GetCenterY() == node.GetY());
-  assert(Unwordwrap(m_qtnode->GetText()) == text);
+  Ensures(CountSelectedQtNodes(GetQtConceptMap())
+    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
 }
 
 double ribi::cmap::CommandCreateNewNode::GetX() const noexcept
 {
-  return m_qtnode->GetCenterX();
+  assert(m_added_qtnode);
+  return m_added_qtnode->GetCenterX();
 }
 
 double ribi::cmap::CommandCreateNewNode::GetY() const noexcept
 {
-  return m_qtnode->GetCenterY();
+  return m_added_qtnode->GetCenterY();
 }
 
 std::string ribi::cmap::CommandCreateNewNode::GetText() const noexcept
 {
-  return Unwordwrap(m_qtnode->GetText());
+  return Unwordwrap(m_added_qtnode->GetText());
 }
 
 ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(
@@ -105,21 +88,68 @@ ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(
 
 void ribi::cmap::CommandCreateNewNode::redo()
 {
-  m_conceptmap = m_conceptmap_after;
-  assert(!m_qtnode->scene());
-  m_scene.addItem(m_qtnode);
-  assert(m_qtnode->scene());
-  m_qtnode->setSelected(true); //Additively select node
-  m_qtnode->setFocus();
-  m_qtnode->SetBrushFunction(GetQtNodeBrushFunction(m_mode));
-  m_tool_item.SetBuddyItem(m_qtnode);
+  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
+
+  //Add the vertex to the concept map
+  VertexDescriptor vd = boost::add_vertex(GetQtConceptMap().GetConceptMap());
+
+  //Create the node
+  Node node;
+  node.SetX(m_x);
+  node.SetY(m_y);
+  node.SetConcept(Concept(m_text));
+
+  //Set the node
+  {
+    const auto pmap = get(boost::vertex_custom_type, GetQtConceptMap().GetConceptMap());
+    put(pmap, vd, node);
+  }
+  //Additively select node
+  {
+    const auto pmap = get(boost::vertex_is_selected, GetQtConceptMap().GetConceptMap());
+    put(pmap, vd, true);
+  }
+
+  //Modify the QGraphicsScene
+  m_added_qtnode = new QtNode(node);
+  assert(m_added_qtnode);
+  assert(m_added_qtnode->GetCenterX() == node.GetX());
+  assert(m_added_qtnode->GetCenterY() == node.GetY());
+  assert(Unwordwrap(m_added_qtnode->GetText()) == m_text);
+  assert(!m_added_qtnode->scene());
+  GetQtConceptMap().GetScene().addItem(m_added_qtnode);
+  assert(m_added_qtnode->scene());
+  m_added_qtnode->setSelected(true); //Additively select node
+  m_added_qtnode->setFocus();
+  m_added_qtnode->SetBrushFunction(GetQtNodeBrushFunction(GetQtConceptMap().GetMode()));
+
+  //QtToolItem gets new buddy
+  m_tool_item = &GetQtConceptMap().GetQtToolItem();
+  m_tool_item_old_buddy = m_tool_item->GetBuddyItem();
+  m_tool_item->SetBuddyItem(m_added_qtnode);
+
+  qApp->processEvents();
+
+  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandCreateNewNode::undo()
 {
-  m_conceptmap = m_conceptmap_before;
-  assert(m_qtnode->scene());
-  m_scene.removeItem(m_qtnode);
-  assert(!m_qtnode->scene());
-  m_tool_item.SetBuddyItem(m_tool_item_old_buddy);
+  Expects(CountSelectedQtNodes(GetQtConceptMap())
+    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
+
+  //Remove node
+  boost::remove_vertex(
+    find_first_custom_vertex_with_my_vertex(m_added_qtnode->GetNode(), GetQtConceptMap().GetConceptMap()),
+    GetQtConceptMap().GetConceptMap()
+  );
+
+  //Remove QtNode
+  assert(m_added_qtnode->scene());
+  GetQtConceptMap().GetScene().removeItem(m_added_qtnode);
+  assert(!m_added_qtnode->scene());
+  m_tool_item->SetBuddyItem(m_tool_item_old_buddy);
+
+  Ensures(CountSelectedQtNodes(GetQtConceptMap())
+    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
 }

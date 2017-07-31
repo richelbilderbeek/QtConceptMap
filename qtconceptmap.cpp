@@ -226,6 +226,7 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
   }
 }
 
+
 void ribi::cmap::CheckInvariantAllQtNodesHaveAscene(
   const QtConceptMap& q
   ) noexcept
@@ -236,6 +237,20 @@ void ribi::cmap::CheckInvariantAllQtNodesHaveAscene(
     assert(qtnode);
     assert(qtnode->scene());
   }
+}
+
+void ribi::cmap::CheckInvariantAsMuchNodesAsQtNodesSelected(
+  const QtConceptMap& q
+  ) noexcept
+{
+  const int n_selected_qtnodes{CountSelectedQtNodes(q)};
+  const int n_selected_nodes{count_vertices_with_selectedness(true, q.GetConceptMap())};
+  if (n_selected_qtnodes != n_selected_nodes)
+  {
+    std::cerr << "n_selected_qtnodes (" << n_selected_qtnodes
+      << ") mismatch n_selected_nodes (" << n_selected_nodes << ")\n";
+  }
+  assert(n_selected_qtnodes == n_selected_nodes);
 }
 
 void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
@@ -279,11 +294,12 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
 ) noexcept
 {
   #ifndef NDEBUG
+  qApp->processEvents();
 
   assert(q.GetQtNewArrow().scene());
   assert(q.GetQtExamplesItem().scene());
   assert(q.GetQtToolItem().scene());
-
+  CheckInvariantAsMuchNodesAsQtNodesSelected(q);
   CheckInvariantAllQtNodesHaveAscene(q);
   CheckInvariantAllQtEdgesHaveAscene(q);
 
@@ -784,6 +800,8 @@ void ribi::cmap::QtConceptMap::Respond()
 
   assert(this->isVisible());
   assert(this->isEnabled());
+  qApp->processEvents();
+
   CheckInvariants(*this);
   MoveQtNodesAwayFromEachOther(*this);
   UpdateExamplesItem(*this);

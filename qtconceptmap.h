@@ -147,6 +147,9 @@ void CheckInvariantAllQtEdgesHaveAscene(const QtConceptMap& q) noexcept;
 ///All QtNodes must have a QScene
 void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
 
+///There must be as much Nodes as QtNodes selected
+void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
+
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
 
