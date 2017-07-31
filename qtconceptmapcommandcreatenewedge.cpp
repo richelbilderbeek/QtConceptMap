@@ -55,28 +55,7 @@ bool ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ;
 }
 
-std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
-{
-  return c.GetText();
-}
-
-ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::parse_command_create_new_edge(
-  QtConceptMap& qtconceptmap, std::string s)
-{
-  //"create_new_edge(my text)"
-  boost::algorithm::trim(s);
-  const std::string str_begin = "create_new_edge(";
-  if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
-  if (s.back() != ')') return nullptr;
-  //"text"
-  const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
-  assert(t[0] != '(');
-  assert(t.back() != ')');
-  // "my text"
-  return new CommandCreateNewEdgeBetweenTwoSelectedNodes(qtconceptmap, t);
-}
-
-void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
+void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CheckCanRedo() const
 {
   if (CountSelectedQtNodes(m_qtconceptmap)
     != count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()))
@@ -102,8 +81,36 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
     ;
     throw std::invalid_argument(msg.str());
   }
+}
+
+std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
+{
+  return c.GetText();
+}
+
+ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::parse_command_create_new_edge(
+  QtConceptMap& qtconceptmap, std::string s)
+{
+  //"create_new_edge(my text)"
+  boost::algorithm::trim(s);
+  const std::string str_begin = "create_new_edge(";
+  if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
+  if (s.back() != ')') return nullptr;
+  //"text"
+  const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
+  assert(t[0] != '(');
+  assert(t.back() != ')');
+  // "my text"
+  return new CommandCreateNewEdgeBetweenTwoSelectedNodes(qtconceptmap, t);
+}
+
+void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
+{
+  CheckCanRedo(); //Throws if not
 
   m_selected_before = m_qtconceptmap.GetScene().selectedItems();
+
+  //std::tuple<Node, Edge, Node>
   //-------------
   // Concept map
   //-------------
@@ -116,7 +123,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   put(my_edge_map, ed, Edge(Node(Concept(m_text))));
 
   assert(!boost::isomorphism(concept_map_before, concept_map));
-  Edge added_edge = get(get(boost::edge_custom_type, concept_map), ed);
+  const Edge added_edge = get(get(boost::edge_custom_type, concept_map), ed);
   assert(::ribi::cmap::GetText(added_edge) == m_text);
 
   //Obtain the nodes where this edge was created
@@ -144,8 +151,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   // as the endpoints of qtedge->GetEdge() have changed
   assert(m_added_qtedge->GetEdge().GetId() == added_edge.GetId());
   // Update the original edge
-  added_edge = m_added_qtedge->GetEdge();
-  assert(m_added_qtedge->GetEdge() == added_edge);
+  //? m_added_edge = m_added_qtedge->GetEdge();
+  //? assert(m_added_qtedge->GetEdge() == added_edge);
 
   //m_qtedge has added a QtNode itself. Store it
   m_added_qtnode = m_added_qtedge->GetQtNode();
@@ -176,8 +183,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   // as the endpoints of qtedge->GetEdge() have changed
   assert(m_added_qtedge->GetEdge().GetId() == added_edge.GetId());
   // Update the original edge
-  added_edge = m_added_qtedge->GetEdge();
-  assert(m_added_qtedge->GetEdge() == added_edge);
+  //? added_edge = m_added_qtedge->GetEdge();
+  //? assert(m_added_qtedge->GetEdge() == added_edge);
 
   //Do not create a node on the edge if it is connected to a center node
   if (m_added_qtedge->GetFrom()->GetNode().IsCenterNode()

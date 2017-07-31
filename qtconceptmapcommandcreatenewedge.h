@@ -64,6 +64,9 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   ///Checks if added elements have already or not the supplied
   ///QScene. scene may be nullptr
   bool AllHaveScene(const QGraphicsScene * const scene) noexcept;
+
+  ///Checks if redo can be run, will throw otherwise
+  void CheckCanRedo() const;
 };
 
 CommandCreateNewEdgeBetweenTwoSelectedNodes * parse_command_create_new_edge(
