@@ -196,6 +196,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
 
   //Post-condition: the text must be on the added QtEdge
   assert(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
+  assert(CountSelectedQtNodes(m_qtconceptmap)
+    == count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()));
 }
 
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
@@ -219,4 +221,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   m_added_qtedge->GetTo()->setFocus();
 
   for (auto item: m_selected_before) { item->setSelected(true); }
+
+  //Post-conditions
+  assert(CountSelectedQtNodes(m_qtconceptmap)
+    == count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()));
 }

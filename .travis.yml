@@ -30,6 +30,11 @@ install:
   - sudo pip install codecov
   # OCLint
   - ./install_oclint
+  # GSL
+  - my_github=${PWD##*/}  
+  - cd ..
+  - git clone https://github.com/Microsoft/GSL
+  - cd $my_github
   # Other prerequisites
   - ./download_other_githubs
 
