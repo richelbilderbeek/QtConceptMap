@@ -38,11 +38,24 @@ ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
   this->SetPadding(QtRoundedEditRectItem::Padding(1.0,6.0,1.0,2.0));
 
   this->setAcceptHoverEvents(true);
-  this->setFlags(
-      QGraphicsItem::ItemIsFocusable
-    | QGraphicsItem::ItemIsMovable
-    | QGraphicsItem::ItemIsSelectable
-  );
+
+  if (IsCenterNode(node))
+  {
+    this->setFlags(
+        QGraphicsItem::ItemIsFocusable
+      | QGraphicsItem::ItemIsSelectable
+    );
+    assert(!(flags() & QGraphicsItem::ItemIsMovable));
+  }
+  else
+  {
+    this->setFlags(
+        QGraphicsItem::ItemIsFocusable
+      | QGraphicsItem::ItemIsMovable
+      | QGraphicsItem::ItemIsSelectable
+    );
+  }
+
 
   SetNode(node);
   this->setZValue(0.0);
