@@ -2,6 +2,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandcreatenewedge_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode_test.cpp \
     $$PWD/qtconceptmapcommands_test.cpp \
+    $$PWD/qtconceptmapcommandsetmode_test.cpp \
     $$PWD/qtconceptmapbrushfactory_test.cpp \
     $$PWD/qtconceptmapcenternode_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
@@ -11,6 +12,7 @@ SOURCES += \
     $$PWD/qtconceptmapexamplesdialog_test.cpp \
     $$PWD/qtconceptmaphelper_test.cpp \
     $$PWD/qtconceptmapitemhighlighter_test.cpp \
+    $$PWD/qtconceptmapmode_test.cpp \
     $$PWD/qtconceptmapnewarrow_test.cpp \
     $$PWD/qtconceptmapqtedge_test.cpp \
     $$PWD/qtconceptmapqtnodefactory_test.cpp \

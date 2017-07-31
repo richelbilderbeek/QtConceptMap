@@ -18,6 +18,7 @@ private slots:
   void create_two_new_node_commands() const noexcept;
 
   void create_new_edge_command() const noexcept;
+  void set_mode_command() const noexcept;
 };
 
 } //~namespace cmap

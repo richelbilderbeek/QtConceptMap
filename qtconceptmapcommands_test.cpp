@@ -55,3 +55,15 @@ void ribi::cmap::qtconceptmapcommands_test::create_new_edge_command() const noex
   );
   QVERIFY(cmds.size() == 3);
 }
+
+void ribi::cmap::qtconceptmapcommands_test::set_mode_command() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "set_mode(edit)"
+    }
+  );
+  QVERIFY(cmds.size() == 1);
+}

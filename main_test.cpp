@@ -13,7 +13,9 @@
 #include "qtconceptmapcommands_test.h"
 #include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
+#include "qtconceptmapcommandsetmode_test.h"
 #include "qtconceptmapnewarrow_test.h"
+#include "qtconceptmapmode_test.h"
 #include "qtconceptmapqtedge_test.h"
 #include "qtconceptmapqtnodefactory_test.h"
 #include "qtconceptmapqtnode_test.h"
@@ -30,9 +32,9 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
+  { qtconceptmapmode_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandsetmode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
 
