@@ -4,6 +4,7 @@ Branch|[![Travis CI logo](TravisCI.png)](https://travis-ci.org)
 ---|---
 master|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=master)](https://travis-ci.org/richelbilderbeek/QtConceptMap)
 develop|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/QtConceptMap)
+gogogo|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=gogogo)](https://travis-ci.org/richelbilderbeek/QtConceptMap)
 
 C++14 concept map widget class using Qt
 
