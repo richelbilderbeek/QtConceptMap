@@ -100,6 +100,10 @@ void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
   //is not visible??
 }
 
+bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
+{
+  return IsCenterNode(qtnode.GetNode());
+}
 
 void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
 {

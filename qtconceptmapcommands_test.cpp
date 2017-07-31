@@ -25,7 +25,7 @@ void ribi::cmap::qtconceptmapcommands_test::nonsense_to_empty() const noexcept
 void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_command() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q, { "--command", "create_new_node(10, 20, my text)" } );
+  const auto cmds = parse_commands(q, { "--command", "create_new_node(my text, false, 10, 20)" } );
   QVERIFY(cmds.size() == 1);
 }
 
@@ -35,8 +35,8 @@ void ribi::cmap::qtconceptmapcommands_test::create_two_new_node_commands() const
   const auto cmds = parse_commands(q,
     {
       "--command",
-      "create_new_node(10, 20, my first text); "
-      "create_new_node(10, 40, my other text)"
+      "create_new_node(my first text, false, 10, 20); "
+      "create_new_node(my other text, false, 10, 40)"
     }
   );
   QVERIFY(cmds.size() == 2);
@@ -48,8 +48,8 @@ void ribi::cmap::qtconceptmapcommands_test::create_new_edge_command() const noex
   const auto cmds = parse_commands(q,
     {
       "--command",
-      "create_new_node(10, 20, my text); "
-      "create_new_node(10, 40, my text); "
+      "create_new_node(my text, false, 10, 20); "
+      "create_new_node(my text, false, 10, 40); "
       "create_new_edge(my text)"
     }
   );

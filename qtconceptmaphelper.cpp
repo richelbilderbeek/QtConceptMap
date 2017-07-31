@@ -518,9 +518,9 @@ ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept
 
 bool ribi::cmap::IsQtCenterNode(const QGraphicsItem* const item)
 {
-  const QtCenterNode * const qtnode = dynamic_cast<const QtCenterNode*>(item);
-  assert(!qtnode || IsCenterNode(qtnode->GetNode()));
-  return qtnode;
+  const QtNode * const qtnode = dynamic_cast<const QtNode*>(item);
+  if (!qtnode) return false;
+  return IsCenterNode(qtnode->GetNode());
 }
 
 bool ribi::cmap::IsOnEdge(

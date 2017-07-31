@@ -1,3 +1,5 @@
+#ifdef KEEP_CENTER_QTNODE
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -24,3 +26,6 @@ ribi::cmap::QtCenterNode::QtCenterNode(const Node& node)
 
   assert(!(flags() & QGraphicsItem::ItemIsMovable));
 }
+
+
+#endif // KEEP_CENTER_QTNODE

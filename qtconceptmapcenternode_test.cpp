@@ -1,3 +1,5 @@
+#ifdef KEEP_CENTER_QTNODE
+
 #include "qtconceptmapcenternode_test.h"
 
 #include <cassert>
@@ -24,3 +26,5 @@ void ribi::cmap::qtconceptmapcenternode_test::all_tests() const noexcept
     QVERIFY("Should get here");
   }
 }
+
+#endif //KEEP_CENTER_QTNODE

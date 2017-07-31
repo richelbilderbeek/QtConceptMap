@@ -2,7 +2,7 @@
 #include <iostream>
 #include <QtTest/QtTest>
 #include "qtconceptmapbrushfactory_test.h"
-#include "qtconceptmapcenternode_test.h"
+//#include "qtconceptmapcenternode_test.h"
 #include "qtconceptmapcompetency_test.h"
 #include "qtconceptmapconceptdialog_test.h"
 #include "qtconceptmapconcepteditdialog_test.h"
@@ -34,13 +34,15 @@ int main(int argc, char *argv[])
   int error = 0;
   { qtconceptmapmode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandsetmode_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
-  //assert(!"Don't forget to let Travis test everything");
+  assert(!"Don't forget to let Travis test everything");
 
 
   //These are all tests in alphabetical order
   { qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcenternode_test t; error |= QTest::qExec(&t, argc, argv); }
+  //{ qtconceptmapcenternode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }

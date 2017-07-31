@@ -62,8 +62,10 @@ ribi::cmap::QtEdge::QtEdge(
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
+  assert(from);
+  assert(to);
   const bool ictcn //is_connected_to_center_node
-    = dynamic_cast<QtCenterNode*>(from) || dynamic_cast<QtCenterNode*>(to);
+    = IsCenterNode(*from) || IsCenterNode(*to);
   if (ictcn)
   {
     m_arrow->SetMidX( (m_arrow->GetFromX() + m_arrow->GetToX()) / 2.0 );

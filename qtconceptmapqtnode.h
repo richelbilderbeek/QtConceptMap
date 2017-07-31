@@ -68,6 +68,8 @@ private:
 ///Number of characters for wordwrapping
 constexpr int GetWordWrapLength() { return 80; }
 
+bool IsCenterNode(const QtNode& qtnode) noexcept;
+
 std::ostream& operator<<(std::ostream& os, const QtNode& qtnode) noexcept;
 
 } //~namespace cmap

@@ -1,6 +1,8 @@
 #ifndef QTCONCEPTMAPCENTERNODE_H
 #define QTCONCEPTMAPCENTERNODE_H
 
+#ifdef KEEP_CENTER_QTNODE
+
 #include "qtconceptmapqtnode.h"
 #include "conceptmapnode.h"
 
@@ -19,5 +21,7 @@ struct QtCenterNode : public QtNode
 
 } //~namespace cmap
 } //~namespace ribi
+
+#endif // KEEP_CENTER_QTNODE
 
 #endif // QTCONCEPTMAPCENTERNODE_H
