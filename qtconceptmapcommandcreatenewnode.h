@@ -26,9 +26,10 @@ class CommandCreateNewNode final : public Command
 
   CommandCreateNewNode(
     QtConceptMap& qtconceptmap,
+    const std::string& text = "",
+    const bool is_center_node = false,
     const double x = 0.0,
-    const double y = 0.0,
-    const std::string& text = ""
+    const double y = 0.0
   );
   CommandCreateNewNode(const CommandCreateNewNode&) = delete;
   CommandCreateNewNode& operator=(const CommandCreateNewNode&) = delete;
@@ -45,7 +46,12 @@ class CommandCreateNewNode final : public Command
 
   private:
   QtNode * m_added_qtnode;
-  const std::string m_text; //Text on the added QtNode
+
+  //Will the added QtNode be a center node
+  bool m_is_center_node;
+
+  //Text on the added QtNode
+  const std::string m_text;
   QtTool * m_tool_item;
   QtNode * m_tool_item_old_buddy;
   const double m_x;

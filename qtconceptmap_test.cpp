@@ -143,7 +143,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
   const int n{2};
   for (int i=0; i!=n; ++i) {
-    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+    m.DoCommand(new CommandCreateNewNode(m));
   }
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
@@ -160,7 +160,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_command_and_check_z_order()
   m.show();
   //Create two nodes
   for (int i=0; i!=2; ++i) {
-    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+    m.DoCommand(new CommandCreateNewNode(m));
     m.show();
   }
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
@@ -219,7 +219,7 @@ void ribi::cmap::qtconceptmap_test::create_one_node_and_undo_command()
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
-  m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+  m.DoCommand(new CommandCreateNewNode(m));
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
   m.Undo();
@@ -244,11 +244,14 @@ void ribi::cmap::qtconceptmap_test::create_one_node_and_undo_keyboard()
 
 void ribi::cmap::qtconceptmap_test::create_one_node_command()
 {
+  const std::string text = __func__;
+  const bool is_center_node{false};
   const double x{314.15};
   const double y{42.69};
+
   QtConceptMap m;
   m.show();
-  m.DoCommand(new CommandCreateNewNode(m, x, y));
+  m.DoCommand(new CommandCreateNewNode(m, text, is_center_node, x, y));
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
@@ -297,8 +300,9 @@ void ribi::cmap::qtconceptmap_test::create_ten_nodes_and_undo_command()
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
 
   const int n{10};
-  for (int i=0; i!=n; ++i) {
-    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+  for (int i=0; i!=n; ++i)
+  {
+    m.DoCommand(new CommandCreateNewNode(m));
     m.show();
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,i + 1));
   }
@@ -316,8 +320,9 @@ void ribi::cmap::qtconceptmap_test::create_two_nodes_command()
 {
   QtConceptMap m;
   m.show();
-  for (int i=0; i!=2; ++i) {
-    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+  for (int i=0; i!=2; ++i)
+  {
+    m.DoCommand(new CommandCreateNewNode(m));
   }
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
@@ -530,8 +535,9 @@ void ribi::cmap::qtconceptmap_test::delete_one_edge_command()
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
   const int n{2};
-  for (int i=0; i!=n; ++i) {
-    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+  for (int i=0; i!=n; ++i)
+  {
+    m.DoCommand(new CommandCreateNewNode(m));
     m.show();
   }
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
@@ -566,7 +572,7 @@ void ribi::cmap::qtconceptmap_test::delete_one_node_command()
   QtConceptMap m;
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
-  m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+  m.DoCommand(new CommandCreateNewNode(m));
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
@@ -580,7 +586,7 @@ void ribi::cmap::qtconceptmap_test::delete_one_node_command_and_undo()
   QtConceptMap m;
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
-  m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+  m.DoCommand(new CommandCreateNewNode(m));
   m.show();
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,1));
@@ -613,8 +619,9 @@ void ribi::cmap::qtconceptmap_test::delete_two_nodes_command()
   QtConceptMap m;
   m.show();
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,0));
-  for (int i{0}; i!=2; ++i) {
-    m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+  for (int i{0}; i!=2; ++i)
+  {
+    m.DoCommand(new CommandCreateNewNode(m));
     m.show();
   }
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
@@ -750,7 +757,7 @@ void ribi::cmap::qtconceptmap_test::is_command_put_on_undo_stack()
 {
   QtConceptMap m;
   m.show();
-  CommandCreateNewNode * const command = new CommandCreateNewNode(m, 0.0, 0.0);
+  CommandCreateNewNode * const command = new CommandCreateNewNode(m);
   QVERIFY(m.GetUndo().count() == 0);
   m.DoCommand(command);
   m.show();
@@ -1037,8 +1044,9 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_head_command()
   try
   {
     const int n{2};
-    for (int i=0; i!=n; ++i) {
-      m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+    for (int i=0; i!=n; ++i)
+    {
+      m.DoCommand(new CommandCreateNewNode(m));
     }
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
   }
@@ -1226,7 +1234,7 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_with_tail_command()
     const int n{2};
     for (int i=0; i!=n; ++i)
     {
-      m.DoCommand(new CommandCreateNewNode(m, 0.0, 0.0));
+      m.DoCommand(new CommandCreateNewNode(m));
       m.show();
     }
     QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));

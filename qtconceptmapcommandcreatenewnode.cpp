@@ -4,6 +4,7 @@
 #include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
+#include <boost/lexical_cast.hpp>
 #include <gsl/gsl_assert>
 #include <QApplication>
 #include "count_vertices_with_selectedness.h"
@@ -16,14 +17,26 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 
+bool str_to_bool(std::string s)
+{
+  boost::algorithm::trim(s);
+  if (s == "0") return false;
+  if (s == "1") return true;
+  if (s == "false") return false;
+  if (s == "true") return true;
+  throw std::invalid_argument("string cannot be converted to bool");
+}
+
 ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   QtConceptMap& qtconceptmap,
+  const std::string& text,
+  const bool is_center_node,
   const double x,
-  const double y,
-  const std::string& text
+  const double y
 )
   : Command(qtconceptmap),
     m_added_qtnode{nullptr},
+    m_is_center_node{is_center_node},
     m_text{text},
     m_tool_item{nullptr},
     m_tool_item_old_buddy{nullptr},
@@ -36,7 +49,11 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Create new node with text '" << m_text << "'";
+    msg << "Create new "
+      << (m_is_center_node ? std::string("center") : std::string("regular"))
+      << " << node with text '" << m_text << "' at ("
+      << m_x << ", " << m_y << ")"
+    ;
     this->setText(msg.str().c_str());
   }
 
@@ -77,10 +94,11 @@ ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(
   for (std::string& u: v) boost::algorithm::trim(u);
   try
   {
-    const double x = std::stod(v.at(0));
-    const double y = std::stod(v.at(1));
-    const std::string text = v.at(2);
-    return new CommandCreateNewNode(qtconceptmap, x, y, text);
+    const std::string text = v.at(0);
+    const bool is_center_node = str_to_bool(v.at(1));
+    const double x = std::stod(v.at(2));
+    const double y = std::stod(v.at(3));
+    return new CommandCreateNewNode(qtconceptmap, text, is_center_node, x, y);
   }
   catch (std::exception&) {} //OK
   return nullptr;
@@ -94,10 +112,7 @@ void ribi::cmap::CommandCreateNewNode::redo()
   VertexDescriptor vd = boost::add_vertex(GetQtConceptMap().GetConceptMap());
 
   //Create the node
-  Node node;
-  node.SetX(m_x);
-  node.SetY(m_y);
-  node.SetConcept(Concept(m_text));
+  Node node(Concept(m_text), m_is_center_node, m_x, m_y) ;
 
   //Set the node
   {
