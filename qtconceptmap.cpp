@@ -681,7 +681,6 @@ void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexc
     const auto others = item->collidingItems();
     for (const auto other: others)
     {
-      if (!(other->flags() & QGraphicsItem::ItemIsMovable)) continue;
       const QtNode* const other_node = dynamic_cast<const QtNode*>(other);
       if (!other_node) continue;
       const double dx = node->x() - other_node->x() > 0.0 ? 1.0 : -1.0;
