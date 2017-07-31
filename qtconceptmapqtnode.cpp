@@ -46,6 +46,8 @@ ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
 
   SetNode(node);
   this->setZValue(0.0);
+  this->SetContourPen(QPen(Qt::black, 1.0));
+  this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
 }
 
 ribi::cmap::QtNode::~QtNode() noexcept
