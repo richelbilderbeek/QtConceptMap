@@ -65,6 +65,8 @@ private:
   friend class qtconceptmapqtnode_test;
 };
 
+std::string GetText(const QtNode& qtnode) noexcept;
+
 ///Number of characters for wordwrapping
 constexpr int GetWordWrapLength() { return 80; }
 

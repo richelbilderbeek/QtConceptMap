@@ -7,6 +7,7 @@ HEADERS += \
     $$PWD/qtconceptmapcommandcreatenewnode.h \
     $$PWD/qtconceptmapcommanddeleteselected.h \
     $$PWD/qtconceptmapcommand.h \
+    $$PWD/qtconceptmapcommandselect.h \
     $$PWD/qtconceptmapcommandsetmode.h \
     $$PWD/qtconceptmapcommandtogglearrowhead.h \
     $$PWD/qtconceptmapcommandtogglearrowtail.h \
@@ -41,6 +42,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandcreatenewedge.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode.cpp \
     $$PWD/qtconceptmapcommanddeleteselected.cpp \
+    $$PWD/qtconceptmapcommandselect.cpp \
     $$PWD/qtconceptmapcommandsetmode.cpp \
     $$PWD/qtconceptmapcommandtogglearrowhead.cpp \
     $$PWD/qtconceptmapcommandtogglearrowtail.cpp \

@@ -68,9 +68,17 @@ QtNode * FindQtNode(const int node_id, const QGraphicsScene& scene) noexcept;
 ///Returns nullpt if there are no QtEdges in the scene
 QtEdge * GetFirstQtEdge(const QGraphicsScene& scene) noexcept;
 
+///Finds the first QtEdge in a QGraphicsScene by a predicate
+///Returns nullptr if there is none
+QtEdge * FindFirstQtEdge(const QGraphicsScene& scene, const std::function<bool(QtEdge*)> predicate) noexcept;
+
 ///Find the first QtNode
 ///Returns nullpt if there are no QtNodes in the scene
 QtNode * GetFirstQtNode(const QGraphicsScene& scene) noexcept;
+
+///Finds the first QtNode in a QGraphicsScene by a predicate
+///Returns nullptr if there is none
+QtNode * FindFirstQtNode(const QGraphicsScene& scene, const std::function<bool(QtNode*)> predicate) noexcept;
 
 ///Find the last QtEdge
 ///Returns nullpt if there are no QtEdges in the scene

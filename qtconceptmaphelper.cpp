@@ -198,6 +198,34 @@ ribi::cmap::ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene)
   throw std::invalid_argument(msg.str());
 }
 
+ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
+  const QGraphicsScene& scene, const std::function<bool(QtEdge*)> predicate) noexcept
+{
+  for (auto item: scene.items())
+  {
+    QtEdge * const qtedge = dynamic_cast<QtEdge*>(item);
+    if (qtedge && predicate(qtedge))
+    {
+      return qtedge;
+    }
+  }
+  return nullptr;
+}
+
+ribi::cmap::QtNode * ribi::cmap::FindFirstQtNode(
+  const QGraphicsScene& scene, const std::function<bool(QtNode*)> predicate) noexcept
+{
+  for (auto item: scene.items())
+  {
+    QtNode * const qtnode = dynamic_cast<QtNode*>(item);
+    if (qtnode && predicate(qtnode))
+    {
+      return qtnode;
+    }
+  }
+  return nullptr;
+}
+
 ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) noexcept
 {
   if (!CountQtCenterNodes(scene)) return nullptr;

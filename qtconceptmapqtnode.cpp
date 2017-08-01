@@ -92,6 +92,12 @@ void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
   assert(!hasFocus());
 }
 
+std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
+{
+  return GetText(qtnode.GetNode());
+}
+
+
 void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 {
   this->setCursor(QCursor(Qt::PointingHandCursor));
