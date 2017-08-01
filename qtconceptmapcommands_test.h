@@ -20,7 +20,9 @@ private slots:
   void create_two_new_node_commands() const noexcept;
   void create_new_edge_between_two_nodes_command() const noexcept;
   void create_new_edge_between_two_selected_nodes_command() const noexcept;
+  void load_command() const noexcept;
   void save_command() const noexcept;
+  void save_and_load() const noexcept;
   void select_command() const noexcept;
   void set_mode_command() const noexcept;
   void unselect_command() const noexcept;

@@ -3,6 +3,7 @@
 #include "container.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommandcreatenewedge.h"
+#include "qtconceptmapcommandload.h"
 #include "qtconceptmapcommandsave.h"
 #include "qtconceptmapcommandselect.h"
 #include "qtconceptmapcommandsetmode.h"
@@ -25,6 +26,7 @@ ribi::cmap::Command* ribi::cmap::parse_command(QtConceptMap& q, const std::strin
 {
   if (auto p = parse_command_create_new_node(q, s)) { return p; }
   if (auto p = parse_command_create_new_edge(q, s)) { return p; }
+  if (auto p = parse_command_load(q, s)) { return p; }
   if (auto p = parse_command_save(q, s)) { return p; }
   if (auto p = parse_command_select(q, s)) { return p; }
   if (auto p = parse_command_set_mode(q, s)) { return p; }
