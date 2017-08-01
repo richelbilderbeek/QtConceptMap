@@ -21,7 +21,6 @@
 #include "container.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapqtnode.h"
-#include "qtconceptmapcenternode.h"
 #include "qtquadbezierarrowitem.h"
 
 #pragma GCC diagnostic pop

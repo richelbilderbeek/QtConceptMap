@@ -5,7 +5,6 @@
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
-#include "qtconceptmapcenternode.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapcollect.h"
 #include "count_vertices_with_selectedness.h"

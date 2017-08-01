@@ -5,7 +5,6 @@ SOURCES += \
     $$PWD/qtconceptmapcommandsetmode_test.cpp \
     $$PWD/qtconceptmapcommandselect_test.cpp \
     $$PWD/qtconceptmapbrushfactory_test.cpp \
-    $$PWD/qtconceptmapcenternode_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
     $$PWD/qtconceptmapconceptdialog_test.cpp \
     $$PWD/qtconceptmapconcepteditdialog_test.cpp \

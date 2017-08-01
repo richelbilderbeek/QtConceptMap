@@ -43,7 +43,6 @@
 #include "has_custom_edge_with_my_edge.h"
 #include "qtarrowitem.h"
 #include "qtconceptmapbrushfactory.h"
-#include "qtconceptmapcenternode.h"
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommanddeleteselected.h"

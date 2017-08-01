@@ -37,7 +37,6 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/qtconceptmapbrushfactory.cpp \
-    $$PWD/qtconceptmapcenternode.cpp \
     $$PWD/qtconceptmapcommand.cpp \
     $$PWD/qtconceptmapcommandcreatenewedge.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode.cpp \
