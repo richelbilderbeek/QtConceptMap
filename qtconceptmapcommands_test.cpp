@@ -29,6 +29,19 @@ void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_command() const 
   QVERIFY(cmds.size() == 1);
 }
 
+void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_then_unselect() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "create_new_node(to be unselected, false, 10, 20); "
+      "unselect(to be unselected)"
+    }
+  );
+  QVERIFY(cmds.size() == 2);
+}
+
 void ribi::cmap::qtconceptmapcommands_test::create_two_new_node_commands() const noexcept
 {
   QtConceptMap q;
@@ -71,6 +84,18 @@ void ribi::cmap::qtconceptmapcommands_test::create_new_edge_between_two_nodes_co
   QVERIFY(cmds.size() == 4);
 }
 
+void ribi::cmap::qtconceptmapcommands_test::select_command() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "select(absent node)"
+    }
+  );
+  QVERIFY(cmds.size() == 1);
+}
+
 void ribi::cmap::qtconceptmapcommands_test::set_mode_command() const noexcept
 {
   QtConceptMap q;
@@ -78,6 +103,18 @@ void ribi::cmap::qtconceptmapcommands_test::set_mode_command() const noexcept
     {
       "--command",
       "set_mode(edit)"
+    }
+  );
+  QVERIFY(cmds.size() == 1);
+}
+
+void ribi::cmap::qtconceptmapcommands_test::unselect_command() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "unselect(absent node)"
     }
   );
   QVERIFY(cmds.size() == 1);
