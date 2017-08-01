@@ -327,6 +327,11 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   #endif
 }
 
+int ribi::cmap::CountQtNodes(const QtConceptMap& q) noexcept
+{
+  return CountQtNodes(q.GetScene());
+}
+
 int ribi::cmap::CountSelectedQtNodes(const QtConceptMap& q) noexcept
 {
   return CountSelectedQtNodes(q.GetScene());

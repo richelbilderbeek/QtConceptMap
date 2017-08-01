@@ -2,6 +2,7 @@
 
 #include "qtconceptmapcommands.h"
 #include "qtconceptmap.h"
+#include "qtconceptmaphelper.h"
 
 #include <QDebug>
 
@@ -27,6 +28,11 @@ void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_command() const 
   QtConceptMap q;
   const auto cmds = parse_commands(q, { "--command", "create_new_node(my text, false, 10, 20)" } );
   QVERIFY(cmds.size() == 1);
+
+  QVERIFY(CountQtNodes(q) == 0);
+  q.DoCommand(cmds[0]);
+  QVERIFY(CountQtNodes(q) == 1);
+
 }
 
 void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_then_unselect() const noexcept

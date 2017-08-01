@@ -30,13 +30,17 @@ install:
   - sudo pip install codecov
   # OCLint
   - ./install_oclint
-  # GSL
+  # GSL and other GitHubs
   - my_github=${PWD##*/}  
   - cd ..
   - git clone https://github.com/Microsoft/GSL
+  - git clone https://github.com/richelbilderbeek/BoostGraphTutorial
+  - git clone https://github.com/richelbilderbeek/ConceptMap
+  - git clone https://github.com/richelbilderbeek/plane
+  - git clone https://github.com/richelbilderbeek/QtKeyboardFriendlyGraphicsView
+  - git clone https://github.com/richelbilderbeek/RibiClasses
+  - git clone https://github.com/richelbilderbeek/RibiLibraries
   - cd $my_github
-  # Other prerequisites
-  - ./download_other_githubs
 
 # Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
 before_script:
