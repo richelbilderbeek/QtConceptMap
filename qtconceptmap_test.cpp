@@ -849,8 +849,6 @@ void ribi::cmap::qtconceptmap_test::press_f2_cannot_edit_focal_question()
 
 void ribi::cmap::qtconceptmap_test::press_f2_can_edit_non_focal_question()
 {
-  #define FIX_ISSUE_134
-  #ifdef FIX_ISSUE_134
   //Cannot do this test: the popup freezes the test
   //Can edit a non-center node in edit mode
   QtConceptMap m;
@@ -870,7 +868,6 @@ void ribi::cmap::qtconceptmap_test::press_f2_can_edit_non_focal_question()
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
   m.keyPressEvent(event);
   QVERIFY(event->isAccepted());
-  #endif
 }
 
 

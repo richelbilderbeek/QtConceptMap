@@ -1168,7 +1168,7 @@ void ribi::cmap::SetRandomFocus(
 void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)
 {
   m_timer->start(10);
-  this->fitInView(this->sceneRect());
+  //this->fitInView(this->sceneRect()); //Don't! Caused https://github.com/richelbilderbeek/Brainweaver/issues/125
 }
 
 void ribi::cmap::QtConceptMap::StartTimer()
