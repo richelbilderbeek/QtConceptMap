@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
   { qtconceptmapcommandselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandunselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
-  assert(!"Don't forget to let Travis test everything");
+  //assert(!"Don't forget to let Travis test everything");
 
 
   //These are all tests in alphabetical order
