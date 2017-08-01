@@ -1,4 +1,4 @@
-#include "qtconceptmapcommandselect.h"
+#include "qtconceptmapcommandunselect.h"
 
 #include <cassert>
 #include <boost/graph/isomorphism.hpp>
@@ -16,7 +16,7 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 
-ribi::cmap::CommandSelect::CommandSelect(
+ribi::cmap::CommandUnselect::CommandUnselect(
   QtConceptMap& qtconceptmap,
   const std::string& name
 )
@@ -34,22 +34,22 @@ ribi::cmap::CommandSelect::CommandSelect(
   }
 }
 
-ribi::cmap::CommandSelect * ribi::cmap::parse_command_select(
+ribi::cmap::CommandUnselect * ribi::cmap::parse_command_unselect(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"select(my text)"
   boost::algorithm::trim(s);
-  const std::string str_begin = "select(";
+  const std::string str_begin = "unselect(";
   if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
   if (s.back() != ')') return nullptr;
   //"my text"
   const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
   assert(t[0] != '(');
   assert(t.back() != ')');
-  return new CommandSelect(qtconceptmap, t);
+  return new CommandUnselect(qtconceptmap, t);
 }
 
-void ribi::cmap::CommandSelect::redo()
+void ribi::cmap::CommandUnselect::redo()
 {
   m_renamed_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
     [name = m_name](QtEdge * const qtedge)
@@ -65,14 +65,14 @@ void ribi::cmap::CommandSelect::redo()
     }
   );
 
-  if (m_renamed_qtedge) m_renamed_qtedge->SetSelected(true);
-  if (m_renamed_qtnode) m_renamed_qtnode->setSelected(true);
+  if (m_renamed_qtedge) m_renamed_qtedge->SetSelected(false);
+  if (m_renamed_qtnode) m_renamed_qtnode->setSelected(false);
 
   qApp->processEvents();
 }
 
-void ribi::cmap::CommandSelect::undo()
+void ribi::cmap::CommandUnselect::undo()
 {
-  if (m_renamed_qtedge) m_renamed_qtedge->SetSelected(false);
-  if (m_renamed_qtnode) m_renamed_qtnode->setSelected(false);
+  if (m_renamed_qtedge) m_renamed_qtedge->SetSelected(true);
+  if (m_renamed_qtnode) m_renamed_qtnode->setSelected(true);
 }

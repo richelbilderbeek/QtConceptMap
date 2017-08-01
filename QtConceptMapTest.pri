@@ -1,10 +1,11 @@
 SOURCES += \
+    $$PWD/qtconceptmapbrushfactory_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewedge_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode_test.cpp \
-    $$PWD/qtconceptmapcommands_test.cpp \
-    $$PWD/qtconceptmapcommandsetmode_test.cpp \
     $$PWD/qtconceptmapcommandselect_test.cpp \
-    $$PWD/qtconceptmapbrushfactory_test.cpp \
+    $$PWD/qtconceptmapcommandsetmode_test.cpp \
+    $$PWD/qtconceptmapcommands_test.cpp \
+    $$PWD/qtconceptmapcommandunselect_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
     $$PWD/qtconceptmapconceptdialog_test.cpp \
     $$PWD/qtconceptmapconcepteditdialog_test.cpp \
