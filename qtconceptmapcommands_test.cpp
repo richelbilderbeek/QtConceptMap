@@ -120,6 +120,18 @@ void ribi::cmap::qtconceptmapcommands_test::create_new_edge_between_two_nodes_co
   QVERIFY(cmds.size() == 4);
 }
 
+void ribi::cmap::qtconceptmapcommands_test::save_command() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "save(my_file.cmp)"
+    }
+  );
+  QVERIFY(cmds.size() == 1);
+}
+
 void ribi::cmap::qtconceptmapcommands_test::select_command() const noexcept
 {
   QtConceptMap q;
