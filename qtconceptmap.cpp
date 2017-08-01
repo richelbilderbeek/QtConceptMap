@@ -1062,6 +1062,11 @@ void ribi::cmap::QtConceptMap::Redo() noexcept
   m_undo.redo();
 }
 
+void ribi::cmap::SaveToFile(const QtConceptMap& q, const std::string& dot_filename)
+{
+  SaveToFile(q.GetConceptMap(), dot_filename);
+}
+
 void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
 {
   RemoveConceptMap(*this);

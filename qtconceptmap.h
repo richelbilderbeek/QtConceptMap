@@ -226,6 +226,9 @@ void ProcessKey(QtConceptMap& q, QKeyEvent * const event);
 ///Remove all Qt and non-Qt items
 void RemoveConceptMap(QtConceptMap& q);
 
+///Save the QtConceptMap to a .dot file
+void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
+
 ///Focus on a random QtNode (both as vertices as those on the edges)
 void SetRandomFocus(QtConceptMap& q);
 

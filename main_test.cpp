@@ -4,6 +4,7 @@
 #include "qtconceptmapbrushfactory_test.h"
 #include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
+#include "qtconceptmapcommandsave_test.h"
 #include "qtconceptmapcommandselect_test.h"
 #include "qtconceptmapcommandsetmode_test.h"
 #include "qtconceptmapcommands_test.h"
@@ -33,8 +34,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  { qtconceptmapcommandselect_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcommandunselect_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
@@ -43,9 +43,10 @@ int main(int argc, char *argv[])
   { qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandsetmode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcommandselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandunselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcompetency_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }

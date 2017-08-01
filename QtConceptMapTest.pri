@@ -2,6 +2,7 @@ SOURCES += \
     $$PWD/qtconceptmapbrushfactory_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewedge_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode_test.cpp \
+    $$PWD/qtconceptmapcommandsave_test.cpp \
     $$PWD/qtconceptmapcommandselect_test.cpp \
     $$PWD/qtconceptmapcommandsetmode_test.cpp \
     $$PWD/qtconceptmapcommands_test.cpp \
