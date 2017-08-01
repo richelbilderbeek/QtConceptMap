@@ -57,6 +57,27 @@ void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_then_unselect() 
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
+
+void ribi::cmap::qtconceptmapcommands_test::create_relation_over_center_node() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "create_new_node(center, true, 0, 0); "
+      "unselect(center); "
+      "create_new_node(from, false, 0, -50);"
+      "create_new_node(to, false, 0, 50);"
+      "create_new_edge(relation, from, to);"
+    }
+  );
+  QVERIFY(cmds.size() == 5);
+
+  for (const auto cmd: cmds) q.DoCommand(cmd);
+
+  QVERIFY(CountQtNodes(q) == 3);
+}
+
 void ribi::cmap::qtconceptmapcommands_test::create_two_new_node_commands() const noexcept
 {
   QtConceptMap q;
