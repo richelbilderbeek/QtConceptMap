@@ -32,6 +32,7 @@ void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_command() const 
   QVERIFY(CountQtNodes(q) == 0);
   q.DoCommand(cmds[0]);
   QVERIFY(CountQtNodes(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 1);
 
 }
 
@@ -46,6 +47,14 @@ void ribi::cmap::qtconceptmapcommands_test::create_one_new_node_then_unselect() 
     }
   );
   QVERIFY(cmds.size() == 2);
+
+  QVERIFY(CountQtNodes(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+
+  for (const auto cmd: cmds) q.DoCommand(cmd);
+
+  QVERIFY(CountQtNodes(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
 void ribi::cmap::qtconceptmapcommands_test::create_two_new_node_commands() const noexcept
