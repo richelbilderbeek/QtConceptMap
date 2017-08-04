@@ -34,9 +34,8 @@ std::string ribi::cmap::to_str(const Mode m) noexcept
     case Mode::edit: return "edit";
     case Mode::rate: return "rate";
     case Mode::uninitialized : return "uninitialized";
-    default: break;
   }
-  assert(!"Should not get here");
+  assert(!"Should not get here"); //!OCLINT accepted idiom
   return "";
 }
 

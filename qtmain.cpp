@@ -30,7 +30,7 @@ int get_screen_height(
       {
         return std::stoi(args[i + 1]);
       }
-      catch(std::exception&) {}; //OK
+      catch(std::exception&) {}; //!OCLINT
     }
   }
   return default_height;
@@ -49,7 +49,7 @@ int get_screen_width(
       {
         return std::stoi(args[i + 1]);
       }
-      catch(std::exception&) {}; //OK
+      catch(std::exception&) {}; //!OCLINT
     }
   }
   return default_width;
