@@ -1,3 +1,15 @@
 #!/bin/bash
-wget https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz
-tar -zxf oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz
+
+# From https://stackoverflow.com/questions/106387/is-it-possible-to-detect-32-bit-vs-64-bit-in-a-bash-script#106416
+MACHINE_TYPE=`uname -m`
+if [ ${MACHINE_TYPE} == 'x86_64' ]; then
+  # 64-bit stuff here
+  wget https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz
+  tar -zxf oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz
+else
+  # 32-bit stuff here
+  wget https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz
+  tar -zxf oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz
+fi
+
+
