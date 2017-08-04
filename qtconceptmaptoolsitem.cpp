@@ -8,6 +8,7 @@
 #include <cassert>
 #include <QCursor>
 #include <QPainter>
+#include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 #include "qtconceptmapqtnode.h"
 

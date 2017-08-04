@@ -15,6 +15,7 @@
 #include <boost/numeric/conversion/cast.hpp>
 
 #include <QApplication>
+#include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QDebug>
@@ -1069,7 +1070,10 @@ void ribi::cmap::SaveToFile(const QtConceptMap& q, const std::string& dot_filena
 
 void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
 {
+  CheckInvariants(*this);
   RemoveConceptMap(*this);
+  m_conceptmap = ConceptMap();
+  CheckInvariants(*this);
   m_conceptmap = conceptmap;
   assert(GetConceptMap() == conceptmap);
   assert(Collect<QtNode>(*scene()).empty());

@@ -19,6 +19,7 @@
 #include "find_first_custom_edge_with_my_edge.h"
 #include <boost/graph/isomorphism.hpp>
 #include <QDebug>
+#include <QGraphicsItem>
 #include <QGraphicsScene>
 #include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
@@ -43,7 +44,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
 ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ::~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept
 {
-  delete m_added_qtedge;
+  // delete m_added_qtedge;//NO! No ownership
   m_added_qtedge = nullptr;
 }
 

@@ -10,6 +10,7 @@
 
 #include <QCursor>
 #include <QDebug>
+#include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QKeyEvent>

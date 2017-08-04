@@ -6,6 +6,7 @@
 //#include <boost/lambda/lambda.hpp>
 
 #include <QCursor>
+#include <QGraphicsItem>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QPen>
