@@ -26,7 +26,7 @@ CONFIG(debug, debug|release) {
   QMAKE_LFLAGS += -fsanitize=undefined
 
   # Terminate the program at an error
-  QMAKE_CXXFLAGS += -fno-sanitize-recover
+  # QMAKE_CXXFLAGS += -fno-sanitize-recover
 
   LIBS += -lubsan
 }
