@@ -969,7 +969,8 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 
 void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
 {
-  #ifdef FIX_ISSUE_1
+  //#define FIX_ISSUE_138
+  #ifdef FIX_ISSUE_138
   QtConceptMap m;
   m.SetMode(Mode::rate);
   m.show();
@@ -1010,6 +1011,8 @@ void ribi::cmap::qtconceptmap_test::set_concept_maps()
     QtConceptMap m;
     m.show();
     m.SetConceptMap(concept_map);
+    m.show();
+    m.SetConceptMap(ConceptMap());
     m.show();
     m.SetConceptMap(concept_map);
     m.show();
