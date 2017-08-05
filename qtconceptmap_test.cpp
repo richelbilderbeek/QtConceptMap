@@ -33,6 +33,31 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapbrushfactory.h"
+#include "qtconceptmapcommandselect.h"
+
+void ribi::cmap::qtconceptmap_test::set_empty_concept_map_one_selected_edge()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
+  m.show();
+  //Select node on edge
+  m.DoCommand(new CommandSelect(m, "prerequisite"));
+  m.show();
+  m.SetConceptMap(ConceptMap());
+  m.show();
+}
+
+void ribi::cmap::qtconceptmap_test::set_empty_concept_map_one_selected_node()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  m.show();
+  //Select node
+  m.DoCommand(new CommandSelect(m, "Useful"));
+  m.show();
+  m.SetConceptMap(ConceptMap());
+  m.show();
+}
 
 void ribi::cmap::qtconceptmap_test::cannot_delete_center_node() //#114
 {

@@ -229,6 +229,9 @@ void RemoveConceptMap(QtConceptMap& q);
 ///Save the QtConceptMap to a .dot file
 void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
 
+///Set the buddy of the QtExamplesItem
+void SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode);
+
 ///Focus on a random QtNode (both as vertices as those on the edges)
 void SetRandomFocus(QtConceptMap& q);
 

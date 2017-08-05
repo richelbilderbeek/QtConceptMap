@@ -13,6 +13,14 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
+  ///Set an empty ConceptMap in a QtConcepytMap
+  ///when one QtNode is selected
+  void set_empty_concept_map_one_selected_edge();
+
+  ///Set an empty ConceptMap in a QtConcepytMap
+  ///when one QtNode is selected
+  void set_empty_concept_map_one_selected_node();
+
   void press_f2_can_edit_non_focal_question();
   void select_random_node_keyboard_edit();
 

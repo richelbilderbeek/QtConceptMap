@@ -268,10 +268,13 @@ void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
   {
     //QtNode must have an example
     const ribi::cmap::QtNode * const qtnode = qtnodes[0];
+    //if (HasExamples(qtnode))
     if (!qtnode->GetNode().GetConcept().GetExamples().Get().empty())
     {
       //QtExamplesItem must have that QtNode as its buddy
-      assert(q.GetQtExamplesItem().GetBuddyItem() == qtnode);
+      const auto buddy_item = q.GetQtExamplesItem().GetBuddyItem();
+      assert(buddy_item);
+      assert(buddy_item == qtnode);
       assert(q.GetQtExamplesItem().isVisible());
       const bool is_close{IsClose(q.GetQtExamplesItem(), *qtnode)};
       if (!is_close)
@@ -1068,6 +1071,7 @@ void ribi::cmap::SaveToFile(const QtConceptMap& q, const std::string& dot_filena
   SaveToFile(q.GetConceptMap(), dot_filename);
 }
 
+
 void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
 {
   CheckInvariants(*this);
@@ -1172,6 +1176,11 @@ void ribi::cmap::SetRandomFocus(
       qDebug() << "Warning: setFocus did not set focus to the item";
     }
   }
+}
+
+void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode)
+{
+  q.GetQtExamplesItem().SetBuddyItem(qtnode);
 }
 
 void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)

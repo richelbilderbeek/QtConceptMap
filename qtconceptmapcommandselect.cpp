@@ -51,28 +51,43 @@ ribi::cmap::CommandSelect * ribi::cmap::parse_command_select(
 
 void ribi::cmap::CommandSelect::redo()
 {
-  m_renamed_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
-    [name = m_name](QtEdge * const qtedge)
-    {
-      return name == GetText(*qtedge);
-    }
-  );
-
   m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
     [name = m_name](QtNode * const qtnode)
     {
       return name == GetText(*qtnode);
     }
   );
-
-  if (m_renamed_qtedge) m_renamed_qtedge->SetSelected(true);
-  if (m_renamed_qtnode) m_renamed_qtnode->setSelected(true);
+  if (m_renamed_qtnode)
+  {
+    m_renamed_qtedge = nullptr;
+    m_renamed_qtnode->setSelected(true);
+    if (!m_renamed_qtnode->GetNode().GetConcept().GetExamples().Get().empty())
+    {
+      SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtnode);
+    }
+  }
+  else
+  {
+    assert(m_renamed_qtnode);
+    m_renamed_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
+      [name = m_name](QtEdge * const qtedge)
+      {
+        return name == GetText(*qtedge);
+      }
+    );
+    if (m_renamed_qtedge)
+    {
+      m_renamed_qtedge->SetSelected(true);
+    }
+  }
 
   qApp->processEvents();
+  CheckInvariants(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandSelect::undo()
 {
   if (m_renamed_qtedge) m_renamed_qtedge->SetSelected(false);
   if (m_renamed_qtnode) m_renamed_qtnode->setSelected(false);
+  CheckInvariants(GetQtConceptMap());
 }
