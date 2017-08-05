@@ -462,7 +462,6 @@ std::vector<QGraphicsItem *> ribi::cmap::GetFocusableNonselectedItems(
     [](const QGraphicsItem* const item)
     {
       return !item->isSelected();
-      ;
     }
   );
   return items;
@@ -504,7 +503,8 @@ std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodes(const QtConcept
   return GetSelectedQtNodes(q.GetScene());
 }
 
-std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(const QtConceptMap& q) noexcept
+std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(
+  const QtConceptMap& q) noexcept
 {
   return GetSelectedQtNodesAlsoOnQtEdge(q.GetScene());
 }
