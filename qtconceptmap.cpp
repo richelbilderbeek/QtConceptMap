@@ -316,6 +316,33 @@ void ribi::cmap::CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const
   #endif // NDEBUG
 }
 
+void ribi::cmap::CheckInvariantSingleSelectedQtNodeMustHaveQtTool(
+  const QtConceptMap&
+  #ifndef NDEBUG
+    q
+  #endif
+) noexcept
+{
+  #ifndef NDEBUG
+  assert(CountSelectedQtNodes(*q.scene())
+    == static_cast<int>(ribi::cmap::GetSelectedQtNodes(*q.scene()).size())
+  );
+  assert(CountSelectedQtEdges(*q.scene())
+    == static_cast<int>(ribi::cmap::GetSelectedQtEdges(*q.scene()).size())
+  );
+  const auto qtnodes = ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(*q.scene());
+  if (qtnodes.size() == 1)
+  {
+    //QtNode must have an example
+    const ribi::cmap::QtNode * const qtnode = qtnodes[0];
+    //QtExamplesItem must have that QtNode as its buddy
+    const auto buddy_item = q.GetQtToolItem().GetBuddyItem();
+    assert(buddy_item);
+    assert(buddy_item == qtnode);
+  }
+  #endif
+}
+
 void ribi::cmap::CheckInvariants(const QtConceptMap&
   #ifndef NDEBUG
   q
@@ -332,6 +359,8 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   CheckInvariantAllQtNodesHaveAscene(q);
   CheckInvariantAllQtEdgesHaveAscene(q);
   CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(q);
+
+  CheckInvariantSingleSelectedQtNodeMustHaveQtTool(q);
 
   //If a QtNode with a vignette is selected, the QtExamplesItem must have that
   //QtNode as its buddy
@@ -1192,6 +1221,11 @@ void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode)
   q.GetQtExamplesItem().SetBuddyItem(qtnode);
 }
 
+void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode)
+{
+  q.GetQtToolItem().SetBuddyItem(qtnode);
+}
+
 void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)
 {
   m_timer->start(10);
@@ -1248,7 +1282,7 @@ void ribi::cmap::UpdateExamplesItem(QtConceptMap& q)
 
 void ribi::cmap::UpdateQtToolItem(QtConceptMap& q)
 {
-  const auto selected_qtnodes = GetSelectedQtNodes(*q.scene());
+  const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(*q.scene());
   if (selected_qtnodes.size() == 1)
   {
     const auto selected_qtnode = selected_qtnodes[0];

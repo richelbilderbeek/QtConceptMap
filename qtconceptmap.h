@@ -156,6 +156,10 @@ void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) n
 ///If there is a single QtEdge selected, its corresponding Edge must be present
 void CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap& q) noexcept;
 
+///If there is a single QtNode selected (may also be on a QtNode on a QtEdge),
+///the QtToolItem must be connected to it
+void CheckInvariantSingleSelectedQtNodeMustHaveQtTool(const QtConceptMap& q) noexcept;
+
 ///Counts the QtNodes that are Nodes, i.e. are not on an edge
 int CountQtNodes(const QtConceptMap& q) noexcept;
 
@@ -234,6 +238,9 @@ void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
 
 ///Set the buddy of the QtExamplesItem
 void SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode);
+
+///Set the buddy of the QtToolItem
+void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);
 
 ///Focus on a random QtNode (both as vertices as those on the edges)
 void SetRandomFocus(QtConceptMap& q);

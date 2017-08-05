@@ -109,6 +109,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::parse_comm
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
 {
   CheckCanRedo(); //Throws if not
+  CheckInvariants(GetQtConceptMap());
 
   m_selected_before = m_qtconceptmap.GetScene().selectedItems();
 
@@ -195,14 +196,20 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
     m_added_qtedge->GetQtNode()->setVisible(false);
   }
 
+  SetQtToolItemBuddy(GetQtConceptMap(), m_added_qtnode);
+  CheckInvariantSingleSelectedQtNodeMustHaveQtTool(GetQtConceptMap());
+
   //Post-condition: the text must be on the added QtEdge
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
   Ensures(CountSelectedQtNodes(m_qtconceptmap)
     == count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()));
+  CheckInvariants(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
 {
+  CheckInvariants(GetQtConceptMap());
+
   //ConceptMap
   boost::remove_edge(
     find_first_custom_edge_with_my_edge(m_added_qtedge->GetEdge(), m_qtconceptmap.GetConceptMap()),
@@ -226,4 +233,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   //Post-conditions
   Ensures(CountSelectedQtNodes(m_qtconceptmap)
     == count_vertices_with_selectedness(true, m_qtconceptmap.GetConceptMap()));
+
+  CheckInvariants(GetQtConceptMap());
 }
