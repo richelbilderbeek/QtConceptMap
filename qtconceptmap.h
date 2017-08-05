@@ -153,6 +153,9 @@ void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
 
+///If there is a single QtEdge selected, its corresponding Edge must be present
+void CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap& q) noexcept;
+
 ///Counts the QtNodes that are Nodes, i.e. are not on an edge
 int CountQtNodes(const QtConceptMap& q) noexcept;
 
