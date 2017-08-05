@@ -172,8 +172,6 @@ void ribi::cmap::qtconceptmapcommands_test::save_command_two_nodes_one_edge() co
 
 void ribi::cmap::qtconceptmapcommands_test::save_and_load() const noexcept
 {
-  //#define FIX_ISSUE_137
-  #ifdef FIX_ISSUE_137
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
 
@@ -213,7 +211,6 @@ void ribi::cmap::qtconceptmapcommands_test::save_and_load() const noexcept
     for (const auto cmd: cmds) q.DoCommand(cmd);
     QVERIFY(CountQtNodes(q) == 3);
   }
-  #endif // FIX_ISSUE_137
 }
 
 void ribi::cmap::qtconceptmapcommands_test::select_command() const noexcept

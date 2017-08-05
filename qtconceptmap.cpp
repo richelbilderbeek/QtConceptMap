@@ -1137,6 +1137,9 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   CheckInvariants(*this);
   RemoveConceptMap(*this);
   m_conceptmap = ConceptMap();
+  QtNode* const no_qtnode = nullptr;
+  SetQtExamplesBuddy(*this, no_qtnode);
+  SetQtToolItemBuddy(*this, no_qtnode);
   CheckInvariants(*this);
   m_conceptmap = conceptmap;
   assert(GetConceptMap() == conceptmap);
@@ -1253,7 +1256,10 @@ void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge)
 
 void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode)
 {
-  assert(HasExamples(*qtnode));
+  if (qtnode)
+  {
+    assert(HasExamples(*qtnode));
+  }
   q.GetQtExamplesItem().SetBuddyItem(qtnode);
 }
 
