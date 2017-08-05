@@ -35,31 +35,8 @@
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapcommandselect.h"
 
-void ribi::cmap::qtconceptmap_test::set_empty_concept_map_one_selected_edge()
-{
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
-  m.show();
-  //Select node on edge
-  m.DoCommand(new CommandSelect(m, "prerequisite"));
-  m.show();
-  m.SetConceptMap(ConceptMap());
-  m.show();
-}
 
-void ribi::cmap::qtconceptmap_test::set_empty_concept_map_one_selected_node()
-{
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
-  m.show();
-  //Select node
-  m.DoCommand(new CommandSelect(m, "Useful"));
-  m.show();
-  m.SetConceptMap(ConceptMap());
-  m.show();
-}
-
-void ribi::cmap::qtconceptmap_test::cannot_delete_center_node() //#114
+void ribi::cmap::qtconceptmap_test::cannot_delete_center_node()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get1());
@@ -1026,7 +1003,7 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])
     != static_cast<int>(ids.size())
   ); //Good enough?
-  #endif // FIX_ISSUE_1
+  #endif // FIX_ISSUE_138
 }
 
 void ribi::cmap::qtconceptmap_test::set_concept_maps()
@@ -1042,6 +1019,46 @@ void ribi::cmap::qtconceptmap_test::set_concept_maps()
     m.SetConceptMap(concept_map);
     m.show();
   }
+}
+
+void ribi::cmap::qtconceptmap_test::set_empty_concept_map_one_selected_edge()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
+  m.show();
+  //Select node on edge
+  m.DoCommand(new CommandSelect(m, "prerequisite"));
+  m.show();
+  m.SetConceptMap(ConceptMap());
+  m.show();
+}
+
+void ribi::cmap::qtconceptmap_test::set_empty_concept_map_one_selected_node()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  m.show();
+  //Select node
+  m.DoCommand(new CommandSelect(m, "Useful"));
+  m.show();
+  m.SetConceptMap(ConceptMap());
+  m.show();
+}
+
+void ribi::cmap::qtconceptmap_test::set_empty_concept_map_two_selected_nodes()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  m.show();
+  m.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
+  m.show();
+  //Select node on edge with examples
+  m.DoCommand(new CommandSelect(m, "strengthen"));
+  //Select node
+  m.DoCommand(new CommandSelect(m, "order"));
+  m.show();
+  m.SetConceptMap(ConceptMap());
+  m.show();
 }
 
 void ribi::cmap::qtconceptmap_test::setting_concept_maps_edges_qtedges_nodes_qtnodes_must_match()

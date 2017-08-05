@@ -68,7 +68,7 @@ void ribi::cmap::CommandSelect::redo()
   }
   else
   {
-    assert(m_renamed_qtnode);
+    assert(!m_renamed_qtnode);
     m_renamed_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
       [name = m_name](QtEdge * const qtedge)
       {
@@ -78,6 +78,7 @@ void ribi::cmap::CommandSelect::redo()
     if (m_renamed_qtedge)
     {
       m_renamed_qtedge->SetSelected(true);
+      //SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge); //?No need for this?
     }
   }
 

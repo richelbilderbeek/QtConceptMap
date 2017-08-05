@@ -13,13 +13,7 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
-  ///Set an empty ConceptMap in a QtConcepytMap
-  ///when one QtNode is selected
-  void set_empty_concept_map_one_selected_edge();
 
-  ///Set an empty ConceptMap in a QtConcepytMap
-  ///when one QtNode is selected
-  void set_empty_concept_map_one_selected_node();
 
   void press_f2_can_edit_non_focal_question();
   void select_random_node_keyboard_edit();
@@ -94,6 +88,19 @@ private slots:
   void rate_concept_map_has_less_focusable_items();
   void rate_mode_flags();
   void select_left_node_keyboard();
+
+  ///Set an empty ConceptMap in a QtConcepytMap
+  ///when one QtEdge is selected
+  void set_empty_concept_map_one_selected_edge();
+
+  ///Set an empty ConceptMap in a QtConcepytMap
+  ///when one QtNode is selected
+  void set_empty_concept_map_one_selected_node();
+
+  ///Set an empty ConceptMap in a QtConcepytMap
+  ///when two QtNodes are selected, one of which on an edge
+  void set_empty_concept_map_two_selected_nodes();
+
   void set_concept_maps();
   void setting_concept_maps_edges_qtedges_nodes_qtnodes_must_match();
   void uninitialized_mode_flags();
