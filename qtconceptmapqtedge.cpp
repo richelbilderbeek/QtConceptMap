@@ -188,6 +188,12 @@ std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
   return GetText(qtedge.GetEdge());
 }
 
+bool ribi::cmap::HasExamples(const QtEdge& qtedge) noexcept
+{
+  assert(qtedge.GetQtNode());
+  return HasExamples(*qtedge.GetQtNode());
+}
+
 bool ribi::cmap::HasHeadArrow(const QtEdge& qtedge) noexcept
 {
   assert(qtedge.GetEdge().HasHeadArrow() == qtedge.GetArrow()->HasHead());

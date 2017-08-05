@@ -24,6 +24,7 @@
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommanddeleteselected.h"
+#include "qtconceptmapcommandsetmode.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapexamplesitem.h"
@@ -38,50 +39,36 @@
 
 void ribi::cmap::qtconceptmap_test::cannot_delete_center_node()
 {
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get1());
-  m.SetMode(Mode::edit);
-  m.show();
-  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
-  assert(IsQtCenterNode(qtnode));
-  qtnode->setSelected(true);
-  qtnode->setFocus();
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q, "center", true));
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Delete, Qt::NoModifier);
-  m.keyPressEvent(&e);
+  q.keyPressEvent(&e);
   QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::cannot_edit_center_node()
 {
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get1());
-  m.SetMode(Mode::edit);
-  m.show();
-  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
-  assert(IsQtCenterNode(qtnode));
-  qtnode->setSelected(true);
-  qtnode->setFocus();
+  QtConceptMap q;
+  q.DoCommand(new CommandSetMode(q, Mode::edit));
+  q.DoCommand(new CommandCreateNewNode(q, "center", true));
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);
-  m.SetPopupMode(PopupMode::muted);
-  m.keyPressEvent(&e);
+  q.SetPopupMode(PopupMode::muted);
+  q.keyPressEvent(&e);
   QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::qtconceptmap_test::cannot_move_center_node()
 {
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get1());
-  m.SetMode(Mode::edit);
-  m.show();
-  QtNode * const qtnode = GetFirstQtNode(m.GetScene());
-  assert(IsQtCenterNode(qtnode));
-  qtnode->setSelected(true);
-  qtnode->setFocus();
-  assert(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
+  QtConceptMap q;
+  q.DoCommand(new CommandSetMode(q, Mode::edit));
+  q.DoCommand(new CommandCreateNewNode(q, "center", true));
+  const auto selected_qt_nodes = GetSelectedQtNodesAlsoOnQtEdge(q);
+  assert(selected_qt_nodes.size() == 1);
+  const auto qtnode = selected_qt_nodes[0];
   const auto pos_before = qtnode->GetCenterPos();
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Down, Qt::ControlModifier);
-  m.keyPressEvent(&e);
-  m.show();
+  q.keyPressEvent(&e);
+  q.show();
   const auto pos_after = qtnode->GetCenterPos();
   QVERIFY(!e.isAccepted());
   QVERIFY(pos_before == pos_after);
@@ -489,7 +476,7 @@ void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_keyboard()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 }
 
-void ribi::cmap::qtconceptmap_test::delete_nodes_that_are_head_and_tail_of_edge_keyboard()
+void ribi::cmap::qtconceptmap_test::aaa_delete_nodes_that_are_head_and_tail_of_edge_keyboard()
 {
   QtConceptMap m;
   m.show();

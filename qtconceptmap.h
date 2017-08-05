@@ -172,7 +172,10 @@ int CountSelectedQtEdges(const QtConceptMap& q) noexcept;
 ///the center node is not selectable.
 std::vector<QGraphicsItem *> GetFocusableItems(const QtConceptMap& q);
 
-
+///Get all the items that can be focused and selected on
+///This also depends on the mode: if the user is rating a concept map,
+///the center node is not selectable.
+std::vector<QGraphicsItem *> GetFocusableNonselectedItems(const QtConceptMap& q);
 
 ///Obtain the first QtNode under the cursor
 ///Returns nullptr if none is present
@@ -180,6 +183,9 @@ QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
 ///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;
 std::vector<QtNode *> GetSelectedQtNodes(const QtConceptMap& q) noexcept;
+
+///Get all the selected QtNodes, also those on a QtEdge
+std::vector<QtNode *> GetSelectedQtNodesAlsoOnQtEdge(const QtConceptMap& q) noexcept;
 
 ///Checks if the qtedge has its QGraphicsScenes in place
 ///scene can be nullptr
@@ -238,12 +244,14 @@ void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
 
 ///Set the buddy of the QtExamplesItem
 void SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode);
+void SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge);
 
 ///Set the buddy of the QtToolItem
 void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);
 
 ///Focus on a random QtNode (both as vertices as those on the edges)
-void SetRandomFocus(QtConceptMap& q);
+/// @param keep_old_selection if false, all previous selection loses focus
+void SetRandomFocus(QtConceptMap& q, const bool keep_old_selection);
 
 /// Writes the selecteness of the QtConceptMap
 /// to the ConceptMap

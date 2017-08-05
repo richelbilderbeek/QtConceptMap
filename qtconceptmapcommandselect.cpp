@@ -61,7 +61,7 @@ void ribi::cmap::CommandSelect::redo()
   {
     m_renamed_qtedge = nullptr;
     m_renamed_qtnode->setSelected(true);
-    if (!m_renamed_qtnode->GetNode().GetConcept().GetExamples().Get().empty())
+    if (HasExamples(*m_renamed_qtnode))
     {
       SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtnode);
     }
@@ -78,7 +78,10 @@ void ribi::cmap::CommandSelect::redo()
     if (m_renamed_qtedge)
     {
       m_renamed_qtedge->SetSelected(true);
-      //SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge); //?No need for this?
+      if (HasExamples(*m_renamed_qtedge))
+      {
+        SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge);
+      }
     }
   }
 

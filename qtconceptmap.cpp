@@ -449,6 +449,25 @@ std::vector<QGraphicsItem *> ribi::cmap::GetFocusableItems(
   return items;
 }
 
+std::vector<QGraphicsItem *> ribi::cmap::GetFocusableNonselectedItems(
+  const QtConceptMap& q
+)
+{
+  auto all_items = GetFocusableItems(q);
+  std::vector<QGraphicsItem *> items;
+  std::copy_if(
+    std::begin(all_items),
+    std::end(all_items),
+    std::back_inserter(items),
+    [](const QGraphicsItem* const item)
+    {
+      return !item->isSelected();
+      ;
+    }
+  );
+  return items;
+}
+
 
 ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
   const QtConceptMap& q,
@@ -483,6 +502,11 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
 std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodes(const QtConceptMap& q) noexcept
 {
   return GetSelectedQtNodes(q.GetScene());
+}
+
+std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(const QtConceptMap& q) noexcept
+{
+  return GetSelectedQtNodesAlsoOnQtEdge(q.GetScene());
 }
 
 const ribi::cmap::QtExamplesItem& ribi::cmap::QtConceptMap::GetQtExamplesItem() const noexcept
@@ -679,7 +703,8 @@ void ribi::cmap::keyPressEventSpace(QtConceptMap& q, QKeyEvent * event) noexcept
   const auto items = GetFocusableItems(q);
   if (items.size())
   {
-    SetRandomFocus(q);
+    const bool keep_old_selection = event->modifiers() & Qt::ShiftModifier;
+    SetRandomFocus(q, keep_old_selection);
     event->setAccepted(true);
   }
 }
@@ -1089,10 +1114,7 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_Question: keyPressEventQuestion(q, event); break;
     case Qt::Key_T: keyPressEventT(q, event); break;
     case Qt::Key_Z: keyPressEventZ(q, event); break;
-    case Qt::Key_Space:
-      assert(!event->isAccepted());
-      break;
-      //Processed by QtKeyboardFriendlyGraphicsView
+    case Qt::Key_Space: keyPressEventSpace(q, event); break;
     default: break;
   }
 
@@ -1179,19 +1201,20 @@ void ribi::cmap::QtConceptMap::SetPopupMode(
 }
 
 void ribi::cmap::SetRandomFocus(
-  QtConceptMap& q
+  QtConceptMap& q,
+  const bool keep_old_selection
 )
 {
-  //ReallyLoseFocus(q);
+  CheckInvariants(q);
 
-  for (auto item: q.scene()->selectedItems())
+  if (!keep_old_selection)
   {
-    assert(item->isSelected());
-    item->setSelected(false);
+    ReallyLoseFocus(q);
+    UnselectAllItems(q);
   }
 
   //Let a random QtNode receive focus
-  const auto items = GetFocusableItems(q);
+  const auto items = GetFocusableNonselectedItems(q);
 
   if (!items.empty())
   {
@@ -1200,10 +1223,16 @@ void ribi::cmap::SetRandomFocus(
     const int i{distribution(rng_engine)};
     assert(i >= 0);
     assert(i < static_cast<int>(items.size()));
-    auto& new_focus_item = items[i];
+    QtNode * const new_focus_item = dynamic_cast<QtNode*>(items[i]);
+    assert(new_focus_item);
     assert(!new_focus_item->isSelected());
     new_focus_item->setSelected(true);
     new_focus_item->setFocus();
+    if (HasExamples(*new_focus_item))
+    {
+      SetQtExamplesBuddy(q, new_focus_item);
+    }
+    SetQtToolItemBuddy(q, new_focus_item);
     q.update();
     if (!new_focus_item->isSelected())
     {
@@ -1214,12 +1243,20 @@ void ribi::cmap::SetRandomFocus(
       qDebug() << "Warning: setFocus did not set focus to the item";
     }
   }
+  CheckInvariants(q);
+}
+
+void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge)
+{
+  SetQtExamplesBuddy(q, qtedge->GetQtNode());
 }
 
 void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode)
 {
+  assert(HasExamples(*qtnode));
   q.GetQtExamplesItem().SetBuddyItem(qtnode);
 }
+
 
 void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode)
 {
@@ -1251,7 +1288,9 @@ void ribi::cmap::QtConceptMap::Undo()
       "Cannot undo if nothing has been done yet"
     );
   }
+  CheckInvariants(*this);
   m_undo.undo();
+  CheckInvariants(*this);
 }
 
 void ribi::cmap::UpdateConceptMap(QtConceptMap& q)

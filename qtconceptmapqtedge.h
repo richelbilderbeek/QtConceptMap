@@ -114,6 +114,7 @@ void EnableAll(QtEdge& qtedge) noexcept;
 QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
 std::string GetText(const QtEdge& qtedge) noexcept;
 
+bool HasExamples(const QtEdge& qtnode) noexcept;
 bool HasHeadArrow(const QtEdge& qtedge) noexcept;
 bool HasTailArrow(const QtEdge& qtedge) noexcept;
 

@@ -13,6 +13,7 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
+  void aaa_delete_nodes_that_are_head_and_tail_of_edge_keyboard();
 
 
   void press_f2_can_edit_non_focal_question();
@@ -52,7 +53,6 @@ private slots:
   void delete_node_that_is_head_of_edge_keyboard();
   void delete_node_that_is_head_of_edge_and_undo_keyboard();
   void delete_node_that_is_tail_of_edge_keyboard();
-  void delete_nodes_that_are_head_and_tail_of_edge_keyboard();
   void delete_one_edge_by_node_command();
   void delete_one_edge_by_node_keyboard();
   void delete_one_edge_command();

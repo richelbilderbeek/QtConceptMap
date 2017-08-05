@@ -70,6 +70,8 @@ std::string GetText(const QtNode& qtnode) noexcept;
 ///Number of characters for wordwrapping
 constexpr int GetWordWrapLength() { return 80; }
 
+bool HasExamples(const QtNode& qtnode) noexcept;
+
 bool IsCenterNode(const QtNode& qtnode) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const QtNode& qtnode) noexcept;
