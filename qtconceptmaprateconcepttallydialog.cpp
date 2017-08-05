@@ -338,42 +338,43 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
 
   const Example& example = concept.GetExamples().Get()[example_index];
   //Display index'th example
-  for (int col_index=0; col_index!=n_cols; ++col_index)
+
+  //First three columns, but not the last one
+  for (int col_index=0; col_index!=3; ++col_index)
   {
-    if (col_index == 3)
+    QTableWidgetItem * const item = new QTableWidgetItem;
+    item->setFlags(
+      Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable
+    );
+    switch (col_index)
     {
-      //Text
-      QTableWidgetItem * const item = new QTableWidgetItem;
-      item->setFlags(
-          Qt::ItemIsSelectable
-        | Qt::ItemIsEnabled);
-      const std::string s = example.GetText();
-      item->setText(s.c_str());
-      ui->table->setItem(row_index, col_index, item);
+      case 0: item->setCheckState(example.GetIsComplex()
+        ? Qt::Checked : Qt::Unchecked);
+      break;
+      case 1: item->setCheckState(example.GetIsConcrete()
+        ? Qt::Checked : Qt::Unchecked);
+      break;
+      case 2: item->setCheckState(example.GetIsSpecific()
+        ? Qt::Checked : Qt::Unchecked);
+      break;
+      default:
+        assert(!"ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog: Unknown col index"); //!OCLINT accepted idiom
+      break;
     }
-    else
-    {
-      QTableWidgetItem * const item = new QTableWidgetItem;
-      item->setFlags(
-        Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable
-      );
-      switch (col_index)
-      {
-        case 0: item->setCheckState(example.GetIsComplex()
-          ? Qt::Checked : Qt::Unchecked);
-        break;
-        case 1: item->setCheckState(example.GetIsConcrete()
-          ? Qt::Checked : Qt::Unchecked);
-        break;
-        case 2: item->setCheckState(example.GetIsSpecific()
-          ? Qt::Checked : Qt::Unchecked);
-        break;
-        default:
-          assert(!"ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog: Unknown col index"); //!OCLINT accepted idiom
-        break;
-      }
-      ui->table->setItem(row_index, col_index, item);
-    }
+    ui->table->setItem(row_index, col_index, item);
+  }
+  //Last special column
+  {
+    const int col_index = 3;
+    //Text
+    QTableWidgetItem * const item = new QTableWidgetItem;
+    item->setFlags(
+        Qt::ItemIsSelectable
+      | Qt::ItemIsEnabled);
+    const std::string s = example.GetText();
+    item->setText(s.c_str());
+    ui->table->setItem(row_index, col_index, item);
+    ui->table->setItem(row_index, col_index, item);
   }
 }
 
