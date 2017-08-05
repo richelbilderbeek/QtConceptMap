@@ -286,22 +286,13 @@ void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
   #endif
 }
 
-void ribi::cmap::CheckInvariants(const QtConceptMap&
+void ribi::cmap::CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap&
   #ifndef NDEBUG
   q
   #endif
 ) noexcept
 {
   #ifndef NDEBUG
-  qApp->processEvents();
-
-  assert(q.GetQtNewArrow().scene());
-  assert(q.GetQtExamplesItem().scene());
-  assert(q.GetQtToolItem().scene());
-  CheckInvariantAsMuchNodesAsQtNodesSelected(q);
-  CheckInvariantAllQtNodesHaveAscene(q);
-  CheckInvariantAllQtEdgesHaveAscene(q);
-
   //If there is one QtEdge selected, its Edge must be able to been found
   try
   {
@@ -322,7 +313,25 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
     assert(qtedge->GetEdge().GetId() == edge.GetId());
   }
   catch (...) {} //!OCLINT This should be an empty catch statement
+  #endif // NDEBUG
+}
 
+void ribi::cmap::CheckInvariants(const QtConceptMap&
+  #ifndef NDEBUG
+  q
+  #endif
+) noexcept
+{
+  #ifndef NDEBUG
+  qApp->processEvents();
+
+  assert(q.GetQtNewArrow().scene());
+  assert(q.GetQtExamplesItem().scene());
+  assert(q.GetQtToolItem().scene());
+  CheckInvariantAsMuchNodesAsQtNodesSelected(q);
+  CheckInvariantAllQtNodesHaveAscene(q);
+  CheckInvariantAllQtEdgesHaveAscene(q);
+  CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(q);
 
   //If a QtNode with a vignette is selected, the QtExamplesItem must have that
   //QtNode as its buddy
