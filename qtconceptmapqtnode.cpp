@@ -100,8 +100,7 @@ std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 
 bool ribi::cmap::HasExamples(const QtNode& qtnode) noexcept
 {
-  const Node& n = qtnode.GetNode();
-  return NodeHasExamples(n);
+  return NodeHasExamples(qtnode.GetNode());
 }
 
 void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
