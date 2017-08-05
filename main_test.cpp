@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
   //{ qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandload_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
-  assert(!"Don't forget to let Travis test everything");
+  //{ qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
+  //assert(!"Don't forget to let Travis test everything");
 
 
   //These are all tests in alphabetical order
