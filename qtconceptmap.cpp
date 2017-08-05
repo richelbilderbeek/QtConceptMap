@@ -1263,6 +1263,11 @@ void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode)
   q.GetQtToolItem().SetBuddyItem(qtnode);
 }
 
+void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge)
+{
+  SetQtToolItemBuddy(q, qtedge->GetQtNode());
+}
+
 void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)
 {
   m_timer->start(10);

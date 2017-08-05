@@ -476,7 +476,7 @@ void ribi::cmap::qtconceptmap_test::delete_node_that_is_tail_of_edge_keyboard()
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,0));
 }
 
-void ribi::cmap::qtconceptmap_test::aaa_delete_nodes_that_are_head_and_tail_of_edge_keyboard()
+void ribi::cmap::qtconceptmap_test::delete_nodes_that_are_head_and_tail_of_edge_keyboard()
 {
   QtConceptMap m;
   m.show();

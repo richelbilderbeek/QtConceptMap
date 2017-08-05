@@ -65,6 +65,7 @@ void ribi::cmap::CommandSelect::redo()
     {
       SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtnode);
     }
+    SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtnode);
   }
   else
   {
@@ -82,6 +83,7 @@ void ribi::cmap::CommandSelect::redo()
       {
         SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge);
       }
+      SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtedge);
     }
   }
 

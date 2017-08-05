@@ -248,6 +248,7 @@ void SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge);
 
 ///Set the buddy of the QtToolItem
 void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);
+void SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge);
 
 ///Focus on a random QtNode (both as vertices as those on the edges)
 /// @param keep_old_selection if false, all previous selection loses focus
