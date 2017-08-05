@@ -13,8 +13,8 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
+
   void press_f2_can_edit_non_focal_question();
-  void select_random_node_keyboard_edit();
 
   //Done
   void cannot_delete_center_node(); //#114
@@ -86,6 +86,7 @@ private slots:
   void rate_concept_map_has_less_focusable_items();
   void rate_mode_flags();
   void select_left_node_keyboard();
+  void select_random_node_keyboard_edit(); //#138
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtEdge is selected

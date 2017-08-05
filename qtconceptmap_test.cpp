@@ -958,8 +958,6 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 
 void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
 {
-  //#define FIX_ISSUE_138
-  #ifdef FIX_ISSUE_138
   QtConceptMap m;
   m.SetMode(Mode::rate);
   m.show();
@@ -978,9 +976,6 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
     //The QtNodes on the edges can also be selected
     const auto n_items_selected = m.GetScene().selectedItems().size();
     const auto n_qtnodes_selected = GetSelectedQtNodesAlsoOnQtEdge(m.GetScene()).size();
-    qDebug()
-      << "n_items_selected: " << n_items_selected
-      << ", n_qtnodes_selected: " << n_qtnodes_selected;
     QVERIFY(n_items_selected == 1);
     QVERIFY(n_qtnodes_selected == 1);
     assert(GetSelectedQtNodes(m.GetScene()).size() == 1);
@@ -990,7 +985,6 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])
     != static_cast<int>(ids.size())
   ); //Good enough?
-  #endif // FIX_ISSUE_138
 }
 
 void ribi::cmap::qtconceptmap_test::set_concept_maps()
