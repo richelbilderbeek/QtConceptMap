@@ -340,7 +340,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   //Display index'th example
 
   //First three columns, but not the last one
-  for (int col_index=0; col_index!=3; ++col_index)
+  for (int col_index=0; col_index!=n_cols-1; ++col_index)
   {
     QTableWidgetItem * const item = new QTableWidgetItem;
     item->setFlags(
