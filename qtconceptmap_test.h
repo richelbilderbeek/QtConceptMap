@@ -13,7 +13,7 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
-  void select_random_node_keyboard_edit(); //#138
+  void select_random_node_keyboard_edit(); //#138, skip on Travis
 
   void press_f2_can_edit_non_focal_question();
 

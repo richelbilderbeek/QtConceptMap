@@ -18,6 +18,7 @@
 #include "conceptmapedge.h"
 #include "conceptmapfactory.h"
 #include "conceptmap.h"
+#include "conceptmaphelper.h"
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
 #include "qtconceptmapcollect.h"
@@ -958,6 +959,7 @@ void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 
 void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
 {
+  if (OnTravis()) return;
   QtConceptMap m;
   m.SetMode(Mode::rate);
   m.show();
