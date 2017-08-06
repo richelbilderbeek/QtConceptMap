@@ -254,6 +254,12 @@ void SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge);
 /// @param keep_old_selection if false, all previous selection loses focus
 void SetRandomFocus(QtConceptMap& q, const bool keep_old_selection);
 
+///Set a new random focus, keep the older items selected
+void SetRandomFocusAdditive(QtConceptMap& q);
+
+///Set a new random focus, unselect the previously selected items
+void SetRandomFocusExclusive(QtConceptMap& q);
+
 /// Writes the selecteness of the QtConceptMap
 /// to the ConceptMap
 void UpdateConceptMap(QtConceptMap& q);

@@ -701,12 +701,11 @@ void ribi::cmap::keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept
 void ribi::cmap::keyPressEventSpace(QtConceptMap& q, QKeyEvent * event) noexcept
 {
   const auto items = GetFocusableItems(q);
-  if (items.size())
-  {
-    const bool keep_old_selection = event->modifiers() & Qt::ShiftModifier;
-    SetRandomFocus(q, keep_old_selection);
-    event->setAccepted(true);
-  }
+  if (items.size() == 0) return;
+
+  const bool keep_old_selection = event->modifiers() & Qt::ShiftModifier;
+  SetRandomFocus(q, keep_old_selection);
+  event->setAccepted(true);
 }
 
 void ribi::cmap::keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept
@@ -1209,43 +1208,104 @@ void ribi::cmap::SetRandomFocus(
 )
 {
   CheckInvariants(q);
-
-  ReallyLoseFocus(q);
-
-  if (!keep_old_selection)
+  if (keep_old_selection)
   {
-    UnselectAllItems(q);
+    SetRandomFocusAdditive(q);
   }
+  else
+  {
+    SetRandomFocusExclusive(q);
+  }
+  CheckInvariants(q);
+}
+
+void ribi::cmap::SetRandomFocusAdditive(
+  QtConceptMap& q
+)
+{
+  CheckInvariants(q);
 
   //Let a random QtNode receive focus
   const auto items = GetFocusableNonselectedItems(q);
 
-  if (!items.empty())
+  if (items.empty()) return;
+
+  //Pick random Focusable non-selected QtNotde
+  static std::mt19937 rng_engine{0};
+  std::uniform_int_distribution<int> distribution(0, static_cast<int>(items.size()) - 1);
+  const int i{distribution(rng_engine)};
+  assert(i >= 0);
+  assert(i < static_cast<int>(items.size()));
+  QtNode * const new_focus_item = dynamic_cast<QtNode*>(items[i]);
+  assert(new_focus_item);
+  assert(!new_focus_item->isSelected());
+
+  if (QGraphicsItem * const old_focus_item = q.GetScene().focusItem())
   {
-    static std::mt19937 rng_engine{0};
-    std::uniform_int_distribution<int> distribution(0, static_cast<int>(items.size()) - 1);
-    const int i{distribution(rng_engine)};
-    assert(i >= 0);
-    assert(i < static_cast<int>(items.size()));
-    QtNode * const new_focus_item = dynamic_cast<QtNode*>(items[i]);
-    assert(new_focus_item);
-    assert(!new_focus_item->isSelected());
-    new_focus_item->setSelected(true);
-    new_focus_item->setFocus();
-    if (HasExamples(*new_focus_item))
-    {
-      SetQtExamplesBuddy(q, new_focus_item);
-    }
-    SetQtToolItemBuddy(q, new_focus_item);
-    q.update();
-    if (!new_focus_item->isSelected())
-    {
-      qDebug() << "Warning: setSelected did not select the item";
-    }
-    if (!new_focus_item->hasFocus())
-    {
-      qDebug() << "Warning: setFocus did not set focus to the item";
-    }
+    //Really loose focus, but not selectedness
+    old_focus_item->setEnabled(false);
+    old_focus_item->setSelected(false);
+    old_focus_item->clearFocus();
+    old_focus_item->setEnabled(true);
+    old_focus_item->setSelected(true);
+  }
+
+  new_focus_item->setSelected(true);
+  new_focus_item->setFocus();
+  if (HasExamples(*new_focus_item))
+  {
+    SetQtExamplesBuddy(q, new_focus_item);
+  }
+  SetQtToolItemBuddy(q, new_focus_item);
+  q.update();
+  if (!new_focus_item->isSelected())
+  {
+    qDebug() << "Warning: setSelected did not select the item";
+  }
+  if (!new_focus_item->hasFocus())
+  {
+    qDebug() << "Warning: setFocus did not set focus to the item";
+  }
+
+  CheckInvariants(q);
+}
+
+void ribi::cmap::SetRandomFocusExclusive(
+  QtConceptMap& q
+)
+{
+  CheckInvariants(q);
+  UnselectAllItems(q);
+  ReallyLoseFocus(q);
+
+  //Let a random QtNode receive focus
+  const auto items = GetFocusableNonselectedItems(q);
+
+  if (items.empty()) return;
+
+  static std::mt19937 rng_engine{0};
+  std::uniform_int_distribution<int> distribution(0, static_cast<int>(items.size()) - 1);
+  const int i{distribution(rng_engine)};
+  assert(i >= 0);
+  assert(i < static_cast<int>(items.size()));
+  QtNode * const new_focus_item = dynamic_cast<QtNode*>(items[i]);
+  assert(new_focus_item);
+  assert(!new_focus_item->isSelected());
+  new_focus_item->setSelected(true);
+  new_focus_item->setFocus();
+  if (HasExamples(*new_focus_item))
+  {
+    SetQtExamplesBuddy(q, new_focus_item);
+  }
+  SetQtToolItemBuddy(q, new_focus_item);
+  q.update();
+  if (!new_focus_item->isSelected())
+  {
+    qDebug() << "Warning: setSelected did not select the item";
+  }
+  if (!new_focus_item->hasFocus())
+  {
+    qDebug() << "Warning: setFocus did not set focus to the item";
   }
   CheckInvariants(q);
 }
