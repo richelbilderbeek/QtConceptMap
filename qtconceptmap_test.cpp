@@ -941,6 +941,8 @@ void ribi::cmap::qtconceptmap_test::qtnodes_must_show_example_when_focused()
 
 void ribi::cmap::qtconceptmap_test::select_left_node_keyboard()
 {
+  if (OnTravis()) return;
+
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);

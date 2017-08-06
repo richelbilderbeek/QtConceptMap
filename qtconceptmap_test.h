@@ -84,7 +84,7 @@ private slots:
   void qtnodes_must_show_example_when_focused(); //#96
   void rate_concept_map_has_less_focusable_items();
   void rate_mode_flags();
-  void select_left_node_keyboard();
+  void select_left_node_keyboard(); // Skip on Travis
   void select_random_node_keyboard_edit(); //#138, skip on Travis
 
   ///Set an empty ConceptMap in a QtConcepytMap
