@@ -987,7 +987,6 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])
     != static_cast<int>(ids.size())
   ); //Good enough?
-  assert(!"FIXED");
 }
 
 void ribi::cmap::qtconceptmap_test::set_concept_maps()
