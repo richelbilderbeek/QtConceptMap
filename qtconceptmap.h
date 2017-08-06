@@ -242,6 +242,9 @@ void RemoveConceptMap(QtConceptMap& q);
 ///Save the QtConceptMap to a .dot file
 void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
 
+///Set focus to the QtNode. Assumes the QtConceptMap has no focus anymore
+void SetFocus(QtConceptMap& q, QtNode* const qtnode);
+
 ///Set the buddy of the QtExamplesItem
 void SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode);
 void SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge);

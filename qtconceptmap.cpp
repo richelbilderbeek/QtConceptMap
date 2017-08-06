@@ -1151,6 +1151,30 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   this->fitInView(this->sceneRect());
 }
 
+void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
+{
+  assert(new_focus_item);
+  assert(!new_focus_item->isSelected());
+
+  new_focus_item->setSelected(true);
+  new_focus_item->setFocus();
+  if (HasExamples(*new_focus_item))
+  {
+    SetQtExamplesBuddy(q, new_focus_item);
+  }
+  SetQtToolItemBuddy(q, new_focus_item);
+  q.update();
+  if (!new_focus_item->isSelected())
+  {
+    qDebug() << "Warning: SetFocus did not select the item";
+  }
+  if (!new_focus_item->hasFocus())
+  {
+    qDebug() << "Warning: SetFocus did not set focus to the item";
+  }
+  CheckInvariants(q);
+}
+
 void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
 {
   m_mode = mode;
@@ -1249,23 +1273,7 @@ void ribi::cmap::SetRandomFocusAdditive(
     old_focus_item->setEnabled(true);
     old_focus_item->setSelected(true);
   }
-
-  new_focus_item->setSelected(true);
-  new_focus_item->setFocus();
-  if (HasExamples(*new_focus_item))
-  {
-    SetQtExamplesBuddy(q, new_focus_item);
-  }
-  SetQtToolItemBuddy(q, new_focus_item);
-  q.update();
-  if (!new_focus_item->isSelected())
-  {
-    qDebug() << "Warning: setSelected did not select the item";
-  }
-  if (!new_focus_item->hasFocus())
-  {
-    qDebug() << "Warning: setFocus did not set focus to the item";
-  }
+  SetFocus(q, new_focus_item);
 
   CheckInvariants(q);
 }
@@ -1291,22 +1299,8 @@ void ribi::cmap::SetRandomFocusExclusive(
   QtNode * const new_focus_item = dynamic_cast<QtNode*>(items[i]);
   assert(new_focus_item);
   assert(!new_focus_item->isSelected());
-  new_focus_item->setSelected(true);
-  new_focus_item->setFocus();
-  if (HasExamples(*new_focus_item))
-  {
-    SetQtExamplesBuddy(q, new_focus_item);
-  }
-  SetQtToolItemBuddy(q, new_focus_item);
-  q.update();
-  if (!new_focus_item->isSelected())
-  {
-    qDebug() << "Warning: setSelected did not select the item";
-  }
-  if (!new_focus_item->hasFocus())
-  {
-    qDebug() << "Warning: setFocus did not set focus to the item";
-  }
+  SetFocus(q, new_focus_item);
+
   CheckInvariants(q);
 }
 

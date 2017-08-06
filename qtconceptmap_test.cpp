@@ -499,24 +499,9 @@ void ribi::cmap::qtconceptmap_test::delete_nodes_that_are_head_and_tail_of_edge_
     m.show();
     //Select first
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
-    qDebug()
-      << "First key press: "
-      << "CountSelectedQtEdges: "
-      << CountSelectedQtEdges(m)
-      << "CountSelectedQtNodes: "
-      << CountSelectedQtNodes(m)
-    ;
     //Add-select second
     QTest::keyClick(&m, Qt::Key_Space, Qt::ShiftModifier, 100);
-    qDebug()
-      << "Second key press: "
-      << "CountSelectedQtEdges: "
-      << CountSelectedQtEdges(m)
-      << "CountSelectedQtNodes: "
-      << CountSelectedQtNodes(m)
-    ;
   }
-  assert(!"FIXED");
   QVERIFY(CountSelectedQtEdges(m.GetScene()) == 0);
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
