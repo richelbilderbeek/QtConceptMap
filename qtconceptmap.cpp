@@ -1210,9 +1210,10 @@ void ribi::cmap::SetRandomFocus(
 {
   CheckInvariants(q);
 
+  ReallyLoseFocus(q);
+
   if (!keep_old_selection)
   {
-    ReallyLoseFocus(q);
     UnselectAllItems(q);
   }
 
