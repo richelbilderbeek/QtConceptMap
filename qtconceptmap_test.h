@@ -13,10 +13,7 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo
-  void delete_nodes_that_are_head_and_tail_of_edge_keyboard();
-  void select_random_node_keyboard_edit(); //#138, skip on Travis
 
-  void press_f2_can_edit_non_focal_question();
 
   //Done
   void cannot_delete_center_node(); //#114
@@ -52,6 +49,7 @@ private slots:
   void delete_node_that_is_head_of_edge_keyboard();
   void delete_node_that_is_head_of_edge_and_undo_keyboard();
   void delete_node_that_is_tail_of_edge_keyboard();
+  void delete_nodes_that_are_head_and_tail_of_edge_keyboard();
   void delete_one_edge_by_node_command();
   void delete_one_edge_by_node_keyboard();
   void delete_one_edge_command();
@@ -74,6 +72,7 @@ private slots:
   void press_escape();
   void press_f1_on_empty_concept_map_is_rejected();
   void press_f2_on_empty_concept_map_is_rejected();
+  void press_f2_can_edit_non_focal_question();
   void press_f2_cannot_edit_focal_question();
   void press_f4_is_rejected();
   void press_h();
@@ -87,6 +86,7 @@ private slots:
   void rate_concept_map_has_less_focusable_items();
   void rate_mode_flags();
   void select_left_node_keyboard();
+  void select_random_node_keyboard_edit(); //#138, skip on Travis
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtEdge is selected
