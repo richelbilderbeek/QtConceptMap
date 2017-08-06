@@ -971,8 +971,10 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
   std::vector<int> ids;
   for (int i=0; i!=100; ++i)
   {
+    CheckInvariants(m);
     QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 10);
     m.show();
+    CheckInvariants(m);
     //The QtNodes on the edges can also be selected
     const auto n_items_selected = m.GetScene().selectedItems().size();
     const auto n_qtnodes_selected = GetSelectedQtNodesAlsoOnQtEdge(m.GetScene()).size();
@@ -985,6 +987,7 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])
     != static_cast<int>(ids.size())
   ); //Good enough?
+  assert(!"FIXED");
 }
 
 void ribi::cmap::qtconceptmap_test::set_concept_maps()
