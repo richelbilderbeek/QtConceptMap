@@ -14,14 +14,13 @@ private slots:
 
   //Todo
 
-
   //Done
   void cannot_delete_center_node(); //#114
   void cannot_edit_center_node(); //#104
   void cannot_move_center_node(); //#115
   void change_modes();
   void click_on_nothing_should_be_ignored();
-  void concept_map_must_fit_window();
+  void concept_map_must_fit_window(); //#135
   void concept_map_must_fit_window_after_setting();
   void create_one_edge_command();
   void create_one_edge_command_and_check_z_order();

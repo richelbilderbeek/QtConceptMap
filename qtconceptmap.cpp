@@ -1147,8 +1147,14 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   AddEdgesToScene(*this);
   CheckInvariants(*this);
 
+  //this->fitInView(this->sceneRect().marginsAdded(QMarginsF(40, 40, 40, 40)));
   //The new concept map must be displayed in full
-  this->fitInView(this->sceneRect());
+  fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
+  //ensureVisible(scene()->sceneRect(), 50, 100);
+  //fitInView(scene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
+  //if (FindQtCenterNode(*this)
+  //centerOn(
+  //this->fitInView(this->sceneRect());
 }
 
 void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)

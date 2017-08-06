@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
   //{ qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
-
   //These are all tests in alphabetical order
   { qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }

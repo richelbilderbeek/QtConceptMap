@@ -105,14 +105,14 @@ void ribi::cmap::qtconceptmap_test::click_on_nothing_should_be_ignored()
 
 void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window()
 {
-  #ifdef FIX_ISSUE_135 //https://github.com/richelbilderbeek/Brainweaver/issues/135
   QtConceptMap m;
+  m.showFullScreen();
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.show();
   QTest::qWait(100);
+  qApp->processEvents();
   QVERIFY(!m.verticalScrollBar()->isVisible());
   QVERIFY(!m.horizontalScrollBar()->isVisible());
-  #endif // FIX_ISSUE_135
 }
 
 void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window_after_setting()
