@@ -118,11 +118,12 @@ bool HasExamples(const QtEdge& qtnode) noexcept;
 bool HasHeadArrow(const QtEdge& qtedge) noexcept;
 bool HasTailArrow(const QtEdge& qtedge) noexcept;
 
-
-std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;
+///Move a QtEdge (and its Edge) relatively
+void Move(QtEdge& qtedge, const double dx, const double dy);
 
 std::string ToStr(const QtEdge& qtedge) noexcept;
 
+std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;
 bool operator==(const QtEdge& lhs, const QtEdge& rhs) noexcept;
 
 } //~namespace cmap

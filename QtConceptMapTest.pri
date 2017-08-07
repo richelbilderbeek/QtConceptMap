@@ -3,6 +3,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandcreatenewedge_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode_test.cpp \
     $$PWD/qtconceptmapcommandload_test.cpp \
+    $$PWD/qtconceptmapcommandmove_test.cpp \
     $$PWD/qtconceptmapcommandsave_test.cpp \
     $$PWD/qtconceptmapcommandselect_test.cpp \
     $$PWD/qtconceptmapcommandsetmode_test.cpp \

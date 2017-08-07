@@ -286,6 +286,23 @@ void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
   #endif
 }
 
+void ribi::cmap::CheckInvariantQtNodesAndNodesHaveSameCoordinats(const QtConceptMap&
+  #ifndef NDEBUG
+  q
+  #endif
+) noexcept
+{
+  #ifndef NDEBUG
+  for (const QtNode * const qtnode: GetQtNodesAlsoOnQtEdge(q))
+  {
+    assert(qtnode);
+    const double node_x{GetX(qtnode->GetNode())};
+    const double qtnode_x{qtnode->GetCenterX()};
+    assert(std::abs(node_x - qtnode_x) < 2.0);
+  }
+  #endif // NDEBUG
+}
+
 void ribi::cmap::CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap&
   #ifndef NDEBUG
   q
@@ -356,6 +373,7 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   assert(q.GetQtExamplesItem().scene());
   assert(q.GetQtToolItem().scene());
   CheckInvariantAsMuchNodesAsQtNodesSelected(q);
+  CheckInvariantQtNodesAndNodesHaveSameCoordinats(q);
   CheckInvariantAllQtNodesHaveAscene(q);
   CheckInvariantAllQtEdgesHaveAscene(q);
   CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(q);
@@ -496,6 +514,17 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
     return qtnodes[0];
   }
   return nullptr;
+}
+
+std::vector<ribi::cmap::QtNode *> ribi::cmap::GetQtNodes(const QtConceptMap& q) noexcept
+{
+  return GetQtNodes(q.GetScene());
+}
+
+std::vector<ribi::cmap::QtNode *> ribi::cmap::GetQtNodesAlsoOnQtEdge(
+  const QtConceptMap& q) noexcept
+{
+  return GetQtNodesAlsoOnQtEdge(q.GetScene());
 }
 
 std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodes(const QtConceptMap& q) noexcept
@@ -743,22 +772,24 @@ void ribi::cmap::keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept
 
 void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexcept
 {
+  CheckInvariantQtNodesAndNodesHaveSameCoordinats(q);
   for (const auto item: q.scene()->items())
   {
     if (!(item->flags() & QGraphicsItem::ItemIsMovable)) continue;
-    QtNode* const node = dynamic_cast<QtNode*>(item);
-    if (!node) continue;
+    QtNode* const qtnode = dynamic_cast<QtNode*>(item);
+    if (!qtnode) continue;
     const auto others = item->collidingItems();
     for (const auto other: others)
     {
-      const QtNode* const other_node = dynamic_cast<const QtNode*>(other);
-      if (!other_node) continue;
-      const double dx = node->x() - other_node->x() > 0.0 ? 1.0 : -1.0;
-      const double dy = node->y() - other_node->y() > 0.0 ? 1.0 : -1.0;
-      node->SetCenterPos(node->x()  + dx, node->y()  + dy);
+      const QtNode* const other_qtnode = dynamic_cast<const QtNode*>(other);
+      if (!other_qtnode) continue;
+      const double dx = qtnode->x() - other_qtnode->x() > 0.0 ? 1.0 : -1.0;
+      const double dy = qtnode->y() - other_qtnode->y() > 0.0 ? 1.0 : -1.0;
+      Move(*qtnode, dx, dy);
     }
   }
-
+  //qApp->processEvents();
+  CheckInvariantQtNodesAndNodesHaveSameCoordinats(q);
 }
 
 void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)

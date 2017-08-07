@@ -23,6 +23,7 @@ private slots:
   void create_new_edge_between_two_nodes_command() const noexcept;
   void create_new_edge_between_two_selected_nodes_command() const noexcept;
   void load_command() const noexcept;
+  void move_command() const noexcept;
   void save_and_load() const noexcept; //#137
   void save_command_empty_concept_map() const noexcept;
   void save_command_two_nodes_one_edge() const noexcept;

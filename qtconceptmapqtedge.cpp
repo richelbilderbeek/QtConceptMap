@@ -267,6 +267,11 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
   //QtConceptMapElement::mousePressEvent(event);
 }
 
+void ribi::cmap::Move(QtEdge& qtedge, const double dx, const double dy)
+{
+  Move(*qtedge.GetQtNode(), dx, dy);
+}
+
 void ribi::cmap::QtEdge::paint(
   QPainter* painter,
   const QStyleOptionGraphicsItem* /*option*/,

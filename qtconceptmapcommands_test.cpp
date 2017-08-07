@@ -132,6 +132,39 @@ void ribi::cmap::qtconceptmapcommands_test::load_command() const noexcept
   QVERIFY(cmds.size() == 1);
 }
 
+void ribi::cmap::qtconceptmapcommands_test::move_command() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "create_new_node(move me, false, 50, 75); "
+      "move(move me, 100, 200)"
+    }
+  );
+  QVERIFY(cmds.size() == 2);
+  assert(CountQtNodes(q) == 0);
+  q.DoCommand(cmds[0]);
+  assert(CountQtNodes(q) == 1);
+  {
+    const double expected_x{50.0};
+    const double measured_x{GetX(*GetQtNodes(q).at(0))};
+    const double expected_y{75.0};
+    const double measured_y{GetY(*GetQtNodes(q).at(0))};
+    assert(std::abs(expected_x - measured_x) < 1.0);
+    assert(std::abs(expected_y - measured_y) < 1.0);
+  }
+  q.DoCommand(cmds[1]);
+  {
+    const double expected_x{150.0};
+    const double measured_x{GetX(*GetQtNodes(q).at(0))};
+    const double expected_y{275.0};
+    const double measured_y{GetY(*GetQtNodes(q).at(0))};
+    assert(std::abs(expected_x - measured_x) < 1.0);
+    assert(std::abs(expected_y - measured_y) < 1.0);
+  }
+}
+
 void ribi::cmap::qtconceptmapcommands_test::save_command_empty_concept_map() const noexcept
 {
   QtConceptMap q;

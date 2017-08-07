@@ -153,6 +153,9 @@ void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
 
+///All QtNodes and Nodes must have approximately the same X and Y coordinat
+void CheckInvariantQtNodesAndNodesHaveSameCoordinats(const QtConceptMap& q) noexcept;
+
 ///If there is a single QtEdge selected, its corresponding Edge must be present
 void CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap& q) noexcept;
 
@@ -180,6 +183,12 @@ std::vector<QGraphicsItem *> GetFocusableNonselectedItems(const QtConceptMap& q)
 ///Obtain the first QtNode under the cursor
 ///Returns nullptr if none is present
 QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
+
+///Get all the 'standalone' (those not on an edge) QtNodes
+std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
+
+///Get both the QtNodes that are 'standalone' or are on an edge
+std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QtConceptMap& q) noexcept;
 
 ///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;
 std::vector<QtNode *> GetSelectedQtNodes(const QtConceptMap& q) noexcept;

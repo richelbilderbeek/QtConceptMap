@@ -98,6 +98,17 @@ std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
   return GetText(qtnode.GetNode());
 }
 
+double ribi::cmap::GetX(const QtNode& qtnode) noexcept
+{
+  return GetX(qtnode.GetNode());
+}
+
+double ribi::cmap::GetY(const QtNode& qtnode) noexcept
+{
+  return GetY(qtnode.GetNode());
+}
+
+
 bool ribi::cmap::HasExamples(const QtNode& qtnode) noexcept
 {
   return NodeHasExamples(qtnode.GetNode());
@@ -119,6 +130,12 @@ bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
 void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
 {
   QtRoundedEditRectItem::keyPressEvent(event);
+}
+
+void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)
+{
+  qtnode.moveBy(dx, dy);
+  Move(qtnode.GetNode(), dx, dy);
 }
 
 void ribi::cmap::QtNode::paint(

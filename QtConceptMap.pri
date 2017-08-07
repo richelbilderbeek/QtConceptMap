@@ -8,6 +8,7 @@ HEADERS += \
     $$PWD/qtconceptmapcommanddeleteselected.h \
     $$PWD/qtconceptmapcommand.h \
     $$PWD/qtconceptmapcommandload.h \
+    $$PWD/qtconceptmapcommandmove.h \
     $$PWD/qtconceptmapcommandsave.h \
     $$PWD/qtconceptmapcommandselect.h \
     $$PWD/qtconceptmapcommandsetmode.h \
@@ -45,6 +46,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandcreatenewnode.cpp \
     $$PWD/qtconceptmapcommanddeleteselected.cpp \
     $$PWD/qtconceptmapcommandload.cpp \
+    $$PWD/qtconceptmapcommandmove.cpp \
     $$PWD/qtconceptmapcommandsave.cpp \
     $$PWD/qtconceptmapcommandselect.cpp \
     $$PWD/qtconceptmapcommandsetmode.cpp \

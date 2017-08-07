@@ -5,6 +5,7 @@
 #include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
 #include "qtconceptmapcommandload_test.h"
+#include "qtconceptmapcommandmove_test.h"
 #include "qtconceptmapcommandsave_test.h"
 #include "qtconceptmapcommandselect_test.h"
 #include "qtconceptmapcommandsetmode_test.h"
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
+  //{ qtconceptmapcommandmove_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandload_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
@@ -46,6 +48,7 @@ int main(int argc, char *argv[])
   { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandload_test t; error |= QTest::qExec(&t, argc, argv); }
+  { qtconceptmapcommandmove_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandsetmode_test t; error |= QTest::qExec(&t, argc, argv); }

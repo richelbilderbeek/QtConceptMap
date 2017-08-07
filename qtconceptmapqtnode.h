@@ -70,9 +70,18 @@ std::string GetText(const QtNode& qtnode) noexcept;
 ///Number of characters for wordwrapping
 constexpr int GetWordWrapLength() { return 80; }
 
+///Get the x coordinat of the center of the QtNode
+double GetX(const QtNode& qtnode) noexcept;
+
+///Get the x coordinat of the center of the QtNode
+double GetY(const QtNode& qtnode) noexcept;
+
 bool HasExamples(const QtNode& qtnode) noexcept;
 
 bool IsCenterNode(const QtNode& qtnode) noexcept;
+
+///Move a QtNode (and its Node) relatively
+void Move(QtNode& qtnode, const double dx, const double dy);
 
 std::ostream& operator<<(std::ostream& os, const QtNode& qtnode) noexcept;
 
