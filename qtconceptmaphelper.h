@@ -94,6 +94,7 @@ QtNode * GetQtCenterNode(const QGraphicsScene& scene) noexcept;
 ///Get all the (standalone) center QtNodes, should usually be zero or one nodes
 std::vector<QtNode *> GetQtCenterNodes(const QGraphicsScene& scene) noexcept;
 
+///Get all the QtEdges
 std::vector<QtEdge *> GetQtEdges(const QGraphicsScene& scene) noexcept;
 
 ///Get all the edges connected to the concept
@@ -139,6 +140,12 @@ bool IsOnEdge(
 
 ///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
 bool IsQtNodeNotOnEdge(
+  const QGraphicsItem * const item,
+  const QGraphicsScene& scene
+) noexcept;
+
+///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
+bool IsQtNodeOnEdge(
   const QGraphicsItem * const item,
   const QGraphicsScene& scene
 ) noexcept;

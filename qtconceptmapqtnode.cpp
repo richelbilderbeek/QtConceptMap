@@ -6,10 +6,13 @@
 //#include <boost/lambda/lambda.hpp>
 
 #include <QCursor>
+#include <QDebug>
 #include <QGraphicsItem>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QPen>
+
+#include <gsl/gsl_assert>
 
 #include "conceptmapconcept.h"
 #include "conceptmapexamples.h"
@@ -62,11 +65,33 @@ ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
   this->setZValue(0.0);
   this->SetContourPen(QPen(Qt::black, 1.0));
   this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
+
+  CheckInvariants(*this);
 }
 
 ribi::cmap::QtNode::~QtNode() noexcept
 {
 
+}
+
+void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
+{
+  #ifndef NDEBUG
+  if ( GetX(qtnode) != qtnode.GetCenterX()
+    || GetX(qtnode) != GetX(qtnode.GetNode()))
+  {
+    qDebug()
+      << "\nGetX(qtnode) : " << GetX(qtnode)
+      << "\nqtnode.GetCenterX(): " << qtnode.GetCenterX()
+      << "\nGetX(qtnode.GetNode()): " << GetX(qtnode.GetNode())
+    ;
+  }
+  #endif
+  assert(GetX(qtnode) == qtnode.GetCenterX());
+  assert(GetX(qtnode) == GetX(qtnode.GetNode()));
+
+  assert(GetY(qtnode) == qtnode.GetCenterY());
+  assert(GetY(qtnode) == GetY(qtnode.GetNode()));
 }
 
 void ribi::cmap::QtNode::DisableAll()
@@ -81,6 +106,7 @@ void ribi::cmap::QtNode::EnableAll()
   this->setVisible(true);
 }
 
+/*
 void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept
 {
   QtRoundedEditRectItem::focusInEvent(e);
@@ -92,6 +118,7 @@ void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
   QtRoundedEditRectItem::focusOutEvent(e);
   assert(!hasFocus());
 }
+*/
 
 std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 {
@@ -100,11 +127,32 @@ std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 
 double ribi::cmap::GetX(const QtNode& qtnode) noexcept
 {
+  //Use CheckInvariants instead
+  #ifdef TO_ADD_ONE_DAY
+  #ifndef NDEBUG
+  if (qtnode.GetCenterX() != GetX(qtnode.GetNode()))
+  {
+    qDebug()
+      << '\n'
+      << "qtnode.GetCenterX(): "
+      << qtnode.GetCenterX()
+      << '\n'
+      << "GetX(qtnode.GetNode()): "
+      << GetX(qtnode.GetNode())
+    ;
+  }
+  #endif
+  assert(qtnode.GetCenterX() == GetX(qtnode.GetNode()));
+  #endif // TO_ADD_ONE_DAY
   return GetX(qtnode.GetNode());
 }
 
 double ribi::cmap::GetY(const QtNode& qtnode) noexcept
 {
+  //Use CheckInvariants instead
+  #ifdef TO_ADD_ONE_DAY
+  assert(qtnode.GetCenterY() == GetY(qtnode.GetNode()));
+  #endif // TO_ADD_ONE_DAY
   return GetY(qtnode.GetNode());
 }
 
@@ -129,19 +177,28 @@ bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
 
 void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
 {
+  CheckInvariants(*this);
+
   QtRoundedEditRectItem::keyPressEvent(event);
+
+  CheckInvariants(*this);
 }
 
 void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)
 {
+  CheckInvariants(qtnode);
+
   qtnode.moveBy(dx, dy);
   Move(qtnode.GetNode(), dx, dy);
+
+  CheckInvariants(qtnode);
 }
 
 void ribi::cmap::QtNode::paint(
   QPainter* painter, const QStyleOptionGraphicsItem* item, QWidget* widget
 ) noexcept
 {
+  CheckInvariants(*this);
   assert(this->scene());
   assert(painter);
 
@@ -150,7 +207,7 @@ void ribi::cmap::QtNode::paint(
 
   QtRoundedEditRectItem::paint(painter,item,widget);
 
-  if (!GetNode().GetConcept().GetExamples().Get().empty())
+  if (HasExamples(*this))
   {
     painter->setBrush(Qt::transparent);
     painter->setPen(Qt::black);
@@ -172,6 +229,8 @@ void ribi::cmap::QtNode::paint(
     painter->setPen(prev_pen);
     painter->setBrush(prev_brush);
   }
+
+  CheckInvariants(*this);
 }
 
 void ribi::cmap::QtNode::SetBrushFunction(
@@ -185,8 +244,34 @@ void ribi::cmap::QtNode::SetBrushFunction(
 void ribi::cmap::QtNode::SetNode(const Node& node) noexcept
 {
   m_node = node;
-  this->SetCenterPos(m_node.GetX(), m_node.GetY());
-  this->SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
+
+  ::ribi::cmap::SetX(*this, node.GetX());
+  ::ribi::cmap::SetY(*this, node.GetY());
+  ::ribi::cmap::SetText(*this, node.GetName());
+  //this->SetCenterPos(m_node.GetX(), m_node.GetY());
+  //this->SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
+  Ensures(::ribi::cmap::GetX(*this) == node.GetX());
+  Ensures(::ribi::cmap::GetY(*this) == node.GetY());
+  Ensures(::ribi::cmap::GetText(*this) == node.GetName());
+}
+
+void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)
+{
+  Node& node = qtnode.GetNode();
+  qtnode.SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
+  SetText(node, text);
+}
+
+void ribi::cmap::SetX(QtNode& qtnode, const double x)
+{
+  qtnode.SetCenterX(x);
+  SetX(qtnode.GetNode(), x);
+}
+
+void ribi::cmap::SetY(QtNode& qtnode, const double y)
+{
+  qtnode.SetCenterY(y);
+  SetY(qtnode.GetNode(), y);
 }
 
 std::string ribi::cmap::QtNode::ToStr() const noexcept

@@ -46,8 +46,8 @@ struct QtNode : public QtRoundedEditRectItem
   int type() const override { return UserType + 3; }
 protected:
 
-  void focusInEvent(QFocusEvent *event) noexcept final override;
-  void focusOutEvent(QFocusEvent *event) noexcept final override;
+  //void focusInEvent(QFocusEvent *event) noexcept final override;
+  //void focusOutEvent(QFocusEvent *event) noexcept final override;
   void keyPressEvent(QKeyEvent *event) noexcept final;
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event) noexcept final;
 
@@ -65,10 +65,14 @@ private:
   friend class qtconceptmapqtnode_test;
 };
 
+void CheckInvariants(const QtNode& qtnode) noexcept;
+
 std::string GetText(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping
 constexpr int GetWordWrapLength() { return 80; }
+
+std::string GetText(const QtNode& qtnode) noexcept;
 
 ///Get the x coordinat of the center of the QtNode
 double GetX(const QtNode& qtnode) noexcept;
@@ -82,6 +86,11 @@ bool IsCenterNode(const QtNode& qtnode) noexcept;
 
 ///Move a QtNode (and its Node) relatively
 void Move(QtNode& qtnode, const double dx, const double dy);
+
+void SetText(QtNode& qtnode, const std::string& text);
+void SetX(QtNode& qtnode, const double x);
+void SetY(QtNode& qtnode, const double y);
+
 
 std::ostream& operator<<(std::ostream& os, const QtNode& qtnode) noexcept;
 

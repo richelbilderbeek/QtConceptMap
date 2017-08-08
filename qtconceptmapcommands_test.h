@@ -12,6 +12,7 @@ class qtconceptmapcommands_test : public QObject
 
 private slots:
 
+  //TODO
 
   //DONE
   void get_commands() const noexcept;
@@ -20,11 +21,13 @@ private slots:
   void create_one_new_node_then_unselect() const noexcept;
   void create_relation_over_center_node() const noexcept;
   void create_two_new_node_commands() const noexcept;
-  void create_new_edge_between_two_nodes_command() const noexcept;
   void create_new_edge_between_two_selected_nodes_command() const noexcept;
   void load_command() const noexcept;
-  void move_command() const noexcept;
+  void move_command_fails_on_nonexisting_item() const noexcept;
+  void move_command_on_edge() const noexcept;
+  void move_command_on_node() const noexcept;
   void save_and_load() const noexcept; //#137
+  void save_and_load_must_result_in_same_topology() const noexcept;
   void save_command_empty_concept_map() const noexcept;
   void save_command_two_nodes_one_edge() const noexcept;
   void select_command() const noexcept;

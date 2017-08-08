@@ -34,7 +34,9 @@ public:
   ~QtConceptMap() noexcept;
 
   ///Raw pointer, because ConceptMap its QUndoStack will take over ownership of pointer
-  void DoCommand(Command * const command) noexcept;
+  ///Will throw if the command cannot be done, for example, if
+  ///an item with a name that is absent in the concept map is moved
+  void DoCommand(Command * const command);
 
   ///Obtain the concept map
   const ConceptMap& GetConceptMap() const noexcept { return m_conceptmap; }
@@ -153,6 +155,9 @@ void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
 
+///All QtEdges and Edges must have approximately the same X and Y coordinat
+void CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(const QtConceptMap& q) noexcept;
+
 ///All QtNodes and Nodes must have approximately the same X and Y coordinat
 void CheckInvariantQtNodesAndNodesHaveSameCoordinats(const QtConceptMap& q) noexcept;
 
@@ -162,6 +167,9 @@ void CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMa
 ///If there is a single QtNode selected (may also be on a QtNode on a QtEdge),
 ///the QtToolItem must be connected to it
 void CheckInvariantSingleSelectedQtNodeMustHaveQtTool(const QtConceptMap& q) noexcept;
+
+///Counts the QtEdges
+int CountQtEdges(const QtConceptMap& q) noexcept;
 
 ///Counts the QtNodes that are Nodes, i.e. are not on an edge
 int CountQtNodes(const QtConceptMap& q) noexcept;
@@ -184,6 +192,9 @@ std::vector<QGraphicsItem *> GetFocusableNonselectedItems(const QtConceptMap& q)
 ///Returns nullptr if none is present
 QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
+///Get all the QtEdges
+std::vector<QtEdge *> GetQtEdges(const QtConceptMap& q) noexcept;
+
 ///Get all the 'standalone' (those not on an edge) QtNodes
 std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
 
@@ -202,6 +213,9 @@ bool HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept
 
 ///Hide the QtExamplesItem
 void HideExamplesItem(QtConceptMap& q) noexcept;
+
+///Is this QtNode in the center on a QtEdge?
+bool IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept;
 
 void keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept;
@@ -271,6 +285,22 @@ void SetRandomFocusAdditive(QtConceptMap& q);
 
 ///Set a new random focus, unselect the previously selected items
 void SetRandomFocusExclusive(QtConceptMap& q);
+
+///Set the selectedness of a QtEdge, also updating the
+///selectness of the Edge in the ConceptMap
+void SetSelectedness(
+  const bool is_selected,
+  QtEdge& qtedge,
+  QtConceptMap& q
+);
+
+///Set the selectedness of a QtNode, also updating the
+///selectness of the node in the ConceptMap
+void SetSelectedness(
+  const bool is_selected,
+  QtNode& qtnode,
+  QtConceptMap& q
+);
 
 /// Writes the selecteness of the QtConceptMap
 /// to the ConceptMap

@@ -65,18 +65,20 @@ ribi::cmap::CommandMove * ribi::cmap::parse_command_move(
 
 void ribi::cmap::CommandMove::redo()
 {
+  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
   m_moved_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
-    [name = m_name](QtNode * const qtnode)
+    [name = m_name, &q = GetQtConceptMap()](QtNode * const qtnode)
     {
-      return name == GetText(*qtnode);
+      return name == GetText(*qtnode) && !IsOnEdge(*qtnode, q);
     }
   );
   if (m_moved_qtnode)
   {
     m_moved_qtedge = nullptr;
     Move(*m_moved_qtnode, m_dx, m_dy);
+    CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   }
   else
   {
@@ -90,11 +92,23 @@ void ribi::cmap::CommandMove::redo()
     if (m_moved_qtedge)
     {
       Move(*m_moved_qtedge, m_dx, m_dy);
+      CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
     }
   }
+  if (!m_moved_qtedge && !m_moved_qtnode)
+  {
+    std::stringstream msg;
+    msg << "Cannot find QtNode nor QtEdge with name '"
+      << this->GetName() << "'";
+    throw std::runtime_error(msg.str());
+  }
 
+  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
+  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
   qApp->processEvents();
+
+  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariants(GetQtConceptMap());
 }

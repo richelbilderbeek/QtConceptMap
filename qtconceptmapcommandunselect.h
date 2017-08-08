@@ -40,10 +40,10 @@ class CommandUnselect final : public Command
 
   private:
   /// If name was an edge name, the renamed edge
-  QtEdge * m_renamed_qtedge;
+  QtEdge * m_unselected_qtedge;
 
   /// If name was a node name, the renamed node
-  QtNode * m_renamed_qtnode;
+  QtNode * m_unselected_qtnode;
 
   ///Text on the QtEdge or QtNode
   const std::string m_name;

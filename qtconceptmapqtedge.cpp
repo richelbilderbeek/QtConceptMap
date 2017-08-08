@@ -72,13 +72,14 @@ ribi::cmap::QtEdge::QtEdge(
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
   }
 
-  m_edge.GetNode().SetX( (from->GetCenterX() + to->GetCenterX()) / 2.0 );
-  m_edge.GetNode().SetY( (from->GetCenterY() + to->GetCenterY()) / 2.0 );
+  assert(m_edge.GetNode().GetX() == GetX(m_edge.GetNode()));
+  assert(GetX(m_edge) == GetX(m_edge.GetNode()));
+  m_qtnode->SetCenterX(GetX(m_edge));
+  m_qtnode->SetCenterY(GetY(m_edge));
+  m_qtnode->SetText( { GetText(m_edge) } );
 
-  m_qtnode->SetCenterX(m_edge.GetNode().GetX());
-  m_qtnode->SetCenterY(m_edge.GetNode().GetY());
-  m_qtnode->SetText( { m_edge.GetNode().GetConcept().GetName() } );
-  assert(std::abs(m_edge.GetNode().GetY() - m_qtnode->GetCenterY()) < 2.0);
+  assert(std::abs(GetX(m_edge) - m_qtnode->GetCenterX()) < 2.0);
+  assert(std::abs(GetY(m_edge) - m_qtnode->GetCenterY()) < 2.0);
 
   this->SetEdge(m_edge);
 
@@ -144,6 +145,9 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge)
   assert(scene == qtedge.GetQtNode()->scene());
   assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
   assert(qtedge.GetArrow()->GetPen().color() == Qt::black);
+  CheckInvariants(*qtedge.GetQtNode());
+  assert(GetX(qtedge) == GetX(qtedge.GetEdge()));
+  assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
 
 }
 
@@ -163,6 +167,7 @@ void ribi::cmap::EnableAll(QtEdge& qtedge) noexcept
   qtedge.GetArrow()->setVisible(true);
 }
 
+/*
 void ribi::cmap::QtEdge::focusInEvent(QFocusEvent* e) noexcept
 {
   QGraphicsItem::focusInEvent(e);
@@ -174,6 +179,7 @@ void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
   QGraphicsItem::focusOutEvent(e);
   assert(!hasFocus());
 }
+*/
 
 QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
 {
@@ -186,6 +192,18 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
 std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
 {
   return GetText(qtedge.GetEdge());
+}
+
+double ribi::cmap::GetX(const QtEdge& qtedge) noexcept
+{
+  assert(std::abs(GetX(qtedge.GetEdge()) - GetX(*qtedge.GetQtNode())) < 2.0);
+  return GetX(*qtedge.GetQtNode());
+}
+
+double ribi::cmap::GetY(const QtEdge& qtedge) noexcept
+{
+  assert(std::abs(GetY(qtedge.GetEdge()) - GetY(*qtedge.GetQtNode())) < 2.0);
+  return GetY(*qtedge.GetQtNode());
 }
 
 bool ribi::cmap::HasExamples(const QtEdge& qtedge) noexcept
@@ -270,6 +288,7 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
 void ribi::cmap::Move(QtEdge& qtedge, const double dx, const double dy)
 {
   Move(*qtedge.GetQtNode(), dx, dy);
+  Move(qtedge.GetEdge(), dx, dy);
 }
 
 void ribi::cmap::QtEdge::paint(
@@ -278,10 +297,6 @@ void ribi::cmap::QtEdge::paint(
   QWidget* /*widget*/
 ) noexcept
 {
-  if (!this->scene())
-  {
-    qCritical() << "BREAK";
-  }
   CheckInvariants(*this);
   {
     const QPen pen{
@@ -300,20 +315,18 @@ void ribi::cmap::QtEdge::paint(
     m_qtnode->setPen(pen);
   }
   ShowBoundingRect(painter);
+  CheckInvariants(*this);
 }
 
 void ribi::cmap::QtEdge::SetEdge(const Edge& edge) noexcept
 {
   m_edge = edge;
 
-  //Sync
-  m_qtnode->SetCenterX(m_edge.GetNode().GetX());
-  m_qtnode->SetCenterY(m_edge.GetNode().GetY());
-  m_qtnode->SetText( { m_edge.GetNode().GetConcept().GetName() } );
+  m_qtnode->SetCenterX(GetX(m_edge));
+  m_qtnode->SetCenterY(GetY(m_edge));
+  m_qtnode->SetText( { GetText(m_edge) } );
   SetHasHeadArrow(m_edge.HasHeadArrow());
   SetHasTailArrow(m_edge.HasTailArrow());
-
-  assert(edge == m_edge);
 }
 
 void ribi::cmap::QtEdge::SetHasHeadArrow(const bool has_head_arrow) noexcept
@@ -377,8 +390,13 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtEdge& qtedge) noe
   return os;
 }
 
-bool ribi::cmap::operator==(const QtEdge& /*lhs*/, const QtEdge& /*rhs*/) noexcept
+bool ribi::cmap::operator==(const QtEdge& lhs, const QtEdge& rhs) noexcept
 {
-  //A stub
-  return true;
+  return
+       lhs.GetArrow() == rhs.GetArrow()
+    && lhs.GetEdge() == rhs.GetEdge()
+    && lhs.GetFrom() == rhs.GetFrom()
+    && lhs.GetQtNode() == rhs.GetQtNode()
+    && lhs.GetTo() == rhs.GetTo()
+  ;
 }

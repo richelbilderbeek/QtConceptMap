@@ -5,6 +5,7 @@
 #include <cassert>
 #include <chrono>
 #include <cmath>
+#include <iostream>
 #include <QApplication>
 #include <QLinearGradient>
 #include <QMouseEvent>
@@ -106,9 +107,22 @@ void ribi::cmap::qtconceptmap_test::click_on_nothing_should_be_ignored()
 void ribi::cmap::qtconceptmap_test::concept_map_must_fit_window()
 {
   QtConceptMap m;
+
+  CheckInvariants(m);
+
   m.showFullScreen();
+
+  CheckInvariants(m);
+
   m.SetConceptMap(ConceptMapFactory().Get11());
+  //m.SetConceptMap(ConceptMapFactory().GetStarShaped());
+
+  CheckInvariants(m);
+
   m.show();
+
+  CheckInvariants(m);
+
   QTest::qWait(100);
   qApp->processEvents();
   QVERIFY(!m.verticalScrollBar()->isVisible());
@@ -991,6 +1005,46 @@ void ribi::cmap::qtconceptmap_test::select_random_node_keyboard_edit()
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])
     != static_cast<int>(ids.size())
   ); //Good enough?
+}
+
+void ribi::cmap::qtconceptmap_test::set_concept_map_4()
+{
+  QtConceptMap m;
+  m.show();
+  QTest::qWait(1000);
+  m.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
+  assert(GetQtNodes(m).size() == 3);
+  assert(GetQtEdges(m).size() == 2);
+  for (const auto qtnode: GetQtNodesAlsoOnQtEdge(m))
+  {
+    std::clog << GetX(*qtnode) << '\n';
+  }
+  //for (const auto qtedge: GetQtEdges(m))
+  //{
+  //  std::clog << (*qtedge) << '\n';
+  //}
+  CheckInvariants(m);
+  QTest::qWait(1000);
+  for (const auto qtnode: GetQtNodesAlsoOnQtEdge(m))
+  {
+    std::clog << GetX(*qtnode) << '\n';
+  }
+  //for (const auto qtedge: GetQtEdges(m))
+  //{
+  //  std::clog << (*qtedge) << '\n';
+  //}
+  CheckInvariants(m);
+  m.show();
+  CheckInvariants(m);
+  QTest::qWait(1000);
+  CheckInvariants(m);
+  m.SetConceptMap(ConceptMap());
+  m.show();
+  QTest::qWait(1000);
+  m.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
+  m.show();
+  QTest::qWait(1000);
+  assert(!"FIXED");
 }
 
 void ribi::cmap::qtconceptmap_test::set_concept_maps()

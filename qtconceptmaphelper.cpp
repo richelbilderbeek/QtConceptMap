@@ -567,6 +567,15 @@ bool ribi::cmap::IsQtNodeNotOnEdge(
   return qtnode && !IsOnEdge(qtnode, scene);
 }
 
+bool ribi::cmap::IsQtNodeOnEdge(
+  const QGraphicsItem * const item,
+  const QGraphicsScene& scene
+) noexcept
+{
+  const QtNode* const qtnode{dynamic_cast<const QtNode*>(item)};
+  return qtnode && IsOnEdge(qtnode, scene);
+}
+
 
 void ribi::cmap::MessUp(QGraphicsScene& scene)
 {

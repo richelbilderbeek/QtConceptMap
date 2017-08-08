@@ -60,12 +60,12 @@ void ribi::cmap::CommandSelect::redo()
   if (m_renamed_qtnode)
   {
     m_renamed_qtedge = nullptr;
-    m_renamed_qtnode->setSelected(true);
     if (HasExamples(*m_renamed_qtnode))
     {
       SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtnode);
     }
     SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtnode);
+    SetSelectedness(true, *m_renamed_qtnode, GetQtConceptMap());
   }
   else
   {
@@ -78,12 +78,13 @@ void ribi::cmap::CommandSelect::redo()
     );
     if (m_renamed_qtedge)
     {
-      m_renamed_qtedge->SetSelected(true);
+      //m_renamed_qtedge->SetSelected(true);
       if (HasExamples(*m_renamed_qtedge))
       {
         SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge);
       }
       SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtedge);
+      SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
     }
   }
 
@@ -93,7 +94,13 @@ void ribi::cmap::CommandSelect::redo()
 
 void ribi::cmap::CommandSelect::undo()
 {
-  if (m_renamed_qtedge) m_renamed_qtedge->SetSelected(false);
-  if (m_renamed_qtnode) m_renamed_qtnode->setSelected(false);
+  if (m_renamed_qtedge)
+  {
+    SetSelectedness(false, *m_renamed_qtedge, GetQtConceptMap());
+  }
+  if (m_renamed_qtnode)
+  {
+    SetSelectedness(false, *m_renamed_qtnode, GetQtConceptMap());
+  }
   CheckInvariants(GetQtConceptMap());
 }

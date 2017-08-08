@@ -16,6 +16,8 @@
 #include "qtconceptmap.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "set_vertex_selectedness.h"
+#include "set_my_custom_vertex.h"
 
 bool str_to_bool(std::string s)
 {
@@ -113,18 +115,10 @@ void ribi::cmap::CommandCreateNewNode::redo()
   VertexDescriptor vd = boost::add_vertex(GetQtConceptMap().GetConceptMap());
 
   //Create the node
-  Node node(Concept(m_text), m_is_center_node, m_x, m_y) ;
+  const Node node(Concept(m_text), m_is_center_node, m_x, m_y) ;
 
   //Set the node
-  {
-    const auto pmap = get(boost::vertex_custom_type, GetQtConceptMap().GetConceptMap());
-    put(pmap, vd, node);
-  }
-  //Additively select node
-  {
-    const auto pmap = get(boost::vertex_is_selected, GetQtConceptMap().GetConceptMap());
-    put(pmap, vd, true);
-  }
+  set_my_custom_vertex(node, vd, GetQtConceptMap().GetConceptMap());
 
   //Modify the QGraphicsScene
   m_added_qtnode = new QtNode(node);
@@ -135,14 +129,21 @@ void ribi::cmap::CommandCreateNewNode::redo()
   assert(!m_added_qtnode->scene());
   GetQtConceptMap().GetScene().addItem(m_added_qtnode);
   assert(m_added_qtnode->scene());
-  m_added_qtnode->setSelected(true); //Additively select node
-  m_added_qtnode->setFocus();
-  m_added_qtnode->SetBrushFunction(GetQtNodeBrushFunction(GetQtConceptMap().GetMode()));
 
   //QtToolItem gets new buddy
   m_tool_item = &GetQtConceptMap().GetQtToolItem();
   m_tool_item_old_buddy = m_tool_item->GetBuddyItem();
   m_tool_item->SetBuddyItem(m_added_qtnode);
+
+  //Additively select node
+  set_vertex_selectedness(true, vd, GetQtConceptMap().GetConceptMap());
+
+  //Additively select node,
+  // must be done after setting m_added_qtnode as the buddy of m_tool_item,
+  // as QtConceptMap::onSelectionChanged will be triggered
+  m_added_qtnode->setSelected(true);
+  m_added_qtnode->setFocus();
+  m_added_qtnode->SetBrushFunction(GetQtNodeBrushFunction(GetQtConceptMap().GetMode()));
 
   qApp->processEvents();
 

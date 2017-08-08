@@ -12,6 +12,7 @@
 #include "conceptmapedgefactory.h"
 #include "conceptmapnode.h"
 #include "qtconceptmapqtnode.h"
+#include "get_my_custom_vertex.h"
 #include "qtconceptmaphelper.h"
 #include "count_vertices_with_selectedness.h"
 #include "qtquadbezierarrowitem.h"
@@ -119,10 +120,23 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   const ConceptMap concept_map_before = m_qtconceptmap.GetConceptMap();
   ConceptMap& concept_map = m_qtconceptmap.GetConceptMap();
 
+  double midx{0.0};
+  double midy{0.0};
+  {
+    const auto vds = get_vertices_with_selectedness(true, concept_map);
+    assert(vds.size() == 2);
+    const int x1 = GetX(get_my_custom_vertex(vds[0], concept_map));
+    const int y1 = GetY(get_my_custom_vertex(vds[0], concept_map));
+    const int x2 = GetX(get_my_custom_vertex(vds[1], concept_map));
+    const int y2 = GetY(get_my_custom_vertex(vds[1], concept_map));
+    midx = (x1 + x2) / 2.0;
+    midy = (y1 + y2) / 2.0;
+  }
+
   //Create a new edge on the concept map 'm_after' with the correct text
   const auto ed = add_edge_between_selected_vertices(concept_map);
   auto my_edge_map = get(boost::edge_custom_type, concept_map);
-  put(my_edge_map, ed, Edge(Node(Concept(m_text))));
+  put(my_edge_map, ed, Edge(Node(Concept(m_text), false, midx, midy)));
 
   assert(!boost::isomorphism(concept_map_before, concept_map));
   const Edge added_edge = get(get(boost::edge_custom_type, concept_map), ed);
@@ -159,15 +173,11 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   //m_qtedge has added a QtNode itself. Store it
   m_added_qtnode = m_added_qtedge->GetQtNode();
 
-
   //-----------------------
   // Using
   //-----------------------
   m_added_qtedge->setFocus();
   m_added_qtedge->SetSelected(true);
-  m_added_qtedge->GetFrom()->setSelected(false);
-  m_added_qtedge->GetTo()->setSelected(false);
-
   assert(AllHaveScene(nullptr));
   m_qtconceptmap.GetScene().addItem(m_added_qtedge);
   assert(AllHaveScene(&m_qtconceptmap.GetScene()));
@@ -179,6 +189,13 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
       m_qtconceptmap.GetMode()
     )
   );
+  SetQtToolItemBuddy(GetQtConceptMap(), m_added_qtnode);
+  CheckInvariantSingleSelectedQtNodeMustHaveQtTool(GetQtConceptMap());
+
+  SetSelectedness(false, *m_added_qtedge->GetFrom(), GetQtConceptMap());
+  SetSelectedness(false, *m_added_qtedge->GetTo()  , GetQtConceptMap());
+
+  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
 
   // Cannot write this:
   //   assert(m_added_qtedge->GetEdge() == m_added_edge);
@@ -196,8 +213,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
     m_added_qtedge->GetQtNode()->setVisible(false);
   }
 
-  SetQtToolItemBuddy(GetQtConceptMap(), m_added_qtnode);
-  CheckInvariantSingleSelectedQtNodeMustHaveQtTool(GetQtConceptMap());
+
 
   //Post-condition: the text must be on the added QtEdge
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);

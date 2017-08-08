@@ -66,8 +66,8 @@ struct QtEdge : public QGraphicsItem
   int type() const override { return UserType + 4; }
 
 protected:
-  void focusInEvent(QFocusEvent *event) noexcept override final;
-  void focusOutEvent(QFocusEvent *event) noexcept override final;
+  //void focusInEvent(QFocusEvent *event) noexcept override final;
+  //void focusOutEvent(QFocusEvent *event) noexcept override final;
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
   void paint(
     QPainter* painter,
@@ -113,6 +113,12 @@ void EnableAll(QtEdge& qtedge) noexcept;
 
 QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
 std::string GetText(const QtEdge& qtedge) noexcept;
+
+///Get the x coordinat of the center of the QtNode at the QtEdge
+double GetX(const QtEdge& qtedge) noexcept;
+
+///Get the x coordinat of the center of the QtNode at the QtEdge
+double GetY(const QtEdge& qtedge) noexcept;
 
 bool HasExamples(const QtEdge& qtnode) noexcept;
 bool HasHeadArrow(const QtEdge& qtedge) noexcept;

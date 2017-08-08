@@ -12,7 +12,8 @@ class qtconceptmap_test : public QObject
 
 private slots:
 
-  //Todo
+  //Todo/review
+  void set_concept_map_4();
 
   //Done
   void cannot_delete_center_node(); //#114
@@ -87,6 +88,8 @@ private slots:
   void select_left_node_keyboard(); // Skip on Travis
   void select_random_node_keyboard_edit(); //#138, skip on Travis
 
+  void set_concept_maps();
+
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtEdge is selected
   void set_empty_concept_map_one_selected_edge();
@@ -99,7 +102,7 @@ private slots:
   ///when two QtNodes are selected, one of which on an edge
   void set_empty_concept_map_two_selected_nodes();
 
-  void set_concept_maps();
+
   void setting_concept_maps_edges_qtedges_nodes_qtnodes_must_match();
   void uninitialized_mode_flags();
 };

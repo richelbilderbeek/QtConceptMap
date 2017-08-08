@@ -105,21 +105,6 @@ void ribi::cmap::qtconceptmapcommands_test::create_new_edge_between_two_selected
   QVERIFY(cmds.size() == 3);
 }
 
-void ribi::cmap::qtconceptmapcommands_test::create_new_edge_between_two_nodes_command() const noexcept
-{
-  QtConceptMap q;
-  const auto cmds = parse_commands(q,
-    {
-      "--command",
-      "create_new_node(A, false, 10, 20); "
-      "create_new_node(B, false, 10, 20); "
-      "create_new_node(C, false, 10, 40); "
-      "create_new_edge(my text, A, C)"
-    }
-  );
-  QVERIFY(cmds.size() == 4);
-}
-
 void ribi::cmap::qtconceptmapcommands_test::load_command() const noexcept
 {
   QtConceptMap q;
@@ -132,7 +117,82 @@ void ribi::cmap::qtconceptmapcommands_test::load_command() const noexcept
   QVERIFY(cmds.size() == 1);
 }
 
-void ribi::cmap::qtconceptmapcommands_test::move_command() const noexcept
+void ribi::cmap::qtconceptmapcommands_test
+  ::move_command_fails_on_nonexisting_item() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "create_new_node(from, false, 100, 200); "
+      "create_new_node(to, false, 100, 400); "
+      "create_new_edge(relation); "
+      "move(nonexisting, 50, 75)"
+    }
+  );
+  assert(cmds.size() == 4);
+  assert(CountQtNodes(q) == 0);
+  q.DoCommand(cmds[0]);
+  q.DoCommand(cmds[1]);
+  q.DoCommand(cmds[2]);
+  try
+  {
+    q.DoCommand(cmds[3]);
+    QVERIFY(!"Should not get here"); //!OCLINT accepted idiom
+  }
+  catch (std::exception& )
+  {
+    QVERIFY("Should get here"); //!OCLINT accepted idiom
+  }
+}
+
+
+void ribi::cmap::qtconceptmapcommands_test::move_command_on_edge() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = parse_commands(q,
+    {
+      "--command",
+      "create_new_node(from, false, 100, 200); "
+      "create_new_node(to, false, 100, 400); "
+      "create_new_edge(relation); "
+      "move(relation, 50, 75)"
+    }
+  );
+  assert(cmds.size() == 4);
+  assert(CountQtNodes(q) == 0);
+  q.DoCommand(cmds[0]);
+  q.DoCommand(cmds[1]);
+  q.DoCommand(cmds[2]);
+  assert(CountQtEdges(q) == 1);
+  {
+    const double expected_x{100.0};
+    const double measured_x{GetX(*GetQtEdges(q).at(0))};
+    const double expected_y{300.0};
+    const double measured_y{GetY(*GetQtEdges(q).at(0))};
+    assert(std::abs(expected_x - measured_x) < 1.0);
+    assert(std::abs(expected_y - measured_y) < 1.0);
+  }
+  q.DoCommand(cmds[3]);
+  {
+    const double expected_x{150.0};
+    const double measured_x1{GetX(*GetQtEdges(q).at(0))};
+    const double measured_x2{GetX(*GetQtEdges(q).at(0)->GetQtNode())};
+    const double measured_x3{GetX(GetQtEdges(q).at(0)->GetEdge())};
+    const double expected_y{375.0};
+    const double measured_y1{GetY(*GetQtEdges(q).at(0))};
+    const double measured_y2{GetY(*GetQtEdges(q).at(0)->GetQtNode())};
+    const double measured_y3{GetY(GetQtEdges(q).at(0)->GetEdge())};
+    assert(std::abs(expected_x - measured_x1) < 1.0);
+    assert(std::abs(expected_y - measured_y1) < 1.0);
+    assert(std::abs(expected_x - measured_x2) < 1.0);
+    assert(std::abs(expected_y - measured_y2) < 1.0);
+    assert(std::abs(expected_x - measured_x3) < 1.0);
+    assert(std::abs(expected_y - measured_y3) < 1.0);
+  }
+}
+
+void ribi::cmap::qtconceptmapcommands_test::move_command_on_node() const noexcept
 {
   QtConceptMap q;
   const auto cmds = parse_commands(q,
@@ -246,6 +306,133 @@ void ribi::cmap::qtconceptmapcommands_test::save_and_load() const noexcept
   }
 }
 
+
+void ribi::cmap::qtconceptmapcommands_test::save_and_load_must_result_in_same_topology() const noexcept
+{
+  const std::string filename{std::string(__func__) + ".cmp"};
+  if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
+
+  QtConceptMap q;
+
+  //Create file
+  {
+    const auto cmds = parse_commands(q,
+      {
+        "--command",
+        "create_new_node(center, true, 0, 0); "
+        "unselect(center); "
+        "create_new_node(from, false, 100, 200); "
+        "create_new_node(to, false, 100, 400); "
+        "create_new_edge(relation); "
+        "move(relation, 50, 75); "
+        "save(" + filename + ")"
+      }
+    );
+    assert(cmds.size() == 7);
+    assert(!QFile::exists(filename.c_str()));
+    //Creagte concept map with QtEdge
+    q.DoCommand(cmds[0]);
+    q.DoCommand(cmds[1]);
+    q.DoCommand(cmds[2]);
+    q.DoCommand(cmds[3]);
+    q.DoCommand(cmds[4]);
+    {
+      //for (const auto cmd: cmds) q.DoCommand(cmd);
+      CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(q);
+      CheckInvariantQtNodesAndNodesHaveSameCoordinats(q);
+      assert(CountQtNodes(q) == 3);
+      assert(CountQtEdges(q) == 1);
+      const auto qtedges = GetQtEdges(q);
+      assert(qtedges.size() == 1);
+      const QtEdge * const qtedge = qtedges[0];
+      assert(qtedge);
+      const double expected_x{100.0};
+      const double expected_y{300.0};
+      const double measured_x1{GetX(*qtedge)};
+      const double measured_y1{GetY(*qtedge)};
+      const double measured_x2{GetX(qtedge->GetEdge())};
+      const double measured_y2{GetY(qtedge->GetEdge())};
+      const double measured_x3{GetX(*qtedge->GetQtNode())};
+      const double measured_y3{GetY(*qtedge->GetQtNode())};
+      qDebug()
+        << "\nGetX(qtedge->GetEdge()): " << GetX(qtedge->GetEdge())
+        << "\nGetX(qtedge->GetQtNode()): " << GetX(*qtedge->GetQtNode())
+        << "\nGetX(*qtedge): " << GetX(*qtedge)
+        << "\nGetText(*qtedge): " << GetText(*qtedge).c_str()
+      ;
+      assert(std::abs(expected_x - measured_x1) < 2.0);
+      assert(std::abs(expected_y - measured_y1) < 2.0);
+      assert(std::abs(expected_x - measured_x2) < 2.0);
+      assert(std::abs(expected_y - measured_y2) < 2.0);
+      assert(std::abs(expected_x - measured_x3) < 2.0);
+      assert(std::abs(expected_y - measured_y3) < 2.0);
+      assert(GetText(*qtedge) == "relation");
+    }
+    //Move QtEdge
+    q.DoCommand(cmds[5]);
+
+    {
+      //for (const auto cmd: cmds) q.DoCommand(cmd);
+      CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(q);
+      CheckInvariantQtNodesAndNodesHaveSameCoordinats(q);
+      assert(CountQtNodes(q) == 3);
+      assert(CountQtEdges(q) == 1);
+      const auto qtedges = GetQtEdges(q);
+      assert(qtedges.size() == 1);
+      const QtEdge * const qtedge = qtedges[0];
+      assert(qtedge);
+      const double expected_x{150.0};
+      const double expected_y{375.0};
+      const double measured_x1{GetX(*qtedge)};
+      const double measured_y1{GetY(*qtedge)};
+      const double measured_x2{GetX(qtedge->GetEdge())};
+      const double measured_y2{GetY(qtedge->GetEdge())};
+      const double measured_x3{GetX(*qtedge->GetQtNode())};
+      const double measured_y3{GetY(*qtedge->GetQtNode())};
+      qDebug()
+        << "\nGetX(qtedge->GetEdge()): " << GetX(qtedge->GetEdge())
+        << "\nGetX(qtedge->GetQtNode()): " << GetX(*qtedge->GetQtNode())
+        << "\nGetX(*qtedge): " << GetX(*qtedge)
+      ;
+      assert(std::abs(expected_x - measured_x1) < 2.0);
+      assert(std::abs(expected_y - measured_y1) < 2.0);
+      assert(std::abs(expected_x - measured_x2) < 2.0);
+      assert(std::abs(expected_y - measured_y2) < 2.0);
+      assert(std::abs(expected_x - measured_x3) < 2.0);
+      assert(std::abs(expected_y - measured_y3) < 2.0);
+    }
+    //Save
+    q.DoCommand(cmds[6]);
+    assert(QFile::exists(filename.c_str()));
+  }
+  q.SetConceptMap(ConceptMap());
+  CheckInvariants(q);
+  //Load file
+  {
+    const auto cmds = parse_commands(q,
+      {
+        "--command",
+        "load(" + filename + ")"
+      }
+    );
+    assert(cmds.size() == 1);
+    assert(CountQtNodes(q) == 0);
+    for (const auto cmd: cmds) q.DoCommand(cmd);
+    assert(CountQtNodes(q) == 3);
+    assert(CountQtEdges(q) == 1);
+    const auto qtedges = GetQtEdges(q);
+    assert(qtedges.size() == 1);
+    const QtEdge * const qtedge = qtedges[0];
+    assert(qtedge);
+    const double expected_x{200.0};
+    const double expected_y{100.0};
+    const double measured_x{GetX(*qtedge)};
+    const double measured_y{GetY(*qtedge)};
+    QVERIFY(std::abs(expected_x - measured_x) < 2.0);
+    QVERIFY(std::abs(expected_y - measured_y) < 2.0);
+  }
+  assert(!"FIXED");
+}
 void ribi::cmap::qtconceptmapcommands_test::select_command() const noexcept
 {
   QtConceptMap q;
