@@ -84,6 +84,7 @@ void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
       << "\nGetX(qtnode) : " << GetX(qtnode)
       << "\nqtnode.GetCenterX(): " << qtnode.GetCenterX()
       << "\nGetX(qtnode.GetNode()): " << GetX(qtnode.GetNode())
+      << "\nGetText(qtnode) : " << GetText(qtnode).c_str()
     ;
   }
   #endif

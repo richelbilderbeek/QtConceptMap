@@ -1011,40 +1011,16 @@ void ribi::cmap::qtconceptmap_test::set_concept_map_4()
 {
   QtConceptMap m;
   m.show();
-  QTest::qWait(1000);
-  m.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
-  assert(GetQtNodes(m).size() == 3);
-  assert(GetQtEdges(m).size() == 2);
-  for (const auto qtnode: GetQtNodesAlsoOnQtEdge(m))
-  {
-    std::clog << GetX(*qtnode) << '\n';
-  }
-  //for (const auto qtedge: GetQtEdges(m))
-  //{
-  //  std::clog << (*qtedge) << '\n';
-  //}
-  CheckInvariants(m);
-  QTest::qWait(1000);
-  for (const auto qtnode: GetQtNodesAlsoOnQtEdge(m))
-  {
-    std::clog << GetX(*qtnode) << '\n';
-  }
-  //for (const auto qtedge: GetQtEdges(m))
-  //{
-  //  std::clog << (*qtedge) << '\n';
-  //}
-  CheckInvariants(m);
+  QTest::qWait(100);
   m.show();
-  CheckInvariants(m);
-  QTest::qWait(1000);
-  CheckInvariants(m);
+  m.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
+  m.show();
+  QTest::qWait(100);
+  m.show();
   m.SetConceptMap(ConceptMap());
   m.show();
-  QTest::qWait(1000);
-  m.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
+  QTest::qWait(100);
   m.show();
-  QTest::qWait(1000);
-  assert(!"FIXED");
 }
 
 void ribi::cmap::qtconceptmap_test::set_concept_maps()
