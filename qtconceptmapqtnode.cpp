@@ -77,22 +77,43 @@ ribi::cmap::QtNode::~QtNode() noexcept
 void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
 {
   #ifndef NDEBUG
-  if ( GetX(qtnode) != qtnode.GetCenterX()
-    || GetX(qtnode) != GetX(qtnode.GetNode()))
+  const double x1{GetX(qtnode)};
+  const double x2{qtnode.GetCenterX()};
+  const double x3{GetX(qtnode.GetNode())};
+  if ( std::abs(x1 - x2) > 1.0
+    || std::abs(x1 - x3) > 1.0
+    || std::abs(x2 - x3) > 1.0)
   {
     qDebug()
-      << "\nGetX(qtnode) : " << GetX(qtnode)
-      << "\nqtnode.GetCenterX(): " << qtnode.GetCenterX()
-      << "\nGetX(qtnode.GetNode()): " << GetX(qtnode.GetNode())
+      << "\nx1: " << x1
+      << "\nx2: " << x2
+      << "\nx3: " << x3
       << "\nGetText(qtnode) : " << GetText(qtnode).c_str()
     ;
   }
-  #endif
-  assert(GetX(qtnode) == qtnode.GetCenterX());
-  assert(GetX(qtnode) == GetX(qtnode.GetNode()));
+  assert(std::abs(x1 - x2) < 1.0);
+  assert(std::abs(x1 - x3) < 1.0);
+  assert(std::abs(x2 - x3) < 1.0);
 
-  assert(GetY(qtnode) == qtnode.GetCenterY());
-  assert(GetY(qtnode) == GetY(qtnode.GetNode()));
+
+  const double y1{GetY(qtnode)};
+  const double y2{qtnode.GetCenterY()};
+  const double y3{GetY(qtnode.GetNode())};
+  if ( std::abs(y1 - y2) > 1.0
+    || std::abs(y1 - y3) > 1.0
+    || std::abs(y2 - y3) > 1.0)
+  {
+    qDebug()
+      << "\ny1: " << y1
+      << "\ny2: " << y2
+      << "\ny3: " << y3
+      << "\nGetText(qtnode) : " << GetText(qtnode).c_str()
+    ;
+  }
+  assert(std::abs(y1 - y2) < 1.0);
+  assert(std::abs(y1 - y3) < 1.0);
+  assert(std::abs(y2 - y3) < 1.0);
+  #endif
 }
 
 void ribi::cmap::QtNode::DisableAll()

@@ -41,8 +41,6 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   const std::string& GetText() const noexcept { return m_text; }
 
   private:
-  QtConceptMap& m_qtconceptmap;
-
   ///The text to appear on the edge
   const std::string m_text;
 

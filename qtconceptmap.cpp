@@ -1206,7 +1206,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode* const item)
 
 void ribi::cmap::QtConceptMap::onSelectionChanged()
 {
-  CheckInvariants(*this);
+  //CheckInvariants(*this);
   /*
   ConceptMap& g = this->GetConceptMap();
 
