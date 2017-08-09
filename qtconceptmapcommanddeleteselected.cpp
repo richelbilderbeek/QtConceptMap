@@ -101,44 +101,6 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtEdges()
     boost::remove_edge(ed, GetConceptMap(*this));
     GetQtConceptMap().GetScene().removeItem(qtedge);
   }
-
-  #ifdef KEEP_THIS_LOVELY_OBSOLETE_CODE_20170809
-  //Find the edges connected to deleted nodes
-  for (const auto i: GetQtConceptMap().GetScene().items())
-  {
-    assert(i->scene());
-    if (QtEdge* qtedge = dynamic_cast<QtEdge*>(i))
-    {
-      //Is selected itself
-      if (qtedge->isSelected())
-      {
-        assert(qtedge->scene());
-        m_qtedges_removed.insert(qtedge);
-        continue;
-      }
-      //Is connected to a deleted QtNode
-      const auto j = std::find_if(
-        std::begin(m_qtnodes_removed),std::end(m_qtnodes_removed),
-        [qtedge](const QtNode* const qtnode) {
-          return qtedge->GetFrom() == qtnode
-            || qtedge->GetTo() == qtnode
-          ;
-        }
-      );
-      if (j != std::end(m_qtnodes_removed))
-      {
-        assert(qtedge->scene());
-        m_qtedges_removed.insert(qtedge);
-      }
-    }
-  }
-
-  //Items must be in scene before deletion
-  for (const auto qtedge: m_qtedges_removed)
-  {
-    assert(qtedge->scene());
-  }
-  #endif
 }
 
 void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
@@ -151,19 +113,6 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
     boost::remove_vertex(vd, GetConceptMap(*this));
     GetQtConceptMap().GetScene().removeItem(qtnode);
   }
-
-
-  #ifdef KEEP_THIS_LOVELY_OBSOLETE_CODE_20170809
-  const auto v = GetSelectedQtNodes(GetQtConceptMap().GetScene());
-  std::copy(std::begin(v), std::end(v),
-    std::inserter(m_qtnodes_removed, std::end(m_qtnodes_removed))
-  );
-
-  for (const auto qtnode: m_qtnodes_removed)
-  {
-    assert(qtnode->scene());
-  }
-  #endif // KEEP_THIS_LOVELY_OBSOLETE_CODE_20170809
 }
 
 void ribi::cmap::CommandDeleteSelected::redo()
