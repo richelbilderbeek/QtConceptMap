@@ -94,6 +94,8 @@ void ribi::cmap::CommandDeleteSelected::CheckQtNodesBeforeDelete() const noexcep
 
 void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtEdges()
 {
+  CheckInvariantAsMuchEdgesAsQtEdges(GetQtConceptMap());
+
   m_qtedges_removed = GetSelectedQtEdges(GetQtConceptMap());
   for (QtEdge * const qtedge: GetSelectedQtEdges(GetQtConceptMap()))
   {
@@ -101,11 +103,16 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtEdges()
     const auto ed = find_first_custom_edge_with_my_edge(qtedge->GetEdge(), GetConceptMap(*this));
     boost::remove_edge(ed, GetConceptMap(*this));
     GetQtConceptMap().GetScene().removeItem(qtedge);
+    assert(!qtedge->scene());
   }
+
+  CheckInvariantAsMuchEdgesAsQtEdges(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
 {
+  CheckInvariantAsMuchNodesAsQtNodes(GetQtConceptMap());
+
   m_qtnodes_removed = GetSelectedQtNodes(GetQtConceptMap());
   for (QtNode * const qtnode: GetSelectedQtNodes(GetQtConceptMap()))
   {
@@ -113,7 +120,11 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
     const auto vd = find_first_custom_vertex_with_my_vertex(qtnode->GetNode(), GetConceptMap(*this));
     boost::remove_vertex(vd, GetConceptMap(*this));
     GetQtConceptMap().GetScene().removeItem(qtnode);
+    assert(!qtnode->scene());
   }
+
+  CheckInvariantAsMuchNodesAsQtNodes(GetQtConceptMap());
+
 }
 
 void ribi::cmap::CommandDeleteSelected::redo()
@@ -143,8 +154,19 @@ void ribi::cmap::CommandDeleteSelected::redo()
 
   GetQtToolItem(*this).SetBuddyItem(nullptr);
   GetQtExamplesItem(*this).SetBuddyItem(nullptr);
+
+  //Each QtEdge that is on a QtNode that is selected to be deleted,
+  //must be selected, so it will be deleted as well
+  SelectAllQtEdgesOnSelectedQtNodes();
+
+  CheckInvariantAsMuchNodesAsQtNodes(GetQtConceptMap());
+  CheckInvariantAsMuchEdgesAsQtEdges(GetQtConceptMap());
+
   RemoveSelectedQtEdges();
   RemoveSelectedQtNodes();
+
+  CheckInvariantAsMuchEdgesAsQtEdges(GetQtConceptMap());
+  CheckInvariantAsMuchNodesAsQtNodes(GetQtConceptMap());
 
   CheckInvariants(GetQtConceptMap());
 
@@ -153,14 +175,41 @@ void ribi::cmap::CommandDeleteSelected::redo()
   CheckInvariants(GetQtConceptMap());
 }
 
+void ribi::cmap::CommandDeleteSelected::SelectAllQtEdgesOnSelectedQtNodes()
+{
+  for (QtEdge * qtedge: GetQtEdges(GetQtConceptMap()))
+  {
+    if (qtedge->GetFrom()->isSelected())
+    {
+      SetSelectedness(true, *qtedge, GetQtConceptMap());
+    }
+    else if (qtedge->GetTo()->isSelected())
+    {
+      SetSelectedness(true, *qtedge, GetQtConceptMap());
+    }
+  }
+}
+
 void ribi::cmap::CommandDeleteSelected::SetSelected(
   const QList<QGraphicsItem *>& v,
   const bool is_selected
-) const noexcept
+) noexcept
 {
   for (auto item: v)
   {
-    item->setSelected(is_selected);
+    if (QtNode* const qtnode = dynamic_cast<QtNode*>(item))
+    {
+      SetSelectedness(is_selected, *qtnode, GetQtConceptMap());
+    }
+    else if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      SetSelectedness(is_selected, *qtedge, GetQtConceptMap());
+    }
+    else
+    {
+      assert(!"Do not expect to get here");
+      item->setSelected(is_selected);
+    }
   }
 }
 
@@ -170,8 +219,15 @@ void ribi::cmap::CommandDeleteSelected::undo()
 
   assert(AllHaveSameScene());
 
+  CheckInvariantAsMuchEdgesAsQtEdges(GetQtConceptMap());
+  CheckInvariantAsMuchNodesAsQtNodes(GetQtConceptMap());
+
   AddDeletedQtNodes();
-  AddDeletedQtNodes();
+  AddDeletedQtEdges();
+
+  CheckInvariantAsMuchEdgesAsQtEdges(GetQtConceptMap());
+  CheckInvariantAsMuchNodesAsQtNodes(GetQtConceptMap());
+
   SetSelected(m_selected_before, true);
 
   GetQtConceptMap().GetQtToolItem().SetBuddyItem(m_tool_item_old_buddy);

@@ -61,7 +61,11 @@ class CommandDeleteSelected final : public Command
   ///Remove the selected QtNpodes
   void RemoveSelectedQtNodes();
 
-  void SetSelected(const QList<QGraphicsItem *>& v, const bool is_selected) const noexcept;
+  ///Each QtEdge that is on a QtNode that is selected to be deleted,
+  ///must be selected, so it will be deleted as well
+  void SelectAllQtEdgesOnSelectedQtNodes();
+
+  void SetSelected(const QList<QGraphicsItem *>& v, const bool is_selected) noexcept;
 
 };
 

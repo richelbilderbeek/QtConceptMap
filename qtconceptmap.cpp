@@ -220,9 +220,19 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
   const QtConceptMap& q
 ) noexcept
 {
+  #ifndef NDEBUG
   //All QtEdges, their QtNodes and Arrows must have a scene
   for (const auto qtedge: GetQtEdges(*q.scene()))
   {
+    if (!qtedge->GetFrom()->scene())
+    {
+      qDebug()
+        << "QtEdge '"
+        << GetText(*qtedge).c_str()
+        << "' has source QtNode '"
+        << GetText(*qtedge->GetFrom()).c_str()
+        << "' without scene";
+    }
     assert(qtedge);
     assert(qtedge->scene());
     assert(qtedge->GetArrow());
@@ -234,6 +244,7 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
     assert(qtedge->GetTo());
     assert(qtedge->GetTo()->scene());
   }
+  #endif
 }
 
 
@@ -247,6 +258,30 @@ void ribi::cmap::CheckInvariantAllQtNodesHaveAscene(
     assert(qtnode);
     assert(qtnode->scene());
   }
+}
+
+void ribi::cmap::CheckInvariantAsMuchEdgesAsQtEdges(const QtConceptMap& q) noexcept
+{
+  const int n_qtedges{CountQtEdges(q)};
+  const int n_edges{boost::numeric_cast<int>(boost::num_edges(q.GetConceptMap()))};
+  if (n_qtedges != n_edges)
+  {
+    std::cerr << "n_qtedges (" << n_qtedges
+      << ") mismatch n_edges (" << n_edges << ")\n";
+  }
+  assert(n_qtedges == n_edges);
+}
+
+void ribi::cmap::CheckInvariantAsMuchNodesAsQtNodes(const QtConceptMap& q) noexcept
+{
+  const int n_qtnodes{CountQtNodes(q)};
+  const int n_nodes{boost::numeric_cast<int>(boost::num_vertices(q.GetConceptMap()))};
+  if (n_qtnodes != n_nodes)
+  {
+    std::cerr << "n_qtnodes (" << n_qtnodes
+      << ") mismatch n_nodes (" << n_nodes << ")\n";
+  }
+  assert(n_qtnodes == n_nodes);
 }
 
 void ribi::cmap::CheckInvariantAsMuchNodesAsQtNodesSelected(
@@ -406,6 +441,8 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   assert(q.GetQtNewArrow().scene());
   assert(q.GetQtExamplesItem().scene());
   assert(q.GetQtToolItem().scene());
+  CheckInvariantAsMuchNodesAsQtNodes(q);
+  CheckInvariantAsMuchEdgesAsQtEdges(q);
   CheckInvariantAsMuchNodesAsQtNodesSelected(q);
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(q);
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(q);
@@ -1563,7 +1600,9 @@ void ribi::cmap::SetSelectedness(
 )
 {
   assert(!IsQtNodeOnEdge(&qtnode, q.GetScene())); //Otherwise find_first_custom_vertex_with_my_vertex fails
+
   //First unselect Node ...
+  assert(has_custom_vertex_with_my_vertex(qtnode.GetNode(), q.GetConceptMap()));
   const auto vd = find_first_custom_vertex_with_my_vertex(
     qtnode.GetNode(),
     q.GetConceptMap()

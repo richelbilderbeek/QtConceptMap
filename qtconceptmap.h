@@ -149,6 +149,12 @@ void CheckInvariantAllQtEdgesHaveAscene(const QtConceptMap& q) noexcept;
 ///All QtNodes must have a QScene
 void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
 
+///There must be as much Edges as QtEdges
+void CheckInvariantAsMuchEdgesAsQtEdges(const QtConceptMap& q) noexcept;
+
+///There must be as much Nodes as QtNodes
+void CheckInvariantAsMuchNodesAsQtNodes(const QtConceptMap& q) noexcept;
+
 ///There must be as much Nodes as QtNodes selected
 void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
 
