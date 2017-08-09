@@ -11,7 +11,7 @@
 #include "get_my_custom_edge.h"
 #include "count_edges_with_selectedness.h"
 #include "find_first_custom_edge_with_my_edge.h"
-#include "has_custom_edge_with_my_edge.h"
+#include "has_custom_edge.h"
 
 int ribi::cmap::CountQtCenterNodes(const QGraphicsScene& scene) noexcept
 {
@@ -148,14 +148,14 @@ ribi::cmap::Edge ribi::cmap::ExtractTheOneSelectedEdge(
   //due to the positions at the endpoint
   const auto qtedge = ExtractTheOneSelectedQtEdge(scene);
   assert(
-    has_custom_edge_with_my_edge(
-      qtedge->GetEdge(), conceptmap,
-      [](const Edge& lhs, const Edge& rhs) { return lhs.GetId() == rhs.GetId(); }
+    has_custom_edge(
+      [id = qtedge->GetEdge().GetId()](const Edge& edge) { return edge.GetId() == id; },
+      conceptmap
     )
   );
-  const auto ed = ::find_first_custom_edge_with_my_edge(
-    qtedge->GetEdge(), conceptmap,
-    [](const Edge& lhs, const Edge& rhs) { return lhs.GetId() == rhs.GetId(); }
+  const auto ed = ::find_first_custom_edge(
+    [id = qtedge->GetEdge().GetId()](const Edge& edge) { return edge.GetId() == id; },
+    conceptmap
   );
   const Edge edge = get_my_custom_edge(ed, conceptmap);
   assert(edge.GetId() == qtedge->GetEdge().GetId());

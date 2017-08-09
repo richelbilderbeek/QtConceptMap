@@ -42,7 +42,7 @@
 #include "find_first_custom_edge_with_my_edge.h"
 #include "get_my_custom_vertex.h"
 #include "get_my_custom_edge.h"
-#include "has_custom_edge_with_my_edge.h"
+#include "has_custom_edge.h"
 #include "qtarrowitem.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapcommandcreatenewedge.h"
@@ -357,10 +357,10 @@ void ribi::cmap::CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const
     const auto qtedge = ExtractTheOneSelectedQtEdge(*q.scene());
     //The QtEdge its edge must be in the concept map
     //Can only compare IDs, as QtEdge::GetEdge() and its equivalent in the concept map may mismatch
-    assert(
-      has_custom_edge_with_my_edge(
-        qtedge->GetEdge(),
-        q.GetConceptMap())
+    assert(has_custom_edge(
+        [id = qtedge->GetEdge().GetId()](const Edge& edge) { return edge.GetId() == id; },
+        q.GetConceptMap()
+      )
     );
     const auto edge = ExtractTheOneSelectedEdge(q.GetConceptMap(), *q.scene());
     assert(qtedge->GetEdge().GetId() == edge.GetId());

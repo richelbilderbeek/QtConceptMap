@@ -39,6 +39,12 @@ ConceptMap& GetConceptMap(Command& cmd) noexcept;
 const ConceptMap& GetConceptMap(const Command& cmd) noexcept;
 
 //Convenience
+QtExamplesItem& GetQtExamplesItem(Command& cmd) noexcept;
+
+//Convenience
+const QtExamplesItem& GetQtExamplesItem(const Command& cmd) noexcept;
+
+//Convenience
 QtTool& GetQtToolItem(Command& cmd) noexcept;
 
 //Convenience

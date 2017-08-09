@@ -18,6 +18,17 @@ const ribi::cmap::ConceptMap& ribi::cmap::GetConceptMap(const Command& cmd) noex
   return cmd.GetQtConceptMap().GetConceptMap();
 }
 
+ribi::cmap::QtExamplesItem& ribi::cmap::GetQtExamplesItem(Command& cmd) noexcept
+{
+  return cmd.GetQtConceptMap().GetQtExamplesItem();
+}
+
+const ribi::cmap::QtExamplesItem& ribi::cmap::GetQtExamplesItem(
+  const Command& cmd) noexcept
+{
+  return cmd.GetQtConceptMap().GetQtExamplesItem();
+}
+
 ribi::cmap::QtTool& ribi::cmap::GetQtToolItem(Command& cmd) noexcept
 {
   return cmd.GetQtConceptMap().GetQtToolItem();

@@ -12,6 +12,7 @@
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
+#include "qtconceptmapexamplesitem.h"
 #include "qtconceptmaphelper.h"
 #include "find_first_custom_edge_with_my_edge.h"
 #include "find_first_custom_vertex_with_my_vertex.h"
@@ -136,21 +137,16 @@ void ribi::cmap::CommandDeleteSelected::redo()
     }
   }
 
-  //Remove the selected vertices from the concept map
-
-  //Find the selected nodes to be deleted
-  //CollectQtNodesRemoved();
-
-  //Find the edges to be deleted. These can be selected themselves,
-  // or connected to a selected qtnode
-  //CollectQtEdgesRemoved();
-
   assert(AllHaveSameScene());
 
-  GetQtConceptMap().GetQtToolItem().SetBuddyItem(nullptr);
+  CheckInvariants(GetQtConceptMap());
 
+  GetQtToolItem(*this).SetBuddyItem(nullptr);
+  GetQtExamplesItem(*this).SetBuddyItem(nullptr);
   RemoveSelectedQtEdges();
   RemoveSelectedQtNodes();
+
+  CheckInvariants(GetQtConceptMap());
 
   assert(AllHaveSameScene());
 
