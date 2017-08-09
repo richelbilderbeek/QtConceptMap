@@ -2,7 +2,7 @@
 
 #include <cassert>
 #include <sstream>
-
+#include <numeric>
 #include <gsl/gsl_assert>
 #include <boost/algorithm/string/trim.hpp>
 
@@ -35,9 +35,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
 ) : Command(qtconceptmap),
     m_text{text},
     m_added_qtedge{nullptr},
-    m_added_qtnode{nullptr},
-    m_qtfrom{nullptr},
-    m_qtto{nullptr},
+    //m_added_qtnode{nullptr},
     m_selected_before{}
 {
   this->setText("Create new edge between two selected nodes");
@@ -50,11 +48,26 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   m_added_qtedge = nullptr;
 }
 
+ribi::cmap::EdgeDescriptor ribi::cmap::AddEdgeBetweenTwoSelectedVertices(
+  const std::string& text,
+  ConceptMap& c)
+{
+  assert(count_vertices_with_selectedness(true, c) == 2);
+
+  const double midx{GetSelectedNodesMeanX(c)};
+  const double midy{GetSelectedNodesMeanY(c)};
+
+  //Create a new edge on the concept map 'm_after' with the correct text
+  const auto ed = add_edge_between_selected_vertices(c);
+  set_my_custom_edge(Edge(Node(Concept(text), false, midx, midy)), ed, c);
+  return ed;
+}
+
 bool ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ::AllHaveScene(const QGraphicsScene * const scene) noexcept
 {
   return m_added_qtedge->scene() == scene
-    && m_added_qtnode->scene() == scene
+    //&& m_added_qtnode->scene() == scene
     && m_added_qtedge->GetArrow()->scene() == scene
   ;
 }
@@ -85,6 +98,59 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CheckCanRedo() con
     ;
     throw std::invalid_argument(msg.str());
   }
+}
+
+std::pair<int, int> ribi::cmap::GetFromToIds(const EdgeDescriptor ed, const ConceptMap& c)
+{
+  const VertexDescriptor vd_from = boost::source(ed, c);
+  const VertexDescriptor vd_to = boost::target(ed, c);
+  assert(vd_from != vd_to);
+  const Node from = get_my_custom_vertex(vd_from, c);
+  const Node to   = get_my_custom_vertex(vd_to  , c);
+  assert(from.GetId() != to.GetId());
+  return std::make_pair(from.GetId(), to.GetId());
+}
+
+std::pair<ribi::cmap::QtNode*, ribi::cmap::QtNode*>
+ribi::cmap::GetFromToQtNodes(
+  const EdgeDescriptor ed, const QtConceptMap& q)
+{
+  const std::pair<int, int> from_to_ids = GetFromToIds(ed, q.GetConceptMap());
+
+  //Find the QtNodes where a new QtEdge needs to be created in between
+  QtNode * const qtfrom = FindQtNode(from_to_ids.first, q);
+  assert(qtfrom);
+  QtNode * const qtto = FindQtNode(from_to_ids.second, q);
+  assert(qtto);
+  assert(qtfrom != qtto);
+  return std::make_pair(qtfrom, qtto);
+
+}
+
+double ribi::cmap::GetSelectedNodesMeanX(const ConceptMap& c)
+{
+  const auto vds = get_vertices_with_selectedness(true, c);
+  return std::accumulate(
+    std::begin(vds), std::end(vds),
+    0.0,
+    [c](const double init, const auto vd)
+    {
+      return init + GetX(get_my_custom_vertex(vd, c));
+    }
+  ) / static_cast<double>(vds.size());
+}
+
+double ribi::cmap::GetSelectedNodesMeanY(const ConceptMap& c)
+{
+  const auto vds = get_vertices_with_selectedness(true, c);
+  return std::accumulate(
+    std::begin(vds), std::end(vds),
+    0.0,
+    [c](const double init, const auto vd)
+    {
+      return init + GetY(get_my_custom_vertex(vd, c));
+    }
+  ) / static_cast<double>(vds.size());
 }
 
 std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
@@ -122,95 +188,65 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   ConceptMap& concept_map = GetQtConceptMap().GetConceptMap();
 
 
-  double midx{0.0};
-  double midy{0.0};
-  {
-    const auto vds = get_vertices_with_selectedness(true, concept_map);
-    assert(vds.size() == 2);
-    const int x1 = GetX(get_my_custom_vertex(vds[0], concept_map));
-    const int y1 = GetY(get_my_custom_vertex(vds[0], concept_map));
-    const int x2 = GetX(get_my_custom_vertex(vds[1], concept_map));
-    const int y2 = GetY(get_my_custom_vertex(vds[1], concept_map));
-    midx = (x1 + x2) / 2.0;
-    midy = (y1 + y2) / 2.0;
-  }
-
-  //Create a new edge on the concept map 'm_after' with the correct text
-  const auto ed = add_edge_between_selected_vertices(concept_map);
-  set_my_custom_edge(
-    Edge(Node(Concept(m_text), false, midx, midy)), ed, GetQtConceptMap().GetConceptMap());
+  const auto ed = AddEdgeBetweenTwoSelectedVertices(
+    m_text,
+    GetQtConceptMap().GetConceptMap()
+  );
 
   assert(!boost::isomorphism(concept_map_before, concept_map));
   assert(::ribi::cmap::GetText(
     get_my_custom_edge(ed, GetQtConceptMap().GetConceptMap())) == m_text);
 
-  //Obtain the nodes where this edge was created
-  const VertexDescriptor vd_from = boost::source(ed, concept_map);
-  const VertexDescriptor vd_to = boost::target(ed, concept_map);
-  assert(vd_from != vd_to);
-  const Node from = get_my_custom_vertex(vd_from, GetQtConceptMap().GetConceptMap());
-  const Node to   = get_my_custom_vertex(vd_to  , GetQtConceptMap().GetConceptMap());
-  assert(from.GetId() != to.GetId());
-
-  //-------------
-  // QtConceptMap
-  //-------------
-  //Find the QtNodes where a new QtEdge needs to be created in between
-  QtNode * const qtfrom = FindQtNode(from.GetId(), GetQtConceptMap().GetScene());
-  assert(qtfrom);
-  QtNode * const qtto = FindQtNode(to.GetId(), GetQtConceptMap().GetScene());
-  assert(qtto);
+  const std::pair<QtNode*, QtNode*> qtnodes = GetFromToQtNodes(ed, GetQtConceptMap());
 
   //Create the new QtEdge
   m_added_qtedge = new QtEdge(
     get_my_custom_edge(ed, GetQtConceptMap().GetConceptMap()),
-    qtfrom, qtto);
-  // Cannot write this:
-  //   assert(m_added_qtedge->GetEdge() == m_added_edge);
-  // as the endpoints of qtedge->GetEdge() have changed
-  assert(m_added_qtedge->GetEdge().GetId()
-    == get_my_custom_edge(ed, GetQtConceptMap().GetConceptMap()).GetId());
-  // Update the original edge
-  //? m_added_edge = m_added_qtedge->GetEdge();
-  //? assert(m_added_qtedge->GetEdge() == added_edge);
-
-  //m_qtedge has added a QtNode itself. Store it
-  m_added_qtnode = m_added_qtedge->GetQtNode();
+    qtnodes.first,
+    qtnodes.second
+  );
 
   //-----------------------
   // Using
   //-----------------------
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 
+  GetQtConceptMap().GetScene().clearFocus();
   m_added_qtedge->setFocus();
-
+  //m_added_qtedge->GetQtNode()->setFocus();
   SetSelectedness(true, *m_added_qtedge, GetQtConceptMap());
 
   assert(AllHaveScene(nullptr));
   GetQtConceptMap().GetScene().addItem(m_added_qtedge);
   assert(AllHaveScene(&GetQtConceptMap().GetScene()));
 
-  m_added_qtnode->setFocus();
-
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 
-  SetSelectedness(true, *m_added_qtnode, GetQtConceptMap());
-
-  m_added_qtnode->SetBrushFunction(
+  m_added_qtedge->GetQtNode()->SetBrushFunction(
     GetQtNodeBrushFunction(
       GetQtConceptMap().GetMode()
     )
   );
-  SetQtToolItemBuddy(GetQtConceptMap(), m_added_qtnode);
+  SetQtToolItemBuddy(GetQtConceptMap(), m_added_qtedge->GetQtNode());
   CheckInvariantSingleSelectedQtNodeMustHaveQtTool(GetQtConceptMap());
 
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
+  assert(IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
 
   SetSelectedness(false, *m_added_qtedge->GetFrom(), GetQtConceptMap());
 
+  assert(IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
+
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 
-  SetSelectedness(false, *m_added_qtedge->GetTo()  , GetQtConceptMap());
+  assert( m_added_qtedge->GetTo());
+  assert( m_added_qtedge->GetTo()->isSelected());
+  assert( IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
+
+  SetSelectedness(false, *m_added_qtedge->GetTo(), GetQtConceptMap());
+
+  assert(!m_added_qtedge->GetTo()->isSelected());
+  assert(!IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
 
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 
@@ -257,7 +293,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   //GetQtConceptMap().GetScene().removeItem(m_added_qtedge->GetArrow()); //Get these for free
   assert(AllHaveScene(nullptr));
   m_added_qtedge->SetSelected(false);
-  m_added_qtnode->setSelected(false);
+  m_added_qtedge->GetQtNode()->setSelected(false);
   m_added_qtedge->GetFrom()->setSelected(false);
   m_added_qtedge->GetTo()->setSelected(true);
   m_added_qtedge->GetTo()->setFocus();

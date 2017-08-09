@@ -48,13 +48,7 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   QtEdge * m_added_qtedge;
 
   ///The QtNode being at the center of m_added_qtedge
-  QtNode * m_added_qtnode;
-
-  ///The first selected QtNode
-  QtNode * m_qtfrom;
-
-  ///The second selected QtNode
-  QtNode * m_qtto;
+  //QtNode * m_added_qtnode;
 
   ///All selected QGraphicsItem before the command
   QList<QGraphicsItem *> m_selected_before;
@@ -67,10 +61,26 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   void CheckCanRedo() const;
 };
 
+///Add an Edge located in between two selected vertices with a certain text
+EdgeDescriptor AddEdgeBetweenTwoSelectedVertices(
+  const std::string& text,
+  ConceptMap& c);
+
 CommandCreateNewEdgeBetweenTwoSelectedNodes * parse_command_create_new_edge(
   QtConceptMap& qtconceptmap, std::string s);
 
+///Get the ID of the Nodes being the source and target of the edge descriptor
+std::pair<int, int> GetFromToIds(const EdgeDescriptor ed, const ConceptMap& c);
+
+std::pair<QtNode*, QtNode*> GetFromToQtNodes(const EdgeDescriptor ed, const QtConceptMap& q);
+
 std::string GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept;
+
+///Get the mean X coordinat of the selected nodes
+double GetSelectedNodesMeanX(const ConceptMap& c);
+
+///Get the mean Y coordinat of the selected nodes
+double GetSelectedNodesMeanY(const ConceptMap& c);
 
 } //~namespace cmap
 } //~namespace ribi

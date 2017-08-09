@@ -60,7 +60,7 @@ QtEdge * FindQtEdge(
   const QGraphicsScene& scene
 ) noexcept;
 
-///Finds the first QtNode in a QGraphicsScene with a matching edge ID
+///Finds the first QtNode in a QGraphicsScene with a matching node ID
 ///Returns nullptr if there is none
 QtNode * FindQtNode(const int node_id, const QGraphicsScene& scene) noexcept;
 

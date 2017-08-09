@@ -442,6 +442,13 @@ int ribi::cmap::CountSelectedQtEdges(const QtConceptMap& q) noexcept
   return CountSelectedQtEdges(q.GetScene());
 }
 
+ribi::cmap::QtNode * ribi::cmap::FindQtNode(
+  const int node_id,
+  const QtConceptMap& q) noexcept
+{
+  return FindQtNode(node_id, q.GetScene());
+}
+
 void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
 {
   q.GetQtExamplesItem().hide();
