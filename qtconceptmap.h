@@ -205,6 +205,9 @@ std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
 ///Get both the QtNodes that are 'standalone' or are on an edge
 std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QtConceptMap& q) noexcept;
 
+///Get the selected QtEdges
+std::vector<QtEdge *> GetSelectedQtEdges(const QtConceptMap& q) noexcept;
+
 ///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;
 std::vector<QtNode *> GetSelectedQtNodes(const QtConceptMap& q) noexcept;
 
@@ -220,6 +223,15 @@ void HideExamplesItem(QtConceptMap& q) noexcept;
 
 ///Is this QtNode in the center on a QtEdge?
 bool IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept;
+
+///Is there a QtCenterNode among the selected items?
+bool IsQtCenterNodeSelected(const QtConceptMap& q);
+
+///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
+bool IsQtNodeOnEdge(
+  const QGraphicsItem * const item,
+  const QtConceptMap& q
+) noexcept;
 
 void keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept;
@@ -305,6 +317,12 @@ void SetSelectedness(
   QtNode& qtnode,
   QtConceptMap& q
 );
+
+///Unselect all QtEdges (and the Edges in the ConceptMap)
+void UnselectAllQtEdges(QtConceptMap& q);
+
+///Unselect all QtNodes (and the Nodes in the ConceptMap)
+void UnselectAllQtNodes(QtConceptMap& q);
 
 /// Writes the selecteness of the QtConceptMap
 /// to the ConceptMap

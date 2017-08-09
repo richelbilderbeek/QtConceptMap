@@ -8,6 +8,7 @@
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include <QUndoCommand>
+#include "conceptmapgraphtypes.h"
 #include "conceptmapfwd.h"
 #include "qtconceptmapfwd.h"
 #pragma GCC diagnostic pop
@@ -30,6 +31,24 @@ struct Command : public QUndoCommand
   private:
   QtConceptMap& m_qtconceptmap;
 };
+
+//Convenience
+ConceptMap& GetConceptMap(Command& cmd) noexcept;
+
+//Convenience
+const ConceptMap& GetConceptMap(const Command& cmd) noexcept;
+
+//Convenience
+QtTool& GetQtToolItem(Command& cmd) noexcept;
+
+//Convenience
+const QtTool& GetQtToolItem(const Command& cmd) noexcept;
+
+//Convenience
+QGraphicsScene& GetScene(Command& cmd) noexcept;
+
+//Convenience
+const QGraphicsScene& GetScene(const Command& cmd) noexcept;
 
 } //~namespace cmap
 } //~namespace ribi

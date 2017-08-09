@@ -360,12 +360,7 @@ void ribi::cmap::CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const
     assert(
       has_custom_edge_with_my_edge(
         qtedge->GetEdge(),
-        q.GetConceptMap(),
-        [](const Edge& lhs, const Edge& rhs)
-        {
-          return lhs.GetId() == rhs.GetId();
-        }
-      )
+        q.GetConceptMap())
     );
     const auto edge = ExtractTheOneSelectedEdge(q.GetConceptMap(), *q.scene());
     assert(qtedge->GetEdge().GetId() == edge.GetId());
@@ -457,6 +452,19 @@ void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
 bool ribi::cmap::IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept
 {
   return IsOnEdge(&qtnode, q.GetScene());
+}
+
+bool ribi::cmap::IsQtCenterNodeSelected(const QtConceptMap& q)
+{
+  return IsQtCenterNodeSelected(q.GetScene());
+}
+
+bool ribi::cmap::IsQtNodeOnEdge(
+  const QGraphicsItem * const item,
+  const QtConceptMap& q
+) noexcept
+{
+  return IsQtNodeOnEdge(item, q.GetScene());
 }
 
 void ribi::cmap::RemoveConceptMap(QtConceptMap& q)
@@ -588,6 +596,12 @@ std::vector<ribi::cmap::QtNode *> ribi::cmap::GetQtNodesAlsoOnQtEdge(
   return GetQtNodesAlsoOnQtEdge(q.GetScene());
 }
 
+std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetSelectedQtEdges(
+  const QtConceptMap& q) noexcept
+{
+  return GetSelectedQtEdges(q.GetScene());
+}
+
 std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodes(const QtConceptMap& q) noexcept
 {
   return GetSelectedQtNodes(q.GetScene());
@@ -690,6 +704,8 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 
 void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
+  CheckInvariants(q);
+
   try
   {
     q.DoCommand(new CommandDeleteSelected(q));
@@ -699,6 +715,8 @@ void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
   {
     event->ignore();
   }
+
+  CheckInvariants(q);
 }
 
 void ribi::cmap::keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept
@@ -1327,13 +1345,22 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
   assert(new_focus_item);
   assert(!new_focus_item->isSelected());
 
-  new_focus_item->setSelected(true);
-  new_focus_item->setFocus();
+  if (QtEdge * const qtedge = FindQtEdge(new_focus_item, q.GetScene()))
+  {
+    SetSelectedness(true, *qtedge, q);
+  }
+  else
+  {
+    SetSelectedness(true, *new_focus_item, q);
+  }
+
   if (HasExamples(*new_focus_item))
   {
     SetQtExamplesBuddy(q, new_focus_item);
   }
   SetQtToolItemBuddy(q, new_focus_item);
+
+  new_focus_item->setFocus(); //Do after SetQt(Tool&Example)Buddies
   q.update();
   if (!new_focus_item->isSelected())
   {
@@ -1460,8 +1487,16 @@ void ribi::cmap::SetRandomFocusExclusive(
 )
 {
   CheckInvariants(q);
-  UnselectAllItems(q);
-  ReallyLoseFocus(q);
+
+  UnselectAllQtNodes(q);
+  UnselectAllQtEdges(q);
+  //UnselectAllItems(q);
+
+  if (q.GetScene().focusItem())
+  {
+    q.GetScene().focusItem()->clearFocus();
+  }
+  //ReallyLoseFocus(q);
 
   //Let a random QtNode receive focus
   const auto items = GetFocusableNonselectedItems(q);
@@ -1527,6 +1562,7 @@ void ribi::cmap::SetSelectedness(
   QtConceptMap& q
 )
 {
+  assert(!IsQtNodeOnEdge(&qtnode, q.GetScene())); //Otherwise find_first_custom_vertex_with_my_vertex fails
   //First unselect Node ...
   const auto vd = find_first_custom_vertex_with_my_vertex(
     qtnode.GetNode(),
@@ -1569,6 +1605,23 @@ void ribi::cmap::QtConceptMap::Undo()
   CheckInvariants(*this);
   m_undo.undo();
   CheckInvariants(*this);
+}
+
+
+void ribi::cmap::UnselectAllQtEdges(QtConceptMap& q)
+{
+  for (QtEdge * const qtedge: GetQtEdges(q))
+  {
+    SetSelectedness(false, *qtedge, q);
+  }
+}
+
+void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
+{
+  for (QtNode * const qtnode: GetQtNodes(q))
+  {
+    SetSelectedness(false, *qtnode, q);
+  }
 }
 
 void ribi::cmap::UpdateConceptMap(QtConceptMap& q)

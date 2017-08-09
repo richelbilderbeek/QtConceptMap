@@ -157,6 +157,9 @@ void ribi::cmap::CommandCreateNewNode::undo()
   Expects(CountSelectedQtNodes(GetQtConceptMap())
     == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
 
+  m_added_qtnode->clearFocus();
+  SetSelectedness(false, *m_added_qtnode, GetQtConceptMap());
+
   //Remove node
   boost::remove_vertex(
     find_first_custom_vertex_with_my_vertex(m_added_qtnode->GetNode(), GetQtConceptMap().GetConceptMap()),
@@ -165,6 +168,7 @@ void ribi::cmap::CommandCreateNewNode::undo()
 
   //Remove QtNode
   assert(m_added_qtnode->scene());
+  //
   GetQtConceptMap().GetScene().removeItem(m_added_qtnode);
   assert(!m_added_qtnode->scene());
   m_tool_item->SetBuddyItem(m_tool_item_old_buddy);

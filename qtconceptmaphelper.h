@@ -121,6 +121,7 @@ std::vector<QtNode *> GetQtNodes(const QGraphicsScene& scene) noexcept;
 ///Get both the QtNodes that are 'standalone' or are on an edge
 std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept;
 
+///Get the selected QtEdges
 std::vector<QtEdge *> GetSelectedQtEdges(const QGraphicsScene& scene) noexcept;
 
 ///Get all the selected 'standalone' QtNodes; QtNodes that QtEdge can connect to;
@@ -137,6 +138,9 @@ bool IsOnEdge(
   const QtNode * const qtnode,
   const QGraphicsScene& scene
 ) noexcept;
+
+///Is there a QtCenterNode among the selected items?
+bool IsQtCenterNodeSelected(const QGraphicsScene& scene);
 
 ///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
 bool IsQtNodeNotOnEdge(

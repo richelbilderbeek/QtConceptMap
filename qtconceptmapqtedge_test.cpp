@@ -67,7 +67,7 @@ void ribi::cmap::qtconceptmapqtedge_test::node_must_have_dotted_black_line_when_
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
   m.show();
-  ReallyLoseFocus(m);
+  //ReallyLoseFocus(m);
   QtEdge * const qtedge = GetLastQtEdge(m.GetScene());
   QtNode * const qtnode = qtedge->GetQtNode();
   qtnode->setSelected(true);

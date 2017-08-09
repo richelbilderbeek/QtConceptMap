@@ -13,6 +13,8 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "find_first_custom_edge_with_my_edge.h"
+#include "find_first_custom_vertex_with_my_vertex.h"
 #include "remove_selected_custom_edges_and_vertices.h"
 
 ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
@@ -20,72 +22,41 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
 )
   : Command(qtconceptmap),
     m_conceptmap(qtconceptmap.GetConceptMap()),
-    m_conceptmap_after(qtconceptmap.GetConceptMap()),
-    m_conceptmap_before(qtconceptmap.GetConceptMap()),
+    //m_conceptmap_after(qtconceptmap.GetConceptMap()),
+    //m_conceptmap_before(qtconceptmap.GetConceptMap()),
     m_focus_item_before{qtconceptmap.GetScene().focusItem()},
     m_qtedges_removed{},
     m_qtnodes_removed{},
-    m_scene(qtconceptmap.GetScene()),
+    //m_scene(qtconceptmap.GetScene()),
     m_selected_before{qtconceptmap.GetScene().selectedItems()},
-    m_tool_item{qtconceptmap.GetQtToolItem()},
+    //m_tool_item{qtconceptmap.GetQtToolItem()},
     m_tool_item_old_buddy{qtconceptmap.GetQtToolItem().GetBuddyItem()}
 {
-  for (const auto item: m_scene.selectedItems())
-  {
-    if (IsQtCenterNode(item))
-    {
-      throw std::invalid_argument("Cannot delete center node");
-    }
-  }
-
   setText("delete selected nodes and edges");
-
-  //Count the number of vertices and edges selected
-  {
-    const int n_vertices_selected{CountSelectedNodes(m_conceptmap_after)};
-    const int n_edges_selected{CountSelectedEdges(m_conceptmap_after)};
-    if (n_vertices_selected + n_edges_selected == 0) {
-      std::stringstream msg;
-      msg << __func__ << ": no edges nor vertices selected, cannot delete zero selected items";
-      throw std::logic_error(msg.str());
-    }
-  }
-
-  //Remove the selected vertices from the concept map
-  m_conceptmap_after = ::remove_selected_custom_edges_and_vertices(m_conceptmap_after);
-
-  //Find the selected nodes to be deleted
-  CollectQtNodesRemoved();
-
-  //Find the edges to be deleted. These can be selected themselves,
-  // or connected to a selected qtnode
-  CollectQtEdgesRemoved();
-
-  assert(AllHaveSameScene());
 }
 
 
-void ribi::cmap::CommandDeleteSelected::AddToScene(const std::set<QtEdge *>& qtedges)
+void ribi::cmap::CommandDeleteSelected::AddDeletedQtEdges()
 {
-  for (const auto qtedge: qtedges)
+  for (const auto qtedge: m_qtedges_removed)
   {
     assert(qtedge);
     assert(!qtedge->scene());
-    assert(!m_scene.items().contains(qtedge));
-    m_scene.addItem(qtedge);
+    assert(!GetScene(*this).items().contains(qtedge));
+    GetScene(*this).addItem(qtedge);
     assert(qtedge->scene());
     qtedge->setZValue(-1.0);
   }
 }
 
-void ribi::cmap::CommandDeleteSelected::AddToScene(const std::set<QtNode *>& qtnodes)
+void ribi::cmap::CommandDeleteSelected::AddDeletedQtNodes()
 {
-  for (const auto qtnode: qtnodes)
+  for (const auto qtnode: m_qtnodes_removed)
   {
     assert(qtnode);
     assert(!qtnode->scene());
-    assert(!m_scene.items().contains(qtnode));
-    m_scene.addItem(qtnode);
+    assert(!GetScene(*this).items().contains(qtnode));
+    GetScene(*this).addItem(qtnode);
     assert(qtnode->scene());
   }
 }
@@ -120,10 +91,20 @@ void ribi::cmap::CommandDeleteSelected::CheckQtNodesBeforeDelete() const noexcep
   }
 }
 
-void ribi::cmap::CommandDeleteSelected::CollectQtEdgesRemoved()
+void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtEdges()
 {
+  m_qtedges_removed = GetSelectedQtEdges(GetQtConceptMap());
+  for (QtEdge * const qtedge: GetSelectedQtEdges(GetQtConceptMap()))
+  {
+    SetSelectedness(false, *qtedge, GetQtConceptMap());
+    const auto ed = find_first_custom_edge_with_my_edge(qtedge->GetEdge(), GetConceptMap(*this));
+    boost::remove_edge(ed, GetConceptMap(*this));
+    GetQtConceptMap().GetScene().removeItem(qtedge);
+  }
+
+  #ifdef KEEP_THIS_LOVELY_OBSOLETE_CODE_20170809
   //Find the edges connected to deleted nodes
-  for (const auto i: m_scene.items())
+  for (const auto i: GetQtConceptMap().GetScene().items())
   {
     assert(i->scene());
     if (QtEdge* qtedge = dynamic_cast<QtEdge*>(i))
@@ -157,11 +138,23 @@ void ribi::cmap::CommandDeleteSelected::CollectQtEdgesRemoved()
   {
     assert(qtedge->scene());
   }
+  #endif
 }
 
-void ribi::cmap::CommandDeleteSelected::CollectQtNodesRemoved()
+void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
 {
-  const auto v = GetSelectedQtNodes(m_scene);
+  m_qtnodes_removed = GetSelectedQtNodes(GetQtConceptMap());
+  for (QtNode * const qtnode: GetSelectedQtNodes(GetQtConceptMap()))
+  {
+    SetSelectedness(false, *qtnode, GetQtConceptMap());
+    const auto vd = find_first_custom_vertex_with_my_vertex(qtnode->GetNode(), GetConceptMap(*this));
+    boost::remove_vertex(vd, GetConceptMap(*this));
+    GetQtConceptMap().GetScene().removeItem(qtnode);
+  }
+
+
+  #ifdef KEEP_THIS_LOVELY_OBSOLETE_CODE_20170809
+  const auto v = GetSelectedQtNodes(GetQtConceptMap().GetScene());
   std::copy(std::begin(v), std::end(v),
     std::inserter(m_qtnodes_removed, std::end(m_qtnodes_removed))
   );
@@ -170,33 +163,49 @@ void ribi::cmap::CommandDeleteSelected::CollectQtNodesRemoved()
   {
     assert(qtnode->scene());
   }
+  #endif // KEEP_THIS_LOVELY_OBSOLETE_CODE_20170809
 }
 
 void ribi::cmap::CommandDeleteSelected::redo()
 {
+  CheckInvariants(GetQtConceptMap());
   assert(AllHaveSameScene());
 
-  m_conceptmap = m_conceptmap_after;
-
-  CheckQtNodesBeforeDelete();
-
-  for (const auto qtedge: m_qtedges_removed)
+  if (IsQtCenterNodeSelected(GetQtConceptMap()))
   {
-    assert(qtedge->scene());
-    m_scene.removeItem(qtedge);
-    assert(!qtedge->scene());
+    throw std::invalid_argument("Will not delete center node");
   }
-  for (const auto qtnode: m_qtnodes_removed)
-  {
-    assert(qtnode->scene());
-    m_scene.removeItem(qtnode);
-    assert(!qtnode->scene());
-  }
-  SetSelected(m_selected_before, false);
 
-  m_tool_item.SetBuddyItem(nullptr);
+  //Count the number of vertices and edges selected
+  {
+    const int n_vertices_selected{CountSelectedQtNodes(GetQtConceptMap())};
+    const int n_edges_selected{CountSelectedQtEdges(GetQtConceptMap())};
+    if (n_vertices_selected + n_edges_selected == 0) {
+      std::stringstream msg;
+      msg << __func__ << ": no edges nor vertices selected, cannot delete zero selected items";
+      throw std::logic_error(msg.str());
+    }
+  }
+
+  //Remove the selected vertices from the concept map
+
+  //Find the selected nodes to be deleted
+  //CollectQtNodesRemoved();
+
+  //Find the edges to be deleted. These can be selected themselves,
+  // or connected to a selected qtnode
+  //CollectQtEdgesRemoved();
 
   assert(AllHaveSameScene());
+
+  GetQtConceptMap().GetQtToolItem().SetBuddyItem(nullptr);
+
+  RemoveSelectedQtEdges();
+  RemoveSelectedQtNodes();
+
+  assert(AllHaveSameScene());
+
+  CheckInvariants(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandDeleteSelected::SetSelected(
@@ -212,15 +221,18 @@ void ribi::cmap::CommandDeleteSelected::SetSelected(
 
 void ribi::cmap::CommandDeleteSelected::undo()
 {
+  CheckInvariants(GetQtConceptMap());
+
   assert(AllHaveSameScene());
 
-  m_conceptmap = m_conceptmap_before;
-  AddToScene(m_qtnodes_removed);
-  AddToScene(m_qtedges_removed);
+  AddDeletedQtNodes();
+  AddDeletedQtNodes();
   SetSelected(m_selected_before, true);
 
-  m_tool_item.SetBuddyItem(m_tool_item_old_buddy);
-  m_scene.setFocusItem(m_focus_item_before);
+  GetQtConceptMap().GetQtToolItem().SetBuddyItem(m_tool_item_old_buddy);
+  GetQtConceptMap().GetScene().setFocusItem(m_focus_item_before);
 
   assert(AllHaveSameScene());
+
+  CheckInvariants(GetQtConceptMap());
 }

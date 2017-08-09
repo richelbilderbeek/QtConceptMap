@@ -11,7 +11,7 @@
 #include "qtconceptmapcommand.h"
 #include <QGraphicsScene>
 #include "qtconceptmaptoolsitem.h"
-#include <set>
+#include <vector>
 #pragma GCC diagnostic pop
 
 namespace ribi {
@@ -33,19 +33,19 @@ class CommandDeleteSelected final : public Command
 
   private:
   ConceptMap& m_conceptmap;
-  ConceptMap m_conceptmap_after;
-  const ConceptMap m_conceptmap_before;
+  //ConceptMap m_conceptmap_after;
+  //const ConceptMap m_conceptmap_before;
   QGraphicsItem * const m_focus_item_before;
-  std::set<QtEdge *> m_qtedges_removed;
-  std::set<QtNode *> m_qtnodes_removed;
+  std::vector<QtEdge *> m_qtedges_removed;
+  std::vector<QtNode *> m_qtnodes_removed;
 
-  QGraphicsScene& m_scene;
+  //QGraphicsScene& m_scene;
   const QList<QGraphicsItem *> m_selected_before;
-  QtTool& m_tool_item;
+  //QtTool& m_tool_item;
   QtNode * const m_tool_item_old_buddy;
 
-  void AddToScene(const std::set<QtEdge *>& qtedges);
-  void AddToScene(const std::set<QtNode *>& qtnodes);
+  void AddDeletedQtEdges();
+  void AddDeletedQtNodes();
 
   ///All items in m_qtedges_removed and m_qtnodes_removed must all have
   /// either (1) no scene, or (2) the same scene
@@ -55,11 +55,11 @@ class CommandDeleteSelected final : public Command
   ///Checks if the QtNodes are in a valid state before deletion
   void CheckQtNodesBeforeDelete() const noexcept;
 
-  ///Collect the QtEdges to be removed, must be called after CollectQtNodesRemoved
-  void CollectQtEdgesRemoved();
+  ///Remove the selected QtEdges
+  void RemoveSelectedQtEdges();
 
-  ///Collect the QtNodes to be removed
-  void CollectQtNodesRemoved();
+  ///Remove the selected QtNpodes
+  void RemoveSelectedQtNodes();
 
   void SetSelected(const QList<QGraphicsItem *>& v, const bool is_selected) const noexcept;
 

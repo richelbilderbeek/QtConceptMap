@@ -558,6 +558,18 @@ bool ribi::cmap::IsOnEdge(
   return FindQtEdge(qtnode, scene);
 }
 
+bool ribi::cmap::IsQtCenterNodeSelected(const QGraphicsScene& scene)
+{
+  for (const auto item: scene.selectedItems())
+  {
+    if (IsQtCenterNode(item))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool ribi::cmap::IsQtNodeNotOnEdge(
   const QGraphicsItem * const item,
   const QGraphicsScene& scene

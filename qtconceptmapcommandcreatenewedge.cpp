@@ -34,9 +34,7 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   const std::string& text
 ) : Command(qtconceptmap),
     m_text{text},
-    m_added_qtedge{nullptr},
-    //m_added_qtnode{nullptr},
-    m_selected_before{}
+    m_added_qtedge{nullptr}
 {
   this->setText("Create new edge between two selected nodes");
 }
@@ -60,6 +58,8 @@ ribi::cmap::EdgeDescriptor ribi::cmap::AddEdgeBetweenTwoSelectedVertices(
   //Create a new edge on the concept map 'm_after' with the correct text
   const auto ed = add_edge_between_selected_vertices(c);
   set_my_custom_edge(Edge(Node(Concept(text), false, midx, midy)), ed, c);
+
+  Ensures(::ribi::cmap::GetText(get_my_custom_edge(ed, c)) == text);
   return ed;
 }
 
@@ -179,23 +179,13 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   CheckCanRedo(); //Throws if not
   CheckInvariants(GetQtConceptMap());
 
-  m_selected_before = GetQtConceptMap().GetScene().selectedItems();
-
   //-------------
-  // Concept map
+  // Add Edge and QtEdge
   //-------------
-  const ConceptMap concept_map_before = GetQtConceptMap().GetConceptMap();
-  ConceptMap& concept_map = GetQtConceptMap().GetConceptMap();
-
-
   const auto ed = AddEdgeBetweenTwoSelectedVertices(
     m_text,
     GetQtConceptMap().GetConceptMap()
   );
-
-  assert(!boost::isomorphism(concept_map_before, concept_map));
-  assert(::ribi::cmap::GetText(
-    get_my_custom_edge(ed, GetQtConceptMap().GetConceptMap())) == m_text);
 
   const std::pair<QtNode*, QtNode*> qtnodes = GetFromToQtNodes(ed, GetQtConceptMap());
 
@@ -228,29 +218,9 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
     )
   );
   SetQtToolItemBuddy(GetQtConceptMap(), m_added_qtedge->GetQtNode());
-  CheckInvariantSingleSelectedQtNodeMustHaveQtTool(GetQtConceptMap());
-
-  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
-  assert(IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
 
   SetSelectedness(false, *m_added_qtedge->GetFrom(), GetQtConceptMap());
-
-  assert(IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
-
-  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
-
-  assert( m_added_qtedge->GetTo());
-  assert( m_added_qtedge->GetTo()->isSelected());
-  assert( IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
-
   SetSelectedness(false, *m_added_qtedge->GetTo(), GetQtConceptMap());
-
-  assert(!m_added_qtedge->GetTo()->isSelected());
-  assert(!IsSelected(m_added_qtedge->GetTo()->GetNode(), GetQtConceptMap().GetConceptMap()));
-
-  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
-
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
 
   // Cannot write this:
   //   assert(m_added_qtedge->GetEdge() == m_added_edge);
@@ -280,6 +250,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
 {
   CheckInvariants(GetQtConceptMap());
 
+  GetQtConceptMap().GetScene().clearFocus();
+
   //ConceptMap
   boost::remove_edge(
     find_first_custom_edge_with_my_edge(m_added_qtedge->GetEdge(), GetQtConceptMap().GetConceptMap()),
@@ -288,17 +260,15 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
 
   //QtConceptMap
   assert(AllHaveScene(&GetQtConceptMap().GetScene()));
+
   GetQtConceptMap().GetScene().removeItem(m_added_qtedge);
   //GetQtConceptMap().GetScene().removeItem(m_added_qtnode); //Get these for free
   //GetQtConceptMap().GetScene().removeItem(m_added_qtedge->GetArrow()); //Get these for free
-  assert(AllHaveScene(nullptr));
-  m_added_qtedge->SetSelected(false);
-  m_added_qtedge->GetQtNode()->setSelected(false);
-  m_added_qtedge->GetFrom()->setSelected(false);
-  m_added_qtedge->GetTo()->setSelected(true);
-  m_added_qtedge->GetTo()->setFocus();
 
-  for (auto item: m_selected_before) { item->setSelected(true); }
+  SetSelectedness(false, *m_added_qtedge           , GetQtConceptMap());
+  SetSelectedness(false, *m_added_qtedge->GetFrom(), GetQtConceptMap());
+  SetSelectedness(true , *m_added_qtedge->GetTo()  , GetQtConceptMap());
+  m_added_qtedge->GetTo()->setFocus();
 
   //Post-conditions
   Ensures(CountSelectedQtNodes(GetQtConceptMap())

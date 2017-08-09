@@ -43,18 +43,22 @@ class CommandCreateNewNode final : public Command
   void redo() override;
   void undo() override;
 
-
   private:
   QtNode * m_added_qtnode;
 
-  //Will the added QtNode be a center node
+  ///Will the added QtNode be a center node
   bool m_is_center_node;
 
-  //Text on the added QtNode
+  ///Text on the added QtNode
   const std::string m_text;
+
   QtTool * m_tool_item;
   QtNode * m_tool_item_old_buddy;
+
+  ///X coordinat of (center of) added QtNode
   const double m_x;
+
+  ///Y coordinat of (center of) added QtNode
   const double m_y;
 };
 

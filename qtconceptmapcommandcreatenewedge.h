@@ -47,12 +47,6 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   ///The QtEdge being added
   QtEdge * m_added_qtedge;
 
-  ///The QtNode being at the center of m_added_qtedge
-  //QtNode * m_added_qtnode;
-
-  ///All selected QGraphicsItem before the command
-  QList<QGraphicsItem *> m_selected_before;
-
   ///Checks if added elements have already or not the supplied
   ///QScene. scene may be nullptr
   bool AllHaveScene(const QGraphicsScene * const scene) noexcept;
