@@ -140,6 +140,20 @@ void AddEdgesToScene(QtConceptMap& qtconceptmap) noexcept;
 
 void AddNodesToScene(QtConceptMap& qtconceptmap) noexcept;
 
+///Add a QtNode to the scene, add its Node to the ConceptMap
+///This is used by, among others, CommandDeleteSelected::undo
+void AddQtEdge(
+  QtEdge * const qtedge,
+  QtConceptMap& q
+);
+
+///Add a QtNode to the scene, add its Node to the ConceptMap
+///This is used by, among others, CommandDeleteSelected::undo
+void AddQtNode(
+  QtNode * const qtnode,
+  QtConceptMap& q
+);
+
 ///Checks if the QtConceptMap is in a valid state
 void CheckInvariants(const QtConceptMap& q) noexcept;
 
@@ -204,6 +218,8 @@ QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
 ///Get all the QtEdges
 std::vector<QtEdge *> GetQtEdges(const QtConceptMap& q) noexcept;
+
+constexpr double GetQtEdgeZvalue() { return -1.0; }
 
 ///Get all the 'standalone' (those not on an edge) QtNodes
 std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;

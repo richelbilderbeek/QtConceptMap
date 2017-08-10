@@ -42,11 +42,7 @@ void ribi::cmap::CommandDeleteSelected::AddDeletedQtEdges()
   for (const auto qtedge: m_qtedges_removed)
   {
     assert(qtedge);
-    assert(!qtedge->scene());
-    assert(!GetScene(*this).items().contains(qtedge));
-    GetScene(*this).addItem(qtedge);
-    assert(qtedge->scene());
-    qtedge->setZValue(-1.0);
+    AddQtEdge(qtedge, GetQtConceptMap());
   }
 }
 
@@ -55,10 +51,7 @@ void ribi::cmap::CommandDeleteSelected::AddDeletedQtNodes()
   for (const auto qtnode: m_qtnodes_removed)
   {
     assert(qtnode);
-    assert(!qtnode->scene());
-    assert(!GetScene(*this).items().contains(qtnode));
-    GetScene(*this).addItem(qtnode);
-    assert(qtnode->scene());
+    AddQtNode(qtnode, GetQtConceptMap());
   }
 }
 
@@ -116,18 +109,10 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
   m_qtnodes_removed = GetSelectedQtNodes(GetQtConceptMap());
   for (QtNode * const qtnode: GetSelectedQtNodes(GetQtConceptMap()))
   {
-    std::clog << "before: n_qtnodes: " << CountQtNodes(GetQtConceptMap()) << ", n_nodes: " << boost::num_vertices(GetConceptMap(*this)) << '\n';
-
     SetSelectedness(false, *qtnode, GetQtConceptMap());
     const auto vd = find_first_custom_vertex_with_my_vertex(qtnode->GetNode(), GetConceptMap(*this));
     boost::remove_vertex(vd, GetConceptMap(*this));
-
-    std::clog << "\ndeleted Node: n_qtnodes: " << CountQtNodes(GetQtConceptMap()) << ", n_nodes: " << boost::num_vertices(GetConceptMap(*this)) << '\n';
-
     GetScene(*this).removeItem(qtnode);
-
-    std::clog << "\ndeleted QtNode: n_qtnodes: " << CountQtNodes(GetQtConceptMap()) << ", n_nodes: " << boost::num_vertices(GetConceptMap(*this)) << '\n';
-
     assert(!qtnode->scene());
   }
 

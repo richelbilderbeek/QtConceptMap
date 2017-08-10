@@ -34,6 +34,7 @@
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
 #include "container.h"
+#include "add_custom_and_selectable_vertex.h"
 #include "count_edges_with_selectedness.h"
 #include "count_vertices_with_selectedness.h"
 #include "find_first_custom_edge.h"
@@ -197,6 +198,54 @@ void ribi::cmap::AddNodesToScene(
     assert(FindQtNode(node.GetId(), scene));
   }
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(qtconceptmap);
+}
+
+void ribi::cmap::AddQtEdge(
+  QtEdge * const qtedge,
+  QtConceptMap& q
+)
+{
+  CheckInvariantAsMuchEdgesAsQtEdges(q);
+
+  assert(qtedge);
+  assert(!qtedge->scene());
+  assert(!q.GetScene().items().contains(qtedge));
+  assert(has_custom_vertex_with_my_vertex(qtedge->GetFrom()->GetNode(), q.GetConceptMap()));
+  assert(has_custom_vertex_with_my_vertex(qtedge->GetTo()->GetNode(), q.GetConceptMap()));
+
+  const auto vd_from = find_first_custom_vertex_with_my_vertex(qtedge->GetFrom()->GetNode(), q.GetConceptMap());
+  const auto vd_to = find_first_custom_vertex_with_my_vertex(qtedge->GetTo()->GetNode(), q.GetConceptMap());
+
+  add_custom_and_selectable_edge_between_vertices(
+    qtedge->GetEdge(),
+    true,
+    vd_from,
+    vd_to,
+    q.GetConceptMap()
+  );
+  q.GetScene().addItem(qtedge);
+  assert(qtedge->scene());
+  qtedge->setZValue(GetQtEdgeZvalue());
+
+  CheckInvariantAsMuchEdgesAsQtEdges(q);
+}
+
+void ribi::cmap::AddQtNode(
+  QtNode * const qtnode,
+  QtConceptMap& q
+)
+{
+  CheckInvariantAsMuchNodesAsQtNodes(q);
+
+  assert(qtnode);
+  assert(!qtnode->scene());
+  assert(!q.GetScene().items().contains(qtnode));
+  add_custom_and_selectable_vertex(qtnode->GetNode(), true, q.GetConceptMap());
+  qtnode->setSelected(true);
+  q.GetScene().addItem(qtnode);
+  assert(qtnode->scene());
+
+  CheckInvariantAsMuchNodesAsQtNodes(q);
 }
 
 void ribi::cmap::QtConceptMap::changeEvent(QEvent * event)
