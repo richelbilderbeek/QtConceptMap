@@ -13,7 +13,10 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo/review
-  void delete_node_that_is_connected_to_multiple_edges_keyboard() const noexcept;
+  ///Set an empty ConceptMap in a QtConcepytMap
+  ///when one QtEdge is selected
+  void set_empty_concept_map_one_selected_edge() const noexcept;
+
 
   //Done
   void cannot_delete_center_node() const noexcept; //#114
@@ -45,6 +48,7 @@ private slots:
   void create_two_nodes_command() const noexcept;
   void create_two_nodes_keyboard() const noexcept;
   void default_construction() const noexcept;
+  void delete_node_that_is_connected_to_multiple_edges_keyboard() const noexcept;
   void delete_node_that_is_head_of_edge_keyboard() const noexcept;
   void delete_node_that_is_head_of_edge_and_undo_keyboard() const noexcept;
   void delete_node_that_is_tail_of_edge_keyboard() const noexcept;
@@ -91,9 +95,6 @@ private slots:
 
   void set_concept_maps() const noexcept;
 
-  ///Set an empty ConceptMap in a QtConcepytMap
-  ///when one QtEdge is selected
-  void set_empty_concept_map_one_selected_edge() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtNode is selected

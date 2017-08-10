@@ -51,10 +51,10 @@ ribi::cmap::CommandSelect * ribi::cmap::parse_command_select(
 
 void ribi::cmap::CommandSelect::redo()
 {
-  m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
-    [name = m_name](QtNode * const qtnode)
+  m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap(),
+    [name = m_name, &qtconceptmap = GetQtConceptMap()](QtNode * const qtnode)
     {
-      return name == GetText(*qtnode);
+      return name == GetText(*qtnode) && !IsQtNodeOnEdge(qtnode, qtconceptmap);
     }
   );
   if (m_renamed_qtnode)

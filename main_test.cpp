@@ -36,12 +36,12 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  { qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
+  //{ qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandmove_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandload_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
-  assert(!"Don't forget to let Travis test everything");
+  //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
   { qtconceptmapbrushfactory_test t; error |= QTest::qExec(&t, argc, argv); }

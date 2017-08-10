@@ -523,6 +523,13 @@ int ribi::cmap::CountSelectedQtEdges(const QtConceptMap& q) noexcept
   return CountSelectedQtEdges(q.GetScene());
 }
 
+ribi::cmap::QtNode * ribi::cmap::FindFirstQtNode(
+  const QtConceptMap& q,
+  const std::function<bool(QtNode*)> predicate) noexcept
+{
+  return FindFirstQtNode(q.GetScene(), predicate);
+}
+
 ribi::cmap::QtNode * ribi::cmap::FindQtNode(
   const int node_id,
   const QtConceptMap& q) noexcept

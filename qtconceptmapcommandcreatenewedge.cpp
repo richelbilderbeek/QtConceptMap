@@ -179,6 +179,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   CheckCanRedo(); //Throws if not
   CheckInvariants(GetQtConceptMap());
 
+  GetQtConceptMap().GetScene().clearFocus();
+
   //-------------
   // Add Edge and QtEdge
   //-------------
@@ -201,7 +203,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   //-----------------------
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 
-  GetQtConceptMap().GetScene().clearFocus();
   m_added_qtedge->setFocus();
   //m_added_qtedge->GetQtNode()->setFocus();
   SetSelectedness(true, *m_added_qtedge, GetQtConceptMap());
