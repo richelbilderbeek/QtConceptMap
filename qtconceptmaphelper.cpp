@@ -1,4 +1,5 @@
 #include "qtconceptmaphelper.h"
+#include <iostream>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include "conceptmap.h"
@@ -106,7 +107,8 @@ bool ribi::cmap::DoubleCheckEdgesAndNodes(
 bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
   const QtConceptMap& qtconceptmap,
   const int n_edges_desired,
-  const int n_nodes_desired
+  const int n_nodes_desired,
+  bool verbose
 )
 {
   const auto g = qtconceptmap.GetConceptMap();
@@ -135,8 +137,22 @@ bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
     ;
     throw std::logic_error(msg.str());
   }
-  if (n_selected_nodes != n_nodes_desired) return false;
-  if (n_selected_edges != n_edges_desired) return false;
+  if (n_selected_nodes != n_nodes_desired)
+  {
+    if (verbose)
+    {
+      std::clog << "n_selected_nodes (" << n_selected_nodes << ") != n_nodes_desired (" << n_nodes_desired << ")";
+    }
+    return false;
+  }
+  if (n_selected_edges != n_edges_desired)
+  {
+    if (verbose)
+    {
+      std::clog << "n_selected_edges (" << n_selected_edges << ") != n_edges_desired (" << n_edges_desired << ")";
+    }
+    return false;
+  }
   return true;
 }
 
@@ -586,16 +602,4 @@ bool ribi::cmap::IsQtNodeOnEdge(
 {
   const QtNode* const qtnode{dynamic_cast<const QtNode*>(item)};
   return qtnode && IsOnEdge(qtnode, scene);
-}
-
-
-void ribi::cmap::MessUp(QGraphicsScene& scene)
-{
-  for (QGraphicsItem * const item: scene.items())
-  {
-    const int dx{(std::rand() % 20) - 10};
-    const int dy{(std::rand() % 20) - 10};
-    item->moveBy(dx, dy);
-  }
-
 }

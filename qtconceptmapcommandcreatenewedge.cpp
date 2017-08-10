@@ -177,6 +177,10 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::parse_comm
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
 {
   CheckCanRedo(); //Throws if not
+
+  assert(CountSelectedQtEdges(GetScene(*this)) == 0);
+  assert(CountSelectedQtNodes(GetScene(*this)) == 2);
+
   CheckInvariants(GetQtConceptMap());
 
   GetQtConceptMap().GetScene().clearFocus();
@@ -239,6 +243,9 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   }
 
 
+  assert(CountSelectedQtEdges(GetScene(*this)) == 1);
+  assert(CountSelectedQtNodes(GetScene(*this)) == 0);
+
   //Post-condition: the text must be on the added QtEdge
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
@@ -250,6 +257,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
 void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
 {
   CheckInvariants(GetQtConceptMap());
+  assert(CountSelectedQtEdges(GetScene(*this)) == 1);
+  assert(CountSelectedQtNodes(GetScene(*this)) == 0);
 
   GetQtConceptMap().GetScene().clearFocus();
 
@@ -267,13 +276,17 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   //GetQtConceptMap().GetScene().removeItem(m_added_qtedge->GetArrow()); //Get these for free
 
   SetSelectedness(false, *m_added_qtedge           , GetQtConceptMap());
-  SetSelectedness(false, *m_added_qtedge->GetFrom(), GetQtConceptMap());
-  SetSelectedness(true , *m_added_qtedge->GetTo()  , GetQtConceptMap());
+  SetSelectedness(true, *m_added_qtedge->GetFrom(), GetQtConceptMap());
+  SetSelectedness(true, *m_added_qtedge->GetTo()  , GetQtConceptMap());
   m_added_qtedge->GetTo()->setFocus();
+
 
   //Post-conditions
   Ensures(CountSelectedQtNodes(GetQtConceptMap())
     == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
+
+  assert(CountSelectedQtEdges(GetScene(*this)) == 0);
+  assert(CountSelectedQtNodes(GetScene(*this)) == 2);
 
   CheckInvariants(GetQtConceptMap());
 }

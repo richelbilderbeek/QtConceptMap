@@ -27,7 +27,7 @@ void ribi::cmap::qtconceptmaphelper_test::mess_up()
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.show();
   QTest::qWait(1000);
-  MessUp(m.GetScene());
+  MoveQtEdgesAndQtNodesRandomly(m);
   m.show();
   QTest::qWait(1000);
 }

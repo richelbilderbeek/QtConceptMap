@@ -212,11 +212,12 @@ void ribi::cmap::qtconceptmap_test::create_one_edge_keyboard_and_undo() const no
   //Undo
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier, 100);
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
-  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2));
+  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2,true));
   //Redo
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier | Qt::ShiftModifier, 100);
   QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
+  //assert(!"FIXED");
 }
 
 void ribi::cmap::qtconceptmap_test::create_one_node_and_undo_command() const noexcept

@@ -552,6 +552,14 @@ bool ribi::cmap::IsQtCenterNodeSelected(const QtConceptMap& q)
   return IsQtCenterNodeSelected(q.GetScene());
 }
 
+bool ribi::cmap::IsQtNodeNotOnEdge(
+  const QGraphicsItem * const item,
+  const QtConceptMap& q
+) noexcept
+{
+  return IsQtNodeNotOnEdge(item, q.GetScene());
+}
+
 bool ribi::cmap::IsQtNodeOnEdge(
   const QGraphicsItem * const item,
   const QtConceptMap& q
@@ -946,6 +954,28 @@ void ribi::cmap::keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept
     }
   }
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
+}
+
+void ribi::cmap::MoveQtEdgesAndQtNodesRandomly(QtConceptMap& q)
+{
+  CheckInvariants(q);
+  for (QGraphicsItem * const item: q.GetScene().items())
+  {
+    const int dx{(std::rand() % 20) - 10};
+    const int dy{(std::rand() % 20) - 10};
+    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      Move(*qtedge, dx, dy);
+    }
+    else if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    {
+      if (IsQtNodeNotOnEdge(qtnode, q))
+      {
+        Move(*qtnode, dx, dy);
+      }
+    }
+  }
+  CheckInvariants(q);
 }
 
 void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexcept
@@ -1372,7 +1402,7 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_F2: keyPressEventF2(q, event); break;
     case Qt::Key_F4: keyPressEventF4(q, event); break;
     #ifndef NDEBUG
-    case Qt::Key_F8: MessUp(*q.scene()); break;
+    case Qt::Key_F8: MoveQtEdgesAndQtNodesRandomly(q); break;
     case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
     #endif
     case Qt::Key_H: keyPressEventH(q, event); break;

@@ -36,7 +36,8 @@ bool DoubleCheckEdgesAndNodes(
 bool DoubleCheckSelectedEdgesAndNodes(
   const QtConceptMap& qtconceptmap,
   const int n_edges,
-  const int n_nodes
+  const int n_nodes,
+  const bool verbose = false
 );
 
 ///Get the one selected Edge. Throws if there is not exactly one edge selected
@@ -153,9 +154,6 @@ bool IsQtNodeOnEdge(
   const QGraphicsItem * const item,
   const QGraphicsScene& scene
 ) noexcept;
-
-///Messes up the scene, by moving items, etc
-void MessUp(QGraphicsScene& scene);
 
 } //~namespace cmap
 } //~namespace ribi

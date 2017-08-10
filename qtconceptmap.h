@@ -255,6 +255,12 @@ bool IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept;
 ///Is there a QtCenterNode among the selected items?
 bool IsQtCenterNodeSelected(const QtConceptMap& q);
 
+///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
+bool IsQtNodeNotOnEdge(
+  const QGraphicsItem * const item,
+  const QtConceptMap& q
+) noexcept;
+
 ///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
 bool IsQtNodeOnEdge(
   const QGraphicsItem * const item,
@@ -274,9 +280,13 @@ void keyPressEventSpace(QtConceptMap& q, QKeyEvent *) noexcept;
 void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 
+///Messes up the scene, by moving items, etc
+void MoveQtEdgesAndQtNodesRandomly(QtConceptMap& q);
+
 ///Checks for QtNodes that are colliding and move these
 ///away from each other
 void MoveQtNodesAwayFromEachOther(QtConceptMap& q) noexcept;
+
 
 ///Called when an item wants to be edited
 void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);

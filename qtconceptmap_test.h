@@ -13,9 +13,8 @@ class qtconceptmap_test : public QObject
 private slots:
 
   //Todo/review
-  ///Set an empty ConceptMap in a QtConcepytMap
-  ///when one QtEdge is selected
-  void set_empty_concept_map_one_selected_edge() const noexcept;
+  void create_one_edge_keyboard_and_undo() const noexcept;
+
 
 
   //Done
@@ -29,7 +28,6 @@ private slots:
   void create_one_edge_command() const noexcept;
   void create_one_edge_command_and_check_z_order() const noexcept;
   void create_one_edge_keyboard() const noexcept;
-  void create_one_edge_keyboard_and_undo() const noexcept;
   void create_one_edge_with_head_command() const noexcept;
   void create_one_edge_with_head_keyboard() const noexcept;
   void create_one_edge_with_head_and_undo_keyboard() const noexcept;
@@ -95,6 +93,9 @@ private slots:
 
   void set_concept_maps() const noexcept;
 
+  ///Set an empty ConceptMap in a QtConcepytMap
+  ///when one QtEdge is selected
+  void set_empty_concept_map_one_selected_edge() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtNode is selected
