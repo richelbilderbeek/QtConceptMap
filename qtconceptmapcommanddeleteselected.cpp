@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-
+#include <QDebug>
 #include "conceptmap.h"
 #include "conceptmapedge.h"
 #include "conceptmapnode.h"
@@ -116,10 +116,18 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
   m_qtnodes_removed = GetSelectedQtNodes(GetQtConceptMap());
   for (QtNode * const qtnode: GetSelectedQtNodes(GetQtConceptMap()))
   {
+    std::clog << "before: n_qtnodes: " << CountQtNodes(GetQtConceptMap()) << ", n_nodes: " << boost::num_vertices(GetConceptMap(*this)) << '\n';
+
     SetSelectedness(false, *qtnode, GetQtConceptMap());
     const auto vd = find_first_custom_vertex_with_my_vertex(qtnode->GetNode(), GetConceptMap(*this));
     boost::remove_vertex(vd, GetConceptMap(*this));
-    GetQtConceptMap().GetScene().removeItem(qtnode);
+
+    std::clog << "\ndeleted Node: n_qtnodes: " << CountQtNodes(GetQtConceptMap()) << ", n_nodes: " << boost::num_vertices(GetConceptMap(*this)) << '\n';
+
+    GetScene(*this).removeItem(qtnode);
+
+    std::clog << "\ndeleted QtNode: n_qtnodes: " << CountQtNodes(GetQtConceptMap()) << ", n_nodes: " << boost::num_vertices(GetConceptMap(*this)) << '\n';
+
     assert(!qtnode->scene());
   }
 
@@ -152,6 +160,7 @@ void ribi::cmap::CommandDeleteSelected::redo()
 
   CheckInvariants(GetQtConceptMap());
 
+  GetScene(*this).clearFocus();
   GetQtToolItem(*this).SetBuddyItem(nullptr);
   GetQtExamplesItem(*this).SetBuddyItem(nullptr);
 
