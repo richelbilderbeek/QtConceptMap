@@ -34,7 +34,7 @@ ribi::cmap::CommandLoad::CommandLoad(
 }
 
 
-ribi::cmap::CommandLoad * ribi::cmap::parse_command_load(
+ribi::cmap::CommandLoad * ribi::cmap::ParseCommandLoad(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"load(my_file.cmp)"
@@ -52,11 +52,20 @@ ribi::cmap::CommandLoad * ribi::cmap::parse_command_load(
 void ribi::cmap::CommandLoad::redo()
 {
   Expects(QFile::exists(m_filename.c_str()));
+
+  CheckInvariants(GetQtConceptMap());
+
   m_before = GetQtConceptMap().GetConceptMap();
   GetQtConceptMap().SetConceptMap(LoadFromFile(m_filename));
+
+  CheckInvariants(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandLoad::undo()
 {
+  CheckInvariants(GetQtConceptMap());
+
   GetQtConceptMap().SetConceptMap(m_before);
+
+  CheckInvariants(GetQtConceptMap());
 }

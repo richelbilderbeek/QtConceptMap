@@ -6,12 +6,12 @@
 void ribi::cmap::qtconceptmapcommandsave_test::parse() const noexcept
 {
   QtConceptMap q;
-  QVERIFY(parse_command_save(q, "nonsense") == nullptr);
+  QVERIFY(ParseCommandSave(q, "nonsense") == nullptr);
   {
     const std::string filename{std::string(__func__) + ".cmp"};
     if (QFile::exists(filename.c_str())) { QFile::remove(filename.c_str()); }
 
-    const auto c = parse_command_save(q, std::string("save(") + filename + ")");
+    const auto c = ParseCommandSave(q, std::string("save(") + filename + ")");
     QVERIFY(c != nullptr);
     QVERIFY(c->GetFilename() == filename);
 

@@ -6,13 +6,14 @@
 namespace ribi {
 namespace cmap {
 
-class qtconceptmapcommands_test : public QObject
+class QtConceptMapCommandsTest : public QObject
 {
     Q_OBJECT //!OCLINT
 
 private slots:
 
   //TODO
+  void save_and_load_must_result_in_same_topology() const noexcept;
 
   //DONE
   void get_commands() const noexcept;
@@ -27,7 +28,6 @@ private slots:
   void move_command_on_edge() const noexcept;
   void move_command_on_node() const noexcept;
   void save_and_load() const noexcept; //#137
-  void save_and_load_must_result_in_same_topology() const noexcept;
   void save_command_empty_concept_map() const noexcept;
   void save_command_two_nodes_one_edge() const noexcept;
   void select_command() const noexcept;

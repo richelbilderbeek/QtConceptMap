@@ -18,8 +18,7 @@
 namespace ribi {
 namespace cmap {
 
-///Start a new node
-///-Can be used only when there is an existing concept map
+///Move a QGraphicsItems that is moveable, in this case QtEdges and non-center QtNodes
 class CommandMove final : public Command
 {
   public:
@@ -37,6 +36,13 @@ class CommandMove final : public Command
 
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }
+
+
+  /// If name was an edge name, the renamed edge
+  const QtEdge * GetMovedQtEdge() const noexcept { return m_moved_qtedge; }
+
+  /// If name was a node name, the renamed node
+  const QtNode * GetMovedQtNode() const noexcept { return m_moved_qtnode; }
 
   ///Get the Node or Edge its name
   std::string GetName() const noexcept { return m_name; }
@@ -61,7 +67,7 @@ class CommandMove final : public Command
 };
 
 /// Works on, for example  'create_new_node(0, 0, from)'
-CommandMove * parse_command_move(
+CommandMove * ParseCommandMove(
   QtConceptMap& qtconceptmap, std::string s);
 
 } //~namespace cmap

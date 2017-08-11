@@ -198,6 +198,13 @@ int CountSelectedQtNodes(const QtConceptMap& q) noexcept;
 
 int CountSelectedQtEdges(const QtConceptMap& q) noexcept;
 
+///Finds the first QtEdge by a predicate
+///Returns nullptr if there is none
+QtEdge * FindFirstQtEdge(
+  const QtConceptMap& q,
+  const std::function<bool(QtEdge*)> predicate) noexcept;
+
+
 ///Finds the first QtNode by a predicate
 ///Returns nullptr if there is none
 QtNode * FindFirstQtNode(

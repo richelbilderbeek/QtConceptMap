@@ -34,7 +34,7 @@ ribi::cmap::CommandSave::CommandSave(
 }
 
 
-ribi::cmap::CommandSave * ribi::cmap::parse_command_save(
+ribi::cmap::CommandSave * ribi::cmap::ParseCommandSave(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"save(my_file.cmp)"
@@ -55,9 +55,11 @@ void ribi::cmap::CommandSave::redo()
   {
     throw std::runtime_error("Will not save and overwrite existing file");
   }
+  CheckInvariants(GetQtConceptMap());
   Expects(!QFile::exists(m_filename.c_str()));
   SaveToFile(GetQtConceptMap(), m_filename);
   Ensures(QFile::exists(m_filename.c_str()));
+  CheckInvariants(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandSave::undo()

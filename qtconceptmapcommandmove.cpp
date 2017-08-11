@@ -37,7 +37,7 @@ ribi::cmap::CommandMove::CommandMove(
   }
 }
 
-ribi::cmap::CommandMove * ribi::cmap::parse_command_move(
+ribi::cmap::CommandMove * ribi::cmap::ParseCommandMove(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"move(my_text, 10, 20)"
@@ -68,15 +68,19 @@ void ribi::cmap::CommandMove::redo()
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
-  m_moved_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
+  m_moved_qtnode = FindFirstQtNode(GetQtConceptMap(),
     [name = m_name, &q = GetQtConceptMap()](QtNode * const qtnode)
     {
-      return name == GetText(*qtnode) && !IsOnEdge(*qtnode, q);
+      return name == GetText(*qtnode) && !IsOnEdge(*qtnode, q)
+        && qtnode->flags() & QGraphicsItem::ItemIsMovable
+      ;
     }
   );
   if (m_moved_qtnode)
   {
+    assert(!IsOnEdge(*m_moved_qtnode, GetQtConceptMap()));
     m_moved_qtedge = nullptr;
+
     Move(*m_moved_qtnode, m_dx, m_dy);
     CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   }
@@ -98,10 +102,16 @@ void ribi::cmap::CommandMove::redo()
   if (!m_moved_qtedge && !m_moved_qtnode)
   {
     std::stringstream msg;
-    msg << "Cannot find QtNode nor QtEdge with name '"
+    msg << "Cannot find movable QtNode nor QtEdge with name '"
       << this->GetName() << "'";
     throw std::runtime_error(msg.str());
   }
+
+  assert(!(0 ^ 0));
+  assert((0 ^ 1));
+  assert((1 ^ 0));
+  assert(!(1 ^ 1));
+  assert((m_moved_qtedge != nullptr) ^ (m_moved_qtnode != nullptr));
 
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());

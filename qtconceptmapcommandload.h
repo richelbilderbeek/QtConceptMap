@@ -40,7 +40,7 @@ class CommandLoad final : public Command
 };
 
 /// Works on, for example  'load(my_file.cmp)'
-CommandLoad * parse_command_load(
+CommandLoad * ParseCommandLoad(
   QtConceptMap& qtconceptmap, std::string s);
 
 } //~namespace cmap

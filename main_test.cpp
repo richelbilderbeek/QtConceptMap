@@ -36,11 +36,11 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
+  //{ QtConceptMapCommandMoveTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmap_test t; error |= QTest::qExec(&t, argc, argv); }
-  //{ qtconceptmapcommandmove_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandload_test t; error |= QTest::qExec(&t, argc, argv); }
   //{ qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
-  //{ qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
@@ -48,11 +48,11 @@ int main(int argc, char *argv[])
   { qtconceptmapcommandcreatenewedge_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandcreatenewnode_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandload_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcommandmove_test t; error |= QTest::qExec(&t, argc, argv); }
+  { QtConceptMapCommandMoveTest t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandsave_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandsetmode_test t; error |= QTest::qExec(&t, argc, argv); }
-  { qtconceptmapcommands_test t; error |= QTest::qExec(&t, argc, argv); }
+  { QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcommandunselect_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapcompetency_test t; error |= QTest::qExec(&t, argc, argv); }
   { qtconceptmapconceptdialog_test t; error |= QTest::qExec(&t, argc, argv); }

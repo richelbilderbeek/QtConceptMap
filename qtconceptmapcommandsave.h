@@ -37,7 +37,7 @@ class CommandSave final : public Command
 };
 
 /// Works on, for example  'save(my_file.cmp)'
-CommandSave * parse_command_save(
+CommandSave * ParseCommandSave(
   QtConceptMap& qtconceptmap, std::string s);
 
 } //~namespace cmap
