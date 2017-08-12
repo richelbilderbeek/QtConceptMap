@@ -4,7 +4,7 @@
 
 #include "conceptmapfactory.h"
 
-void ribi::cmap::qtconceptmapratedconceptdialog_test::do_resize_lists()
+void ribi::cmap::QtConceptMapRatedConceptDialogTest::do_resize_lists()
 {
   const auto conceptmap = ConceptMapFactory().GetQtRatedConceptDialogExample();
   const auto node = GetFirstNode(conceptmap);
@@ -14,7 +14,7 @@ void ribi::cmap::qtconceptmapratedconceptdialog_test::do_resize_lists()
   d.show();
 }
 
-void ribi::cmap::qtconceptmapratedconceptdialog_test::hide_rating()
+void ribi::cmap::QtConceptMapRatedConceptDialogTest::hide_rating()
 {
   const auto conceptmap = ConceptMapFactory().GetQtRatedConceptDialogExample();
   const auto node = GetFirstNode(conceptmap);
@@ -24,7 +24,7 @@ void ribi::cmap::qtconceptmapratedconceptdialog_test::hide_rating()
   d.show();
 }
 
-void ribi::cmap::qtconceptmapratedconceptdialog_test::show_example()
+void ribi::cmap::QtConceptMapRatedConceptDialogTest::show_example()
 {
   const auto conceptmap = ConceptMapFactory().GetQtRatedConceptDialogExample();
   const auto nodes = GetNodes(conceptmap);

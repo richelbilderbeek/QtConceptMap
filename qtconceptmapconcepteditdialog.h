@@ -17,7 +17,7 @@ namespace Ui { class QtConceptMapConceptEditDialog; }
 namespace ribi {
 namespace cmap {
 
-struct qtconceptmapconcepteditdialog_test;
+struct QtConceptMapConceptEditDialogTest;
 
 class QtConceptMapConceptEditDialog : public ribi::QtHideAndShowDialog
 {
@@ -64,7 +64,7 @@ private:
   ///The original concept, used if user presses cancel
   const Concept m_concept_original;
 
-  friend class qtconceptmapconcepteditdialog_test;
+  friend class QtConceptMapConceptEditDialogTest;
 };
 
 } //~namespace cmap

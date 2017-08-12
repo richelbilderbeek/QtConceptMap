@@ -4,7 +4,7 @@
 
 #include "qtconceptmap.h"
 
-void ribi::cmap::qtconceptmaphelper_test::get_qt_center_node()
+void ribi::cmap::QtConceptMapHelperTest::get_qt_center_node()
 {
   //No conecpt map, thus no center node
   {
@@ -21,7 +21,7 @@ void ribi::cmap::qtconceptmaphelper_test::get_qt_center_node()
   }
 }
 
-void ribi::cmap::qtconceptmaphelper_test::mess_up()
+void ribi::cmap::QtConceptMapHelperTest::mess_up()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());

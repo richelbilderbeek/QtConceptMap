@@ -2,7 +2,7 @@
 
 #include "qtconceptmaprating.h"
 
-void ribi::cmap::qtconceptmaprating_test::all_tests()
+void ribi::cmap::QtConceptMapRatingTest::all_tests()
 {
   const Rating r;
 

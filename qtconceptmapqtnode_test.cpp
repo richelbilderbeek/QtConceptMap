@@ -8,7 +8,7 @@
 
 #include "qtconceptmapqtnodefactory.h"
 
-void ribi::cmap::qtconceptmapqtnode_test::disable_and_enable()
+void ribi::cmap::QtConceptMapQtNodeTest::disable_and_enable()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   qtnode->show();
@@ -18,7 +18,7 @@ void ribi::cmap::qtconceptmapqtnode_test::disable_and_enable()
   qtnode->show();
 }
 
-void ribi::cmap::qtconceptmapqtnode_test::press_nonsense_is_rejected()
+void ribi::cmap::QtConceptMapQtNodeTest::press_nonsense_is_rejected()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F4, Qt::NoModifier);
@@ -26,7 +26,7 @@ void ribi::cmap::qtconceptmapqtnode_test::press_nonsense_is_rejected()
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem()
+void ribi::cmap::QtConceptMapQtNodeTest::qtnode_is_qtroundededitrectitem()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   const QtRoundedEditRectItem * edit_rect{
@@ -36,7 +36,7 @@ void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem()
   QVERIFY(qtnode.get() == edit_rect);
 }
 
-void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem_with_equal_x()
+void ribi::cmap::QtConceptMapQtNodeTest::qtnode_is_qtroundededitrectitem_with_equal_x()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   const QtRoundedEditRectItem * edit_rect{
@@ -49,7 +49,7 @@ void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem_with_e
 
 }
 
-void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem_with_equal_y()
+void ribi::cmap::QtConceptMapQtNodeTest::qtnode_is_qtroundededitrectitem_with_equal_y()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   const QtRoundedEditRectItem * edit_rect{
@@ -61,13 +61,13 @@ void ribi::cmap::qtconceptmapqtnode_test::qtnode_is_qtroundededitrectitem_with_e
   QVERIFY(std::abs(node_y - edit_rect_y) < 2.0);
 }
 
-void ribi::cmap::qtconceptmapqtnode_test::to_str()
+void ribi::cmap::QtConceptMapQtNodeTest::to_str()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(!qtnode->ToStr().empty());
 }
 
-void ribi::cmap::qtconceptmapqtnode_test::to_stream()
+void ribi::cmap::QtConceptMapQtNodeTest::to_stream()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   std::stringstream s;

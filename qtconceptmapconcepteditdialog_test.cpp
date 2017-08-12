@@ -19,7 +19,7 @@
 
 using namespace ribi::cmap;
 
-void ribi::cmap::qtconceptmapconcepteditdialog_test
+void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::add_should_not_close_the_dialog()
 {
   QtConceptMapConceptEditDialog d(
@@ -33,7 +33,7 @@ void ribi::cmap::qtconceptmapconcepteditdialog_test
   QVERIFY(!d.isVisible());
 }
 
-void ribi::cmap::qtconceptmapconcepteditdialog_test
+void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::press_ok_with_changing_examples_should_result_in_changed_concept()
 {
   //Assume reading in a concept and clicking OK after adding an example
@@ -51,7 +51,7 @@ void ribi::cmap::qtconceptmapconcepteditdialog_test
 
 
 
-void ribi::cmap::qtconceptmapconcepteditdialog_test
+void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::press_ok_with_changing_name_should_result_in_changed_concept()
 {
   //Assume reading in a concept and clicking OK after modification of the name does modify concept
@@ -66,7 +66,7 @@ void ribi::cmap::qtconceptmapconcepteditdialog_test
 }
 
 
-void ribi::cmap::qtconceptmapconcepteditdialog_test
+void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::press_ok_without_changes_should_result_in_unchanged_concept()
 {
   //Assume reading in a concept and clicking OK without modification does not modify anything

@@ -29,7 +29,7 @@
 #include "ui_qtconceptmaprateconcepttallydialog.h"
 #pragma GCC diagnostic pop
 
-void ribi::cmap::qtconceptmaprateconcepttallydialog_test::construct_with_empty_conceptmap()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_empty_conceptmap()
 {
   using namespace ribi::cmap;
   const ConceptMap empty_conceptmap;
@@ -49,7 +49,7 @@ void ribi::cmap::qtconceptmaprateconcepttallydialog_test::construct_with_empty_c
 }
 
 
-void ribi::cmap::qtconceptmaprateconcepttallydialog_test::construct_with_test_conceptmap()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_test_conceptmap()
 {
   using namespace ribi::cmap;
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
@@ -57,7 +57,7 @@ void ribi::cmap::qtconceptmaprateconcepttallydialog_test::construct_with_test_co
   QVERIFY("Should be no throw");
 }
 
-void ribi::cmap::qtconceptmaprateconcepttallydialog_test::key_presses()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::key_presses()
 {
   using namespace ribi::cmap;
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
@@ -68,7 +68,7 @@ void ribi::cmap::qtconceptmaprateconcepttallydialog_test::key_presses()
   QTest::keyClick(&d, Qt::Key_Escape);
 }
 
-void ribi::cmap::qtconceptmaprateconcepttallydialog_test::measure_ui_from_test_concept_map()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::measure_ui_from_test_concept_map()
 {
   using namespace ribi::cmap;
 

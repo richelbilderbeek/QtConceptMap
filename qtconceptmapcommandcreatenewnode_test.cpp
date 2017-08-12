@@ -3,7 +3,7 @@
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmap.h"
 
-void ribi::cmap::qtconceptmapcommandcreatenewnode_test::parse() const noexcept
+void ribi::cmap::QtConceptMapCommandCreateNewNodeTest::parse() const noexcept
 {
   QtConceptMap q;
   QVERIFY(parse_command_create_new_node(q, "nonsense") == nullptr);

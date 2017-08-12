@@ -276,7 +276,7 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
   {
     if (!qtedge->GetFrom()->scene())
     {
-      qDebug()
+      qCritical()
         << "QtEdge '"
         << GetText(*qtedge).c_str()
         << "' has source QtNode '"

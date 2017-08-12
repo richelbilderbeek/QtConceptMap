@@ -6,7 +6,7 @@
 
 #include <QDebug>
 
-void ribi::cmap::qtconceptmapcommandcreatenewedge_test::parse() const noexcept
+void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::parse() const noexcept
 {
   QtConceptMap q;
   QVERIFY(parse_command_create_new_edge(q, "nonsense") == nullptr);

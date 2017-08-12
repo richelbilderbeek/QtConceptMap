@@ -3,7 +3,7 @@
 #include "qtconceptmapcommandsave.h"
 #include "qtconceptmap.h"
 
-void ribi::cmap::qtconceptmapcommandsave_test::parse() const noexcept
+void ribi::cmap::QtConceptMapCommandSaveTest::parse() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandSave(q, "nonsense") == nullptr);

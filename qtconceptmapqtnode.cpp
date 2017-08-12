@@ -84,7 +84,7 @@ void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
     || std::abs(x1 - x3) > 1.0
     || std::abs(x2 - x3) > 1.0)
   {
-    qDebug()
+    qCritical()
       << "\nx1: " << x1
       << "\nx2: " << x2
       << "\nx3: " << x3

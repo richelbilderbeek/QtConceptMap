@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class qtconceptmapbrushfactory_test : public QObject
+class QtConceptMapBrushFactoryTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

@@ -15,7 +15,7 @@
 
 
 
-void ribi::cmap::qtconceptmapexamplesdialog_test::all_tests()
+void ribi::cmap::QtConceptMapExamplesDialogTest::all_tests()
 {
   using namespace ribi::cmap;
   QtExamplesDialog d;

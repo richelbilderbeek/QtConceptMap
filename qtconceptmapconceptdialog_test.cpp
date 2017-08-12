@@ -3,13 +3,13 @@
 
 #include <cassert>
 
-void ribi::cmap::qtconceptmapconceptdialog_test::just_show()
+void ribi::cmap::QtConceptMapConceptDialogTest::just_show()
 {
   QtConceptDialog d;
   d.show();
 }
 
-void ribi::cmap::qtconceptmapconceptdialog_test::set_ui_name()
+void ribi::cmap::QtConceptMapConceptDialogTest::set_ui_name()
 {
   QtConceptDialog d;
   d.show();

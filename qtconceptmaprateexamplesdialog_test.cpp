@@ -14,7 +14,7 @@
 #include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmaprateexamplesdialog.h"
 
-void ribi::cmap::qtconceptmaprateexamplesdialog_test::get_rated_examples()
+void ribi::cmap::QtConceptMapRateExamplesDialogTest::get_rated_examples()
 {
   const int sz = ConceptFactory().GetTests().size();
   for (int i=0; i!=sz; ++i)
@@ -37,7 +37,7 @@ void ribi::cmap::qtconceptmaprateexamplesdialog_test::get_rated_examples()
   }
 }
 
-void ribi::cmap::qtconceptmaprateexamplesdialog_test::key_presses()
+void ribi::cmap::QtConceptMapRateExamplesDialogTest::key_presses()
 {
   QtRateExamplesDialog d(ConceptFactory().Get1());
   d.show();
@@ -70,7 +70,7 @@ void ribi::cmap::qtconceptmaprateexamplesdialog_test::key_presses()
   QTest::qWait(100);
 }
 
-void ribi::cmap::qtconceptmaprateexamplesdialog_test::key_presses_from_slots()
+void ribi::cmap::QtConceptMapRateExamplesDialogTest::key_presses_from_slots()
 {
   QtRateExamplesDialog d(ConceptFactory().Get1());
   d.show();

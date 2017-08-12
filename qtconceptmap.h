@@ -8,7 +8,8 @@
 #include "qtconceptmapmode.h"
 #include "qtconceptmappopupmode.h"
 #include "qtconceptmapqtedge.h"
-#include "conceptmap.h"
+//#include "conceptmap.h"
+#include "conceptmapgraphtypes.h"
 
 namespace ribi {
 namespace cmap {

@@ -2,7 +2,7 @@
 
 #include "qtconceptmapexampledialog.h"
 
-void ribi::cmap::qtconceptmapexampledialog_test::all_tests()
+void ribi::cmap::QtConceptMapExampleDialogTest::all_tests()
 {
   QtExampleDialog d;
   d.show();

@@ -354,12 +354,6 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
       const double measured_y2{GetY(qtedge->GetEdge())};
       const double measured_x3{GetX(*qtedge->GetQtNode())};
       const double measured_y3{GetY(*qtedge->GetQtNode())};
-      qDebug()
-        << "\nGetX(qtedge->GetEdge()): " << GetX(qtedge->GetEdge())
-        << "\nGetX(qtedge->GetQtNode()): " << GetX(*qtedge->GetQtNode())
-        << "\nGetX(*qtedge): " << GetX(*qtedge)
-        << "\nGetText(*qtedge): " << GetText(*qtedge).c_str()
-      ;
       assert(std::abs(expected_x - measured_x1) < 2.0);
       assert(std::abs(expected_y - measured_y1) < 2.0);
       assert(std::abs(expected_x - measured_x2) < 2.0);
@@ -404,7 +398,6 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
     assert(GetY(GetFirstEdge(q.GetConceptMap())) > 374.0);
     q.DoCommand(cmds[6]);
     assert(QFile::exists(filename.c_str()));
-    CoutFile(filename);
   }
   q.SetConceptMap(ConceptMap());
   CheckInvariants(q);

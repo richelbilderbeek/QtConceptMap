@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class qtconceptmapcommandunselect_test : public QObject
+class QtConceptMapCommandUnselectTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

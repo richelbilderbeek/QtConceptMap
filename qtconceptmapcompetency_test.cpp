@@ -3,7 +3,7 @@
 #include "conceptmapcompetencies.h"
 #include <QDataStream>
 
-void ribi::cmap::qtconceptmapcompetency_test::competency_to_color() const noexcept
+void ribi::cmap::QtConceptMapCompetencyTest::competency_to_color() const noexcept
 {
   //Conversion between QColor and Competency
   const std::vector<Competency> v = Competencies().GetAllCompetencies();
@@ -17,7 +17,7 @@ void ribi::cmap::qtconceptmapcompetency_test::competency_to_color() const noexce
 }
 
 
-void ribi::cmap::qtconceptmapcompetency_test::competency_to_icon_assume_this_works() const noexcept
+void ribi::cmap::QtConceptMapCompetencyTest::competency_to_icon_assume_this_works() const noexcept
 {
   const QIcon image_misc = QtCompetency().CompetencyToIcon(Competency::profession);
   const QIcon image_uninitialized = QtCompetency().CompetencyToIcon(Competency::uninitialized);
@@ -27,7 +27,7 @@ void ribi::cmap::qtconceptmapcompetency_test::competency_to_icon_assume_this_wor
 }
 
 
-void ribi::cmap::qtconceptmapcompetency_test::competency_to_icon() const noexcept
+void ribi::cmap::QtConceptMapCompetencyTest::competency_to_icon() const noexcept
 {
   const std::vector<Competency> v = Competencies().GetAllCompetencies();
   std::for_each(v.begin(),v.end(),

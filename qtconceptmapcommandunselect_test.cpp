@@ -3,7 +3,7 @@
 #include "qtconceptmapcommandunselect.h"
 #include "qtconceptmap.h"
 
-void ribi::cmap::qtconceptmapcommandunselect_test::parse() const noexcept
+void ribi::cmap::QtConceptMapCommandUnselectTest::parse() const noexcept
 {
   QtConceptMap q;
 

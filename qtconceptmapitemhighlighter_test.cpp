@@ -9,7 +9,7 @@
 #include "qtconceptmaphelper.h"
 #pragma GCC diagnostic pop
 
-void ribi::cmap::qtconceptmapitemhighlighter_test::all_tests()
+void ribi::cmap::QtConceptMapItemHighlighterTest::all_tests()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());

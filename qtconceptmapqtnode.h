@@ -15,8 +15,8 @@
 namespace ribi {
 namespace cmap {
 
-class qtconceptmap_test;
-class qtconceptmapqtnode_test;
+class QtConceptMapTest;
+class QtConceptMapQtNodeTest;
 
 ///QtNode displays a Node as a QtConceptMapElement
 struct QtNode : public QtRoundedEditRectItem
@@ -61,8 +61,8 @@ private:
 
   bool m_show_bounding_rect;
 
-  friend class qtconceptmap_test;
-  friend class qtconceptmapqtnode_test;
+  friend class QtConceptMapTest;
+  friend class QtConceptMapQtNodeTest;
 };
 
 void CheckInvariants(const QtNode& qtnode) noexcept;

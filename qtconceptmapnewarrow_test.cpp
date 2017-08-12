@@ -4,7 +4,7 @@
 #include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
 
-void ribi::cmap::qtconceptmapnewarrow_test::all_tests()
+void ribi::cmap::QtConceptMapNewArrowTest::all_tests()
 {
   QtConceptMap m;
   m.show();

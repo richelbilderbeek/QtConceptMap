@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class qtconceptmapexampledialog_test : public QObject
+class QtConceptMapExampleDialogTest : public QObject
 {
     Q_OBJECT //!OCLINT
 
