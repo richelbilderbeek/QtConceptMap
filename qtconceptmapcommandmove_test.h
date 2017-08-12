@@ -12,17 +12,27 @@ class QtConceptMapCommandMoveTest : public QObject
 
 private slots:
 
+  //To do/review:
+
+  //Done:
+
   ///Does the Command throw when trying to move an absent item?
   void MoveAbsentItemFails() const noexcept;
 
   ///Does the Command move a QtNode?
   void MoveCenterQtNodeFails() const noexcept;
 
-  ///Does the Command move a QtEdge?
-  void MoveQtEdge() const noexcept;
+  ///Does the Command move a QtEdge, in a QtConceptMap with two QtEdges?
+  void MoveOneOfTwoQtEdges() const noexcept;
 
-  ///Does the Command move a QtEdge connected to a center QtNode?
-  void MoveQtEdgeConnectedToCenterQtNode() const noexcept;
+  ///Does the Command move a QtEdge connected to a center QtNode, in a QtConceptMap with two QtEdges?
+  void MoveOneOfTwoQtEdgesConnectedToCenterQtNode() const noexcept;
+
+  ///Does the Command move a QtEdge, in a QtConceptMap with one QtEdge?
+  void MoveOnlyQtEdge() const noexcept;
+
+  ///Does the Command move a QtEdge connected to a center QtNode, in a QtConceptMap one QtEdge?
+  void MoveOnlyQtEdgeConnectedToCenterQtNode() const noexcept;
 
   ///Does the Command move a QtNode?
   void MoveQtNode() const noexcept;

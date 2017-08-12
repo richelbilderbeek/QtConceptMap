@@ -37,7 +37,6 @@ class CommandMove final : public Command
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }
 
-
   /// If name was an edge name, the renamed edge
   const QtEdge * GetMovedQtEdge() const noexcept { return m_moved_qtedge; }
 

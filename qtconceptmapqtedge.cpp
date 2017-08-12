@@ -287,8 +287,18 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
 
 void ribi::cmap::Move(QtEdge& qtedge, const double dx, const double dy)
 {
+  assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
+  assert(GetX(qtedge) == GetX( qtedge.GetQtNode()->GetNode()));
+  assert(GetX(qtedge) == GetX( qtedge.GetEdge()));
+  assert(GetX(qtedge) == GetX( qtedge.GetEdge().GetNode()));
+
   Move(*qtedge.GetQtNode(), dx, dy);
   Move(qtedge.GetEdge(), dx, dy);
+
+  assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
+  assert(GetX(qtedge) == GetX( qtedge.GetQtNode()->GetNode()));
+  assert(GetX(qtedge) == GetX( qtedge.GetEdge()));
+  assert(GetX(qtedge) == GetX( qtedge.GetEdge().GetNode()));
 }
 
 void ribi::cmap::QtEdge::paint(

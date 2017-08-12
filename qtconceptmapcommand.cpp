@@ -5,7 +5,7 @@
 ribi::cmap::Command::Command(QtConceptMap& qtconceptmap) noexcept
   : m_qtconceptmap(qtconceptmap)
 {
-
+  assert(&m_qtconceptmap == &qtconceptmap);
 }
 
 ribi::cmap::ConceptMap& ribi::cmap::GetConceptMap(Command& cmd) noexcept

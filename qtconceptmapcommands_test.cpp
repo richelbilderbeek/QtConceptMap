@@ -387,14 +387,8 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
       const double measured_y2{GetY(qtedge->GetEdge())};
       const double measured_x3{GetX(*qtedge->GetQtNode())};
       const double measured_y3{GetY(*qtedge->GetQtNode())};
-
       const double measured_x4{GetX(GetFirstEdge(q.GetConceptMap()))};
       const double measured_y4{GetY(GetFirstEdge(q.GetConceptMap()))};
-      qDebug()
-        << "\nGetX(qtedge->GetEdge()): " << GetX(qtedge->GetEdge())
-        << "\nGetX(qtedge->GetQtNode()): " << GetX(*qtedge->GetQtNode())
-        << "\nGetX(*qtedge): " << GetX(*qtedge)
-      ;
       assert(std::abs(expected_x - measured_x1) < 2.0);
       assert(std::abs(expected_y - measured_y1) < 2.0);
       assert(std::abs(expected_x - measured_x2) < 2.0);
@@ -411,7 +405,6 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
     q.DoCommand(cmds[6]);
     assert(QFile::exists(filename.c_str()));
     CoutFile(filename);
-    assert(!"Should read 190, 375 in qtedge");
   }
   q.SetConceptMap(ConceptMap());
   CheckInvariants(q);
@@ -433,25 +426,13 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
     assert(qtedges.size() == 1);
     const QtEdge * const qtedge = qtedges[0];
     assert(qtedge);
-    qDebug()
-      << "\nGetX(qtedge->GetEdge()): " << GetX(qtedge->GetEdge())
-      << "\nGetX(qtedge->GetQtNode()): " << GetX(*qtedge->GetQtNode())
-      << "\nGetX(*qtedge): " << GetX(*qtedge)
-    ;
     const double expected_x{140.0 + 50.0};
     const double expected_y{300.0 + 75.0};
     const double measured_x{GetX(*qtedge)};
     const double measured_y{GetY(*qtedge)};
-    qDebug()
-      << "\nexpected_x" << expected_x
-      << ", measured_x: " << measured_x
-    ;
-    assert(std::abs(expected_x - measured_x) < 2.0);
-    assert(std::abs(expected_y - measured_y) < 2.0);
     QVERIFY(std::abs(expected_x - measured_x) < 2.0);
     QVERIFY(std::abs(expected_y - measured_y) < 2.0);
   }
-  assert(!"FIXED");
 }
 void ribi::cmap::QtConceptMapCommandsTest::select_command() const noexcept
 {

@@ -256,6 +256,9 @@ bool HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept
 ///Hide the QtExamplesItem
 void HideExamplesItem(QtConceptMap& q) noexcept;
 
+///Is the QtEdge in the QGraphicsScene?
+bool IsInScene(const QtEdge& qtedge, const QGraphicsScene& scene) noexcept;
+
 ///Is this QtNode in the center on a QtEdge?
 bool IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept;
 
@@ -287,8 +290,15 @@ void keyPressEventSpace(QtConceptMap& q, QKeyEvent *) noexcept;
 void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 
+
 ///Messes up the scene, by moving items, etc
 void MoveQtEdgesAndQtNodesRandomly(QtConceptMap& q);
+
+///Move the QtEdge (the view) and its Edge (the model)
+void MoveQtEdge(QtEdge& qtedge, const double dx, const double dy, QtConceptMap& q);
+
+///Move the QtEdge (the view) and its Edge (the model)
+void MoveQtNode(QtNode& qtnode, const double dx, const double dy, QtConceptMap& q);
 
 ///Checks for QtNodes that are colliding and move these
 ///away from each other

@@ -23,6 +23,7 @@
 
 #include "fuzzy_equal_to.h"
 #include "qtconceptmapcollect.h"
+#include "find_first_custom_vertex.h"
 #include "get_my_custom_edge.h"
 #include "conceptmapconceptfactory.h"
 #include "conceptmapconcept.h"
@@ -549,6 +550,11 @@ void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
   q.GetQtExamplesItem().hide();
 }
 
+bool ribi::cmap::IsInScene(const QtEdge& qtedge, const QGraphicsScene& scene) noexcept
+{
+  return scene.items().contains(const_cast<QtEdge*>(&qtedge));
+}
+
 bool ribi::cmap::IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept
 {
   return IsOnEdge(&qtnode, q.GetScene());
@@ -983,6 +989,42 @@ void ribi::cmap::MoveQtEdgesAndQtNodesRandomly(QtConceptMap& q)
     }
   }
   CheckInvariants(q);
+}
+
+void ribi::cmap::MoveQtEdge(QtEdge& qtedge, const double dx, const double dy, QtConceptMap& q)
+{
+  //Model
+  const auto ed = find_first_custom_edge(
+    [id = qtedge.GetEdge().GetId()](const Edge& edge)
+    {
+      return edge.GetId() == id;
+    },
+    q.GetConceptMap()
+  );
+  const auto my_custom_edges_map = get(boost::edge_custom_type, q.GetConceptMap());
+  Edge& edge = get(my_custom_edges_map, ed);
+  Move(edge, dx, dy);
+
+  //View
+  Move(qtedge, dx, dy);
+}
+
+void ribi::cmap::MoveQtNode(QtNode& qtnode, const double dx, const double dy, QtConceptMap& q)
+{
+  //Model
+  const auto vd = find_first_custom_vertex(
+    [id = qtnode.GetNode().GetId()](const Node& node)
+    {
+      return node.GetId() == id;
+    },
+    q.GetConceptMap()
+  );
+  const auto my_custom_vertexes_map = get(boost::vertex_custom_type, q  .GetConceptMap());
+  Node& node = get(my_custom_vertexes_map, vd);
+  Move(node, dx, dy);
+
+  //View
+  Move(qtnode, dx, dy);
 }
 
 void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexcept

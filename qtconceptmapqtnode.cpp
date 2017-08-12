@@ -210,8 +210,8 @@ void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)
 {
   CheckInvariants(qtnode);
 
-  qtnode.moveBy(dx, dy);
   Move(qtnode.GetNode(), dx, dy);
+  qtnode.moveBy(dx, dy);
 
   CheckInvariants(qtnode);
 }
