@@ -35,6 +35,7 @@
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
 #include "container.h"
+#include "qtconceptmapcommandselect.h"
 #include "add_custom_and_selectable_vertex.h"
 #include "count_edges_with_selectedness.h"
 #include "count_vertices_with_selectedness.h"
@@ -808,6 +809,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   //Pass event to base class
   if (!event->isAccepted())
   {
+    //qDebug() << "Should QtKeyboardFriendlyGraphicsView really handle input?";
     QtKeyboardFriendlyGraphicsView::keyPressEvent(event);
   }
 
@@ -815,6 +817,14 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 
   CheckInvariants(*this);
 }
+
+void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
+{
+  //STUB
+  assert(!"Unused for now");
+  KeyPressEventNoModifiersArrowKey(q, event);
+}
+
 
 void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
@@ -1461,6 +1471,10 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_T: keyPressEventT(q, event); break;
     case Qt::Key_Z: keyPressEventZ(q, event); break;
     case Qt::Key_Space: keyPressEventSpace(q, event); break;
+    //case Qt::Key_Up:
+    //case Qt::Key_Right:
+    //case Qt::Key_Left:
+    //case Qt::Key_Down: keyPressEventArrows(q, event); break;
     default: break;
   }
 

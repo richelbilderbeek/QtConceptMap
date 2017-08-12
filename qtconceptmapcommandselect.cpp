@@ -34,7 +34,7 @@ ribi::cmap::CommandSelect::CommandSelect(
   }
 }
 
-ribi::cmap::CommandSelect * ribi::cmap::parse_command_select(
+ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"select(my text)"
@@ -87,7 +87,8 @@ void ribi::cmap::CommandSelect::redo()
       SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
     }
   }
-
+  //May still be both null...
+  assert(!((m_renamed_qtedge != nullptr) && (m_renamed_qtnode != nullptr)));
   qApp->processEvents();
   CheckInvariants(GetQtConceptMap());
 }

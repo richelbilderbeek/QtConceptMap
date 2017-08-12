@@ -25,6 +25,7 @@ class CommandSelect final : public Command
   public:
 
   ///@param node_or_edge_name the node or edge name/text to be selected
+  ///Will throw if name is absent (at redo)
   CommandSelect(
     QtConceptMap& qtconceptmap,
     const std::string& node_or_edge_name = ""
@@ -50,7 +51,7 @@ class CommandSelect final : public Command
 };
 
 /// Works on, for example  'create_new_node(0, 0, from)'
-CommandSelect * parse_command_select(
+CommandSelect * ParseCommandSelect(
   QtConceptMap& qtconceptmap, std::string s);
 
 } //~namespace cmap

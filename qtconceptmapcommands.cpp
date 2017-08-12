@@ -30,7 +30,7 @@ ribi::cmap::Command* ribi::cmap::parse_command(QtConceptMap& q, const std::strin
   if (auto p = ParseCommandLoad(q, s)) { return p; }
   if (auto p = ParseCommandMove(q, s)) { return p; }
   if (auto p = ParseCommandSave(q, s)) { return p; }
-  if (auto p = parse_command_select(q, s)) { return p; }
+  if (auto p = ParseCommandSelect(q, s)) { return p; }
   if (auto p = parse_command_set_mode(q, s)) { return p; }
   if (auto p = parse_command_unselect(q, s)) { return p; }
   return nullptr;
