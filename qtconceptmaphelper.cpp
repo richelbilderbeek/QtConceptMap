@@ -45,17 +45,38 @@ int ribi::cmap::CountQtNodes(const QGraphicsScene& scene) noexcept
 
 int ribi::cmap::CountSelectedQtEdges(const QGraphicsScene& scene) noexcept
 {
+  assert(CountSelectedQtEdgesImpl1(scene) == CountSelectedQtEdgesImpl2(scene));
+  return CountSelectedQtEdgesImpl1(scene);
+}
+
+int ribi::cmap::CountSelectedQtEdgesImpl1(const QGraphicsScene& scene) noexcept
+{
   int cnt{0};
   for (auto item: scene.items())
   {
     if (dynamic_cast<QtEdge*>(item)
-      && dynamic_cast<QtEdge*>(item)->isSelected()
+      && dynamic_cast<QtEdge*>(item)->IsSelected()
     )
     {
       ++cnt;
     }
   }
   return cnt;
+}
+
+int ribi::cmap::CountSelectedQtEdgesImpl2(const QGraphicsScene& scene) noexcept
+{
+  int cnt{0};
+  for (auto item: scene.items()) {
+    if (dynamic_cast<QtNode*>(item)
+      && dynamic_cast<QtNode*>(item)->isSelected()
+      && IsOnEdge(dynamic_cast<QtNode*>(item), scene)
+    ) {
+      ++cnt;
+    }
+  }
+  return cnt;
+
 }
 
 int ribi::cmap::CountSelectedQtNodes(const QGraphicsScene& scene) noexcept
@@ -508,7 +529,7 @@ ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept
     std::back_inserter(selected),
     [](QtEdge* const qtedge)
     {
-      return qtedge->isSelected() || qtedge->GetQtNode()->isSelected();
+      return qtedge->IsSelected() || qtedge->GetQtNode()->isSelected();
     }
   );
   return selected;

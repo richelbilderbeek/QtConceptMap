@@ -23,6 +23,12 @@ int CountQtEdges(const QGraphicsScene& scene) noexcept;
 int CountSelectedQtNodes(const QGraphicsScene& scene) noexcept;
 int CountSelectedQtEdges(const QGraphicsScene& scene) noexcept;
 
+///CountSelectedQtEdges implementation 1: counts selected QtEdges
+int CountSelectedQtEdgesImpl1(const QGraphicsScene& scene) noexcept;
+
+///CountSelectedQtEdges implementation 2: counts selected QtNodes that are on a QtEdge
+int CountSelectedQtEdgesImpl2(const QGraphicsScene& scene) noexcept;
+
 ///Check is QtConceptMap and its ConceptMap have the requested number of edges and nodes
 ///Will throw if there is an internal inconsistency
 bool DoubleCheckEdgesAndNodes(

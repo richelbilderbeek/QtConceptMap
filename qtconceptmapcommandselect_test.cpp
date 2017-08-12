@@ -38,10 +38,12 @@ void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtEdgeByName() const noexc
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
+  q.showFullScreen();
+  QTest::qWait(1000);
   q.DoCommand(new CommandSelect(q, "first"));
   assert(CountSelectedQtNodes(q) == 0);
   qCritical() << "CountSelectedQtEdges(q): " << CountSelectedQtEdges(q);
-  //assert(CountSelectedQtEdges(q) == 1);
+  assert(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 1);
 
 }

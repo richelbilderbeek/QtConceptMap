@@ -51,6 +51,12 @@ ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
 
 void ribi::cmap::CommandSelect::redo()
 {
+  #ifndef NDEBUG
+  const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
+  const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
+  const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
+  #endif
+
   m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap(),
     [name = m_name, &qtconceptmap = GetQtConceptMap()](QtNode * const qtnode)
     {
@@ -78,13 +84,13 @@ void ribi::cmap::CommandSelect::redo()
     );
     if (m_renamed_qtedge)
     {
-      //m_renamed_qtedge->SetSelected(true);
       if (HasExamples(*m_renamed_qtedge))
       {
         SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge);
       }
       SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtedge);
       SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
+      assert(CountSelectedQtEdges(GetQtConceptMap()) > 0);
     }
   }
   if (!m_renamed_qtedge && !m_renamed_qtnode)
@@ -95,6 +101,16 @@ void ribi::cmap::CommandSelect::redo()
     throw std::invalid_argument(msg.str());
   }
   assert((m_renamed_qtedge != nullptr) ^ (m_renamed_qtnode != nullptr));
+
+  qApp->processEvents();
+
+  #ifndef NDEBUG
+  const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
+  const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
+  const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtedges_after;
+  assert(n_selected_items_after > n_selected_items_before);
+  #endif
+
   CheckInvariants(GetQtConceptMap());
 }
 

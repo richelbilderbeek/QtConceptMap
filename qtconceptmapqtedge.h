@@ -48,14 +48,14 @@ struct QtEdge : public QGraphicsItem
   const QtNode * GetQtNode() const noexcept { return m_qtnode; }
         QtNode * GetQtNode()       noexcept { return m_qtnode; }
 
-  bool isSelected() const;
+  bool IsSelected() const;
 
   void SetEdge(const Edge& edge) noexcept;
 
   void SetHasHeadArrow(const bool has_head_arrow) noexcept;
   void SetHasTailArrow(const bool has_tail_arrow) noexcept;
 
-  void SetSelected(bool selected);
+  void SetSelected(const bool selected);
 
   void SetShowBoundingRect(const bool show_bounding_rect) const noexcept
   {
@@ -101,6 +101,10 @@ private:
   ///Will throw if input is invalid
   void CheckInput(QtNode * const from, QtNode * const to);
 
+  ///Use IsSelected instead
+  bool isSelected() const = delete;
+
+  ///Use SetSelected instead
   void setSelected(bool selected) = delete;
 
   ///Shows the bounding rectangle if desired
@@ -123,6 +127,8 @@ double GetY(const QtEdge& qtedge) noexcept;
 bool HasExamples(const QtEdge& qtnode) noexcept;
 bool HasHeadArrow(const QtEdge& qtedge) noexcept;
 bool HasTailArrow(const QtEdge& qtedge) noexcept;
+
+bool IsSelectable(const QtEdge& qtedge) noexcept;
 
 ///Move a QtEdge (and its Edge) relatively
 void Move(QtEdge& qtedge, const double dx, const double dy);

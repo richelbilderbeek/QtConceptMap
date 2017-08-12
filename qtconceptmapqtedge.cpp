@@ -224,8 +224,14 @@ bool ribi::cmap::HasTailArrow(const QtEdge& qtedge) noexcept
   return qtedge.GetArrow()->HasTail();
 }
 
-bool ribi::cmap::QtEdge::isSelected() const
+bool ribi::cmap::IsSelectable(const QtEdge& qtedge) noexcept
 {
+  return qtedge.flags() & QGraphicsItem::ItemIsSelectable;
+}
+
+bool ribi::cmap::QtEdge::IsSelected() const
+{
+  assert(GetQtNode()->isSelected() == QGraphicsItem::isSelected());
   return GetQtNode()->isSelected();
 }
 
@@ -310,7 +316,7 @@ void ribi::cmap::QtEdge::paint(
   CheckInvariants(*this);
   {
     const QPen pen{
-      this->hasFocus() || this->isSelected()
+      this->hasFocus() || this->IsSelected()
       ? QPen(Qt::black)
       : QPen(Qt::black)
     };
@@ -318,7 +324,7 @@ void ribi::cmap::QtEdge::paint(
   }
   {
     const QPen pen{
-      this->hasFocus() || this->isSelected()
+      this->hasFocus() || this->IsSelected()
       ? QPen(Qt::white)
       : QPen(Qt::white)
     };
@@ -353,10 +359,11 @@ void ribi::cmap::QtEdge::SetHasTailArrow(const bool has_tail_arrow) noexcept
   this->m_arrow->SetHasTail(has_tail_arrow);
 }
 
-void ribi::cmap::QtEdge::SetSelected(bool selected)
+void ribi::cmap::QtEdge::SetSelected(const bool selected)
 {
   QGraphicsItem::setSelected(selected);
   this->GetQtNode()->setSelected(selected);
+  assert(!isVisible() || !isEnabled() || !IsSelectable(*this) || IsSelected() == selected);
 }
 
 QPainterPath ribi::cmap::QtEdge::shape() const noexcept
