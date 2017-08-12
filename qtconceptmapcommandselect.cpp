@@ -87,9 +87,14 @@ void ribi::cmap::CommandSelect::redo()
       SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
     }
   }
-  //May still be both null...
-  assert(!((m_renamed_qtedge != nullptr) && (m_renamed_qtnode != nullptr)));
-  qApp->processEvents();
+  if (!m_renamed_qtedge && !m_renamed_qtnode)
+  {
+    std::stringstream msg;
+    msg << "Could not find a QtEdge nor QtNode with text '"
+      << m_name << "'";
+    throw std::invalid_argument(msg.str());
+  }
+  assert((m_renamed_qtedge != nullptr) ^ (m_renamed_qtnode != nullptr));
   CheckInvariants(GetQtConceptMap());
 }
 

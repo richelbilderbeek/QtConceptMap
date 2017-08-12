@@ -355,6 +355,7 @@ void ribi::cmap::QtEdge::SetHasTailArrow(const bool has_tail_arrow) noexcept
 
 void ribi::cmap::QtEdge::SetSelected(bool selected)
 {
+  QGraphicsItem::setSelected(selected);
   this->GetQtNode()->setSelected(selected);
 }
 

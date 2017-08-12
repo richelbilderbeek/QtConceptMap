@@ -11,7 +11,28 @@ class QtConceptMapCommandSelectTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void parse() const noexcept;
+
+  //To do/review:
+
+  ///Select a QtEdge by name
+  void SelectQtEdgeByName() const noexcept;
+
+  //Done:
+
+  ///Selecting an absent item fails
+  void SelectAbsentItemFails() const noexcept;
+
+  ///Select a center QtNode by name
+  void SelectQtCenterNodeByName() const noexcept;
+
+  ///Select a QtNode by name
+  void SelectQtNodeByName() const noexcept;
+
+  ///Parse from a string
+  void Parse() const noexcept;
+
+  ///Parsing a nonsense string should fails
+  void ParseNonsenseFails() const noexcept;
 };
 
 } //~namespace cmap

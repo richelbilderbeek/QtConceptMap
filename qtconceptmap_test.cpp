@@ -1088,7 +1088,7 @@ void ribi::cmap::QtConceptMapTest::set_empty_concept_map_two_selected_nodes() co
   //Select node on edge with examples
   m.DoCommand(new CommandSelect(m, "strengthen"));
   //Select node
-  m.DoCommand(new CommandSelect(m, "order"));
+  m.DoCommand(new CommandSelect(m, "Order"));
   m.show();
   m.SetConceptMap(ConceptMap());
   m.show();
