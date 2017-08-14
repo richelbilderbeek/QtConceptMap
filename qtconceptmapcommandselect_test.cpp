@@ -35,26 +35,27 @@ void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtCenterNodeByName() const
 void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtEdgeByName() const noexcept
 {
   QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  q.DoCommand(new CommandSelect(q, "second"));
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+}
+
+void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtEdgeConnectedToCenterByName() const noexcept
+{
+  QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  q.showFullScreen();
-  QTest::qWait(1000);
+  //q.showFullScreen();
   assert(CountSelectedQtNodes(q) == 0);
   q.DoCommand(new CommandSelect(q, "first"));
-  qApp->processEvents();
-  QTest::qWait(1000);
   assert(GetQtEdges(q).size() == 1);
-  assert(IsSelectable(*GetQtEdges(q)[0]));
-  assert(IsVisible(*GetQtEdges(q)[0]));
-  assert(IsEnabled(*GetQtEdges(q)[0]));
-  qCritical()
-    << "CountSelectedQtEdges(q): " << CountSelectedQtEdges(q)
-    << "IsSelected(*(GetQtEdges(q)[0])): " << IsSelected(*(GetQtEdges(q)[0]))
-  ;
   assert(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 1);
-  assert(!"FIXED");
+  QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
 void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtNodeByName() const noexcept

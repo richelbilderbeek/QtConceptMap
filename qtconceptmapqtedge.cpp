@@ -20,6 +20,7 @@
 #include "conceptmapedge.h"
 #include "conceptmapnode.h"
 #include "container.h"
+#include "qtconceptmaphelper.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapqtnode.h"
 #include "qtquadbezierarrowitem.h"
@@ -225,6 +226,12 @@ bool ribi::cmap::HasTailArrow(const QtEdge& qtedge) noexcept
   return qtedge.GetArrow()->HasTail();
 }
 
+bool ribi::cmap::IsConnectedToCenterNode(const QtEdge& qtedge)
+{
+  return IsQtCenterNode(qtedge.GetFrom())
+    || IsQtCenterNode(qtedge.GetTo());
+}
+
 bool ribi::cmap::IsEnabled(const QtEdge& qtedge) noexcept
 {
   return qtedge.isEnabled();
@@ -247,14 +254,10 @@ bool ribi::cmap::IsVisible(const QtEdge& qtedge) noexcept
 
 bool ribi::cmap::QtEdge::IsSelected() const
 {
-  assert(
-       !IsVisible(*this)
-    || !IsEnabled(*this)
-    || !IsSelectable(*this)
-    || !IsVisible(*GetQtNode())
-    || GetQtNode()->isSelected() == QGraphicsItem::isSelected()
+  assert(QGraphicsItem::isSelected() == this->GetQtNode()->isSelected()
+    || IsConnectedToCenterNode(*this) //If the QtEdge is connected to the center node, the QtNode is made invisible
   );
-  return GetQtNode()->isSelected();
+  return QGraphicsItem::isSelected();
 }
 
 /*
@@ -385,25 +388,10 @@ void ribi::cmap::QtEdge::SetSelected(const bool selected)
 {
   QGraphicsItem::setSelected(selected);
   this->GetQtNode()->setSelected(selected);
-
-  #define NOT_NOW_20170814
-  #ifdef NOT_NOW_20170814
-  qDebug()
-    << "\nGetQtNode()->isSelected(): " << GetQtNode()->isSelected()
-    << "\nQGraphicsItem::isSelected(): " << QGraphicsItem::isSelected()
-  ;
-
-  assert(!GetQtNode()->isVisible()
-    || !GetQtNode()->isEnabled()
-    || !IsSelectable(*GetQtNode())
-    || GetQtNode()->isSelected() == QGraphicsItem::isSelected());
-  const bool selectedness_now{IsSelected()};
-  assert(!isVisible()
-    || !isEnabled()
-    || !IsSelectable(*this)
-    || selectedness_now == selected);
-
-  #endif // NOT_NOW_20170814
+  assert(GetQtNode()->isSelected() == QGraphicsItem::isSelected()
+    || IsConnectedToCenterNode(*this)
+  );
+  assert(IsSelected() == selected);
 }
 
 QPainterPath ribi::cmap::QtEdge::shape() const noexcept

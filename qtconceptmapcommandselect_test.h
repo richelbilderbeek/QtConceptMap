@@ -14,8 +14,6 @@ private slots:
 
   //To do/review:
 
-  ///Select a QtEdge by name
-  void SelectQtEdgeByName() const noexcept;
 
   //Done:
 
@@ -24,6 +22,13 @@ private slots:
 
   ///Select a center QtNode by name
   void SelectQtCenterNodeByName() const noexcept;
+
+  ///Select a QtEdge by name
+  void SelectQtEdgeByName() const noexcept;
+
+  ///Select a QtEdge that is connected to center by name
+  ///The QtNodes on that QtEdge is disabled and invisible
+  void SelectQtEdgeConnectedToCenterByName() const noexcept;
 
   ///Select a QtNode by name
   void SelectQtNodeByName() const noexcept;

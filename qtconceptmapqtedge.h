@@ -128,6 +128,10 @@ bool HasExamples(const QtEdge& qtnode) noexcept;
 bool HasHeadArrow(const QtEdge& qtedge) noexcept;
 bool HasTailArrow(const QtEdge& qtedge) noexcept;
 
+///Checks if the QtEdge is connected to a QtNode that is
+///a center node
+bool IsConnectedToCenterNode(const QtEdge& qtedge);
+
 bool IsEnabled(const QtEdge& qtedge) noexcept;
 bool IsSelectable(const QtEdge& qtedge) noexcept;
 bool IsSelected(const QtEdge& qtedge) noexcept;

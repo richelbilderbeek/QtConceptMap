@@ -45,7 +45,12 @@ int ribi::cmap::CountQtNodes(const QGraphicsScene& scene) noexcept
 
 int ribi::cmap::CountSelectedQtEdges(const QGraphicsScene& scene) noexcept
 {
-  assert(CountSelectedQtEdgesImpl1(scene) == CountSelectedQtEdgesImpl2(scene));
+  //Impl1 always works, as it relies on the QtEdges
+  //Impl2 relies on QtNodes, which are hidden when connected to a center node
+  assert(
+       (CountSelectedQtEdgesImpl1(scene) == CountSelectedQtEdgesImpl2(scene) && CountQtCenterNodes(scene) == 0)
+    || (CountSelectedQtEdgesImpl1(scene) >= CountSelectedQtEdgesImpl2(scene) && CountQtCenterNodes(scene)  > 0)
+  );
   return CountSelectedQtEdgesImpl1(scene);
 }
 

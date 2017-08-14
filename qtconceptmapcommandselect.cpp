@@ -52,11 +52,9 @@ ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
 void ribi::cmap::CommandSelect::redo()
 {
   #ifndef NDEBUG
-  #ifdef NOT_NOW_20170814
   const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
   const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
-  #endif // NOT_NOW_20170814
   #endif
 
   m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap(),
@@ -92,10 +90,7 @@ void ribi::cmap::CommandSelect::redo()
       }
       SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtedge);
       SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
-      #define NOT_NOW_20170814_2
-      #ifdef NOT_NOW_20170814_2
-      assert(CountSelectedQtEdges(GetQtConceptMap()) > 0);
-      #endif // NOT_NOW_20170814_2
+      assert(CountSelectedQtEdges(GetQtConceptMap()) > 0 || IsConnectedToCenterNode(*m_renamed_qtedge));
     }
   }
   if (!m_renamed_qtedge && !m_renamed_qtnode)
@@ -107,15 +102,11 @@ void ribi::cmap::CommandSelect::redo()
   }
   assert((m_renamed_qtedge != nullptr) ^ (m_renamed_qtnode != nullptr));
 
-  qApp->processEvents();
-
   #ifndef NDEBUG
-  #ifdef NOT_NOW_20170814
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtedges_after;
+  const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
   assert(n_selected_items_after > n_selected_items_before);
-  #endif // NOT_NOW_20170814
   #endif
 
   CheckInvariants(GetQtConceptMap());
