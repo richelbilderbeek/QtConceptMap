@@ -48,8 +48,10 @@ int ribi::cmap::CountSelectedQtEdges(const QGraphicsScene& scene) noexcept
   //Impl1 always works, as it relies on the QtEdges
   //Impl2 relies on QtNodes, which are hidden when connected to a center node
   assert(
-       (CountSelectedQtEdgesImpl1(scene) == CountSelectedQtEdgesImpl2(scene) && CountQtCenterNodes(scene) == 0)
-    || (CountSelectedQtEdgesImpl1(scene) >= CountSelectedQtEdgesImpl2(scene) && CountQtCenterNodes(scene)  > 0)
+       (CountSelectedQtEdgesImpl1(scene) == CountSelectedQtEdgesImpl2(scene)
+           && CountQtCenterNodes(scene) == 0)
+    || (CountSelectedQtEdgesImpl1(scene) >= CountSelectedQtEdgesImpl2(scene)
+           && CountQtCenterNodes(scene)  > 0)
   );
   return CountSelectedQtEdgesImpl1(scene);
 }
@@ -212,7 +214,7 @@ ribi::cmap::Edge ribi::cmap::ExtractTheOneSelectedEdge(
 ribi::cmap::QtEdge *
 ribi::cmap::ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene)
 {
-  if (scene.selectedItems().size() != 1)
+  if (CountSelectedQtEdges(scene) != 1)
   {
     std::stringstream msg;
     msg << __func__ << ": "

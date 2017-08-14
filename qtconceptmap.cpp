@@ -984,9 +984,10 @@ void ribi::cmap::MoveQtEdgesAndQtNodesRandomly(QtConceptMap& q)
     {
       Move(*qtedge, dx, dy);
     }
-    else if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    else
     {
-      if (IsQtNodeNotOnEdge(qtnode, q))
+      QtNode * const qtnode = dynamic_cast<QtNode*>(item);
+      if (qtnode && IsQtNodeNotOnEdge(qtnode, q))
       {
         Move(*qtnode, dx, dy);
       }
@@ -1023,8 +1024,8 @@ void ribi::cmap::MoveQtNode(QtNode& qtnode, const double dx, const double dy, Qt
     },
     q.GetConceptMap()
   );
-  const auto my_custom_vertexes_map = get(boost::vertex_custom_type, q.GetConceptMap());
-  Node& node = get(my_custom_vertexes_map, vd);
+  const auto vertices_map = get(boost::vertex_custom_type, q.GetConceptMap());
+  Node& node = get(vertices_map, vd);
   Move(node, dx, dy);
 
   //View

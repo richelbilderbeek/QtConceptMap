@@ -255,7 +255,8 @@ bool ribi::cmap::IsVisible(const QtEdge& qtedge) noexcept
 bool ribi::cmap::QtEdge::IsSelected() const
 {
   assert(QGraphicsItem::isSelected() == this->GetQtNode()->isSelected()
-    || IsConnectedToCenterNode(*this) //If the QtEdge is connected to the center node, the QtNode is made invisible
+    //If the QtEdge is connected to the center node, the QtNode is made invisible
+    || IsConnectedToCenterNode(*this)
   );
   return QGraphicsItem::isSelected();
 }

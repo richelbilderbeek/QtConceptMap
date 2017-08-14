@@ -13,8 +13,10 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //Todo/review
-  void select_left_node_keyboard() const noexcept; // Skip on Travis
   void create_one_edge_keyboard_and_undo() const noexcept;
+  void create_one_edge_with_head_command() const noexcept;
+  void create_one_edge_with_head_keyboard() const noexcept;
+  void select_left_node_keyboard() const noexcept; // Skip on Travis
 
   //Done
   void cannot_delete_center_node() const noexcept; //#114
@@ -27,8 +29,6 @@ private slots:
   void create_one_edge_command() const noexcept;
   void create_one_edge_command_and_check_z_order() const noexcept;
   void create_one_edge_keyboard() const noexcept;
-  void create_one_edge_with_head_command() const noexcept;
-  void create_one_edge_with_head_keyboard() const noexcept;
   void create_one_edge_with_head_and_undo_keyboard() const noexcept;
   void create_one_edge_with_head_and_toggle_keyboard() const noexcept;
   void create_one_edge_with_tail_command() const noexcept;

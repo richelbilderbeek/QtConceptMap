@@ -212,6 +212,7 @@ void ribi::cmap::QtConceptMapTest::create_one_edge_keyboard_and_undo() const noe
   //Undo
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier, 100);
   QVERIFY(DoubleCheckEdgesAndNodes(m,0,2));
+  assert(DoubleCheckSelectedEdgesAndNodes(m,0,2,true));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2,true));
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,2,true));
   //Redo
@@ -1180,7 +1181,6 @@ void ribi::cmap::QtConceptMapTest::create_one_edge_with_head_command() const noe
   const auto concept_map_again = LoadFromFile(dot_filename);
 
   QVERIFY(HasSimilarData(m.GetConceptMap(), concept_map_again, 0.001));
-
 }
 
 void ribi::cmap::QtConceptMapTest::create_one_edge_with_head_keyboard() const noexcept
