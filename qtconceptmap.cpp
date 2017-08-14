@@ -215,8 +215,10 @@ void ribi::cmap::AddQtEdge(
   assert(has_custom_vertex_with_my_vertex(qtedge->GetFrom()->GetNode(), q.GetConceptMap()));
   assert(has_custom_vertex_with_my_vertex(qtedge->GetTo()->GetNode(), q.GetConceptMap()));
 
-  const auto vd_from = find_first_custom_vertex_with_my_vertex(qtedge->GetFrom()->GetNode(), q.GetConceptMap());
-  const auto vd_to = find_first_custom_vertex_with_my_vertex(qtedge->GetTo()->GetNode(), q.GetConceptMap());
+  const auto vd_from = find_first_custom_vertex_with_my_vertex(
+    qtedge->GetFrom()->GetNode(), q.GetConceptMap());
+  const auto vd_to = find_first_custom_vertex_with_my_vertex(
+    qtedge->GetTo()->GetNode(), q.GetConceptMap());
 
   add_custom_and_selectable_edge_between_vertices(
     qtedge->GetEdge(),
@@ -818,14 +820,6 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   CheckInvariants(*this);
 }
 
-void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
-{
-  //STUB
-  assert(!"Unused for now");
-  KeyPressEventNoModifiersArrowKey(q, event);
-}
-
-
 void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   CheckInvariants(q);
@@ -1029,7 +1023,7 @@ void ribi::cmap::MoveQtNode(QtNode& qtnode, const double dx, const double dy, Qt
     },
     q.GetConceptMap()
   );
-  const auto my_custom_vertexes_map = get(boost::vertex_custom_type, q  .GetConceptMap());
+  const auto my_custom_vertexes_map = get(boost::vertex_custom_type, q.GetConceptMap());
   Node& node = get(my_custom_vertexes_map, vd);
   Move(node, dx, dy);
 
@@ -1750,7 +1744,8 @@ void ribi::cmap::SetSelectedness(
   QtConceptMap& q
 )
 {
-  assert(!IsQtNodeOnEdge(&qtnode, q.GetScene())); //Otherwise find_first_custom_vertex_with_my_vertex will fail
+  //Otherwise find_first_custom_vertex_with_my_vertex will fail
+  assert(!IsQtNodeOnEdge(&qtnode, q.GetScene()));
 
   //First unselect Node ...
   assert(has_custom_vertex_with_my_vertex(qtnode.GetNode(), q.GetConceptMap()));

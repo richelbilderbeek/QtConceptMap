@@ -110,7 +110,8 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
   for (QtNode * const qtnode: GetSelectedQtNodes(GetQtConceptMap()))
   {
     SetSelectedness(false, *qtnode, GetQtConceptMap());
-    const auto vd = find_first_custom_vertex_with_my_vertex(qtnode->GetNode(), GetConceptMap(*this));
+    const auto vd = find_first_custom_vertex_with_my_vertex(
+      qtnode->GetNode(), GetConceptMap(*this));
     boost::remove_vertex(vd, GetConceptMap(*this));
     GetScene(*this).removeItem(qtnode);
     assert(!qtnode->scene());
@@ -201,7 +202,7 @@ void ribi::cmap::CommandDeleteSelected::SetSelected(
     }
     else
     {
-      assert(!"Do not expect to get here");
+      assert(!"Do not expect to get here"); //!OCLINT accepted idiom
       item->setSelected(is_selected);
     }
   }

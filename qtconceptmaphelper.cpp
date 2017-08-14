@@ -160,7 +160,8 @@ bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
     std::stringstream msg;
     msg << __func__ << ": "
       << "Internal inconsistency, "
-      << "n_selected_edges (" << n_selected_edges << ") != n_selected_qtedges ("
+      << "n_selected_edges (" << n_selected_edges
+      << ") != n_selected_qtedges ("
       << n_selected_qtedges << ")"
     ;
     throw std::logic_error(msg.str());
@@ -169,7 +170,8 @@ bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
   {
     if (verbose)
     {
-      std::clog << "n_selected_nodes (" << n_selected_nodes << ") != n_nodes_desired (" << n_nodes_desired << ")";
+      std::clog << "n_selected_nodes (" << n_selected_nodes
+        << ") != n_nodes_desired (" << n_nodes_desired << ")";
     }
     return false;
   }
@@ -177,7 +179,8 @@ bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
   {
     if (verbose)
     {
-      std::clog << "n_selected_edges (" << n_selected_edges << ") != n_edges_desired (" << n_edges_desired << ")";
+      std::clog << "n_selected_edges (" << n_selected_edges
+        << ") != n_edges_desired (" << n_edges_desired << ")";
     }
     return false;
   }
