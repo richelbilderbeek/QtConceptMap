@@ -1727,13 +1727,15 @@ void ribi::cmap::SetSelectedness(
   QtConceptMap& q
 )
 {
-  //First unselect Node
+  //First select Node
   const auto ed = find_first_custom_edge_with_my_edge(
     qtedge.GetEdge(),
     q.GetConceptMap()
   );
   set_edge_selectedness(is_selected, ed, q.GetConceptMap());
   qtedge.SetSelected(is_selected);
+
+  assert(IsSelected(qtedge) == is_selected);
 
   assert(!is_selected || CountSelectedQtEdges(q) > 0 || IsConnectedToCenterNode(qtedge));
 }

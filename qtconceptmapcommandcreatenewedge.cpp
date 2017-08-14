@@ -207,13 +207,14 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   //-----------------------
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 
+  assert(AllHaveScene(nullptr));
+  GetQtConceptMap().GetScene().addItem(m_added_qtedge);
+  assert(AllHaveScene(&GetQtConceptMap().GetScene()));
+
   m_added_qtedge->setFocus();
   //m_added_qtedge->GetQtNode()->setFocus();
   SetSelectedness(true, *m_added_qtedge, GetQtConceptMap());
 
-  assert(AllHaveScene(nullptr));
-  GetQtConceptMap().GetScene().addItem(m_added_qtedge);
-  assert(AllHaveScene(&GetQtConceptMap().GetScene()));
 
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
 
