@@ -128,7 +128,10 @@ bool HasExamples(const QtEdge& qtnode) noexcept;
 bool HasHeadArrow(const QtEdge& qtedge) noexcept;
 bool HasTailArrow(const QtEdge& qtedge) noexcept;
 
+bool IsEnabled(const QtEdge& qtedge) noexcept;
 bool IsSelectable(const QtEdge& qtedge) noexcept;
+bool IsSelected(const QtEdge& qtedge) noexcept;
+bool IsVisible(const QtEdge& qtedge) noexcept;
 
 ///Move a QtEdge (and its Edge) relatively
 void Move(QtEdge& qtedge, const double dx, const double dy);

@@ -40,12 +40,21 @@ void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtEdgeByName() const noexc
   assert(CountSelectedQtNodes(q) == 0);
   q.showFullScreen();
   QTest::qWait(1000);
-  q.DoCommand(new CommandSelect(q, "first"));
   assert(CountSelectedQtNodes(q) == 0);
-  qCritical() << "CountSelectedQtEdges(q): " << CountSelectedQtEdges(q);
+  q.DoCommand(new CommandSelect(q, "first"));
+  qApp->processEvents();
+  QTest::qWait(1000);
+  assert(GetQtEdges(q).size() == 1);
+  assert(IsSelectable(*GetQtEdges(q)[0]));
+  assert(IsVisible(*GetQtEdges(q)[0]));
+  assert(IsEnabled(*GetQtEdges(q)[0]));
+  qCritical()
+    << "CountSelectedQtEdges(q): " << CountSelectedQtEdges(q)
+    << "IsSelected(*(GetQtEdges(q)[0])): " << IsSelected(*(GetQtEdges(q)[0]))
+  ;
   assert(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 1);
-
+  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtNodeByName() const noexcept

@@ -1733,9 +1733,7 @@ void ribi::cmap::SetSelectedness(
   QtConceptMap& q
 )
 {
-
-
-  //First unselect Node ...
+  //First unselect Node
   const auto ed = find_first_custom_edge_with_my_edge(
     qtedge.GetEdge(),
     q.GetConceptMap()
@@ -1743,7 +1741,22 @@ void ribi::cmap::SetSelectedness(
   set_edge_selectedness(is_selected, ed, q.GetConceptMap());
   qtedge.SetSelected(is_selected);
 
-  assert(!is_selected || CountSelectedQtEdges(q) > 0);
+  #ifdef NOT_NOW_20170814
+  qDebug()
+    << "\nqtedge.isVisible(): " << qtedge.isVisible()
+    << "\nqtedge.isEnabled(): " << qtedge.isEnabled()
+    << "\nIsSelectable(qtedge): " << IsSelectable(qtedge)
+    << "\nis_selected: " << is_selected
+    << "\nCountSelectedQtEdges(q): " << CountSelectedQtEdges(q)
+  ;
+
+  assert(!qtedge.isVisible()
+    || !qtedge.isEnabled()
+    || !IsSelectable(qtedge)
+    || !is_selected
+    || CountSelectedQtEdges(q) > 0
+  );
+  #endif // NOT_NOW_20170814
 }
 
 void ribi::cmap::SetSelectedness(

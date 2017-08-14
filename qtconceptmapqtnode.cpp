@@ -197,6 +197,26 @@ bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
   return IsCenterNode(qtnode.GetNode());
 }
 
+bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept
+{
+  return qtnode.isEnabled();
+}
+
+bool ribi::cmap::IsSelectable(const QtNode& qtnode) noexcept
+{
+  return qtnode.flags() & QGraphicsItem::ItemIsSelectable;
+}
+
+bool ribi::cmap::IsSelected(const QtNode& qtnode) noexcept
+{
+  return qtnode.isSelected();
+}
+
+bool ribi::cmap::IsVisible(const QtNode& qtnode) noexcept
+{
+  return qtnode.isVisible();
+}
+
 void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
 {
   CheckInvariants(*this);

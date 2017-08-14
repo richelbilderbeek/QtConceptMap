@@ -50,7 +50,8 @@ ribi::cmap::QtEdge::QtEdge(
 
   this->m_arrow->setFlags(0);
 
-  this->setFlags(0);
+  this->setFlags(QGraphicsItem::ItemIsSelectable);
+  //this->setFlags(0);
 
   GetQtNode()->SetContourPen(QPen(Qt::white));
   {
@@ -224,14 +225,35 @@ bool ribi::cmap::HasTailArrow(const QtEdge& qtedge) noexcept
   return qtedge.GetArrow()->HasTail();
 }
 
+bool ribi::cmap::IsEnabled(const QtEdge& qtedge) noexcept
+{
+  return qtedge.isEnabled();
+}
+
 bool ribi::cmap::IsSelectable(const QtEdge& qtedge) noexcept
 {
   return qtedge.flags() & QGraphicsItem::ItemIsSelectable;
 }
 
+bool ribi::cmap::IsSelected(const QtEdge& qtedge) noexcept
+{
+  return qtedge.IsSelected();
+}
+
+bool ribi::cmap::IsVisible(const QtEdge& qtedge) noexcept
+{
+  return qtedge.isVisible();
+}
+
 bool ribi::cmap::QtEdge::IsSelected() const
 {
-  assert(GetQtNode()->isSelected() == QGraphicsItem::isSelected());
+  assert(
+       !IsVisible(*this)
+    || !IsEnabled(*this)
+    || !IsSelectable(*this)
+    || !IsVisible(*GetQtNode())
+    || GetQtNode()->isSelected() == QGraphicsItem::isSelected()
+  );
   return GetQtNode()->isSelected();
 }
 
@@ -363,7 +385,25 @@ void ribi::cmap::QtEdge::SetSelected(const bool selected)
 {
   QGraphicsItem::setSelected(selected);
   this->GetQtNode()->setSelected(selected);
-  assert(!isVisible() || !isEnabled() || !IsSelectable(*this) || IsSelected() == selected);
+
+  #define NOT_NOW_20170814
+  #ifdef NOT_NOW_20170814
+  qDebug()
+    << "\nGetQtNode()->isSelected(): " << GetQtNode()->isSelected()
+    << "\nQGraphicsItem::isSelected(): " << QGraphicsItem::isSelected()
+  ;
+
+  assert(!GetQtNode()->isVisible()
+    || !GetQtNode()->isEnabled()
+    || !IsSelectable(*GetQtNode())
+    || GetQtNode()->isSelected() == QGraphicsItem::isSelected());
+  const bool selectedness_now{IsSelected()};
+  assert(!isVisible()
+    || !isEnabled()
+    || !IsSelectable(*this)
+    || selectedness_now == selected);
+
+  #endif // NOT_NOW_20170814
 }
 
 QPainterPath ribi::cmap::QtEdge::shape() const noexcept
