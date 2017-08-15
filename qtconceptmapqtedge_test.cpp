@@ -67,12 +67,13 @@ void ribi::cmap::QtConceptMapQtEdgeTest::node_must_have_dotted_black_line_when_s
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
   m.show();
-  //ReallyLoseFocus(m);
   QtEdge * const qtedge = GetLastQtEdge(m.GetScene());
   QtNode * const qtnode = qtedge->GetQtNode();
   qtnode->setSelected(true);
   qtnode->setFocus();
+  assert(qtnode->GetFocusPen().color() == Qt::black);
   QVERIFY(qtnode->GetFocusPen().color() == Qt::black);
+  assert(qtnode->GetFocusPen().style() == Qt::DashLine);
   QVERIFY(qtnode->GetFocusPen().style() == Qt::DashLine);
 }
 
