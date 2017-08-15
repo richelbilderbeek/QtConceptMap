@@ -507,6 +507,16 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   #endif
 }
 
+int ribi::cmap::CountQtArrowHeads(const QtConceptMap& q) noexcept
+{
+  return CountQtArrowHeads(q.GetScene());
+}
+
+int ribi::cmap::CountQtArrowTails(const QtConceptMap& q) noexcept
+{
+  return CountQtArrowTails(q.GetScene());
+}
+
 int ribi::cmap::CountQtEdges(const QtConceptMap& q) noexcept
 {
   return CountQtEdges(q.GetScene());
