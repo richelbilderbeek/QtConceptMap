@@ -12,10 +12,12 @@ class QtConceptMapTest : public QObject
 
 private slots:
 
+  //To do/review
+  void CannotMoveCenterNode() const noexcept; //#115
+
   //Done
   void cannot_delete_center_node() const noexcept; //#114
   void cannot_edit_center_node() const noexcept; //#104
-  void cannot_move_center_node() const noexcept; //#115
   void change_modes() const noexcept;
   void click_on_nothing_should_be_ignored() const noexcept;
   void concept_map_must_fit_window() const noexcept; //#135
