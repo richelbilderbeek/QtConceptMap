@@ -263,6 +263,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
 
   GetQtConceptMap().GetScene().clearFocus();
 
+  SetSelectedness(false, *m_added_qtedge           , GetQtConceptMap());
+
   //ConceptMap
   boost::remove_edge(
     find_first_custom_edge_with_my_edge(m_added_qtedge->GetEdge(), GetQtConceptMap().GetConceptMap()),
@@ -276,7 +278,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   //GetQtConceptMap().GetScene().removeItem(m_added_qtnode); //Get these for free
   //GetQtConceptMap().GetScene().removeItem(m_added_qtedge->GetArrow()); //Get these for free
 
-  SetSelectedness(false, *m_added_qtedge           , GetQtConceptMap());
   SetSelectedness(true, *m_added_qtedge->GetFrom(), GetQtConceptMap());
   SetSelectedness(true, *m_added_qtedge->GetTo()  , GetQtConceptMap());
   m_added_qtedge->GetTo()->setFocus();

@@ -31,7 +31,6 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const
   q.Undo();
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 0);
-  assert(!"OK");
 }
 
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNode() const noexcept
