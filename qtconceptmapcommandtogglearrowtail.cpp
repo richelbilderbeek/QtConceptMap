@@ -22,11 +22,7 @@
 
 ribi::cmap::CommandToggleArrowTail::CommandToggleArrowTail(
   QtConceptMap& qtconceptmap
-) : Command(qtconceptmap),
-    m_conceptmap(qtconceptmap.GetConceptMap()),
-    m_edge_before{ExtractTheOneSelectedEdge(qtconceptmap.GetConceptMap(),qtconceptmap.GetScene())},
-    m_scene{qtconceptmap.GetScene()},
-    m_qtedge{ExtractTheOneSelectedQtEdge(qtconceptmap.GetScene())}
+) : Command(qtconceptmap)
 {
   this->setText("Toggle arrow tail");
 }
@@ -43,19 +39,22 @@ ribi::cmap::CommandToggleArrowTail * ribi::cmap::ParseCommandToggleArrowTail(
 
 void ribi::cmap::CommandToggleArrowTail::redo()
 {
+  const Edge m_edge_before = ExtractTheOneSelectedEdge(GetConceptMap(*this), GetScene(*this));
+  QtEdge * const m_qtedge = ExtractTheOneSelectedQtEdge(GetScene(*this));
+
   //Find the edge with the desired ID
   const auto ed = ::find_first_custom_edge(
     [id = m_edge_before.GetId()](const Edge& edge) { return edge.GetId() == id; },
-    m_conceptmap
+    GetConceptMap(*this)
   );
-  auto current_edge = get_my_custom_edge(ed, m_conceptmap);
+  auto current_edge = get_my_custom_edge(ed, GetConceptMap(*this));
 
   const auto has_arrow_old = current_edge.HasTailArrow();
   const auto has_arrow_new = !has_arrow_old;
 
   //Add an arrow and put it back in the concept map
   current_edge.SetTailArrow(has_arrow_new);
-  ::set_my_custom_edge(current_edge, ed, m_conceptmap);
+  ::set_my_custom_edge(current_edge, ed, GetConceptMap(*this));
 
   //Put the current arrow tail in the QtEdge
   m_qtedge->SetHasTailArrow(has_arrow_new);
