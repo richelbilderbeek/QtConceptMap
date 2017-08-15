@@ -12,6 +12,13 @@ class QtConceptMapCommandToggleArrowHeadTest : public QObject
 
 private slots:
 
+  void ToggleAbsentEdgeShouldFail() const noexcept;
+
+  void ToggleEdge() const noexcept;
+
+  void ToggleEdgeConnectedToCenterNode() const noexcept;
+
+
   void Parse() const noexcept;
 
   void ParseNonsenseFails() const noexcept;

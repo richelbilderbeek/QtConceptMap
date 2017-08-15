@@ -189,6 +189,12 @@ void CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMa
 ///the QtToolItem must be connected to it
 void CheckInvariantSingleSelectedQtNodeMustHaveQtTool(const QtConceptMap& q) noexcept;
 
+///Counts the number of arrow heads on all QtEdges
+int CountQtArrowHeads(const QtConceptMap& q) noexcept;
+
+///Counts the number of arrow tails on all QtEdges
+int CountQtArrowTails(const QtConceptMap& q) noexcept;
+
 ///Counts the QtEdges
 int CountQtEdges(const QtConceptMap& q) noexcept;
 

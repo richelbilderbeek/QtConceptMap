@@ -14,6 +14,29 @@
 #include "find_first_custom_edge_with_my_edge.h"
 #include "has_custom_edge.h"
 
+
+int ribi::cmap::CountQtArrowHeads(const QGraphicsScene& scene) noexcept
+{
+  const auto qtedges = GetQtEdges(scene);
+  return std::count_if(std::begin(qtedges), std::end(qtedges),
+    [](const QtEdge* const qtedge)
+    {
+      return HasHeadArrow(*qtedge);
+    }
+  );
+}
+
+int ribi::cmap::CountQtArrowTails(const QGraphicsScene& scene) noexcept
+{
+  const auto qtedges = GetQtEdges(scene);
+  return std::count_if(std::begin(qtedges), std::end(qtedges),
+    [](const QtEdge* const qtedge)
+    {
+      return HasTailArrow(*qtedge);
+    }
+  );
+}
+
 int ribi::cmap::CountQtCenterNodes(const QGraphicsScene& scene) noexcept
 {
   int cnt{0};

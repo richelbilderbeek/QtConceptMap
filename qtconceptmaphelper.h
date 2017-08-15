@@ -10,14 +10,20 @@
 namespace ribi {
 namespace cmap {
 
+///Counts the number of arrow heads on all QtEdges
+int CountQtArrowHeads(const QGraphicsScene& scene) noexcept;
+
+///Counts the number of arrow heads on all QtEdges
+int CountQtArrowTails(const QGraphicsScene& scene) noexcept;
+
 ///Counts the QtNodes that are center nodes
 int CountQtCenterNodes(const QGraphicsScene& scene) noexcept;
 
+///Counts the QtEdges
+int CountQtEdges(const QGraphicsScene& scene) noexcept;
 
 ///Counts the QtNodes that are Nodes, i.e. are not on an edge
 int CountQtNodes(const QGraphicsScene& scene) noexcept;
-
-int CountQtEdges(const QGraphicsScene& scene) noexcept;
 
 ///Only counts the QtNodes that are not on an edge
 int CountSelectedQtNodes(const QGraphicsScene& scene) noexcept;
