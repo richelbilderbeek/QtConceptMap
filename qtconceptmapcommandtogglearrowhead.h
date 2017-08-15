@@ -14,6 +14,7 @@ namespace cmap {
 struct QtEdge;
 struct QtNode;
 
+///Toggles the head of a selected QtEdge
 class CommandToggleArrowHead final : public Command
 {
   public:
@@ -28,11 +29,23 @@ class CommandToggleArrowHead final : public Command
   void undo() override;
 
   private:
+
+
   ConceptMap& m_conceptmap; //The concept map to modify
+
   const Edge m_edge_before;
   QGraphicsScene& m_scene;
   QtEdge * const m_qtedge; //The QtEdge to modify
 };
+
+using CommandToggleHead = CommandToggleArrowHead;
+
+CommandToggleArrowHead * ParseCommandToggleArrowHead(
+  QtConceptMap& qtconceptmap, std::string s);
+
+inline CommandToggleHead * ParseCommandToggleHead(
+  QtConceptMap& q, std::string s) { return ParseCommandToggleArrowHead(q, s); }
+
 
 } //~namespace cmap
 } //~namespace ribi

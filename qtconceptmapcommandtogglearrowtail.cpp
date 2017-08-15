@@ -31,6 +31,16 @@ ribi::cmap::CommandToggleArrowTail::CommandToggleArrowTail(
   this->setText("Toggle arrow tail");
 }
 
+ribi::cmap::CommandToggleArrowTail * ribi::cmap::ParseCommandToggleArrowTail(
+  QtConceptMap& qtconceptmap, std::string s)
+{
+  if (s == "toggle_tail()" || s == "toggle_arrow_tail()")
+  {
+    return new CommandToggleTail(qtconceptmap);
+  }
+  return nullptr;
+}
+
 void ribi::cmap::CommandToggleArrowTail::redo()
 {
   //Find the edge with the desired ID

@@ -19,7 +19,7 @@ class CommandToggleArrowTail final : public Command
   public:
 
   CommandToggleArrowTail(
-    QtConceptMap& qt4conceptmap
+    QtConceptMap& qtconceptmap
   );
   CommandToggleArrowTail(const CommandToggleArrowTail&) = delete;
   CommandToggleArrowTail& operator=(const CommandToggleArrowTail&) = delete;
@@ -33,6 +33,15 @@ class CommandToggleArrowTail final : public Command
   QGraphicsScene& m_scene;
   QtEdge * const m_qtedge; //The QtEdge to modify
 };
+
+using CommandToggleTail = CommandToggleArrowTail;
+
+CommandToggleArrowTail * ParseCommandToggleArrowTail(
+  QtConceptMap& qtconceptmap, std::string s);
+
+inline CommandToggleTail * ParseCommandToggleTail(
+  QtConceptMap& q, std::string s) { return ParseCommandToggleArrowTail(q, s); }
+
 
 } //~namespace cmap
 } //~namespace ribi

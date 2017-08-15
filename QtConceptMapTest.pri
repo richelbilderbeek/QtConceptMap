@@ -7,6 +7,8 @@ SOURCES += \
     $$PWD/qtconceptmapcommandsave_test.cpp \
     $$PWD/qtconceptmapcommandselect_test.cpp \
     $$PWD/qtconceptmapcommandsetmode_test.cpp \
+    $$PWD/qtconceptmapcommandtogglearrowhead_test.cpp \
+    $$PWD/qtconceptmapcommandtogglearrowtail_test.cpp \
     $$PWD/qtconceptmapcommands_test.cpp \
     $$PWD/qtconceptmapcommandunselect_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
