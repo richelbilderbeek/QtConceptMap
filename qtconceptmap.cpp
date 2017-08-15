@@ -117,7 +117,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
 
   CheckInvariants(*this);
 
-  if (1 == 2) //Temporarily remove timer for bugfixing
+  if (1 == 2) //!OCLINT Temporarily remove timer for bugfixing
   {
     QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(Respond()));
     //Timer is started in showEvent
@@ -160,7 +160,7 @@ void ribi::cmap::AddEdgesToScene(
     QtEdge * const qtedge{new QtEdge(edge,qtfrom,qtto)};
     assert(GetX(*qtedge) == GetX(edge));
     assert(GetY(*qtedge) == GetY(edge));
-    if (qtfrom->GetNode().IsCenterNode() || qtto->GetNode().IsCenterNode())
+    if (IsConnectedToCenterNode(*qtedge))
     {
       qtedge->GetQtNode()->setVisible(false);
     }

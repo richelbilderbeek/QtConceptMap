@@ -55,33 +55,20 @@ ribi::cmap::QtEdge::QtEdge(
   //this->setFlags(0);
 
   GetQtNode()->SetContourPen(QPen(Qt::white));
-  {
-    QPen focus_pen(Qt::black);
-    focus_pen.setStyle(Qt::DashLine);
-    GetQtNode()->SetFocusPen(focus_pen);
-  }
+  GetQtNode()->SetFocusPen(QPen(Qt::black, Qt::DashLine));
   GetQtNode()->setFlags(GetQtNodeFlags());
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
-  assert(from);
-  assert(to);
-  const bool ictcn //is_connected_to_center_node
-    = IsCenterNode(*from) || IsCenterNode(*to);
-  if (ictcn)
+  if (IsConnectedToCenterNode(*this))
   {
     m_arrow->SetMidX( (m_arrow->GetFromX() + m_arrow->GetToX()) / 2.0 );
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
   }
 
-  assert(m_edge.GetNode().GetX() == GetX(m_edge.GetNode()));
-  assert(GetX(m_edge) == GetX(m_edge.GetNode()));
   m_qtnode->SetCenterX(GetX(m_edge));
   m_qtnode->SetCenterY(GetY(m_edge));
   m_qtnode->SetText( { GetText(m_edge) } );
-
-  assert(std::abs(GetX(m_edge) - m_qtnode->GetCenterX()) < 2.0);
-  assert(std::abs(GetY(m_edge) - m_qtnode->GetCenterY()) < 2.0);
 
   this->SetEdge(m_edge);
 
