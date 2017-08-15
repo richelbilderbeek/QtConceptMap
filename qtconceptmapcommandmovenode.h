@@ -1,5 +1,5 @@
-#ifndef CONCEPTMAPCOMMANDMOVE_H
-#define CONCEPTMAPCOMMANDMOVE_H
+#ifndef CONCEPTMAPCOMMANDMOVENODE_H
+#define CONCEPTMAPCOMMANDMOVENODE_H
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
@@ -18,27 +18,24 @@
 namespace ribi {
 namespace cmap {
 
-///Move a QGraphicsItems that is moveable, in this case QtEdges and non-center QtNodes
-class CommandMove final : public Command
+///MoveNode a QGraphicsItems that is moveable, in this case QtEdges and non-center QtNodes
+class CommandMoveNode final : public Command
 {
   public:
 
   ///@param node_or_edge_name the node or edge name/text to be moved
-  CommandMove(
+  CommandMoveNode(
     QtConceptMap& qtconceptmap,
     const std::string& node_or_edge_name,
     const double dx,
     const double dy
   );
-  CommandMove(const CommandMove&) = delete;
-  CommandMove& operator=(const CommandMove&) = delete;
-  ~CommandMove() noexcept {}
+  CommandMoveNode(const CommandMoveNode&) = delete;
+  CommandMoveNode& operator=(const CommandMoveNode&) = delete;
+  ~CommandMoveNode() noexcept {}
 
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }
-
-  /// If name was an edge name, the renamed edge
-  const QtEdge * GetMovedQtEdge() const noexcept { return m_moved_qtedge; }
 
   /// If name was a node name, the renamed node
   const QtNode * GetMovedQtNode() const noexcept { return m_moved_qtnode; }
@@ -55,9 +52,6 @@ class CommandMove final : public Command
   ///The vertical relative movement of the node or edge
   const double m_dy;
 
-  /// If name was an edge name, the renamed edge
-  QtEdge * m_moved_qtedge;
-
   /// If name was a node name, the renamed node
   QtNode * m_moved_qtnode;
 
@@ -65,12 +59,15 @@ class CommandMove final : public Command
   const std::string m_name;
 };
 
-/// Works on, for example  'move_node(node name, 0, 0)'
-CommandMove * ParseCommandMove(
+///Predicate to see if a Node has a certain (single-line) text
+std::function<bool(const Node&)> NodeHasText(const std::string& text) noexcept;
+
+/// Works on, for example  'create_new_node(0, 0, from)'
+CommandMoveNode * ParseCommandMoveNode(
   QtConceptMap& qtconceptmap, std::string s);
 
 
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // CONCEPTMAPCOMMANDMOVE_H
+#endif // CONCEPTMAPCOMMANDMOVENODE_H

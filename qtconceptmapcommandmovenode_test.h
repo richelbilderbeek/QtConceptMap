@@ -1,12 +1,12 @@
-#ifndef QTCONCEPTMAP_COMMANDMOVE_TEST_H
-#define QTCONCEPTMAP_COMMANDMOVE_TEST_H
+#ifndef QTCONCEPTMAP_COMMANDMOVENODE_TEST_H
+#define QTCONCEPTMAP_COMMANDMOVENODE_TEST_H
 
 #include <QtTest/QtTest>
 
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapCommandMoveTest : public QObject
+class QtConceptMapCommandMoveNodeTest : public QObject
 {
     Q_OBJECT //!OCLINT
 
@@ -22,17 +22,11 @@ private slots:
   ///Does the Command move a QtNode?
   void MoveCenterQtNodeByNameFails() const noexcept;
 
-  ///Does the Command move a QtEdge, in a QtConceptMap with two QtEdges?
-  void MoveOneOfTwoQtEdgesByName() const noexcept;
-
   ///Does the Command move a QtEdge connected to a center QtNode, in a QtConceptMap with two QtEdges?
-  void MoveOneOfTwoQtEdgesConnectedToCenterQtNodeByName() const noexcept;
+  void MoveEdgeConnectedToCenterFails() const noexcept;
 
-  ///Does the Command move a QtEdge, in a QtConceptMap with one QtEdge?
-  void MoveOnlyQtEdgeByName() const noexcept;
-
-  ///Does the Command move a QtEdge connected to a center QtNode, in a QtConceptMap one QtEdge?
-  void MoveOnlyQtEdgeConnectedToCenterQtNode() const noexcept;
+  ///Does the Command move a QtEdge, in a QtConceptMap with two QtEdges?
+  void MoveEdgeFails() const noexcept;
 
   ///Does the Command move a QtNode?
   void MoveQtNodeByName() const noexcept;
@@ -47,5 +41,5 @@ private slots:
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // QTCONCEPTMAP_COMMANDMOVE_TEST_H
+#endif // QTCONCEPTMAP_COMMANDMOVENODE_TEST_H
 

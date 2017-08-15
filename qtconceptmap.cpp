@@ -821,13 +821,85 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   //Pass event to base class
   if (!event->isAccepted())
   {
-    //qDebug() << "Should QtKeyboardFriendlyGraphicsView really handle input?";
+    qDebug() << "Should QtKeyboardFriendlyGraphicsView really handle input?";
     QtKeyboardFriendlyGraphicsView::keyPressEvent(event);
   }
 
   UpdateConceptMap(*this);
 
   CheckInvariants(*this);
+}
+
+void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
+{
+  CheckInvariants(q);
+  if (event->modifiers() &  Qt::NoModifier)
+  {
+    keyPressEventArrowsSelectExclusive(q, event);
+  }
+  else if (event->modifiers() &  Qt::ControlModifier)
+  {
+    keyPressEventArrowsMove(q, event);
+  }
+  else if (event->modifiers() &  Qt::ShiftModifier)
+  {
+    keyPressEventArrowsSelectAdditive(q, event);
+  }
+
+  CheckInvariants(q);
+}
+
+void ribi::cmap::keyPressEventArrowsSelectAdditive(QtConceptMap& q, QKeyEvent *event) noexcept
+{
+  CheckInvariants(q);
+
+  try
+  {
+    //q.DoCommand(new CommandDeleteSelected(q));
+    event->accept();
+  }
+  catch (std::exception&)
+  {
+    event->ignore();
+  }
+
+
+  CheckInvariants(q);
+}
+
+void ribi::cmap::keyPressEventArrowsSelectExclusive(QtConceptMap& q, QKeyEvent *event) noexcept
+{
+  CheckInvariants(q);
+
+  try
+  {
+    //q.DoCommand(new CommandDeleteSelected(q));
+    event->accept();
+  }
+  catch (std::exception&)
+  {
+    event->ignore();
+  }
+
+
+  CheckInvariants(q);
+}
+
+void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noexcept
+{
+  CheckInvariants(q);
+
+  try
+  {
+    //q.DoCommand(new CommandDeleteSelected(q));
+    event->accept();
+  }
+  catch (std::exception&)
+  {
+    event->ignore();
+  }
+
+  CheckInvariants(q);
 }
 
 void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
@@ -1476,10 +1548,10 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_T: keyPressEventT(q, event); break;
     case Qt::Key_Z: keyPressEventZ(q, event); break;
     case Qt::Key_Space: keyPressEventSpace(q, event); break;
-    //case Qt::Key_Up:
-    //case Qt::Key_Right:
-    //case Qt::Key_Left:
-    //case Qt::Key_Down: keyPressEventArrows(q, event); break;
+    case Qt::Key_Up:
+    case Qt::Key_Right:
+    case Qt::Key_Left:
+    case Qt::Key_Down: keyPressEventArrows(q, event); break;
     default: break;
   }
 

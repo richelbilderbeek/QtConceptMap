@@ -284,6 +284,10 @@ bool IsQtNodeOnEdge(
   const QtConceptMap& q
 ) noexcept;
 
+void keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventArrowsSelectAdditive(QtConceptMap& q, QKeyEvent *event) noexcept;
+void keyPressEventArrowsSelectExclusive(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept;
