@@ -959,37 +959,6 @@ void ribi::cmap::QtConceptMapTest::qtnodes_must_show_example_when_focused() cons
   }
 }
 
-void ribi::cmap::QtConceptMapTest::select_left_node_keyboard() const noexcept
-{
-  if (OnTravis()) return;
-
-  QtConceptMap m;
-  m.show();
-  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
-  m.show();
-  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
-  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,1,0));
-  QTest::keyClick(&m, Qt::Key_Left, Qt::NoModifier, 100);
-  m.show();
-  QTest::qWait(1000);
-  assert(DoubleCheckEdgesAndNodes(m, 1, 2));
-  qDebug()
-    << "\nGetSelectedQtNodes(m).size(): " << GetSelectedQtNodes(m).size()
-    << "\nGetSelectedQtEdges(m).size(): " << GetSelectedQtEdges(m).size()
-  ;
-  //assert(GetSelectedQtNodes(m).size() == 1);
-  //assert(GetSelectedQtEdges(m).size() == 0);
-  //assert(DoubleCheckSelectedEdgesAndNodes(m,0,1));
-
-  QVERIFY(DoubleCheckEdgesAndNodes(m,1,2));
-  QVERIFY(GetSelectedQtNodes(m).size() == 1);
-  QVERIFY(GetSelectedQtEdges(m).size() == 0);
-  QVERIFY(DoubleCheckSelectedEdgesAndNodes(m,0,1));
-  //assert(!"FIXED!");
-}
-
 void ribi::cmap::QtConceptMapTest::select_random_node_keyboard_edit() const noexcept
 {
   if (OnTravis()) return;
