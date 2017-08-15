@@ -7,26 +7,26 @@
 
 #include <QDebug>
 
-void ribi::cmap::QtConceptMapCommandsTest::get_commands() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::GetCommands() const noexcept
 {
   const std::string cmds = "some commands";
   const std::vector<std::string> args = { "--command", cmds };
-  const auto s = ::ribi::cmap::get_commands(args);
+  const auto s = ::ribi::cmap::GetCommands(args);
   QVERIFY(!s.empty());
   QVERIFY(s == cmds);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::nonsense_to_empty() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::NonsenseToEmpty() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q, { "--command", "nonsense" } );
+  const auto cmds = ParseCommands(q, { "--command", "nonsense" } );
   QVERIFY(cmds.empty());
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::create_one_new_node_command() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeCommand() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q, { "--command", "create_new_node(my text, false, 10, 20)" } );
+  const auto cmds = ParseCommands(q, { "--command", "create_new_node(my text, false, 10, 20)" } );
   QVERIFY(cmds.size() == 1);
 
   QVERIFY(CountQtNodes(q) == 0);
@@ -36,10 +36,10 @@ void ribi::cmap::QtConceptMapCommandsTest::create_one_new_node_command() const n
   CheckInvariants(q);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::create_one_new_node_then_unselect() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeThenUnselect() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "create_new_node(to be unselected, false, 10, 20); "
@@ -58,10 +58,10 @@ void ribi::cmap::QtConceptMapCommandsTest::create_one_new_node_then_unselect() c
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::create_relation_over_center_node() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::CreateRelationOverCenterNode() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "create_new_node(center, true, 0, 0); "
@@ -78,10 +78,10 @@ void ribi::cmap::QtConceptMapCommandsTest::create_relation_over_center_node() co
   QVERIFY(CountQtNodes(q) == 3);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::create_two_new_node_commands() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::CreateTwoNewNodeCommands() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "create_new_node(my first text, false, 10, 20); "
@@ -91,24 +91,24 @@ void ribi::cmap::QtConceptMapCommandsTest::create_two_new_node_commands() const 
   QVERIFY(cmds.size() == 2);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::create_new_edge_between_two_selected_nodes_command() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::CreateNewEdgeBetweenTwoSelectedNodesCommand() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
-      "create_new_node(my text, false, 10, 20); "
-      "create_new_node(my text, false, 10, 40); "
-      "create_new_edge(my text)"
+      "create_new_node(from, false, 10, 20); "
+      "create_new_node(to, false, 10, 40); "
+      "create_new_edge(between)"
     }
   );
   QVERIFY(cmds.size() == 3);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::load_command() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::LoadCommand() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "load(my_file.cmp)"
@@ -118,10 +118,10 @@ void ribi::cmap::QtConceptMapCommandsTest::load_command() const noexcept
 }
 
 void ribi::cmap::QtConceptMapCommandsTest
-  ::move_command_fails_on_nonexisting_item() const noexcept
+  ::MoveCommandFailsOnNonexistingItem() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "create_new_node(from, false, 100, 200); "
@@ -147,10 +147,10 @@ void ribi::cmap::QtConceptMapCommandsTest
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::move_command_on_edge() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnEdge() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "create_new_node(from, false, 100, 200); "
@@ -192,10 +192,10 @@ void ribi::cmap::QtConceptMapCommandsTest::move_command_on_edge() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::move_command_on_node() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnNode() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "create_new_node(move me, false, 50, 75); "
@@ -225,10 +225,10 @@ void ribi::cmap::QtConceptMapCommandsTest::move_command_on_node() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::save_command_empty_concept_map() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::SaveCommandEmptyConceptMap() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "save(my_file.cmp)"
@@ -237,7 +237,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_command_empty_concept_map() cons
   QVERIFY(cmds.size() == 1);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::save_command_two_nodes_one_edge() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::SaveCommandTwoNodesOneEdge() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
@@ -245,7 +245,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_command_two_nodes_one_edge() con
   QtConceptMap q;
 
   //Create file
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "create_new_node(center, true, 0, 0); "
@@ -263,7 +263,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_command_two_nodes_one_edge() con
   assert(CountQtNodes(q) == 3);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::save_and_load() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoad() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
@@ -272,7 +272,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load() const noexcept
 
   //Create file
   {
-    const auto cmds = parse_commands(q,
+    const auto cmds = ParseCommands(q,
       {
         "--command",
         "create_new_node(center, true, 0, 0); "
@@ -293,7 +293,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load() const noexcept
   CheckInvariants(q);
   //Load file
   {
-    const auto cmds = parse_commands(q,
+    const auto cmds = ParseCommands(q,
       {
         "--command",
         "load(" + filename + ")"
@@ -307,7 +307,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load() const noexcept
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_topology() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
@@ -316,7 +316,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
 
   //Create file
   {
-    const auto cmds = parse_commands(q,
+    const auto cmds = ParseCommands(q,
       {
         "--command",
         "create_new_node(center, true, 0, 0); "
@@ -403,7 +403,7 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
   CheckInvariants(q);
   //Load file
   {
-    const auto cmds = parse_commands(q,
+    const auto cmds = ParseCommands(q,
       {
         "--command",
         "load(" + filename + ")"
@@ -427,10 +427,10 @@ void ribi::cmap::QtConceptMapCommandsTest::save_and_load_must_result_in_same_top
     QVERIFY(std::abs(expected_y - measured_y) < 2.0);
   }
 }
-void ribi::cmap::QtConceptMapCommandsTest::select_command() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::SelectCommand() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "select(absent node)"
@@ -439,10 +439,10 @@ void ribi::cmap::QtConceptMapCommandsTest::select_command() const noexcept
   QVERIFY(cmds.size() == 1);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::set_mode_command() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::SetModeCommand() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "set_mode(edit)"
@@ -451,10 +451,41 @@ void ribi::cmap::QtConceptMapCommandsTest::set_mode_command() const noexcept
   QVERIFY(cmds.size() == 1);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::unselect_command() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowHeadCommand() const noexcept
 {
   QtConceptMap q;
-  const auto cmds = parse_commands(q,
+  const auto cmds = ParseCommands(q,
+    {
+      "--command",
+      "create_new_node(from, false, 10, 20); "
+      "create_new_node(to, false, 10, 40); "
+      "create_new_edge(between); "
+      "toggle_arrow_head()"
+    }
+  );
+  QVERIFY(cmds.size() == 4);
+}
+
+void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowTailCommand() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = ParseCommands(q,
+    {
+      "--command",
+      "create_new_node(from, false, 10, 20); "
+      "create_new_node(to, false, 10, 40); "
+      "create_new_edge(between); "
+      "toggle_arrow_tail()"
+    }
+  );
+  QVERIFY(cmds.size() == 4);
+}
+
+
+void ribi::cmap::QtConceptMapCommandsTest::UnselectCommand() const noexcept
+{
+  QtConceptMap q;
+  const auto cmds = ParseCommands(q,
     {
       "--command",
       "unselect(absent node)"

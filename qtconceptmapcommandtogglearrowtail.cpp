@@ -13,7 +13,7 @@
 #include "qtconceptmapqtnode.h"
 #include "count_vertices_with_selectedness.h"
 #include "add_edge_between_selected_vertices.h"
-#include <boost/graph/isomorphism.hpp>
+#include <boost/algorithm/string/trim.hpp>
 #include "find_first_custom_edge.h"
 #include <QGraphicsScene>
 #include "qtconceptmap.h"
@@ -30,6 +30,7 @@ ribi::cmap::CommandToggleArrowTail::CommandToggleArrowTail(
 ribi::cmap::CommandToggleArrowTail * ribi::cmap::ParseCommandToggleArrowTail(
   QtConceptMap& qtconceptmap, std::string s)
 {
+  boost::algorithm::trim(s);
   if (s == "toggle_tail()" || s == "toggle_arrow_tail()")
   {
     return new CommandToggleTail(qtconceptmap);

@@ -14,7 +14,7 @@
 #include "count_vertices_with_selectedness.h"
 #include "add_edge_between_selected_vertices.h"
 #include "find_first_custom_edge.h"
-
+#include <boost/algorithm/string/trim.hpp>
 #include "find_first_custom_edge_with_my_edge.h"
 #include <QGraphicsScene>
 #include "qtconceptmap.h"
@@ -35,6 +35,7 @@ ribi::cmap::CommandToggleArrowHead::CommandToggleArrowHead(
 ribi::cmap::CommandToggleArrowHead * ribi::cmap::ParseCommandToggleArrowHead(
   QtConceptMap& qtconceptmap, std::string s)
 {
+  boost::algorithm::trim(s);
   if (s == "toggle_head()" || s == "toggle_arrow_head()")
   {
     return new CommandToggleHead(qtconceptmap);
