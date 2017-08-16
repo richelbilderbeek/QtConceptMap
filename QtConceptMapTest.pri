@@ -4,6 +4,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandcreatenewnode_test.cpp \
     $$PWD/qtconceptmapcommandload_test.cpp \
     $$PWD/qtconceptmapcommandmove_test.cpp \
+    $$PWD/qtconceptmapcommandmoveedge_test.cpp \
     $$PWD/qtconceptmapcommandmovenode_test.cpp \
     $$PWD/qtconceptmapcommandsave_test.cpp \
     $$PWD/qtconceptmapcommandselect_test.cpp \
