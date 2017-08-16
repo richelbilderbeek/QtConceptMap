@@ -139,7 +139,8 @@ void ribi::cmap::QtConceptMapCommandMoveEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-  const auto c = ParseCommandMoveEdge(q, "move_edge(one, 10, 20)");
+  const auto c = ParseCommandMoveEdge(q, "move_edge(first, 10, 20)");
+  assert(c);
   QVERIFY(c != nullptr);
   QVERIFY(c->GetDx() == 10.0);
   QVERIFY(c->GetDy() == 20.0);
