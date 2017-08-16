@@ -21,10 +21,7 @@
 #include <QDebug>
 #include <QScrollBar>
 
-#include "fuzzy_equal_to.h"
-#include "qtconceptmapcollect.h"
-#include "find_first_custom_vertex.h"
-#include "get_my_custom_edge.h"
+#include "add_custom_and_selectable_vertex.h"
 #include "conceptmapconceptfactory.h"
 #include "conceptmapconcept.h"
 #include "conceptmapedgefactory.h"
@@ -35,22 +32,27 @@
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
 #include "container.h"
-#include "qtconceptmapcommandselect.h"
-#include "add_custom_and_selectable_vertex.h"
 #include "count_edges_with_selectedness.h"
 #include "count_vertices_with_selectedness.h"
-#include "find_first_custom_edge.h"
 #include "create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
+#include "find_first_custom_edge.h"
 #include "find_first_custom_edge_with_my_edge.h"
-#include "get_my_custom_vertex.h"
+#include "find_first_custom_vertex.h"
+#include "find_first_custom_vertex_with_my_vertex.h"
+#include "fuzzy_equal_to.h"
 #include "get_my_custom_edge.h"
+#include "get_my_custom_edge.h"
+#include "get_my_custom_vertex.h"
 #include "has_custom_edge.h"
 #include "qtarrowitem.h"
 #include "qtconceptmapbrushfactory.h"
+#include "qtconceptmapcollect.h"
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommanddeleteselected.h"
+#include "qtconceptmapcommandmoveedge.h"
+#include "qtconceptmapcommandmovenode.h"
+#include "qtconceptmapcommandselect.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapconcepteditdialog.h"
@@ -888,18 +890,42 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
 {
   CheckInvariants(q);
 
+  event->ignore();
+
+  double dx{0.0};
+  double dy{0.0};
+  switch (event->key())
+  {
+    case Qt::Key_Up: dy = -10.0; break;
+    case Qt::Key_Right: dx =  10.0; break;
+    case Qt::Key_Down: dy =  10.0; break;
+    case Qt::Key_Left: dx = -10.0; break;
+    default:
+      assert(!"Should not get here"); //!OCLINT accepted idiom
+      break;
+  }
+
   //Move edges
+  for (QtEdge * const qtedge: GetQtEdges(q))
+  {
+    if (IsSelected(*qtedge)
+      && IsMovable(*qtedge))
+    {
+      q.DoCommand(new CommandMoveEdge(q, qtedge, dx, dy));
+      event->accept();
+    }
+  }
 
   //Move nodes
-
-  try
+  for (QtNode * const qtnode: GetQtNodes(q))
   {
-    //q.DoCommand(new CommandDeleteSelected(q));
-    event->accept();
-  }
-  catch (std::exception&)
-  {
-    event->ignore();
+    if (IsSelected(*qtnode)
+      && IsQtNodeNotOnEdge(qtnode, q)
+      && IsMovable(*qtnode))
+    {
+      q.DoCommand(new CommandMoveNode(q, qtnode, dx, dy));
+      event->accept();
+    }
   }
 
   CheckInvariants(q);

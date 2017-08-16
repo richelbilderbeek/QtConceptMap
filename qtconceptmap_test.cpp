@@ -830,8 +830,6 @@ void ribi::cmap::QtConceptMapTest::n_center_nodes_and_qt_center_nodes_must_match
 void ribi::cmap::QtConceptMapTest
   ::PressCtrlRightMovesNonCentralNode() const noexcept
 {
-  //#define NOT_NOW_20170815
-  #ifdef NOT_NOW_20170815
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "from", false));
 
@@ -844,13 +842,8 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(e.isAccepted());
   const auto x_after = GetX(*GetQtNodes(q)[0]);
   const auto y_after = GetY(*GetQtNodes(q)[0]);
-  assert(x_after > x_before);
   QVERIFY(x_after > x_before);
-  assert(y_after == y_before);
   QVERIFY(y_after == y_before);
-
-  assert(!"FIXED");
-  #endif // NOT_NOW_20170815
 }
 
 void ribi::cmap::QtConceptMapTest::PressEscape() const noexcept
@@ -870,7 +863,7 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::press_f2_on_empty_concept_map_is_rejected() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF2OnEmptyConceptMapIsRejected() const noexcept
 {
   QtConceptMap m;
   m.show();
@@ -879,7 +872,7 @@ void ribi::cmap::QtConceptMapTest::press_f2_on_empty_concept_map_is_rejected() c
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::press_f2_cannot_edit_focal_question() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexcept
 {
   QtConceptMap m;
   m.SetMode(Mode::edit);
@@ -890,7 +883,7 @@ void ribi::cmap::QtConceptMapTest::press_f2_cannot_edit_focal_question() const n
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::press_f2_can_edit_non_focal_question() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF2CanEditNonFocalQuestion() const noexcept
 {
   //Cannot do this test: the popup freezes the test
   //Can edit a non-center node in edit mode
@@ -915,7 +908,7 @@ void ribi::cmap::QtConceptMapTest::press_f2_can_edit_non_focal_question() const 
 
 
 
-void ribi::cmap::QtConceptMapTest::press_f4_is_rejected() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF4IsRejected() const noexcept
 {
   //F4 has no purpose
   QtConceptMap m;
@@ -925,28 +918,28 @@ void ribi::cmap::QtConceptMapTest::press_f4_is_rejected() const noexcept
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::press_h() const noexcept
+void ribi::cmap::QtConceptMapTest::PressH() const noexcept
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::press_n() const noexcept
+void ribi::cmap::QtConceptMapTest::PressN() const noexcept
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::press_question_mark() const noexcept
+void ribi::cmap::QtConceptMapTest::PressQuestionMark() const noexcept
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_Question);
 }
 
-void ribi::cmap::QtConceptMapTest::press_space_on_empty_concept_map_is_rejected() const noexcept
+void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const noexcept
 {
   QtConceptMap m;
   m.show();
@@ -955,21 +948,21 @@ void ribi::cmap::QtConceptMapTest::press_space_on_empty_concept_map_is_rejected(
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::press_t() const noexcept
+void ribi::cmap::QtConceptMapTest::PressT() const noexcept
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_T, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::press_z() const noexcept
+void ribi::cmap::QtConceptMapTest::PressZ() const noexcept
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::qtcenter_node_must_be_gold() const noexcept
+void ribi::cmap::QtConceptMapTest::QtNodeInCenterMustBeGold() const noexcept
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get1());
@@ -977,7 +970,7 @@ void ribi::cmap::QtConceptMapTest::qtcenter_node_must_be_gold() const noexcept
   m.show();
 }
 
-void ribi::cmap::QtConceptMapTest::qtnodes_must_show_example_when_focused() const noexcept
+void ribi::cmap::QtConceptMapTest::QtNodesMustShowExampleWhenFocused() const noexcept
 {
   QtConceptMap m;
   m.show();

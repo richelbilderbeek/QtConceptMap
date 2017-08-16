@@ -71,18 +71,18 @@ private slots:
   void n_center_nodes_and_qt_center_nodes_must_match_uninitialized() const noexcept; //#113
   void PressEscape() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;
-  void press_f2_on_empty_concept_map_is_rejected() const noexcept;
-  void press_f2_can_edit_non_focal_question() const noexcept;
-  void press_f2_cannot_edit_focal_question() const noexcept;
-  void press_f4_is_rejected() const noexcept;
-  void press_h() const noexcept;
-  void press_n() const noexcept;
-  void press_question_mark() const noexcept;
-  void press_space_on_empty_concept_map_is_rejected() const noexcept;
-  void press_t() const noexcept;
-  void press_z() const noexcept;
-  void qtcenter_node_must_be_gold() const noexcept; //#111
-  void qtnodes_must_show_example_when_focused() const noexcept; //#96
+  void PressF2OnEmptyConceptMapIsRejected() const noexcept;
+  void PressF2CanEditNonFocalQuestion() const noexcept;
+  void PressF2CannotEditFocalQuestion() const noexcept;
+  void PressF4IsRejected() const noexcept;
+  void PressH() const noexcept;
+  void PressN() const noexcept;
+  void PressQuestionMark() const noexcept;
+  void PressSpaceOnEmptyConceptMapIsRejected() const noexcept;
+  void PressT() const noexcept;
+  void PressZ() const noexcept;
+  void QtNodeInCenterMustBeGold() const noexcept; //#111
+  void QtNodesMustShowExampleWhenFocused() const noexcept; //#96
   void rate_concept_map_has_less_focusable_items() const noexcept;
   void rate_mode_flags() const noexcept;
   void select_random_node_keyboard_edit() const noexcept; //#138, skip on Travis
