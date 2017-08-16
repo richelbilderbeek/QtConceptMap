@@ -202,6 +202,11 @@ bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept
   return qtnode.isEnabled();
 }
 
+bool ribi::cmap::IsMovable(const QtNode& qtnode) noexcept
+{
+  return qtnode.flags() & QGraphicsItem::ItemIsMovable;
+}
+
 bool ribi::cmap::IsSelectable(const QtNode& qtnode) noexcept
 {
   return qtnode.flags() & QGraphicsItem::ItemIsSelectable;

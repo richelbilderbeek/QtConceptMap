@@ -85,6 +85,7 @@ bool HasExamples(const QtNode& qtnode) noexcept;
 bool IsCenterNode(const QtNode& qtnode) noexcept;
 
 bool IsEnabled(const QtNode& qtnode) noexcept;
+bool IsMovable(const QtNode& qtnode) noexcept;
 bool IsSelectable(const QtNode& qtnode) noexcept;
 bool IsSelected(const QtNode& qtnode) noexcept;
 bool IsVisible(const QtNode& qtnode) noexcept;

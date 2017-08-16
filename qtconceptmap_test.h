@@ -13,13 +13,14 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void PressCtrlRightMovesNonCentralNode() const noexcept;
   void CannotMoveCenterNode() const noexcept; //#115
 
   //Done
-  void cannot_delete_center_node() const noexcept; //#114
-  void cannot_edit_center_node() const noexcept; //#104
-  void change_modes() const noexcept;
-  void click_on_nothing_should_be_ignored() const noexcept;
+  void CannotDeleteCenterNode() const noexcept; //#114
+  void CannotEditCenterNode() const noexcept; //#104
+  void ChangeModes() const noexcept;
+  void ClickOnNothingShouldBeIgnored() const noexcept;
   void concept_map_must_fit_window() const noexcept; //#135
   void concept_map_must_fit_window_after_setting() const noexcept;
   void create_one_edge_command_and_check_z_order() const noexcept;
@@ -68,8 +69,8 @@ private slots:
   void n_center_nodes_and_qt_center_nodes_must_match_edit() const noexcept; //#113
   void n_center_nodes_and_qt_center_nodes_must_match_rate() const noexcept; //#113
   void n_center_nodes_and_qt_center_nodes_must_match_uninitialized() const noexcept; //#113
-  void press_escape() const noexcept;
-  void press_f1_on_empty_concept_map_is_rejected() const noexcept;
+  void PressEscape() const noexcept;
+  void PressF1OnEmptyConceptMapIsRejected() const noexcept;
   void press_f2_on_empty_concept_map_is_rejected() const noexcept;
   void press_f2_can_edit_non_focal_question() const noexcept;
   void press_f2_cannot_edit_focal_question() const noexcept;
@@ -86,13 +87,12 @@ private slots:
   void rate_mode_flags() const noexcept;
   void select_random_node_keyboard_edit() const noexcept; //#138, skip on Travis
 
-  void set_concept_map_4() const noexcept;
-
-  void set_concept_maps() const noexcept;
+  void SetConceptMap4() const noexcept;
+  void SetConceptMaps() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtEdge is selected
-  void set_empty_concept_map_one_selected_edge() const noexcept;
+  void SetEmptyConceptMapOneSelectedEdge() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtNode is selected

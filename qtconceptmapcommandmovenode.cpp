@@ -17,29 +17,29 @@
 
 ribi::cmap::CommandMoveNode::CommandMoveNode(
   QtConceptMap& qtconceptmap,
-  const std::string& name,
+  const std::function<bool(const QtNode&)>& predicate,
   const double dx,
   const double dy
 )
   : Command(qtconceptmap),
-    m_dx{dx},
-    m_dy{dy},
     m_moved_qtnode{nullptr},
-    m_name{name}
+    m_predicate{predicate},
+    m_dx{dx},
+    m_dy{dy}
 {
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "MoveNode node or edge with name '"
-      << m_name << "'";
+    msg << "Move node by predicate with dx="
+      << m_dx << " and dy=" << m_dy;
     this->setText(msg.str().c_str());
   }
 }
 
-std::function<bool(const ribi::cmap::Node&)> ribi::cmap::NodeHasText(
+std::function<bool(const ribi::cmap::QtNode&)> ribi::cmap::QtNodeHasText(
   const std::string& text) noexcept
 {
-  return [text](const Node& node) { return GetText(node) == text; };
+  return [text](const QtNode& qtnode) { return GetText(qtnode) == text; };
 }
 
 ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
@@ -62,7 +62,7 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
     const std::string text = v.at(0);
     const double dx = std::stod(v.at(1));
     const double dy = std::stod(v.at(2));
-    return new CommandMoveNode(qtconceptmap, text, dx, dy);
+    return new CommandMoveNode(qtconceptmap, QtNodeHasText(text), dx, dy);
   }
   catch (std::exception&) {} //OK
   return nullptr;
@@ -74,10 +74,11 @@ void ribi::cmap::CommandMoveNode::redo()
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
   m_moved_qtnode = FindFirstQtNode(GetQtConceptMap(),
-    [name = m_name, &q = GetQtConceptMap()](QtNode * const qtnode)
+    [predicate = m_predicate, &q = GetQtConceptMap()](QtNode * const qtnode)
     {
-      return name == GetText(*qtnode) && !IsOnEdge(*qtnode, q)
-        && qtnode->flags() & QGraphicsItem::ItemIsMovable
+      return predicate(*qtnode)
+        && !IsOnEdge(*qtnode, q)
+        && IsMovable(*qtnode)
       ;
     }
   );
@@ -91,15 +92,10 @@ void ribi::cmap::CommandMoveNode::redo()
   {
     assert(!m_moved_qtnode);
     std::stringstream msg;
-    msg << "Cannot find movable QtNode with name '"
-      << this->GetName() << "'";
+    msg << "Cannot find movable QtNode";
     throw std::runtime_error(msg.str());
   }
 
-  assert(!(0 ^ 0));
-  assert((0 ^ 1));
-  assert((1 ^ 0));
-  assert(!(1 ^ 1));
   assert(m_moved_qtnode);
 
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());

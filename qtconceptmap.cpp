@@ -821,7 +821,6 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   //Pass event to base class
   if (!event->isAccepted())
   {
-    qDebug() << "Should QtKeyboardFriendlyGraphicsView really handle input?";
     QtKeyboardFriendlyGraphicsView::keyPressEvent(event);
   }
 
@@ -888,6 +887,10 @@ void ribi::cmap::keyPressEventArrowsSelectExclusive(QtConceptMap& q, QKeyEvent *
 void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   CheckInvariants(q);
+
+  //Move edges
+
+  //Move nodes
 
   try
   {

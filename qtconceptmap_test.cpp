@@ -1,3 +1,4 @@
+
 #include "qtconceptmap_test.h"
 #include "qtconceptmap.h"
 #include "qtconceptmap.h"
@@ -39,7 +40,7 @@
 #include "qtconceptmapcommandselect.h"
 
 
-void ribi::cmap::QtConceptMapTest::cannot_delete_center_node() const noexcept
+void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "center", true));
@@ -48,7 +49,7 @@ void ribi::cmap::QtConceptMapTest::cannot_delete_center_node() const noexcept
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::cannot_edit_center_node() const noexcept
+void ribi::cmap::QtConceptMapTest::CannotEditCenterNode() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandSetMode(q, Mode::edit));
@@ -61,6 +62,7 @@ void ribi::cmap::QtConceptMapTest::cannot_edit_center_node() const noexcept
 
 void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
 {
+  //#define NOT_NOW_20170815
   #ifdef NOT_NOW_20170815
   QtConceptMap q;
   q.DoCommand(new CommandSetMode(q, Mode::edit));
@@ -79,7 +81,7 @@ void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
   #endif // NOT_NOW_20170815
 }
 
-void ribi::cmap::QtConceptMapTest::change_modes() const noexcept
+void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -91,7 +93,7 @@ void ribi::cmap::QtConceptMapTest::change_modes() const noexcept
   m.show();
 }
 
-void ribi::cmap::QtConceptMapTest::click_on_nothing_should_be_ignored() const noexcept
+void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldBeIgnored() const noexcept
 {
   QtConceptMap m;
   QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
@@ -135,7 +137,7 @@ void ribi::cmap::QtConceptMapTest::concept_map_must_fit_window() const noexcept
 void ribi::cmap::QtConceptMapTest::concept_map_must_fit_window_after_setting() const noexcept
 {
   QtConceptMap m;
-  m.show();
+  m.showFullScreen();
   m.SetConceptMap(ConceptMapFactory().Get11());
   QTest::qWait(100);
   QVERIFY(!m.verticalScrollBar()->isVisible());
@@ -825,7 +827,32 @@ void ribi::cmap::QtConceptMapTest::n_center_nodes_and_qt_center_nodes_must_match
   }
 }
 
-void ribi::cmap::QtConceptMapTest::press_escape() const noexcept
+void ribi::cmap::QtConceptMapTest
+  ::PressCtrlRightMovesNonCentralNode() const noexcept
+{
+  #ifdef NOT_NOW_20170815
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q, "from", false));
+
+  const auto x_before = GetX(*GetQtNodes(q)[0]);
+  const auto y_before = GetY(*GetQtNodes(q)[0]);
+
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ControlModifier);
+  q.keyPressEvent(&e);
+
+  QVERIFY(e.isAccepted());
+  const auto x_after = GetX(*GetQtNodes(q)[0]);
+  const auto y_after = GetY(*GetQtNodes(q)[0]);
+  assert(x_after > x_before);
+  QVERIFY(x_after > x_before);
+  assert(y_after == y_before);
+  QVERIFY(y_after == y_before);
+
+  assert(!"FIXED");
+  #endif // NOT_NOW_20170815
+}
+
+void ribi::cmap::QtConceptMapTest::PressEscape() const noexcept
 {
   QtConceptMap m;
   m.show();
@@ -833,7 +860,7 @@ void ribi::cmap::QtConceptMapTest::press_escape() const noexcept
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::press_f1_on_empty_concept_map_is_rejected() const noexcept
+  ::PressF1OnEmptyConceptMapIsRejected() const noexcept
 {
   QtConceptMap m;
   m.show();
@@ -996,7 +1023,7 @@ void ribi::cmap::QtConceptMapTest::select_random_node_keyboard_edit() const noex
   ); //Good enough?
 }
 
-void ribi::cmap::QtConceptMapTest::set_concept_map_4() const noexcept
+void ribi::cmap::QtConceptMapTest::SetConceptMap4() const noexcept
 {
   QtConceptMap m;
   m.show();
@@ -1012,7 +1039,7 @@ void ribi::cmap::QtConceptMapTest::set_concept_map_4() const noexcept
   m.show();
 }
 
-void ribi::cmap::QtConceptMapTest::set_concept_maps() const noexcept
+void ribi::cmap::QtConceptMapTest::SetConceptMaps() const noexcept
 {
   for (const auto concept_map: ConceptMapFactory().GetAllTests())
   {
@@ -1027,7 +1054,7 @@ void ribi::cmap::QtConceptMapTest::set_concept_maps() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapTest::set_empty_concept_map_one_selected_edge() const noexcept
+void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedEdge() const noexcept
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
