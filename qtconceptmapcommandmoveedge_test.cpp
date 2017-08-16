@@ -11,7 +11,11 @@ void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveAbsentItemByNameFails() co
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
   try
   {
-    q.DoCommand(new CommandMoveEdge(q, QtEdgeHasText("absent"), 25, 125));
+    QtEdge * const first_qtedge = FindFirstQtEdge(
+      q,
+      [](const QtEdge * const qtedge) { return GetText(*qtedge) == "absent"; }
+    );
+    q.DoCommand(new CommandMoveEdge(q, first_qtedge, 25, 125));
     QVERIFY(!"Should not get here");
   }
   catch (std::exception&)
@@ -26,7 +30,11 @@ void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveOneOfTwoQtEdgesByName() co
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
   assert(GetX(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "second"; })) == 350);
   assert(GetY(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "second"; })) == 275);
-  q.DoCommand(new CommandMoveEdge(q, QtEdgeHasText("second"), 25, 125));
+  QtEdge * const first_qtedge = FindFirstQtEdge(
+    q,
+    [](const QtEdge * const qtedge) { return GetText(*qtedge) == "second"; }
+  );
+  q.DoCommand(new CommandMoveEdge(q, first_qtedge, 25, 125));
   assert(q.GetUndo().count() == 1);
   assert(q.GetUndo().command(0));
   assert( dynamic_cast<const CommandMoveEdge*>(q.GetUndo().command(0)));
@@ -42,7 +50,11 @@ void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveOneOfTwoQtEdgesConnectedTo
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
   assert(GetX(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "first"; })) == 150);
   assert(GetY(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "first"; })) == 225);
-  q.DoCommand(new CommandMoveEdge(q, QtEdgeHasText("first"), 25, 125));
+  QtEdge * const first_qtedge = FindFirstQtEdge(
+    q,
+    [](const QtEdge * const qtedge) { return GetText(*qtedge) == "first"; }
+  );
+  q.DoCommand(new CommandMoveEdge(q, first_qtedge, 25, 125));
   assert(q.GetUndo().count() == 1);
   assert(q.GetUndo().command(0));
   assert( dynamic_cast<const CommandMoveEdge*>(q.GetUndo().command(0)));
@@ -59,7 +71,11 @@ void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveOnlyQtEdgeByName() const n
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   assert(GetX(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "second"; })) == 350);
   assert(GetY(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "second"; })) == 275);
-  q.DoCommand(new CommandMoveEdge(q, QtEdgeHasText("second"), 25, 125));
+  QtEdge * const first_qtedge = FindFirstQtEdge(
+    q,
+    [](const QtEdge * const qtedge) { return GetText(*qtedge) == "second"; }
+  );
+  q.DoCommand(new CommandMoveEdge(q, first_qtedge, 25, 125));
   assert(q.GetUndo().count() == 1);
   assert(q.GetUndo().command(0));
   assert( dynamic_cast<const CommandMoveEdge*>(q.GetUndo().command(0)));
@@ -105,7 +121,11 @@ void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveOnlyQtEdgeConnectedToCente
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   assert(GetX(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "first"; })) == 150);
   assert(GetY(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "first"; })) == 225);
-  q.DoCommand(new CommandMoveEdge(q, QtEdgeHasText("first"), 25, 125));
+  QtEdge * const first_qtedge = FindFirstQtEdge(
+    q,
+    [](const QtEdge * const qtedge) { return GetText(*qtedge) == "first"; }
+  );
+  q.DoCommand(new CommandMoveEdge(q, first_qtedge, 25, 125));
   assert(q.GetUndo().count() == 1);
   assert(q.GetUndo().command(0));
   assert( dynamic_cast<const CommandMoveEdge*>(q.GetUndo().command(0)));
@@ -118,7 +138,8 @@ void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveOnlyQtEdgeConnectedToCente
 void ribi::cmap::QtConceptMapCommandMoveEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
-  const auto c = ParseCommandMoveEdge(q, "move_edge(edge label, 10, 20)");
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  const auto c = ParseCommandMoveEdge(q, "move_edge(one, 10, 20)");
   QVERIFY(c != nullptr);
   QVERIFY(c->GetDx() == 10.0);
   QVERIFY(c->GetDy() == 20.0);

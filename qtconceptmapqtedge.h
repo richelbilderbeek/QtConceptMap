@@ -133,6 +133,7 @@ bool HasTailArrow(const QtEdge& qtedge) noexcept;
 bool IsConnectedToCenterNode(const QtEdge& qtedge);
 
 bool IsEnabled(const QtEdge& qtedge) noexcept;
+bool IsMovable(const QtEdge& qtedge) noexcept;
 bool IsSelectable(const QtEdge& qtedge) noexcept;
 bool IsSelected(const QtEdge& qtedge) noexcept;
 bool IsVisible(const QtEdge& qtedge) noexcept;

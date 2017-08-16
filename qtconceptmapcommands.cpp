@@ -5,6 +5,8 @@
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandload.h"
 #include "qtconceptmapcommandmove.h"
+#include "qtconceptmapcommandmoveedge.h"
+#include "qtconceptmapcommandmovenode.h"
 #include "qtconceptmapcommandsave.h"
 #include "qtconceptmapcommandselect.h"
 #include "qtconceptmapcommandsetmode.h"
@@ -31,6 +33,8 @@ ribi::cmap::Command* ribi::cmap::ParseCommand(QtConceptMap& q, const std::string
   if (auto p = parse_command_create_new_edge(q, s)) { return p; }
   if (auto p = ParseCommandLoad(q, s)) { return p; }
   if (auto p = ParseCommandMove(q, s)) { return p; }
+  if (auto p = ParseCommandMoveEdge(q, s)) { return p; }
+  if (auto p = ParseCommandMoveNode(q, s)) { return p; }
   if (auto p = ParseCommandSave(q, s)) { return p; }
   if (auto p = ParseCommandSelect(q, s)) { return p; }
   if (auto p = ParseCommandToggleArrowHead(q, s)) { return p; }
@@ -40,30 +44,21 @@ ribi::cmap::Command* ribi::cmap::ParseCommand(QtConceptMap& q, const std::string
   return nullptr;
 }
 
-std::vector<ribi::cmap::Command*> ribi::cmap::ParseCommands(
+void ribi::cmap::ProcessCommands(
   QtConceptMap& q,
   const std::vector<std::string>& args)
 {
   //Get the commands as one string
   const std::string s = GetCommands(args);
-  if (s.empty()) return {};
+  if (s.empty()) return;
 
   //Convert strings to Commands, nullptr if it string cannot be parsed to any Command
-  const std::vector<std::string> v = Container().SeperateString(s, ';');
-  std::vector<Command*> commands;
-  commands.reserve(v.size());
-  std::transform(
-    std::begin(v), std::end(v), std::back_inserter(commands),
-    [&q](const std::string& t)
-    {
-      return ParseCommand(q, t);
-    }
-  );
-
-  //Keep only the non-nullptr commands
-  const auto new_end = std::remove(std::begin(commands), std::end(commands), nullptr);
-  commands.erase(new_end, std::end(commands));
-
-  return commands;
+  const std::vector<std::string> text_commands = Container().SeperateString(s, ';');
+  for (const std::string& text_command: text_commands)
+  {
+    Command * const cmd = ParseCommand(q, text_command);
+    if (!cmd) continue;
+    q.DoCommand(cmd);
+  }
 }
 

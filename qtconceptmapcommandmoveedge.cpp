@@ -17,16 +17,23 @@
 
 ribi::cmap::CommandMoveEdge::CommandMoveEdge(
   QtConceptMap& qtconceptmap,
-  const std::function<bool(const QtEdge&)> predicate,
+  QtEdge * const qtedge,
   const double dx,
   const double dy
 )
   : Command(qtconceptmap),
-    m_moved_qtedge{nullptr},
-    m_predicate{predicate},
+    m_qtedge{qtedge},
     m_dx{dx},
     m_dy{dy}
 {
+  if (!m_qtedge)
+  {
+    throw std::invalid_argument("Cannot move nullptr QtEdge");
+  }
+  if (!IsMovable(*m_qtedge))
+  {
+    throw std::invalid_argument("Cannot move unmovable QtEdge");
+  }
   //QCommands have a text
   {
     std::stringstream msg;
@@ -55,7 +62,14 @@ ribi::cmap::CommandMoveEdge * ribi::cmap::ParseCommandMoveEdge(
     const std::string text = v.at(0);
     const double dx = std::stod(v.at(1));
     const double dy = std::stod(v.at(2));
-    return new CommandMoveEdge(qtconceptmap, QtEdgeHasText(text), dx, dy);
+    QtEdge * const first_edge = FindFirstQtEdge(
+      qtconceptmap,
+      [text](QtEdge * const qtedge)
+      {
+        return GetText(*qtedge) == text;
+      }
+    );
+    return new CommandMoveEdge(qtconceptmap, first_edge, dx, dy);
   }
   catch (std::exception&) {} //OK
   return nullptr;
@@ -72,53 +86,25 @@ void ribi::cmap::CommandMoveEdge::redo()
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
-  m_moved_qtedge = FindFirstQtEdge(GetScene(*this),
-    [predicate = m_predicate](QtEdge * const qtedge)
-    {
-      return predicate(*qtedge);
-    }
+  assert(m_qtedge);
+  assert(
+    CountQtEdges(GetQtConceptMap()) != 1 ||
+    HasSameData(m_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
   );
-  if (m_moved_qtedge)
-  {
-    assert(
-      CountQtEdges(GetQtConceptMap()) != 1 ||
-      HasSameData(m_moved_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
-    );
-    assert(IsInScene(*m_moved_qtedge, GetScene(*this)));
+  assert(IsInScene(*m_qtedge, GetScene(*this)));
 
-    MoveQtEdge(*m_moved_qtedge, m_dx, m_dy, GetQtConceptMap());
+  MoveQtEdge(*m_qtedge, m_dx, m_dy, GetQtConceptMap());
 
-    assert(IsInScene(*m_moved_qtedge, GetScene(*this)));
+  assert(IsInScene(*m_qtedge, GetScene(*this)));
+  assert(
+    CountQtEdges(GetQtConceptMap()) != 1 ||
+    HasSameData(m_qtedge->GetEdge(), GetFirstEdge(GetConceptMap(*this)))
+  );
+  assert(
+    CountQtEdges(GetQtConceptMap()) != 1 ||
+    HasSameData(m_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
+  );
 
-
-    assert(
-      CountQtEdges(GetQtConceptMap()) != 1 ||
-      HasSameData(m_moved_qtedge->GetEdge(), GetFirstEdge(GetConceptMap(*this)))
-    );
-
-    assert(
-      CountQtEdges(GetQtConceptMap()) != 1 ||
-      HasSameData(m_moved_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
-    );
-
-    CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  }
-  else
-  {
-    std::stringstream msg;
-    msg << "Cannot find movable QtEdge";
-    throw std::runtime_error(msg.str());
-  }
-
-  assert(m_moved_qtedge);
-
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-
-  qApp->processEvents();
-
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariants(GetQtConceptMap());
 }
 
@@ -126,10 +112,8 @@ void ribi::cmap::CommandMoveEdge::undo()
 {
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
-  if (m_moved_qtedge)
-  {
-    MoveQtEdge(*m_moved_qtedge, -m_dx, -m_dy, GetQtConceptMap());
-  }
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
+  assert(m_qtedge);
+  MoveQtEdge(*m_qtedge, -m_dx, -m_dy, GetQtConceptMap());
+\
   CheckInvariants(GetQtConceptMap());
 }

@@ -13,8 +13,6 @@ class QtConceptMapCommandsTest : public QObject
 private slots:
 
   //TODO
-  void ToggleArrowHeadCommand() const noexcept;
-  void ToggleArrowTailCommand() const noexcept;
 
   //DONE
   void CreateOneNewNodeCommand() const noexcept;
@@ -27,6 +25,7 @@ private slots:
   void MoveCommandFailsOnNonexistingItem() const noexcept;
   void MoveCommandOnEdge() const noexcept;
   void MoveCommandOnNode() const noexcept;
+  void MoveNodeCommandOnNode() const noexcept;
   void NonsenseToEmpty() const noexcept;
   void SaveAndLoad() const noexcept; //#137
   void SaveAndLoadMustResultInSameTopology() const noexcept;
@@ -34,6 +33,8 @@ private slots:
   void SaveCommandTwoNodesOneEdge() const noexcept;
   void SelectCommand() const noexcept;
   void SetModeCommand() const noexcept;
+  void ToggleArrowHeadCommand() const noexcept;
+  void ToggleArrowTailCommand() const noexcept;
   void UnselectCommand() const noexcept;
 };
 

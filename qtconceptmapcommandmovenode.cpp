@@ -26,7 +26,7 @@ ribi::cmap::CommandMoveNode::CommandMoveNode(
     m_dx{dx},
     m_dy{dy}
 {
-  if (!qtnode)
+  if (!m_qtnode)
   {
     throw std::invalid_argument("Cannot move nullptr QtNode");
   }

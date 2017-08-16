@@ -231,6 +231,19 @@ bool ribi::cmap::IsEnabled(const QtEdge& qtedge) noexcept
   return qtedge.isEnabled();
 }
 
+bool ribi::cmap::IsMovable(const QtEdge& qtedge) noexcept
+{
+  //A QtEdge is always immovable
+  const bool is_movable1
+    = qtedge.flags() & QGraphicsItem::ItemIsMovable;
+  assert(!is_movable1);
+
+  //Its QtNode (which it follows) can be moved
+  const bool is_movable2
+    = qtedge.GetQtNode()->flags() & QGraphicsItem::ItemIsMovable;
+  return is_movable2;
+}
+
 bool ribi::cmap::IsSelectable(const QtEdge& qtedge) noexcept
 {
   return qtedge.flags() & QGraphicsItem::ItemIsSelectable;

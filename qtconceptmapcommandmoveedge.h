@@ -23,11 +23,9 @@ class CommandMoveEdge final : public Command
 {
   public:
 
-  ///@param predicate function to find the find QtEdge that satisfies it
-  /// in the QtConceptMap
   CommandMoveEdge(
     QtConceptMap& qtconceptmap,
-    const std::function<bool(const QtEdge&)> predicate,
+    QtEdge * const qtedge,
     const double dx,
     const double dy
   );
@@ -39,20 +37,15 @@ class CommandMoveEdge final : public Command
   auto GetDy() const noexcept { return m_dy; }
 
   /// If name was an edge name, the renamed edge
-  const QtEdge * GetMovedQtEdge() const noexcept { return m_moved_qtedge; }
-
-  /// The predicate
-  auto GetPredicate() const noexcept { return m_predicate; }
+  const QtEdge * GetMovedQtEdge() const noexcept { return m_qtedge; }
 
   void redo() override;
   void undo() override;
 
   private:
 
-  /// If name was an edge name, the renamed edge
-  QtEdge * m_moved_qtedge;
-
-  const std::function<bool(const QtEdge&)> m_predicate;
+  /// The QtEdge
+  QtEdge * m_qtedge;
 
   ///The horizontal relative movement of the node or edge
   const double m_dx;
