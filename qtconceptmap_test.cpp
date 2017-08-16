@@ -830,6 +830,7 @@ void ribi::cmap::QtConceptMapTest::n_center_nodes_and_qt_center_nodes_must_match
 void ribi::cmap::QtConceptMapTest
   ::PressCtrlRightMovesNonCentralNode() const noexcept
 {
+  //#define NOT_NOW_20170815
   #ifdef NOT_NOW_20170815
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "from", false));

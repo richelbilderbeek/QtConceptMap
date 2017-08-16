@@ -27,7 +27,7 @@ class CommandMoveNode final : public Command
   ///  in the QtConceptMap
   CommandMoveNode(
     QtConceptMap& qtconceptmap,
-    const std::function<bool(const QtNode&)>& predicate,
+    QtNode * const qtnode,
     const double dx,
     const double dy
   );
@@ -39,9 +39,7 @@ class CommandMoveNode final : public Command
   auto GetDy() const noexcept { return m_dy; }
 
   /// Get the (first) QtNode in the QtConceptMap that satisfied the predicate
-  const QtNode * GetMovedQtNode() const noexcept { return m_moved_qtnode; }
-
-  auto GetPredicate() const noexcept { return m_predicate; }
+  const QtNode * GetMovedQtNode() const noexcept { return m_qtnode; }
 
   ///Will throw if nothing is moved
   void redo() override;
@@ -50,13 +48,8 @@ class CommandMoveNode final : public Command
 
   private:
 
-  ///The first QtNode (not on Edge) in the QtConceptMap satisfying the
-  ///predicate
-  QtNode * m_moved_qtnode;
-
-  ///@param predicate function to find the first QtNode (not on Edge)
-  ///  in the QtConceptMap
-  const std::function<bool(const QtNode&)> m_predicate;
+  ///The QtNode (not on Edge)
+  QtNode * const m_qtnode;
 
   ///The horizontal relative movement of the node or edge
   const double m_dx;

@@ -41,7 +41,7 @@ class CommandMoveEdge final : public Command
   /// If name was an edge name, the renamed edge
   const QtEdge * GetMovedQtEdge() const noexcept { return m_moved_qtedge; }
 
-  ///Get the Node or Edge its name
+  /// The predicate
   auto GetPredicate() const noexcept { return m_predicate; }
 
   void redo() override;

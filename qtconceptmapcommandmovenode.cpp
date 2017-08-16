@@ -17,20 +17,32 @@
 
 ribi::cmap::CommandMoveNode::CommandMoveNode(
   QtConceptMap& qtconceptmap,
-  const std::function<bool(const QtNode&)>& predicate,
+  QtNode * const qtnode,
   const double dx,
   const double dy
 )
   : Command(qtconceptmap),
-    m_moved_qtnode{nullptr},
-    m_predicate{predicate},
+    m_qtnode{qtnode},
     m_dx{dx},
     m_dy{dy}
 {
+  if (!qtnode)
+  {
+    throw std::invalid_argument("Cannot move nullptr QtNode");
+  }
+  if (!IsMovable(*m_qtnode))
+  {
+    throw std::invalid_argument("Cannot move unmovable QtNode");
+  }
+  if (IsQtNodeOnEdge(m_qtnode, GetQtConceptMap()))
+  {
+    throw std::invalid_argument("Cannot move QtNode on QtEdge");
+  }
+
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Move node by predicate with dx="
+    msg << "Move node with dx="
       << m_dx << " and dy=" << m_dy;
     this->setText(msg.str().c_str());
   }
@@ -62,7 +74,17 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
     const std::string text = v.at(0);
     const double dx = std::stod(v.at(1));
     const double dy = std::stod(v.at(2));
-    return new CommandMoveNode(qtconceptmap, QtNodeHasText(text), dx, dy);
+    QtNode * first_qtnode = FindFirstQtNode(
+      qtconceptmap,
+      [&qtconceptmap, text](const QtNode * const qtnode)
+      {
+        return GetText(*qtnode) == text
+          && !IsOnEdge(*qtnode, qtconceptmap)
+          && IsMovable(*qtnode)
+        ;
+      }
+    );
+    return new CommandMoveNode(qtconceptmap, first_qtnode, dx, dy);
   }
   catch (std::exception&) {} //OK
   return nullptr;
@@ -70,52 +92,26 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
 
 void ribi::cmap::CommandMoveNode::redo()
 {
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
+  CheckInvariants(GetQtConceptMap());
 
-  m_moved_qtnode = FindFirstQtNode(GetQtConceptMap(),
-    [predicate = m_predicate, &q = GetQtConceptMap()](QtNode * const qtnode)
-    {
-      return predicate(*qtnode)
-        && !IsOnEdge(*qtnode, q)
-        && IsMovable(*qtnode)
-      ;
-    }
-  );
-  if (m_moved_qtnode)
-  {
-    assert(!IsOnEdge(*m_moved_qtnode, GetQtConceptMap()));
-    MoveQtNode(*m_moved_qtnode, m_dx, m_dy, GetQtConceptMap());
-    CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  }
-  else
-  {
-    assert(!m_moved_qtnode);
-    std::stringstream msg;
-    msg << "Cannot find movable QtNode";
-    throw std::runtime_error(msg.str());
-  }
+  assert(m_qtnode);
+  assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
+  assert(IsMovable(*m_qtnode));
 
-  assert(m_moved_qtnode);
+  MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());
 
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-
-  qApp->processEvents();
-
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariants(GetQtConceptMap());
 }
 
 void ribi::cmap::CommandMoveNode::undo()
 {
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
+  CheckInvariants(GetQtConceptMap());
 
-  if (m_moved_qtnode)
-  {
-    MoveQtNode(*m_moved_qtnode, -m_dx, -m_dy, GetQtConceptMap());
-  }
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
+  assert(m_qtnode);
+  assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
+  assert(IsMovable(*m_qtnode));
+
+  MoveQtNode(*m_qtnode, -m_dx, -m_dy, GetQtConceptMap());
+
   CheckInvariants(GetQtConceptMap());
 }
