@@ -62,8 +62,6 @@ void ribi::cmap::QtConceptMapTest::CannotEditCenterNode() const noexcept
 
 void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
 {
-  //#define NOT_NOW_20170815
-  #ifdef NOT_NOW_20170815
   QtConceptMap q;
   q.DoCommand(new CommandSetMode(q, Mode::edit));
   q.DoCommand(new CommandCreateNewNode(q, "center", true));
@@ -78,7 +76,6 @@ void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
   assert(!e.isAccepted());
   QVERIFY(!e.isAccepted());
   QVERIFY(pos_before == pos_after);
-  #endif // NOT_NOW_20170815
 }
 
 void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
@@ -109,7 +106,7 @@ void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldBeIgnored() const noexcep
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::concept_map_must_fit_window() const noexcept
+void ribi::cmap::QtConceptMapTest::ConceptMapMustFitWindow() const noexcept
 {
   QtConceptMap m;
 

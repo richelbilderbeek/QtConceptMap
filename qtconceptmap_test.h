@@ -13,15 +13,14 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void PressCtrlRightMovesNonCentralNode() const noexcept;
-  void CannotMoveCenterNode() const noexcept; //#115
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
   void CannotEditCenterNode() const noexcept; //#104
+  void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
   void ClickOnNothingShouldBeIgnored() const noexcept;
-  void concept_map_must_fit_window() const noexcept; //#135
+  void ConceptMapMustFitWindow() const noexcept; //#135
   void concept_map_must_fit_window_after_setting() const noexcept;
   void create_one_edge_command_and_check_z_order() const noexcept;
   void create_one_edge_command() const noexcept;
@@ -69,6 +68,7 @@ private slots:
   void n_center_nodes_and_qt_center_nodes_must_match_edit() const noexcept; //#113
   void n_center_nodes_and_qt_center_nodes_must_match_rate() const noexcept; //#113
   void n_center_nodes_and_qt_center_nodes_must_match_uninitialized() const noexcept; //#113
+  void PressCtrlRightMovesNonCentralNode() const noexcept;
   void PressEscape() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;
   void PressF2OnEmptyConceptMapIsRejected() const noexcept;
