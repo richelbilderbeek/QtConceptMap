@@ -158,7 +158,7 @@ std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNode
   return c.GetText();
 }
 
-ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::parse_command_create_new_edge(
+ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::ParseCommandCreateNewEdge(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"create_new_edge(my text)"

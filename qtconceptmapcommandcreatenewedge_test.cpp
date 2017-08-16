@@ -48,13 +48,13 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNo
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
-  const auto c1 = parse_command_create_new_node(q, "create_new_node(my text, false, 10, 20)");
+  const auto c1 = ParseCommandCreateNewNode(q, "create_new_node(my text, false, 10, 20)");
   q.DoCommand(c1);
   assert(CountSelectedQtNodes(q) == 1);
-  const auto c2 = parse_command_create_new_node(q, "create_new_node(my text, false, 10, 40)");
+  const auto c2 = ParseCommandCreateNewNode(q, "create_new_node(my text, false, 10, 40)");
   q.DoCommand(c2);
   assert(CountSelectedQtNodes(q) == 2);
-  const auto c3 = parse_command_create_new_edge(q, "create_new_edge(my text)");
+  const auto c3 = ParseCommandCreateNewEdge(q, "create_new_edge(my text)");
   QVERIFY(c3 != nullptr);
   QVERIFY(GetText(*c3) == "my text");
   q.DoCommand(c3);
@@ -63,5 +63,5 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::Parse() const noexcept
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
-  QVERIFY(parse_command_create_new_edge(q, "nonsense") == nullptr);
+  QVERIFY(ParseCommandCreateNewEdge(q, "nonsense") == nullptr);
 }

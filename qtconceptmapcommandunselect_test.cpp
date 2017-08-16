@@ -7,9 +7,9 @@ void ribi::cmap::QtConceptMapCommandUnselectTest::parse() const noexcept
 {
   QtConceptMap q;
 
-  QVERIFY(parse_command_unselect(q, "nonsense") == nullptr);
+  QVERIFY(ParseCommandUnselect(q, "nonsense") == nullptr);
   {
-    const auto c = parse_command_unselect(q, "unselect(my text)");
+    const auto c = ParseCommandUnselect(q, "unselect(my text)");
     QVERIFY(c != nullptr);
   }
 

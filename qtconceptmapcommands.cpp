@@ -9,6 +9,8 @@
 #include "qtconceptmapcommandmovenode.h"
 #include "qtconceptmapcommandsave.h"
 #include "qtconceptmapcommandselect.h"
+#include "qtconceptmapcommandselectedge.h"
+#include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmapcommandsetmode.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
@@ -29,18 +31,29 @@ std::string ribi::cmap::GetCommands(const std::vector<std::string>& args)
 /// Works on, for example  'create_node(0, 0, from)', 'create_edge(relation)'
 ribi::cmap::Command* ribi::cmap::ParseCommand(QtConceptMap& q, const std::string& s)
 {
-  if (auto p = parse_command_create_new_node(q, s)) { return p; }
-  if (auto p = parse_command_create_new_edge(q, s)) { return p; }
-  if (auto p = ParseCommandLoad(q, s)) { return p; }
-  if (auto p = ParseCommandMove(q, s)) { return p; }
-  if (auto p = ParseCommandMoveEdge(q, s)) { return p; }
-  if (auto p = ParseCommandMoveNode(q, s)) { return p; }
-  if (auto p = ParseCommandSave(q, s)) { return p; }
-  if (auto p = ParseCommandSelect(q, s)) { return p; }
-  if (auto p = ParseCommandToggleArrowHead(q, s)) { return p; }
-  if (auto p = ParseCommandToggleArrowTail(q, s)) { return p; }
-  if (auto p = parse_command_set_mode(q, s)) { return p; }
-  if (auto p = parse_command_unselect(q, s)) { return p; }
+  using ParsingFunction = std::function<Command*(QtConceptMap&, std::string)>;
+
+  const std::vector<ParsingFunction> parsing_functions =
+  {
+    ParseCommandCreateNewEdge,
+    ParseCommandCreateNewNode,
+    ParseCommandLoad,
+    ParseCommandMove,
+    ParseCommandMoveEdge,
+    ParseCommandMoveNode,
+    ParseCommandSave,
+    ParseCommandSelect,
+    ParseCommandSelectEdge,
+    ParseCommandSelectNode,
+    ParseCommandToggleArrowHead,
+    ParseCommandToggleArrowTail,
+    ParseCommandSetMode,
+    ParseCommandUnselect
+  };
+  for (const auto parsing_function: parsing_functions)
+  {
+    if (auto p = parsing_function(q, s)) return p;
+  }
   return nullptr;
 }
 

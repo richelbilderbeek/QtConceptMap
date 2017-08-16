@@ -35,7 +35,7 @@ class CommandSetMode final : public Command
   Mode m_mode_prev;
 };
 
-CommandSetMode * parse_command_set_mode(
+CommandSetMode * ParseCommandSetMode(
   QtConceptMap& qtconceptmap, std::string s);
 
 } //~namespace cmap

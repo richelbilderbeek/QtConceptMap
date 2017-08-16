@@ -79,7 +79,7 @@ std::string ribi::cmap::CommandCreateNewNode::GetText() const noexcept
   return Unwordwrap(m_added_qtnode->GetText());
 }
 
-ribi::cmap::CommandCreateNewNode * ribi::cmap::parse_command_create_new_node(
+ribi::cmap::CommandCreateNewNode * ribi::cmap::ParseCommandCreateNewNode(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"create_new_node(10, 20, my text)"

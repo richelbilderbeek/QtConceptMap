@@ -40,7 +40,7 @@ ribi::cmap::CommandUnselect::CommandUnselect(
   }
 }
 
-ribi::cmap::CommandUnselect * ribi::cmap::parse_command_unselect(
+ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"select(my text)"

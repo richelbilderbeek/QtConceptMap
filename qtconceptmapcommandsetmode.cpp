@@ -27,7 +27,7 @@ ribi::cmap::CommandSetMode::~CommandSetMode()
   //Empty indeed
 }
 
-ribi::cmap::CommandSetMode * ribi::cmap::parse_command_set_mode(
+ribi::cmap::CommandSetMode * ribi::cmap::ParseCommandSetMode(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"set_mode(my text)"

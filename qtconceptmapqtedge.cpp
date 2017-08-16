@@ -129,22 +129,23 @@ void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
   }
 }
 
-void ribi::cmap::CheckInvariants(const QtEdge& qtedge)
+void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make this simpler
 {
   QGraphicsScene * const scene = qtedge.scene();
   assert(scene);
   assert(scene == qtedge.GetFrom()->scene());
   assert(scene == qtedge.GetTo()->scene());
-  assert(qtedge.GetArrow());
   assert(scene == qtedge.GetArrow()->scene());
-  assert(qtedge.GetQtNode());
   assert(scene == qtedge.GetQtNode()->scene());
-  assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
+  assert(qtedge.GetArrow());
   assert(qtedge.GetArrow()->GetPen().color() == Qt::black);
-  CheckInvariants(*qtedge.GetQtNode());
+  assert(qtedge.GetQtNode());
+  assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
   assert(GetX(qtedge) == GetX(qtedge.GetEdge()));
   assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
-
+  assert(GetY(qtedge) == GetY(qtedge.GetEdge()));
+  assert(GetY(qtedge) == GetY(*qtedge.GetQtNode()));
+  CheckInvariants(*qtedge.GetQtNode());
 }
 
 void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept

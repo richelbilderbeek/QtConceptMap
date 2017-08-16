@@ -50,7 +50,7 @@ class CommandUnselect final : public Command
 };
 
 /// Works on, for example  'create_new_node(0, 0, from)'
-CommandUnselect * parse_command_unselect(
+CommandUnselect * ParseCommandUnselect(
   QtConceptMap& qtconceptmap, std::string s);
 
 } //~namespace cmap
