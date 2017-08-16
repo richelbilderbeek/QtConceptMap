@@ -857,6 +857,8 @@ void ribi::cmap::keyPressEventArrowsSelectAdditive(QtConceptMap& q, QKeyEvent *e
   try
   {
     //q.DoCommand(new CommandDeleteSelected(q));
+    assert(!"TODO");
+    qDebug() << "TODO";
     event->accept();
   }
   catch (std::exception&)
@@ -874,6 +876,7 @@ void ribi::cmap::keyPressEventArrowsSelectExclusive(QtConceptMap& q, QKeyEvent *
 
   try
   {
+    qDebug() << "TODO";
     //q.DoCommand(new CommandDeleteSelected(q));
     event->accept();
   }
@@ -1917,10 +1920,12 @@ void ribi::cmap::UnselectAllQtEdges(QtConceptMap& q)
 
 void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
 {
+  CheckInvariants(q);
   for (QtNode * const qtnode: GetQtNodes(q))
   {
     SetSelectedness(false, *qtnode, q);
   }
+  CheckInvariants(q);
 }
 
 void ribi::cmap::UpdateConceptMap(QtConceptMap& q)

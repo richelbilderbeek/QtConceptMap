@@ -936,6 +936,57 @@ void ribi::cmap::QtConceptMapTest::PressQuestionMark() const noexcept
   QTest::keyClick(&m, Qt::Key_Question);
 }
 
+void ribi::cmap::QtConceptMapTest
+  ::PressShiftRightSelectsNodeAdditively() const noexcept
+{
+  #ifdef NOT_NOW_20170816
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q, "left", false));
+  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  UnselectAllQtNodes(q);
+
+  const auto x_before = GetX(*GetQtNodes(q)[0]);
+  const auto y_before = GetY(*GetQtNodes(q)[0]);
+
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ControlModifier);
+  q.keyPressEvent(&e);
+
+  QVERIFY(e.isAccepted());
+  const auto x_after = GetX(*GetQtNodes(q)[0]);
+  const auto y_after = GetY(*GetQtNodes(q)[0]);
+  QVERIFY(x_after > x_before);
+  QVERIFY(y_after == y_before);
+  assert(!"FIXED");
+  #endif // NOT_NOW_20170816
+}
+
+void ribi::cmap::QtConceptMapTest
+  ::PressShiftRightSelectsNodeExclusively() const noexcept
+{
+  #ifdef NOT_NOW_20170816
+  assert(!"HERE");
+  /*
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q, "from", false));
+
+  const auto x_before = GetX(*GetQtNodes(q)[0]);
+  const auto y_before = GetY(*GetQtNodes(q)[0]);
+
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ControlModifier);
+  q.keyPressEvent(&e);
+
+  QVERIFY(e.isAccepted());
+  const auto x_after = GetX(*GetQtNodes(q)[0]);
+  const auto y_after = GetY(*GetQtNodes(q)[0]);
+  QVERIFY(x_after > x_before);
+  QVERIFY(y_after == y_before);
+  */
+  #endif // NOT_NOW_20170816
+}
+
+
+
+
 void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const noexcept
 {
   QtConceptMap m;

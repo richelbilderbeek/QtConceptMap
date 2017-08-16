@@ -13,6 +13,8 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void PressShiftRightSelectsNodeAdditively() const noexcept;
+  void PressShiftRightSelectsNodeExclusively() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
