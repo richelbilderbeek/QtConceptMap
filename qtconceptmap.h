@@ -384,6 +384,9 @@ void SetSelectedness(
   QtConceptMap& q
 );
 
+///Unselect all QtNodes and QtEdges
+void UnselectAll(QtConceptMap& q);
+
 ///Unselect all QtEdges (and the Edges in the ConceptMap)
 void UnselectAllQtEdges(QtConceptMap& q);
 

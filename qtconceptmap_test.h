@@ -13,7 +13,8 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void PressShiftRightSelectsNodeAdditively() const noexcept;
+  //void PressShiftRightSelectsEdgeAdditively() const noexcept;
+  //void PressShiftRightSelectsEdgeExclusively() const noexcept;
   void PressShiftRightSelectsNodeExclusively() const noexcept;
 
   //Done
@@ -47,10 +48,10 @@ private slots:
   void create_two_nodes_keyboard() const noexcept;
   void default_construction() const noexcept;
   void delete_node_that_is_connected_to_multiple_edges_keyboard() const noexcept;
-  void delete_node_that_is_head_of_edge_keyboard() const noexcept;
-  void delete_node_that_is_head_of_edge_and_undo_keyboard() const noexcept;
-  void delete_node_that_is_tail_of_edge_keyboard() const noexcept;
-  void delete_nodes_that_are_head_and_tail_of_edge_keyboard() const noexcept;
+  void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
+  void DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const noexcept;
+  void DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept;
+  void DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const noexcept;
   void delete_one_edge_by_node_command() const noexcept;
   void delete_one_edge_by_node_keyboard() const noexcept;
   void delete_one_edge_command() const noexcept;
@@ -60,16 +61,16 @@ private slots:
   void delete_one_node_keyboard() const noexcept;
   void delete_two_nodes_command() const noexcept;
   void delete_two_nodes_keyboard() const noexcept;
-  void double_click() const noexcept;
-  void double_click_twice() const noexcept;
-  void edit_mode_flags() const noexcept;
-  void get_highlighter() const noexcept;
-  void hide_examples() const noexcept;
-  void is_command_put_on_undo_stack() const noexcept;
-  void mouse_wheel() const noexcept;
-  void n_center_nodes_and_qt_center_nodes_must_match_edit() const noexcept; //#113
-  void n_center_nodes_and_qt_center_nodes_must_match_rate() const noexcept; //#113
-  void n_center_nodes_and_qt_center_nodes_must_match_uninitialized() const noexcept; //#113
+  void DoubleClick() const noexcept;
+  void DoubleClickTwice() const noexcept;
+  void EditModeFlags() const noexcept;
+  void GetHighlighter() const noexcept;
+  void HideExamples() const noexcept;
+  void IsCommandPutOnUndoStack() const noexcept;
+  void MouseWheel() const noexcept;
+  void NcenterNodesAndQtCenterNodesMustMatchEdit() const noexcept; //#113
+  void NcenterNodesAndQtCenterNodesMustMatchRate() const noexcept; //#113
+  void NcenterNodesAndQtCenterNodesMustMatchUninitialized() const noexcept; //#113
   void PressCtrlRightMovesNonCentralNode() const noexcept;
   void PressEscape() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;
@@ -80,6 +81,7 @@ private slots:
   void PressH() const noexcept;
   void PressN() const noexcept;
   void PressQuestionMark() const noexcept;
+  void PressShiftRightSelectsNodeAdditively() const noexcept;
   void PressSpaceOnEmptyConceptMapIsRejected() const noexcept;
   void PressT() const noexcept;
   void PressZ() const noexcept;

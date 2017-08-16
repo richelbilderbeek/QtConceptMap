@@ -52,7 +52,9 @@
 #include "qtconceptmapcommanddeleteselected.h"
 #include "qtconceptmapcommandmoveedge.h"
 #include "qtconceptmapcommandmovenode.h"
-#include "qtconceptmapcommandselect.h"
+//#include "qtconceptmapcommandselect.h"
+#include "qtconceptmapcommandselectedge.h"
+#include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapconcepteditdialog.h"
@@ -854,18 +856,30 @@ void ribi::cmap::keyPressEventArrowsSelectAdditive(QtConceptMap& q, QKeyEvent *e
 {
   CheckInvariants(q);
 
+  event->ignore();
+
+  QGraphicsItem * item = ribi::GetClosestNonselectedItem(
+    q,
+    q.GetScene().focusItem(),
+    KeyToDirection(event->key())
+  );
+
   try
   {
-    //q.DoCommand(new CommandDeleteSelected(q));
-    assert(!"TODO");
-    qDebug() << "TODO";
-    event->accept();
-  }
-  catch (std::exception&)
-  {
-    event->ignore();
-  }
 
+    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      assert(!"TODO");
+      //q.DoCommand(new CommandSelectEdge(q, qtedge));
+      //event->accept();
+    }
+    else if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    {
+      q.DoCommand(new CommandSelectNode(q, qtnode));
+      event->accept();
+    }
+  }
+  catch (std::exception&) {} //OK
 
   CheckInvariants(q);
 }
@@ -1783,8 +1797,7 @@ void ribi::cmap::SetRandomFocusExclusive(
 {
   CheckInvariants(q);
 
-  UnselectAllQtNodes(q);
-  UnselectAllQtEdges(q);
+  UnselectAll(q);
   //UnselectAllItems(q);
 
   if (q.GetScene().focusItem())
@@ -1909,6 +1922,17 @@ void ribi::cmap::QtConceptMap::Undo()
   CheckInvariants(*this);
 }
 
+void ribi::cmap::UnselectAll(QtConceptMap& q)
+{
+  CheckInvariants(q);
+
+  UnselectAllQtNodes(q);
+  UnselectAllQtEdges(q);
+  q.GetQtExamplesItem().SetBuddyItem(nullptr);
+  q.GetQtToolItem().SetBuddyItem(nullptr);
+
+  CheckInvariants(q);
+}
 
 void ribi::cmap::UnselectAllQtEdges(QtConceptMap& q)
 {
@@ -1920,12 +1944,10 @@ void ribi::cmap::UnselectAllQtEdges(QtConceptMap& q)
 
 void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
 {
-  CheckInvariants(q);
   for (QtNode * const qtnode: GetQtNodes(q))
   {
     SetSelectedness(false, *qtnode, q);
   }
-  CheckInvariants(q);
 }
 
 void ribi::cmap::UpdateConceptMap(QtConceptMap& q)
