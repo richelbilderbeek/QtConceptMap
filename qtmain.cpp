@@ -93,12 +93,6 @@ int main(int argc, char *argv[])
   const QRect screen = QApplication::desktop()->screenGeometry();
   d.move(screen.center() - d.rect().center() );
 
-  std::vector<ribi::cmap::Command*> commands = ribi::cmap::ParseCommands(d, args);
-  for (const auto command: commands)
-  {
-    d.DoCommand(command);
-    d.update();
-    qApp->processEvents();
-  }
+  ribi::cmap::ProcessCommands(d, args);
   return a.exec();
 }
