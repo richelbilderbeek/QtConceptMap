@@ -861,7 +861,7 @@ void ribi::cmap::keyPressEventArrowsSelectAdditive(QtConceptMap& q, QKeyEvent *e
   QGraphicsItem * item = ribi::GetClosestNonselectedItem(
     q,
     q.GetScene().focusItem(),
-    KeyToDirection(event->key())
+    ::ribi::KeyToDirection(event->key())
   );
 
   try
