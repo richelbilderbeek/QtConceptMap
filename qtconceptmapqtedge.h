@@ -118,6 +118,10 @@ void EnableAll(QtEdge& qtedge) noexcept;
 QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
 std::string GetText(const QtEdge& qtedge) noexcept;
 
+
+///Get the coordinat of the center of the QtNode at the QtEdge
+QPointF GetCenterPos(const QtEdge& qtedge) noexcept;
+
 ///Get the x coordinat of the center of the QtNode at the QtEdge
 double GetX(const QtEdge& qtedge) noexcept;
 

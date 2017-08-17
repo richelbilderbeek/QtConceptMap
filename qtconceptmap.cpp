@@ -576,6 +576,11 @@ ribi::cmap::QtNode * ribi::cmap::FindQtNode(
   return FindQtNode(node_id, q.GetScene());
 }
 
+ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QtConceptMap& q) noexcept
+{
+  return GetFirstQtEdge(q.GetScene());
+}
+
 ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QtConceptMap& q) noexcept
 {
   return GetFirstQtNode(q.GetScene());
@@ -1369,7 +1374,17 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   if (IsQtNodeOnEdge(qtnode, q))
   {
     QtEdge * const qtedge = FindQtEdge(qtnode, q.GetScene());
-    q.DoCommand(new CommandSelectEdge(q, qtedge));
+    if (IsSelected(*qtnode))
+    {
+      assert(!"TODO");
+      //q.DoCommand(new CommandUnselectEdge(q, qtedge));
+      assert(!IsSelected(*qtedge));
+    }
+    else
+    {
+      q.DoCommand(new CommandSelectEdge(q, qtedge));
+      assert(IsSelected(*qtedge));
+    }
     event->accept();
   }
   else if (qtnode)

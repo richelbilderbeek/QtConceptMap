@@ -1541,6 +1541,37 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 1);
 }
 
+void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  m.showFullScreen();
+
+  assert(CountSelectedQtEdges(m) == 0);
+
+  //const auto pos = m.mapFromScene(GetCenterPos(*GetFirstQtNode(m)).toPoint());
+  const auto pos = m.mapFromScene(GetCenterPos(*GetFirstQtEdge(m)).toPoint());
+  qDebug() << "\npos: " << pos;
+
+  QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  m.mousePressEvent(&e);
+
+  qDebug()
+    << "\nCountSelectedQtEdges(m): " << CountSelectedQtEdges(m)
+    << "\nCountSelectedQtNodes(m): " << CountSelectedQtNodes(m)
+  ;
+
+  assert(CountSelectedQtEdges(m) == 1);
+  QVERIFY(CountSelectedQtEdges(m) == 1);
+  QVERIFY(CountSelectedQtNodes(m) == 0);
+
+  m.mousePressEvent(&e);
+
+  QVERIFY(CountSelectedQtEdges(m) == 0);
+  QVERIFY(CountSelectedQtNodes(m) == 0);
+  assert(!"FIXED");
+}
+
 void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept
 {
   QtConceptMap m;

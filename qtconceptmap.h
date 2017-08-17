@@ -237,6 +237,10 @@ QtNode * FindFirstQtNodeWithName(
 ///Returns nullptr if there is none
 QtNode * FindQtNode(const int node_id, const QtConceptMap& q) noexcept;
 
+///Get the first QtEdge
+///Returns nullpt if there are no QtEdges in the scene
+QtEdge * GetFirstQtEdge(const QtConceptMap& q) noexcept;
+
 ///Find the first QtNode
 ///Returns nullpt if there are no QtNodes in the scene
 QtNode * GetFirstQtNode(const QtConceptMap& q) noexcept;

@@ -74,6 +74,9 @@ constexpr int GetWordWrapLength() { return 80; }
 
 std::string GetText(const QtNode& qtnode) noexcept;
 
+///Get the center of the QtNode
+QPointF GetCenterPos(const QtNode& qtnode) noexcept;
+
 ///Get the x coordinat of the center of the QtNode
 double GetX(const QtNode& qtnode) noexcept;
 

@@ -142,6 +142,14 @@ void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
 }
 */
 
+QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
+{
+  return QPointF(
+    GetX(qtnode.GetNode()),
+    GetY(qtnode.GetNode())
+  );
+}
+
 std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 {
   return GetText(qtnode.GetNode());

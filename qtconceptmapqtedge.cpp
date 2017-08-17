@@ -191,6 +191,13 @@ std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
   return GetText(qtedge.GetEdge());
 }
 
+QPointF ribi::cmap::GetCenterPos(const QtEdge& qtedge) noexcept
+{
+  assert(std::abs(GetX(qtedge.GetEdge()) - GetX(*qtedge.GetQtNode())) < 2.0);
+  assert(std::abs(GetY(qtedge.GetEdge()) - GetY(*qtedge.GetQtNode())) < 2.0);
+  return GetCenterPos(*qtedge.GetQtNode());
+}
+
 double ribi::cmap::GetX(const QtEdge& qtedge) noexcept
 {
   assert(std::abs(GetX(qtedge.GetEdge()) - GetX(*qtedge.GetQtNode())) < 2.0);

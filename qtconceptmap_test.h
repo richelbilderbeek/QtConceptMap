@@ -13,6 +13,7 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
