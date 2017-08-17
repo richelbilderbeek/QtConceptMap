@@ -968,27 +968,30 @@ void ribi::cmap::QtConceptMapTest
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressShiftRightSelectsNodeExclusively() const noexcept
+  ::PressRightSelectsNodeExclusively() const noexcept
 {
-  #ifdef NOT_NOW_20170816
-  assert(!"HERE");
-  /*
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "from", false));
+  q.DoCommand(new CommandCreateNewNode(q, "left", false));
+  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  UnselectAllQtNodes(q);
+  QtNode * const left_qtnode
+    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
+  QtNode * const right_qtnode
+    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "right"; } );
+  q.DoCommand(new CommandMoveNode(q, left_qtnode , -100.0, 0.0));
+  q.DoCommand(new CommandMoveNode(q, right_qtnode,  100.0, 0.0));
+  q.DoCommand(new CommandSelectNode(q, left_qtnode));
+  left_qtnode->setFocus();
+  assert(CountSelectedQtNodes(q) == 1);
 
-  const auto x_before = GetX(*GetQtNodes(q)[0]);
-  const auto y_before = GetY(*GetQtNodes(q)[0]);
-
-  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ControlModifier);
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::NoModifier);
   q.keyPressEvent(&e);
 
+  assert(CountSelectedQtNodes(q) == 1);
+  assert(GetText(*GetSelectedQtNodes(q)[0]) == "right");
+  QVERIFY(GetText(*GetSelectedQtNodes(q)[0]) == "right");
+  QVERIFY(CountSelectedQtNodes(q) == 1);
   QVERIFY(e.isAccepted());
-  const auto x_after = GetX(*GetQtNodes(q)[0]);
-  const auto y_after = GetY(*GetQtNodes(q)[0]);
-  QVERIFY(x_after > x_before);
-  QVERIFY(y_after == y_before);
-  */
-  #endif // NOT_NOW_20170816
 }
 
 

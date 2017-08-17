@@ -825,7 +825,9 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   //Pass event to base class
   if (!event->isAccepted())
   {
-    QtKeyboardFriendlyGraphicsView::keyPressEvent(event);
+    //Don't.
+    //assert(!"Not now");
+    //QtKeyboardFriendlyGraphicsView::keyPressEvent(event);
   }
 
   UpdateConceptMap(*this);
@@ -836,7 +838,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   CheckInvariants(q);
-  if (event->modifiers() &  Qt::NoModifier)
+  if (!event->modifiers())
   {
     keyPressEventArrowsSelectExclusive(q, event);
   }
@@ -888,17 +890,34 @@ void ribi::cmap::keyPressEventArrowsSelectExclusive(QtConceptMap& q, QKeyEvent *
 {
   CheckInvariants(q);
 
-  try
+  event->ignore();
+
+  QGraphicsItem * item = ribi::GetClosestNonselectedItem(
+    q,
+    q.GetScene().focusItem(),
+    KeyToDirection(event->key())
+  );
+  if (item)
   {
-    qDebug() << "TODO";
-    //q.DoCommand(new CommandDeleteSelected(q));
-    event->accept();
-  }
-  catch (std::exception&)
-  {
-    event->ignore();
+    UnselectAll(q);
   }
 
+  try
+  {
+
+    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      assert(!"TODO");
+      //q.DoCommand(new CommandSelectEdge(q, qtedge));
+      //event->accept();
+    }
+    else if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    {
+      q.DoCommand(new CommandSelectNode(q, qtnode));
+      event->accept();
+    }
+  }
+  catch (std::exception&) {} //OK
 
   CheckInvariants(q);
 }

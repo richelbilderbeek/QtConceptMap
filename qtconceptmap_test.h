@@ -15,7 +15,7 @@ private slots:
   //To do/review
   //void PressShiftRightSelectsEdgeAdditively() const noexcept;
   //void PressShiftRightSelectsEdgeExclusively() const noexcept;
-  void PressShiftRightSelectsNodeExclusively() const noexcept;
+  void PressRightSelectsNodeExclusively() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
