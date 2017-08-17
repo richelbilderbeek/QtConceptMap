@@ -1327,12 +1327,8 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
 {
   CheckInvariants(q);
 
-  QGraphicsItem * const item = q.GetScene().itemAt(
-    event->pos(),
-    q.transform()
-    //QGraphicsView::transform()
-    //mapFromGlobal(event->pos())
-  );
+  const QPointF pos = q.mapToScene(event->pos());
+  QGraphicsItem * const item = q.GetScene().itemAt(pos, QTransform());
 
   if (!item)
   {
