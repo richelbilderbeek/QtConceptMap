@@ -1541,7 +1541,7 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 1);
 }
 
-void ribi::cmap::QtConceptMapTest::TwoClickOnNodeSelectsAndUnselectsIt() const noexcept
+void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept
 {
   QtConceptMap m;
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier);

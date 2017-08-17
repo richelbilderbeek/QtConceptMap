@@ -28,7 +28,10 @@ ribi::cmap::CommandSelectEdge::CommandSelectEdge(
   {
     throw std::invalid_argument("Cannot select a nullptr QtEdge");
   }
-
+  if (IsSelected(*m_qtedge))
+  {
+    throw std::invalid_argument("Cannot select a QtEdge that is already selected");
+  }
 
   //QCommands have a text
   {

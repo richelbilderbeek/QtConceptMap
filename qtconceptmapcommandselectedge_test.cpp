@@ -50,6 +50,29 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeConnectedToCente
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
+void ribi::cmap::QtConceptMapCommandSelectEdgeTest
+  ::SelectSelectedQtEdgeFails() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+
+  QtEdge * const first_qtedge = FindFirstQtEdge(q, QtEdgeHasName("second"));
+  q.DoCommand(new CommandSelectEdge(q, first_qtedge));
+
+  assert(CountSelectedQtEdges(q) == 1);
+  assert(CountSelectedQtNodes(q) == 0);
+
+  try
+  {
+    q.DoCommand(new CommandSelectEdge(q, first_qtedge));
+    QVERIFY(!"Should not get here"); //!OCLINT accepted idiom
+  }
+  catch (std::invalid_argument&)
+  {
+    QVERIFY("OK"); //!OCLINT accepted idiom
+  }
+}
+
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;

@@ -14,7 +14,6 @@ private slots:
 
   //To do/review:
 
-
   //Done:
 
   ///Selecting an absent item fails
@@ -26,6 +25,9 @@ private slots:
   ///Select a QtEdge that is connected to center by name
   ///The QtNodes on that QtEdge is disabled and invisible
   void SelectQtEdgeConnectedToCenterByName() const noexcept;
+
+  ///Selecting a QtEdge that is already selected should throw
+  void SelectSelectedQtEdgeFails() const noexcept;
 
   ///Parse from a string
   void Parse() const noexcept;
