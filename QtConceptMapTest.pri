@@ -15,6 +15,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandtogglearrowtail_test.cpp \
     $$PWD/qtconceptmapcommands_test.cpp \
     $$PWD/qtconceptmapcommandunselect_test.cpp \
+    $$PWD/qtconceptmapcommandunselectall_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
     $$PWD/qtconceptmapconceptdialog_test.cpp \
     $$PWD/qtconceptmapconcepteditdialog_test.cpp \

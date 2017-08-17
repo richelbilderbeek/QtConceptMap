@@ -2,8 +2,12 @@
 
 #include "qtconceptmap.h"
 
-ribi::cmap::Command::Command(QtConceptMap& qtconceptmap) noexcept
-  : m_qtconceptmap(qtconceptmap)
+ribi::cmap::Command::Command(
+  QtConceptMap& qtconceptmap,
+  QUndoCommand * const parent
+) noexcept
+  : QUndoCommand(parent),
+    m_qtconceptmap(qtconceptmap)
 {
   assert(&m_qtconceptmap == &qtconceptmap);
 }

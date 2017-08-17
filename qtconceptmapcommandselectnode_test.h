@@ -13,7 +13,11 @@ class QtConceptMapCommandSelectNodeTest : public QObject
 private slots:
 
   //To do/review:
+  ///Select one of two QtNodes by name
+  void SelectOneOfTwoQtNodesByName() const noexcept;
 
+  ///Select two QtNode by name
+  void SelectTwoQtNodesByName() const noexcept;
 
   //Done:
 
@@ -22,9 +26,6 @@ private slots:
 
   ///Select a center QtNode by name
   void SelectQtCenterNodeByName() const noexcept;
-
-  ///Select a QtNode by name
-  void SelectQtNodeByName() const noexcept;
 
   ///Parse from a string
   void Parse() const noexcept;

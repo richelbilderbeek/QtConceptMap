@@ -364,6 +364,16 @@ void ribi::cmap::QtEdge::paint(
   CheckInvariants(*this);
 }
 
+std::function<bool(ribi::cmap::QtEdge* const qtedge)>
+  ribi::cmap::QtEdgeHasName(const std::string& name)
+{
+  return [name](const QtEdge * const qtedge)
+  {
+    assert(qtedge);
+    return GetText(*qtedge) == name;
+  };
+}
+
 void ribi::cmap::QtEdge::SetEdge(const Edge& edge) noexcept
 {
   m_edge = edge;

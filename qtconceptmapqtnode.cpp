@@ -280,6 +280,16 @@ void ribi::cmap::QtNode::paint(
   CheckInvariants(*this);
 }
 
+std::function<bool(const ribi::cmap::QtNode* const)>
+  ribi::cmap::QtNodeHasName(const std::string& name)
+{
+  return [name](const QtNode * const qtnode)
+  {
+    assert(qtnode);
+    return GetText(*qtnode) == name;
+  };
+}
+
 void ribi::cmap::QtNode::SetBrushFunction(
   const std::function<QBrush(const ribi::cmap::QtNode&)>& f
 ) noexcept

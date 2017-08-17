@@ -20,6 +20,7 @@ HEADERS += \
     $$PWD/qtconceptmapcommandtogglearrowhead.h \
     $$PWD/qtconceptmapcommandtogglearrowtail.h \
     $$PWD/qtconceptmapcommandunselect.h \
+    $$PWD/qtconceptmapcommandunselectall.h \
     $$PWD/qtconceptmapcompetency.h \
     $$PWD/qtconceptmapconceptdialog.h \
     $$PWD/qtconceptmapconcepteditdialog.h \

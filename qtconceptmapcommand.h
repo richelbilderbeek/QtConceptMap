@@ -19,7 +19,10 @@ namespace cmap {
 ///Command can be used to do and undo commands to a QtConceptMap
 struct Command : public QUndoCommand
 {
-  Command(QtConceptMap& qtconceptmap) noexcept;
+  Command(
+    QtConceptMap& qtconceptmap,
+    QUndoCommand * const parent = Q_NULLPTR
+  ) noexcept;
   virtual ~Command() noexcept {}
 
   auto& GetQtConceptMap() noexcept { return m_qtconceptmap; }

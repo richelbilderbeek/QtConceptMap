@@ -283,6 +283,19 @@ ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
   return nullptr;
 }
 
+ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdgeWithName(
+  const QGraphicsScene& scene,
+  const std::string& name) noexcept
+{
+  return FindFirstQtEdge(
+    scene,
+    [name](const QtEdge* const qtedge)
+    {
+      return GetText(*qtedge) == name;
+    }
+  );
+}
+
 ribi::cmap::QtNode * ribi::cmap::FindFirstQtNode(
   const QGraphicsScene& scene, const std::function<bool(QtNode*)> predicate) noexcept
 {
@@ -295,6 +308,13 @@ ribi::cmap::QtNode * ribi::cmap::FindFirstQtNode(
     }
   }
   return nullptr;
+}
+
+ribi::cmap::QtNode * ribi::cmap::FindFirstQtNodeWithName(
+  const QGraphicsScene& scene,
+  const std::string& name) noexcept
+{
+  return FindFirstQtNode(scene, QtNodeHasName(name));
 }
 
 ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) noexcept
@@ -324,31 +344,6 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   }
   return nullptr;
 }
-
-/*
-ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
-  const QtNode* const from,
-  const QtNode* const to,
-  const QGraphicsScene& scene
-) noexcept
-{
-
-  assert(from);
-  assert(to);
-  assert(from != to);
-  const std::vector<QtEdge*> edge_concepts = Collect<QtEdge>(scene);
-  const auto iter = std::find_if(edge_concepts.begin(),edge_concepts.end(),
-    [from,to](const QtEdge* const qtedge)
-    {
-      return
-        (*qtedge->GetFrom() == *from && *qtedge->GetTo() == *to)
-     || (*qtedge->GetFrom() == *to && *qtedge->GetTo() == *from);
-    }
-  );
-  if (iter == edge_concepts.end()) return nullptr;
-  return * iter;
-}
-*/
 
 ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   const QtNode * const qtnode,

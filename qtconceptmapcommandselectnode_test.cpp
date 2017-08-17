@@ -12,13 +12,7 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest::SelectAbsentItemFails() cons
   assert(CountSelectedQtNodes(q) == 0);
   try
   {
-    QtNode * const first_qtnode = FindFirstQtNode(
-      q,
-      [](QtNode * const qtnode)
-      {
-        return GetText(*qtnode) == "absent";
-      }
-    );
+    QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("absent"));
     q.DoCommand(new CommandSelectNode(q, first_qtnode));
     QVERIFY(!"Should not get here");
   }
@@ -34,38 +28,41 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest::SelectQtCenterNodeByName() c
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  QtNode * const first_qtnode = FindFirstQtNode(
-    q,
-    [](QtNode * const qtnode)
-    {
-      return GetText(*qtnode) == "center";
-    }
-  );
+  QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("center"));
   q.DoCommand(new CommandSelectNode(q, first_qtnode));
 
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 1);
 }
 
-
-void ribi::cmap::QtConceptMapCommandSelectNodeTest::SelectQtNodeByName() const noexcept
+void ribi::cmap::QtConceptMapCommandSelectNodeTest
+  ::SelectOneOfTwoQtNodesByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
 
-  QtNode * const first_qtnode = FindFirstQtNode(
-    q,
-    [](QtNode * const qtnode)
-    {
-      return GetText(*qtnode) == "one";
-    }
-  );
+  QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("one"));
   q.DoCommand(new CommandSelectNode(q, first_qtnode));
 
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 1);
+}
+
+void ribi::cmap::QtConceptMapCommandSelectNodeTest
+  ::SelectTwoQtNodesByName() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("one"));
+  QtNode * const second_qtnode = FindFirstQtNode(q, QtNodeHasName("center"));
+  q.DoCommand(new CommandSelectNode(q, first_qtnode));
+  q.DoCommand(new CommandSelectNode(q, second_qtnode));
+  QVERIFY(CountSelectedQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 2);
 }
 
 void ribi::cmap::QtConceptMapCommandSelectNodeTest::Parse() const noexcept

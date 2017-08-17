@@ -18,8 +18,7 @@
 namespace ribi {
 namespace cmap {
 
-///Start a new node
-///-Can be used only when there is an existing concept map
+///Select a node additively
 class CommandSelectNode final : public Command
 {
   public:

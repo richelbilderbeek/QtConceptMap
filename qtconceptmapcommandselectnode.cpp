@@ -33,7 +33,10 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
       "Cannot select QtNode on QtEdge, "
       "use CommandSelectEdge instead");
   }
-
+  if (m_qtnode->isSelected())
+  {
+    throw std::invalid_argument("Cannot select QtNode that is already selected");
+  }
   //QCommands have a text
   {
     std::stringstream msg;
@@ -86,7 +89,7 @@ void ribi::cmap::CommandSelectNode::redo()
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
   const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
   //May also select nodes that are already selected
-  assert(n_selected_items_after >= n_selected_items_before);
+  assert(n_selected_items_after > n_selected_items_before);
   #endif
 
   CheckInvariants(GetQtConceptMap());

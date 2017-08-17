@@ -93,6 +93,9 @@ bool IsVisible(const QtNode& qtnode) noexcept;
 ///Move a QtNode (and its Node) relatively
 void Move(QtNode& qtnode, const double dx, const double dy);
 
+///Functor
+std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
+
 void SetText(QtNode& qtnode, const std::string& text);
 void SetX(QtNode& qtnode, const double x);
 void SetY(QtNode& qtnode, const double y);

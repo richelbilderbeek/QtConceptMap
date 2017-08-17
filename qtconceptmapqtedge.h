@@ -141,6 +141,9 @@ bool IsVisible(const QtEdge& qtedge) noexcept;
 ///Move a QtEdge (and its Edge) relatively
 void Move(QtEdge& qtedge, const double dx, const double dy);
 
+///Functor
+std::function<bool(QtEdge* const)> QtEdgeHasName(const std::string& name);
+
 std::string ToStr(const QtEdge& qtedge) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;

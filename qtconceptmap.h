@@ -211,12 +211,27 @@ QtEdge * FindFirstQtEdge(
   const QtConceptMap& q,
   const std::function<bool(QtEdge*)> predicate) noexcept;
 
+///FindFirstQtEdge with a predicate to check for the name on the QtEdge
+///Returns nullptr if there is none
+// Use 'FindFirstQtEdge(q, QtEdgeHasName(name)' instead
+[[deprecated]]
+QtEdge * FindFirstQtEdgeWithName(
+  const QtConceptMap& q,
+  const std::string& name) noexcept;
 
 ///Finds the first QtNode by a predicate
 ///Returns nullptr if there is none
 QtNode * FindFirstQtNode(
   const QtConceptMap& q,
   const std::function<bool(QtNode*)> predicate) noexcept;
+
+///FindFirstQtNode with a predicate to check for the name on the QtNode
+///Returns nullptr if there is none
+// Use 'FindFirstQtNode(q, QtNodeHasName(name)' instead
+[[deprecated]]
+QtNode * FindFirstQtNodeWithName(
+  const QtConceptMap& q,
+  const std::string& name) noexcept;
 
 ///Finds the first QtNode in a QGraphicsScene with a matching node ID
 ///Returns nullptr if there is none
