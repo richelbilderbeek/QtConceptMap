@@ -52,11 +52,11 @@
 #include "qtconceptmapcommanddeleteselected.h"
 #include "qtconceptmapcommandmoveedge.h"
 #include "qtconceptmapcommandmovenode.h"
-//#include "qtconceptmapcommandselect.h"
 #include "qtconceptmapcommandselectedge.h"
 #include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
+#include "qtconceptmapcommandunselectnode.h"
 #include "qtconceptmapconcepteditdialog.h"
 #include "qtconceptmapexamplesitem.h"
 #include "qtconceptmaphelper.h"
@@ -1376,12 +1376,11 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   {
     if (IsSelected(*qtnode))
     {
-      q.DoCommand(new CommandSelectNode(q, qtnode));
+      q.DoCommand(new CommandUnselectNode(q, qtnode));
     }
     else
     {
-      assert(!"TODO");
-      //q.DoCommand(new CommandUnselectNode(q, qtnode));
+      q.DoCommand(new CommandSelectNode(q, qtnode));
     }
     event->accept();
   }

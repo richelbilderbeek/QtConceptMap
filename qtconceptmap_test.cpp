@@ -1557,7 +1557,6 @@ void ribi::cmap::QtConceptMapTest::TwoClickOnNodeSelectsAndUnselectsIt() const n
   m.mousePressEvent(&e);
 
   QVERIFY(CountSelectedQtNodes(m) == 0);
-  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::UninitializedModeFlags() const noexcept
