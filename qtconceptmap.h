@@ -237,6 +237,10 @@ QtNode * FindFirstQtNodeWithName(
 ///Returns nullptr if there is none
 QtNode * FindQtNode(const int node_id, const QtConceptMap& q) noexcept;
 
+///Find the first QtNode
+///Returns nullpt if there are no QtNodes in the scene
+QtNode * GetFirstQtNode(const QtConceptMap& q) noexcept;
+
 ///Get all the items that can be focused and selected on
 ///This also depends on the mode: if the user is rating a concept map,
 ///the center node is not selectable.

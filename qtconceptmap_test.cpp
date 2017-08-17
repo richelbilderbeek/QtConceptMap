@@ -1520,12 +1520,11 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const noexcept
 {
   QtConceptMap m;
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier);
+  UnselectAll(m);
   m.showFullScreen();
-  assert(boost::num_vertices(m.GetConceptMap()) == 1);
-  const QPoint nothing;
-  QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  const auto pos = m.mapFromScene(GetFirstQtNode(m)->GetCenterPos().toPoint());
+  QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   m.mousePressEvent(&e);
-  assert(e.isAccepted());
   QVERIFY(e.isAccepted());
 }
 

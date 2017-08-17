@@ -576,6 +576,11 @@ ribi::cmap::QtNode * ribi::cmap::FindQtNode(
   return FindQtNode(node_id, q.GetScene());
 }
 
+ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QtConceptMap& q) noexcept
+{
+  return GetFirstQtNode(q.GetScene());
+}
+
 void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
 {
   q.GetQtExamplesItem().hide();

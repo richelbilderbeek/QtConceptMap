@@ -11,7 +11,9 @@ class QtConceptMapCommandLoadTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void parse() const noexcept;
+  void Parse() const noexcept;
+
+  void ParseNonsenseFails() const noexcept;
 };
 
 } //~namespace cmap
