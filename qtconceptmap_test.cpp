@@ -1525,6 +1525,7 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const noexcept
   const QPoint nothing;
   QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   m.mousePressEvent(&e);
+  assert(e.isAccepted());
   QVERIFY(e.isAccepted());
 }
 

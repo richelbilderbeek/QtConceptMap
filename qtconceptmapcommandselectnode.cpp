@@ -85,7 +85,8 @@ void ribi::cmap::CommandSelectNode::redo()
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
   const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
-  assert(n_selected_items_after > n_selected_items_before);
+  //May also select nodes that are already selected
+  assert(n_selected_items_after >= n_selected_items_before);
   #endif
 
   CheckInvariants(GetQtConceptMap());
