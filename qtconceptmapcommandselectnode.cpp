@@ -27,6 +27,12 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   {
     throw std::invalid_argument("Cannot select nullptr QtNode");
   }
+  if (IsQtNodeOnEdge(qtnode, GetQtConceptMap()))
+  {
+    throw std::invalid_argument(
+      "Cannot select QtNode on QtEdge, "
+      "use CommandSelectEdge instead");
+  }
 
   //QCommands have a text
   {
@@ -67,14 +73,6 @@ void ribi::cmap::CommandSelectNode::redo()
   const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
   #endif
 
-  /*
-  m_qtnode = FindFirstQtNode(GetQtConceptMap(),
-    [name = m_name, &qtconceptmap = GetQtConceptMap()](QtNode * const qtnode)
-    {
-      return name == GetText(*qtnode) && !IsQtNodeOnEdge(qtnode, qtconceptmap);
-    }
-  );
-  */
   assert(m_qtnode);
   if (HasExamples(*m_qtnode))
   {

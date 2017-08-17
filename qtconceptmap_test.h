@@ -13,9 +13,6 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  //void PressShiftRightSelectsEdgeAdditively() const noexcept;
-  //void PressShiftRightSelectsEdgeExclusively() const noexcept;
-  void PressRightSelectsNodeExclusively() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -74,13 +71,16 @@ private slots:
   void PressCtrlRightMovesNonCentralNode() const noexcept;
   void PressEscape() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;
-  void PressF2OnEmptyConceptMapIsRejected() const noexcept;
   void PressF2CanEditNonFocalQuestion() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
+  void PressF2OnEmptyConceptMapIsRejected() const noexcept;
   void PressF4IsRejected() const noexcept;
   void PressH() const noexcept;
   void PressN() const noexcept;
   void PressQuestionMark() const noexcept;
+  void PressRightSelectsEdgeExclusively() const noexcept;
+  void PressRightSelectsNodeExclusively() const noexcept;
+  void PressShiftRightSelectsEdgeAdditively() const noexcept;
   void PressShiftRightSelectsNodeAdditively() const noexcept;
   void PressSpaceOnEmptyConceptMapIsRejected() const noexcept;
   void PressT() const noexcept;

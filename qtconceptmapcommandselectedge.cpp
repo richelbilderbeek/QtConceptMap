@@ -18,18 +18,22 @@
 
 ribi::cmap::CommandSelectEdge::CommandSelectEdge(
   QtConceptMap& qtconceptmap,
-  const std::string& name
+  QtEdge * const qtedge
 )
   : Command(qtconceptmap),
-    m_renamed_qtedge{nullptr},
-    m_renamed_qtnode{nullptr},
-    m_name{name}
+    m_qtedge{qtedge}
 {
+
+  if (!m_qtedge)
+  {
+    throw std::invalid_argument("Cannot select a nullptr QtEdge");
+  }
+
+
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Select node or edge with name '"
-      << m_name << "'";
+    msg << "Select edge";
     this->setText(msg.str().c_str());
   }
 }
@@ -39,14 +43,18 @@ ribi::cmap::CommandSelectEdge * ribi::cmap::ParseCommandSelectEdge(
 {
   //"select(my text)"
   boost::algorithm::trim(s);
-  const std::string str_begin = "select(";
+  const std::string str_begin = "select_edge(";
   if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
   if (s.back() != ')') return nullptr;
   //"my text"
   const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
   assert(t[0] != '(');
   assert(t.back() != ')');
-  return new CommandSelectEdge(qtconceptmap, t);
+  QtEdge * const first_qtedge = FindFirstQtEdge(
+    qtconceptmap,
+    [t](const QtEdge* qtedge) { return GetText(*qtedge) == t; }
+  );
+  return new CommandSelectEdge(qtconceptmap, first_qtedge);
 }
 
 void ribi::cmap::CommandSelectEdge::redo()
@@ -57,50 +65,14 @@ void ribi::cmap::CommandSelectEdge::redo()
   const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
   #endif
 
-  m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap(),
-    [name = m_name, &qtconceptmap = GetQtConceptMap()](QtNode * const qtnode)
-    {
-      return name == GetText(*qtnode) && !IsQtNodeOnEdge(qtnode, qtconceptmap);
-    }
-  );
-  if (m_renamed_qtnode)
+  assert(m_qtedge);
+  if (HasExamples(*m_qtedge))
   {
-    m_renamed_qtedge = nullptr;
-    if (HasExamples(*m_renamed_qtnode))
-    {
-      SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtnode);
-    }
-    SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtnode);
-    SetSelectedness(true, *m_renamed_qtnode, GetQtConceptMap());
+    SetQtExamplesBuddy(GetQtConceptMap(), m_qtedge);
   }
-  else
-  {
-    assert(!m_renamed_qtnode);
-    m_renamed_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
-      [name = m_name](QtEdge * const qtedge)
-      {
-        return name == GetText(*qtedge);
-      }
-    );
-    if (m_renamed_qtedge)
-    {
-      if (HasExamples(*m_renamed_qtedge))
-      {
-        SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge);
-      }
-      SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtedge);
-      SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
-      assert(CountSelectedQtEdges(GetQtConceptMap()) > 0 || IsConnectedToCenterNode(*m_renamed_qtedge));
-    }
-  }
-  if (!m_renamed_qtedge && !m_renamed_qtnode)
-  {
-    std::stringstream msg;
-    msg << "Could not find a QtEdge nor QtNode with text '"
-      << m_name << "'";
-    throw std::invalid_argument(msg.str());
-  }
-  assert((m_renamed_qtedge != nullptr) ^ (m_renamed_qtnode != nullptr));
+  SetQtToolItemBuddy(GetQtConceptMap(), m_qtedge);
+  SetSelectedness(true, *m_qtedge, GetQtConceptMap());
+  assert(CountSelectedQtEdges(GetQtConceptMap()) > 0 || IsConnectedToCenterNode(*m_qtedge));
 
   #ifndef NDEBUG
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
@@ -114,13 +86,6 @@ void ribi::cmap::CommandSelectEdge::redo()
 
 void ribi::cmap::CommandSelectEdge::undo()
 {
-  if (m_renamed_qtedge)
-  {
-    SetSelectedness(false, *m_renamed_qtedge, GetQtConceptMap());
-  }
-  if (m_renamed_qtnode)
-  {
-    SetSelectedness(false, *m_renamed_qtnode, GetQtConceptMap());
-  }
+  SetSelectedness(false, *m_qtedge, GetQtConceptMap());
   CheckInvariants(GetQtConceptMap());
 }

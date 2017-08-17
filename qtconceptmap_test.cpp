@@ -944,6 +944,33 @@ void ribi::cmap::QtConceptMapTest::PressQuestionMark() const noexcept
 }
 
 void ribi::cmap::QtConceptMapTest
+  ::PressShiftRightSelectsEdgeAdditively() const noexcept
+{
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q, "left", false));
+  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
+  UnselectAll(q);
+  QtNode * const left_qtnode
+    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
+  QtNode * const right_qtnode
+    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "right"; } );
+  q.DoCommand(new CommandMoveNode(q, left_qtnode , -100.0, 0.0));
+  q.DoCommand(new CommandMoveNode(q, right_qtnode,  100.0, 0.0));
+  q.DoCommand(new CommandSelectNode(q, left_qtnode));
+  left_qtnode->setFocus();
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ShiftModifier);
+  q.keyPressEvent(&e);
+
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 1);
+  QVERIFY(e.isAccepted());
+}
+
+void ribi::cmap::QtConceptMapTest
   ::PressShiftRightSelectsNodeAdditively() const noexcept
 {
   QtConceptMap q;
@@ -964,6 +991,34 @@ void ribi::cmap::QtConceptMapTest
   q.keyPressEvent(&e);
 
   QVERIFY(CountSelectedQtNodes(q) == 2);
+  QVERIFY(e.isAccepted());
+}
+
+void ribi::cmap::QtConceptMapTest
+  ::PressRightSelectsEdgeExclusively() const noexcept
+{
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q, "left", false));
+  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
+  UnselectAll(q);
+  QtNode * const left_qtnode
+    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
+  QtNode * const right_qtnode
+    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "right"; } );
+  q.DoCommand(new CommandMoveNode(q, left_qtnode , -100.0, 0.0));
+  q.DoCommand(new CommandMoveNode(q, right_qtnode,  100.0, 0.0));
+  q.DoCommand(new CommandSelectNode(q, left_qtnode));
+  left_qtnode->setFocus();
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::NoModifier);
+  q.keyPressEvent(&e);
+
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+  QVERIFY(GetText(*GetSelectedQtEdges(q)[0]) == "between");
   QVERIFY(e.isAccepted());
 }
 

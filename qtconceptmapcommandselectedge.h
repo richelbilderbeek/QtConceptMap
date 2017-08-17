@@ -18,8 +18,7 @@
 namespace ribi {
 namespace cmap {
 
-///Start a new node
-///-Can be used only when there is an existing concept map
+/// Select a QtEdge
 class CommandSelectEdge final : public Command
 {
   public:
@@ -28,26 +27,21 @@ class CommandSelectEdge final : public Command
   ///Will throw if name is absent (at redo)
   CommandSelectEdge(
     QtConceptMap& qtconceptmap,
-    const std::string& node_or_edge_name = ""
+    QtEdge * const qtedge
   );
   CommandSelectEdge(const CommandSelectEdge&) = delete;
   CommandSelectEdge& operator=(const CommandSelectEdge&) = delete;
   ~CommandSelectEdge() noexcept {}
 
+  const QtEdge * GetQtEdge() const noexcept { return m_qtedge; }
+
   ///Get the Node or Edge its name
-  std::string GetName() const noexcept { return m_name; }
   void redo() override;
   void undo() override;
 
   private:
-  /// If name was an edge name, the renamed edge
-  QtEdge * m_renamed_qtedge;
-
-  /// If name was a node name, the renamed node
-  QtNode * m_renamed_qtnode;
-
-  ///Text on the QtEdge or QtNode
-  const std::string m_name;
+  /// The selected QtEdge
+  QtEdge * m_qtedge;
 };
 
 /// Works on, for example  'create_new_node(0, 0, from)'

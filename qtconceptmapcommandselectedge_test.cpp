@@ -12,7 +12,11 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectAbsentItemFails() cons
   assert(CountSelectedQtNodes(q) == 0);
   try
   {
-    q.DoCommand(new CommandSelectEdge(q, "absent"));
+    QtEdge * const first_qtedge = FindFirstQtEdge(
+      q,
+      [](QtEdge * const qtedge) { return GetText(*qtedge) == "absent"; }
+    );
+    q.DoCommand(new CommandSelectEdge(q, first_qtedge));
     QVERIFY(!"Should not get here");
   }
   catch (std::exception&)
@@ -21,24 +25,19 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectAbsentItemFails() cons
   }
 }
 
-void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtCenterNodeByName() const noexcept
-{
-  QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-  assert(CountSelectedQtEdges(q) == 0);
-  assert(CountSelectedQtNodes(q) == 0);
-  q.DoCommand(new CommandSelectEdge(q, "center"));
-  QVERIFY(CountSelectedQtEdges(q) == 0);
-  QVERIFY(CountSelectedQtNodes(q) == 1);
-}
-
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  q.DoCommand(new CommandSelectEdge(q, "second"));
+
+  QtEdge * const first_qtedge = FindFirstQtEdge(
+    q,
+    [](QtEdge * const qtedge) { return GetText(*qtedge) == "second"; }
+  );
+  q.DoCommand(new CommandSelectEdge(q, first_qtedge));
+
   QVERIFY(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
@@ -51,30 +50,26 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeConnectedToCente
   assert(CountSelectedQtNodes(q) == 0);
   //q.showFullScreen();
   assert(CountSelectedQtNodes(q) == 0);
-  q.DoCommand(new CommandSelectEdge(q, "first"));
+
+  QtEdge * const first_qtedge = FindFirstQtEdge(
+    q,
+    [](QtEdge * const qtedge) { return GetText(*qtedge) == "first"; }
+  );
+  q.DoCommand(new CommandSelectEdge(q, first_qtedge));
+
   assert(GetQtEdges(q).size() == 1);
   assert(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtNodeByName() const noexcept
-{
-  QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-  assert(CountSelectedQtEdges(q) == 0);
-  assert(CountSelectedQtNodes(q) == 0);
-  q.DoCommand(new CommandSelectEdge(q, "one"));
-  QVERIFY(CountSelectedQtEdges(q) == 0);
-  QVERIFY(CountSelectedQtNodes(q) == 1);
-}
-
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
-  const auto c = ParseCommandSelectEdge(q, "select(my text)");
+  const auto c = ParseCommandSelectEdge(q, "select_edge(my text)");
+  assert(c);
   QVERIFY(c != nullptr);
-  QVERIFY(c->GetName() == "my text");
+  QVERIFY(GetText(*c->GetQtEdge()) == "my text");
 }
 
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::ParseNonsenseFails() const noexcept

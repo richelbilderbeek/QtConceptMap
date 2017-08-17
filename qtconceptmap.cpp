@@ -860,24 +860,34 @@ void ribi::cmap::keyPressEventArrowsSelectAdditive(QtConceptMap& q, QKeyEvent *e
 
   event->ignore();
 
+  if (!q.GetScene().focusItem()) return;
+
   QGraphicsItem * item = ribi::GetClosestNonselectedItem(
     q,
     q.GetScene().focusItem(),
     KeyToDirection(event->key())
   );
 
+  if (!item) return;
+
   try
   {
-
-    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    QtNode * const qtnode = dynamic_cast<QtNode*>(item);
+    if (IsQtNodeOnEdge(qtnode, q))
     {
-      assert(!"TODO");
-      //q.DoCommand(new CommandSelectEdge(q, qtedge));
-      //event->accept();
+      QtEdge * const qtedge = FindQtEdge(qtnode, q.GetScene());
+      q.DoCommand(new CommandSelectEdge(q, qtedge));
+      event->accept();
     }
-    else if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    else if (qtnode)
     {
       q.DoCommand(new CommandSelectNode(q, qtnode));
+      event->accept();
+    }
+    else if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      assert(!"Will this ever be triggered?");
+      q.DoCommand(new CommandSelectEdge(q, qtedge));
       event->accept();
     }
   }
@@ -892,28 +902,35 @@ void ribi::cmap::keyPressEventArrowsSelectExclusive(QtConceptMap& q, QKeyEvent *
 
   event->ignore();
 
+  if (!q.GetScene().focusItem()) return;
+
   QGraphicsItem * item = ribi::GetClosestNonselectedItem(
     q,
     q.GetScene().focusItem(),
     KeyToDirection(event->key())
   );
-  if (item)
-  {
-    UnselectAll(q);
-  }
+  if (!item) return;
+
+  UnselectAll(q);
 
   try
   {
-
-    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    QtNode * const qtnode = dynamic_cast<QtNode*>(item);
+    if (IsQtNodeOnEdge(qtnode, q))
     {
-      assert(!"TODO");
-      //q.DoCommand(new CommandSelectEdge(q, qtedge));
-      //event->accept();
+      QtEdge * const qtedge = FindQtEdge(qtnode, q.GetScene());
+      q.DoCommand(new CommandSelectEdge(q, qtedge));
+      event->accept();
     }
-    else if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    else if (qtnode)
     {
       q.DoCommand(new CommandSelectNode(q, qtnode));
+      event->accept();
+    }
+    else if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      assert(!"Will this ever be triggered?");
+      q.DoCommand(new CommandSelectEdge(q, qtedge));
       event->accept();
     }
   }
