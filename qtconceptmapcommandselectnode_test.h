@@ -13,16 +13,20 @@ class QtConceptMapCommandSelectNodeTest : public QObject
 private slots:
 
   //To do/review:
-  ///Select one of two QtNodes by name
-  void SelectOneOfTwoQtNodesByName() const noexcept;
 
-  ///Select two QtNode by name
-  void SelectTwoQtNodesByName() const noexcept;
+  ///Select one of two QtNodes by name and undo
+  void SelectOneOfTwoQtNodesByNameAndUndo() const noexcept;
 
   //Done:
 
   ///Selecting an absent item fails
   void SelectAbsentItemFails() const noexcept;
+
+  ///Select one of two QtNodes by name
+  void SelectOneOfTwoQtNodesByName() const noexcept;
+
+  ///Select two QtNodes by name
+  void SelectTwoQtNodesByName() const noexcept;
 
   ///Select a center QtNode by name
   void SelectQtCenterNodeByName() const noexcept;

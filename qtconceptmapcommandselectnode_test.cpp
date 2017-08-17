@@ -51,6 +51,32 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 }
 
 void ribi::cmap::QtConceptMapCommandSelectNodeTest
+  ::SelectOneOfTwoQtNodesByNameAndUndo() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+
+  const auto examples_buddy_before = GetQtExamplesItemBuddy(q);
+  const auto tool_buddy_before = GetQtToolItemBuddy(q);
+
+  QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("one"));
+  q.DoCommand(new CommandSelectNode(q, first_qtnode));
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  q.Undo();
+
+  const auto examples_buddy_after = GetQtExamplesItemBuddy(q);
+  const auto tool_buddy_after = GetQtToolItemBuddy(q);
+
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  QVERIFY(examples_buddy_before == examples_buddy_after);
+  QVERIFY(tool_buddy_before == tool_buddy_after);
+}
+
+void ribi::cmap::QtConceptMapCommandSelectNodeTest
   ::SelectTwoQtNodesByName() const noexcept
 {
   QtConceptMap q;

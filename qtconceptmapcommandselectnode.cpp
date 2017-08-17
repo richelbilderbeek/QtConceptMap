@@ -21,6 +21,8 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   QtNode * const qtnode
 )
   : Command(qtconceptmap),
+    m_prev_qtexamplesitem_buddy{nullptr},
+    m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {
   if (!m_qtnode)
@@ -76,6 +78,10 @@ void ribi::cmap::CommandSelectNode::redo()
   const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
   #endif
 
+  m_prev_qtexamplesitem_buddy = GetQtExamplesItemBuddy(GetQtConceptMap());
+  m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
+
+
   assert(m_qtnode);
   if (HasExamples(*m_qtnode))
   {
@@ -97,6 +103,24 @@ void ribi::cmap::CommandSelectNode::redo()
 
 void ribi::cmap::CommandSelectNode::undo()
 {
+  CheckInvariants(GetQtConceptMap());
+
+  if (const QtNode * const qtnode = dynamic_cast<const QtNode*>(m_prev_qtexamplesitem_buddy))
+  {
+    SetQtExamplesBuddy(GetQtConceptMap(), qtnode);
+  }
+  else if (const QtEdge * const qtedge = dynamic_cast<const QtEdge*>(m_prev_qtexamplesitem_buddy))
+  {
+    SetQtExamplesBuddy(GetQtConceptMap(), qtedge);
+  }
+  else
+  {
+    const QtNode * const no_node{nullptr};
+    SetQtExamplesBuddy(GetQtConceptMap(), no_node);
+  }
+
+  SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
+
   SetSelectedness(false, *m_qtnode, GetQtConceptMap());
   CheckInvariants(GetQtConceptMap());
 }

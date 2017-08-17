@@ -256,11 +256,17 @@ std::vector<QtEdge *> GetQtEdges(const QtConceptMap& q) noexcept;
 
 constexpr double GetQtEdgeZvalue() { return -1.0; }
 
+///Get the QtExamplesItem its Buddy item
+const QGraphicsItem * GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept;
+
 ///Get all the 'standalone' (those not on an edge) QtNodes
 std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
 
 ///Get both the QtNodes that are 'standalone' or are on an edge
 std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QtConceptMap& q) noexcept;
+
+///Get the QtToolItem its Buddy item
+QtNode * GetQtToolItemBuddy(const QtConceptMap& q) noexcept;
 
 ///Get the selected QtEdges
 std::vector<QtEdge *> GetSelectedQtEdges(const QtConceptMap& q) noexcept;
@@ -377,8 +383,8 @@ void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
 void SetFocus(QtConceptMap& q, QtNode* const qtnode);
 
 ///Set the buddy of the QtExamplesItem
-void SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode);
-void SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge);
+void SetQtExamplesBuddy(QtConceptMap& q, const QtNode * const qtnode);
+void SetQtExamplesBuddy(QtConceptMap& q, const QtEdge * const qtedge);
 
 ///Set the buddy of the QtToolItem
 void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);

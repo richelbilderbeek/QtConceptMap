@@ -735,6 +735,11 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(const QtConceptMap& q) 
   return GetQtEdges(q.GetScene());
 }
 
+const QGraphicsItem * ribi::cmap::GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept
+{
+  return q.GetQtExamplesItem().GetBuddyItem();
+}
+
 std::vector<ribi::cmap::QtNode *> ribi::cmap::GetQtNodes(const QtConceptMap& q) noexcept
 {
   return GetQtNodes(q.GetScene());
@@ -744,6 +749,11 @@ std::vector<ribi::cmap::QtNode *> ribi::cmap::GetQtNodesAlsoOnQtEdge(
   const QtConceptMap& q) noexcept
 {
   return GetQtNodesAlsoOnQtEdge(q.GetScene());
+}
+
+ribi::cmap::QtNode * ribi::cmap::GetQtToolItemBuddy(const QtConceptMap& q) noexcept
+{
+  return q.GetQtToolItem().GetBuddyItem();
 }
 
 std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetSelectedQtEdges(
@@ -1935,12 +1945,12 @@ void ribi::cmap::SetRandomFocusExclusive(
   CheckInvariants(q);
 }
 
-void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge)
+void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtEdge * const qtedge)
 {
   SetQtExamplesBuddy(q, qtedge->GetQtNode());
 }
 
-void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode)
+void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtNode * const qtnode)
 {
   if (qtnode)
   {
