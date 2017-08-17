@@ -57,7 +57,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::show_bounding_rect()
   assert(qtedge);
   qtedge->SetShowBoundingRect(true);
   m.showFullScreen();
-  QTest::qWait(1000);
+  QTest::qWait(100);
 }
 
 
