@@ -57,7 +57,7 @@ private slots:
   void delete_one_node_command_and_undo() const noexcept;
   void delete_one_node_keyboard() const noexcept;
   void delete_two_nodes_command() const noexcept;
-  void delete_two_nodes_keyboard() const noexcept;
+  void DeleteTwoNodesKeyboard() const noexcept;
   void DoubleClick() const noexcept;
   void DoubleClickTwice() const noexcept;
   void EditModeFlags() const noexcept;
@@ -100,15 +100,21 @@ private slots:
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtNode is selected
-  void set_empty_concept_map_one_selected_node() const noexcept;
+  void SetEmptyConceptMapOneSelectedNode() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when two QtNodes are selected, one of which on an edge
-  void set_empty_concept_map_two_selected_nodes() const noexcept;
+  void SetEmptyConceptMapTwoSelectedNodes() const noexcept;
 
+  ///When setting a ConceptMap, the number of Edges and QtEdges,
+  /// and Nodes and QtNodes must match
+  void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept;
 
-  void setting_concept_maps_edges_qtedges_nodes_qtnodes_must_match() const noexcept;
-  void uninitialized_mode_flags() const noexcept;
+  void SingleClickOnEmptyConceptMap() const noexcept;
+  void SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept;
+  void SingleClickOnNodeIsAccepted() const noexcept;
+  void SingleClickOnNodeSelectsNode() const noexcept;
+  void UninitializedModeFlags() const noexcept;
 };
 
 } //~namespace cmap

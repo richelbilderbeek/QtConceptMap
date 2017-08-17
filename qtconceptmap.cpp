@@ -567,6 +567,11 @@ void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
   q.GetQtExamplesItem().hide();
 }
 
+bool ribi::cmap::IsArrowVisible(QtConceptMap& q) noexcept
+{
+  return q.GetQtNewArrow().isVisible();
+}
+
 bool ribi::cmap::IsInScene(const QtEdge& qtedge, const QGraphicsScene& scene) noexcept
 {
   return scene.items().contains(const_cast<QtEdge*>(&qtedge));
@@ -1306,25 +1311,84 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
   CheckInvariants(*this);
 
-  UpdateConceptMap(*this);
-  assert(!GetQtNewArrow().isSelected());
-  if (GetQtNewArrow().isVisible())
+  if (IsArrowVisible(*this))
   {
-    assert(!GetQtNewArrow().isSelected());
-    if (GetQtHighlighter().GetItem() && GetQtNewArrow().GetFrom() != GetQtHighlighter().GetItem())
+    mousePressEventArrowActive(*this, event);
+  }
+  else
+  {
+    mousePressEventNoArrowActive(*this, event);
+  }
+
+  CheckInvariants(*this);
+}
+
+void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *event) noexcept
+{
+  CheckInvariants(q);
+
+  QGraphicsItem * const item = q.GetScene().itemAt(
+    event->pos(),
+    q.transform()
+    //QGraphicsView::transform()
+    //mapFromGlobal(event->pos())
+  );
+
+  if (!item)
+  {
+    event->ignore();
+    return;
+  }
+
+  QtNode * const qtnode = dynamic_cast<QtNode*>(item);
+  if (IsQtNodeOnEdge(qtnode, q))
+  {
+    QtEdge * const qtedge = FindQtEdge(qtnode, q.GetScene());
+    q.DoCommand(new CommandSelectEdge(q, qtedge));
+    event->accept();
+  }
+  else if (qtnode)
+  {
+    q.DoCommand(new CommandSelectNode(q, qtnode));
+    event->accept();
+  }
+  else if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+  {
+    assert(!"Will this ever be triggered?");
+    q.DoCommand(new CommandSelectEdge(q, qtedge));
+    event->accept();
+  }
+
+  CheckInvariants(q);
+}
+
+void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event) noexcept
+{
+  CheckInvariants(q);
+
+  UpdateConceptMap(q);
+
+  event->accept();
+
+
+  assert(!q.GetQtNewArrow().isSelected());
+  if (q.GetQtNewArrow().isVisible())
+  {
+    assert(!q.GetQtNewArrow().isSelected());
+    if (q.GetQtHighlighter().GetItem()
+      && q.GetQtNewArrow().GetFrom() != q.GetQtHighlighter().GetItem())
     {
       //The command needs to find the two selected vertices
-      for (auto& i: scene()->selectedItems()) { i->setSelected(false); }
-      GetQtHighlighter().GetItem()->setSelected(true);
-      GetQtNewArrow().GetFrom()->setSelected(true);
+      for (auto& i: q.GetScene().selectedItems()) { i->setSelected(false); }
+      q.GetQtHighlighter().GetItem()->setSelected(true);
+      q.GetQtNewArrow().GetFrom()->setSelected(true);
       try
       {
-        const auto command = new CommandCreateNewEdgeBetweenTwoSelectedNodes(*this);
-        this->DoCommand(command);
-        UpdateConceptMap(*this);
-        this->GetQtNewArrow().hide();
-        this->GetQtHighlighter().SetItem(nullptr);
-        event->setAccepted(true);
+        const auto command = new CommandCreateNewEdgeBetweenTwoSelectedNodes(q);
+        q.DoCommand(command);
+        UpdateConceptMap(q);
+        q.GetQtNewArrow().hide();
+        q.GetQtHighlighter().SetItem(nullptr);
       }
       catch (std::logic_error&)
       {
@@ -1335,12 +1399,13 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   //if (!event->isAccepted())
   {
     //qDebug() << "Not accepted yet";
-    QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
+    //QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
   }
-  UpdateExamplesItem(*this);
-  assert(!GetQtNewArrow().isSelected());
+  UpdateExamplesItem(q);
 
-  CheckInvariants(*this);
+  assert(!q.GetQtNewArrow().isSelected());
+
+  CheckInvariants(q);
 }
 
 void ribi::cmap::QtConceptMap::Respond()

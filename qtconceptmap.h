@@ -263,6 +263,10 @@ bool HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept
 ///Hide the QtExamplesItem
 void HideExamplesItem(QtConceptMap& q) noexcept;
 
+///Is the arrow to connect a select QtNode to a potential other
+///QtNode (to draw an edge) visible?
+bool IsArrowVisible(QtConceptMap& q) noexcept;
+
 ///Is the QtEdge in the QGraphicsScene?
 bool IsInScene(const QtEdge& qtedge, const QGraphicsScene& scene) noexcept;
 
@@ -301,6 +305,13 @@ void keyPressEventSpace(QtConceptMap& q, QKeyEvent *) noexcept;
 void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 
+///The default handler of a mouse press event, when there is no arrow
+void mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *event) noexcept;
+
+///The handler of a mouse press event, when the arrow is active
+/// (it points from a selected QtNode to a potential other
+/// QtNode to draw an edge between)
+void mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event) noexcept;
 
 ///Messes up the scene, by moving items, etc
 void MoveQtEdgesAndQtNodesRandomly(QtConceptMap& q);
