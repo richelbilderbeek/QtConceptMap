@@ -17,6 +17,7 @@
 #include "qtconceptmapcommandtogglearrowtail_test.h"
 #include "qtconceptmapcommands_test.h"
 #include "qtconceptmapcommandunselect_test.h"
+#include "qtconceptmapcommandunselectnode_test.h"
 #include "qtconceptmapcompetency_test.h"
 #include "qtconceptmapconceptdialog_test.h"
 #include "qtconceptmapconcepteditdialog_test.h"
@@ -45,7 +46,9 @@ int main(int argc, char *argv[])
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order

@@ -1541,6 +1541,25 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 1);
 }
 
+void ribi::cmap::QtConceptMapTest::TwoClickOnNodeSelectsAndUnselectsIt() const noexcept
+{
+  QtConceptMap m;
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier);
+  UnselectAll(m);
+  m.showFullScreen();
+  assert(boost::num_vertices(m.GetConceptMap()) == 1);
+  const auto pos = m.mapFromScene(GetFirstQtNode(m)->GetCenterPos().toPoint());
+  QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  m.mousePressEvent(&e);
+
+  QVERIFY(CountSelectedQtNodes(m) == 1);
+
+  m.mousePressEvent(&e);
+
+  QVERIFY(CountSelectedQtNodes(m) == 0);
+  assert(!"FIXED");
+}
+
 void ribi::cmap::QtConceptMapTest::UninitializedModeFlags() const noexcept
 {
   QtConceptMap m;

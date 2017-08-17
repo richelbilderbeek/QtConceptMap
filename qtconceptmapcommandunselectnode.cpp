@@ -1,4 +1,4 @@
-#include "qtconceptmapcommandselectnode.h"
+#include "qtconceptmapcommandunselectnode.h"
 
 #include <cassert>
 #include <boost/graph/isomorphism.hpp>
@@ -16,7 +16,7 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 
-ribi::cmap::CommandSelectNode::CommandSelectNode(
+ribi::cmap::CommandUnselectNode::CommandUnselectNode(
   QtConceptMap& qtconceptmap,
   QtNode * const qtnode
 )
@@ -27,32 +27,32 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
 {
   if (!m_qtnode)
   {
-    throw std::invalid_argument("Cannot select nullptr QtNode");
+    throw std::invalid_argument("Cannot unselect nullptr QtNode");
   }
   if (IsQtNodeOnEdge(qtnode, GetQtConceptMap()))
   {
     throw std::invalid_argument(
-      "Cannot select QtNode on QtEdge, "
-      "use CommandSelectEdge instead");
+      "Cannot unselect QtNode on QtEdge, "
+      "use CommandUnselectEdge instead");
   }
-  if (m_qtnode->isSelected())
+  if (!m_qtnode->isSelected())
   {
-    throw std::invalid_argument("Cannot select QtNode that is already selected");
+    throw std::invalid_argument("Cannot unselect QtNode that is already unselected");
   }
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Select node";
+    msg << "Unselect node";
     this->setText(msg.str().c_str());
   }
 }
 
-ribi::cmap::CommandSelectNode * ribi::cmap::ParseCommandSelectNode(
+ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
   QtConceptMap& qtconceptmap, std::string s)
 {
-  //"select(my text)"
+  //"unselect(my text)"
   boost::algorithm::trim(s);
-  const std::string str_begin = "select_node(";
+  const std::string str_begin = "unselect_node(";
   if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
   if (s.back() != ')') return nullptr;
   //"my text"
@@ -67,10 +67,10 @@ ribi::cmap::CommandSelectNode * ribi::cmap::ParseCommandSelectNode(
         && !IsQtNodeOnEdge(qtnode, qtconceptmap);
     }
   );
-  return new CommandSelectNode(qtconceptmap, first_qtnode);
+  return new CommandUnselectNode(qtconceptmap, first_qtnode);
 }
 
-void ribi::cmap::CommandSelectNode::redo()
+void ribi::cmap::CommandUnselectNode::redo()
 {
   #ifndef NDEBUG
   const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
@@ -83,33 +83,50 @@ void ribi::cmap::CommandSelectNode::redo()
 
 
   assert(m_qtnode);
+  QtNode * const no_qtnode{nullptr};
   if (HasExamples(*m_qtnode))
   {
-    SetQtExamplesBuddy(GetQtConceptMap(), m_qtnode);
+    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
   }
-  SetQtToolItemBuddy(GetQtConceptMap(), m_qtnode);
-  SetSelectedness(true, *m_qtnode, GetQtConceptMap());
+  SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
+  SetSelectedness(false, *m_qtnode, GetQtConceptMap());
+
+  {
+    const auto qtnodes = ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(GetScene(*this));
+    if (qtnodes.size() == 1)
+    {
+      SetQtToolItemBuddy(GetQtConceptMap(), qtnodes[0]);
+      if (HasExamples(*qtnodes[0]))
+      {
+        SetQtExamplesBuddy(GetQtConceptMap(), qtnodes[0]);
+      }
+    }
+  }
 
   #ifndef NDEBUG
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
   const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
-  assert(n_selected_items_after > n_selected_items_before);
+  assert(n_selected_items_after < n_selected_items_before);
   #endif
 
   CheckInvariants(GetQtConceptMap());
 }
 
-void ribi::cmap::CommandSelectNode::undo()
+void ribi::cmap::CommandUnselectNode::undo()
 {
   CheckInvariants(GetQtConceptMap());
 
   if (const QtNode * const qtnode = dynamic_cast<const QtNode*>(m_prev_qtexamplesitem_buddy))
   {
-    SetQtExamplesBuddy(GetQtConceptMap(), qtnode);
+    if (HasExamples(*qtnode))
+    {
+      SetQtExamplesBuddy(GetQtConceptMap(), qtnode);
+    }
   }
   else if (const QtEdge * const qtedge = dynamic_cast<const QtEdge*>(m_prev_qtexamplesitem_buddy))
   {
+    assert(HasExamples(*qtedge)); //Should fail one day
     SetQtExamplesBuddy(GetQtConceptMap(), qtedge);
   }
   else
@@ -120,6 +137,6 @@ void ribi::cmap::CommandSelectNode::undo()
 
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
 
-  SetSelectedness(false, *m_qtnode, GetQtConceptMap());
+  SetSelectedness(true, *m_qtnode, GetQtConceptMap());
   CheckInvariants(GetQtConceptMap());
 }

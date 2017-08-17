@@ -13,7 +13,7 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void SingleClickOnNodeIsAccepted() const noexcept;
+  void TwoClickOnNodeSelectsAndUnselectsIt() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -113,6 +113,7 @@ private slots:
 
   void SingleClickOnEmptyConceptMap() const noexcept;
   void SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept;
+  void SingleClickOnNodeIsAccepted() const noexcept;
   void SingleClickOnNodeSelectsNode() const noexcept;
   void UninitializedModeFlags() const noexcept;
 };

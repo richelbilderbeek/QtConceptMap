@@ -1374,7 +1374,15 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   }
   else if (qtnode)
   {
-    q.DoCommand(new CommandSelectNode(q, qtnode));
+    if (IsSelected(*qtnode))
+    {
+      q.DoCommand(new CommandSelectNode(q, qtnode));
+    }
+    else
+    {
+      assert(!"TODO");
+      //q.DoCommand(new CommandUnselectNode(q, qtnode));
+    }
     event->accept();
   }
   else if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
