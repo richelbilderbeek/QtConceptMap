@@ -57,8 +57,6 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeConnectedToCente
   );
   q.DoCommand(new CommandSelectEdge(q, first_qtedge));
 
-  assert(GetQtEdges(q).size() == 1);
-  assert(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
@@ -66,10 +64,11 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeConnectedToCente
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
-  const auto c = ParseCommandSelectEdge(q, "select_edge(my text)");
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  const auto c = ParseCommandSelectEdge(q, "select_edge(first)");
   assert(c);
   QVERIFY(c != nullptr);
-  QVERIFY(GetText(*c->GetQtEdge()) == "my text");
+  QVERIFY(GetText(*c->GetQtEdge()) == "first");
 }
 
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::ParseNonsenseFails() const noexcept
