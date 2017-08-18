@@ -1,7 +1,12 @@
 #include "qtconceptmapcommandsetconcept_test.h"
 
+#include <iostream>
+#include <QDebug>
+#include "conceptmapconcept.h"
+
 #include "qtconceptmapcommandsetconcept.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 
 void ribi::cmap::QtConceptMapCommandSetConceptTest::Parse() const noexcept
@@ -23,7 +28,40 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest::ParseNonsenseFails() const n
   QVERIFY(ParseCommandSetConcept(q, "nonsense") == nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest::SetConceptWithExamplesAtQtNode() const noexcept
+void ribi::cmap::QtConceptMapCommandSetConceptTest
+  ::SetConceptWithExamplesAtQtEdge() const noexcept
+{
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q));
+  q.DoCommand(new CommandCreateNewNode(q));
+  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q));
+  assert(IsSelected(*GetFirstQtEdge(q)));
+
+  QVERIFY(!GetQtExamplesItemBuddy(q));
+
+  const Concept concept("any name", Examples( { Example("John"), Example("Jane")} ));
+  q.DoCommand(new CommandSetConcept(q, concept));
+
+  const Concept concept_again = GetConcept(*GetFirstQtEdge(q));
+
+  if (concept != concept_again)
+  {
+    qDebug()
+      << "\nconcept: "
+      << concept.GetName().c_str()
+      << "\nconcept_again: "
+      << concept_again.GetName().c_str()
+    ;
+  }
+  assert(concept == concept_again);
+  QVERIFY(concept == concept_again);
+
+  QVERIFY(GetQtExamplesItemBuddy(q));
+  assert(!"WORKS");
+}
+
+void ribi::cmap::QtConceptMapCommandSetConceptTest
+  ::SetConceptWithExamplesAtQtNode() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q));

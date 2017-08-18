@@ -233,6 +233,13 @@ QtNode * FindFirstQtNodeWithName(
   const QtConceptMap& q,
   const std::string& name) noexcept;
 
+///Find the edge this QtNode is in the center of a QtEdge.
+///Returns nullptr if the QtNode is not on a QtEdge
+QtEdge * FindQtEdge(
+  const QtNode * const qtnode,
+  const QtConceptMap& qtconceptmap
+) noexcept;
+
 ///Finds the first QtNode in a QGraphicsScene with a matching node ID
 ///Returns nullptr if there is none
 QtNode * FindQtNode(const int node_id, const QtConceptMap& q) noexcept;

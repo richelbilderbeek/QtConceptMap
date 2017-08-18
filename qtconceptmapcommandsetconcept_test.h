@@ -14,8 +14,8 @@ private slots:
 
   //To do/review:
 
-  ///Give an QtNode with examples a Concept without examples and undo
-  void SetConceptWithoutExamplesAtQtNodeWithExamplesAndUndo() const noexcept;
+  ///Give an empty QtEdge Concept with examples
+  void SetConceptWithExamplesAtQtEdge() const noexcept;
 
   //Done:
 
@@ -33,6 +33,9 @@ private slots:
 
   ///Give an QtNode with examples a Concept without examples
   void SetConceptWithoutExamplesAtQtNodeWithExamples() const noexcept;
+
+  ///Give an QtNode with examples a Concept without examples and undo
+  void SetConceptWithoutExamplesAtQtNodeWithExamplesAndUndo() const noexcept;
 };
 
 } //~namespace cmap

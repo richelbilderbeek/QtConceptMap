@@ -18,7 +18,9 @@
 namespace ribi {
 namespace cmap {
 
-///Select a node additively
+///Set the Concept of the QtNode (also on QtEdge) where the QtToolItem
+///is connected to. Will throw if there is not QtToolItem or if it
+///is connected to an uneditable center QtNode
 class CommandSetConcept final : public Command
 {
   public:

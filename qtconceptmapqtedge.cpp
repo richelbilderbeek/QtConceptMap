@@ -178,6 +178,11 @@ void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
 }
 */
 
+const ribi::cmap::Concept& ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
+{
+  return GetConcept(qtedge.GetEdge());
+}
+
 QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
 {
   return QGraphicsItem::ItemIsFocusable

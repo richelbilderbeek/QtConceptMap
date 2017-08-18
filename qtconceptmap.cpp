@@ -545,6 +545,14 @@ ribi::cmap::QtNode * ribi::cmap::FindFirstQtNodeWithName(
   return FindFirstQtNodeWithName(q.GetScene(), name);
 }
 
+ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
+  const QtNode * const qtnode,
+  const QtConceptMap& qtconceptmap
+) noexcept
+{
+  return FindQtEdge(qtnode, qtconceptmap.GetScene());
+}
+
 ribi::cmap::QtNode * ribi::cmap::FindQtNode(
   const int node_id,
   const QtConceptMap& q) noexcept

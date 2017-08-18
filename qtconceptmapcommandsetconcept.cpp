@@ -64,6 +64,7 @@ void ribi::cmap::CommandSetConcept::redo()
 
   QtNode * const qtnode = GetQtToolItemBuddy(GetQtConceptMap());
   assert(qtnode);
+  QtEdge * const qtedge = FindQtEdge(qtnode, GetQtConceptMap());
 
   m_prev_concept = GetConcept(*qtnode);
 
