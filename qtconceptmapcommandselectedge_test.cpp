@@ -77,6 +77,32 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest
   }
 }
 
+void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectTwoQtEdgesByName() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdgeNoCenter());
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+
+  QtEdge * const first_qtedge = FindFirstQtEdge(q, QtEdgeHasName("first"));
+  const QtNode * const first_qtnode = first_qtedge->GetQtNode();
+  q.DoCommand(new CommandSelectEdge(q, first_qtedge));
+
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+  QVERIFY(HasExamples(*first_qtedge) && GetQtExamplesItemBuddy(q) == first_qtnode);
+  QVERIFY(GetQtToolItemBuddy(q) == first_qtnode);
+
+  QtEdge * const second_qtedge = FindFirstQtEdge(q, QtEdgeHasName("second"));
+  const QtNode * const second_qtnode = second_qtedge->GetQtNode();
+  q.DoCommand(new CommandSelectEdge(q, second_qtedge));
+
+  QVERIFY(CountSelectedQtEdges(q) == 2);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+  QVERIFY(HasExamples(*second_qtedge) && GetQtExamplesItemBuddy(q) == second_qtnode);
+  QVERIFY(GetQtToolItemBuddy(q) == second_qtnode);
+}
+
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;

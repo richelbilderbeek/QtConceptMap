@@ -213,7 +213,8 @@ double ribi::cmap::GetY(const QtEdge& qtedge) noexcept
 bool ribi::cmap::HasExamples(const QtEdge& qtedge) noexcept
 {
   assert(qtedge.GetQtNode());
-  return HasExamples(*qtedge.GetQtNode());
+  assert(HasExamples(*qtedge.GetQtNode()) == HasExamples(qtedge.GetEdge()));
+  return HasExamples(qtedge.GetEdge());
 }
 
 bool ribi::cmap::HasHeadArrow(const QtEdge& qtedge) noexcept

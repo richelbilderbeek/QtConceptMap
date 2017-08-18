@@ -5,48 +5,29 @@
 #include "qtconceptmap.h"
 
 #include <iostream>
-#include <set>
-#include <stdexcept>
-
-#include <boost/bind.hpp>
-#include <boost/graph/isomorphism.hpp>
-#include <boost/lambda/lambda.hpp>
-#include <boost/math/constants/constants.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 
+
 #include <QApplication>
-#include <QGraphicsItem>
-#include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QDebug>
-#include <QScrollBar>
 
+#include <gsl/gsl_assert>
+
+#include "add_custom_and_selectable_edge_between_vertices.h"
 #include "add_custom_and_selectable_vertex.h"
-#include "conceptmapconceptfactory.h"
-#include "conceptmapconcept.h"
-#include "conceptmapedgefactory.h"
-#include "conceptmapedge.h"
-#include "conceptmapfactory.h"
-#include "conceptmap.h"
 #include "conceptmaphelper.h"
-#include "conceptmapnodefactory.h"
-#include "conceptmapnode.h"
-#include "container.h"
-#include "count_edges_with_selectedness.h"
 #include "count_vertices_with_selectedness.h"
 #include "create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph.h"
-#include "find_first_custom_edge.h"
 #include "find_first_custom_edge_with_my_edge.h"
 #include "find_first_custom_vertex.h"
 #include "find_first_custom_vertex_with_my_vertex.h"
-#include "fuzzy_equal_to.h"
 #include "get_my_custom_edge.h"
-#include "get_my_custom_edge.h"
-#include "get_my_custom_vertex.h"
 #include "has_custom_edge.h"
-#include "qtarrowitem.h"
+#include "has_custom_vertex_with_my_vertex.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapcollect.h"
+#include "qtconceptmapcommand.h"
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommanddeleteselected.h"
@@ -62,18 +43,12 @@
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapitemhighlighter.h"
 #include "qtconceptmapnewarrow.h"
-#include "qtconceptmapqtedge.h"
-#include "qtconceptmapqtnode.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaprateconceptdialog.h"
 #include "qtconceptmaprateexamplesdialog.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtquadbezierarrowitem.h"
-#include "qtscopeddisable.h"
 #include "set_my_custom_vertex.h"
 #include "set_vertex_selectedness.h"
-#include "xml.h"
-
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
@@ -1485,11 +1460,16 @@ void ribi::cmap::QtConceptMap::Respond()
   //CheckInvariants(*this);
 
   MoveQtNodesAwayFromEachOther(*this);
+
   #ifdef REALLY_KEEP_RESPOND_OR_SHOULD_THE_COMMANDS_BE_CORRECT
   UpdateExamplesItem(*this);
   UpdateQtToolItem(*this);
   #endif
-  //CheckInvariants(*this);
+
+  //TODO: Move the QtNodes at the QtEdges connect to the center QtNode
+  //to in the middle between source and target of the QtEdge
+
+  CheckInvariants(*this);
 }
 
 void ribi::cmap::QtConceptMap::onFocusItemChanged(
@@ -1975,6 +1955,8 @@ void ribi::cmap::SetRandomFocusExclusive(
 void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtEdge * const qtedge)
 {
   SetQtExamplesBuddy(q, qtedge->GetQtNode());
+
+  Ensures(qtedge == nullptr || GetQtExamplesItemBuddy(q) == qtedge->GetQtNode()); //!OCLINT no double negation for the reader
 }
 
 void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtNode * const qtnode)
@@ -1984,6 +1966,8 @@ void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtNode * const qtnode
     assert(HasExamples(*qtnode));
   }
   q.GetQtExamplesItem().SetBuddyItem(qtnode);
+
+  Ensures(GetQtExamplesItemBuddy(q) == qtnode); //!OCLINT no double negation for the reader
 }
 
 
@@ -2098,13 +2082,15 @@ void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
   }
 }
 
-void ribi::cmap::UpdateConceptMap(QtConceptMap& q)
+void ribi::cmap::UpdateConceptMap(QtConceptMap& /* q */)
 {
+  #ifdef REALLY_NEED_THIS_20170818
   for (const auto item: q.scene()->items()) { item->update(); }
   q.onSelectionChanged();
   UpdateExamplesItem(q);
   q.update();
   q.scene()->update();
+  #endif // REALLY_NEED_THIS_20170818
 }
 
 void ribi::cmap::UpdateExamplesItem(QtConceptMap& q)

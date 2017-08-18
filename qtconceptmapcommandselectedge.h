@@ -35,7 +35,6 @@ class CommandSelectEdge final : public Command
 
   const QtEdge * GetQtEdge() const noexcept { return m_qtedge; }
 
-  ///Get the Node or Edge its name
   void redo() override;
   void undo() override;
 
