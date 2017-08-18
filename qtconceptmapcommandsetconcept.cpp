@@ -55,6 +55,34 @@ ribi::cmap::CommandSetConcept * ribi::cmap::ParseCommandSetConcept(
   return new CommandSetConcept(qtconceptmap, concept);
 }
 
+///Class T may be either a QtNode or a QtEdge
+template <class T>
+void RedoImpl(
+  ribi::cmap::CommandSetConcept& cmd,
+  T * const t
+)
+{
+  static_assert(
+    std::is_same<T, ribi::cmap::QtNode>() || std::is_same<T, ribi::cmap::QtEdge>(),
+    "T is either QtEdge or QtNode");
+
+  cmd.SetPrevConcept(GetConcept(*t));
+
+  SetConcept(*t, cmd.GetConcept());
+
+  assert(GetConcept(*t) == cmd.GetConcept());
+
+  if (HasExamples(*t))
+  {
+    SetQtExamplesBuddy(cmd.GetQtConceptMap(), t);
+  }
+  else
+  {
+    const T * const no_qtnode{nullptr};
+    SetQtExamplesBuddy(cmd.GetQtConceptMap(), no_qtnode);
+  }
+}
+
 void ribi::cmap::CommandSetConcept::redo()
 {
   CheckInvariants(GetQtConceptMap());
@@ -66,24 +94,44 @@ void ribi::cmap::CommandSetConcept::redo()
   assert(qtnode);
   QtEdge * const qtedge = FindQtEdge(qtnode, GetQtConceptMap());
 
-  m_prev_concept = GetConcept(*qtnode);
-
-  SetConcept(*qtnode, m_concept);
-
-  assert(GetConcept(*qtnode) == m_concept);
-
-  if (HasExamples(*qtnode))
+  if (qtedge)
   {
-    SetQtExamplesBuddy(GetQtConceptMap(), qtnode);
+    RedoImpl(*this, qtedge);
   }
   else
   {
-    const QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
+    RedoImpl(*this, qtnode);
   }
 
   CheckInvariants(GetQtConceptMap());
 }
+
+///Class T may be either a QtNode or a QtEdge
+template <class T>
+void UndoImpl(
+  ribi::cmap::CommandSetConcept& cmd,
+  T * const t
+)
+{
+  static_assert(
+    std::is_same<T, ribi::cmap::QtNode>() || std::is_same<T, ribi::cmap::QtEdge>(),
+    "T is either QtEdge or QtNode");
+
+  SetConcept(*t, cmd.GetPrevConcept());
+
+  assert(GetConcept(*t) == cmd.GetPrevConcept());
+
+  if (HasExamples(*t))
+  {
+    SetQtExamplesBuddy(cmd.GetQtConceptMap(), t);
+  }
+  else
+  {
+    const T * const no_qtnode{nullptr};
+    SetQtExamplesBuddy(cmd.GetQtConceptMap(), no_qtnode);
+  }
+}
+
 
 void ribi::cmap::CommandSetConcept::undo()
 {
@@ -91,19 +139,15 @@ void ribi::cmap::CommandSetConcept::undo()
 
   QtNode * const qtnode = GetQtToolItemBuddy(GetQtConceptMap());
   assert(qtnode);
+  QtEdge * const qtedge = FindQtEdge(qtnode, GetQtConceptMap());
 
-  SetConcept(*qtnode, m_prev_concept);
-
-  assert(GetConcept(*qtnode) == m_prev_concept);
-
-  if (HasExamples(*qtnode))
+  if (qtedge)
   {
-    SetQtExamplesBuddy(GetQtConceptMap(), qtnode);
+    UndoImpl(*this, qtedge);
   }
   else
   {
-    const QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
+    UndoImpl(*this, qtnode);
   }
 
   CheckInvariants(GetQtConceptMap());

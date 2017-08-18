@@ -47,8 +47,8 @@ int main(int argc, char *argv[])
   //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtConceptMapCommandSetConceptTest t; error |= QTest::qExec(&t, argc, argv); }
-  assert(!"Don't forget to let Travis test everything");
+  //{ QtConceptMapCommandSetConceptTest t; error |= QTest::qExec(&t, argc, argv); }
+  //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
   { QtConceptMapBrushFactoryTest t; error |= QTest::qExec(&t, argc, argv); }

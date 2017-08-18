@@ -44,20 +44,8 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
 
   const Concept concept_again = GetConcept(*GetFirstQtEdge(q));
 
-  if (concept != concept_again)
-  {
-    qDebug()
-      << "\nconcept: "
-      << concept.GetName().c_str()
-      << "\nconcept_again: "
-      << concept_again.GetName().c_str()
-    ;
-  }
-  assert(concept == concept_again);
   QVERIFY(concept == concept_again);
-
   QVERIFY(GetQtExamplesItemBuddy(q));
-  assert(!"WORKS");
 }
 
 void ribi::cmap::QtConceptMapCommandSetConceptTest

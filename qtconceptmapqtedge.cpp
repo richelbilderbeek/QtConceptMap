@@ -387,6 +387,12 @@ std::function<bool(ribi::cmap::QtEdge* const)>
   };
 }
 
+void ribi::cmap::SetConcept(QtEdge& qtedge, const Concept& concept) noexcept
+{
+  SetConcept(qtedge.GetEdge(), concept);
+  SetConcept(*qtedge.GetQtNode(), concept);
+}
+
 void ribi::cmap::QtEdge::SetEdge(const Edge& edge) noexcept
 {
   m_edge = edge;

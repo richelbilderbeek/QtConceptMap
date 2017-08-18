@@ -150,6 +150,8 @@ void Move(QtEdge& qtedge, const double dx, const double dy);
 ///Functor
 std::function<bool(QtEdge* const)> QtEdgeHasName(const std::string& name);
 
+void SetConcept(QtEdge& qtedge, const Concept& concept) noexcept;
+
 std::string ToStr(const QtEdge& qtedge) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;

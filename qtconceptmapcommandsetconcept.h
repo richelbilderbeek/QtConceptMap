@@ -35,7 +35,13 @@ class CommandSetConcept final : public Command
   CommandSetConcept& operator=(const CommandSetConcept&) = delete;
   ~CommandSetConcept() noexcept {}
 
+  const Concept& GetConcept() const noexcept { return m_concept; }
+  const Concept& GetPrevConcept() const noexcept { return m_prev_concept; }
+
   void redo() override;
+
+  void SetPrevConcept(const Concept& concept) { m_prev_concept = concept; }
+
   void undo() override;
 
   private:
