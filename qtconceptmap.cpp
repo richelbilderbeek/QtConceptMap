@@ -35,6 +35,7 @@
 #include "qtconceptmapcommandmovenode.h"
 #include "qtconceptmapcommandselectedge.h"
 #include "qtconceptmapcommandselectnode.h"
+#include "qtconceptmapcommandsetconcept.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapcommandunselectnode.h"
@@ -1555,8 +1556,10 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   }
   q.setEnabled(true);
 
-  assert(!"TODO: use CommandSetConcept");
 
+  q.DoCommand(new CommandSetConcept(q, d.GetConcept()));
+
+  #ifdef WHEN_FEELING_OK_WITH_DELETING_THIS_LOVELY_CODE_20170818
   //Find the original Node or Edge
   if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
   {
@@ -1589,6 +1592,7 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   item->GetNode().SetConcept(d.GetConcept());
   //Set the word-wrapped text
   item->SetText(Wordwrap(d.GetConcept().GetName(), GetWordWrapLength()));
+  #endif // WHEN_FEELING_OK_WITH_DELETING_THIS_LOVELY_CODE_20170818
 
   CheckInvariants(q);
 }

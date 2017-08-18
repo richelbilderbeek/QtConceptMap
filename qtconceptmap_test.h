@@ -70,9 +70,9 @@ private slots:
   void NcenterNodesAndQtCenterNodesMustMatchUninitialized() const noexcept; //#113
   void PressCtrlRightMovesNonCentralNode() const noexcept;
   void PressEscape() const noexcept;
-  void PressF1OnEmptyConceptMapIsRejected() const noexcept;
   void PressF2CanEditNonFocalQuestion() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
+  void PressF1OnEmptyConceptMapIsRejected() const noexcept;
   void PressF2OnEmptyConceptMapIsRejected() const noexcept;
   void PressF4IsRejected() const noexcept;
   void PressH() const noexcept;
