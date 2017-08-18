@@ -14,7 +14,10 @@ private slots:
 
   //To do/review:
 
+  ///Give an QtNode with examples a Concept without examples and undo
+  void SetConceptWithoutExamplesAtQtNodeWithExamplesAndUndo() const noexcept;
 
+  //Done:
 
   ///Parse from a string
   void Parse() const noexcept;
@@ -22,8 +25,14 @@ private slots:
   ///Parsing a nonsense string should fails
   void ParseNonsenseFails() const noexcept;
 
-  //Done:
+  ///Give an empty QtNode a Concept with examples
+  void SetConceptWithExamplesAtQtNode() const noexcept;
 
+  ///Give an empty QtNode a Concept with examples and undo
+  void SetConceptWithExamplesAtQtNodeAndUndo() const noexcept;
+
+  ///Give an QtNode with examples a Concept without examples
+  void SetConceptWithoutExamplesAtQtNodeWithExamples() const noexcept;
 };
 
 } //~namespace cmap
