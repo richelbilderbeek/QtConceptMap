@@ -13,7 +13,6 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -22,17 +21,17 @@ private slots:
   void ChangeModes() const noexcept;
   void ClickOnNothingShouldBeIgnored() const noexcept;
   void ConceptMapMustFitWindow() const noexcept; //#135
-  void concept_map_must_fit_window_after_setting() const noexcept;
-  void create_one_edge_command_and_check_z_order() const noexcept;
-  void create_one_edge_command() const noexcept;
-  void create_one_edge_keyboard() const noexcept;
-  void create_one_edge_keyboard_and_undo() const noexcept;
-  void create_one_edge_with_head_and_toggle_keyboard() const noexcept;
-  void create_one_edge_with_head_and_undo_keyboard() const noexcept;
-  void create_one_edge_with_head_command() const noexcept;
-  void create_one_edge_with_head_keyboard() const noexcept;
-  void create_one_edge_with_tail_command() const noexcept;
-  void create_one_edge_with_tail_keyboard() const noexcept;
+  void ConceptMapMustFitWindowAfterSetting() const noexcept;
+  void CreateOneEdgeCommandAndCheckZorder() const noexcept;
+  void CreateOneEdgeCommand() const noexcept;
+  void CreateOneEdgeKeyboard() const noexcept;
+  void CreateOneEdgeKeyboardAndUndo() const noexcept;
+  void CreateOneEdgeWithHeadAndToggleKeyboard() const noexcept;
+  void CreateOneEdgeWithHeadAndUndoKeyboard() const noexcept;
+  void CreateOneEdgeWithHeadCommand() const noexcept;
+  void CreateOneEdgeWithHeadKeyboard() const noexcept;
+  void CreateOneEdgeWithTailCommand() const noexcept;
+  void CreateOneEdgeWithTailKeyboard() const noexcept;
   //void create_one_edge_with_tail_and_undo_keyboard() const noexcept;
   //void create_one_edge_with_tail_and_toggle_keyboard() const noexcept;
   void create_one_node_and_undo_command() const noexcept;
@@ -88,9 +87,9 @@ private slots:
   void PressZ() const noexcept;
   void QtNodeInCenterMustBeGold() const noexcept; //#111
   void QtNodesMustShowExampleWhenFocused() const noexcept; //#96
-  void rate_concept_map_has_less_focusable_items() const noexcept;
-  void rate_mode_flags() const noexcept;
-  void select_random_node_keyboard_edit() const noexcept; //#138, skip on Travis
+  void RateConceptMapHasLessFocusableItems() const noexcept;
+  void RateModeFlags() const noexcept;
+  void SelectRandomNodeKeyboardEdit() const noexcept; //#138, skip on Travis
 
   void SetConceptMap4() const noexcept;
   void SetConceptMaps() const noexcept;
@@ -115,6 +114,7 @@ private slots:
   void SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept;
   void SingleClickOnNodeIsAccepted() const noexcept;
   void SingleClickOnNodeSelectsNode() const noexcept;
+  void TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept;
   void TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept;
   void UninitializedModeFlags() const noexcept;
 };

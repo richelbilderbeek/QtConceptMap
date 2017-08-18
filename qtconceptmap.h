@@ -321,8 +321,10 @@ bool IsQtNodeOnEdge(
 
 void keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noexcept;
-void keyPressEventArrowsSelectAdditive(QtConceptMap& q, QKeyEvent *event) noexcept;
-void keyPressEventArrowsSelectExclusive(QtConceptMap& q, QKeyEvent *event) noexcept;
+
+///Can be additive (with Shift pressed) and exclusive (without shift pressed)
+void keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) noexcept;
+
 void keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept;

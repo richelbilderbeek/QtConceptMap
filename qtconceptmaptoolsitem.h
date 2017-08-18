@@ -34,6 +34,10 @@ struct QtTool : public QGraphicsPixmapItem
   ///Return type cannot be const, as the user might want to modify it
   QtNode * GetBuddyItem() const { return m_item; }
 
+  ///If the QtTool has a buddy item, reposition it above that item
+  ///Does nothing otherwise
+  void Reposition() noexcept;
+
   ///Set the position from the widget it floats above
   ///item cannot be const, as the user might want to modify it
   void SetBuddyItem(QtNode * const item);

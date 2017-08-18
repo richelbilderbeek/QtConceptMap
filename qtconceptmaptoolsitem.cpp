@@ -52,8 +52,15 @@ void ribi::cmap::QtTool::paint(
   QWidget* widget
 )
 {
-  assert(m_item);
-  assert(this->scene());
+  QGraphicsPixmapItem::paint(painter,option,widget);
+}
+
+void ribi::cmap::QtTool::Reposition() noexcept
+{
+  if (!m_item) return;
+
+  assert(this->isVisible());
+
   this->setPos(
     m_item->GetCenterX(),
     m_item->GetCenterY() - (m_item->GetOuterHeight() / 2.0) - 16.0
@@ -66,15 +73,14 @@ void ribi::cmap::QtTool::paint(
       m_item->GetCenterY() - (m_item->GetOuterHeight() / 2.0) - 16.0 - this->y()
     ) < 1.0
   );
-
-  QGraphicsPixmapItem::paint(painter,option,widget);
 }
 
 void ribi::cmap::QtTool::SetBuddyItem(QtNode * const item)
 {
   m_item = item;
   this->setVisible(m_item != nullptr);
-  this->update();
+  Reposition();
+  //this->update();
 }
 
 void ribi::cmap::QtTool::setVisible(bool visible)
