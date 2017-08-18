@@ -73,9 +73,7 @@ ribi::cmap::CommandSelectNode * ribi::cmap::ParseCommandSelectNode(
 void ribi::cmap::CommandSelectNode::redo()
 {
   #ifndef NDEBUG
-  const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
   #endif
 
   m_prev_qtexamplesitem_buddy = GetQtExamplesItemBuddy(GetQtConceptMap());
@@ -87,14 +85,17 @@ void ribi::cmap::CommandSelectNode::redo()
   {
     SetQtExamplesBuddy(GetQtConceptMap(), m_qtnode);
   }
+  else
+  {
+    const QtNode * const no_qtnode{nullptr};
+    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
+  }
   SetQtToolItemBuddy(GetQtConceptMap(), m_qtnode);
   SetSelectedness(true, *m_qtnode, GetQtConceptMap());
 
   #ifndef NDEBUG
-  const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
-  assert(n_selected_items_after > n_selected_items_before);
+  assert(n_selected_qtnodes_after > n_selected_qtnodes_before);
   #endif
 
   CheckInvariants(GetQtConceptMap());

@@ -14,6 +14,9 @@ private slots:
 
   //To do/review:
 
+  ///Select two QtNodes by name
+  void SelectTwoQtNodesByName() const noexcept;
+
   //Done:
 
   ///Selecting an absent item fails
@@ -25,8 +28,6 @@ private slots:
   ///Select one of two QtNodes by name and undo
   void SelectOneOfTwoQtNodesByNameAndUndo() const noexcept;
 
-  ///Select two QtNodes by name
-  void SelectTwoQtNodesByName() const noexcept;
 
   ///Select two QtNodes by name and undo
   void SelectTwoQtNodesByNameAndUndo() const noexcept;

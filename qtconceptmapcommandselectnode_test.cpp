@@ -113,8 +113,8 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 
   q.DoCommand(new CommandSelectNode(q, center_qtnode));
 
-  assert(examples_buddy_before != GetQtExamplesItemBuddy(q));
   assert(tool_buddy_before != GetQtToolItemBuddy(q));
+  assert(examples_buddy_before != GetQtExamplesItemBuddy(q));
 
   q.Undo();
 
