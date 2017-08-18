@@ -1956,7 +1956,15 @@ void ribi::cmap::SetRandomFocusExclusive(
 
 void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtEdge * const qtedge)
 {
-  SetQtExamplesBuddy(q, qtedge->GetQtNode());
+  if (qtedge)
+  {
+    SetQtExamplesBuddy(q, qtedge->GetQtNode());
+  }
+  else
+  {
+    const QtNode * const no_qtnode{nullptr};
+    SetQtExamplesBuddy(q, no_qtnode);
+  }
 
   Ensures(qtedge == nullptr || GetQtExamplesItemBuddy(q) == qtedge->GetQtNode()); //!OCLINT no double negation for the reader
 }

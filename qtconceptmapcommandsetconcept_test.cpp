@@ -49,6 +49,28 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
 }
 
 void ribi::cmap::QtConceptMapCommandSetConceptTest
+  ::SetConceptWithExamplesAtQtEdgeAndUndo() const noexcept
+{
+  QtConceptMap q;
+  q.DoCommand(new CommandCreateNewNode(q));
+  q.DoCommand(new CommandCreateNewNode(q));
+  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q));
+  assert(IsSelected(*GetFirstQtEdge(q)));
+
+  QVERIFY(!GetQtExamplesItemBuddy(q));
+
+  const Concept concept("any name", Examples( { Example("John"), Example("Jane")} ));
+  q.DoCommand(new CommandSetConcept(q, concept));
+  assert(GetQtExamplesItemBuddy(q));
+  assert(concept == GetConcept(*GetFirstQtEdge(q)));
+  q.Undo();
+  const Concept concept_again = GetConcept(*GetFirstQtEdge(q));
+
+  QVERIFY(concept != concept_again);
+  QVERIFY(!GetQtExamplesItemBuddy(q));
+}
+
+void ribi::cmap::QtConceptMapCommandSetConceptTest
   ::SetConceptWithExamplesAtQtNode() const noexcept
 {
   QtConceptMap q;

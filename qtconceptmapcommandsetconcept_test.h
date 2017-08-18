@@ -14,8 +14,8 @@ private slots:
 
   //To do/review:
 
-  ///Give an empty QtEdge Concept with examples
-  void SetConceptWithExamplesAtQtEdge() const noexcept;
+  ///Give an empty QtEdge Concept with examples and undo
+  void SetConceptWithExamplesAtQtEdgeAndUndo() const noexcept;
 
   //Done:
 
@@ -24,6 +24,9 @@ private slots:
 
   ///Parsing a nonsense string should fails
   void ParseNonsenseFails() const noexcept;
+
+  ///Give an empty QtEdge Concept with examples
+  void SetConceptWithExamplesAtQtEdge() const noexcept;
 
   ///Give an empty QtNode a Concept with examples
   void SetConceptWithExamplesAtQtNode() const noexcept;
