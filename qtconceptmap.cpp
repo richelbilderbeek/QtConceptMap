@@ -1163,6 +1163,10 @@ void ribi::cmap::MoveQtEdge(QtEdge& qtedge, const double dx, const double dy, Qt
 
   //View
   Move(qtedge, dx, dy);
+
+  //Make QtToolItem follow
+  q.GetQtToolItem().Reposition();
+  q.GetScene().update();
 }
 
 void ribi::cmap::MoveQtNode(QtNode& qtnode, const double dx, const double dy, QtConceptMap& q)
@@ -1181,6 +1185,10 @@ void ribi::cmap::MoveQtNode(QtNode& qtnode, const double dx, const double dy, Qt
 
   //View
   Move(qtnode, dx, dy);
+
+  //Make QtToolItem follow
+  q.GetQtToolItem().Reposition();
+  q.GetScene().update();
 }
 
 void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexcept
