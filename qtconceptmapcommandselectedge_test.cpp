@@ -30,11 +30,15 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeByName() const n
   assert(CountSelectedQtNodes(q) == 0);
 
   QtEdge * const first_qtedge = FindFirstQtEdge(q, QtEdgeHasName("second"));
+  const QtNode * const first_qtnode = first_qtedge->GetQtNode();
   q.DoCommand(new CommandSelectEdge(q, first_qtedge));
 
   QVERIFY(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 0);
+  QVERIFY(HasExamples(*first_qtedge) && GetQtExamplesItemBuddy(q) == first_qtnode);
+  QVERIFY(GetQtToolItemBuddy(q) == first_qtnode);
 }
+
 
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeConnectedToCenterByName() const noexcept
 {

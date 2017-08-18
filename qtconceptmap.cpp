@@ -745,7 +745,7 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(const QtConceptMap& q) 
   return GetQtEdges(q.GetScene());
 }
 
-const QGraphicsItem * ribi::cmap::GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept
+const ribi::cmap::QtNode * ribi::cmap::GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept
 {
   return q.GetQtExamplesItem().GetBuddyItem();
 }

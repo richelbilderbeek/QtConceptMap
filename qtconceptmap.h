@@ -265,7 +265,8 @@ std::vector<QtEdge *> GetQtEdges(const QtConceptMap& q) noexcept;
 constexpr double GetQtEdgeZvalue() { return -1.0; }
 
 ///Get the QtExamplesItem its Buddy item
-const QGraphicsItem * GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept;
+///Will return a QtNode that is either standalone or on an edge
+const QtNode * GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept;
 
 ///Get all the 'standalone' (those not on an edge) QtNodes
 std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
@@ -274,6 +275,7 @@ std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
 std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QtConceptMap& q) noexcept;
 
 ///Get the QtToolItem its Buddy item
+///Will return a QtNode that is either standalone or on an edge
 QtNode * GetQtToolItemBuddy(const QtConceptMap& q) noexcept;
 
 ///Get the selected QtEdges

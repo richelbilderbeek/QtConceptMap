@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -61,6 +41,18 @@ ribi::cmap::QtExamplesItem::QtExamplesItem(
   this->setZValue(2.0);
   this->setVisible(false);
   //this->SetBuddyItem(concept);
+}
+
+
+const ribi::cmap::QtNode * ribi::cmap::QtExamplesItem::GetBuddyItem() const noexcept
+{
+  if (m_item)
+  {
+    const QtNode * const qtnode = dynamic_cast<const QtNode*>(m_item);
+    assert(qtnode);
+    return qtnode;
+  }
+  return nullptr;
 }
 
 void ribi::cmap::QtExamplesItem::paint(

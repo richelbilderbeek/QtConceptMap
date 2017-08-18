@@ -13,14 +13,17 @@ class QtConceptMapCommandSelectEdgeTest : public QObject
 private slots:
 
   //To do/review:
+  ///Select a QtEdge by name and undo
+  //void SelectQtEdgeByNameAndUndo() const noexcept;
+
+  ///Select a QtEdge by name
+  void SelectQtEdgeByName() const noexcept;
 
   //Done:
 
   ///Selecting an absent item fails
   void SelectAbsentItemFails() const noexcept;
 
-  ///Select a QtEdge by name
-  void SelectQtEdgeByName() const noexcept;
 
   ///Select a QtEdge that is connected to center by name
   ///The QtNodes on that QtEdge is disabled and invisible

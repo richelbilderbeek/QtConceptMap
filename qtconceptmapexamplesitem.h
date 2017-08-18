@@ -15,8 +15,12 @@ struct QtExamplesItem : public QtRoundedEditRectItem
   QtExamplesItem(const QtExamplesItem&) = delete;
   QtExamplesItem& operator=(const QtExamplesItem&) = delete;
   ~QtExamplesItem() noexcept {}
+
   ///Check the buddy item
-  const QGraphicsItem* GetBuddyItem() const noexcept { return m_item; }
+  ///Will be nullptr if QtExamplesItem is invisible
+  ///Will be a QtNode for a standalone or QtNode on a QtEdge
+  const QtNode * GetBuddyItem() const noexcept;
+  //const QGraphicsItem* GetBuddyItem() const noexcept { return m_item; }
 
   ///Set the concept this item displays the examples of.
   ///If the concept is nullptr, this item hides
