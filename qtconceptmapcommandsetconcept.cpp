@@ -88,7 +88,7 @@ void ribi::cmap::CommandSetConcept::undo()
 {
   CheckInvariants(GetQtConceptMap());
 
-  const QtNode * const qtnode = GetQtToolItemBuddy(GetQtConceptMap());
+  QtNode * const qtnode = GetQtToolItemBuddy(GetQtConceptMap());
   assert(qtnode);
 
   SetConcept(*qtnode, m_prev_concept);
