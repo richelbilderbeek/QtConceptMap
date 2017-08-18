@@ -372,7 +372,7 @@ void ribi::cmap::QtEdge::paint(
   CheckInvariants(*this);
 }
 
-std::function<bool(ribi::cmap::QtEdge* const qtedge)>
+std::function<bool(ribi::cmap::QtEdge* const)>
   ribi::cmap::QtEdgeHasName(const std::string& name)
 {
   return [name](const QtEdge * const qtedge)
