@@ -10,6 +10,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandselect_test.cpp \
     $$PWD/qtconceptmapcommandselectedge_test.cpp \
     $$PWD/qtconceptmapcommandselectnode_test.cpp \
+    $$PWD/qtconceptmapcommandsetconcept_test.cpp \
     $$PWD/qtconceptmapcommandsetmode_test.cpp \
     $$PWD/qtconceptmapcommandtogglearrowhead_test.cpp \
     $$PWD/qtconceptmapcommandtogglearrowtail_test.cpp \

@@ -150,7 +150,12 @@ QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
   );
 }
 
-ribi::cmap::Examples ribi::cmap::GetExamples(const QtNode& qtnode) noexcept
+const ribi::cmap::Concept& ribi::cmap::GetConcept(const QtNode& qtnode) noexcept
+{
+  return GetConcept(qtnode.GetNode());
+}
+
+const ribi::cmap::Examples& ribi::cmap::GetExamples(const QtNode& qtnode) noexcept
 {
   return GetExamples(qtnode.GetNode());
 }
@@ -323,6 +328,11 @@ void ribi::cmap::QtNode::SetNode(const Node& node) noexcept
   Ensures(::ribi::cmap::GetX(*this) == node.GetX());
   Ensures(::ribi::cmap::GetY(*this) == node.GetY());
   Ensures(::ribi::cmap::GetText(*this) == node.GetName());
+}
+
+void ribi::cmap::SetConcept(QtNode& qtnode, const Concept& concept)
+{
+  SetConcept(qtnode.GetNode(), concept);
 }
 
 void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)

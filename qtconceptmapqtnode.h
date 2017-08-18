@@ -67,17 +67,19 @@ private:
 
 void CheckInvariants(const QtNode& qtnode) noexcept;
 
-Examples GetExamples(const QtNode& qtnode) noexcept;
+///Get the center of the QtNode
+QPointF GetCenterPos(const QtNode& qtnode) noexcept;
+
+///Get the Concept of the QtNode its Node
+const Concept& GetConcept(const QtNode& qtnode) noexcept;
+
+///Get the Example of the QtNode its Node its Concept
+const Examples& GetExamples(const QtNode& qtnode) noexcept;
 
 std::string GetText(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping
 constexpr int GetWordWrapLength() { return 80; }
-
-std::string GetText(const QtNode& qtnode) noexcept;
-
-///Get the center of the QtNode
-QPointF GetCenterPos(const QtNode& qtnode) noexcept;
 
 ///Get the x coordinat of the center of the QtNode
 double GetX(const QtNode& qtnode) noexcept;
@@ -85,10 +87,10 @@ double GetX(const QtNode& qtnode) noexcept;
 ///Get the x coordinat of the center of the QtNode
 double GetY(const QtNode& qtnode) noexcept;
 
+///Does the QtNode its Node have at least one example?
 bool HasExamples(const QtNode& qtnode) noexcept;
 
 bool IsCenterNode(const QtNode& qtnode) noexcept;
-
 bool IsEnabled(const QtNode& qtnode) noexcept;
 bool IsMovable(const QtNode& qtnode) noexcept;
 bool IsSelectable(const QtNode& qtnode) noexcept;
@@ -101,6 +103,7 @@ void Move(QtNode& qtnode, const double dx, const double dy);
 ///Functor
 std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
 
+void SetConcept(QtNode& qtnode, const Concept& concept);
 void SetText(QtNode& qtnode, const std::string& text);
 void SetX(QtNode& qtnode, const double x);
 void SetY(QtNode& qtnode, const double y);

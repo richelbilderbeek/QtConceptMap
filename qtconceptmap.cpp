@@ -1039,6 +1039,7 @@ void ribi::cmap::keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexc
     }
   }
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
+  CheckInvariants(q);
 }
 
 void ribi::cmap::keyPressEventF4(QtConceptMap&, QKeyEvent *event) noexcept
@@ -1546,6 +1547,8 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   }
   q.setEnabled(true);
 
+  assert(!"TODO: use CommandSetConcept");
+
   //Find the original Node or Edge
   if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
   {
@@ -1578,6 +1581,8 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   item->GetNode().SetConcept(d.GetConcept());
   //Set the word-wrapped text
   item->SetText(Wordwrap(d.GetConcept().GetName(), GetWordWrapLength()));
+
+  CheckInvariants(q);
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)

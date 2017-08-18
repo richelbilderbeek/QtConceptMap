@@ -15,6 +15,7 @@ HEADERS += \
     $$PWD/qtconceptmapcommandselect.h \
     $$PWD/qtconceptmapcommandselectedge.h \
     $$PWD/qtconceptmapcommandselectnode.h \
+    $$PWD/qtconceptmapcommandsetconcept.h \
     $$PWD/qtconceptmapcommandsetmode.h \
     $$PWD/qtconceptmapcommands.h \
     $$PWD/qtconceptmapcommandtogglearrowhead.h \
@@ -59,6 +60,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandselect.cpp \
     $$PWD/qtconceptmapcommandselectedge.cpp \
     $$PWD/qtconceptmapcommandselectnode.cpp \
+    $$PWD/qtconceptmapcommandsetconcept.cpp \
     $$PWD/qtconceptmapcommandsetmode.cpp \
     $$PWD/qtconceptmapcommandtogglearrowhead.cpp \
     $$PWD/qtconceptmapcommandtogglearrowtail.cpp \

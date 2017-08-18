@@ -12,6 +12,7 @@
 #include "qtconceptmapcommandselect_test.h"
 #include "qtconceptmapcommandselectedge_test.h"
 #include "qtconceptmapcommandselectnode_test.h"
+#include "qtconceptmapcommandsetconcept_test.h"
 #include "qtconceptmapcommandsetmode_test.h"
 #include "qtconceptmapcommandtogglearrowhead_test.h"
 #include "qtconceptmapcommandtogglearrowtail_test.h"
@@ -44,12 +45,10 @@ int main(int argc, char *argv[])
   QApplication a(argc, argv);
   int error = 0;
   //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //assert(!"Don't forget to let Travis test everything");
+  { QtConceptMapCommandSetConceptTest t; error |= QTest::qExec(&t, argc, argv); }
+  assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
   { QtConceptMapBrushFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -68,6 +67,7 @@ int main(int argc, char *argv[])
   { QtConceptMapCommandToggleArrowHeadTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCommandToggleArrowTailTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCommandUnselectTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCompetencyTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
