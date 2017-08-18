@@ -31,8 +31,6 @@ ribi::cmap::QtExamplesItem::QtExamplesItem(
       QFont("monospace",9),
       parent
     ),
-    m_item{nullptr},
-    m_qtedge{nullptr},
     m_qtnode{nullptr}
 {
   this->setPen(QPen(QColor(255,0,0)));
@@ -40,19 +38,6 @@ ribi::cmap::QtExamplesItem::QtExamplesItem(
   this->setFlags(0);
   this->setZValue(2.0);
   this->setVisible(false);
-  //this->SetBuddyItem(concept);
-}
-
-
-const ribi::cmap::QtNode * ribi::cmap::QtExamplesItem::GetBuddyItem() const noexcept
-{
-  if (m_item)
-  {
-    const QtNode * const qtnode = dynamic_cast<const QtNode*>(m_item);
-    assert(qtnode);
-    return qtnode;
-  }
-  return nullptr;
 }
 
 void ribi::cmap::QtExamplesItem::paint(
@@ -102,23 +87,22 @@ void ribi::cmap::QtExamplesItem::Reposition()
                 +----------------+
 
   */
-  const auto qtnode = m_qtedge ? m_qtedge->GetQtNode() : m_qtnode;
-  assert(qtnode);
-  const QPointF p = qtnode->GetCenterPos();
-  const auto w = qtnode->GetOuterWidth();
-  const auto h = qtnode->GetOuterHeight();
+  assert(m_qtnode);
+  const QPointF p = m_qtnode->GetCenterPos();
+  const auto w = m_qtnode->GetOuterWidth();
+  const auto h = m_qtnode->GetOuterHeight();
   const QPointF q(
     p.x() + (0.5 * w) + 4.0,
     p.y() + (0.5 * h) + 4.0 + (this->GetOuterHeight() / 2.0)
   );
   this->SetCenterPos(q);
-  if (!IsClose(*this, *qtnode))
+  if (!IsClose(*this, *m_qtnode))
   {
     qCritical() << "Not close";
   }
 }
 
-void ribi::cmap::QtExamplesItem::SetBuddyItem(const QGraphicsItem * const item)
+void ribi::cmap::QtExamplesItem::SetBuddyItem(const QtNode * const qtnode)
 {
   /*
 
@@ -131,21 +115,12 @@ void ribi::cmap::QtExamplesItem::SetBuddyItem(const QGraphicsItem * const item)
 
   */
   this->setVisible(false);
-  m_item = item;
-  if (m_item)
+  m_qtnode = qtnode;
+
+  if (m_qtnode && HasExamples(*m_qtnode))
   {
-    m_qtedge = dynamic_cast<const QtEdge*>(m_item);
-    m_qtnode = dynamic_cast<const QtNode*>(m_item);
-    if (m_qtedge && !m_qtedge->GetQtNode()->GetNode().GetConcept().GetExamples().Get().empty())
-    {
-      this->SetExamples(m_qtedge->GetQtNode()->GetNode().GetConcept().GetExamples());
-      this->setVisible(true);
-    }
-    if (m_qtnode && !m_qtnode->GetNode().GetConcept().GetExamples().Get().empty())
-    {
-      this->SetExamples(m_qtnode->GetNode().GetConcept().GetExamples());
-      this->setVisible(true);
-    }
+    this->SetExamples(GetExamples(*m_qtnode));
+    this->setVisible(true);
     Reposition();
   }
 }

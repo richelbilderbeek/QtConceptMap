@@ -67,6 +67,8 @@ private:
 
 void CheckInvariants(const QtNode& qtnode) noexcept;
 
+Examples GetExamples(const QtNode& qtnode) noexcept;
+
 std::string GetText(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping

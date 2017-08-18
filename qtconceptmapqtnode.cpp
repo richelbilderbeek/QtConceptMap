@@ -150,6 +150,11 @@ QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
   );
 }
 
+ribi::cmap::Examples ribi::cmap::GetExamples(const QtNode& qtnode) noexcept
+{
+  return GetExamples(qtnode.GetNode());
+}
+
 std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 {
   return GetText(qtnode.GetNode());
