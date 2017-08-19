@@ -3,17 +3,8 @@
 #include <cassert>
 #include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
-//#include <boost/lexical_cast.hpp>
 #include <gsl/gsl_assert>
-//#include <QApplication>
-//#include "count_vertices_with_selectedness.h"
-//#include "container.h"
-//#include "conceptmap.h"
-//#include "conceptmaphelper.h"
-//#include "conceptmapnode.h"
 #include "qtconceptmap.h"
-//#include "qtconceptmapqtnode.h"
-//#include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandSelectNode::CommandSelectNode(
   QtConceptMap& qtconceptmap,

@@ -1,20 +1,20 @@
 #include "qtconceptmapcommandselectedge.h"
 
 #include <cassert>
-#include <boost/graph/isomorphism.hpp>
+//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/lexical_cast.hpp>
+//#include <boost/algorithm/string/trim_all.hpp>
+//#include <boost/lexical_cast.hpp>
 #include <gsl/gsl_assert>
-#include <QApplication>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "conceptmap.h"
-#include "conceptmaphelper.h"
-#include "conceptmapnode.h"
+//#include <QApplication>
+//#include "count_vertices_with_selectedness.h"
+//#include "container.h"
+//#include "conceptmap.h"
+//#include "conceptmaphelper.h"
+//#include "conceptmapnode.h"
 #include "qtconceptmap.h"
-#include "qtconceptmapqtnode.h"
-#include "qtconceptmaphelper.h"
+//#include "qtconceptmapqtnode.h"
+//#include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandSelectEdge::CommandSelectEdge(
   QtConceptMap& qtconceptmap,

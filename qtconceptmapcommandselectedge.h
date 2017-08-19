@@ -1,20 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDSELECTEDGE_H
 #define CONCEPTMAPCOMMANDSELECTEDGE_H
 
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Weffc++"
-//#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-//#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-
-//#include "conceptmapnode.h"
-//#include "conceptmap.h"
-//#include "qtconceptmapqtnode.h"
-//#include <QGraphicsScene>
-//#include "qtconceptmaptoolsitem.h"
 #include "qtconceptmapcommand.h"
-#include "qtconceptmapfwd.h"
-//#include "qtconceptmapmode.h"
-//#pragma GCC diagnostic pop
 
 namespace ribi {
 namespace cmap {
