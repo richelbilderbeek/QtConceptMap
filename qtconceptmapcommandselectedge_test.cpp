@@ -39,6 +39,33 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeByName() const n
   QVERIFY(GetQtToolItemBuddy(q) == first_qtnode);
 }
 
+void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeByNameAndUndo() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  assert(GetQtExamplesItemBuddy(q) == nullptr);
+  assert(GetQtToolItemBuddy(q) == nullptr);
+
+  QtEdge * const first_qtedge = FindFirstQtEdge(q, QtEdgeHasName("second"));
+  q.DoCommand(new CommandSelectEdge(q, first_qtedge));
+
+  assert(CountSelectedQtEdges(q) == 1);
+  assert(CountSelectedQtNodes(q) == 0);
+  assert(GetQtExamplesItemBuddy(q));
+  assert(GetQtToolItemBuddy(q));
+
+  q.Undo();
+
+  QVERIFY(CountSelectedQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+  QVERIFY(GetQtExamplesItemBuddy(q) == nullptr);
+  QVERIFY(GetQtToolItemBuddy(q) == nullptr);
+  assert(!"FIXED");
+}
+
 
 void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeConnectedToCenterByName() const noexcept
 {

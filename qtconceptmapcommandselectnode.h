@@ -38,9 +38,6 @@ class CommandSelectNode final : public Command
 
   private:
 
-  /// Buddy of QtExamplesItem before redo
-  const QGraphicsItem * m_prev_qtexamplesitem_buddy;
-
   /// Buddy of QtToolItem before redo
   QtNode * m_prev_qttoolitem_buddy;
 

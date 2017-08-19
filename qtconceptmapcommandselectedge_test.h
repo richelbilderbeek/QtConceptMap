@@ -15,7 +15,7 @@ private slots:
   //To do/review:
 
   ///Select a QtEdge by name and undo
-  //void SelectQtEdgeByNameAndUndo() const noexcept;
+  void SelectQtEdgeByNameAndUndo() const noexcept;
 
   //Done:
 
