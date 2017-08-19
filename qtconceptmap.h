@@ -398,6 +398,15 @@ void RemoveConceptMap(QtConceptMap& q);
 ///Save the QtConceptMap to a .dot file
 void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
 
+///Select the QtNode, including updating the QtToolItem and QtExamplesItem
+void Select(QtConceptMap& q, QtEdge& qtedge);
+
+///Select the QtNode, including updating the QtToolItem and QtExamplesItem
+void Select(QtConceptMap& q, QtNode& qtnode);
+
+///Set focus to the QtEdge. Assumes the QtConceptMap has no focus anymore
+//void SetFocus(QtConceptMap& q, QtEdge* const qtedge);
+
 ///Set focus to the QtNode. Assumes the QtConceptMap has no focus anymore
 void SetFocus(QtConceptMap& q, QtNode* const qtnode);
 
@@ -420,7 +429,8 @@ void SetRandomFocusAdditive(QtConceptMap& q);
 void SetRandomFocusExclusive(QtConceptMap& q);
 
 ///Set the selectedness of a QtEdge, also updating the
-///selectness of the Edge in the ConceptMap
+///selectness of the Edge in the QtConceptMap.
+///Use 'Select' to also update the QtToolItem and QtExamplesItem
 void SetSelectedness(
   const bool is_selected,
   QtEdge& qtedge,
@@ -428,7 +438,8 @@ void SetSelectedness(
 );
 
 ///Set the selectedness of a QtNode, also updating the
-///selectness of the node in the ConceptMap
+///selectness of the node in the ConceptMap.
+///Use 'Select' to also update the QtToolItem and QtExamplesItem
 void SetSelectedness(
   const bool is_selected,
   QtNode& qtnode,

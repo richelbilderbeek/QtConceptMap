@@ -1,9 +1,9 @@
 #include "qtconceptmapcommandselectnode.h"
 
 #include <cassert>
-#include <boost/graph/isomorphism.hpp>
+//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
+//#include <boost/algorithm/string/trim_all.hpp>
 #include <boost/lexical_cast.hpp>
 #include <gsl/gsl_assert>
 #include <QApplication>
@@ -77,18 +77,7 @@ void ribi::cmap::CommandSelectNode::Redo()
 
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
-  assert(m_qtnode);
-  if (HasExamples(*m_qtnode))
-  {
-    SetQtExamplesBuddy(GetQtConceptMap(), m_qtnode);
-  }
-  else
-  {
-    const QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
-  }
-  SetQtToolItemBuddy(GetQtConceptMap(), m_qtnode);
-  SetSelectedness(true, *m_qtnode, GetQtConceptMap());
+  Select(GetQtConceptMap(), *m_qtnode);
 
   #ifndef NDEBUG
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
@@ -100,8 +89,6 @@ void ribi::cmap::CommandSelectNode::Redo()
 
 void ribi::cmap::CommandSelectNode::Undo()
 {
-
-
   if (m_prev_qttoolitem_buddy && HasExamples(*m_prev_qttoolitem_buddy))
   {
     SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
@@ -115,6 +102,4 @@ void ribi::cmap::CommandSelectNode::Undo()
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
 
   SetSelectedness(false, *m_qtnode, GetQtConceptMap());
-
-
 }

@@ -88,19 +88,6 @@ void ribi::cmap::CommandUnselectNode::Redo()
   SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
   SetSelectedness(false, *m_qtnode, GetQtConceptMap());
 
-  /*
-  {
-    const auto qtnodes = ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(GetScene(*this));
-    if (qtnodes.size() == 1)
-    {
-      SetQtToolItemBuddy(GetQtConceptMap(), qtnodes[0]);
-      if (HasExamples(*qtnodes[0]))
-      {
-        SetQtExamplesBuddy(GetQtConceptMap(), qtnodes[0]);
-      }
-    }
-  }
-  */
   #ifndef NDEBUG
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());

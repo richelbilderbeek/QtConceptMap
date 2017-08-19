@@ -1785,6 +1785,21 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   CheckInvariants(*this);
 }
 
+void ribi::cmap::Select(QtConceptMap& q, QtNode& qtnode)
+{
+  if (HasExamples(qtnode))
+  {
+    SetQtExamplesBuddy(q, &qtnode);
+  }
+  else
+  {
+    const QtNode * const no_qtnode{nullptr};
+    SetQtExamplesBuddy(q, no_qtnode);
+  }
+  SetQtToolItemBuddy(q, &qtnode);
+  SetSelectedness(true, qtnode, q);
+}
+
 void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
 {
   CheckInvariants(q);
@@ -2018,8 +2033,7 @@ void ribi::cmap::SetSelectedness(
   assert(!is_selected || CountSelectedQtEdges(q) > 0 || IsConnectedToCenterNode(qtedge));
 }
 
-void ribi::cmap::SetSelectedness(
-  const bool is_selected,
+void ribi::cmap::SetSelectedness(const bool is_selected,
   QtNode& qtnode,
   QtConceptMap& q
 )
