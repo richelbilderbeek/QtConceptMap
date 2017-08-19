@@ -334,11 +334,12 @@ void ribi::cmap::CheckInvariantAsMuchNodesAsQtNodesSelected(
 
 void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
   const QtConceptMap&
-  #ifndef NDEBUG
+  #ifdef REALLY_THINK_THIS_IS_STILL_IMPORTANT_20170819
     q
   #endif
 ) noexcept
 {
+  #ifdef REALLY_THINK_THIS_IS_STILL_IMPORTANT_20170819
   //If a QtNode with a vignette is selected, the QtExamplesItem must have that
   //QtNode as its buddy
   //For Issue #96, https://github.com/richelbilderbeek/Brainweaver/issues/96
@@ -370,6 +371,7 @@ void ribi::cmap::CheckInvariantOneQtNodeWithExamplesHasExamplesItem(
     }
   }
   #endif
+  #endif // REALLY_THINK_THIS_IS_STILL_IMPORTANT_20170819
 }
 
 void ribi::cmap::CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(const QtConceptMap&
@@ -440,11 +442,12 @@ void ribi::cmap::CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const
 
 void ribi::cmap::CheckInvariantSingleSelectedQtNodeMustHaveQtTool(
   const QtConceptMap&
-  #ifndef NDEBUG
+  #ifdef REALLY_THINK_THIS_IS_STILL_IMPORTANT_20170819
     q
   #endif
 ) noexcept
 {
+  #ifdef REALLY_THINK_THIS_IS_STILL_IMPORTANT_20170819
   #ifndef NDEBUG
   assert(CountSelectedQtNodes(*q.scene())
     == static_cast<int>(ribi::cmap::GetSelectedQtNodes(*q.scene()).size())
@@ -463,6 +466,7 @@ void ribi::cmap::CheckInvariantSingleSelectedQtNodeMustHaveQtTool(
     assert(buddy_item == qtnode);
   }
   #endif
+  #endif // REALLY_THINK_THIS_IS_STILL_IMPORTANT_20170819
 }
 
 void ribi::cmap::CheckInvariants(const QtConceptMap&

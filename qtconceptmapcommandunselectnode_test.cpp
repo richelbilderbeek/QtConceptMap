@@ -65,27 +65,22 @@ void ribi::cmap::QtConceptMapCommandUnselectNodeTest
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 1);
-
-  const auto examples_buddy_before = GetQtExamplesItemBuddy(q);
-  const auto tool_buddy_before = GetQtToolItemBuddy(q);
+  assert(HasExamples(*first_qtnode) && GetQtExamplesItemBuddy(q) == first_qtnode);
+  assert(GetQtToolItemBuddy(q) == first_qtnode);
 
   q.DoCommand(new CommandUnselectNode(q, first_qtnode));
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(HasExamples(*first_qtnode));
-  assert(examples_buddy_before != GetQtExamplesItemBuddy(q));
-  assert(tool_buddy_before != GetQtToolItemBuddy(q));
+  assert(!GetQtExamplesItemBuddy(q));
+  assert(!GetQtToolItemBuddy(q));
 
   q.Undo();
 
-  const auto examples_buddy_after = GetQtExamplesItemBuddy(q);
-  const auto tool_buddy_after = GetQtToolItemBuddy(q);
-
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 1);
-  QVERIFY(examples_buddy_before == examples_buddy_after);
-  QVERIFY(tool_buddy_before == tool_buddy_after);
+  assert(HasExamples(*first_qtnode) && GetQtExamplesItemBuddy(q) == first_qtnode);
+  assert(GetQtToolItemBuddy(q) == first_qtnode);
 }
 
 void ribi::cmap::QtConceptMapCommandUnselectNodeTest
@@ -115,37 +110,55 @@ void ribi::cmap::QtConceptMapCommandUnselectNodeTest
   ::UnselectTwoQtNodesByNameAndUndo() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  QtNode * const center_qtnode = FindFirstQtNode(q, QtNodeHasName("center"));
-  QtNode * const normal_qtnode = FindFirstQtNode(q, QtNodeHasName("one"));
-  q.DoCommand(new CommandSelectNode(q, normal_qtnode));
-  q.DoCommand(new CommandSelectNode(q, center_qtnode));
+  QtNode * const qtnode1 = FindFirstQtNode(q, QtNodeHasName("one"));
+  QtNode * const qtnode2 = FindFirstQtNode(q, QtNodeHasName("two"));
+  q.DoCommand(new CommandSelectNode(q, qtnode1));
+
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  assert(GetQtToolItemBuddy(q) == qtnode1);
+  assert(GetQtExamplesItemBuddy(q) == qtnode1);
+
+  q.DoCommand(new CommandSelectNode(q, qtnode2));
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 2);
+  assert(GetQtToolItemBuddy(q) == qtnode2);
+  assert(GetQtExamplesItemBuddy(q) == qtnode2);
 
-  q.DoCommand(new CommandUnselectNode(q, center_qtnode));
+  q.DoCommand(new CommandUnselectNode(q, qtnode1));
 
-  const auto examples_buddy_before = GetQtExamplesItemBuddy(q);
-  const auto tool_buddy_before = GetQtToolItemBuddy(q);
+  //QtTool and QtExamplesItem do not know where to go
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  assert(GetQtToolItemBuddy(q) == nullptr);
+  assert(GetQtExamplesItemBuddy(q) == nullptr);
 
-  assert(GetQtToolItemBuddy(q) == GetFirstQtNode(q));
-  assert(GetQtExamplesItemBuddy(q) == GetFirstQtNode(q));
-  assert(GetQtToolItemBuddy(q) == GetFirstQtNode(q));
+  q.DoCommand(new CommandUnselectNode(q, qtnode2));
 
-  q.DoCommand(new CommandUnselectNode(q, normal_qtnode));
-
-  assert(examples_buddy_before != GetQtExamplesItemBuddy(q));
-  assert(tool_buddy_before != GetQtToolItemBuddy(q));
+  //QtTool and QtExamplesItem do not know where to go
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  assert(GetQtToolItemBuddy(q) == nullptr);
+  assert(GetQtExamplesItemBuddy(q) == nullptr);
 
   q.Undo();
 
-  const auto examples_buddy_after = GetQtExamplesItemBuddy(q);
-  const auto tool_buddy_after = GetQtToolItemBuddy(q);
-  QVERIFY(examples_buddy_before == examples_buddy_after);
-  QVERIFY(tool_buddy_before == tool_buddy_after);
+  //QtTool and QtExamplesItem do not know where to go
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  assert(GetQtToolItemBuddy(q) == nullptr);
+  assert(GetQtExamplesItemBuddy(q) == nullptr);
+
+  q.Undo();
+
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 2);
+  assert(GetQtToolItemBuddy(q) == qtnode2);
+  assert(GetQtExamplesItemBuddy(q) == qtnode2);
 }
 
 void ribi::cmap::QtConceptMapCommandUnselectNodeTest::Parse() const noexcept

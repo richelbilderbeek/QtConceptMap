@@ -21,7 +21,7 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
   QtNode * const qtnode
 )
   : Command(qtconceptmap),
-    m_prev_qtexamplesitem_buddy{nullptr},
+    //m_prev_qtexamplesitem_buddy{nullptr},
     m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {
@@ -78,19 +78,17 @@ void ribi::cmap::CommandUnselectNode::Redo()
   const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
   #endif
 
-  m_prev_qtexamplesitem_buddy = GetQtExamplesItemBuddy(GetQtConceptMap());
+  //m_prev_qtexamplesitem_buddy = GetQtExamplesItemBuddy(GetQtConceptMap());
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
 
   assert(m_qtnode);
   QtNode * const no_qtnode{nullptr};
-  if (HasExamples(*m_qtnode))
-  {
-    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
-  }
+  SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
   SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
   SetSelectedness(false, *m_qtnode, GetQtConceptMap());
 
+  /*
   {
     const auto qtnodes = ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(GetScene(*this));
     if (qtnodes.size() == 1)
@@ -102,7 +100,7 @@ void ribi::cmap::CommandUnselectNode::Redo()
       }
     }
   }
-
+  */
   #ifndef NDEBUG
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
@@ -115,19 +113,9 @@ void ribi::cmap::CommandUnselectNode::Redo()
 
 void ribi::cmap::CommandUnselectNode::Undo()
 {
-  
-
-  if (const QtNode * const qtnode = dynamic_cast<const QtNode*>(m_prev_qtexamplesitem_buddy))
+  if (m_prev_qttoolitem_buddy && HasExamples(*m_prev_qttoolitem_buddy))
   {
-    if (HasExamples(*qtnode))
-    {
-      SetQtExamplesBuddy(GetQtConceptMap(), qtnode);
-    }
-  }
-  else if (const QtEdge * const qtedge = dynamic_cast<const QtEdge*>(m_prev_qtexamplesitem_buddy))
-  {
-    assert(HasExamples(*qtedge)); //Should fail one day
-    SetQtExamplesBuddy(GetQtConceptMap(), qtedge);
+    SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
   }
   else
   {

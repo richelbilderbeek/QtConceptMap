@@ -39,7 +39,7 @@ class CommandUnselectNode final : public Command
   private:
 
   /// Buddy of QtExamplesItem before redo
-  const QGraphicsItem * m_prev_qtexamplesitem_buddy;
+  //const QGraphicsItem * m_prev_qtexamplesitem_buddy;
 
   /// Buddy of QtToolItem before redo
   QtNode * m_prev_qttoolitem_buddy;
@@ -49,7 +49,7 @@ class CommandUnselectNode final : public Command
 
 };
 
-/// Works on, for example 'select_node(center)'
+/// Works on, for example 'unselect_node(center)'
 CommandUnselectNode * ParseCommandUnselectNode(
   QtConceptMap& qtconceptmap, std::string s);
 
