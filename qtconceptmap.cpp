@@ -47,6 +47,7 @@
 #include "qtconceptmaprateconceptdialog.h"
 #include "qtconceptmapitemhighlighter.h"
 #include "qtconceptmaprateexamplesdialog.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtquadbezierarrowitem.h"
 #include "set_my_custom_vertex.h"

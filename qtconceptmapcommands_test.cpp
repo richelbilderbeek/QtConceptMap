@@ -4,6 +4,8 @@
 #include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
 #include "conceptmaphelper.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 
 #include <QDebug>
 

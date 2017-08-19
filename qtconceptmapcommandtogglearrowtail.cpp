@@ -18,6 +18,8 @@
 #include <QGraphicsScene>
 #include "qtconceptmap.h"
 #include "qtconceptmaptoolsitem.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandToggleArrowTail::CommandToggleArrowTail(

@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 #include "qtconceptmap.h"
 
 ribi::cmap::CommandSelectNode::CommandSelectNode(

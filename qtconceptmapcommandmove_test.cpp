@@ -3,6 +3,8 @@
 #include "qtconceptmapcommandmove.h"
 #include "qtconceptmap.h"
 #include "conceptmapfactory.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 
 
 void ribi::cmap::QtConceptMapCommandMoveTest::MoveAbsentItemByNameFails() const noexcept

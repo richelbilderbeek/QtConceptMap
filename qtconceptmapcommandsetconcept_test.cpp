@@ -8,6 +8,8 @@
 #include "qtconceptmap.h"
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 
 void ribi::cmap::QtConceptMapCommandSetConceptTest::Parse() const noexcept
 {

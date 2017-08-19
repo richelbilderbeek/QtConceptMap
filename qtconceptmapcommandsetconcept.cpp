@@ -13,7 +13,8 @@
 //#include "conceptmaphelper.h"
 //#include "conceptmapnode.h"
 #include "qtconceptmap.h"
-//#include "qtconceptmapqtnode.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandSetConcept::CommandSetConcept(

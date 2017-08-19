@@ -39,7 +39,7 @@
 #include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapitemhighlighter.h"
-#include "qtconceptmapqtnode.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
 

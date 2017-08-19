@@ -16,10 +16,12 @@
 #include "find_first_custom_edge.h"
 #include <boost/algorithm/string/trim.hpp>
 #include "find_first_custom_edge_with_my_edge.h"
-#include <QGraphicsScene>
+//#include <QGraphicsScene>
 #include "qtconceptmap.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 
 ribi::cmap::CommandToggleArrowHead::CommandToggleArrowHead(
   QtConceptMap& qtconceptmap

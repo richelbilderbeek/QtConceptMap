@@ -24,6 +24,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include "qtconceptmap.h"
+#include "qtconceptmapqtedge.h"
 #include "set_my_custom_edge.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmaptoolsitem.h"

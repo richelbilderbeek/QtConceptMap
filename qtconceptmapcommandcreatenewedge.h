@@ -1,11 +1,11 @@
 #ifndef CONCEPTMAPCOMMANDCREATENEWEDGE_H
 #define CONCEPTMAPCOMMANDCREATENEWEDGE_H
 
-#include "conceptmap.h"
-#include "conceptmapnode.h"
-#include "conceptmapedge.h"
+//#include "conceptmap.h"
+//#include "conceptmapnode.h"
+//#include "conceptmapedge.h"
 #include "qtconceptmapcommand.h"
-#include "qtconceptmapmode.h"
+//#include "qtconceptmapmode.h"
 
 struct QGraphicsItem;
 struct QGraphicsScene;

@@ -3,6 +3,8 @@
 #include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmap.h"
 #include "conceptmapfactory.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 
 void ribi::cmap::QtConceptMapCommandSelectNodeTest::SelectAbsentItemFails() const noexcept
 {

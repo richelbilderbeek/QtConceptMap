@@ -13,6 +13,7 @@
 //#include "conceptmaphelper.h"
 //#include "conceptmapnode.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtedge.h"
 //#include "qtconceptmapqtnode.h"
 //#include "qtconceptmaphelper.h"
 

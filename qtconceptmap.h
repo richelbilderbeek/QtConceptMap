@@ -1,14 +1,13 @@
 #ifndef QTCONCEPTMAPCONCEPTMAP_H
 #define QTCONCEPTMAPCONCEPTMAP_H
 
-#include <functional>
+//#include <functional>
 #include <QUndoStack>
 #include "qtkeyboardfriendlygraphicsview.h"
 #include "qtconceptmapfwd.h"
 #include "qtconceptmapmode.h"
 #include "qtconceptmappopupmode.h"
-#include "qtconceptmapqtedge.h"
-//#include "conceptmap.h"
+//#include "qtconceptmapqtedge.h"
 #include "conceptmapgraphtypes.h"
 
 namespace ribi {
