@@ -62,8 +62,6 @@ ribi::cmap::CommandSelectEdge * ribi::cmap::ParseCommandSelectEdge(
 
 void ribi::cmap::CommandSelectEdge::Redo()
 {
-
-
   #ifndef NDEBUG
   const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
   #endif
@@ -71,35 +69,17 @@ void ribi::cmap::CommandSelectEdge::Redo()
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
   assert(m_qtedge);
-  if (HasExamples(*m_qtedge))
-  {
-    SetQtExamplesBuddy(GetQtConceptMap(), m_qtedge);
-  }
-  else
-  {
-    const QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
-  }
-  SetQtToolItemBuddy(GetQtConceptMap(), m_qtedge);
-  SetSelectedness(true, *m_qtedge, GetQtConceptMap());
+
+  Select(GetQtConceptMap(), *m_qtedge);
 
   #ifndef NDEBUG
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   Ensures(n_selected_qtedges_after == n_selected_qtedges_before + 1);
-  Ensures(!HasExamples(*m_qtedge)
-    || GetQtExamplesItemBuddy(GetQtConceptMap()) == m_qtedge->GetQtNode());
-
-  //TODO: must always select a QtEdge
-  Ensures(CountSelectedQtEdges(GetQtConceptMap()) > 0 || IsConnectedToCenterNode(*m_qtedge));
   #endif
-
-
 }
 
 void ribi::cmap::CommandSelectEdge::Undo()
 {
-
-
   if (m_prev_qttoolitem_buddy && HasExamples(*m_prev_qttoolitem_buddy))
   {
     SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
@@ -113,6 +93,4 @@ void ribi::cmap::CommandSelectEdge::Undo()
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
 
   SetSelectedness(false, *m_qtedge, GetQtConceptMap());
-
-
 }

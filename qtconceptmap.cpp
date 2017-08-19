@@ -1785,19 +1785,38 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   CheckInvariants(*this);
 }
 
-void ribi::cmap::Select(QtConceptMap& q, QtNode& qtnode)
+///Class T may be either a QtNode or a QtEdge
+template <class T>
+void SelectImpl(
+  ribi::cmap::QtConceptMap& q,
+  T& t
+)
 {
-  if (HasExamples(qtnode))
+  static_assert(
+    std::is_same<T, ribi::cmap::QtNode>() || std::is_same<T, ribi::cmap::QtEdge>(),
+    "T is either QtEdge or QtNode");
+
+  if (HasExamples(t))
   {
-    SetQtExamplesBuddy(q, &qtnode);
+    SetQtExamplesBuddy(q, &t);
   }
   else
   {
-    const QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(q, no_qtnode);
+    const T * const no_qtedge_nor_qtnode{nullptr};
+    SetQtExamplesBuddy(q, no_qtedge_nor_qtnode);
   }
-  SetQtToolItemBuddy(q, &qtnode);
-  SetSelectedness(true, qtnode, q);
+  SetQtToolItemBuddy(q, &t);
+  SetSelectedness(true, t, q);
+}
+
+void ribi::cmap::Select(QtConceptMap& q, QtEdge& qtedge)
+{
+  SelectImpl(q, qtedge);
+}
+
+void ribi::cmap::Select(QtConceptMap& q, QtNode& qtnode)
+{
+  SelectImpl(q, qtnode);
 }
 
 void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)

@@ -404,9 +404,6 @@ void Select(QtConceptMap& q, QtEdge& qtedge);
 ///Select the QtNode, including updating the QtToolItem and QtExamplesItem
 void Select(QtConceptMap& q, QtNode& qtnode);
 
-///Set focus to the QtEdge. Assumes the QtConceptMap has no focus anymore
-//void SetFocus(QtConceptMap& q, QtEdge* const qtedge);
-
 ///Set focus to the QtNode. Assumes the QtConceptMap has no focus anymore
 void SetFocus(QtConceptMap& q, QtNode* const qtnode);
 
