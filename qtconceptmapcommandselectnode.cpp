@@ -1,20 +1,19 @@
 #include "qtconceptmapcommandselectnode.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
+#include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
-//#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/lexical_cast.hpp>
+//#include <boost/lexical_cast.hpp>
 #include <gsl/gsl_assert>
-#include <QApplication>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "conceptmap.h"
-#include "conceptmaphelper.h"
-#include "conceptmapnode.h"
+//#include <QApplication>
+//#include "count_vertices_with_selectedness.h"
+//#include "container.h"
+//#include "conceptmap.h"
+//#include "conceptmaphelper.h"
+//#include "conceptmapnode.h"
 #include "qtconceptmap.h"
-#include "qtconceptmapqtnode.h"
-#include "qtconceptmaphelper.h"
+//#include "qtconceptmapqtnode.h"
+//#include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandSelectNode::CommandSelectNode(
   QtConceptMap& qtconceptmap,
@@ -81,25 +80,22 @@ void ribi::cmap::CommandSelectNode::Redo()
 
   #ifndef NDEBUG
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  assert(n_selected_qtnodes_after > n_selected_qtnodes_before);
+  Ensures(n_selected_qtnodes_after > n_selected_qtnodes_before);
   #endif
-
-
 }
 
 void ribi::cmap::CommandSelectNode::Undo()
 {
-  if (m_prev_qttoolitem_buddy && HasExamples(*m_prev_qttoolitem_buddy))
+  if (m_prev_qttoolitem_buddy)
   {
-    SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
+    Select(GetQtConceptMap(), *m_prev_qttoolitem_buddy);
   }
   else
   {
     QtNode * const no_qtnode{nullptr};
     SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
+    SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
   }
-
-  SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
 
   SetSelectedness(false, *m_qtnode, GetQtConceptMap());
 }
