@@ -3,8 +3,6 @@
 #include <cassert>
 #include <climits>
 
-//#include <boost/lambda/lambda.hpp>
-
 #include <QCursor>
 #include <QDebug>
 #include <QGraphicsItem>

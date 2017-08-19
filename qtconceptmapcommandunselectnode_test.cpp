@@ -4,6 +4,7 @@
 #include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtnode.h"
 #include "conceptmapfactory.h"
 
 void ribi::cmap::QtConceptMapCommandUnselectNodeTest::UnselectAbsentItemFails() const noexcept

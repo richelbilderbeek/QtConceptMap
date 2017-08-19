@@ -5,13 +5,12 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-
-#include "conceptmapnode.h"
-#include "conceptmap.h"
+//#include "conceptmapnode.h"
+//#include "conceptmap.h"
 #include "qtconceptmapcommand.h"
-#include <QGraphicsScene>
-#include "qtconceptmaptoolsitem.h"
-#include <vector>
+//#include <QGraphicsScene>
+//#include "qtconceptmaptoolsitem.h"
+//#include <vector>
 #pragma GCC diagnostic pop
 
 namespace ribi {

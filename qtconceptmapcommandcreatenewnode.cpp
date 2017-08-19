@@ -6,7 +6,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/lexical_cast.hpp>
 #include <gsl/gsl_assert>
-#include <QApplication>
+//#include <QApplication>
 #include "count_vertices_with_selectedness.h"
 #include "container.h"
 #include "find_first_custom_vertex_with_my_vertex.h"
@@ -14,6 +14,7 @@
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
 #include "qtconceptmap.h"
+#include "qtconceptmaptoolsitem.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
 #include "set_vertex_selectedness.h"
@@ -145,7 +146,7 @@ void ribi::cmap::CommandCreateNewNode::Redo()
   m_added_qtnode->setFocus();
   m_added_qtnode->SetBrushFunction(GetQtNodeBrushFunction(GetQtConceptMap().GetMode()));
 
-  qApp->processEvents();
+  //qApp->processEvents();
 
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
   

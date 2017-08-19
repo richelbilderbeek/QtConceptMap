@@ -12,7 +12,6 @@
 #include <QPixmap>
 
 #include "qtimage.h"
-//#include "qtgraphics.h"
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtCompetency::QtCompetency()

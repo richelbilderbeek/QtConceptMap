@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "qtconceptmapfwd.h"
+
 namespace ribi {
 namespace cmap {
 

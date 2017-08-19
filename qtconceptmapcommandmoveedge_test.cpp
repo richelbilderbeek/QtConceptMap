@@ -5,6 +5,7 @@
 #include "conceptmapfactory.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
+#include "qtconceptmaphelper.h"
 
 void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveAbsentItemByNameFails() const noexcept
 {

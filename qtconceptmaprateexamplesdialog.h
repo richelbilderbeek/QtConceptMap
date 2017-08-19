@@ -5,7 +5,6 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-//#include <boost/shared_ptr.hpp>
 #include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"

@@ -8,7 +8,6 @@
 
 #include <QGraphicsItem>
 #include <QTimer>
-//#include "qtconceptmapconceptitem.h"
 #include "qtconceptmapqtnode.h"
 
 #pragma GCC diagnostic pop

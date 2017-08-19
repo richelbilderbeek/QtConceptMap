@@ -35,12 +35,13 @@
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapcommandunselectnode.h"
-#include "qtconceptmapexamplesitem.h"
 #include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapitemhighlighter.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
+#include "qtconceptmapexamplesitem.h"
+#include "qtconceptmaptoolsitem.h"
 
 
 void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const noexcept
