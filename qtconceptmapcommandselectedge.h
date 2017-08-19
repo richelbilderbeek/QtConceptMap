@@ -35,15 +35,18 @@ class CommandSelectEdge final : public Command
 
   const QtEdge * GetQtEdge() const noexcept { return m_qtedge; }
 
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
+  /// Buddy of QtToolItem before redo
+  QtNode * m_prev_qttoolitem_buddy;
+
   /// The selected QtEdge
   QtEdge * m_qtedge;
 };
 
-/// Works on, for example  'create_new_node(0, 0, from)'
+/// Works on, for example 'select_edge(between)'
 CommandSelectEdge * ParseCommandSelectEdge(
   QtConceptMap& qtconceptmap, std::string s);
 

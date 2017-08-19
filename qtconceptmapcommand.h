@@ -28,11 +28,22 @@ struct Command : public QUndoCommand
   auto& GetQtConceptMap() noexcept { return m_qtconceptmap; }
   const auto& GetQtConceptMap() const noexcept { return m_qtconceptmap; }
 
-  virtual void undo() = 0;
-  virtual void redo() = 0;
+  ///Template method, that checks QtConceptMap its invariants,
+  ///before and after calling the virtual function Undo
+  void undo() final override;
+
+  ///Template method, that checks QtConceptMap its invariants,
+  ///before and after calling the virtual function Redo
+  void redo() final override;
 
   private:
   QtConceptMap& m_qtconceptmap;
+
+  ///Actual implementation of undo
+  virtual void Undo() = 0;
+
+  ///Actual implementation of undo
+  virtual void Redo() = 0;
 };
 
 //Convenience

@@ -49,7 +49,7 @@ ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
   return new CommandSelect(qtconceptmap, t);
 }
 
-void ribi::cmap::CommandSelect::redo()
+void ribi::cmap::CommandSelect::Redo()
 {
   #ifndef NDEBUG
   const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
@@ -109,10 +109,10 @@ void ribi::cmap::CommandSelect::redo()
   assert(n_selected_items_after > n_selected_items_before);
   #endif
 
-  CheckInvariants(GetQtConceptMap());
+  
 }
 
-void ribi::cmap::CommandSelect::undo()
+void ribi::cmap::CommandSelect::Undo()
 {
   if (m_renamed_qtedge)
   {
@@ -122,5 +122,5 @@ void ribi::cmap::CommandSelect::undo()
   {
     SetSelectedness(false, *m_renamed_qtnode, GetQtConceptMap());
   }
-  CheckInvariants(GetQtConceptMap());
+  
 }

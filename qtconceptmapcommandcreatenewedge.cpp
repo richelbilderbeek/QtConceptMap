@@ -174,14 +174,14 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::ParseComma
   return new CommandCreateNewEdgeBetweenTwoSelectedNodes(qtconceptmap, t);
 }
 
-void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
+void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
 {
   CheckCanRedo(); //Throws if not
 
   assert(CountSelectedQtEdges(GetScene(*this)) == 0);
   assert(CountSelectedQtNodes(GetScene(*this)) == 2);
 
-  CheckInvariants(GetQtConceptMap());
+  
 
   GetQtConceptMap().GetScene().clearFocus();
 
@@ -252,12 +252,12 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::redo()
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
   Ensures(CountSelectedQtNodes(GetQtConceptMap())
     == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
-  CheckInvariants(GetQtConceptMap());
+  
 }
 
-void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
+void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Undo()
 {
-  CheckInvariants(GetQtConceptMap());
+  
   assert(CountSelectedQtEdges(GetScene(*this)) == 1);
   assert(CountSelectedQtNodes(GetScene(*this)) == 0);
 
@@ -290,5 +290,5 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::undo()
   assert(CountSelectedQtEdges(GetScene(*this)) == 0);
   assert(CountSelectedQtNodes(GetScene(*this)) == 2);
 
-  CheckInvariants(GetQtConceptMap());
+  
 }

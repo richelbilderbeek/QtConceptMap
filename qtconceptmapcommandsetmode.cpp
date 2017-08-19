@@ -50,14 +50,14 @@ ribi::cmap::CommandSetMode * ribi::cmap::ParseCommandSetMode(
   }
 }
 
-void ribi::cmap::CommandSetMode::redo()
+void ribi::cmap::CommandSetMode::Redo()
 {
   m_mode_prev = GetQtConceptMap().GetMode();
   GetQtConceptMap().SetMode(m_mode);
   GetQtConceptMap().update();
 }
 
-void ribi::cmap::CommandSetMode::undo()
+void ribi::cmap::CommandSetMode::Undo()
 {
   GetQtConceptMap().SetMode(m_mode_prev);
   GetQtConceptMap().update();

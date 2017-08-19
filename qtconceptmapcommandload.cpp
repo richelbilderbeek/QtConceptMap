@@ -49,23 +49,23 @@ ribi::cmap::CommandLoad * ribi::cmap::ParseCommandLoad(
   return new CommandLoad(qtconceptmap, filename);
 }
 
-void ribi::cmap::CommandLoad::redo()
+void ribi::cmap::CommandLoad::Redo()
 {
   Expects(QFile::exists(m_filename.c_str()));
 
-  CheckInvariants(GetQtConceptMap());
+  
 
   m_before = GetQtConceptMap().GetConceptMap();
   GetQtConceptMap().SetConceptMap(LoadFromFile(m_filename));
 
-  CheckInvariants(GetQtConceptMap());
+  
 }
 
-void ribi::cmap::CommandLoad::undo()
+void ribi::cmap::CommandLoad::Undo()
 {
-  CheckInvariants(GetQtConceptMap());
+  
 
   GetQtConceptMap().SetConceptMap(m_before);
 
-  CheckInvariants(GetQtConceptMap());
+  
 }

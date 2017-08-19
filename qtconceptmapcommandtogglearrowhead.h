@@ -25,8 +25,8 @@ class CommandToggleArrowHead final : public Command
   CommandToggleArrowHead(const CommandToggleArrowHead&) = delete;
   CommandToggleArrowHead& operator=(const CommandToggleArrowHead&) = delete;
 
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
 

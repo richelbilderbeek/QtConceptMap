@@ -28,8 +28,8 @@ class CommandDeleteSelected final : public Command
   CommandDeleteSelected& operator=(const CommandDeleteSelected&) = delete;
   ~CommandDeleteSelected() noexcept {}
 
-  void undo() override;
-  void redo() override;
+  void Undo() override;
+  void Redo() override;
 
   private:
   ConceptMap& m_conceptmap;

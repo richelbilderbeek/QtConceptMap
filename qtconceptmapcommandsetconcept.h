@@ -38,11 +38,11 @@ class CommandSetConcept final : public Command
   const Concept& GetConcept() const noexcept { return m_concept; }
   const Concept& GetPrevConcept() const noexcept { return m_prev_concept; }
 
-  void redo() override;
+  void Redo() override;
 
   void SetPrevConcept(const Concept& concept) { m_prev_concept = concept; }
 
-  void undo() override;
+  void Undo() override;
 
   private:
 

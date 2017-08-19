@@ -12,6 +12,20 @@ ribi::cmap::Command::Command(
   assert(&m_qtconceptmap == &qtconceptmap);
 }
 
+void ribi::cmap::Command::undo()
+{
+  CheckInvariants(GetQtConceptMap());
+  Undo();
+  CheckInvariants(GetQtConceptMap());
+}
+
+void ribi::cmap::Command::redo()
+{
+  CheckInvariants(GetQtConceptMap());
+  Redo();
+  CheckInvariants(GetQtConceptMap());
+}
+
 ribi::cmap::ConceptMap& ribi::cmap::GetConceptMap(Command& cmd) noexcept
 {
   return cmd.GetQtConceptMap().GetConceptMap();

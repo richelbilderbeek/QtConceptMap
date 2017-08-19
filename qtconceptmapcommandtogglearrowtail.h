@@ -24,8 +24,8 @@ class CommandToggleArrowTail final : public Command
   CommandToggleArrowTail(const CommandToggleArrowTail&) = delete;
   CommandToggleArrowTail& operator=(const CommandToggleArrowTail&) = delete;
 
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
 

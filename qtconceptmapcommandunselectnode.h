@@ -33,8 +33,8 @@ class CommandUnselectNode final : public Command
   CommandUnselectNode& operator=(const CommandUnselectNode&) = delete;
   ~CommandUnselectNode() noexcept {}
 
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
 

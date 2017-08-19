@@ -42,9 +42,9 @@ class CommandMoveNode final : public Command
   const QtNode * GetMovedQtNode() const noexcept { return m_qtnode; }
 
   ///Will throw if nothing is moved
-  void redo() override;
+  void Redo() override;
 
-  void undo() override;
+  void Undo() override;
 
   private:
 

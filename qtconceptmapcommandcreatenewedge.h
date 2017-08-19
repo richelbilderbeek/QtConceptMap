@@ -34,8 +34,8 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   ~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept;
 
 
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   ///Get the added QtEdge
   const std::string& GetText() const noexcept { return m_text; }

@@ -121,9 +121,9 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
 
 }
 
-void ribi::cmap::CommandDeleteSelected::redo()
+void ribi::cmap::CommandDeleteSelected::Redo()
 {
-  CheckInvariants(GetQtConceptMap());
+  
   assert(AllHaveSameScene());
 
   if (IsQtCenterNodeSelected(GetQtConceptMap()))
@@ -144,7 +144,7 @@ void ribi::cmap::CommandDeleteSelected::redo()
 
   assert(AllHaveSameScene());
 
-  CheckInvariants(GetQtConceptMap());
+  
 
   GetScene(*this).clearFocus();
   GetQtToolItem(*this).SetBuddyItem(nullptr);
@@ -163,11 +163,11 @@ void ribi::cmap::CommandDeleteSelected::redo()
   CheckInvariantAsMuchEdgesAsQtEdges(GetQtConceptMap());
   CheckInvariantAsMuchNodesAsQtNodes(GetQtConceptMap());
 
-  CheckInvariants(GetQtConceptMap());
+  
 
   assert(AllHaveSameScene());
 
-  CheckInvariants(GetQtConceptMap());
+  
 }
 
 void ribi::cmap::CommandDeleteSelected::SelectAllQtEdgesOnSelectedQtNodes()
@@ -208,9 +208,9 @@ void ribi::cmap::CommandDeleteSelected::SetSelected(
   }
 }
 
-void ribi::cmap::CommandDeleteSelected::undo()
+void ribi::cmap::CommandDeleteSelected::Undo()
 {
-  CheckInvariants(GetQtConceptMap());
+  
 
   assert(AllHaveSameScene());
 
@@ -230,5 +230,5 @@ void ribi::cmap::CommandDeleteSelected::undo()
 
   assert(AllHaveSameScene());
 
-  CheckInvariants(GetQtConceptMap());
+  
 }

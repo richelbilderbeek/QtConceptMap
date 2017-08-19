@@ -38,7 +38,7 @@ ribi::cmap::CommandToggleArrowTail * ribi::cmap::ParseCommandToggleArrowTail(
   return nullptr;
 }
 
-void ribi::cmap::CommandToggleArrowTail::redo()
+void ribi::cmap::CommandToggleArrowTail::Redo()
 {
   const Edge m_edge_before = ExtractTheOneSelectedEdge(GetConceptMap(*this), GetScene(*this));
   QtEdge * const m_qtedge = ExtractTheOneSelectedQtEdge(GetScene(*this));
@@ -64,7 +64,7 @@ void ribi::cmap::CommandToggleArrowTail::redo()
   assert(HasTailArrow(*m_qtedge) == m_qtedge->GetEdge().HasTailArrow());
 }
 
-void ribi::cmap::CommandToggleArrowTail::undo()
+void ribi::cmap::CommandToggleArrowTail::Undo()
 {
-  redo();
+  Redo();
 }

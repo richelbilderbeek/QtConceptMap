@@ -40,8 +40,8 @@ class CommandCreateNewNode final : public Command
 
   ///Get the Node its text
   std::string GetText() const noexcept;
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
   QtNode * m_added_qtnode;

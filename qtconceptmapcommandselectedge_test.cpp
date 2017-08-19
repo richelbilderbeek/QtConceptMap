@@ -63,7 +63,6 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeByNameAndUndo() 
   QVERIFY(CountSelectedQtNodes(q) == 0);
   QVERIFY(GetQtExamplesItemBuddy(q) == nullptr);
   QVERIFY(GetQtToolItemBuddy(q) == nullptr);
-  assert(!"FIXED");
 }
 
 

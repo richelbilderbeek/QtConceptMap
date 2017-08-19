@@ -83,10 +83,8 @@ void RedoImpl(
   }
 }
 
-void ribi::cmap::CommandSetConcept::redo()
+void ribi::cmap::CommandSetConcept::Redo()
 {
-  CheckInvariants(GetQtConceptMap());
-
   Expects(GetQtToolItemBuddy(GetQtConceptMap()));
   Expects(!IsQtCenterNode(GetQtToolItemBuddy(GetQtConceptMap())));
 
@@ -102,8 +100,6 @@ void ribi::cmap::CommandSetConcept::redo()
   {
     RedoImpl(*this, qtnode);
   }
-
-  CheckInvariants(GetQtConceptMap());
 }
 
 ///Class T may be either a QtNode or a QtEdge
@@ -133,10 +129,8 @@ void UndoImpl(
 }
 
 
-void ribi::cmap::CommandSetConcept::undo()
+void ribi::cmap::CommandSetConcept::Undo()
 {
-  CheckInvariants(GetQtConceptMap());
-
   QtNode * const qtnode = GetQtToolItemBuddy(GetQtConceptMap());
   assert(qtnode);
   QtEdge * const qtedge = FindQtEdge(qtnode, GetQtConceptMap());
@@ -149,6 +143,4 @@ void ribi::cmap::CommandSetConcept::undo()
   {
     UndoImpl(*this, qtnode);
   }
-
-  CheckInvariants(GetQtConceptMap());
 }

@@ -22,8 +22,8 @@ class CommandSetMode final : public Command
   ///Get the new Mode
   Mode GetMode() const noexcept { return m_mode; }
 
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
 
   private:

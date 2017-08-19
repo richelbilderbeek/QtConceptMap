@@ -39,8 +39,8 @@ class CommandMoveEdge final : public Command
   /// If name was an edge name, the renamed edge
   const QtEdge * GetMovedQtEdge() const noexcept { return m_qtedge; }
 
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
 

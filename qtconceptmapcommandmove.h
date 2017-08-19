@@ -45,8 +45,8 @@ class CommandMove final : public Command
 
   ///Get the Node or Edge its name
   std::string GetName() const noexcept { return m_name; }
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
   ///The horizontal relative movement of the node or edge

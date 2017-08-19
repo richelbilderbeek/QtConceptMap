@@ -55,7 +55,7 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
   return new CommandUnselect(qtconceptmap, t);
 }
 
-void ribi::cmap::CommandUnselect::redo()
+void ribi::cmap::CommandUnselect::Redo()
 {
   m_unselected_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
     [name = m_name](QtNode * const qtnode)
@@ -83,7 +83,7 @@ void ribi::cmap::CommandUnselect::redo()
   qApp->processEvents();
 }
 
-void ribi::cmap::CommandUnselect::undo()
+void ribi::cmap::CommandUnselect::Undo()
 {
   if (m_unselected_qtedge)
   {

@@ -63,7 +63,7 @@ ribi::cmap::CommandMove * ribi::cmap::ParseCommandMove(
   return nullptr;
 }
 
-void ribi::cmap::CommandMove::redo()
+void ribi::cmap::CommandMove::Redo()
 {
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
@@ -141,10 +141,10 @@ void ribi::cmap::CommandMove::redo()
 
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariants(GetQtConceptMap());
+  
 }
 
-void ribi::cmap::CommandMove::undo()
+void ribi::cmap::CommandMove::Undo()
 {
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
@@ -157,5 +157,5 @@ void ribi::cmap::CommandMove::undo()
     m_moved_qtnode->moveBy(-m_dx, -m_dy);
   }
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariants(GetQtConceptMap());
+  
 }

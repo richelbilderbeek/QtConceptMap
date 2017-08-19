@@ -90,9 +90,9 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
   return nullptr;
 }
 
-void ribi::cmap::CommandMoveNode::redo()
+void ribi::cmap::CommandMoveNode::Redo()
 {
-  CheckInvariants(GetQtConceptMap());
+  
 
   assert(m_qtnode);
   assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
@@ -100,12 +100,12 @@ void ribi::cmap::CommandMoveNode::redo()
 
   MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());
 
-  CheckInvariants(GetQtConceptMap());
+  
 }
 
-void ribi::cmap::CommandMoveNode::undo()
+void ribi::cmap::CommandMoveNode::Undo()
 {
-  CheckInvariants(GetQtConceptMap());
+  
 
   assert(m_qtnode);
   assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
@@ -113,5 +113,5 @@ void ribi::cmap::CommandMoveNode::undo()
 
   MoveQtNode(*m_qtnode, -m_dx, -m_dy, GetQtConceptMap());
 
-  CheckInvariants(GetQtConceptMap());
+  
 }

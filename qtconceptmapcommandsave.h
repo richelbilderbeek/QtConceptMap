@@ -28,8 +28,8 @@ class CommandSave final : public Command
 
   ///Get the filename
   std::string GetFilename() const noexcept { return m_filename; }
-  void redo() override;
-  void undo() override;
+  void Redo() override;
+  void Undo() override;
 
   private:
 

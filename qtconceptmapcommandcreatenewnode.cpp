@@ -106,10 +106,10 @@ ribi::cmap::CommandCreateNewNode * ribi::cmap::ParseCommandCreateNewNode(
   return nullptr;
 }
 
-void ribi::cmap::CommandCreateNewNode::redo()
+void ribi::cmap::CommandCreateNewNode::Redo()
 {
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
-  CheckInvariants(GetQtConceptMap());
+  
 
   //Add the vertex to the concept map
   VertexDescriptor vd = boost::add_vertex(GetQtConceptMap().GetConceptMap());
@@ -148,12 +148,12 @@ void ribi::cmap::CommandCreateNewNode::redo()
   qApp->processEvents();
 
   CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
-  CheckInvariants(GetQtConceptMap());
+  
 }
 
-void ribi::cmap::CommandCreateNewNode::undo()
+void ribi::cmap::CommandCreateNewNode::Undo()
 {
-  CheckInvariants(GetQtConceptMap());
+  
   Expects(CountSelectedQtNodes(GetQtConceptMap())
     == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
 
@@ -176,5 +176,5 @@ void ribi::cmap::CommandCreateNewNode::undo()
   Ensures(CountSelectedQtNodes(GetQtConceptMap())
     == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
   CheckInvariantSingleSelectedQtNodeMustHaveQtTool(GetQtConceptMap());
-  CheckInvariants(GetQtConceptMap());
+  
 }
