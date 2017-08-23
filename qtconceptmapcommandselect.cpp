@@ -72,6 +72,7 @@ ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
       }
     }
   }
+  return nullptr;
 }
 
 void ribi::cmap::CommandSelect::Redo()

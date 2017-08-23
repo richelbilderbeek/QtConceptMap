@@ -20,7 +20,8 @@ class CommandUnselectEdge final : public Command
   ///Will throw if name is absent (at redo)
   CommandUnselectEdge(
     QtConceptMap& qtconceptmap,
-    QtEdge * const qtedge
+    QtEdge * const qtedge,
+    QUndoCommand * const parent = Q_NULLPTR
   );
   CommandUnselectEdge(const CommandUnselectEdge&) = delete;
   CommandUnselectEdge& operator=(const CommandUnselectEdge&) = delete;

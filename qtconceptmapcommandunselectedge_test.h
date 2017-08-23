@@ -13,8 +13,6 @@ class QtConceptMapCommandUnselectEdgeTest : public QObject
 private slots:
 
   //To do/review:
-
-
   ///Unselecting an absent item fails
   void UnselectAbsentItemFails() const noexcept;
 

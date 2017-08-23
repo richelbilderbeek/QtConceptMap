@@ -16,21 +16,32 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapcommandunselectedge.h"
+#include "qtconceptmapcommandunselectnode.h"
 
 ribi::cmap::CommandUnselect::CommandUnselect(
   QtConceptMap& qtconceptmap,
-  const std::string& name
-)
-  : Command(qtconceptmap),
-    m_unselected_qtedge{nullptr},
-    m_unselected_qtnode{nullptr},
-    m_name{name}
+  QGraphicsItem& item
+)  : Command(qtconceptmap),
+     m_cmd{nullptr}
 {
+  if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))
+  {
+    m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge, this);
+  }
+  else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
+  {
+    m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
+  }
+  if (!m_cmd)
+  {
+    throw std::invalid_argument("item is not a QtEdge nor QtNode");
+  }
+
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Select node or edge with name '"
-      << m_name << "'";
+    msg << "Unselect item";
     this->setText(msg.str().c_str());
   }
 }
@@ -47,11 +58,30 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
   const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
   assert(t[0] != '(');
   assert(t.back() != ')');
-  return new CommandUnselect(qtconceptmap, t);
+  for (QGraphicsItem * const item: qtconceptmap.items())
+  {
+    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      if (GetText(*qtedge) == t)
+      {
+        return new CommandUnselect(qtconceptmap, *qtedge);
+      }
+    }
+    if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    {
+      if (GetText(*qtnode) == t)
+      {
+        return new CommandUnselect(qtconceptmap, *qtnode);
+      }
+    }
+  }
+  return nullptr;
 }
 
 void ribi::cmap::CommandUnselect::Redo()
 {
+  m_cmd->redo();
+  /*
   m_unselected_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
     [name = m_name](QtNode * const qtnode)
     {
@@ -75,10 +105,13 @@ void ribi::cmap::CommandUnselect::Redo()
       SetSelectedness(false, *m_unselected_qtedge, GetQtConceptMap());
     }
   }
+  */
 }
 
 void ribi::cmap::CommandUnselect::Undo()
 {
+  m_cmd->undo();
+  /*
   if (m_unselected_qtedge)
   {
     SetSelectedness(true, *m_unselected_qtedge, GetQtConceptMap());
@@ -87,4 +120,5 @@ void ribi::cmap::CommandUnselect::Undo()
   {
     SetSelectedness(true, *m_unselected_qtnode, GetQtConceptMap());
   }
+  */
 }

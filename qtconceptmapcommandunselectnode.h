@@ -20,7 +20,8 @@ class CommandUnselectNode final : public Command
   ///Will throw if name is absent (at redo)
   CommandUnselectNode(
     QtConceptMap& qtconceptmap,
-    QtNode * const qtnode
+    QtNode * const qtnode,
+    QUndoCommand * const parent = Q_NULLPTR
   );
   CommandUnselectNode(const CommandUnselectNode&) = delete;
   CommandUnselectNode& operator=(const CommandUnselectNode&) = delete;

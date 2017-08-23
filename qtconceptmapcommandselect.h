@@ -27,22 +27,13 @@ class CommandSelect final : public Command
   CommandSelect& operator=(const CommandSelect&) = delete;
   ~CommandSelect() noexcept {}
 
-  ///Get the Node or Edge its name
-  //std::string GetName() const noexcept { return m_name; }
   void Redo() override;
   void Undo() override;
 
   private:
-  /// If name was an edge name, the renamed edge
-  //QtEdge * m_renamed_qtedge;
-  //QGraphicsItem * const m_item;
+
+  ///The actual command
   Command * m_cmd;
-
-  /// If name was a node name, the renamed node
-  //QtNode * m_renamed_qtnode;
-
-  ///Text on the QtEdge or QtNode
-  //const std::string m_name;
 };
 
 /// Works on, for example  'select(from)'

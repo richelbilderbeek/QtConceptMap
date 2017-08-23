@@ -1,12 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDUNSELECT_H
 #define CONCEPTMAPCOMMANDUNSELECT_H
 
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Weffc++"
-//#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-//#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmapcommand.h"
-//#pragma GCC diagnostic pop
 
 namespace ribi {
 namespace cmap {
@@ -20,26 +15,19 @@ class CommandUnselect final : public Command
   ///@param node_or_edge_name the node or edge name/text to be unselected
   CommandUnselect(
     QtConceptMap& qtconceptmap,
-    const std::string& node_or_edge_name = ""
+    QGraphicsItem& item
   );
   CommandUnselect(const CommandUnselect&) = delete;
   CommandUnselect& operator=(const CommandUnselect&) = delete;
   ~CommandUnselect() noexcept {}
 
-  ///Get the Node or Edge its name
-  std::string GetName() const noexcept { return m_name; }
   void Redo() override;
   void Undo() override;
 
   private:
-  /// If name was an edge name, the renamed edge
-  QtEdge * m_unselected_qtedge;
 
-  /// If name was a node name, the renamed node
-  QtNode * m_unselected_qtnode;
-
-  ///Text on the QtEdge or QtNode
-  const std::string m_name;
+  ///The actual command
+  Command * m_cmd;
 };
 
 /// Works on, for example  'create_new_node(0, 0, from)'

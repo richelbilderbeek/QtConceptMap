@@ -16,10 +16,10 @@
 
 ribi::cmap::CommandUnselectNode::CommandUnselectNode(
   QtConceptMap& qtconceptmap,
-  QtNode * const qtnode
+  QtNode * const qtnode,
+  QUndoCommand * const parent
 )
-  : Command(qtconceptmap),
-    //m_prev_qtexamplesitem_buddy{nullptr},
+  : Command(qtconceptmap, parent),
     m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {

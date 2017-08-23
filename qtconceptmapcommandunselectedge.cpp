@@ -3,20 +3,15 @@
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
-//#include "count_vertices_with_selectedness.h"
-//#include "container.h"
-//#include "conceptmap.h"
-//#include "conceptmaphelper.h"
-//#include "conceptmapnode.h"
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
-//#include "qtconceptmaphelper.h"
 
 ribi::cmap::CommandUnselectEdge::CommandUnselectEdge(
   QtConceptMap& qtconceptmap,
-  QtEdge * const qtedge
+  QtEdge * const qtedge,
+  QUndoCommand * const parent
 )
-  : Command(qtconceptmap),
+  : Command(qtconceptmap, parent),
     m_prev_qttoolitem_buddy{nullptr},
     m_qtedge{qtedge}
 {
