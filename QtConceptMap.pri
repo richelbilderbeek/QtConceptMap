@@ -22,6 +22,7 @@ HEADERS += \
     $$PWD/qtconceptmapcommandtogglearrowtail.h \
     $$PWD/qtconceptmapcommandunselect.h \
     $$PWD/qtconceptmapcommandunselectall.h \
+    $$PWD/qtconceptmapcommandunselectedge.h \
     $$PWD/qtconceptmapcommandunselectnode.h \
     $$PWD/qtconceptmapcompetency.h \
     $$PWD/qtconceptmapconceptdialog.h \
@@ -66,6 +67,7 @@ SOURCES += \
     $$PWD/qtconceptmapcommandtogglearrowtail.cpp \
     $$PWD/qtconceptmapcommandunselect.cpp \
     $$PWD/qtconceptmapcommandunselectall.cpp \
+    $$PWD/qtconceptmapcommandunselectedge.cpp \
     $$PWD/qtconceptmapcommandunselectnode.cpp \
     $$PWD/qtconceptmapcompetency.cpp \
     $$PWD/qtconceptmapconceptdialog.cpp \

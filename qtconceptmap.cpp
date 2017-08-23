@@ -2117,9 +2117,9 @@ void UnselectImpl(
     std::is_same<T, ribi::cmap::QtNode>() || std::is_same<T, ribi::cmap::QtEdge>(),
     "T is either QtEdge or QtNode");
 
-  T * const no_qtedge_nor_qtnode{nullptr};
-  SetQtExamplesBuddy(q, no_qtedge_nor_qtnode);
-  SetQtToolItemBuddy(q, no_qtedge_nor_qtnode);
+  ribi::cmap::QtNode * const no_qtnode{nullptr};
+  SetQtExamplesBuddy(q, no_qtnode);
+  SetQtToolItemBuddy(q, no_qtnode);
   SetSelectedness(false, t, q);
 
   /*
