@@ -38,6 +38,7 @@
 #include "qtconceptmapcommandsetconcept.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
+#include "qtconceptmapcommandunselectedge.h"
 #include "qtconceptmapcommandunselectnode.h"
 #include "qtconceptmapconcepteditdialog.h"
 #include "qtconceptmapexamplesitem.h"
@@ -1355,8 +1356,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     QtEdge * const qtedge = FindQtEdge(qtnode, q.GetScene());
     if (IsSelected(*qtnode))
     {
-      assert(!"TODO");
-      //q.DoCommand(new CommandUnselectEdge(q, qtedge));
+      q.DoCommand(new CommandUnselectEdge(q, qtedge));
       assert(!IsSelected(*qtedge));
     }
     else

@@ -1553,7 +1553,6 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
 
 void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept
 {
-  #ifdef NOT_NOW_20170816
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   m.showFullScreen();
@@ -1567,11 +1566,6 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const 
   QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   m.mousePressEvent(&e);
 
-  qDebug()
-    << "\nCountSelectedQtEdges(m): " << CountSelectedQtEdges(m)
-    << "\nCountSelectedQtNodes(m): " << CountSelectedQtNodes(m)
-  ;
-
   assert(CountSelectedQtEdges(m) == 1);
   QVERIFY(CountSelectedQtEdges(m) == 1);
   QVERIFY(CountSelectedQtNodes(m) == 0);
@@ -1580,8 +1574,6 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const 
 
   QVERIFY(CountSelectedQtEdges(m) == 0);
   QVERIFY(CountSelectedQtNodes(m) == 0);
-  assert(!"FIXED");
-  #endif // NOT_NOW_20170816
 }
 
 void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept
