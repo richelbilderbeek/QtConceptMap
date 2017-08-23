@@ -610,6 +610,11 @@ ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept
 }
 
 
+bool ribi::cmap::IsDashed(const QPen& pen) noexcept
+{
+  return pen.style() == Qt::DashLine;
+}
+
 bool ribi::cmap::IsQtCenterNode(const QGraphicsItem* const item)
 {
   const QtNode * const qtnode = dynamic_cast<const QtNode*>(item);

@@ -155,6 +155,9 @@ std::vector<QtNode *> GetSelectedQtNodes(const QGraphicsScene& scene) noexcept;
 ///Get all the selected QtNodes, also those on a QtEdge
 std::vector<QtNode *> GetSelectedQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept;
 
+///Does the pen draw dashed lines?
+bool IsDashed(const QPen& pen) noexcept;
+
 ///Check if this item is the center node
 bool IsQtCenterNode(const QGraphicsItem* const item);
 

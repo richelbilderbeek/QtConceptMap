@@ -358,19 +358,24 @@ void ribi::cmap::QtEdge::paint(
 {
   CheckInvariants(*this);
   {
-    const QPen pen{
-      this->hasFocus() || this->IsSelected()
-      ? QPen(Qt::black)
-      : QPen(Qt::black)
-    };
+    QPen pen(Qt::black);
+    assert(!IsDashed(pen));
+    if (this->hasFocus() || this->IsSelected())
+    {
+      pen.setStyle(Qt::DashLine);
+      assert(IsDashed(pen));
+    }
+
     m_arrow->SetPen(pen);
   }
   {
-    const QPen pen{
-      this->hasFocus() || this->IsSelected()
-      ? QPen(Qt::white)
-      : QPen(Qt::white)
-    };
+    QPen pen(Qt::white);
+    assert(!IsDashed(pen));
+    if (this->hasFocus() || this->IsSelected())
+    {
+      pen.setStyle(Qt::DashLine);
+      assert(IsDashed(pen));
+    }
     m_qtnode->setPen(pen);
   }
   ShowBoundingRect(painter);
