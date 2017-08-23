@@ -4,6 +4,7 @@
 #include "qtconceptmapcommandselect.h"
 #include "qtconceptmap.h"
 #include "conceptmapfactory.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
 #include <QDebug>
@@ -28,7 +29,7 @@ void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
-  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("second"))));
+  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("second"))));
   assert(CountQtArrowHeads(q) == 0);
   q.DoCommand(new CommandToggleArrowHead(q));
   assert(CountQtArrowHeads(q) == 1);
@@ -39,7 +40,7 @@ void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("first"))));
+  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("first"))));
   assert(CountQtArrowHeads(q) == 0);
   q.DoCommand(new CommandToggleArrowHead(q));
   assert(CountQtArrowHeads(q) == 1);
