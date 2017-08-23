@@ -8,7 +8,6 @@
 #include <boost/numeric/conversion/cast.hpp>
 
 
-//#include <QApplication>
 #include <QKeyEvent>
 #include <QDebug>
 

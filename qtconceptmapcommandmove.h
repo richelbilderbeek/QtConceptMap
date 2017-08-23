@@ -1,18 +1,12 @@
 #ifndef CONCEPTMAPCOMMANDMOVE_H
 #define CONCEPTMAPCOMMANDMOVE_H
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-//#include "conceptmapnode.h"
-//#include "conceptmap.h"
-//#include "qtconceptmapqtnode.h"
-//#include <QGraphicsScene>
-//#include "qtconceptmaptoolsitem.h"
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Weffc++"
+//#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+//#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmapcommand.h"
-//#include "qtconceptmapmode.h"
-#pragma GCC diagnostic pop
+//#pragma GCC diagnostic pop
 
 namespace ribi {
 namespace cmap {
@@ -64,7 +58,7 @@ class CommandMove final : public Command
   const std::string m_name;
 };
 
-/// Works on, for example  'move_node(node name, 0, 0)'
+/// Works on, for example  'move(edge or node name, 0, 0)'
 CommandMove * ParseCommandMove(
   QtConceptMap& qtconceptmap, std::string s);
 

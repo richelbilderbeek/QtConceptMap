@@ -1,10 +1,7 @@
 #include "qtconceptmapcommandcreatenewnode.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-
-
 #include <gsl/gsl_assert>
 #include "count_vertices_with_selectedness.h"
 #include "container.h"

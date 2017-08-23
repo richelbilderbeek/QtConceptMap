@@ -1,17 +1,12 @@
 #ifndef CONCEPTMAPCOMMANDDELETENODE_H
 #define CONCEPTMAPCOMMANDDELETENODE_H
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-//#include "conceptmapnode.h"
-//#include "conceptmap.h"
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Weffc++"
+//#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+//#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmapcommand.h"
-//#include <QGraphicsScene>
-//#include "qtconceptmaptoolsitem.h"
-//#include <vector>
-#pragma GCC diagnostic pop
+//#pragma GCC diagnostic pop
 
 namespace ribi {
 namespace cmap {

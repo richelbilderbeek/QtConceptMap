@@ -1,12 +1,8 @@
 #include "qtconceptmapcommandload.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-
-
 #include <gsl/gsl_assert>
-//#include <QApplication>
 #include <QFile>
 #include "count_vertices_with_selectedness.h"
 #include "container.h"
