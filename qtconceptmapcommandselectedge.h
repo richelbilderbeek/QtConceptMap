@@ -15,7 +15,8 @@ class CommandSelectEdge final : public Command
   ///Will throw if name is absent (at redo)
   CommandSelectEdge(
     QtConceptMap& qtconceptmap,
-    QtEdge * const qtedge
+    QtEdge * const qtedge,
+    QUndoCommand * const parent = Q_NULLPTR
   );
   CommandSelectEdge(const CommandSelectEdge&) = delete;
   CommandSelectEdge& operator=(const CommandSelectEdge&) = delete;

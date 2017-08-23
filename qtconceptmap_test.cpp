@@ -40,7 +40,7 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapexamplesitem.h"
 #include "qtconceptmaptoolsitem.h"
-
+#include "qtconceptmapqtedge.h"
 
 void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const noexcept
 {
@@ -1171,42 +1171,45 @@ void ribi::cmap::QtConceptMapTest::SetConceptMaps() const noexcept
 
 void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedEdge() const noexcept
 {
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
-  m.show();
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
+  q.showFullScreen();
   //Select node on edge
-  m.DoCommand(new CommandSelect(m, "prerequisite"));
-  m.show();
-  m.SetConceptMap(ConceptMap());
-  m.show();
+  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("prerequisite"))));
+  q.show();
+  q.SetConceptMap(ConceptMap());
+  q.show();
 }
 
 void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedNode() const noexcept
 {
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
-  m.show();
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  q.show();
   //Select node
-  m.DoCommand(new CommandSelect(m, "Useful"));
-  m.show();
-  m.SetConceptMap(ConceptMap());
-  m.show();
+  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("Useful"))));
+  //m.DoCommand(new CommandSelect(m, "Useful"));
+  q.show();
+  q.SetConceptMap(ConceptMap());
+  q.show();
 }
 
 void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapTwoSelectedNodes() const noexcept
 {
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().GetStarShaped());
-  m.show();
-  m.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
-  m.show();
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  q.showFullScreen();
+  q.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
+  q.show();
   //Select node on edge with examples
-  m.DoCommand(new CommandSelect(m, "strengthen"));
+  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("strengthen"))));
+  //m.DoCommand(new CommandSelect(m, "strengthen"));
   //Select node
-  m.DoCommand(new CommandSelect(m, "Order"));
-  m.show();
-  m.SetConceptMap(ConceptMap());
-  m.show();
+  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("Order"))));
+  //m.DoCommand(new CommandSelect(m, "Order"));
+  q.show();
+  q.SetConceptMap(ConceptMap());
+  q.show();
 }
 
 void ribi::cmap::QtConceptMapTest::SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept

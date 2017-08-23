@@ -10,9 +10,10 @@
 
 ribi::cmap::CommandSelectNode::CommandSelectNode(
   QtConceptMap& qtconceptmap,
-  QtNode * const qtnode
+  QtNode * const qtnode,
+  QUndoCommand * const parent
 )
-  : Command(qtconceptmap),
+  : Command(qtconceptmap, parent),
     m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {

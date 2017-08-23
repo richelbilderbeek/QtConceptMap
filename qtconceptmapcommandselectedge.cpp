@@ -8,9 +8,10 @@
 
 ribi::cmap::CommandSelectEdge::CommandSelectEdge(
   QtConceptMap& qtconceptmap,
-  QtEdge * const qtedge
+  QtEdge * const qtedge,
+  QUndoCommand * const parent
 )
-  : Command(qtconceptmap),
+  : Command(qtconceptmap, parent),
     m_qtedge{qtedge}
 {
 

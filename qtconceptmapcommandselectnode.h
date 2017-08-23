@@ -15,7 +15,8 @@ class CommandSelectNode final : public Command
   ///Will throw if name is absent (at redo)
   CommandSelectNode(
     QtConceptMap& qtconceptmap,
-    QtNode * const qtnode
+    QtNode * const qtnode,
+    QUndoCommand * const parent = Q_NULLPTR
   );
   CommandSelectNode(const CommandSelectNode&) = delete;
   CommandSelectNode& operator=(const CommandSelectNode&) = delete;

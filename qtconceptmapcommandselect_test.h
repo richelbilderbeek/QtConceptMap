@@ -17,8 +17,8 @@ private slots:
 
   //Done:
 
-  ///Selecting an absent item fails
-  void SelectAbsentItemFails() const noexcept;
+  ///Selecting a QtToolItem fails
+  void SelectQtToolItemFails() const noexcept;
 
   ///Select a center QtNode by name
   void SelectQtCenterNodeByName() const noexcept;

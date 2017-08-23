@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
   int error = 0;
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapCommandSelectTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandUnselectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }

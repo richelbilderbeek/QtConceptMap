@@ -12,21 +12,33 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapcommandselectedge.h"
+#include "qtconceptmapcommandselectnode.h"
 
 ribi::cmap::CommandSelect::CommandSelect(
   QtConceptMap& qtconceptmap,
-  const std::string& name
+  QGraphicsItem& item
 )
   : Command(qtconceptmap),
-    m_renamed_qtedge{nullptr},
-    m_renamed_qtnode{nullptr},
-    m_name{name}
+    m_cmd{nullptr}
 {
+  if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))
+  {
+    m_cmd = new CommandSelectEdge(qtconceptmap, qtedge, this);
+  }
+  else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
+  {
+    m_cmd = new CommandSelectNode(qtconceptmap, qtnode, this);
+  }
+  if (!m_cmd)
+  {
+    throw std::invalid_argument("item is not a QtEdge nor QtNode");
+  }
+
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Select node or edge with name '"
-      << m_name << "'";
+    msg << "Select item";
     this->setText(msg.str().c_str());
   }
 }
@@ -43,7 +55,23 @@ ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
   const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
   assert(t[0] != '(');
   assert(t.back() != ')');
-  return new CommandSelect(qtconceptmap, t);
+  for (QGraphicsItem * const item: qtconceptmap.items())
+  {
+    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    {
+      if (GetText(*qtedge) == t)
+      {
+        return new CommandSelect(qtconceptmap, *qtedge);
+      }
+    }
+    if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    {
+      if (GetText(*qtnode) == t)
+      {
+        return new CommandSelect(qtconceptmap, *qtnode);
+      }
+    }
+  }
 }
 
 void ribi::cmap::CommandSelect::Redo()
@@ -54,6 +82,8 @@ void ribi::cmap::CommandSelect::Redo()
   const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
   #endif
 
+  m_cmd->redo();
+  /*
   m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap(),
     [name = m_name, &qtconceptmap = GetQtConceptMap()](QtNode * const qtnode)
     {
@@ -98,6 +128,7 @@ void ribi::cmap::CommandSelect::Redo()
     throw std::invalid_argument(msg.str());
   }
   assert((m_renamed_qtedge != nullptr) ^ (m_renamed_qtnode != nullptr));
+  */
 
   #ifndef NDEBUG
   const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
@@ -111,6 +142,8 @@ void ribi::cmap::CommandSelect::Redo()
 
 void ribi::cmap::CommandSelect::Undo()
 {
+  m_cmd->undo();
+  /*
   if (m_renamed_qtedge)
   {
     SetSelectedness(false, *m_renamed_qtedge, GetQtConceptMap());
@@ -119,5 +152,5 @@ void ribi::cmap::CommandSelect::Undo()
   {
     SetSelectedness(false, *m_renamed_qtnode, GetQtConceptMap());
   }
-  
+  */
 }
