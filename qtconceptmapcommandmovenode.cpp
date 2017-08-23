@@ -1,12 +1,12 @@
 #include "qtconceptmapcommandmovenode.h"
 
 #include <cassert>
-#include <boost/graph/isomorphism.hpp>
+//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/lexical_cast.hpp>
+
+
 #include <gsl/gsl_assert>
-#include <QApplication>
+//#include <QApplication>
 #include "container.h"
 #include "conceptmap.h"
 #include "conceptmaphelper.h"

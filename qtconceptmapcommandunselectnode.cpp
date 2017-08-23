@@ -1,12 +1,10 @@
 #include "qtconceptmapcommandunselectnode.h"
 
 #include <cassert>
-#include <boost/graph/isomorphism.hpp>
+//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/lexical_cast.hpp>
 #include <gsl/gsl_assert>
-#include <QApplication>
+//#include <QApplication>
 #include "count_vertices_with_selectedness.h"
 #include "container.h"
 #include "conceptmap.h"
@@ -73,29 +71,18 @@ ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
 void ribi::cmap::CommandUnselectNode::Redo()
 {
   #ifndef NDEBUG
-  const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
   #endif
 
-  //m_prev_qtexamplesitem_buddy = GetQtExamplesItemBuddy(GetQtConceptMap());
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
-
   assert(m_qtnode);
-  QtNode * const no_qtnode{nullptr};
-  SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
-  SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
-  SetSelectedness(false, *m_qtnode, GetQtConceptMap());
+  Unselect(GetQtConceptMap(), *m_qtnode);
 
   #ifndef NDEBUG
-  const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
   const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
-  assert(n_selected_items_after < n_selected_items_before);
+  Ensures(n_selected_qtnodes_after < n_selected_qtnodes_before);
   #endif
-
-  
 }
 
 void ribi::cmap::CommandUnselectNode::Undo()
@@ -106,12 +93,10 @@ void ribi::cmap::CommandUnselectNode::Undo()
   }
   else
   {
-    const QtNode * const no_node{nullptr};
-    SetQtExamplesBuddy(GetQtConceptMap(), no_node);
+    const QtNode * const no_qtnode{nullptr};
+    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
   }
-
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
-
   SetSelectedness(true, *m_qtnode, GetQtConceptMap());
-  
+
 }

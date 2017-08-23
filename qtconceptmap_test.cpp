@@ -7,14 +7,14 @@
 #include <chrono>
 #include <cmath>
 #include <iostream>
-#include <QApplication>
+//#include <QApplication>
 #include <QLinearGradient>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QScrollBar>
 #include <QKeyEvent>
 #include <QPoint>
-#include <boost/graph/isomorphism.hpp>
+//#include <boost/graph/isomorphism.hpp>
 
 #include "conceptmapedgefactory.h"
 #include "conceptmapedge.h"

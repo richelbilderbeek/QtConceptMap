@@ -440,6 +440,12 @@ void SetSelectedness(
   QtConceptMap& q
 );
 
+///Unselect the QtEdge, including updating the QtToolItem and QtExamplesItem
+void Unselect(QtConceptMap& q, QtEdge& qtedge);
+
+///Unselect the QtNode, including updating the QtToolItem and QtExamplesItem
+void Unselect(QtConceptMap& q, QtNode& qtnode);
+
 ///Unselect all QtNodes and QtEdges
 void UnselectAll(QtConceptMap& q);
 

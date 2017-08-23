@@ -1,10 +1,10 @@
 #include "qtconceptmapcommandmove.h"
 
 #include <cassert>
-#include <boost/graph/isomorphism.hpp>
+//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
-#include <QApplication>
+//#include <QApplication>
 #include "container.h"
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
@@ -136,10 +136,10 @@ void ribi::cmap::CommandMove::Redo()
   CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
 
-  qApp->processEvents();
+  //qApp->processEvents();
 
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
+  //CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
+  //CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
   
 }
 

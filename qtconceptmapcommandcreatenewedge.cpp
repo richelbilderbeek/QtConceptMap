@@ -19,7 +19,7 @@
 #include "qtquadbezierarrowitem.h"
 #include "add_edge_between_selected_vertices.h"
 #include "find_first_custom_edge_with_my_edge.h"
-#include <boost/graph/isomorphism.hpp>
+//#include <boost/graph/isomorphism.hpp>
 #include <QDebug>
 #include <QGraphicsItem>
 #include <QGraphicsScene>

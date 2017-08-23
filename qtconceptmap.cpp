@@ -8,7 +8,7 @@
 #include <boost/numeric/conversion/cast.hpp>
 
 
-#include <QApplication>
+//#include <QApplication>
 #include <QKeyEvent>
 #include <QDebug>
 
@@ -658,9 +658,9 @@ void ribi::cmap::QtConceptMap::DoCommand(Command * const command)
 
   CheckInvariants(*this);
 
-  qApp->processEvents();
+  //qApp->processEvents();
 
-  CheckInvariants(*this);
+  //CheckInvariants(*this);
 }
 
 std::vector<QGraphicsItem *> ribi::cmap::GetFocusableItems(
@@ -2104,6 +2104,47 @@ void ribi::cmap::QtConceptMap::Undo()
   CheckInvariants(*this);
   m_undo.undo();
   CheckInvariants(*this);
+}
+
+///Class T may be either a QtNode or a QtEdge
+template <class T>
+void UnselectImpl(
+  ribi::cmap::QtConceptMap& q,
+  T& t
+)
+{
+  static_assert(
+    std::is_same<T, ribi::cmap::QtNode>() || std::is_same<T, ribi::cmap::QtEdge>(),
+    "T is either QtEdge or QtNode");
+
+  T * const no_qtedge_nor_qtnode{nullptr};
+  SetQtExamplesBuddy(q, no_qtedge_nor_qtnode);
+  SetQtToolItemBuddy(q, no_qtedge_nor_qtnode);
+  SetSelectedness(false, t, q);
+
+  /*
+  if (HasExamples(t))
+  {
+    SetQtExamplesBuddy(q, &t);
+  }
+  else
+  {
+    const T * const no_qtedge_nor_qtnode{nullptr};
+    SetQtExamplesBuddy(q, no_qtedge_nor_qtnode);
+  }
+  SetQtToolItemBuddy(q, &t);
+  SetSelectedness(true, t, q);
+  */
+}
+
+void ribi::cmap::Unselect(QtConceptMap& q, QtEdge& qtedge)
+{
+  UnselectImpl(q, qtedge);
+}
+
+void ribi::cmap::Unselect(QtConceptMap& q, QtNode& qtnode)
+{
+  UnselectImpl(q, qtnode);
 }
 
 void ribi::cmap::UnselectAll(QtConceptMap& q)
