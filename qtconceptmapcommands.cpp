@@ -11,10 +11,13 @@
 #include "qtconceptmapcommandselect.h"
 #include "qtconceptmapcommandselectedge.h"
 #include "qtconceptmapcommandselectnode.h"
+#include "qtconceptmapcommandsetconcept.h"
 #include "qtconceptmapcommandsetmode.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapcommandunselect.h"
+#include "qtconceptmapcommandunselectedge.h"
+#include "qtconceptmapcommandunselectnode.h"
 
 std::string ribi::cmap::GetCommands(const std::vector<std::string>& args)
 {
@@ -45,10 +48,13 @@ ribi::cmap::Command* ribi::cmap::ParseCommand(QtConceptMap& q, const std::string
     ParseCommandSelect,
     ParseCommandSelectEdge,
     ParseCommandSelectNode,
+    ParseCommandSetConcept,
     ParseCommandToggleArrowHead,
     ParseCommandToggleArrowTail,
     ParseCommandSetMode,
-    ParseCommandUnselect
+    ParseCommandUnselect,
+    ParseCommandUnselectEdge,
+    ParseCommandUnselectNode
   };
   for (const auto parsing_function: parsing_functions)
   {

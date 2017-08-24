@@ -13,6 +13,8 @@ class QtConceptMapCommandsTest : public QObject
 private slots:
 
   //TODO
+  void SelectCommandIsIgnoredOnAbsentItem() const noexcept;
+  void UnselectCommandIsIgnoredOnAbsentItem() const noexcept;
 
   //DONE
   void CreateOneNewNodeCommand() const noexcept;
@@ -31,11 +33,9 @@ private slots:
   void SaveAndLoadMustResultInSameTopology() const noexcept;
   void SaveCommandEmptyConceptMap() const noexcept;
   void SaveCommandTwoNodesOneEdge() const noexcept;
-  void SelectCommand() const noexcept;
   void SetModeCommand() const noexcept;
   void ToggleArrowHeadCommand() const noexcept;
   void ToggleArrowTailCommand() const noexcept;
-  void UnselectCommand() const noexcept;
 };
 
 } //~namespace cmap

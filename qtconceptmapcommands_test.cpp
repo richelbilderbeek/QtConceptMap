@@ -367,23 +367,16 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SelectCommand() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::SelectCommandIsIgnoredOnAbsentItem() const noexcept
 {
   QtConceptMap q;
-  try
-  {
-    ProcessCommands(q,
-      {
-        "--command",
-        "select(absent node)"
-      }
-    );
-    QVERIFY(!"Should not get here"); //!OCLINT accepted idiom
-  }
-  catch (std::exception&)
-  {
-    QVERIFY("OK"); //!OCLINT accepted idiom
-  }
+  ProcessCommands(q,
+    {
+      "--command",
+      "select(absent node)"
+    }
+  );
+  assert(q.GetUndo().count() == 0);
 }
 
 void ribi::cmap::QtConceptMapCommandsTest::SetModeCommand() const noexcept
@@ -429,7 +422,7 @@ void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowTailCommand() const noexce
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::UnselectCommand() const noexcept
+void ribi::cmap::QtConceptMapCommandsTest::UnselectCommandIsIgnoredOnAbsentItem() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -438,5 +431,5 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectCommand() const noexcept
       "unselect(absent node)"
     }
   );
-  QVERIFY(q.GetUndo().count() == 1);
+  assert(q.GetUndo().count() == 0);
 }

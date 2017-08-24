@@ -50,7 +50,7 @@ ribi::cmap::CommandSelect::CommandSelect(
   }
 }
 
-ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
+ribi::cmap::CommandSelect * ribi::cmap::  ParseCommandSelect(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"select(my text)"
@@ -73,9 +73,19 @@ ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
     }
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
     {
-      if (GetText(*qtnode) == t)
+      if (QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap))
       {
-        return new CommandSelect(qtconceptmap, *qtnode);
+        if (GetText(*qtedge2) == t)
+        {
+          return new CommandSelect(qtconceptmap, *qtedge2);
+        }
+      }
+      else
+      {
+        if (GetText(*qtnode) == t)
+        {
+          return new CommandSelect(qtconceptmap, *qtnode);
+        }
       }
     }
   }
