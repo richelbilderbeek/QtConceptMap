@@ -32,13 +32,15 @@
 #include "qtconceptmapcommanddeleteselected.h"
 #include "qtconceptmapcommandmoveedge.h"
 #include "qtconceptmapcommandmovenode.h"
-#include "qtconceptmapcommandselectedge.h"
-#include "qtconceptmapcommandselectnode.h"
+#include "qtconceptmapcommandselect.h"
+//#include "qtconceptmapcommandselectedge.h"
+//#include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmapcommandsetconcept.h"
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
-#include "qtconceptmapcommandunselectedge.h"
-#include "qtconceptmapcommandunselectnode.h"
+#include "qtconceptmapcommandunselect.h"
+//#include "qtconceptmapcommandunselectedge.h"
+//#include "qtconceptmapcommandunselectnode.h"
 #include "qtconceptmapconcepteditdialog.h"
 #include "qtconceptmapexamplesitem.h"
 #include "qtconceptmaphelper.h"
@@ -908,12 +910,22 @@ void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) no
 
   if (!item) return;
 
+  assert(dynamic_cast<QtNode*>(item) || dynamic_cast<QtEdge*>(item));
+
   //If select exclusively (no shift), unselect all current select items
   if (!event->modifiers())
   {
     UnselectAll(q);
   }
 
+  try
+  {
+    q.DoCommand(new CommandSelect(q, *item));
+    event->accept();
+  }
+  catch (std::exception&) {} //OK
+
+  /*
   try
   {
     QtNode * const qtnode = dynamic_cast<QtNode*>(item);
@@ -936,7 +948,7 @@ void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) no
     }
   }
   catch (std::exception&) {} //OK
-
+  */
   CheckInvariants(q);
 }
 
@@ -1348,7 +1360,21 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     event->ignore();
     return;
   }
-
+  assert(dynamic_cast<QtEdge*>(item) || dynamic_cast<QtNode*>(item));
+  try
+  {
+    if (item->isSelected())
+    {
+      q.DoCommand(new CommandUnselect(q, *item));
+    }
+    else
+    {
+      q.DoCommand(new CommandSelect(q, *item));
+    }
+    event->accept();
+  }
+  catch (std::exception&) {} //OK
+  /*
   QtNode * const qtnode = dynamic_cast<QtNode*>(item);
   if (IsQtNodeOnEdge(qtnode, q))
   {
@@ -1383,7 +1409,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     q.DoCommand(new CommandSelectEdge(q, qtedge));
     event->accept();
   }
-
+  */
   CheckInvariants(q);
 }
 

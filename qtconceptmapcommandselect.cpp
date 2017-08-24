@@ -28,7 +28,14 @@ ribi::cmap::CommandSelect::CommandSelect(
   }
   else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
   {
-    m_cmd = new CommandSelectNode(qtconceptmap, qtnode, this);
+    if (QtEdge * const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
+    {
+      m_cmd = new CommandSelectEdge(qtconceptmap, qtedge2, this);
+    }
+    else
+    {
+      m_cmd = new CommandSelectNode(qtconceptmap, qtnode, this);
+    }
   }
   if (!m_cmd)
   {
