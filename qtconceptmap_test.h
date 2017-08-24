@@ -13,6 +13,7 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -43,8 +44,7 @@ private slots:
   void create_ten_nodes_and_undo_keyboard() const noexcept;
   void create_two_nodes_command() const noexcept;
   void create_two_nodes_keyboard() const noexcept;
-  void default_construction() const noexcept;
-  void delete_node_that_is_connected_to_multiple_edges_keyboard() const noexcept;
+  void DefaultConstruction() const noexcept;
   void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
   void DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const noexcept;
   void DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept;

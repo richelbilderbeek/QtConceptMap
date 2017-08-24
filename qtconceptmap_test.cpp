@@ -361,7 +361,7 @@ void ribi::cmap::QtConceptMapTest::create_two_nodes_keyboard() const noexcept
   QVERIFY(DoubleCheckSelectedEdgesAndNodes(q,0,2));
 }
 
-void ribi::cmap::QtConceptMapTest::default_construction() const noexcept
+void ribi::cmap::QtConceptMapTest::DefaultConstruction() const noexcept
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -380,7 +380,7 @@ void ribi::cmap::QtConceptMapTest::default_construction() const noexcept
   QVERIFY(q.GetUndo().count() == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::delete_node_that_is_connected_to_multiple_edges_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept
 {
   QtConceptMap q;
   q.showFullScreen();

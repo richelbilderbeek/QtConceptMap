@@ -917,7 +917,10 @@ void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) no
   if (!event->modifiers())
   {
     //UnselectAll(q)
-    q.DoCommand(new CommandUnselectAll(q));
+    if (CountSelectedQtEdges(q) + CountSelectedQtNodes(q) > 0)
+    {
+      q.DoCommand(new CommandUnselectAll(q));
+    }
   }
 
   try
@@ -1997,8 +2000,11 @@ void ribi::cmap::SetRandomFocusExclusive(
 {
   CheckInvariants(q);
 
-  q.DoCommand(new CommandUnselectAll(q));
-  //UnselectAll(q);
+  if (CountSelectedQtEdges(q) + CountSelectedQtNodes(q) > 0)
+  {
+    q.DoCommand(new CommandUnselectAll(q));
+    //UnselectAll(q);
+  }
 
   if (q.GetScene().focusItem())
   {
