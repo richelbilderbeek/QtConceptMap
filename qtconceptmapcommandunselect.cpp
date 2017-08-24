@@ -21,8 +21,9 @@
 
 ribi::cmap::CommandUnselect::CommandUnselect(
   QtConceptMap& qtconceptmap,
-  QGraphicsItem& item
-)  : Command(qtconceptmap),
+  QGraphicsItem& item,
+  QUndoCommand * const parent
+)  : Command(qtconceptmap, parent),
      m_cmd{nullptr}
 {
   if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))

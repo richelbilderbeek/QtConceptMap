@@ -51,6 +51,7 @@ void ribi::cmap::CommandUnselectEdge::Redo()
 {
   #ifndef NDEBUG
   const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
+  Expects(n_selected_qtedges_before > 0);
   #endif
 
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
