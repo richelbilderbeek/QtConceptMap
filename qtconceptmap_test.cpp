@@ -1202,10 +1202,10 @@ void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapTwoSelectedNodes() const no
   q.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
   q.show();
   //Select node on edge with examples
-  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("strengthen"))));
+  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("strengthen"))));
   //m.DoCommand(new CommandSelect(m, "strengthen"));
   //Select node
-  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("Order"))));
+  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("Order"))));
   //m.DoCommand(new CommandSelect(m, "Order"));
   q.show();
   q.SetConceptMap(ConceptMap());
