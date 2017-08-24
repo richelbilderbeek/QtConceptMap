@@ -41,6 +41,7 @@
 #include "qtconceptmapcommandunselect.h"
 //#include "qtconceptmapcommandunselectedge.h"
 //#include "qtconceptmapcommandunselectnode.h"
+#include "qtconceptmapcommandunselectall.h"
 #include "qtconceptmapconcepteditdialog.h"
 #include "qtconceptmapexamplesitem.h"
 #include "qtconceptmaphelper.h"
@@ -915,7 +916,8 @@ void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) no
   //If select exclusively (no shift), unselect all current select items
   if (!event->modifiers())
   {
-    UnselectAll(q);
+    //UnselectAll(q)
+    q.DoCommand(new CommandUnselectAll(q));
   }
 
   try
@@ -1995,8 +1997,8 @@ void ribi::cmap::SetRandomFocusExclusive(
 {
   CheckInvariants(q);
 
-  UnselectAll(q);
-  //UnselectAllItems(q);
+  q.DoCommand(new CommandUnselectAll(q));
+  //UnselectAll(q);
 
   if (q.GetScene().focusItem())
   {
