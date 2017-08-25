@@ -1528,6 +1528,7 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
 
   }
 
+  CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(*this);
   CheckInvariants(*this);
 }
 
@@ -1835,7 +1836,17 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
   {
     SetQtExamplesBuddy(q, new_focus_item);
   }
-  SetQtToolItemBuddy(q, new_focus_item);
+  //Only QtNodes (not on QtEdge) have a QtToolItem
+  if (IsQtNodeNotOnEdge(new_focus_item, q))
+  {
+    SetQtToolItemBuddy(q, new_focus_item);
+  }
+  else
+  {
+    QtNode * const no_qtnode{nullptr};
+    SetQtToolItemBuddy(q, no_qtnode);
+  }
+  CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
 
   new_focus_item->setFocus(); //Do after SetQt(Tool&Example)Buddies
   q.update();
@@ -2187,9 +2198,14 @@ void ribi::cmap::UpdateExamplesItem(QtConceptMap& q)
   CheckInvariantOneQtNodeWithExamplesHasExamplesItem(q);
 }
 
-void ribi::cmap::UpdateQtToolItem(QtConceptMap& q)
+void ribi::cmap::UpdateQtToolItem(QtConceptMap&
+  #ifdef REALLY_THINK_COMMANDS_SHOULD_NOT_DO_THIS_THEMSELVES_20170825
+  q
+  #endif // REALLY_THINK_COMMANDS_SHOULD_NOT_DO_THIS_THEMSELVES_20170825
+)
 {
-  const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(*q.scene());
+  #ifdef REALLY_THINK_COMMANDS_SHOULD_NOT_DO_THIS_THEMSELVES_20170825
+  const auto selected_qtnodes = GetSelectedQtNodes(*q.scene());
   if (selected_qtnodes.size() == 1)
   {
     const auto selected_qtnode = selected_qtnodes[0];
@@ -2199,6 +2215,8 @@ void ribi::cmap::UpdateQtToolItem(QtConceptMap& q)
   {
     q.GetQtToolItem().SetBuddyItem(nullptr);
   }
+  CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(*this);
+  #endif // REALLY_THINK_COMMANDS_SHOULD_NOT_DO_THIS_THEMSELVES_20170825
 }
 
 void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)
