@@ -90,7 +90,6 @@ public slots:
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
   void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
-  void onSelectionChanged();
   void showEvent(QShowEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
 
@@ -170,10 +169,6 @@ void CheckInvariantAsMuchNodesAsQtNodes(const QtConceptMap& q) noexcept;
 ///There must be as much Nodes as QtNodes selected
 void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
 
-
-///If one QtNode with examples is selected, the ExamplesItem must be visible and close
-void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
-
 ///All QtEdges and Edges must have approximately the same X and Y coordinat
 void CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(const QtConceptMap& q) noexcept;
 
@@ -186,10 +181,6 @@ void CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(const QtConceptMap& q) no
 
 ///If there is a single QtEdge selected, its corresponding Edge must be present
 void CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap& q) noexcept;
-
-///If there is a single QtNode selected (may also be on a QtNode on a QtEdge),
-///the QtToolItem must be connected to it
-void CheckInvariantSingleSelectedQtNodeMustHaveQtTool(const QtConceptMap& q) noexcept;
 
 ///Counts the number of arrow heads on all QtEdges
 int CountQtArrowHeads(const QtConceptMap& q) noexcept;
@@ -340,7 +331,6 @@ void keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexcept;
 void keyPressEventF4(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept;
-void keyPressEventQuestion(QtConceptMap& q, QKeyEvent *) noexcept;
 void keyPressEventSpace(QtConceptMap& q, QKeyEvent *) noexcept;
 void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
@@ -462,15 +452,8 @@ void UnselectAllQtEdges(QtConceptMap& q);
 ///Unselect all QtNodes (and the Nodes in the ConceptMap)
 void UnselectAllQtNodes(QtConceptMap& q);
 
-/// Writes the selecteness of the QtConceptMap
-/// to the ConceptMap
-void UpdateConceptMap(QtConceptMap& q);
-
 ///The QtExamplesItem must be shown on nodes with examples
 void UpdateExamplesItem(QtConceptMap& q);
-
-///The QtToolItem must be shown on nodes
-void UpdateQtToolItem(QtConceptMap& q);
 
 
 } //~namespace cmap

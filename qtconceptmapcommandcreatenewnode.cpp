@@ -172,6 +172,4 @@ void ribi::cmap::CommandCreateNewNode::Undo()
 
   Ensures(CountSelectedQtNodes(GetQtConceptMap())
     == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
-  CheckInvariantSingleSelectedQtNodeMustHaveQtTool(GetQtConceptMap());
-  
 }
