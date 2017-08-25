@@ -1145,8 +1145,6 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
     this->DoCommand(new CommandCreateNewNode(*this, "", false, pos.x(), pos.y()));
   }
   catch (std::logic_error& ) {} //!OCLINT This should be an empty catch statement
-  UpdateExamplesItem(*this);
-
   CheckInvariants(*this);
 }
 
@@ -1272,10 +1270,7 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
     }
   }
 
-  UpdateExamplesItem(q);
-
   assert(!q.GetQtNewArrow().isSelected());
-
   CheckInvariants(q);
 }
 
