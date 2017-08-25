@@ -619,7 +619,12 @@ bool ribi::cmap::IsQtCenterNode(const QGraphicsItem* const item)
 {
   const QtNode * const qtnode = dynamic_cast<const QtNode*>(item);
   if (!qtnode) return false;
-  return IsCenterNode(qtnode->GetNode());
+  return IsQtCenterNode(*qtnode);
+}
+
+bool ribi::cmap::IsQtCenterNode(const QtNode& qtnode)
+{
+  return IsCenterNode(qtnode.GetNode());
 }
 
 bool ribi::cmap::IsOnEdge(

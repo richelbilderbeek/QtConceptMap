@@ -42,6 +42,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
   QVERIFY(!GetQtExamplesItemBuddy(q));
 
   const Concept concept("any name", Examples( { Example("John"), Example("Jane")} ));
+
   q.DoCommand(new CommandSetConcept(q, concept));
 
   const Concept concept_again = GetConcept(*GetFirstQtEdge(q));

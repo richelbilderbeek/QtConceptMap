@@ -6,15 +6,13 @@
 namespace ribi {
 namespace cmap {
 
-///Set the Concept of the QtNode (also on QtEdge) where the QtToolItem
-///is connected to. Will throw if there is not QtToolItem or if it
-///is connected to an uneditable center QtNode
+///Set the Concept of the single one QtNode (also on QtEdge) selected.
+///Will throw if there are no or multiple QtNodes selected, or the
+///selected item is uneditable
 class CommandSetConcept final : public Command
 {
   public:
 
-  ///@param node_or_edge_name the node or edge name/text to be selected
-  ///Will throw if name is absent (at redo)
   CommandSetConcept(
     QtConceptMap& qtconceptmap,
     const Concept& concept

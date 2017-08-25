@@ -170,6 +170,7 @@ void CheckInvariantAsMuchNodesAsQtNodes(const QtConceptMap& q) noexcept;
 ///There must be as much Nodes as QtNodes selected
 void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
 
+
 ///If one QtNode with examples is selected, the ExamplesItem must be visible and close
 void CheckInvariantOneQtNodeWithExamplesHasExamplesItem(const QtConceptMap& q) noexcept;
 
@@ -178,6 +179,10 @@ void CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(const QtConceptMap& q) noex
 
 ///All QtNodes and Nodes must have approximately the same X and Y coordinat
 void CheckInvariantQtNodesAndNodesHaveSameCoordinats(const QtConceptMap& q) noexcept;
+
+///A QtToolItem is never associated with a QtEdge, nor a QtNode
+///one a QtEdge
+void CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(const QtConceptMap& q) noexcept;
 
 ///If there is a single QtEdge selected, its corresponding Edge must be present
 void CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap& q) noexcept;
@@ -368,22 +373,22 @@ void OnEdgeKeyDownPressed(QtConceptMap& q, QtEdge * const item, const int key);
 ///Called when an item wants to be edited
 void OnNodeKeyDownPressed(
   QtConceptMap& q,
-  QtNode* const item,
+  QtNode& item,
   QKeyEvent * const event
 );
 
 ///An item wants to be edited from F2 in edit mode
 void OnNodeKeyDownPressedEditF2(
   QtConceptMap& q,
-  QtNode* const item,
+  QtNode& qtnode,
   QKeyEvent * const event
 );
 
 ///An item wants to be edited from F1 in rate mode
-void OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item);
+void OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode& item);
 
 ///An item wants to be edited from F2 in rate mode
-void OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode* const item);
+void OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode& item);
 
 void ProcessKey(QtConceptMap& q, QKeyEvent * const event);
 

@@ -419,6 +419,13 @@ void ribi::cmap::CheckInvariantQtNodesAndNodesHaveSameCoordinats(const QtConcept
   }
   #endif // NDEBUG
 }
+
+void ribi::cmap::CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(const QtConceptMap& q) noexcept
+{
+  QtNode * const qtnode = q.GetQtToolItem().GetBuddyItem();
+  assert(!qtnode || IsQtNodeNotOnEdge(qtnode, q));
+}
+
 void ribi::cmap::CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(const QtConceptMap&
   #ifndef NDEBUG
   q
@@ -493,6 +500,7 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   CheckInvariantSingleSelectQtEdgeMustHaveCorrespondingEdge(q);
   CheckInvariantSingleSelectedQtNodeMustHaveQtTool(q);
   CheckInvariantOneQtNodeWithExamplesHasExamplesItem(q);
+  CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
   #endif
 }
 
@@ -1038,7 +1046,7 @@ void ribi::cmap::keyPressEventF1(QtConceptMap& q, QKeyEvent * const event) noexc
     if (items.size() != 1) return;
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(items.front()))
     {
-      OnNodeKeyDownPressed(q, qtnode, event);
+      OnNodeKeyDownPressed(q, *qtnode, event);
     }
   }
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
@@ -1052,7 +1060,7 @@ void ribi::cmap::keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexc
     if (items.size() != 1) return;
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(items.front()))
     {
-      OnNodeKeyDownPressed(q, qtnode, event);
+      OnNodeKeyDownPressed(q, *qtnode, event);
     }
   }
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
@@ -1525,11 +1533,11 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
 
 void ribi::cmap::OnNodeKeyDownPressed(
   QtConceptMap& q,
-  QtNode* const item,
+  QtNode& qtnode,
   QKeyEvent * const event
 )
 {
-  if (IsQtCenterNode(item))
+  if (IsQtCenterNode(&qtnode))
   {
     event->ignore();
     return;
@@ -1537,38 +1545,37 @@ void ribi::cmap::OnNodeKeyDownPressed(
   const int key{event->key()};
 
   //Note: item can also be the QtNode on a QtEdge
-  assert(item);
   if (q.GetMode() == Mode::edit && key == Qt::Key_F2)
   {
-    OnNodeKeyDownPressedEditF2(q, item, event);
+    OnNodeKeyDownPressedEditF2(q, qtnode, event);
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F1)
   {
-    OnNodeKeyDownPressedRateF1(q, item);
+    OnNodeKeyDownPressedRateF1(q, qtnode);
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F2)
   {
-    OnNodeKeyDownPressedRateF2(q, item);
+    OnNodeKeyDownPressedRateF2(q, qtnode);
   }
 
   q.show();
   q.setFocus();
-  q.scene()->setFocusItem(item);
-  item->setSelected(true);
+  q.scene()->setFocusItem(&qtnode);
+  qtnode.setSelected(true);
   q.scene()->update();
 }
 
 
 void ribi::cmap::OnNodeKeyDownPressedEditF2(
   QtConceptMap& q,
-  QtNode* const item,
+  QtNode& qtnode,
   QKeyEvent * const event
 )
 {
   event->accept();
 
   //Edit concept
-  QtConceptMapConceptEditDialog d(item->GetNode().GetConcept());
+  QtConceptMapConceptEditDialog d(qtnode.GetNode().GetConcept());
   q.setEnabled(false);
   //Block pop-ups in testing
   if (q.GetPopupMode() == PopupMode::normal)
@@ -1577,52 +1584,20 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   }
   q.setEnabled(true);
 
-
+  assert(GetSelectedQtNodesAlsoOnQtEdge(q).size() == 1);
+  assert(GetSelectedQtNodesAlsoOnQtEdge(q)[0] == &qtnode);
   q.DoCommand(new CommandSetConcept(q, d.GetConcept()));
-
-  #ifdef WHEN_FEELING_OK_WITH_DELETING_THIS_LOVELY_CODE_20170818
-  //Find the original Node or Edge
-  if (::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()))
-  {
-    assert(::has_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap()));
-    const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
-    //Update the node here
-    auto node = item->GetNode();
-    node.SetConcept(d.GetConcept());
-    //Update the node in the concept map
-    set_my_custom_vertex(node, vd, q.GetConceptMap());
-  }
-  else
-  {
-    //It is a node on an edge
-    //Find the first (and hopefully only) edge with the node on it
-    Node node = item->GetNode();
-    const auto ed = ::find_first_custom_edge(
-      [node](const Edge& e) { return e.GetNode() == node; },
-      q.GetConceptMap()
-    );
-    //Get hold of the Edge
-    Edge edge = ::get_my_custom_edge(ed, q.GetConceptMap());
-    //Update the Edge here
-    node.SetConcept(d.GetConcept());
-    edge.SetNode(node);
-    //Update the node in the concept map
-    set_my_custom_edge(edge, ed, q.GetConceptMap());
-  }
-  //Update the QtNode
-  item->GetNode().SetConcept(d.GetConcept());
-  //Set the word-wrapped text
-  item->SetText(Wordwrap(d.GetConcept().GetName(), GetWordWrapLength()));
-  #endif // WHEN_FEELING_OK_WITH_DELETING_THIS_LOVELY_CODE_20170818
 
   CheckInvariants(q);
 }
 
-void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)
+void ribi::cmap::OnNodeKeyDownPressedRateF1(
+  QtConceptMap& q,
+  QtNode& item)
 {
   //Rate concept
   const auto vd = ::find_first_custom_vertex_with_my_vertex(
-    item->GetNode(), q.GetConceptMap()
+    item.GetNode(), q.GetConceptMap()
   );
   const auto subgraph
     = create_direct_neighbour_custom_and_selectable_edges_and_vertices_subgraph(
@@ -1638,14 +1613,14 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)
     //Find the original Node
     //const auto vd = FindNode(item->GetNode(), m_conceptmap);
     //Update the node here
-    auto node = item->GetNode();
+    auto node = item.GetNode();
     node.GetConcept().SetRatingComplexity(d.GetComplexity());
     node.GetConcept().SetRatingConcreteness(d.GetConcreteness());
     node.GetConcept().SetRatingSpecificity(d.GetSpecificity());
     //Update the node in the concept map
     set_my_custom_vertex(node, vd, q.GetConceptMap());
     //Update the QtNode
-    item->GetNode().SetConcept(node.GetConcept());
+    item.GetNode().SetConcept(node.GetConcept());
     const int n_rated
       = (node.GetConcept().GetRatingComplexity()   == -1 ? 0 : 1)
       + (node.GetConcept().GetRatingConcreteness() == -1 ? 0 : 1)
@@ -1653,14 +1628,14 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)
     switch (n_rated)
     {
       case 0:
-        item->setBrush(QtBrushFactory().CreateRedGradientBrush());
+        item.setBrush(QtBrushFactory().CreateRedGradientBrush());
         break;
       case 1:
       case 2:
-        item->setBrush(QtBrushFactory().CreateYellowGradientBrush());
+        item.setBrush(QtBrushFactory().CreateYellowGradientBrush());
         break;
       case 3:
-        item->setBrush(QtBrushFactory().CreateGreenGradientBrush());
+        item.setBrush(QtBrushFactory().CreateGreenGradientBrush());
         break;
       default:
         throw std::logic_error(
@@ -1670,23 +1645,24 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode* const item)
   }
 }
 
-void ribi::cmap::OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode* const item)
+void ribi::cmap::OnNodeKeyDownPressedRateF2(
+  QtConceptMap& q, QtNode& item)
 {
   //Rate examples
-  if (item->GetNode().GetConcept().GetExamples().Get().empty()) return;
-  ribi::cmap::QtRateExamplesDialog d(item->GetNode().GetConcept());
+  if (!HasExamples(item)) return;
+  ribi::cmap::QtRateExamplesDialog d(item.GetNode().GetConcept());
   q.setEnabled(false);
   d.exec();
   q.setEnabled(true);
   //Find the original Node
-  const auto vd = ::find_first_custom_vertex_with_my_vertex(item->GetNode(), q.GetConceptMap());
+  const auto vd = ::find_first_custom_vertex_with_my_vertex(item.GetNode(), q.GetConceptMap());
   //Update the node here
-  auto node = item->GetNode();
+  auto node = item.GetNode();
   node.GetConcept().SetExamples(d.GetRatedExamples());
   //Update the node in the concept map
   set_my_custom_vertex(node, vd, q.GetConceptMap());
   //Update the QtNode
-  item->GetNode().GetConcept().SetExamples(d.GetRatedExamples());
+  item.GetNode().GetConcept().SetExamples(d.GetRatedExamples());
 }
 
 void ribi::cmap::QtConceptMap::onSelectionChanged()

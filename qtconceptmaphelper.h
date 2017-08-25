@@ -162,6 +162,7 @@ bool IsDashed(const QPen& pen) noexcept;
 
 ///Check if this item is the center node
 bool IsQtCenterNode(const QGraphicsItem* const item);
+bool IsQtCenterNode(const QtNode& qtnode);
 
 ///Is this QtNode in the center on a QtEdge?
 bool IsOnEdge(

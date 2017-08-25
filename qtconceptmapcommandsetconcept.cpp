@@ -15,11 +15,12 @@ ribi::cmap::CommandSetConcept::CommandSetConcept(
   : Command(qtconceptmap),
     m_concept{concept}
 {
-  if (!GetQtToolItemBuddy(GetQtConceptMap()))
+  if (GetSelectedQtNodesAlsoOnQtEdge(GetQtConceptMap()).size() != 1)
   {
-    throw std::invalid_argument("QtToolItem must have a buddy to have its Concept set");
+    throw std::invalid_argument("Select one QtNode to set the Concept of");
   }
-  if (IsQtCenterNode(GetQtToolItemBuddy(GetQtConceptMap())))
+
+  if (IsQtCenterNode(*GetSelectedQtNodesAlsoOnQtEdge(GetQtConceptMap())[0]))
   {
     throw std::invalid_argument("Cannot set Concept of center node");
   }
@@ -77,10 +78,10 @@ void RedoImpl(
 
 void ribi::cmap::CommandSetConcept::Redo()
 {
-  Expects(GetQtToolItemBuddy(GetQtConceptMap()));
-  Expects(!IsQtCenterNode(GetQtToolItemBuddy(GetQtConceptMap())));
+  Expects(GetSelectedQtNodesAlsoOnQtEdge(GetQtConceptMap()).size() == 1);
+  Expects(!IsQtCenterNode(*GetSelectedQtNodesAlsoOnQtEdge(GetQtConceptMap())[0]));
 
-  QtNode * const qtnode = GetQtToolItemBuddy(GetQtConceptMap());
+  QtNode * const qtnode = GetSelectedQtNodesAlsoOnQtEdge(GetQtConceptMap())[0];
   assert(qtnode);
   QtEdge * const qtedge = FindQtEdge(qtnode, GetQtConceptMap());
 
@@ -123,7 +124,7 @@ void UndoImpl(
 
 void ribi::cmap::CommandSetConcept::Undo()
 {
-  QtNode * const qtnode = GetQtToolItemBuddy(GetQtConceptMap());
+  QtNode * const qtnode = GetSelectedQtNodesAlsoOnQtEdge(GetQtConceptMap())[0];
   assert(qtnode);
   QtEdge * const qtedge = FindQtEdge(qtnode, GetQtConceptMap());
 

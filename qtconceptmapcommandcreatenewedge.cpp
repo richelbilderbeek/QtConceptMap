@@ -223,7 +223,9 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
       GetQtConceptMap().GetMode()
     )
   );
-  SetQtToolItemBuddy(GetQtConceptMap(), m_added_qtedge->GetQtNode());
+
+  QtNode * const no_qtnode{nullptr};
+  SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
 
   SetSelectedness(false, *m_added_qtedge->GetFrom(), GetQtConceptMap());
   SetSelectedness(false, *m_added_qtedge->GetTo(), GetQtConceptMap());

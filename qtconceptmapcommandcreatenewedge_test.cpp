@@ -16,6 +16,8 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noe
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
   QVERIFY(CountQtNodes(q) == 2);
   QVERIFY(CountQtEdges(q) == 1);
+  QVERIFY(!GetQtExamplesItemBuddy(q));
+  QVERIFY(!GetQtToolItemBuddy(q));
 }
 
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const noexcept
