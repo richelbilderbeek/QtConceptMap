@@ -16,6 +16,8 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noe
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
   QVERIFY(CountQtNodes(q) == 2);
   QVERIFY(CountQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+  QVERIFY(CountSelectedQtEdges(q) == 1);
   QVERIFY(!GetQtExamplesItemBuddy(q));
   QVERIFY(!GetQtToolItemBuddy(q));
 }
@@ -27,12 +29,18 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const
   q.DoCommand(new CommandCreateNewNode(q, "to"  , false,  300,  400));
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 2);
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
   q.Undo();
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 2);
 }
 
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNode() const noexcept
@@ -45,6 +53,8 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNo
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "invisible"));
   QVERIFY(CountQtNodes(q) == 2);
   QVERIFY(CountQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::Parse() const noexcept
@@ -60,6 +70,8 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::Parse() const noexcept
   QVERIFY(c3 != nullptr);
   QVERIFY(GetText(*c3) == "my text");
   q.DoCommand(c3);
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::ParseNonsenseFails() const noexcept
