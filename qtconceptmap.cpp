@@ -533,25 +533,11 @@ ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
   return FindFirstQtEdge(q.GetScene(), predicate);
 }
 
-ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdgeWithName(
-  const QtConceptMap& q,
-  const std::string& name) noexcept
-{
-  return FindFirstQtEdgeWithName(q.GetScene(), name);
-}
-
 ribi::cmap::QtNode * ribi::cmap::FindFirstQtNode(
   const QtConceptMap& q,
   const std::function<bool(QtNode*)> predicate) noexcept
 {
   return FindFirstQtNode(q.GetScene(), predicate);
-}
-
-ribi::cmap::QtNode * ribi::cmap::FindFirstQtNodeWithName(
-  const QtConceptMap& q,
-  const std::string& name) noexcept
-{
-  return FindFirstQtNodeWithName(q.GetScene(), name);
 }
 
 ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
@@ -738,7 +724,7 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(const QtConceptMap& q) 
   return GetQtEdges(q.GetScene());
 }
 
-const ribi::cmap::QtNode * ribi::cmap::GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept
+ribi::cmap::QtNode * ribi::cmap::GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept
 {
   return q.GetQtExamplesItem().GetBuddyItem();
 }
@@ -1833,21 +1819,24 @@ void SelectImpl(
   }
   else
   {
-    const T * const no_qtedge_nor_qtnode{nullptr};
+    T * const no_qtedge_nor_qtnode{nullptr};
     SetQtExamplesBuddy(q, no_qtedge_nor_qtnode);
   }
-  SetQtToolItemBuddy(q, &t);
   SetSelectedness(true, t, q);
 }
 
 void ribi::cmap::Select(QtConceptMap& q, QtEdge& qtedge)
 {
   SelectImpl(q, qtedge);
+  //Edges do not get a tool item
+  QtNode * const no_qtnode{nullptr};
+  SetQtToolItemBuddy(q, no_qtnode);
 }
 
 void ribi::cmap::Select(QtConceptMap& q, QtNode& qtnode)
 {
   SelectImpl(q, qtnode);
+  SetQtToolItemBuddy(q, &qtnode);
 }
 
 void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
@@ -2030,7 +2019,7 @@ void ribi::cmap::SetRandomFocusExclusive(
   CheckInvariants(q);
 }
 
-void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtEdge * const qtedge)
+void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge)
 {
   if (qtedge)
   {
@@ -2038,14 +2027,14 @@ void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtEdge * const qtedge
   }
   else
   {
-    const QtNode * const no_qtnode{nullptr};
+    QtNode * const no_qtnode{nullptr};
     SetQtExamplesBuddy(q, no_qtnode);
   }
 
   Ensures(qtedge == nullptr || GetQtExamplesItemBuddy(q) == qtedge->GetQtNode()); //!OCLINT no double negation for the reader
 }
 
-void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, const QtNode * const qtnode)
+void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode)
 {
   if (qtnode)
   {
@@ -2154,20 +2143,6 @@ void UnselectImpl(
   SetQtExamplesBuddy(q, no_qtnode);
   SetQtToolItemBuddy(q, no_qtnode);
   SetSelectedness(false, t, q);
-
-  /*
-  if (HasExamples(t))
-  {
-    SetQtExamplesBuddy(q, &t);
-  }
-  else
-  {
-    const T * const no_qtedge_nor_qtnode{nullptr};
-    SetQtExamplesBuddy(q, no_qtedge_nor_qtnode);
-  }
-  SetQtToolItemBuddy(q, &t);
-  SetSelectedness(true, t, q);
-  */
 }
 
 void ribi::cmap::Unselect(QtConceptMap& q, QtEdge& qtedge)

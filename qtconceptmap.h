@@ -210,8 +210,7 @@ QtEdge * FindFirstQtEdge(
 
 ///FindFirstQtEdge with a predicate to check for the name on the QtEdge
 ///Returns nullptr if there is none
-// Use 'FindFirstQtEdge(q, QtEdgeHasName(name)' instead
-[[deprecated]]
+[[deprecated("Use FindFirstQtEdge(q, QtEdgeHasName(name)) instead")]]
 QtEdge * FindFirstQtEdgeWithName(
   const QtConceptMap& q,
   const std::string& name) noexcept;
@@ -224,8 +223,7 @@ QtNode * FindFirstQtNode(
 
 ///FindFirstQtNode with a predicate to check for the name on the QtNode
 ///Returns nullptr if there is none
-// Use 'FindFirstQtNode(q, QtNodeHasName(name)' instead
-[[deprecated]]
+[[deprecated("Use FindFirstQtNode(q, QtNodeHasName(name)) instead")]]
 QtNode * FindFirstQtNodeWithName(
   const QtConceptMap& q,
   const std::string& name) noexcept;
@@ -270,7 +268,7 @@ constexpr double GetQtEdgeZvalue() { return -1.0; }
 
 ///Get the QtExamplesItem its Buddy item
 ///Will return a QtNode that is either standalone or on an edge
-const QtNode * GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept;
+QtNode * GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept;
 
 ///Get all the 'standalone' (those not on an edge) QtNodes
 std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
@@ -405,11 +403,15 @@ void Select(QtConceptMap& q, QtNode& qtnode);
 void SetFocus(QtConceptMap& q, QtNode* const qtnode);
 
 ///Set the buddy of the QtExamplesItem
-void SetQtExamplesBuddy(QtConceptMap& q, const QtNode * const qtnode);
-void SetQtExamplesBuddy(QtConceptMap& q, const QtEdge * const qtedge);
+void SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode);
+void SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge);
 
 ///Set the buddy of the QtToolItem
 void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);
+
+//A QtEdge never has a QtToolItem, as one cannot draw edges
+//between the relationship nodes.
+[[deprecated("a QtToolItem never connects with a QtEdge")]]
 void SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge);
 
 ///Focus on a random QtNode (both as vertices as those on the edges)

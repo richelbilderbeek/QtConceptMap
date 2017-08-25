@@ -93,7 +93,7 @@ void ribi::cmap::CommandUnselectNode::Undo()
   }
   else
   {
-    const QtNode * const no_qtnode{nullptr};
+    QtNode * const no_qtnode{nullptr};
     SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
   }
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);

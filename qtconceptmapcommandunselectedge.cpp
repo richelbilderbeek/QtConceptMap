@@ -12,6 +12,7 @@ ribi::cmap::CommandUnselectEdge::CommandUnselectEdge(
   QUndoCommand * const parent
 )
   : Command(qtconceptmap, parent),
+    m_prev_qtexamplesitem_buddy{nullptr},
     m_prev_qttoolitem_buddy{nullptr},
     m_qtedge{qtedge}
 {
@@ -54,6 +55,7 @@ void ribi::cmap::CommandUnselectEdge::Redo()
   Expects(n_selected_qtedges_before > 0);
   #endif
 
+  m_prev_qtexamplesitem_buddy = GetQtExamplesItemBuddy(GetQtConceptMap());
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
   assert(m_qtedge);
@@ -67,13 +69,13 @@ void ribi::cmap::CommandUnselectEdge::Redo()
 
 void ribi::cmap::CommandUnselectEdge::Undo()
 {
-  if (m_prev_qttoolitem_buddy && HasExamples(*m_prev_qttoolitem_buddy))
+  if (m_prev_qtexamplesitem_buddy && HasExamples(*m_prev_qtexamplesitem_buddy))
   {
-    SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
+    SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qtexamplesitem_buddy);
   }
   else
   {
-    const QtEdge * const no_qtedge{nullptr};
+    QtEdge * const no_qtedge{nullptr};
     SetQtExamplesBuddy(GetQtConceptMap(), no_qtedge);
   }
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);

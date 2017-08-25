@@ -70,7 +70,7 @@ void RedoImpl(
   }
   else
   {
-    const T * const no_qtnode{nullptr};
+    T * const no_qtnode{nullptr};
     SetQtExamplesBuddy(cmd.GetQtConceptMap(), no_qtnode);
   }
 }
@@ -115,7 +115,7 @@ void UndoImpl(
   }
   else
   {
-    const T * const no_qtnode{nullptr};
+    T * const no_qtnode{nullptr};
     SetQtExamplesBuddy(cmd.GetQtConceptMap(), no_qtnode);
   }
 }

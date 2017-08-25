@@ -89,6 +89,7 @@ QtEdge * FindFirstQtEdge(
 
 ///FindFirstQtNode with the predicate of HasName(name)
 ///Returns nullptr if there is none
+[[deprecated("Use FindFirstQtEdge(scene, QtEdgeHasName(name)) instead")]]
 QtEdge * FindFirstQtEdgeWithName(
   const QGraphicsScene& scene,
   const std::string& name) noexcept;
@@ -105,6 +106,7 @@ QtNode * FindFirstQtNode(
 
 ///FindFirstQtNode with the predicate of HasName(name)
 ///Returns nullptr if there is none
+[[deprecated("Use FindFirstQtNode(scene, QtNodeHasName(name)) instead")]]
 QtNode * FindFirstQtNodeWithName(
   const QGraphicsScene& scene,
   const std::string& name) noexcept;

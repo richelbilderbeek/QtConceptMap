@@ -102,7 +102,7 @@ void ribi::cmap::QtExamplesItem::Reposition()
   }
 }
 
-void ribi::cmap::QtExamplesItem::SetBuddyItem(const QtNode * const qtnode)
+void ribi::cmap::QtExamplesItem::SetBuddyItem(QtNode * const qtnode)
 {
   /*
 
