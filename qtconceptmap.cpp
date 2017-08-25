@@ -1342,9 +1342,7 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
   }
   else
   {
-    UpdateQtToolItem(*this);
     GetQtNewArrow().setVisible(false);
-
   }
 
   CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(*this);
@@ -1950,21 +1948,6 @@ void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
   {
     SetSelectedness(false, *qtnode, q);
   }
-}
-
-void ribi::cmap::UpdateExamplesItem(QtConceptMap& q)
-{
-  //If nothing is selected, hide the Examples
-  q.GetQtExamplesItem().SetBuddyItem(nullptr); //Handles visibility
-  const auto selected_qtnodes = GetSelectedQtNodesAlsoOnQtEdge(*q.scene());
-  if (selected_qtnodes.size() == 1)
-  {
-    const auto selected_qtnode = selected_qtnodes[0];
-    q.GetQtExamplesItem().SetBuddyItem(selected_qtnode); //Handles visibility
-  }
-  q.update();
-  q.show();
-  q.scene()->update();
 }
 
 void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)

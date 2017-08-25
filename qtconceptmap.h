@@ -452,9 +452,6 @@ void UnselectAllQtEdges(QtConceptMap& q);
 ///Unselect all QtNodes (and the Nodes in the ConceptMap)
 void UnselectAllQtNodes(QtConceptMap& q);
 
-///The QtExamplesItem must be shown on nodes with examples
-void UpdateExamplesItem(QtConceptMap& q);
-
 
 } //~namespace cmap
 } //~namespace ribi
