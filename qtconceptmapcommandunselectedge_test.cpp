@@ -118,23 +118,23 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdgeNoCenter());
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  QtEdge * const qtnode1 = FindFirstQtEdge(q, QtEdgeHasName("first"));
-  QtEdge * const qtnode2 = FindFirstQtEdge(q, QtEdgeHasName("second"));
-  q.DoCommand(new CommandSelectEdge(q, qtnode1));
+  QtEdge * const qtedge1 = FindFirstQtEdge(q, QtEdgeHasName("first"));
+  QtEdge * const qtedge2 = FindFirstQtEdge(q, QtEdgeHasName("second"));
+  q.DoCommand(new CommandSelectEdge(q, qtedge1));
 
   assert(CountSelectedQtEdges(q) == 1);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == qtnode1->GetQtNode());
+  assert(GetQtExamplesItemBuddy(q) == qtedge1->GetQtNode());
 
-  q.DoCommand(new CommandSelectEdge(q, qtnode2));
+  q.DoCommand(new CommandSelectEdge(q, qtedge2));
 
   assert(CountSelectedQtEdges(q) == 2);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == qtnode2->GetQtNode());
+  assert(GetQtExamplesItemBuddy(q) == qtedge2->GetQtNode());
 
-  q.DoCommand(new CommandUnselectEdge(q, qtnode1));
+  q.DoCommand(new CommandUnselectEdge(q, qtedge1));
 
   //QtTool and QtExamplesItem do not know where to go
   assert(CountSelectedQtEdges(q) == 1);
@@ -142,7 +142,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(GetQtToolItemBuddy(q) == nullptr);
   assert(GetQtExamplesItemBuddy(q) == nullptr);
 
-  q.DoCommand(new CommandUnselectEdge(q, qtnode2));
+  q.DoCommand(new CommandUnselectEdge(q, qtedge2));
 
   //QtTool and QtExamplesItem do not know where to go
   assert(CountSelectedQtEdges(q) == 0);
@@ -163,7 +163,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(CountSelectedQtEdges(q) == 2);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == qtnode2->GetQtNode());
+  assert(GetQtExamplesItemBuddy(q) == qtedge2->GetQtNode());
 }
 
 void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::Parse() const noexcept

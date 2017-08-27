@@ -444,13 +444,13 @@ void Unselect(QtConceptMap& q, QtEdge& qtedge);
 void Unselect(QtConceptMap& q, QtNode& qtnode);
 
 ///Unselect all QtNodes and QtEdges
-void UnselectAll(QtConceptMap& q);
+[[deprecated("Use CommandUnselectAll instead")]] void UnselectAll(QtConceptMap& q);
 
 ///Unselect all QtEdges (and the Edges in the ConceptMap)
-void UnselectAllQtEdges(QtConceptMap& q);
+[[deprecated("Use CommandUnselectAll instead")]] void UnselectAllQtEdges(QtConceptMap& q);
 
 ///Unselect all QtNodes (and the Nodes in the ConceptMap)
-void UnselectAllQtNodes(QtConceptMap& q);
+[[deprecated("Use CommandUnselectAll instead")]] void UnselectAllQtNodes(QtConceptMap& q);
 
 
 } //~namespace cmap

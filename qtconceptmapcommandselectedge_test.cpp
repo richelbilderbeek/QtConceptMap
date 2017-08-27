@@ -1,6 +1,7 @@
 #include "qtconceptmapcommandselectedge_test.h"
 
 #include "qtconceptmapcommandselectedge.h"
+#include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmap.h"
 #include "conceptmapfactory.h"
 #include "qtconceptmapqtedge.h"
@@ -46,25 +47,28 @@ void ribi::cmap::QtConceptMapCommandSelectEdgeTest::SelectQtEdgeByNameAndUndo() 
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
 
+  QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("one"));
+  q.DoCommand(new CommandSelectNode(q, first_qtnode));
+
   assert(CountSelectedQtEdges(q) == 0);
-  assert(CountSelectedQtNodes(q) == 0);
-  assert(GetQtExamplesItemBuddy(q) == nullptr);
-  assert(GetQtToolItemBuddy(q) == nullptr);
+  assert(CountSelectedQtNodes(q) == 1);
+  assert(GetQtExamplesItemBuddy(q) == first_qtnode);
+  assert(GetQtToolItemBuddy(q) == first_qtnode);
 
   QtEdge * const first_qtedge = FindFirstQtEdge(q, QtEdgeHasName("second"));
   q.DoCommand(new CommandSelectEdge(q, first_qtedge));
 
   assert(CountSelectedQtEdges(q) == 1);
-  assert(CountSelectedQtNodes(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
   assert(GetQtExamplesItemBuddy(q));
   assert(GetQtToolItemBuddy(q) == nullptr);
 
   q.Undo();
 
-  QVERIFY(CountSelectedQtEdges(q) == 0);
-  QVERIFY(CountSelectedQtNodes(q) == 0);
-  QVERIFY(GetQtExamplesItemBuddy(q) == nullptr);
-  QVERIFY(GetQtToolItemBuddy(q) == nullptr);
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  assert(GetQtExamplesItemBuddy(q) == first_qtnode);
+  assert(GetQtToolItemBuddy(q) == first_qtnode);
 }
 
 

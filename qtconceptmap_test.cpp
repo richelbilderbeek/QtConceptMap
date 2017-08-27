@@ -33,6 +33,7 @@
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapcommandunselectnode.h"
+#include "qtconceptmapcommandunselectall.h"
 #include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapitemhighlighter.h"
@@ -957,7 +958,7 @@ void ribi::cmap::QtConceptMapTest
   q.DoCommand(new CommandCreateNewNode(q, "left", false));
   q.DoCommand(new CommandCreateNewNode(q, "right", false));
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
-  UnselectAll(q);
+  q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
     = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
   QtNode * const right_qtnode
@@ -983,7 +984,7 @@ void ribi::cmap::QtConceptMapTest
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "left", false));
   q.DoCommand(new CommandCreateNewNode(q, "right", false));
-  UnselectAllQtNodes(q);
+  q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
     = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
   QtNode * const right_qtnode
@@ -1008,7 +1009,7 @@ void ribi::cmap::QtConceptMapTest
   q.DoCommand(new CommandCreateNewNode(q, "left", false));
   q.DoCommand(new CommandCreateNewNode(q, "right", false));
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
-  UnselectAll(q);
+  q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
     = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
   QtNode * const right_qtnode
@@ -1529,13 +1530,13 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMapIsNotAccepted() c
 
 void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const noexcept
 {
-  QtConceptMap m;
-  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier);
-  UnselectAll(m);
-  m.showFullScreen();
-  const auto pos = m.mapFromScene(GetFirstQtNode(m)->GetCenterPos().toPoint());
+  QtConceptMap q;
+  QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
+  q.DoCommand(new CommandUnselectAll(q));
+  q.showFullScreen();
+  const auto pos = q.mapFromScene(GetFirstQtNode(q)->GetCenterPos().toPoint());
   QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-  m.mousePressEvent(&e);
+  q.mousePressEvent(&e);
   QVERIFY(e.isAccepted());
 }
 

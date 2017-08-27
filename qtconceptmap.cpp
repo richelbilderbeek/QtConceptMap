@@ -1916,7 +1916,7 @@ void ribi::cmap::Unselect(QtConceptMap& q, QtNode& qtnode)
 {
   UnselectImpl(q, qtnode);
 }
-
+/*
 void ribi::cmap::UnselectAll(QtConceptMap& q)
 {
   CheckInvariants(q);
@@ -1944,6 +1944,7 @@ void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
     SetSelectedness(false, *qtnode, q);
   }
 }
+*/
 
 void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)
 {
