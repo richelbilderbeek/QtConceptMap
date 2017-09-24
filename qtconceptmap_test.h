@@ -13,6 +13,7 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void ClickOnNothingShouldUnselectAll() const noexcept;
   void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept;
 
   //Done
@@ -20,7 +21,6 @@ private slots:
   void CannotEditCenterNode() const noexcept; //#104
   void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
-  void ClickOnNothingShouldBeIgnored() const noexcept;
   void ConceptMapMustFitWindow() const noexcept; //#135
   void ConceptMapMustFitWindowAfterSetting() const noexcept;
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;

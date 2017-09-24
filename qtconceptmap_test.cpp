@@ -97,21 +97,23 @@ void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
   q.show();
 }
 
-void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldBeIgnored() const noexcept
+void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldUnselectAll() const noexcept
 {
   QtConceptMap q;
   q.showFullScreen();
-  QMouseEvent(QMouseEvent::MouseButtonPress, QPoint(1.0,2.0),Qt::LeftButton,Qt::NoButton,Qt::NoModifier);
   q.SetConceptMap(ConceptMapFactory().Get2());
   q.SetMode(Mode::edit);
   q.show();
-  const auto qtnode = GetFirstQtNode(q.GetScene());
+  q.DoCommand(new CommandSelectNode(q, GetFirstQtNode(q)));
+  assert(CountSelectedQtNodes(q) > 0);
+  const auto qtnode = GetFirstQtNode(q);
   const QPoint nothing{
     qtnode->mapToScene(qtnode->boundingRect().bottomRight()).toPoint()
   };
   QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   q.mousePressEvent(&e);
-  QVERIFY(!e.isAccepted());
+  QVERIFY(e.isAccepted());
+  QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
 void ribi::cmap::QtConceptMapTest::ConceptMapMustFitWindow() const noexcept

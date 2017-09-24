@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
   //{ QtConceptMapCommandToggleArrowTailTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //assert(!"Don't forget to let Travis test everything");
+  { QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
+  assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
   { QtConceptMapBrushFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
