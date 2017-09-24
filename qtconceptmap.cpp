@@ -86,6 +86,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   }
 
   //Connect the scene
+  #ifdef KEEP_UNUSED_SLOTS_20170924
   QObject::connect(
     scene(),
     SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)), //DOES NOT EXIST
@@ -93,6 +94,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
     SLOT(onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason))
   );
   QObject::connect(scene(),SIGNAL(selectionChanged()),this,SLOT(onSelectionChanged()));
+  #endif  // KEEP_UNUSED_SLOTS_20170924
 
   m_examples_item->SetCenterPos(123,456); //Irrelevant where
 
