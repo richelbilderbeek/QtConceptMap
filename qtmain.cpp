@@ -9,7 +9,11 @@
 #include <QDesktopWidget>
 
 #include "qtconceptmapcommands.h"
+/*
 
+--command "set_mode(edit); create_new_node(center, true, 0, 0); unselect(center); create_new_node(from, false, 0, -50); create_new_node(to, false, 0, 50); create_new_edge(relation); move(relation, 200, 0); toggle_arrow_head(); toggle_arrow_tail()"
+
+*/
 std::vector<std::string> get_args(const int argc, char ** argv)
 {
   std::vector<std::string> v(argc);

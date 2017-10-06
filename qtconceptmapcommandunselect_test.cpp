@@ -30,6 +30,20 @@ void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectAbsentItemFails() cons
   }
 }
 
+void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectLonelyQtCenterNodeByName() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("center"));
+  q.DoCommand(new CommandSelect(q, *first_qtnode));
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  q.DoCommand(new CommandUnselectNode(q, first_qtnode));
+
+  QVERIFY(CountSelectedQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+}
+
 void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectQtCenterEdgeByName() const noexcept
 {
   QtConceptMap q;

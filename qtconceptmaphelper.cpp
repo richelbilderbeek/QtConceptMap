@@ -167,8 +167,8 @@ bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
   const auto g = qtconceptmap.GetConceptMap();
   const auto n_selected_nodes = count_vertices_with_selectedness(true,g);
   const auto n_selected_edges = count_edges_with_selectedness(true,g);
-  const auto n_selected_qtnodes = CountSelectedQtNodes(qtconceptmap.GetScene());
-  const auto n_selected_qtedges = CountSelectedQtEdges(qtconceptmap.GetScene());
+  const auto n_selected_qtnodes = CountSelectedQtNodes(qtconceptmap);
+  const auto n_selected_qtedges = CountSelectedQtEdges(qtconceptmap);
 
   if (n_selected_nodes != n_selected_qtnodes)
   {

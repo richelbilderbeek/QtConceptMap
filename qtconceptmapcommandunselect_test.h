@@ -13,8 +13,14 @@ class QtConceptMapCommandUnselectTest : public QObject
 private slots:
 
 
+  //To do/review
+
+  //Done and reviewed
   ///Unselecting an absent item fails
   void UnselectAbsentItemFails() const noexcept;
+
+  ///Unselect a lonely QtNode by name
+  void UnselectLonelyQtCenterNodeByName() const noexcept;
 
   ///Unselect one of two QtEdges by name
   void UnselectOneOfTwoQtEdgesByName() const noexcept;

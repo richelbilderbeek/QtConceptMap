@@ -14,6 +14,12 @@ private slots:
 
   //TODO
 
+  //https://github.com/richelbilderbeek/Brainweaver/issues/139
+  void SelectAndUnselectAllLonelyCenterNode() const noexcept;
+
+  //https://github.com/richelbilderbeek/Brainweaver/issues/139
+  void SelectAndUnselectLonelyCenterNode() const noexcept;
+
   //DONE
   void CreateOneNewNodeCommand() const noexcept;
   void CreateOneNewNodeThenUnselect() const noexcept;
