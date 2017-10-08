@@ -14,8 +14,6 @@ private slots:
 
   //TODO
 
-  //https://github.com/richelbilderbeek/Brainweaver/issues/139
-  void SelectAndUnselectAllLonelyCenterNode() const noexcept;
 
   //https://github.com/richelbilderbeek/Brainweaver/issues/139
   void SelectAndUnselectLonelyCenterNode() const noexcept;
@@ -38,6 +36,10 @@ private slots:
   void SaveCommandEmptyConceptMap() const noexcept;
   void SaveCommandTwoNodesOneEdge() const noexcept;
   void SelectCommandIsIgnoredOnAbsentItem() const noexcept;
+
+  //https://github.com/richelbilderbeek/Brainweaver/issues/139
+  void SelectAndUnselectAllLonelyCenterNode() const noexcept;
+
   void SetModeCommand() const noexcept;
   void ToggleArrowHeadCommand() const noexcept;
   void ToggleArrowTailCommand() const noexcept;

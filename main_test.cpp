@@ -42,6 +42,24 @@
 
 using namespace ribi::cmap;
 
+#include "QEventLogger.h"
+
+/*
+class MyApplication : public QApplication
+{
+  public:
+  MyApplication(int &argc, char **argv)
+    : QApplication(argc, argv),
+      m_event_logger{nullptr}
+  {
+    const bool enable_screenshots = false;
+    m_event_logger = new QEventLogger("./events", m_dialog, enable_screenshots);
+    installEventFilter(m_event_logger);
+    m_dialog->show();
+  }
+  QEventLogger * m_event_logger;
+};
+*/
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);

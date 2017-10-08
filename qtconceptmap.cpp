@@ -1342,6 +1342,8 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
 
     //Will tigger onSelectionChanged and hide the arrow
     GetQtToolItem().GetBuddyItem()->setSelected(true);
+
+    qDebug() << __func__ << ": setFocus";
     GetQtToolItem().GetBuddyItem()->setFocus();
     GetQtNewArrow().setVisible(true);
   }
@@ -1635,6 +1637,7 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
   }
   CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
 
+  qDebug() << __func__ << ": set focus";
   new_focus_item->setFocus(); //Do after SetQt(Tool&Example)Buddies
   q.update();
   if (!new_focus_item->isSelected())

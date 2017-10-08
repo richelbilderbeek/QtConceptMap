@@ -7,6 +7,7 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
+#include "QEventLogger.h"
 #include <QDebug>
 
 void ribi::cmap::QtConceptMapCommandsTest::GetCommands() const noexcept
@@ -407,19 +408,22 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() c
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 0);
   assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
-  q.showFullScreen();
+  q.show();
   QtNode * const qtnode = GetFirstQtNode(q);
   assert(qtnode->GetContourPen().style() == Qt::SolidLine );
   assert(qtnode->GetFocusPen().style() == Qt::DashLine);
   assert(qtnode->pen().style() == Qt::SolidLine);
-  /* WIP
+  assert(!qtnode->hasFocus());
   q.update();
+  QEventLogger * event_logger = new QEventLogger("./event", &q, false);
+  qApp->installEventFilter(event_logger);
+
   while (1)
   {
     qApp->processEvents();
+    assert(!qtnode->hasFocus());
   }
   assert(!"FIXED");
-  */
 }
 
 
