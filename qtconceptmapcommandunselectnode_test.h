@@ -14,10 +14,14 @@ private slots:
 
   //To do/review:
 
+
   //Done:
 
   ///Unselecting an absent item fails
   void UnselectAbsentItemFails() const noexcept;
+
+  ///Unselect a lonely center QtNode by name
+  void UnselectLonelyQtCenterNodeByName() const noexcept;
 
   ///Unselect one of two QtNodes by name
   void UnselectOneOfTwoQtNodesByName() const noexcept;
@@ -25,14 +29,16 @@ private slots:
   ///Unselect one of two QtNodes by name and undo
   void UnselectOneOfTwoQtNodesByNameAndUndo() const noexcept;
 
+
+  ///Unselect a center QtNode by name
+  void UnselectQtCenterNodeByName() const noexcept;
+
   ///Unselect two QtNodes by name
   void UnselectTwoQtNodesByName() const noexcept;
 
   ///Unselect two QtNodes by name and undo
   void UnselectTwoQtNodesByNameAndUndo() const noexcept;
 
-  ///Unselect a center QtNode by name
-  void UnselectQtCenterNodeByName() const noexcept;
 
   ///Parse from a string
   void Parse() const noexcept;

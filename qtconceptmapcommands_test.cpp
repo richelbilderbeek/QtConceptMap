@@ -7,6 +7,7 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
+#include "QEventLogger.h"
 #include <QDebug>
 
 void ribi::cmap::QtConceptMapCommandsTest::GetCommands() const noexcept
@@ -378,6 +379,54 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectCommandIsIgnoredOnAbsentItem() 
   );
   assert(q.GetUndo().count() == 0);
 }
+
+void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectAllLonelyCenterNode() const noexcept
+{
+  QtConceptMap q;
+  ProcessCommands(q,
+    {
+      "--command",
+      "set_mode(edit); create_new_node(center, true, 0, 0); unselect_all()"
+    }
+  );
+  assert(q.GetUndo().count() == 3);
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
+}
+
+void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() const noexcept
+{
+  QtConceptMap q;
+  ProcessCommands(q,
+    {
+      "--command",
+      "set_mode(edit); create_new_node(center, true, 0, 0); unselect(center)"
+    }
+  );
+
+  QVERIFY(CountSelectedQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 0);
+  assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
+  q.show();
+  QtNode * const qtnode = GetFirstQtNode(q);
+  assert(qtnode->GetContourPen().style() == Qt::SolidLine );
+  assert(qtnode->GetFocusPen().style() == Qt::DashLine);
+  assert(qtnode->pen().style() == Qt::SolidLine);
+  assert(!qtnode->hasFocus());
+  q.update();
+  QEventLogger * event_logger = new QEventLogger("./event", &q, false);
+  qApp->installEventFilter(event_logger);
+
+  while (1)
+  {
+    qApp->processEvents();
+    assert(!qtnode->hasFocus());
+  }
+  assert(!"FIXED");
+}
+
+
 
 void ribi::cmap::QtConceptMapCommandsTest::SetModeCommand() const noexcept
 {

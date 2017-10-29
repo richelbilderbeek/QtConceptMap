@@ -16,6 +16,7 @@
 #include "qtconceptmapcommandtogglearrowhead.h"
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapcommandunselect.h"
+#include "qtconceptmapcommandunselectall.h"
 #include "qtconceptmapcommandunselectedge.h"
 #include "qtconceptmapcommandunselectnode.h"
 
@@ -53,6 +54,7 @@ ribi::cmap::Command* ribi::cmap::ParseCommand(QtConceptMap& q, const std::string
     ParseCommandToggleArrowTail,
     ParseCommandSetMode,
     ParseCommandUnselect,
+    ParseCommandUnselectAll,
     ParseCommandUnselectEdge,
     ParseCommandUnselectNode
   };
