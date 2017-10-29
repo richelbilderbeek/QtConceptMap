@@ -16,7 +16,7 @@ class CommandUnselect final : public Command
   CommandUnselect(
     QtConceptMap& qtconceptmap,
     QGraphicsItem& item,
-    QUndoCommand * const parent = Q_NULLPTR
+    QUndoCommand * const parent = nullptr
   );
   CommandUnselect(const CommandUnselect&) = delete;
   CommandUnselect& operator=(const CommandUnselect&) = delete;

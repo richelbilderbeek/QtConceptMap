@@ -21,7 +21,7 @@ class CommandUnselectEdge final : public Command
   CommandUnselectEdge(
     QtConceptMap& qtconceptmap,
     QtEdge * const qtedge,
-    QUndoCommand * const parent = Q_NULLPTR
+    QUndoCommand * const parent = nullptr
   );
   CommandUnselectEdge(const CommandUnselectEdge&) = delete;
   CommandUnselectEdge& operator=(const CommandUnselectEdge&) = delete;

@@ -14,7 +14,7 @@ struct Command : public QUndoCommand
 {
   Command(
     QtConceptMap& qtconceptmap,
-    QUndoCommand * const parent = Q_NULLPTR
+    QUndoCommand * const parent = nullptr
   ) noexcept;
   virtual ~Command() noexcept {}
 

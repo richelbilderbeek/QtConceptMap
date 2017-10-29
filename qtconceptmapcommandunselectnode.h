@@ -21,7 +21,7 @@ class CommandUnselectNode final : public Command
   CommandUnselectNode(
     QtConceptMap& qtconceptmap,
     QtNode * const qtnode,
-    QUndoCommand * const parent = Q_NULLPTR
+    QUndoCommand * const parent = nullptr
   );
   CommandUnselectNode(const CommandUnselectNode&) = delete;
   CommandUnselectNode& operator=(const CommandUnselectNode&) = delete;
