@@ -126,7 +126,6 @@ void ribi::cmap::QtNode::EnableAll()
   this->setVisible(true);
 }
 
-/*
 void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept
 {
   QtRoundedEditRectItem::focusInEvent(e);
@@ -138,7 +137,6 @@ void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
   QtRoundedEditRectItem::focusOutEvent(e);
   assert(!hasFocus());
 }
-*/
 
 QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
 {

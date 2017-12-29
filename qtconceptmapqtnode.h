@@ -46,8 +46,8 @@ struct QtNode : public QtRoundedEditRectItem
   int type() const override { return UserType + 3; }
 protected:
 
-  //void focusInEvent(QFocusEvent *event) noexcept final override;
-  //void focusOutEvent(QFocusEvent *event) noexcept final override;
+  void focusInEvent(QFocusEvent *event) noexcept final override;
+  void focusOutEvent(QFocusEvent *event) noexcept final override;
   void keyPressEvent(QKeyEvent *event) noexcept final;
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event) noexcept final;
 

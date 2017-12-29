@@ -414,9 +414,15 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() c
   assert(qtnode->GetFocusPen().style() == Qt::DashLine);
   assert(qtnode->pen().style() == Qt::SolidLine);
   assert(!qtnode->hasFocus());
-  q.update();
+
+  // Do not let qtnode get focused again, see
+  // what causes this
+
+  // Logger does not log anything :-( ?
   QEventLogger * event_logger = new QEventLogger("./event", &q, false);
   qApp->installEventFilter(event_logger);
+
+  q.update();
 
   while (1)
   {

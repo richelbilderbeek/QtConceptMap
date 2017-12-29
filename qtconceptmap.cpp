@@ -1918,6 +1918,7 @@ void UnselectImpl(
   SetQtExamplesBuddy(q, no_qtnode);
   SetQtToolItemBuddy(q, no_qtnode);
   SetSelectedness(false, t, q);
+  if (q.hasFocus()) q.clearFocus();
 }
 
 void ribi::cmap::Unselect(QtConceptMap& q, QtEdge& qtedge)
