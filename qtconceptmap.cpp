@@ -77,6 +77,9 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   //Without this line, mouseMoveEvent won't be called
   this->setMouseTracking(true);
 
+  //Allow dragging and dropping
+  this->setAcceptDrops(true);
+
   {
     QLinearGradient linearGradient(-500,-500,500,500);
     linearGradient.setColorAt(0.0,QColor(214,214,214));
@@ -457,6 +460,16 @@ int ribi::cmap::CountSelectedQtNodes(const QtConceptMap& q) noexcept
 int ribi::cmap::CountSelectedQtEdges(const QtConceptMap& q) noexcept
 {
   return CountSelectedQtEdges(q.GetScene());
+}
+
+void ribi::cmap::QtConceptMap::dragEnterEvent(QDragEnterEvent *)
+{
+  qDebug() << __func__;
+}
+
+void ribi::cmap::QtConceptMap::dropEvent(QDropEvent *)
+{
+  qDebug() << __func__;
 }
 
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(

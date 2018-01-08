@@ -7,6 +7,19 @@ develop|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg
 
 C++14 concept map widget class using Qt
 
+## Controls
+
+ * CTRL-N: create new node
+ * CTRL-E: create edge. Only works if there are exactly two nodes selected
+ * Arrow keys: select node in that direction
+ * Shift-arrow: add-select node in that direction 
+ * Space: select random node
+ * Shift-space: add-select random node 
+
+## [Scripting](scripting.md)
+
+QtConceptMapDemo allows scripting the creation of a QtConceptMap. See [scripting](scripting.md) how to do so.
+
 ## Build status of builds that QtConceptMap relies on
 
  * [![Build Status](https://travis-ci.org/richelbilderbeek/BoostGraphTutorial.svg?branch=master)](https://travis-ci.org/richelbilderbeek/BoostGraphTutorial) [![codecov.io](https://codecov.io/github/richelbilderbeek/BoostGraphTutorial/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/BoostGraphTutorial?branch=master) [BoostGraphTutorial](https://github.com/richelbilderbeek/BoostGraphTutorial)
