@@ -493,6 +493,7 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectCommandIsIgnoredOnAbsentItem(
 
 void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noexcept
 {
+  #define FIX_ISSUE_5
   #ifdef FIX_ISSUE_5
   QtConceptMap q;
   q.show();
@@ -505,6 +506,7 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noex
   assert(q.GetUndo().count() == 3);
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
+  assert(GetCurrentPen(GetCenterNode(q)).isSolid());
   assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
   while (1) { q.show(); qApp->processEvents(); }
   assert(!"FIXED #5");
