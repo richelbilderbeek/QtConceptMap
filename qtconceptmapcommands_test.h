@@ -14,6 +14,12 @@ private slots:
 
   //TODO
 
+  //https://github.com/richelbilderbeek/QtConceptMap/issues/5
+  void UnselectLonelyCenterNode() const noexcept;
+
+  //https://github.com/richelbilderbeek/Brainweaver/issues/139
+  //https://github.com/richelbilderbeek/QtConceptMap/issues/2
+  void SelectAndUnselectAllLonelyCenterNode() const noexcept;
 
   //https://github.com/richelbilderbeek/Brainweaver/issues/139
   void SelectAndUnselectLonelyCenterNode() const noexcept;
@@ -37,13 +43,11 @@ private slots:
   void SaveCommandTwoNodesOneEdge() const noexcept;
   void SelectCommandIsIgnoredOnAbsentItem() const noexcept;
 
-  //https://github.com/richelbilderbeek/Brainweaver/issues/139
-  void SelectAndUnselectAllLonelyCenterNode() const noexcept;
-
   void SetModeCommand() const noexcept;
   void ToggleArrowHeadCommand() const noexcept;
   void ToggleArrowTailCommand() const noexcept;
   void UnselectCommandIsIgnoredOnAbsentItem() const noexcept;
+
 };
 
 } //~namespace cmap

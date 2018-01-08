@@ -490,3 +490,24 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectCommandIsIgnoredOnAbsentItem(
   );
   assert(q.GetUndo().count() == 0);
 }
+
+void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noexcept
+{
+  #ifdef FIX_ISSUE_5
+  QtConceptMap q;
+  q.show();
+  ProcessCommands(q,
+    {
+      "--command",
+      "set_mode(edit); create_new_node(my name, true, 0, 0); unselect(my name)"
+    }
+  );
+  assert(q.GetUndo().count() == 3);
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
+  while (1) { q.show(); qApp->processEvents(); }
+  assert(!"FIXED #5");
+  #endif // FIX_ISSUE_5
+}
+
