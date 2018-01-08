@@ -7,6 +7,8 @@ develop|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg
 
 C++14 concept map widget class using Qt
 
+![Demo](pics/demo.png)
+
 ## Controls
 
 See [controls](doc/controls.md).
