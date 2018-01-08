@@ -9,16 +9,11 @@ C++14 concept map widget class using Qt
 
 ## Controls
 
- * CTRL-N: create new node
- * CTRL-E: create edge. Only works if there are exactly two nodes selected
- * Arrow keys: select node in that direction
- * Shift-arrow: add-select node in that direction 
- * Space: select random node
- * Shift-space: add-select random node 
+See [controls](doc/controls.md).
 
-## [Scripting](scripting.md)
+## [Scripting](doc/scripting.md)
 
-QtConceptMapDemo allows scripting the creation of a QtConceptMap. See [scripting](scripting.md) how to do so.
+QtConceptMapDemo allows scripting the creation of a QtConceptMap. See [scripting](doc/scripting.md) how to do so.
 
 ## Build status of builds that QtConceptMap relies on
 
