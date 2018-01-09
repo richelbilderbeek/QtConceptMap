@@ -48,3 +48,5 @@ create_one_edge_with_head_command.dot
 QtQuadBezierArrowItemTest1.png
 QtConceptMapTest
 *.pro.user.*
+html/
+latex/

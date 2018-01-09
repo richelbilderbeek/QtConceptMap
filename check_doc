@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Generate standard Doxyfile
+doxygen -g > /dev/null
+
+# Show the undocumented lines
+(cat Doxyfile ; echo "EXCLUDE=README.md" ; echo "QUIET = YES") | doxygen - 2>&1 | egrep "warning"
+
+# Count the number of warnings in the STDOUT and STDERR of Doxygen
+exit `(cat Doxyfile ; echo "EXCLUDE=README.md" ; echo "QUIET = YES") | doxygen - 2>&1 | egrep "warning" | wc --lines`
