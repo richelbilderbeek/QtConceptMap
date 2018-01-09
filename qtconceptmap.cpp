@@ -657,6 +657,11 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
   return nullptr;
 }
 
+ribi::cmap::QtNode * ribi::cmap::GetQtCenterNode(const QtConceptMap& q) noexcept
+{
+  return GetQtCenterNode(q.GetScene());
+}
+
 std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(const QtConceptMap& q) noexcept
 {
   return GetQtEdges(q.GetScene());

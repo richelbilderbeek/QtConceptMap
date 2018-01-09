@@ -142,10 +142,7 @@ void ribi::cmap::CommandCreateNewNode::Redo()
   m_added_qtnode->setFocus();
   m_added_qtnode->SetBrushFunction(GetQtNodeBrushFunction(GetQtConceptMap().GetMode()));
 
-  //qApp->processEvents();
-
-  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
-  
+  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());  
 }
 
 void ribi::cmap::CommandCreateNewNode::Undo()

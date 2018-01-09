@@ -495,6 +495,28 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noex
 {
   #define FIX_ISSUE_5
   #ifdef FIX_ISSUE_5
+  //A created node is selected
+  {
+    qInfo() << __LINE__;
+    QtConceptMap q;
+    qInfo() << __LINE__;
+    q.show();
+    qInfo() << __LINE__;
+    ProcessCommands(q,
+      {
+        "--command",
+        "set_mode(edit); create_new_node(weufgwiuefgowui, true, 0, 0)"
+      }
+    );
+    assert(CountSelectedQtEdges(q) == 0);
+    assert(CountSelectedQtNodes(q) == 1);
+    DoubleCheckSelectedEdgesAndNodes(q, 0, 1);
+    assert(GetCurrentPen(*GetQtCenterNode(q)).style() != Qt::PenStyle::SolidLine);
+    assert(GetCurrentPen(*GetQtCenterNode(q)).style() == Qt::PenStyle::DashLine);
+    // (Note that I *see* a solid line)
+    while (1) { q.show(); qApp->processEvents(); }
+    assert(!GetCurrentPen(*GetQtCenterNode(q)).isSolid());
+  }
   QtConceptMap q;
   q.show();
   ProcessCommands(q,
@@ -506,7 +528,7 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noex
   assert(q.GetUndo().count() == 3);
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(GetCurrentPen(GetCenterNode(q)).isSolid());
+  assert(GetCurrentPen(*GetQtCenterNode(q)).isSolid());
   assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
   while (1) { q.show(); qApp->processEvents(); }
   assert(!"FIXED #5");

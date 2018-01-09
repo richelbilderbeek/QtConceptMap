@@ -115,7 +115,8 @@ QtNode * FindFirstQtNodeWithName(
 ///Returns nullpt if there are no QtEdges in the scene
 QtEdge * GetLastQtEdge(const QGraphicsScene& scene) noexcept;
 
-///Obtain the center node, if there is any
+///Obtain the center node, if there is any.
+///Will return nullptr is there is no center node.
 QtNode * GetQtCenterNode(const QGraphicsScene& scene) noexcept;
 
 ///Get all the (standalone) center QtNodes, should usually be zero or one nodes

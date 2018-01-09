@@ -38,23 +38,33 @@ public:
 
   ///Obtain the concept map
   const ConceptMap& GetConceptMap() const noexcept { return m_conceptmap; }
-        ConceptMap& GetConceptMap()       noexcept { return m_conceptmap; }
 
+  ///Obtain the concept map
+  ConceptMap& GetConceptMap() noexcept { return m_conceptmap; }
+
+  ///Get the mode the object is in
   Mode GetMode() const noexcept { return m_mode; }
 
+  ///Get the current pop-up mode the object is in
   PopupMode GetPopupMode() const noexcept { return m_popup_mode; }
 
-  ///The square showing the examples
+  ///Get the square showing the examples
   const QtExamplesItem& GetQtExamplesItem() const noexcept;
-        QtExamplesItem& GetQtExamplesItem()       noexcept;
 
-  ///The QGraphicsItem that can highlight selected QGraphicsItems
+  ///Get the square showing the examples
+  QtExamplesItem& GetQtExamplesItem() noexcept;
+
+  ///Get the QGraphicsItem that can highlight selected QGraphicsItems
   const QtItemHighlighter& GetQtHighlighter() const noexcept;
-        QtItemHighlighter& GetQtHighlighter()       noexcept;
 
-  ///The arrow that must be clicked to add a new edge
+  ///Get the QGraphicsItem that can highlight selected QGraphicsItems
+  QtItemHighlighter& GetQtHighlighter() noexcept;
+
+  ///Get the arrow that must be clicked to add a new edge
   const QtNewArrow& GetQtNewArrow() const noexcept;
-        QtNewArrow& GetQtNewArrow()       noexcept;
+
+  ///Get the arrow that must be clicked to add a new edge
+  QtNewArrow& GetQtNewArrow()       noexcept;
 
   ///The arrow that must be clicked to add a new edge
   const QtTool& GetQtToolItem() const noexcept;
@@ -259,9 +269,15 @@ std::vector<QGraphicsItem *> GetFocusableNonselectedItems(const QtConceptMap& q)
 ///Returns nullptr if none is present
 QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
+///Obtain the center node, if there is any.
+///Will return nullptr is there is no center node.
+QtNode * GetQtCenterNode(const QtConceptMap& q) noexcept;
+
 ///Get all the QtEdges
 std::vector<QtEdge *> GetQtEdges(const QtConceptMap& q) noexcept;
 
+///Get the Z order of each edge,
+///which should be QtEdge < QtNode < QtNewArrow < QtTool
 constexpr double GetQtEdgeZvalue() { return -1.0; }
 
 ///Get the QtExamplesItem its Buddy item
