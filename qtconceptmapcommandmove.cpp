@@ -62,9 +62,6 @@ ribi::cmap::CommandMove * ribi::cmap::ParseCommandMove(
 
 void ribi::cmap::CommandMove::Redo()
 {
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-
   m_moved_qtnode = FindFirstQtNode(GetQtConceptMap(),
     [name = m_name, &q = GetQtConceptMap()](QtNode * const qtnode)
     {
@@ -79,8 +76,6 @@ void ribi::cmap::CommandMove::Redo()
     m_moved_qtedge = nullptr;
 
     MoveQtNode(*m_moved_qtnode, m_dx, m_dy, GetQtConceptMap());
-
-    CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
   }
   else
   {
@@ -93,28 +88,9 @@ void ribi::cmap::CommandMove::Redo()
     );
     if (m_moved_qtedge)
     {
-      assert(
-        CountQtEdges(GetQtConceptMap()) != 1 ||
-        HasSameData(m_moved_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
-      );
       assert(IsInScene(*m_moved_qtedge, GetScene(*this)));
-
       MoveQtEdge(*m_moved_qtedge, m_dx, m_dy, GetQtConceptMap());
-
       assert(IsInScene(*m_moved_qtedge, GetScene(*this)));
-
-
-      assert(
-        CountQtEdges(GetQtConceptMap()) != 1 ||
-        HasSameData(m_moved_qtedge->GetEdge(), GetFirstEdge(GetConceptMap(*this)))
-      );
-
-      assert(
-        CountQtEdges(GetQtConceptMap()) != 1 ||
-        HasSameData(m_moved_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
-      );
-
-      CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
     }
   }
   if (!m_moved_qtedge && !m_moved_qtnode)
@@ -129,22 +105,11 @@ void ribi::cmap::CommandMove::Redo()
   assert((0 ^ 1));
   assert((1 ^ 0));
   assert(!(1 ^ 1));
-  assert((m_moved_qtedge != nullptr) ^ (m_moved_qtnode != nullptr));
-
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-
-  //qApp->processEvents();
-
-  //CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  //CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-  
+  assert((m_moved_qtedge != nullptr) ^ (m_moved_qtnode != nullptr));  
 }
 
 void ribi::cmap::CommandMove::Undo()
 {
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-
   if (m_moved_qtedge)
   {
     m_moved_qtedge->moveBy(-m_dx, -m_dy);
@@ -153,6 +118,4 @@ void ribi::cmap::CommandMove::Undo()
   {
     m_moved_qtnode->moveBy(-m_dx, -m_dy);
   }
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-  
 }

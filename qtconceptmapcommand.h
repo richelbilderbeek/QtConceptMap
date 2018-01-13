@@ -40,12 +40,6 @@ struct Command : public QUndoCommand
 };
 
 //Convenience
-ConceptMap& GetConceptMap(Command& cmd) noexcept;
-
-//Convenience
-const ConceptMap& GetConceptMap(const Command& cmd) noexcept;
-
-//Convenience
 QtExamplesItem& GetQtExamplesItem(Command& cmd) noexcept;
 
 //Convenience

@@ -26,16 +26,6 @@ void ribi::cmap::Command::redo()
   CheckInvariants(GetQtConceptMap());
 }
 
-ribi::cmap::ConceptMap& ribi::cmap::GetConceptMap(Command& cmd) noexcept
-{
-  return cmd.GetQtConceptMap().GetConceptMap();
-}
-
-const ribi::cmap::ConceptMap& ribi::cmap::GetConceptMap(const Command& cmd) noexcept
-{
-  return cmd.GetQtConceptMap().GetConceptMap();
-}
-
 ribi::cmap::QtExamplesItem& ribi::cmap::GetQtExamplesItem(Command& cmd) noexcept
 {
   return cmd.GetQtConceptMap().GetQtExamplesItem();

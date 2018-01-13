@@ -26,7 +26,6 @@ class CommandDeleteSelected final : public Command
   void Redo() override;
 
   private:
-  ConceptMap& m_conceptmap;
   //ConceptMap m_conceptmap_after;
   //const ConceptMap m_conceptmap_before;
   QGraphicsItem * const m_focus_item_before;

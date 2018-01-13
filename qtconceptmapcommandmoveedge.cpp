@@ -80,37 +80,16 @@ std::function<bool(const ribi::cmap::QtEdge&)> ribi::cmap::QtEdgeHasText(
 
 void ribi::cmap::CommandMoveEdge::Redo()
 {
-  CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(GetQtConceptMap());
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-
   assert(m_qtedge);
-  assert(
-    CountQtEdges(GetQtConceptMap()) != 1 ||
-    HasSameData(m_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
-  );
   assert(IsInScene(*m_qtedge, GetScene(*this)));
 
   MoveQtEdge(*m_qtedge, m_dx, m_dy, GetQtConceptMap());
 
   assert(IsInScene(*m_qtedge, GetScene(*this)));
-  assert(
-    CountQtEdges(GetQtConceptMap()) != 1 ||
-    HasSameData(m_qtedge->GetEdge(), GetFirstEdge(GetConceptMap(*this)))
-  );
-  assert(
-    CountQtEdges(GetQtConceptMap()) != 1 ||
-    HasSameData(m_qtedge->GetEdge(), GetFirstEdge(GetQtConceptMap().GetConceptMap()))
-  );
-
-  
 }
 
 void ribi::cmap::CommandMoveEdge::Undo()
 {
-  CheckInvariantQtNodesAndNodesHaveSameCoordinats(GetQtConceptMap());
-
   assert(m_qtedge);
   MoveQtEdge(*m_qtedge, -m_dx, -m_dy, GetQtConceptMap());
-\
-  
 }

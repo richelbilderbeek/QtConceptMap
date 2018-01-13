@@ -129,7 +129,7 @@ bool ribi::cmap::DoubleCheckEdgesAndNodes(
   const int n_nodes_desired
 )
 {
-  const auto g = qtconceptmap.GetConceptMap();
+  const auto g = qtconceptmap.ToConceptMap();
   const auto n_nodes = static_cast<int>(boost::num_vertices(g));
   const auto n_edges = static_cast<int>(boost::num_edges(g));
   const auto n_qtnodes = CountQtNodes(*qtconceptmap.scene());
@@ -164,47 +164,24 @@ bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
   bool verbose
 )
 {
-  const auto g = qtconceptmap.GetConceptMap();
-  const auto n_selected_nodes = count_vertices_with_selectedness(true,g);
-  const auto n_selected_edges = count_edges_with_selectedness(true,g);
+  const auto g = qtconceptmap.ToConceptMap();
   const auto n_selected_qtnodes = CountSelectedQtNodes(qtconceptmap);
   const auto n_selected_qtedges = CountSelectedQtEdges(qtconceptmap);
 
-  if (n_selected_nodes != n_selected_qtnodes)
-  {
-    std::stringstream msg;
-    msg << __func__ << ": "
-      << "Internal inconsistency, "
-      << "n_selected_nodes (" << n_selected_nodes << ") != n_selected_qtnodes ("
-      << n_selected_qtnodes << ")"
-    ;
-    throw std::logic_error(msg.str());
-  }
-  if (n_selected_edges != n_selected_qtedges)
-  {
-    std::stringstream msg;
-    msg << __func__ << ": "
-      << "Internal inconsistency, "
-      << "n_selected_edges (" << n_selected_edges
-      << ") != n_selected_qtedges ("
-      << n_selected_qtedges << ")"
-    ;
-    throw std::logic_error(msg.str());
-  }
-  if (n_selected_nodes != n_nodes_desired)
+  if (n_selected_qtnodes != n_nodes_desired)
   {
     if (verbose)
     {
-      std::clog << "n_selected_nodes (" << n_selected_nodes
+      std::clog << "n_selected_qtnodes (" << n_selected_qtnodes
         << ") != n_nodes_desired (" << n_nodes_desired << ")";
     }
     return false;
   }
-  if (n_selected_edges != n_edges_desired)
+  if (n_selected_qtedges != n_edges_desired)
   {
     if (verbose)
     {
-      std::clog << "n_selected_edges (" << n_selected_edges
+      std::clog << "n_selected_qtedges (" << n_selected_qtedges
         << ") != n_edges_desired (" << n_edges_desired << ")";
     }
     return false;

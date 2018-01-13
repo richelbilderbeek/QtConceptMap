@@ -48,20 +48,10 @@ ribi::cmap::CommandLoad * ribi::cmap::ParseCommandLoad(
 void ribi::cmap::CommandLoad::Redo()
 {
   Expects(QFile::exists(m_filename.c_str()));
-
-  
-
-  m_before = GetQtConceptMap().GetConceptMap();
   GetQtConceptMap().SetConceptMap(LoadFromFile(m_filename));
-
-  
 }
 
 void ribi::cmap::CommandLoad::Undo()
 {
-  
-
   GetQtConceptMap().SetConceptMap(m_before);
-
-  
 }

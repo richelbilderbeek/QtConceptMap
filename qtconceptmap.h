@@ -36,11 +36,8 @@ public:
   ///an item with a name that is absent in the concept map is moved
   void DoCommand(Command * const command);
 
-  ///Obtain the concept map
-  const ConceptMap& GetConceptMap() const noexcept { return m_conceptmap; }
-
-  ///Obtain the concept map
-  ConceptMap& GetConceptMap() noexcept { return m_conceptmap; }
+  ///Convert to concept map
+  ConceptMap ToConceptMap() const noexcept;
 
   ///Get the mode the object is in
   Mode GetMode() const noexcept { return m_mode; }
@@ -117,9 +114,6 @@ private:
   ///Must be a pointer, as it will be owned by QGraphicsScene
   QtNewArrow * const m_arrow;
 
-  ///The concept map to work on, the Model
-  ConceptMap m_conceptmap;
-
   ///The item showing the examples
   ///Must be a pointer, as it will be owned by QGraphicsScene
   QtExamplesItem * const m_examples_item;
@@ -145,9 +139,9 @@ private:
 };
 
 void AddEdgeToScene(QtConceptMap& qtconceptmap, const EdgeDescriptor ed) noexcept;
-void AddEdgesToScene(QtConceptMap& qtconceptmap) noexcept;
+void AddEdgesToScene(QtConceptMap& qtconceptmap, const ConceptMap& conceptmap) noexcept;
 
-void AddNodesToScene(QtConceptMap& qtconceptmap) noexcept;
+void AddNodesToScene(QtConceptMap& qtconceptmap, const ConceptMap& conceptmap) noexcept;
 
 ///Add a QtNode to the scene, add its Node to the ConceptMap
 ///This is used by, among others, CommandDeleteSelected::undo
@@ -171,21 +165,6 @@ void CheckInvariantAllQtEdgesHaveAscene(const QtConceptMap& q) noexcept;
 
 ///All QtNodes must have a QScene
 void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
-
-///There must be as much Edges as QtEdges
-void CheckInvariantAsMuchEdgesAsQtEdges(const QtConceptMap& q) noexcept;
-
-///There must be as much Nodes as QtNodes
-void CheckInvariantAsMuchNodesAsQtNodes(const QtConceptMap& q) noexcept;
-
-///There must be as much Nodes as QtNodes selected
-void CheckInvariantAsMuchNodesAsQtNodesSelected(const QtConceptMap& q) noexcept;
-
-///All QtEdges and Edges must have approximately the same X and Y coordinat
-void CheckInvariantQtEdgesAndEdgesHaveSameCoordinats(const QtConceptMap& q) noexcept;
-
-///All QtNodes and Nodes must have approximately the same X and Y coordinat
-void CheckInvariantQtNodesAndNodesHaveSameCoordinats(const QtConceptMap& q) noexcept;
 
 ///A QtToolItem is never associated with a QtEdge, nor a QtNode
 ///one a QtEdge
@@ -335,6 +314,7 @@ bool IsQtNodeOnEdge(
   const QtConceptMap& q
 ) noexcept;
 
+///
 void keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noexcept;
 

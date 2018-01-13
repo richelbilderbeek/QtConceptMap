@@ -42,9 +42,6 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
     m_x{x},
     m_y{y}
 {
-  Expects(CountSelectedQtNodes(GetQtConceptMap())
-    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
-
   //QCommands have a text
   {
     std::stringstream msg;
@@ -55,9 +52,6 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
     ;
     this->setText(msg.str().c_str());
   }
-
-  Ensures(CountSelectedQtNodes(GetQtConceptMap())
-    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
 }
 
 double ribi::cmap::CommandCreateNewNode::GetX() const noexcept
@@ -105,17 +99,8 @@ ribi::cmap::CommandCreateNewNode * ribi::cmap::ParseCommandCreateNewNode(
 
 void ribi::cmap::CommandCreateNewNode::Redo()
 {
-  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());
-  
-
-  //Add the vertex to the concept map
-  VertexDescriptor vd = boost::add_vertex(GetQtConceptMap().GetConceptMap());
-
   //Create the node
   const Node node(Concept(m_text), m_is_center_node, m_x, m_y) ;
-
-  //Set the node
-  set_my_custom_vertex(node, vd, GetQtConceptMap().GetConceptMap());
 
   //Modify the QGraphicsScene
   m_added_qtnode = new QtNode(node);
@@ -132,41 +117,22 @@ void ribi::cmap::CommandCreateNewNode::Redo()
   m_tool_item_old_buddy = m_tool_item->GetBuddyItem();
   m_tool_item->SetBuddyItem(m_added_qtnode);
 
-  //Additively select node
-  set_vertex_selectedness(true, vd, GetQtConceptMap().GetConceptMap());
-
   //Additively select node,
   // must be done after setting m_added_qtnode as the buddy of m_tool_item,
   // as QtConceptMap::onSelectionChanged will be triggered
   m_added_qtnode->setSelected(true);
   m_added_qtnode->setFocus();
   m_added_qtnode->SetBrushFunction(GetQtNodeBrushFunction(GetQtConceptMap().GetMode()));
-
-  CheckInvariantAsMuchNodesAsQtNodesSelected(GetQtConceptMap());  
 }
 
 void ribi::cmap::CommandCreateNewNode::Undo()
 {
-  
-  Expects(CountSelectedQtNodes(GetQtConceptMap())
-    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
-
   m_added_qtnode->clearFocus();
   SetSelectedness(false, *m_added_qtnode, GetQtConceptMap());
 
-  //Remove node
-  boost::remove_vertex(
-    find_first_custom_vertex_with_my_vertex(m_added_qtnode->GetNode(), GetQtConceptMap().GetConceptMap()),
-    GetQtConceptMap().GetConceptMap()
-  );
-
   //Remove QtNode
   assert(m_added_qtnode->scene());
-  //
   GetQtConceptMap().GetScene().removeItem(m_added_qtnode);
   assert(!m_added_qtnode->scene());
   m_tool_item->SetBuddyItem(m_tool_item_old_buddy);
-
-  Ensures(CountSelectedQtNodes(GetQtConceptMap())
-    == count_vertices_with_selectedness(true, GetQtConceptMap().GetConceptMap()));
 }

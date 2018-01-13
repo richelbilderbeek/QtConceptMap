@@ -46,28 +46,8 @@ ribi::cmap::CommandToggleArrowHead * ribi::cmap::ParseCommandToggleArrowHead(
 
 void ribi::cmap::CommandToggleArrowHead::Redo()
 {
-  const Edge m_edge_before = ExtractTheOneSelectedEdge(GetConceptMap(*this), GetScene(*this));
   QtEdge * const m_qtedge = ExtractTheOneSelectedQtEdge(GetScene(*this));
-
-  //Find the edge with the desired ID
-  const auto ed = ::find_first_custom_edge(
-    [id = m_edge_before.GetId()](const Edge& edge) { return edge.GetId() == id; },
-    GetConceptMap(*this)
-  );
-  auto current_edge = get_my_custom_edge(ed, GetConceptMap(*this));
-
-  const auto has_arrow_old = current_edge.HasHeadArrow();
-  const auto has_arrow_new = !has_arrow_old;
-
-  //Add an arrow and put it back in the concept map
-  current_edge.SetHeadArrow(has_arrow_new);
-  ::set_my_custom_edge(current_edge, ed, GetConceptMap(*this));
-
-  //Put the current arrow head in the QtEdge
-  m_qtedge->SetHasHeadArrow(has_arrow_new);
-
-  assert(HasHeadArrow(*m_qtedge) == current_edge.HasHeadArrow());
-  assert(HasHeadArrow(*m_qtedge) == m_qtedge->GetEdge().HasHeadArrow());
+  m_qtedge->SetHasHeadArrow(!HasHeadArrow(*m_qtedge));
 }
 
 void ribi::cmap::CommandToggleArrowHead::Undo()

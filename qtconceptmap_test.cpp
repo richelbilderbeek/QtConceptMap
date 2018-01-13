@@ -294,9 +294,9 @@ void ribi::cmap::QtConceptMapTest::create_one_node_keyboard() const noexcept
   QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier, 100);
   q.show();
   const auto expected_vertices{1};
-  const auto measured_vertices{boost::num_vertices(q.GetConceptMap())};
+  const auto measured_vertices{boost::num_vertices(q.ToConceptMap())};
   const auto expected_edges{0};
-  const auto measured_edges{boost::num_edges(q.GetConceptMap())};
+  const auto measured_edges{boost::num_edges(q.ToConceptMap())};
   QVERIFY(measured_edges == expected_edges);
   QVERIFY(measured_vertices == expected_vertices);
   QVERIFY(DoubleCheckEdgesAndNodes(q,0,1));
@@ -310,7 +310,7 @@ void ribi::cmap::QtConceptMapTest::create_one_node_mouse() const noexcept
   QTest::mouseDClick(q.viewport(), Qt::MouseButton::LeftButton, 0, QPoint(0.0,0.0), 100);
   q.show();
   const int n_nodes_in_scene{static_cast<int>(Collect<QtNode>(q.GetScene()).size())};
-  const int n_nodes_in_conceptmap{static_cast<int>(boost::num_vertices(q.GetConceptMap()))};
+  const int n_nodes_in_conceptmap{static_cast<int>(boost::num_vertices(q.ToConceptMap()))};
   QVERIFY(n_nodes_in_scene == n_nodes_in_conceptmap);
 }
 
@@ -688,24 +688,24 @@ void ribi::cmap::QtConceptMapTest::DoubleClick() const noexcept
 {
   QtConceptMap m;
   m.showFullScreen();
-  assert(boost::num_vertices(m.GetConceptMap()) == 0);
+  assert(boost::num_vertices(m.ToConceptMap()) == 0);
   QTest::mouseDClick(m.viewport(), Qt::LeftButton);
-  QVERIFY(boost::num_vertices(m.GetConceptMap()) == 1);
+  QVERIFY(boost::num_vertices(m.ToConceptMap()) == 1);
 }
 
 void ribi::cmap::QtConceptMapTest::DoubleClickTwice() const noexcept
 {
   QtConceptMap m;
   m.show();
-  assert(boost::num_vertices(m.GetConceptMap()) == 0);
+  assert(boost::num_vertices(m.ToConceptMap()) == 0);
   //Creates a new node
   QTest::mouseDClick(m.viewport(), Qt::LeftButton);
   m.show();
-  assert(boost::num_vertices(m.GetConceptMap()) == 1);
+  assert(boost::num_vertices(m.ToConceptMap()) == 1);
   //Does not create a new node, as the double-click took place on an existing node
   QTest::mouseDClick(m.viewport(), Qt::LeftButton);
   m.show();
-  QVERIFY(boost::num_vertices(m.GetConceptMap()) == 1);
+  QVERIFY(boost::num_vertices(m.ToConceptMap()) == 1);
 }
 
 void ribi::cmap::QtConceptMapTest::EditModeFlags() const noexcept
@@ -737,9 +737,9 @@ void ribi::cmap::QtConceptMapTest::RateConceptMapHasLessFocusableItems() const n
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.SetMode(Mode::edit);
-  assert(CountCenterNodes(m.GetConceptMap()) > 0);
+  assert(CountCenterNodes(m.ToConceptMap()) > 0);
   assert(CountQtCenterNodes(m.GetScene()) > 0);
-  assert(CountCenterNodes(m.GetConceptMap()) == CountQtCenterNodes(m.GetScene()));
+  assert(CountCenterNodes(m.ToConceptMap()) == CountQtCenterNodes(m.GetScene()));
   const auto n_edit = GetFocusableItems(m).size();
   m.SetMode(Mode::rate);
   const auto n_rate = GetFocusableItems(m).size();
@@ -1296,11 +1296,11 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadCommand() const noexcept
     QVERIFY(!"Should not get here");
   }
   const std::string dot_filename{"create_one_edge_with_head_command.dot"};
-  SaveToFile(m.GetConceptMap(), dot_filename);
+  SaveToFile(m.ToConceptMap(), dot_filename);
 
   const auto concept_map_again = LoadFromFile(dot_filename);
 
-  QVERIFY(HasSimilarData(m.GetConceptMap(), concept_map_again, 0.001));
+  QVERIFY(HasSimilarData(m.ToConceptMap(), concept_map_again, 0.001));
 }
 
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadKeyboard() const noexcept
@@ -1485,11 +1485,11 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const noexcept
     QVERIFY(!"Should not get here");
   }
   const std::string dot_filename{"create_one_edge_with_head_command.dot"};
-  SaveToFile(m.GetConceptMap(), dot_filename);
+  SaveToFile(m.ToConceptMap(), dot_filename);
 
   const auto concept_map_again = LoadFromFile(dot_filename);
 
-  QVERIFY(HasSimilarData(m.GetConceptMap(), concept_map_again, 0.001));
+  QVERIFY(HasSimilarData(m.ToConceptMap(), concept_map_again, 0.001));
 
 }
 
@@ -1514,16 +1514,16 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMap() const noexcept
 {
   QtConceptMap m;
   m.showFullScreen();
-  assert(boost::num_vertices(m.GetConceptMap()) == 0);
+  assert(boost::num_vertices(m.ToConceptMap()) == 0);
   QTest::mouseClick(m.viewport(), Qt::LeftButton);
-  QVERIFY(boost::num_vertices(m.GetConceptMap()) == 0);
+  QVERIFY(boost::num_vertices(m.ToConceptMap()) == 0);
 }
 
 void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept
 {
   QtConceptMap m;
   m.showFullScreen();
-  assert(boost::num_vertices(m.GetConceptMap()) == 0);
+  assert(boost::num_vertices(m.ToConceptMap()) == 0);
   const QPoint nothing;
   QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   m.mousePressEvent(&e);
