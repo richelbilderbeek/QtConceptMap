@@ -25,14 +25,20 @@ struct QtNode : public QtRoundedEditRectItem
 
   ///Node cannot be const as it contains a Concept that the user might want to edit
   ///concept_item contains the Stategy to display (and respond to the concept)
-  explicit QtNode(const Node& node, QGraphicsItem* parent = 0);
+  explicit QtNode(
+    const Concept& concept,
+    const bool is_center_node,
+    const double center_x = 0.0,
+    const double center_y = 0.0,
+    QGraphicsItem* parent = 0
+  );
 
   void DisableAll();
   void EnableAll();
 
-  const Node& GetNode() const noexcept { return m_node; }
-        Node& GetNode()       noexcept { return m_node; }
+  const auto& GetConcept() const noexcept { return m_concept; }
 
+  bool IsCenterNode() const noexcept { return m_is_center_node; }
 
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
@@ -57,7 +63,9 @@ private:
   std::function<QBrush(const ribi::cmap::QtNode&)> m_brush_function;
 
   ///The node being edited, or displayed and not changed, or rated
-  Node m_node;
+  Concept m_concept;
+
+  bool m_is_center_node;
 
   bool m_show_bounding_rect;
 

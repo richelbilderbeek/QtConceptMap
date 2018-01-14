@@ -99,14 +99,11 @@ ribi::cmap::CommandCreateNewNode * ribi::cmap::ParseCommandCreateNewNode(
 
 void ribi::cmap::CommandCreateNewNode::Redo()
 {
-  //Create the node
-  const Node node(Concept(m_text), m_is_center_node, m_x, m_y) ;
-
   //Modify the QGraphicsScene
-  m_added_qtnode = new QtNode(node);
+  m_added_qtnode = new QtNode(Concept(m_text), m_is_center_node, m_x, m_y);
   assert(m_added_qtnode);
-  assert(m_added_qtnode->GetCenterX() == node.GetX());
-  assert(m_added_qtnode->GetCenterY() == node.GetY());
+  assert(m_added_qtnode->GetCenterX() == m_x);
+  assert(m_added_qtnode->GetCenterY() == m_y);
   assert(Unwordwrap(m_added_qtnode->GetText()) == m_text);
   assert(!m_added_qtnode->scene());
   GetQtConceptMap().GetScene().addItem(m_added_qtnode);

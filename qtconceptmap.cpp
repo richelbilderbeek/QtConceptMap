@@ -176,7 +176,7 @@ void ribi::cmap::AddNodesToScene(
     assert(boost::num_vertices(conceptmap));
     const auto pmap = get(boost::vertex_custom_type, conceptmap);
     const Node node = get(pmap, *i);
-    QtNode * const qtnode{new QtNode(node)};
+    QtNode * const qtnode{new QtNode(node.GetConcept(), node.IsCenterNode(), node.GetX(), node.GetY())};
     assert(qtnode);
     assert(!qtnode->scene());
     scene.addItem(qtnode);
@@ -191,24 +191,13 @@ void ribi::cmap::AddQtEdge(
   QtConceptMap& q
 )
 {
-
-
   assert(qtedge);
   assert(!qtedge->scene());
   assert(!q.GetScene().items().contains(qtedge));
-  assert(has_custom_vertex_with_my_vertex(qtedge->GetFrom()->GetNode(), q.ToConceptMap()));
-  assert(has_custom_vertex_with_my_vertex(qtedge->GetTo()->GetNode(), q.ToConceptMap()));
-
-  const auto vd_from = find_first_custom_vertex_with_my_vertex(
-    qtedge->GetFrom()->GetNode(), q.ToConceptMap());
-  const auto vd_to = find_first_custom_vertex_with_my_vertex(
-    qtedge->GetTo()->GetNode(), q.ToConceptMap());
 
   q.GetScene().addItem(qtedge);
   assert(qtedge->scene());
   qtedge->setZValue(GetQtEdgeZvalue());
-
-
 }
 
 void ribi::cmap::AddQtNode(
@@ -1273,7 +1262,7 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   event->accept();
 
   //Edit concept
-  QtConceptMapConceptEditDialog d(qtnode.GetNode().GetConcept());
+  QtConceptMapConceptEditDialog d(qtnode.GetConcept());
   q.setEnabled(false);
   //Block pop-ups in testing
   if (q.GetPopupMode() == PopupMode::normal)
@@ -1290,9 +1279,10 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF1(
-  QtConceptMap& q,
-  QtNode& item)
+  QtConceptMap&,
+  QtNode&)
 {
+  #ifdef NOT_NOW_20180114
   //Rate concept
   const auto vd = ::find_first_custom_vertex_with_my_vertex(
     item.GetNode(), q.ToConceptMap()
@@ -1341,11 +1331,13 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
         );
     }
   }
+  #endif // NOT_NOW_20180114
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF2(
-  QtConceptMap& q, QtNode& item)
+  QtConceptMap&, QtNode&)
 {
+  #ifdef NOT_NOW_20180114
   //Rate examples
   if (!HasExamples(item)) return;
   ribi::cmap::QtRateExamplesDialog d(item.GetNode().GetConcept());
@@ -1360,6 +1352,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(
 
   //Update the QtNode
   item.GetNode().GetConcept().SetExamples(d.GetRatedExamples());
+  #endif
 }
 
 void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT Although the NCSS is high, the code is easy to read
@@ -1718,9 +1711,6 @@ void ribi::cmap::SetSelectedness(const bool is_selected,
 {
   //Otherwise find_first_custom_vertex_with_my_vertex will fail
   assert(!IsQtNodeOnEdge(&qtnode, q.GetScene()));
-
-  //First unselect Node ...
-  assert(has_custom_vertex_with_my_vertex(qtnode.GetNode(), q.ToConceptMap()));
 
   // ... then unselect QtNode (as onSelectionChanged will be triggered)
   qtnode.setSelected(is_selected);

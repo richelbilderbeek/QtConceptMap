@@ -338,20 +338,6 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   return nullptr;
 }
 
-ribi::cmap::QtNode * ribi::cmap::FindQtNode(
-  const int node_id, const QGraphicsScene& scene) noexcept
-{
-  for (auto item: scene.items())
-  {
-    QtNode * const qtnode = dynamic_cast<QtNode*>(item);
-    if (qtnode && qtnode->GetNode().GetId() == node_id)
-    {
-      return qtnode;
-    }
-  }
-  return nullptr;
-}
-
 ribi::cmap::QtNode *
 ribi::cmap::GetQtCenterNode(const QGraphicsScene& scene) noexcept
 {
@@ -389,7 +375,7 @@ ribi::cmap::GetQtCenterNodes(const QGraphicsScene& scene) noexcept
   std::copy_if(
     std::begin(v), std::end(v),
     std::back_inserter(w),
-    [](const auto qtnode) { return IsCenterNode(qtnode->GetNode()); }
+    [](const auto qtnode) { return IsCenterNode(*qtnode); }
   );
   return w;
 }
@@ -441,8 +427,7 @@ ribi::cmap::GetQtNodeBrushFunctionEdit() noexcept
     //Gold if center node
     //Gray if solitary node
     //Blue if relation node
-    const auto node = qtnode.GetNode();
-    if (node.IsCenterNode())
+    if (qtnode.IsCenterNode())
     {
       return QtBrushFactory().CreateGoldGradientBrush();
     }
@@ -460,15 +445,14 @@ ribi::cmap::GetQtNodeBrushFunctionRate() noexcept
 {
   return [](const QtNode& qtnode)
   {
-    const auto node = qtnode.GetNode();
-    if (node.IsCenterNode())
+    if (qtnode.IsCenterNode())
     {
       return QtBrushFactory().CreateGoldGradientBrush();
     }
     const int n_rated
-      = (node.GetConcept().GetRatingComplexity()   == -1 ? 0 : 1)
-      + (node.GetConcept().GetRatingConcreteness() == -1 ? 0 : 1)
-      + (node.GetConcept().GetRatingSpecificity()  == -1 ? 0 : 1);
+      = (qtnode.GetConcept().GetRatingComplexity()   == -1 ? 0 : 1)
+      + (qtnode.GetConcept().GetRatingConcreteness() == -1 ? 0 : 1)
+      + (qtnode.GetConcept().GetRatingSpecificity()  == -1 ? 0 : 1);
     switch (n_rated)
     {
       case 0: return QtBrushFactory().CreateRedGradientBrush();
@@ -601,7 +585,7 @@ bool ribi::cmap::IsQtCenterNode(const QGraphicsItem* const item)
 
 bool ribi::cmap::IsQtCenterNode(const QtNode& qtnode)
 {
-  return IsCenterNode(qtnode.GetNode());
+  return IsCenterNode(qtnode);
 }
 
 bool ribi::cmap::IsOnEdge(

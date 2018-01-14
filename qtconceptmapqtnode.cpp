@@ -23,7 +23,12 @@
 #include "qtconceptmapqtnodefactory.h"
 
 
-ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
+ribi::cmap::QtNode::QtNode(
+  const Concept& concept,
+  const bool is_center_node,
+  const double center_x,
+  const double center_y,
+  QGraphicsItem* parent)
   : QtRoundedEditRectItem(
       { "..." },
       ribi::QtRoundedEditRectItem::Padding(),
@@ -31,7 +36,8 @@ ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
       parent
     ),
     m_brush_function{GetQtNodeBrushFunctionUninitialized()},
-    m_node{node},
+    m_concept{concept},
+    m_is_center_node{is_center_node},
     m_show_bounding_rect{false}
 {
   //Allow mouse tracking
@@ -63,7 +69,7 @@ ribi::cmap::QtNode::QtNode(const Node& node, QGraphicsItem* parent)
   this->setZValue(0.0);
   this->SetContourPen(QPen(Qt::black, 1.0));
   this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
-
+  this->SetCenterPos(x, y);
   CheckInvariants(*this);
 }
 
@@ -208,7 +214,7 @@ void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 
 bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
 {
-  return IsCenterNode(qtnode.GetNode());
+  return qtnode.GetIsCenterNode();
 }
 
 bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept

@@ -166,8 +166,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
   //? assert(m_added_qtedge->GetEdge() == added_edge);
 
   //Do not create a node on the edge if it is connected to a center node
-  if (m_added_qtedge->GetFrom()->GetNode().IsCenterNode()
-    || m_added_qtedge->GetTo()->GetNode().IsCenterNode()
+  if (IsCenterNode(*m_added_qtedge->GetFrom())
+    || IsCenterNode(*m_added_qtedge->GetTo())
   )
   {
     m_added_qtedge->GetQtNode()->setVisible(false);
