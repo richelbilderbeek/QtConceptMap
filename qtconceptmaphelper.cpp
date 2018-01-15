@@ -189,28 +189,6 @@ bool ribi::cmap::DoubleCheckSelectedEdgesAndNodes(
   return true;
 }
 
-ribi::cmap::Edge ribi::cmap::ExtractTheOneSelectedEdge(
-  const ConceptMap& conceptmap, const QGraphicsScene& scene
-)
-{
-  //Must check on ID here, as QtEdge and its Edge may mismatch,
-  //due to the positions at the endpoint
-  const auto qtedge = ExtractTheOneSelectedQtEdge(scene);
-  assert(
-    has_custom_edge(
-      [id = qtedge->GetEdge().GetId()](const Edge& edge) { return edge.GetId() == id; },
-      conceptmap
-    )
-  );
-  const auto ed = ::find_first_custom_edge(
-    [id = qtedge->GetEdge().GetId()](const Edge& edge) { return edge.GetId() == id; },
-    conceptmap
-  );
-  const Edge edge = get_my_custom_edge(ed, conceptmap);
-  assert(edge.GetId() == qtedge->GetEdge().GetId());
-  return edge;
-}
-
 ribi::cmap::QtEdge *
 ribi::cmap::ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene)
 {
@@ -303,22 +281,6 @@ ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) n
     if (IsQtCenterNode(qtnode)) return qtnode;
   }
   assert(!"Should not get here"); //!OCLINT accepted idiom
-  return nullptr;
-}
-
-ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
-  const int edge_id,
-  const QGraphicsScene& scene
-) noexcept
-{
-  for (auto item: scene.items())
-  {
-    QtEdge * qtedge = dynamic_cast<QtEdge*>(item);
-    if (qtedge && qtedge->GetEdge().GetId() == edge_id)
-    {
-      return qtedge;
-    }
-  }
   return nullptr;
 }
 

@@ -52,8 +52,6 @@ bool DoubleCheckSelectedEdgesAndNodes(
   const bool verbose = false
 );
 
-///Get the one selected Edge. Throws if there is not exactly one edge selected
-Edge ExtractTheOneSelectedEdge(const ConceptMap& conceptmap, const QGraphicsScene& scene);
 
 ///Get the one selected QtEdge. Throws if there is not exactly one edge selected
 QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
@@ -61,10 +59,6 @@ QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
 ///Finds the one QtCenterNode
 ///Returns nullptr if there is none
 QtNode * FindQtCenterNode(const QGraphicsScene& scene) noexcept;
-
-///Finds the first QtEdge in a QGraphicsScene with a matching edge ID
-///Returns nullptr if there is none
-QtEdge * FindQtEdge(const int edge_id, const QGraphicsScene& scene) noexcept;
 
 ///Find the edge this QtNode is in the center of
 ///Returns nullptr if the QtNode is not on a QtEdge

@@ -28,14 +28,15 @@
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtEdge::QtEdge(
-    const Edge& edge,
+    const Concept& concept,
+    const double x,
+    const double y,
     QtNode * const from,
     QtNode * const to
 )
   : m_arrow{nullptr}, //Will be initialized below
-    m_edge{edge},
     m_from{from},
-    m_qtnode{new QtNode(edge.GetNode(), this)}, //parent
+    m_qtnode{new QtNode(concept, false, x, y, this)}, //parent
     m_show_bounding_rect{false},
     m_to{to}
 {
@@ -73,11 +74,8 @@ ribi::cmap::QtEdge::QtEdge(
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
   }
 
-  m_qtnode->SetCenterX(GetX(m_edge));
-  m_qtnode->SetCenterY(GetY(m_edge));
-  m_qtnode->SetText( { GetText(m_edge) } );
-
-  this->SetEdge(m_edge);
+  m_qtnode->SetCenterX(x);
+  m_qtnode->SetCenterY(y);
 
   //Set Z values
   this->setZValue(-1.0);
@@ -141,9 +139,7 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetArrow()->GetPen().color() == Qt::black);
   assert(qtedge.GetQtNode());
   assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
-  assert(GetX(qtedge) == GetX(qtedge.GetEdge()));
   assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
-  assert(GetY(qtedge) == GetY(qtedge.GetEdge()));
   assert(GetY(qtedge) == GetY(*qtedge.GetQtNode()));
   CheckInvariants(*qtedge.GetQtNode());
 }
@@ -180,7 +176,7 @@ void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
 
 const ribi::cmap::Concept& ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
 {
-  return GetConcept(qtedge.GetEdge());
+  return GetConcept(*qtedge.GetQtNode());
 }
 
 QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
@@ -193,44 +189,36 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
 
 std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
 {
-  return GetText(qtedge.GetEdge());
+  return GetText(*qtedge.GetQtNode());
 }
 
 QPointF ribi::cmap::GetCenterPos(const QtEdge& qtedge) noexcept
 {
-  assert(std::abs(GetX(qtedge.GetEdge()) - GetX(*qtedge.GetQtNode())) < 2.0);
-  assert(std::abs(GetY(qtedge.GetEdge()) - GetY(*qtedge.GetQtNode())) < 2.0);
   return GetCenterPos(*qtedge.GetQtNode());
 }
 
 double ribi::cmap::GetX(const QtEdge& qtedge) noexcept
 {
-  assert(std::abs(GetX(qtedge.GetEdge()) - GetX(*qtedge.GetQtNode())) < 2.0);
   return GetX(*qtedge.GetQtNode());
 }
 
 double ribi::cmap::GetY(const QtEdge& qtedge) noexcept
 {
-  assert(std::abs(GetY(qtedge.GetEdge()) - GetY(*qtedge.GetQtNode())) < 2.0);
   return GetY(*qtedge.GetQtNode());
 }
 
 bool ribi::cmap::HasExamples(const QtEdge& qtedge) noexcept
 {
-  assert(qtedge.GetQtNode());
-  assert(HasExamples(*qtedge.GetQtNode()) == HasExamples(qtedge.GetEdge()));
-  return HasExamples(qtedge.GetEdge());
+  return HasExamples(*qtedge.GetQtNode());
 }
 
 bool ribi::cmap::HasHeadArrow(const QtEdge& qtedge) noexcept
 {
-  assert(qtedge.GetEdge().HasHeadArrow() == qtedge.GetArrow()->HasHead());
   return qtedge.GetArrow()->HasHead();
 }
 
 bool ribi::cmap::HasTailArrow(const QtEdge& qtedge) noexcept
 {
-  assert(qtedge.GetEdge().HasTailArrow() == qtedge.GetArrow()->HasTail());
   return qtedge.GetArrow()->HasTail();
 }
 
@@ -337,14 +325,10 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
 void ribi::cmap::Move(QtEdge& qtedge, const double dx, const double dy)
 {
   assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
-  assert(GetX(qtedge) == GetX( qtedge.GetEdge()));
 
   Move(*qtedge.GetQtNode(), dx, dy);
-  Move(qtedge.GetEdge(), dx, dy);
 
   assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
-  assert(GetX(qtedge) == GetX( qtedge.GetEdge()));
-  assert(GetX(qtedge) == GetX( qtedge.GetEdge().GetNode()));
 }
 
 void ribi::cmap::QtEdge::paint(
@@ -391,32 +375,18 @@ std::function<bool(ribi::cmap::QtEdge* const)>
 
 void ribi::cmap::SetConcept(QtEdge& qtedge, const Concept& concept) noexcept
 {
-  SetConcept(qtedge.GetEdge(), concept);
   SetConcept(*qtedge.GetQtNode(), concept);
-}
-
-void ribi::cmap::QtEdge::SetEdge(const Edge& edge) noexcept
-{
-  m_edge = edge;
-
-  m_qtnode->SetCenterX(GetX(m_edge));
-  m_qtnode->SetCenterY(GetY(m_edge));
-  m_qtnode->SetText( { GetText(m_edge) } );
-  SetHasHeadArrow(m_edge.HasHeadArrow());
-  SetHasTailArrow(m_edge.HasTailArrow());
 }
 
 void ribi::cmap::QtEdge::SetHasHeadArrow(const bool has_head_arrow) noexcept
 {
   assert(m_arrow);
-  this->GetEdge().SetHeadArrow(has_head_arrow);
   this->m_arrow->SetHasHead(has_head_arrow);
 }
 
 void ribi::cmap::QtEdge::SetHasTailArrow(const bool has_tail_arrow) noexcept
 {
   assert(m_arrow);
-  this->GetEdge().SetTailArrow(has_tail_arrow);
   this->m_arrow->SetHasTail(has_tail_arrow);
 }
 
@@ -467,7 +437,7 @@ std::string ribi::cmap::ToStr(const QtEdge& qtedge) noexcept
 std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtEdge& qtedge) noexcept
 {
   os
-    << (qtedge.GetEdge())
+    << (*qtedge.GetQtNode())
   ;
   return os;
 }
@@ -476,7 +446,6 @@ bool ribi::cmap::operator==(const QtEdge& lhs, const QtEdge& rhs) noexcept
 {
   return
        lhs.GetArrow() == rhs.GetArrow()
-    && lhs.GetEdge() == rhs.GetEdge()
     && lhs.GetFrom() == rhs.GetFrom()
     && lhs.GetQtNode() == rhs.GetQtNode()
     && lhs.GetTo() == rhs.GetTo()

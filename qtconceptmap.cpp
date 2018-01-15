@@ -141,7 +141,15 @@ void ribi::cmap::AddEdgesToScene(
     //const auto edge_map = get(boost::edge_custom_type, conceptmap);
     //const Edge edge = get get(edge_map, *i);
     const Edge edge = get_my_custom_edge(*i, conceptmap);
-    QtEdge * const qtedge{new QtEdge(edge,qtfrom,qtto)};
+    QtEdge * const qtedge{
+      new QtEdge(
+        edge.GetNode().GetConcept(),
+        edge.GetNode().GetX(),
+        edge.GetNode().GetY(),
+        qtfrom,
+        qtto
+      )
+    };
     assert(GetX(*qtedge) == GetX(edge));
     assert(GetY(*qtedge) == GetY(edge));
     if (IsConnectedToCenterNode(*qtedge))

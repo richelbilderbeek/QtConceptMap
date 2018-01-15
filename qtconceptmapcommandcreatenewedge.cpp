@@ -130,7 +130,9 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
   assert(qtnodes.size() == 2);
   //Create the new QtEdge
   m_added_qtedge = new QtEdge(
-    Edge(Node(Concept(m_text))),
+    Concept(m_text),
+    (GetX(*qtnodes[0]) + GetX(*qtnodes[1])) / 2.0,
+    (GetY(*qtnodes[0]) + GetY(*qtnodes[1])) / 2.0,
     qtnodes[0],
     qtnodes[1]
   );

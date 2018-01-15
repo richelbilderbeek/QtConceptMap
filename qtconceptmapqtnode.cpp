@@ -37,7 +37,6 @@ ribi::cmap::QtNode::QtNode(
     ),
     m_brush_function{GetQtNodeBrushFunctionUninitialized()},
     m_concept{concept},
-    m_is_center_node{is_center_node},
     m_show_bounding_rect{false}
 {
   //Allow mouse tracking
@@ -47,13 +46,14 @@ ribi::cmap::QtNode::QtNode(
 
   this->setAcceptHoverEvents(true);
 
-  if (IsCenterNode(node))
+  if (is_center_node)
   {
     this->setFlags(
         QGraphicsItem::ItemIsFocusable
       | QGraphicsItem::ItemIsSelectable
     );
     assert(!(flags() & QGraphicsItem::ItemIsMovable));
+    assert(IsQtCenterNode(*this));
   }
   else
   {
@@ -62,14 +62,14 @@ ribi::cmap::QtNode::QtNode(
       | QGraphicsItem::ItemIsMovable
       | QGraphicsItem::ItemIsSelectable
     );
+    assert(!IsQtCenterNode(*this));
   }
 
 
-  SetNode(node);
   this->setZValue(0.0);
   this->SetContourPen(QPen(Qt::black, 1.0));
   this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
-  this->SetCenterPos(x, y);
+  this->SetCenterPos(center_x, center_y);
   CheckInvariants(*this);
 }
 
@@ -83,40 +83,26 @@ void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
   #ifndef NDEBUG
   const double x1{GetX(qtnode)};
   const double x2{qtnode.GetCenterX()};
-  const double x3{GetX(qtnode.GetNode())};
-  if ( std::abs(x1 - x2) > 1.0
-    || std::abs(x1 - x3) > 1.0
-    || std::abs(x2 - x3) > 1.0)
+  if ( std::abs(x1 - x2))
   {
     qCritical()
       << "\nx1: " << x1
       << "\nx2: " << x2
-      << "\nx3: " << x3
       << "\nGetText(qtnode) : " << GetText(qtnode).c_str()
     ;
   }
   assert(std::abs(x1 - x2) < 1.0);
-  assert(std::abs(x1 - x3) < 1.0);
-  assert(std::abs(x2 - x3) < 1.0);
-
-
   const double y1{GetY(qtnode)};
   const double y2{qtnode.GetCenterY()};
-  const double y3{GetY(qtnode.GetNode())};
-  if ( std::abs(y1 - y2) > 1.0
-    || std::abs(y1 - y3) > 1.0
-    || std::abs(y2 - y3) > 1.0)
+  if ( std::abs(y1 - y2))
   {
     qDebug()
       << "\ny1: " << y1
       << "\ny2: " << y2
-      << "\ny3: " << y3
       << "\nGetText(qtnode) : " << GetText(qtnode).c_str()
     ;
   }
   assert(std::abs(y1 - y2) < 1.0);
-  assert(std::abs(y1 - y3) < 1.0);
-  assert(std::abs(y2 - y3) < 1.0);
   #endif
 }
 
@@ -147,61 +133,39 @@ void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
 QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
 {
   return QPointF(
-    GetX(qtnode.GetNode()),
-    GetY(qtnode.GetNode())
+    qtnode.GetCenterX(),
+    qtnode.GetCenterY()
   );
 }
 
 const ribi::cmap::Concept& ribi::cmap::GetConcept(const QtNode& qtnode) noexcept
 {
-  return GetConcept(qtnode.GetNode());
+  return qtnode.GetConcept();
 }
 
 const ribi::cmap::Examples& ribi::cmap::GetExamples(const QtNode& qtnode) noexcept
 {
-  return GetExamples(qtnode.GetNode());
+  return GetExamples(qtnode.GetConcept());
 }
 
 std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 {
-  return GetText(qtnode.GetNode());
+  return GetText(qtnode.GetConcept());
 }
 
 double ribi::cmap::GetX(const QtNode& qtnode) noexcept
 {
-  //Use CheckInvariants instead
-  #ifdef TO_ADD_ONE_DAY
-  #ifndef NDEBUG
-  if (qtnode.GetCenterX() != GetX(qtnode.GetNode()))
-  {
-    qDebug()
-      << '\n'
-      << "qtnode.GetCenterX(): "
-      << qtnode.GetCenterX()
-      << '\n'
-      << "GetX(qtnode.GetNode()): "
-      << GetX(qtnode.GetNode())
-    ;
-  }
-  #endif
-  assert(qtnode.GetCenterX() == GetX(qtnode.GetNode()));
-  #endif // TO_ADD_ONE_DAY
-  return GetX(qtnode.GetNode());
+  return qtnode.GetCenterX();
 }
 
 double ribi::cmap::GetY(const QtNode& qtnode) noexcept
 {
-  //Use CheckInvariants instead
-  #ifdef TO_ADD_ONE_DAY
-  assert(qtnode.GetCenterY() == GetY(qtnode.GetNode()));
-  #endif // TO_ADD_ONE_DAY
-  return GetY(qtnode.GetNode());
+  return qtnode.GetCenterY();
 }
-
 
 bool ribi::cmap::HasExamples(const QtNode& qtnode) noexcept
 {
-  return NodeHasExamples(qtnode.GetNode());
+  return HasExamples(qtnode.GetConcept());
 }
 
 void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
@@ -214,7 +178,7 @@ void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 
 bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
 {
-  return qtnode.GetIsCenterNode();
+  return !qtnode.flags() & QGraphicsItem::ItemIsMovable;
 }
 
 bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept

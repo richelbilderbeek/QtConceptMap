@@ -21,7 +21,9 @@ struct Node;
 struct QtEdge : public QGraphicsItem
 {
   QtEdge(
-    const Edge& edge,
+    const Concept& concept,
+    const double x,
+    const double y,
     QtNode * const from,
     QtNode * const to
   );
@@ -33,9 +35,6 @@ struct QtEdge : public QGraphicsItem
 
   const QtQuadBezierArrowItem * GetArrow() const noexcept { return m_arrow; }
         QtQuadBezierArrowItem * GetArrow()       noexcept { return m_arrow; }
-
-  const Edge& GetEdge() const noexcept { return m_edge; }
-        Edge& GetEdge()       noexcept { return m_edge; }
 
   ///The node item the arrow originates from
   const QtNode * GetFrom() const noexcept { return m_from; }
@@ -50,7 +49,7 @@ struct QtEdge : public QGraphicsItem
 
   bool IsSelected() const;
 
-  void SetEdge(const Edge& edge) noexcept;
+  void SetConcept(const Concept& concept) noexcept;
 
   void SetHasHeadArrow(const bool has_head_arrow) noexcept;
   void SetHasTailArrow(const bool has_tail_arrow) noexcept;
@@ -83,8 +82,8 @@ private:
   ///before I can construct this
   QtQuadBezierArrowItem *  m_arrow;
 
-  ///The edge
-  Edge m_edge;
+  ///The concept, part of QtNode
+  //Concept m_concept;
 
   ///The node item the arrow originates from
   QtNode * const m_from;

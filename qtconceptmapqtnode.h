@@ -38,8 +38,6 @@ struct QtNode : public QtRoundedEditRectItem
 
   const auto& GetConcept() const noexcept { return m_concept; }
 
-  bool IsCenterNode() const noexcept { return m_is_center_node; }
-
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
 
@@ -64,8 +62,6 @@ private:
 
   ///The node being edited, or displayed and not changed, or rated
   Concept m_concept;
-
-  bool m_is_center_node;
 
   bool m_show_bounding_rect;
 
