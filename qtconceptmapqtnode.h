@@ -41,7 +41,12 @@ struct QtNode : public QtRoundedEditRectItem
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
 
-  void SetNode(const Node& node) noexcept;
+  void SetNode(
+    const Concept& concept,
+    const bool is_center_node,
+    const double center_x = 0.0,
+    const double center_y = 0.0
+  ) noexcept;
 
   std::string ToStr() const noexcept;
 

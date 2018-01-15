@@ -389,7 +389,7 @@ ribi::cmap::GetQtNodeBrushFunctionEdit() noexcept
     //Gold if center node
     //Gray if solitary node
     //Blue if relation node
-    if (qtnode.IsCenterNode())
+    if (IsCenterNode(qtnode))
     {
       return QtBrushFactory().CreateGoldGradientBrush();
     }
@@ -407,7 +407,7 @@ ribi::cmap::GetQtNodeBrushFunctionRate() noexcept
 {
   return [](const QtNode& qtnode)
   {
-    if (qtnode.IsCenterNode())
+    if (IsCenterNode(qtnode))
     {
       return QtBrushFactory().CreateGoldGradientBrush();
     }

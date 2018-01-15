@@ -45,31 +45,10 @@ ribi::cmap::QtNode::QtNode(
   this->SetPadding(QtRoundedEditRectItem::Padding(1.0,6.0,1.0,2.0));
 
   this->setAcceptHoverEvents(true);
-
-  if (is_center_node)
-  {
-    this->setFlags(
-        QGraphicsItem::ItemIsFocusable
-      | QGraphicsItem::ItemIsSelectable
-    );
-    assert(!(flags() & QGraphicsItem::ItemIsMovable));
-    assert(IsQtCenterNode(*this));
-  }
-  else
-  {
-    this->setFlags(
-        QGraphicsItem::ItemIsFocusable
-      | QGraphicsItem::ItemIsMovable
-      | QGraphicsItem::ItemIsSelectable
-    );
-    assert(!IsQtCenterNode(*this));
-  }
-
-
   this->setZValue(0.0);
   this->SetContourPen(QPen(Qt::black, 1.0));
   this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
-  this->SetCenterPos(center_x, center_y);
+  SetNode(concept, is_center_node, center_x, center_y);
   CheckInvariants(*this);
 }
 
@@ -178,7 +157,7 @@ void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 
 bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
 {
-  return !qtnode.flags() & QGraphicsItem::ItemIsMovable;
+  return !(qtnode.flags() & QGraphicsItem::ItemIsMovable);
 }
 
 bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept
@@ -219,7 +198,6 @@ void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)
 {
   CheckInvariants(qtnode);
 
-  Move(qtnode.GetNode(), dx, dy);
   qtnode.moveBy(dx, dy);
 
   CheckInvariants(qtnode);
@@ -282,15 +260,43 @@ void ribi::cmap::QtNode::SetBrushFunction(
   this->update();
 }
 
-void ribi::cmap::QtNode::SetNode(const Node& node) noexcept
+void ribi::cmap::QtNode::SetNode(
+  const Concept& concept,
+  const bool is_center_node,
+  const double center_x,
+  const double center_y
+) noexcept
 {
-  m_node = node;
+  m_concept = concept;
 
-  ::ribi::cmap::SetX(*this, node.GetX());
-  ::ribi::cmap::SetY(*this, node.GetY());
-  ::ribi::cmap::SetText(*this, node.GetName());
+  ::ribi::cmap::SetX(*this, center_x);
+  ::ribi::cmap::SetY(*this, center_y);
+  const std::string text{GetText(concept)};
+  ::ribi::cmap::SetText(*this, text);
   //this->SetCenterPos(m_node.GetX(), m_node.GetY());
   //this->SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
+
+  this->SetCenterPos(center_x, center_y);
+
+  if (is_center_node)
+  {
+    this->setFlags(
+        QGraphicsItem::ItemIsFocusable
+      | QGraphicsItem::ItemIsSelectable
+    );
+    assert(!(flags() & QGraphicsItem::ItemIsMovable));
+    assert(IsQtCenterNode(*this));
+  }
+  else
+  {
+    this->setFlags(
+        QGraphicsItem::ItemIsFocusable
+      | QGraphicsItem::ItemIsMovable
+      | QGraphicsItem::ItemIsSelectable
+    );
+    assert(!IsQtCenterNode(*this));
+  }
+
   Ensures(::ribi::cmap::GetX(*this) == node.GetX());
   Ensures(::ribi::cmap::GetY(*this) == node.GetY());
   Ensures(::ribi::cmap::GetText(*this) == node.GetName());
