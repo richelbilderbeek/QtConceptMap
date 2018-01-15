@@ -19,6 +19,8 @@ class QtConceptMapTest;
 class QtConceptMapQtNodeTest;
 
 ///QtNode displays a Node as a QtConceptMapElement
+///Instead of duplicating state, Node's members
+///are scattered over the class
 struct QtNode : public QtRoundedEditRectItem
 {
   virtual ~QtNode() noexcept;
@@ -36,7 +38,11 @@ struct QtNode : public QtRoundedEditRectItem
   void DisableAll();
   void EnableAll();
 
-  const auto& GetConcept() const noexcept { return m_concept; }
+  const auto& GetExamples() const noexcept { return m_examples; }
+  auto GetIsComplex() const noexcept { return m_is_complex; }
+  constexpr int GetRatingComplexity() const noexcept { return m_rating_complexity; }
+  constexpr int GetRatingConcreteness() const noexcept { return m_rating_concreteness; }
+  constexpr int GetRatingSpecificity() const noexcept { return m_rating_specificity; }
 
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
@@ -66,7 +72,11 @@ private:
   std::function<QBrush(const ribi::cmap::QtNode&)> m_brush_function;
 
   ///The node being edited, or displayed and not changed, or rated
-  Concept m_concept;
+  const Examples m_examples;
+  const bool m_is_complex = false;
+  const int m_rating_complexity = -1;
+  const int m_rating_concreteness = -1;
+  const int m_rating_specificity = -1;
 
   bool m_show_bounding_rect;
 
@@ -80,11 +90,16 @@ void CheckInvariants(const QtNode& qtnode) noexcept;
 QPointF GetCenterPos(const QtNode& qtnode) noexcept;
 
 ///Get the Concept of the QtNode its Node
-const Concept& GetConcept(const QtNode& qtnode) noexcept;
+Concept GetConcept(const QtNode& qtnode) noexcept;
 
 ///Get the Example of the QtNode its Node its Concept
 const Examples& GetExamples(const QtNode& qtnode) noexcept;
 
+int GetRatingComplexity(const QtNode& qtnode) noexcept;
+int GetRatingConcreteness(const QtNode& qtnode) noexcept;
+int GetRatingSpecificity(const QtNode& qtnode) noexcept;
+
+std::string GetName(const QtNode& qtnode) noexcept;
 std::string GetText(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping
@@ -100,6 +115,7 @@ double GetY(const QtNode& qtnode) noexcept;
 bool HasExamples(const QtNode& qtnode) noexcept;
 
 bool IsCenterNode(const QtNode& qtnode) noexcept;
+bool IsComplex(const QtNode& qtnode) noexcept { return qtnode.GetIsComplex(); }
 bool IsEnabled(const QtNode& qtnode) noexcept;
 bool IsMovable(const QtNode& qtnode) noexcept;
 bool IsSelectable(const QtNode& qtnode) noexcept;

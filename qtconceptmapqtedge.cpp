@@ -174,7 +174,7 @@ void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
 }
 */
 
-const ribi::cmap::Concept& ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
+ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
 {
   return GetConcept(*qtedge.GetQtNode());
 }

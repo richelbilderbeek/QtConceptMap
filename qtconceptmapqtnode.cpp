@@ -30,13 +30,17 @@ ribi::cmap::QtNode::QtNode(
   const double center_y,
   QGraphicsItem* parent)
   : QtRoundedEditRectItem(
-      { "..." },
+      { concept.GetName() },
       ribi::QtRoundedEditRectItem::Padding(),
       QFont("monospace",9),
       parent
     ),
     m_brush_function{GetQtNodeBrushFunctionUninitialized()},
-    m_concept{concept},
+    m_examples{concept.GetExamples()},
+    m_is_complex{IsComplex(concept)},
+    m_rating_complexity{concept.GetRatingComplexity()},
+    m_rating_concreteness{concept.GetRatingConcreteness()},
+    m_rating_specificity{concept.GetRatingSpecificity()},
     m_show_bounding_rect{false}
 {
   //Allow mouse tracking
@@ -117,19 +121,31 @@ QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
   );
 }
 
-const ribi::cmap::Concept& ribi::cmap::GetConcept(const QtNode& qtnode) noexcept
+ribi::cmap::Concept ribi::cmap::GetConcept(const QtNode& qtnode) noexcept
 {
-  return qtnode.GetConcept();
+  return Concept(
+    GetName(qtnode),
+    GetExamples(qtnode),
+    IsComplex(qtnode),
+    GetRatingComplexity(qtnode),
+    GetRatingConcreteness(qtnode),
+    GetRatingSpecificity(qtnode)
+  );
 }
 
 const ribi::cmap::Examples& ribi::cmap::GetExamples(const QtNode& qtnode) noexcept
 {
-  return GetExamples(qtnode.GetConcept());
+  return qtnode.GetExamples();
+}
+
+std::string ribi::cmap::GetName(const QtNode& qtnode) noexcept
+{
+  return GetText(qtnode);
 }
 
 std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 {
-  return GetText(qtnode.GetConcept());
+  return Unwordwrap(qtnode.GetText());
 }
 
 double ribi::cmap::GetX(const QtNode& qtnode) noexcept
@@ -144,7 +160,7 @@ double ribi::cmap::GetY(const QtNode& qtnode) noexcept
 
 bool ribi::cmap::HasExamples(const QtNode& qtnode) noexcept
 {
-  return HasExamples(qtnode.GetConcept());
+  return !IsEmpty(qtnode.GetExamples());
 }
 
 void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
@@ -314,22 +330,17 @@ void ribi::cmap::SetConcept(QtNode& qtnode, const Concept& concept)
 
 void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)
 {
-  SetConcept(
-        SetText(qtnode.GetConcept(), text);
-
-  )
+  qtnode.SetText( { text } );
 }
 
 void ribi::cmap::SetX(QtNode& qtnode, const double x)
 {
   qtnode.SetCenterX(x);
-  SetX(qtnode.GetNode(), x);
 }
 
 void ribi::cmap::SetY(QtNode& qtnode, const double y)
 {
   qtnode.SetCenterY(y);
-  SetY(qtnode.GetNode(), y);
 }
 
 std::string ribi::cmap::QtNode::ToStr() const noexcept

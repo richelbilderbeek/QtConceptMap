@@ -1262,11 +1262,12 @@ void ribi::cmap::OnNodeKeyDownPressed(
 
 
 void ribi::cmap::OnNodeKeyDownPressedEditF2(
-  QtConceptMap& q,
-  QtNode& qtnode,
-  QKeyEvent * const event
+  QtConceptMap&,
+  QtNode&,
+  QKeyEvent * const
 )
 {
+  #ifdef NOT_NOW_20180115
   event->accept();
 
   //Edit concept
@@ -1284,6 +1285,7 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   q.DoCommand(new CommandSetConcept(q, d.GetConcept()));
 
   CheckInvariants(q);
+  #endif // NOT_NOW_20180115
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF1(

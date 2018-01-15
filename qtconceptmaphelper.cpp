@@ -412,9 +412,9 @@ ribi::cmap::GetQtNodeBrushFunctionRate() noexcept
       return QtBrushFactory().CreateGoldGradientBrush();
     }
     const int n_rated
-      = (qtnode.GetConcept().GetRatingComplexity()   == -1 ? 0 : 1)
-      + (qtnode.GetConcept().GetRatingConcreteness() == -1 ? 0 : 1)
-      + (qtnode.GetConcept().GetRatingSpecificity()  == -1 ? 0 : 1);
+      = (GetRatingComplexity(qtnode)   == -1 ? 0 : 1)
+      + (GetRatingConcreteness(qtnode) == -1 ? 0 : 1)
+      + (GetRatingSpecificity(qtnode)  == -1 ? 0 : 1);
     switch (n_rated)
     {
       case 0: return QtBrushFactory().CreateRedGradientBrush();

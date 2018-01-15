@@ -116,7 +116,7 @@ void EnableAll(QtEdge& qtedge) noexcept;
 
 QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
 
-const Concept& GetConcept(const QtEdge& qtedge) noexcept;
+Concept GetConcept(const QtEdge& qtedge) noexcept;
 
 std::string GetText(const QtEdge& qtedge) noexcept;
 
