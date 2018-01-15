@@ -271,7 +271,7 @@ void ribi::cmap::QtNode::SetNode(
 
   ::ribi::cmap::SetX(*this, center_x);
   ::ribi::cmap::SetY(*this, center_y);
-  const std::string text{GetText(concept)};
+  const std::string text{::ribi::cmap::GetText(concept)};
   ::ribi::cmap::SetText(*this, text);
   //this->SetCenterPos(m_node.GetX(), m_node.GetY());
   //this->SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
@@ -297,21 +297,27 @@ void ribi::cmap::QtNode::SetNode(
     assert(!IsQtCenterNode(*this));
   }
 
-  Ensures(::ribi::cmap::GetX(*this) == node.GetX());
-  Ensures(::ribi::cmap::GetY(*this) == node.GetY());
-  Ensures(::ribi::cmap::GetText(*this) == node.GetName());
+  Ensures(::ribi::cmap::GetX(*this) == center_x);
+  Ensures(::ribi::cmap::GetY(*this) == center_y);
+  Ensures(::ribi::cmap::GetText(*this) == ::ribi::cmap::GetText(concept));
 }
 
 void ribi::cmap::SetConcept(QtNode& qtnode, const Concept& concept)
 {
-  SetConcept(qtnode.GetNode(), concept);
+  qtnode.SetNode(
+    concept,
+    IsCenterNode(qtnode),
+    GetX(qtnode),
+    GetY(qtnode)
+  );
 }
 
 void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)
 {
-  Node& node = qtnode.GetNode();
-  qtnode.SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
-  SetText(node, text);
+  SetConcept(
+        SetText(qtnode.GetConcept(), text);
+
+  )
 }
 
 void ribi::cmap::SetX(QtNode& qtnode, const double x)
