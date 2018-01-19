@@ -121,11 +121,11 @@ ribi::cmap::QtConceptMap::~QtConceptMap() noexcept
 }
 
 void ribi::cmap::AddEdgesToScene(
-  QtConceptMap& qtconceptmap,
-  const ConceptMap& conceptmap
+  QtConceptMap&,
+  const ConceptMap&
 ) noexcept
 {
-
+  #ifdef NOT_NOW_20180119
   QGraphicsScene& scene = *qtconceptmap.scene();
 
   //Add the Edges
@@ -166,7 +166,7 @@ void ribi::cmap::AddEdgesToScene(
     CheckInvariants(*qtedge);
 
   }
-
+  #endif //NOT_NOW_20180119
 }
 
 
@@ -189,7 +189,6 @@ void ribi::cmap::AddNodesToScene(
     assert(!qtnode->scene());
     scene.addItem(qtnode);
     assert(qtnode->scene());
-    assert(FindQtNode(node.GetId(), scene));
   }
 
 }
@@ -371,10 +370,13 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
 }
 
 ribi::cmap::QtNode * ribi::cmap::FindQtNode(
-  const int node_id,
-  const QtConceptMap& q) noexcept
+  const int, // node_id
+  const QtConceptMap&) noexcept
 {
+  #ifdef NOT_NOW_20180119
   return FindQtNode(node_id, q.GetScene());
+  #endif // NOT_NOW_20180119
+  return nullptr;
 }
 
 ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QtConceptMap& q) noexcept

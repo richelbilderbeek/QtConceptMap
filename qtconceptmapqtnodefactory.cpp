@@ -17,7 +17,14 @@ std::unique_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::Create(
   const Node& node
 ) const noexcept
 {
-  std::unique_ptr<QtNode> qtnode{new QtNode(node)};
+  std::unique_ptr<QtNode> qtnode{
+    new QtNode(
+      node.GetConcept(),
+      node.IsCenterNode(),
+      node.GetX(),
+      node.GetY()
+    )
+  };
   assert(qtnode);
   return qtnode;
 }

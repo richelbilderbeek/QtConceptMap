@@ -21,6 +21,16 @@ struct Node;
 struct QtEdge : public QGraphicsItem
 {
   QtEdge(
+    const Edge& edge,
+    QtNode * const from,
+    QtNode * const to
+  );
+  QtEdge(
+    const Node& node,
+    QtNode * const from,
+    QtNode * const to
+  );
+  QtEdge(
     const Concept& concept,
     const double x,
     const double y,
@@ -35,6 +45,8 @@ struct QtEdge : public QGraphicsItem
 
   const QtQuadBezierArrowItem * GetArrow() const noexcept { return m_arrow; }
         QtQuadBezierArrowItem * GetArrow()       noexcept { return m_arrow; }
+
+  Edge GetEdge() const noexcept;
 
   ///The node item the arrow originates from
   const QtNode * GetFrom() const noexcept { return m_from; }
@@ -81,9 +93,6 @@ private:
   ///Cannot make this const, as I need an initialized m_qtnode
   ///before I can construct this
   QtQuadBezierArrowItem *  m_arrow;
-
-  ///The concept, part of QtNode
-  //Concept m_concept;
 
   ///The node item the arrow originates from
   QtNode * const m_from;

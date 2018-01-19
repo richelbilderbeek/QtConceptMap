@@ -392,7 +392,7 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeybo
   //Select the node at the center of the star
   while (CountSelectedQtEdges(q) != 0
     || CountSelectedQtNodes(q) != 1
-    || (CountSelectedQtNodes(q) > 0 && GetSelectedQtNodes(q)[0]->GetNode().GetConcept().GetName()
+    || (CountSelectedQtNodes(q) > 0 && GetNode(*GetSelectedQtNodes(q)[0]).GetConcept().GetName()
       != std::string("X"))
   )
   {
@@ -1133,7 +1133,7 @@ void ribi::cmap::QtConceptMapTest::SelectRandomNodeKeyboardEdit() const noexcept
     QVERIFY(n_items_selected == 1);
     QVERIFY(n_qtnodes_selected == 1);
     assert(GetSelectedQtNodes(m.GetScene()).size() == 1);
-    ids.push_back(GetSelectedQtNodes(m.GetScene())[0]->GetNode().GetId());
+    ids.push_back(GetNode(*GetSelectedQtNodes(m.GetScene())[0]).GetId());
   }
   //Test if there are two IDs, both occuring multiple times
   QVERIFY(std::count(std::begin(ids),std::end(ids),ids[0])

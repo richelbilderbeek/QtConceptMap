@@ -24,6 +24,20 @@
 
 
 ribi::cmap::QtNode::QtNode(
+  const Node& node,
+  QGraphicsItem* parent
+) : QtNode(
+      node.GetConcept(),
+      node.IsCenterNode(),
+      node.GetX(),
+      node.GetY(),
+      parent
+    )
+{
+
+}
+
+ribi::cmap::QtNode::QtNode(
   const Concept& concept,
   const bool is_center_node,
   const double center_x,
@@ -138,9 +152,34 @@ const ribi::cmap::Examples& ribi::cmap::GetExamples(const QtNode& qtnode) noexce
   return qtnode.GetExamples();
 }
 
+int ribi::cmap::GetRatingComplexity(const QtNode& qtnode) noexcept
+{
+  return GetRatingComplexity(GetNode(qtnode));
+}
+
+int ribi::cmap::GetRatingConcreteness(const QtNode& qtnode) noexcept
+{
+  return GetRatingConcreteness(GetNode(qtnode));
+}
+
+int ribi::cmap::GetRatingSpecificity(const QtNode& qtnode) noexcept
+{
+  return GetRatingSpecificity(GetNode(qtnode));
+}
+
 std::string ribi::cmap::GetName(const QtNode& qtnode) noexcept
 {
   return GetText(qtnode);
+}
+
+ribi::cmap::Node ribi::cmap::GetNode(const QtNode& qtnode) noexcept
+{
+  return Node(
+    GetConcept(qtnode),
+    IsCenterNode(qtnode),
+    GetX(qtnode),
+    GetY(qtnode)
+  );
 }
 
 std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
@@ -174,6 +213,11 @@ void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
 {
   return !(qtnode.flags() & QGraphicsItem::ItemIsMovable);
+}
+
+bool ribi::cmap::IsComplex(const QtNode& qtnode) noexcept
+{
+  return qtnode.GetIsComplex();
 }
 
 bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept
@@ -283,7 +327,12 @@ void ribi::cmap::QtNode::SetNode(
   const double center_y
 ) noexcept
 {
-  m_concept = concept;
+
+  m_examples = concept.GetExamples();
+  m_is_complex = concept.GetIsComplex();
+  m_rating_complexity = concept.GetRatingComplexity();
+  m_rating_concreteness = concept.GetRatingConcreteness();
+  m_rating_specificity = concept.GetRatingSpecificity();
 
   ::ribi::cmap::SetX(*this, center_x);
   ::ribi::cmap::SetY(*this, center_y);
@@ -353,7 +402,11 @@ std::string ribi::cmap::QtNode::ToStr() const noexcept
 std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtNode& qtnode) noexcept
 {
   os
-    << qtnode.GetNode()
+    << qtnode.GetExamples() << ','
+    << qtnode.GetIsComplex() << ','
+    << qtnode.GetRatingComplexity() << ','
+    << qtnode.GetRatingConcreteness() << ','
+    << qtnode.GetRatingSpecificity()
   ;
   return os;
 }

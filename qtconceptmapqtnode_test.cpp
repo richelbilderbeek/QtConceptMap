@@ -42,7 +42,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::qtnode_is_qtroundededitrectitem_with_eq
   const QtRoundedEditRectItem * edit_rect{
     dynamic_cast<QtRoundedEditRectItem*>(qtnode.get())
   };
-  const auto node = qtnode->GetNode();
+  const auto node = GetNode(*qtnode);
   const double node_x = node.GetX();
   const double edit_rect_x = edit_rect->GetCenterX();
   QVERIFY(std::abs(node_x - edit_rect_x) < 2.0);
@@ -55,7 +55,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::qtnode_is_qtroundededitrectitem_with_eq
   const QtRoundedEditRectItem * edit_rect{
     dynamic_cast<QtRoundedEditRectItem*>(qtnode.get())
   };
-  const auto node = qtnode->GetNode();
+  const auto node = GetNode(*qtnode);
   const double node_y = node.GetY();
   const double edit_rect_y = edit_rect->GetCenterY();
   QVERIFY(std::abs(node_y - edit_rect_y) < 2.0);

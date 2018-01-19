@@ -25,8 +25,10 @@ struct QtNode : public QtRoundedEditRectItem
 {
   virtual ~QtNode() noexcept;
 
-  ///Node cannot be const as it contains a Concept that the user might want to edit
-  ///concept_item contains the Stategy to display (and respond to the concept)
+  explicit QtNode(
+    const Node& node,
+    QGraphicsItem* parent = 0
+  );
   explicit QtNode(
     const Concept& concept,
     const bool is_center_node,
@@ -72,11 +74,11 @@ private:
   std::function<QBrush(const ribi::cmap::QtNode&)> m_brush_function;
 
   ///The node being edited, or displayed and not changed, or rated
-  const Examples m_examples;
-  const bool m_is_complex = false;
-  const int m_rating_complexity = -1;
-  const int m_rating_concreteness = -1;
-  const int m_rating_specificity = -1;
+  Examples m_examples;
+  bool m_is_complex = false;
+  int m_rating_complexity = -1;
+  int m_rating_concreteness = -1;
+  int m_rating_specificity = -1;
 
   bool m_show_bounding_rect;
 
@@ -100,6 +102,7 @@ int GetRatingConcreteness(const QtNode& qtnode) noexcept;
 int GetRatingSpecificity(const QtNode& qtnode) noexcept;
 
 std::string GetName(const QtNode& qtnode) noexcept;
+Node GetNode(const QtNode& qtnode) noexcept;
 std::string GetText(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping
@@ -115,7 +118,7 @@ double GetY(const QtNode& qtnode) noexcept;
 bool HasExamples(const QtNode& qtnode) noexcept;
 
 bool IsCenterNode(const QtNode& qtnode) noexcept;
-bool IsComplex(const QtNode& qtnode) noexcept { return qtnode.GetIsComplex(); }
+bool IsComplex(const QtNode& qtnode) noexcept;
 bool IsEnabled(const QtNode& qtnode) noexcept;
 bool IsMovable(const QtNode& qtnode) noexcept;
 bool IsSelectable(const QtNode& qtnode) noexcept;

@@ -157,17 +157,13 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnEdge() const noexcept
   const double expected_x{150.0};
   const double measured_x1{GetX(*GetQtEdges(q).at(0))};
   const double measured_x2{GetX(*GetQtEdges(q).at(0)->GetQtNode())};
-  const double measured_x3{GetX(GetQtEdges(q).at(0)->GetEdge())};
   const double expected_y{375.0};
   const double measured_y1{GetY(*GetQtEdges(q).at(0))};
   const double measured_y2{GetY(*GetQtEdges(q).at(0)->GetQtNode())};
-  const double measured_y3{GetY(GetQtEdges(q).at(0)->GetEdge())};
   assert(std::abs(expected_x - measured_x1) < 1.0);
   assert(std::abs(expected_y - measured_y1) < 1.0);
   assert(std::abs(expected_x - measured_x2) < 1.0);
   assert(std::abs(expected_y - measured_y2) < 1.0);
-  assert(std::abs(expected_x - measured_x3) < 1.0);
-  assert(std::abs(expected_y - measured_y3) < 1.0);
 }
 
 void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnNode() const noexcept
@@ -324,16 +320,12 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
     const double expected_y{300.0 + 75.0};
     const double measured_x1{GetX(*qtedge)};
     const double measured_y1{GetY(*qtedge)};
-    const double measured_x2{GetX(qtedge->GetEdge())};
-    const double measured_y2{GetY(qtedge->GetEdge())};
     const double measured_x3{GetX(*qtedge->GetQtNode())};
     const double measured_y3{GetY(*qtedge->GetQtNode())};
     const double measured_x4{GetX(GetFirstEdge(q.ToConceptMap()))};
     const double measured_y4{GetY(GetFirstEdge(q.ToConceptMap()))};
     assert(std::abs(expected_x - measured_x1) < 2.0);
     assert(std::abs(expected_y - measured_y1) < 2.0);
-    assert(std::abs(expected_x - measured_x2) < 2.0);
-    assert(std::abs(expected_y - measured_y2) < 2.0);
     assert(std::abs(expected_x - measured_x3) < 2.0);
     assert(std::abs(expected_y - measured_y3) < 2.0);
     assert(std::abs(expected_x - measured_x4) < 2.0);

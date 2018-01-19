@@ -95,16 +95,11 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveOnlyQtEdgeByName() const noexc
   assert(GetQtEdges(q).size() == 1);
 
   assert(GetQtEdges(q)[0] == qtedge);
-  assert(HasSameData(qtedge->GetEdge(), GetFirstEdge(q.ToConceptMap())));
-  assert(HasSameData(GetQtEdges(q)[0]->GetEdge(), GetFirstEdge(q.ToConceptMap())));
-  assert(GetQtEdges(q)[0]->GetEdge() == GetFirstEdge(q.ToConceptMap()));
 
   const double expected_x{375.0};
   const double expected_y{400.0};
   const double measured_x1{GetX(*qtedge)};
   const double measured_y1{GetY(*qtedge)};
-  const double measured_x2{GetX(qtedge->GetEdge())};
-  const double measured_y2{GetY(qtedge->GetEdge())};
   const double measured_x3{GetX(*qtedge->GetQtNode())};
   const double measured_y3{GetY(*qtedge->GetQtNode())};
   const double measured_x4{GetX(GetFirstEdge(q.ToConceptMap()))};
@@ -112,8 +107,6 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveOnlyQtEdgeByName() const noexc
 
   QVERIFY(std::abs(expected_x - measured_x1) < 2.0);
   QVERIFY(std::abs(expected_y - measured_y1) < 2.0);
-  QVERIFY(std::abs(expected_x - measured_x2) < 2.0);
-  QVERIFY(std::abs(expected_y - measured_y2) < 2.0);
   QVERIFY(std::abs(expected_x - measured_x3) < 2.0);
   QVERIFY(std::abs(expected_y - measured_y3) < 2.0);
   QVERIFY(std::abs(expected_x - measured_x4) < 2.0);

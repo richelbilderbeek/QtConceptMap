@@ -28,6 +28,22 @@
 #pragma GCC diagnostic pop
 
 ribi::cmap::QtEdge::QtEdge(
+    const Edge& edge,
+    QtNode * const from,
+    QtNode * const to
+) : QtEdge(edge.GetNode(), from, to)
+{
+}
+
+ribi::cmap::QtEdge::QtEdge(
+    const Node& node,
+    QtNode * const from,
+    QtNode * const to
+) : QtEdge(node.GetConcept(), node.GetX(), node.GetY(), from, to)
+{
+}
+
+ribi::cmap::QtEdge::QtEdge(
     const Concept& concept,
     const double x,
     const double y,
@@ -177,6 +193,15 @@ void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
 ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
 {
   return GetConcept(*qtedge.GetQtNode());
+}
+
+ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
+{
+  return Edge(
+    GetNode(*m_qtnode),
+    m_arrow->HasTail(),
+    m_arrow->HasHead()
+  );
 }
 
 QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
