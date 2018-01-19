@@ -46,46 +46,64 @@ struct QtEdge : public QGraphicsItem
   const QtQuadBezierArrowItem * GetArrow() const noexcept { return m_arrow; }
         QtQuadBezierArrowItem * GetArrow()       noexcept { return m_arrow; }
 
+  ///Construct an Edge from QtEdge members
   Edge GetEdge() const noexcept;
 
   ///The node item the arrow originates from
   const QtNode * GetFrom() const noexcept { return m_from; }
-        QtNode * GetFrom()       noexcept { return m_from; }
+  ///The node item the arrow originates from
+   QtNode * GetFrom() noexcept { return m_from; }
 
   ///The node item the arrow targets
   const QtNode * GetTo() const noexcept { return m_to; }
-        QtNode * GetTo()       noexcept { return m_to; }
+  ///The node item the arrow targets
+  QtNode * GetTo() noexcept { return m_to; }
 
+  ///The QtNode part of this QtEdge
   const QtNode * GetQtNode() const noexcept { return m_qtnode; }
-        QtNode * GetQtNode()       noexcept { return m_qtnode; }
+  ///The QtNode part of this QtEdge
+  QtNode * GetQtNode() noexcept { return m_qtnode; }
 
+  ///Is this QtEdge selected?
   bool IsSelected() const;
 
+  ///Set the concept
   void SetConcept(const Concept& concept) noexcept;
 
+  ///Set if this QtEdge has an arrowhead at the head of the arrow
   void SetHasHeadArrow(const bool has_head_arrow) noexcept;
+
+  ///Set if this QtEdge has an arrowhead at the tail of the arrow
   void SetHasTailArrow(const bool has_tail_arrow) noexcept;
 
+  ///Select this QtEdge
   void SetSelected(const bool selected);
 
+  ///Show the bounding rectangle, useful in debugging
   void SetShowBoundingRect(const bool show_bounding_rect) const noexcept
   {
     m_show_bounding_rect = show_bounding_rect;
   }
 
   //void keyPressEvent(QKeyEvent *event) noexcept override final;
+  ///Define a usertype for QtEdge, must be unique
   int type() const override { return UserType + 4; }
 
 protected:
   //void focusInEvent(QFocusEvent *event) noexcept override final;
   //void focusOutEvent(QFocusEvent *event) noexcept override final;
+
+  ///Respons to a mouse press
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
+
+  ///Paint this QGraphicItem
   void paint(
     QPainter* painter,
     const QStyleOptionGraphicsItem* option,
     QWidget* widget
   ) noexcept override final;
 
+  ///Obtain a detailed shape of this QGraphicsItem
   QPainterPath shape() const noexcept override final;
 
 private:

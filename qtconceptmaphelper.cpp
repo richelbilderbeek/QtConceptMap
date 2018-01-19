@@ -552,10 +552,17 @@ bool ribi::cmap::IsQtCenterNode(const QtNode& qtnode)
 
 bool ribi::cmap::IsOnEdge(
   const QtNode * const qtnode,
-  const QGraphicsScene& scene
+  const QGraphicsScene& //scene
 ) noexcept
 {
-  return FindQtEdge(qtnode, scene);
+  return qtnode->parentItem();
+}
+
+bool ribi::cmap::IsOnEdge(
+  const QtNode * const qtnode
+) noexcept
+{
+  return qtnode->parentItem();
 }
 
 bool ribi::cmap::IsQtCenterNodeSelected(const QGraphicsScene& scene)

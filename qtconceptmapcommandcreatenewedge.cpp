@@ -82,8 +82,10 @@ std::pair<int, int> ribi::cmap::GetFromToIds(const EdgeDescriptor ed, const Conc
 
 std::pair<ribi::cmap::QtNode*, ribi::cmap::QtNode*>
 ribi::cmap::GetFromToQtNodes(
-  const EdgeDescriptor ed, const QtConceptMap& q)
+  const EdgeDescriptor,
+  const QtConceptMap&)
 {
+  #ifdef NOT_NOW_20180119
   const std::pair<int, int> from_to_ids = GetFromToIds(ed, q.ToConceptMap());
 
   //Find the QtNodes where a new QtEdge needs to be created in between
@@ -93,7 +95,8 @@ ribi::cmap::GetFromToQtNodes(
   assert(qtto);
   assert(qtfrom != qtto);
   return std::make_pair(qtfrom, qtto);
-
+  #endif // NOT_NOW_20180119
+  return std::make_pair(nullptr, nullptr);
 }
 
 std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
@@ -128,6 +131,9 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
 
   const auto qtnodes = GetSelectedQtNodes(GetQtConceptMap());
   assert(qtnodes.size() == 2);
+  assert(!IsOnEdge(qtnodes[0]));
+  assert(!IsOnEdge(qtnodes[1]));
+
   //Create the new QtEdge
   m_added_qtedge = new QtEdge(
     Concept(m_text),
@@ -174,7 +180,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
   {
     m_added_qtedge->GetQtNode()->setVisible(false);
   }
-
   Ensures(CountSelectedQtEdges(GetScene(*this)) == 1);
   Ensures(CountSelectedQtNodes(GetScene(*this)) == 0);
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);

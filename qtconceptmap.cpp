@@ -22,6 +22,7 @@
 #include "get_my_custom_edge.h"
 #include "has_custom_edge.h"
 #include "has_custom_vertex_with_my_vertex.h"
+#include "get_my_custom_vertex.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapcollect.h"
 #include "qtconceptmapcommand.h"
@@ -121,17 +122,18 @@ ribi::cmap::QtConceptMap::~QtConceptMap() noexcept
 }
 
 void ribi::cmap::AddEdgesToScene(
-  QtConceptMap&,
-  const ConceptMap&
+  QtConceptMap& qtconceptmap,
+  const ConceptMap& conceptmap
 ) noexcept
 {
-  #ifdef NOT_NOW_20180119
   QGraphicsScene& scene = *qtconceptmap.scene();
 
   //Add the Edges
   const auto eip = edges(conceptmap);
   for(auto i = eip.first; i != eip.second; ++i)
   {
+    const EdgeDescriptor ed = *i;
+
     const std::pair<Node, Node> from_to = GetFromTo(*i, conceptmap);
     const Node from{from_to.first};
     const Node to{from_to.second};
@@ -166,15 +168,15 @@ void ribi::cmap::AddEdgesToScene(
     CheckInvariants(*qtedge);
 
   }
-  #endif //NOT_NOW_20180119
 }
 
 
 void ribi::cmap::AddNodesToScene(
-  QtConceptMap& qtconceptmap,
-  const ConceptMap& conceptmap
+  QtConceptMap&, //qtconceptmap,
+  const ConceptMap& //conceptmap
 ) noexcept
 {
+  /*
   QGraphicsScene& scene = *qtconceptmap.scene();
 
   //Add the nodes to the scene, if there are any
@@ -182,15 +184,14 @@ void ribi::cmap::AddNodesToScene(
   for(auto i = vip.first; i!=vip.second; ++i)
   {
     assert(boost::num_vertices(conceptmap));
-    const auto pmap = get(boost::vertex_custom_type, conceptmap);
-    const Node node = get(pmap, *i);
+    const Node node = get_my_custom_vertex(*i, conceptmap);
     QtNode * const qtnode{new QtNode(node.GetConcept(), node.IsCenterNode(), node.GetX(), node.GetY())};
     assert(qtnode);
     assert(!qtnode->scene());
     scene.addItem(qtnode);
     assert(qtnode->scene());
   }
-
+  */
 }
 
 void ribi::cmap::AddQtEdge(
@@ -1437,6 +1438,11 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   //ensureVisible(scene()->sceneRect(), 50, 100);
   //fitInView(scene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
   CheckInvariants(*this);
+
+  Ensures(CountQtNodes(*this) ==
+    static_cast<int>(boost::num_vertices(conceptmap)));
+  Ensures(CountQtEdges(*this) ==
+    static_cast<int>(boost::num_edges(conceptmap)));
 }
 
 ///Class T may be either a QtNode or a QtEdge

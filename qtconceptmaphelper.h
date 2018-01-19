@@ -162,7 +162,12 @@ bool IsQtCenterNode(const QtNode& qtnode);
 ///Is this QtNode in the center on a QtEdge?
 bool IsOnEdge(
   const QtNode * const qtnode,
-  const QGraphicsScene& scene
+  const QGraphicsScene&
+) noexcept;
+
+///Is this QtNode in the center on a QtEdge?
+bool IsOnEdge(
+  const QtNode * const qtnode
 ) noexcept;
 
 ///Is there a QtCenterNode among the selected items?

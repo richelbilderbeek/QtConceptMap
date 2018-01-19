@@ -322,14 +322,10 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
     const double measured_y1{GetY(*qtedge)};
     const double measured_x3{GetX(*qtedge->GetQtNode())};
     const double measured_y3{GetY(*qtedge->GetQtNode())};
-    const double measured_x4{GetX(GetFirstEdge(q.ToConceptMap()))};
-    const double measured_y4{GetY(GetFirstEdge(q.ToConceptMap()))};
     assert(std::abs(expected_x - measured_x1) < 2.0);
     assert(std::abs(expected_y - measured_y1) < 2.0);
     assert(std::abs(expected_x - measured_x3) < 2.0);
     assert(std::abs(expected_y - measured_y3) < 2.0);
-    assert(std::abs(expected_x - measured_x4) < 2.0);
-    assert(std::abs(expected_y - measured_y4) < 2.0);
     assert(QFile::exists(filename.c_str()));
   }
   q.SetConceptMap(ConceptMap());
@@ -344,6 +340,14 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
       }
     );
     CheckInvariants(q);
+
+    qCritical()
+     << "\nCountQtNodes(q): "
+     << CountQtNodes(q)
+     << "\nCountQtEdges(q): "
+     << CountQtEdges(q)
+    ;
+
     assert(CountQtNodes(q) == 3);
     assert(CountQtEdges(q) == 1);
     const auto qtedges = GetQtEdges(q);

@@ -56,6 +56,7 @@ ribi::cmap::QtEdge::QtEdge(
     m_show_bounding_rect{false},
     m_to{to}
 {
+  assert(IsOnEdge(m_qtnode));
   CheckInput(from, to);
   m_arrow = new QtQuadBezierArrowItem(
     from,
@@ -140,6 +141,14 @@ void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
   if (from == to)
   {
     throw std::invalid_argument("QtEdge must have a different from and to");
+  }
+  if (IsOnEdge(from))
+  {
+    throw std::invalid_argument("QtNode 'from' must not be on an edge");
+  }
+  if (IsOnEdge(to))
+  {
+    throw std::invalid_argument("QtNode 'from' must not be on an edge");
   }
 }
 

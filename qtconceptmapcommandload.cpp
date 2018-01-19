@@ -48,10 +48,18 @@ ribi::cmap::CommandLoad * ribi::cmap::ParseCommandLoad(
 void ribi::cmap::CommandLoad::Redo()
 {
   Expects(QFile::exists(m_filename.c_str()));
-  GetQtConceptMap().SetConceptMap(LoadFromFile(m_filename));
+
+  const auto concept_map = LoadFromFile(m_filename);
+  GetQtConceptMap().SetConceptMap(concept_map);
+
+  Ensures(CountQtNodes(GetQtConceptMap()) ==
+    static_cast<int>(boost::num_vertices(concept_map)));
 }
 
 void ribi::cmap::CommandLoad::Undo()
 {
   GetQtConceptMap().SetConceptMap(m_before);
+
+  Ensures(CountQtNodes(GetQtConceptMap()) ==
+    static_cast<int>(boost::num_vertices(m_before)));
 }
