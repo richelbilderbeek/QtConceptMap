@@ -19,14 +19,14 @@
 #include "qtquadbezierarrowitem.h"
 #include "add_edge_between_selected_vertices.h"
 #include "find_first_custom_edge_with_my_edge.h"
-#include <QDebug>
-//#include <QGraphicsItem>
-//#include <QGraphicsScene>
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
 #include "set_my_custom_edge.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmaptoolsitem.h"
+
+#include <QDebug>
+#include <QBrush>
 
 ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ::CommandCreateNewEdgeBetweenTwoSelectedNodes(

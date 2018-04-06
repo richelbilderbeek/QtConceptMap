@@ -52,7 +52,16 @@ ribi::cmap::QtEdge::QtEdge(
 )
   : m_arrow{nullptr}, //Will be initialized below
     m_from{from},
-    m_qtnode{new QtNode(concept, false, x, y, this)}, //parent
+    m_qtnode{
+      new QtNode(
+        concept,
+        Node().GetId(), //Nodes have a static counter for IDs
+        false,
+        x,
+        y,
+        this
+      )
+    }, //parent
     m_show_bounding_rect{false},
     m_to{to}
 {

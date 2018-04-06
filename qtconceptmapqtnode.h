@@ -31,6 +31,7 @@ struct QtNode : public QtRoundedEditRectItem
   );
   explicit QtNode(
     const Concept& concept,
+    const int id,
     const bool is_center_node,
     const double center_x = 0.0,
     const double center_y = 0.0,
@@ -41,6 +42,7 @@ struct QtNode : public QtRoundedEditRectItem
   void EnableAll();
 
   const auto& GetExamples() const noexcept { return m_examples; }
+  int GetId() const noexcept { return m_id; }
   auto GetIsComplex() const noexcept { return m_is_complex; }
   constexpr int GetRatingComplexity() const noexcept { return m_rating_complexity; }
   constexpr int GetRatingConcreteness() const noexcept { return m_rating_concreteness; }
@@ -75,6 +77,12 @@ private:
 
   ///The node being edited, or displayed and not changed, or rated
   Examples m_examples;
+
+  ///ID of the Node it must represent. Like for the Node,
+  ///it must be unique. Used in constructing
+  ///the concept map
+  int m_id;
+
   bool m_is_complex = false;
   int m_rating_complexity = -1;
   int m_rating_concreteness = -1;
@@ -101,6 +109,7 @@ int GetRatingComplexity(const QtNode& qtnode) noexcept;
 int GetRatingConcreteness(const QtNode& qtnode) noexcept;
 int GetRatingSpecificity(const QtNode& qtnode) noexcept;
 
+int GetId(const QtNode& qtnode) noexcept;
 std::string GetName(const QtNode& qtnode) noexcept;
 Node GetNode(const QtNode& qtnode) noexcept;
 std::string GetText(const QtNode& qtnode) noexcept;
@@ -128,7 +137,7 @@ bool IsVisible(const QtNode& qtnode) noexcept;
 ///Move a QtNode (and its Node) relatively
 void Move(QtNode& qtnode, const double dx, const double dy);
 
-///Functor
+std::function<bool(const QtNode* const)> QtNodeHasId(const int id);
 std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
 
 void SetConcept(QtNode& qtnode, const Concept& concept);

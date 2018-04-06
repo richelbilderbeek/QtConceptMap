@@ -132,16 +132,15 @@ void ribi::cmap::AddEdgesToScene(
   const auto eip = edges(conceptmap);
   for(auto i = eip.first; i != eip.second; ++i)
   {
-    const EdgeDescriptor ed = *i;
-
     const std::pair<Node, Node> from_to = GetFromTo(*i, conceptmap);
     const Node from{from_to.first};
     const Node to{from_to.second};
-    QtNode * const qtfrom = FindQtNode(from.GetId(), scene);
-    QtNode * const qtto = FindQtNode(to.GetId(), scene);
+    assert(from.GetId() != to.GetId());
+    QtNode * const qtfrom = FindFirstQtNode(qtconceptmap, QtNodeHasId(from.GetId()));
+    QtNode * const qtto = FindFirstQtNode(qtconceptmap, QtNodeHasId(to.GetId()));
+    assert(qtfrom);
+    assert(qtto);
     assert(qtfrom != qtto);
-    //const auto edge_map = get(boost::edge_custom_type, conceptmap);
-    //const Edge edge = get get(edge_map, *i);
     const Edge edge = get_my_custom_edge(*i, conceptmap);
     QtEdge * const qtedge{
       new QtEdge(
@@ -160,13 +159,10 @@ void ribi::cmap::AddEdgesToScene(
     }
     assert(qtedge && HasScene(*qtedge, nullptr));
     scene.addItem(qtedge);
-    //scene()->addItem(qtedge->GetQtNode()); //Get these for free when adding a QtEdge
-    //scene()->addItem(qtedge->GetArrow()); //Get these for free when adding a QtEdge
     assert(HasScene(*qtedge, &scene));
     assert(GetX(*qtedge) == GetX(edge));
     assert(GetY(*qtedge) == GetY(edge));
     CheckInvariants(*qtedge);
-
   }
 }
 

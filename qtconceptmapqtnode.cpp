@@ -28,6 +28,7 @@ ribi::cmap::QtNode::QtNode(
   QGraphicsItem* parent
 ) : QtNode(
       node.GetConcept(),
+      node.GetId(),
       node.IsCenterNode(),
       node.GetX(),
       node.GetY(),
@@ -39,6 +40,7 @@ ribi::cmap::QtNode::QtNode(
 
 ribi::cmap::QtNode::QtNode(
   const Concept& concept,
+  const int id,
   const bool is_center_node,
   const double center_x,
   const double center_y,
@@ -51,6 +53,7 @@ ribi::cmap::QtNode::QtNode(
     ),
     m_brush_function{GetQtNodeBrushFunctionUninitialized()},
     m_examples{concept.GetExamples()},
+    m_id{id},
     m_is_complex{IsComplex(concept)},
     m_rating_complexity{concept.GetRatingComplexity()},
     m_rating_concreteness{concept.GetRatingConcreteness()},
@@ -165,6 +168,11 @@ int ribi::cmap::GetRatingConcreteness(const QtNode& qtnode) noexcept
 int ribi::cmap::GetRatingSpecificity(const QtNode& qtnode) noexcept
 {
   return GetRatingSpecificity(GetNode(qtnode));
+}
+
+int ribi::cmap::GetId(const QtNode& qtnode) noexcept
+{
+  return qtnode.GetId();
 }
 
 std::string ribi::cmap::GetName(const QtNode& qtnode) noexcept
@@ -300,6 +308,16 @@ void ribi::cmap::QtNode::paint(
   }
 
   CheckInvariants(*this);
+}
+
+std::function<bool(const ribi::cmap::QtNode* const)>
+  ribi::cmap::QtNodeHasId(const int id)
+{
+  return [id](const QtNode * const qtnode)
+  {
+    assert(qtnode);
+    return GetId(*qtnode) == id;
+  };
 }
 
 std::function<bool(const ribi::cmap::QtNode* const)>
