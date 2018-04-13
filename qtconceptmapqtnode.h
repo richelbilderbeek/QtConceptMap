@@ -44,9 +44,9 @@ struct QtNode : public QtRoundedEditRectItem
   const auto& GetExamples() const noexcept { return m_examples; }
   int GetId() const noexcept { return m_id; }
   auto GetIsComplex() const noexcept { return m_is_complex; }
-  constexpr int GetRatingComplexity() const noexcept { return m_rating_complexity; }
-  constexpr int GetRatingConcreteness() const noexcept { return m_rating_concreteness; }
-  constexpr int GetRatingSpecificity() const noexcept { return m_rating_specificity; }
+  int GetRatingComplexity() const noexcept { return m_rating_complexity; }
+  int GetRatingConcreteness() const noexcept { return m_rating_concreteness; }
+  int GetRatingSpecificity() const noexcept { return m_rating_specificity; }
 
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
