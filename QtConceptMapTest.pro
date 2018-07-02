@@ -2,6 +2,9 @@
 CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
 
+# Fix error: unrecognized option '--push-state--no-as-needed'
+QMAKE_LFLAGS += -fuse-ld=gold
+
 # High warning level
 # Qt and Qwt do not go well with -Weffc++
 QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
@@ -69,7 +72,7 @@ include(../RibiClasses/CppQtRoundedEditRectItem/CppQtRoundedEditRectItem.pri)
 include(../RibiClasses/CppQtRoundedRectItem/CppQtRoundedRectItem.pri)
 include(../RibiClasses/CppQtScopedDisable/CppQtScopedDisable.pri)
 
-# Boost Graph Tutorial, just take the subset we need
+# Boost Graph Cookbook #1, just take the subset we need
 INCLUDEPATH += ../boost_graph_cookbook_1/boost_graph_cookbook_1
 include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_helper.pri)
 include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_no_properties.pri)
