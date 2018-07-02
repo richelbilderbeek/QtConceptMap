@@ -42,7 +42,7 @@ install:
   - my_github=${PWD##*/}  
   - cd ..
   - git clone https://github.com/Microsoft/GSL
-  - git clone https://github.com/richelbilderbeek/BoostGraphTutorial
+  - git clone -b develop https://github.com/richelbilderbeek/boost_graph_cookbook_1
   - git clone https://github.com/richelbilderbeek/ConceptMap
   - git clone https://github.com/richelbilderbeek/plane
   - git clone https://github.com/richelbilderbeek/QtKeyboardFriendlyGraphicsView

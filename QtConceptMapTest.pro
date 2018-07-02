@@ -70,9 +70,9 @@ include(../RibiClasses/CppQtRoundedRectItem/CppQtRoundedRectItem.pri)
 include(../RibiClasses/CppQtScopedDisable/CppQtScopedDisable.pri)
 
 # Boost Graph Tutorial, just take the subset we need
-INCLUDEPATH += ../BoostGraphTutorial/BoostGraphTutorial
-include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz_helper.pri)
-include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz_no_properties.pri)
+INCLUDEPATH += ../boost_graph_cookbook_1/boost_graph_cookbook_1
+include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_helper.pri)
+include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_no_properties.pri)
 
 #include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz.pri)
 #include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz_custom_edges_and_vertices.pri)
