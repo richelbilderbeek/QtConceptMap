@@ -12,16 +12,16 @@
 #include "conceptmapedgefactory.h"
 #include "conceptmapnode.h"
 #include "qtconceptmapqtnode.h"
-#include "get_my_custom_edge.h"
-#include "get_my_custom_vertex.h"
+#include "get_my_bundled_edge.h"
+#include "get_my_bundled_vertex.h"
 #include "qtconceptmaphelper.h"
 #include "count_vertices_with_selectedness.h"
 #include "qtquadbezierarrowitem.h"
 #include "add_edge_between_selected_vertices.h"
-#include "find_first_custom_edge_with_my_edge.h"
+#include "find_first_bundled_edge_with_my_edge.h"
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
-#include "set_my_custom_edge.h"
+#include "set_my_bundled_edge.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmaptoolsitem.h"
 
@@ -73,8 +73,8 @@ std::pair<int, int> ribi::cmap::GetFromToIds(const EdgeDescriptor ed, const Conc
   const VertexDescriptor vd_from = boost::source(ed, c);
   const VertexDescriptor vd_to = boost::target(ed, c);
   assert(vd_from != vd_to);
-  const Node from = get_my_custom_vertex(vd_from, c);
-  const Node to   = get_my_custom_vertex(vd_to  , c);
+  const Node from = get_my_bundled_vertex(vd_from, c);
+  const Node to   = get_my_bundled_vertex(vd_to  , c);
   assert(from.GetId() != to.GetId());
   return std::make_pair(from.GetId(), to.GetId());
 }

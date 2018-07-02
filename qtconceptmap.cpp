@@ -12,17 +12,17 @@
 
 #include <gsl/gsl_assert>
 
-#include "add_custom_edge_between_vertices.h"
-#include "add_custom_vertex.h"
+#include "add_bundled_edge_between_vertices.h"
+#include "add_bundled_vertex.h"
 #include "conceptmaphelper.h"
-#include "create_direct_neighbour_custom_edges_and_vertices_subgraph.h"
-#include "find_first_custom_edge_with_my_edge.h"
-#include "find_first_custom_vertex.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
-#include "get_my_custom_edge.h"
-#include "has_custom_edge.h"
-#include "has_custom_vertex_with_my_vertex.h"
-#include "get_my_custom_vertex.h"
+#include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
+#include "find_first_bundled_edge_with_my_edge.h"
+#include "find_first_bundled_vertex_with_my_vertex.h"
+#include "find_first_bundled_vertex_with_my_vertex.h"
+#include "get_my_bundled_edge.h"
+#include "has_bundled_edge_with_my_edge.h"
+#include "has_bundled_vertex_with_my_vertex.h"
+#include "get_my_bundled_vertex.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapcollect.h"
 #include "qtconceptmapcommand.h"
@@ -48,7 +48,7 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtquadbezierarrowitem.h"
-#include "set_my_custom_vertex.h"
+#include "set_my_bundled_vertex.h"
 #include "set_vertex_selectedness.h"
 #pragma GCC diagnostic pop
 
@@ -141,7 +141,7 @@ void ribi::cmap::AddEdgesToScene(
     assert(qtfrom);
     assert(qtto);
     assert(qtfrom != qtto);
-    const Edge edge = get_my_custom_edge(*i, conceptmap);
+    const Edge edge = get_my_bundled_edge(*i, conceptmap);
     QtEdge * const qtedge{
       new QtEdge(
         edge.GetNode().GetConcept(),
@@ -180,7 +180,7 @@ void ribi::cmap::AddNodesToScene(
   for(auto i = vip.first; i!=vip.second; ++i)
   {
     assert(boost::num_vertices(conceptmap));
-    const Node node = get_my_custom_vertex(*i, conceptmap);
+    const Node node = get_my_bundled_vertex(*i, conceptmap);
     QtNode * const qtnode{new QtNode(node.GetConcept(), node.IsCenterNode(), node.GetX(), node.GetY())};
     assert(qtnode);
     assert(!qtnode->scene());
@@ -1293,11 +1293,11 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
 {
   #ifdef NOT_NOW_20180114
   //Rate concept
-  const auto vd = ::find_first_custom_vertex_with_my_vertex(
+  const auto vd = ::find_first_bundled_vertex_with_my_vertex(
     item.GetNode(), q.ToConceptMap()
   );
   const auto subgraph
-    = create_direct_neighbour_custom_edges_and_vertices_subgraph(
+    = create_direct_neighbour_bundled_edges_and_vertices_subgraph(
       vd,
       q.ToConceptMap()
     );
@@ -1354,7 +1354,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(
   d.exec();
   q.setEnabled(true);
   //Find the original Node
-  const auto vd = ::find_first_custom_vertex_with_my_vertex(item.GetNode(), q.ToConceptMap());
+  const auto vd = ::find_first_bundled_vertex_with_my_vertex(item.GetNode(), q.ToConceptMap());
   //Update the node here
   auto node = item.GetNode();
   node.GetConcept().SetExamples(d.GetRatedExamples());
@@ -1723,7 +1723,7 @@ void ribi::cmap::SetSelectedness(const bool is_selected,
   QtConceptMap& q
 )
 {
-  //Otherwise find_first_custom_vertex_with_my_vertex will fail
+  //Otherwise find_first_bundled_vertex_with_my_vertex will fail
   assert(!IsQtNodeOnEdge(&qtnode, q.GetScene()));
 
   // ... then unselect QtNode (as onSelectionChanged will be triggered)

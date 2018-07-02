@@ -11,6 +11,7 @@
 #include "conceptmapnode.h"
 #include "conceptmapconcept.h"
 #include "conceptmapexamples.h"
+#include "get_my_bundled_vertex.h"
 #pragma GCC diagnostic pop
 
 int ribi::cmap::Rating::SuggestComplexity(
@@ -33,9 +34,7 @@ int ribi::cmap::Rating::SuggestComplexity(
 {
   const int n_edges = boost::num_edges(sub_conceptmap);
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const auto pmap = get(boost::vertex_custom_type, sub_conceptmap);
-  const auto node = get(pmap, vd);
-  const int n_examples = node.GetConcept().GetExamples().Get().size();
+  const int n_examples = GetExamples(get_my_bundled_vertex(vd, sub_conceptmap)).Get().size();
   return SuggestComplexity(n_edges,n_examples);
 }
 
@@ -55,9 +54,7 @@ int ribi::cmap::Rating::SuggestConcreteness(
 ) const noexcept
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const auto pmap = get(boost::vertex_custom_type, sub_conceptmap);
-  const auto node = get(pmap, vd);
-  const int n_examples = node.GetConcept().GetExamples().Get().size();
+  const int n_examples = GetExamples(get_my_bundled_vertex(vd, sub_conceptmap)).Get().size();
   return SuggestConcreteness(n_examples);
 }
 
@@ -72,8 +69,6 @@ int ribi::cmap::Rating::SuggestSpecificity(
 ) const noexcept
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const auto pmap = get(boost::vertex_custom_type, sub_conceptmap);
-  const auto node = get(pmap, vd);
-  const int n_examples = node.GetConcept().GetExamples().Get().size();
+  const int n_examples = GetExamples(get_my_bundled_vertex(vd, sub_conceptmap)).Get().size();
   return SuggestSpecificity(n_examples);
 }
