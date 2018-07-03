@@ -80,11 +80,6 @@ include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_
 include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_helper.pri)
 include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_no_properties.pri)
 
-#include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz.pri)
-#include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz_custom_edges_and_vertices.pri)
-#include(../BoostGraphTutorial/BoostGraphTutorial/boost_graph_tutorial_no_graphviz_custom_and_selectable_edges_and_vertices.pri)
-
-
 SOURCES += \
     main_test.cpp
 
