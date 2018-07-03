@@ -133,15 +133,16 @@ void ribi::cmap::AddEdgesToScene(
   for(auto i = eip.first; i != eip.second; ++i)
   {
     const std::pair<Node, Node> from_to = GetFromTo(*i, conceptmap);
-    const Node from{from_to.first};
-    const Node to{from_to.second};
+    const Node& from{from_to.first};
+    const Node& to{from_to.second};
     assert(from.GetId() != to.GetId());
+    assert(CountQtNodes(qtconceptmap) >= 2);
     QtNode * const qtfrom = FindFirstQtNode(qtconceptmap, QtNodeHasId(from.GetId()));
     QtNode * const qtto = FindFirstQtNode(qtconceptmap, QtNodeHasId(to.GetId()));
     assert(qtfrom);
     assert(qtto);
     assert(qtfrom != qtto);
-    const Edge edge = get_my_bundled_edge(*i, conceptmap);
+    const Edge& edge = conceptmap[*i];
     QtEdge * const qtedge{
       new QtEdge(
         edge.GetNode().GetConcept(),
@@ -168,11 +169,11 @@ void ribi::cmap::AddEdgesToScene(
 
 
 void ribi::cmap::AddNodesToScene(
-  QtConceptMap&, //qtconceptmap,
-  const ConceptMap& //conceptmap
+  QtConceptMap& qtconceptmap,
+  const ConceptMap& conceptmap
 ) noexcept
 {
-  /*
+  assert(qtconceptmap.scene());
   QGraphicsScene& scene = *qtconceptmap.scene();
 
   //Add the nodes to the scene, if there are any
@@ -180,14 +181,18 @@ void ribi::cmap::AddNodesToScene(
   for(auto i = vip.first; i!=vip.second; ++i)
   {
     assert(boost::num_vertices(conceptmap));
-    const Node node = get_my_bundled_vertex(*i, conceptmap);
-    QtNode * const qtnode{new QtNode(node.GetConcept(), node.IsCenterNode(), node.GetX(), node.GetY())};
+    const Node& node = conceptmap[*i];
+    QtNode * const qtnode{
+      new QtNode(
+        node.GetConcept(), node.IsCenterNode(), node.GetX(), node.GetY())
+    };
     assert(qtnode);
+    assert(node.GetId() == qtnode->GetId());
     assert(!qtnode->scene());
     scene.addItem(qtnode);
     assert(qtnode->scene());
+    assert(FindFirstQtNode(qtconceptmap, QtNodeHasId(node.GetId())));
   }
-  */
 }
 
 void ribi::cmap::AddQtEdge(
@@ -1435,6 +1440,17 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   //fitInView(scene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
   CheckInvariants(*this);
 
+  #ifndef NDEBUG
+  if (CountQtNodes(*this) != static_cast<int>(boost::num_vertices(conceptmap)))
+  {
+    qDebug()
+      << "CountQtNodes(*this):"
+      << CountQtNodes(*this)
+      << "static_cast<int>(boost::num_vertices(conceptmap)):"
+      << static_cast<int>(boost::num_vertices(conceptmap))
+    ;
+  }
+  #endif
   Ensures(CountQtNodes(*this) ==
     static_cast<int>(boost::num_vertices(conceptmap)));
   Ensures(CountQtEdges(*this) ==

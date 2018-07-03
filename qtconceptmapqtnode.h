@@ -81,7 +81,7 @@ private:
   ///ID of the Node it must represent. Like for the Node,
   ///it must be unique. Used in constructing
   ///the concept map
-  int m_id;
+  const int m_id;
 
   bool m_is_complex = false;
   int m_rating_complexity = -1;

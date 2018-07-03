@@ -10,7 +10,8 @@
 void ribi::cmap::QtConceptMapCommandMoveEdgeTest::MoveAbsentItemByNameFails() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
+  const auto concept_map = ConceptMapFactory().GetThreeNodeTwoEdge();
+  q.SetConceptMap(concept_map);
   try
   {
     QtEdge * const first_qtedge = FindFirstQtEdge(

@@ -387,7 +387,8 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeybo
 {
   QtConceptMap q;
   q.showFullScreen();
-  q.SetConceptMap(ConceptMapFactory().GetStarShaped());
+  const auto concept_map = ConceptMapFactory().GetStarShaped();
+  q.SetConceptMap(concept_map);
   q.show();
   //Select the node at the center of the star
   while (CountSelectedQtEdges(q) != 0

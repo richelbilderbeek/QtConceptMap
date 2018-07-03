@@ -35,7 +35,7 @@ ribi::cmap::QtNode::QtNode(
       parent
     )
 {
-
+  assert(m_id == node.GetId());
 }
 
 ribi::cmap::QtNode::QtNode(
@@ -60,6 +60,7 @@ ribi::cmap::QtNode::QtNode(
     m_rating_specificity{concept.GetRatingSpecificity()},
     m_show_bounding_rect{false}
 {
+  assert(m_id == id);
   //Allow mouse tracking
   this->setAcceptHoverEvents(true);
 
@@ -71,6 +72,7 @@ ribi::cmap::QtNode::QtNode(
   this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
   SetNode(concept, is_center_node, center_x, center_y);
   CheckInvariants(*this);
+  assert(m_id == id);
 }
 
 ribi::cmap::QtNode::~QtNode() noexcept
@@ -352,13 +354,13 @@ void ribi::cmap::QtNode::SetNode(
   m_rating_concreteness = concept.GetRatingConcreteness();
   m_rating_specificity = concept.GetRatingSpecificity();
 
-  ::ribi::cmap::SetX(*this, center_x);
-  ::ribi::cmap::SetY(*this, center_y);
+  //::ribi::cmap::SetX(*this, center_x);
+  //::ribi::cmap::SetY(*this, center_y);
   const std::string text{::ribi::cmap::GetText(concept)};
   ::ribi::cmap::SetText(*this, text);
-  //this->SetCenterPos(m_node.GetX(), m_node.GetY());
   //this->SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
 
+  //this->SetCenterPos(m_node.GetX(), m_node.GetY());
   this->SetCenterPos(center_x, center_y);
 
   if (is_center_node)
@@ -380,8 +382,8 @@ void ribi::cmap::QtNode::SetNode(
     assert(!IsQtCenterNode(*this));
   }
 
-  Ensures(::ribi::cmap::GetX(*this) == center_x);
-  Ensures(::ribi::cmap::GetY(*this) == center_y);
+  //Ensures(::ribi::cmap::GetX(*this) == center_x);
+  //Ensures(::ribi::cmap::GetY(*this) == center_y);
   Ensures(::ribi::cmap::GetText(*this) == ::ribi::cmap::GetText(concept));
 }
 

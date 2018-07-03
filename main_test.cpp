@@ -43,7 +43,6 @@
 using namespace ribi::cmap;
 
 #include "QEventLogger.h"
-
 /*
 class MyApplication : public QApplication
 {
@@ -60,14 +59,15 @@ class MyApplication : public QApplication
   QEventLogger * m_event_logger;
 };
 */
+
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
   //{ QtConceptMapCommandUnselectTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }

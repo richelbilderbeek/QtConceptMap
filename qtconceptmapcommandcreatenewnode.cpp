@@ -3,6 +3,7 @@
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
+#include <QDebug>
 #include "count_vertices_with_selectedness.h"
 #include "container.h"
 #include "find_first_custom_vertex_with_my_vertex.h"
@@ -102,8 +103,6 @@ void ribi::cmap::CommandCreateNewNode::Redo()
   //Modify the QGraphicsScene
   m_added_qtnode = new QtNode(Concept(m_text), m_is_center_node, m_x, m_y);
   assert(m_added_qtnode);
-  assert(m_added_qtnode->GetCenterX() == m_x);
-  assert(m_added_qtnode->GetCenterY() == m_y);
   assert(Unwordwrap(m_added_qtnode->GetText()) == m_text);
   assert(!m_added_qtnode->scene());
   GetQtConceptMap().GetScene().addItem(m_added_qtnode);
