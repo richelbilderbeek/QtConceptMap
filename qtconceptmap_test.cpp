@@ -1052,18 +1052,12 @@ void ribi::cmap::QtConceptMapTest
 
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::NoModifier);
   q.keyPressEvent(&e);
-
-  qDebug() << "\nCountSelectedQtNodes(q): " << CountSelectedQtNodes(q);
-
   assert(CountSelectedQtNodes(q) == 1);
   assert(GetText(*GetSelectedQtNodes(q)[0]) == "right");
   QVERIFY(GetText(*GetSelectedQtNodes(q)[0]) == "right");
   QVERIFY(CountSelectedQtNodes(q) == 1);
   QVERIFY(e.isAccepted());
 }
-
-
-
 
 void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const noexcept
 {
@@ -1565,10 +1559,8 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const 
 
   assert(CountSelectedQtEdges(m) == 0);
 
-  //const auto pos = m.mapFromScene(pos()(*GetFirstQtNode(m)).toPoint());
+  //const auto pos = m.mapFromScene(GetCenterPos(*GetFirstQtNode(m)).toPoint());
   const auto pos = m.mapFromScene(GetCenterPos(*GetFirstQtEdge(m)).toPoint());
-  qDebug() << "\npos: " << pos;
-
   QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   m.mousePressEvent(&e);
 

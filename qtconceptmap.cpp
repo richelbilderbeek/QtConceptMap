@@ -1523,7 +1523,6 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
   }
   CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
 
-  qDebug() << __func__ << ": set focus";
   new_focus_item->setFocus(); //Do after SetQt(Tool&Example)Buddies
   q.update();
   if (!new_focus_item->isSelected())
