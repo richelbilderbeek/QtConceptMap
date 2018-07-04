@@ -35,24 +35,6 @@ int CountSelectedQtEdgesImpl1(const QGraphicsScene& scene) noexcept;
 ///CountSelectedQtEdges implementation 2: counts selected QtNodes that are on a QtEdge
 int CountSelectedQtEdgesImpl2(const QGraphicsScene& scene) noexcept;
 
-///Check is QtConceptMap and its ConceptMap have the requested number of edges and nodes
-///Will throw if there is an internal inconsistency
-bool DoubleCheckEdgesAndNodes(
-  const QtConceptMap& qtconceptmap,
-  const int n_edges,
-  const int n_nodes
-);
-
-///Check is QtConceptMap and its ConceptMap have the requested number of selected edges and nodes
-///Will throw if there is an internal inconsistency
-bool DoubleCheckSelectedEdgesAndNodes(
-  const QtConceptMap& qtconceptmap,
-  const int n_edges,
-  const int n_nodes,
-  const bool verbose = false
-);
-
-
 ///Get the one selected QtEdge. Throws if there is not exactly one edge selected
 QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
 

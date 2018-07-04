@@ -393,7 +393,6 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectAllLonelyCenterNode(
   assert(q.GetUndo().count() == 3);
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
 }
 
 void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() const noexcept
@@ -409,7 +408,6 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() c
 
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 0);
-  assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
   q.show();
   QtNode * const qtnode = GetFirstQtNode(q);
   assert(qtnode->GetContourPen().style() == Qt::SolidLine );
@@ -511,7 +509,6 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noex
     );
     assert(CountSelectedQtEdges(q) == 0);
     assert(CountSelectedQtNodes(q) == 1);
-    DoubleCheckSelectedEdgesAndNodes(q, 0, 1);
     assert(GetCurrentPen(*GetQtCenterNode(q)).style() != Qt::PenStyle::SolidLine);
     assert(GetCurrentPen(*GetQtCenterNode(q)).style() == Qt::PenStyle::DashLine);
     // (Note that I *see* a solid line)
@@ -530,7 +527,6 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noex
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetCurrentPen(*GetQtCenterNode(q)).isSolid());
-  assert(DoubleCheckSelectedEdgesAndNodes(q, 0, 0));
   while (1) { q.show(); qApp->processEvents(); }
   assert(!"FIXED #5");
   #endif // FIX_ISSUE_5
