@@ -1765,8 +1765,29 @@ void ribi::cmap::QtConceptMap::StopTimer()
 
 ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
 {
-  // STUB
-  return ConceptMap();
+  const auto qtnodes = GetQtNodes(*this);
+  ConceptMap g;
+  std::map<QtNode *, VertexDescriptor> vds;
+  for (auto qtnode: qtnodes)
+  {
+    assert(qtnode);
+    const auto vd = add_bundled_vertex(GetNode(*qtnode), g);
+    vds.insert( { qtnode, vd } );
+  }
+  const auto qtedges = GetQtEdges(*this);
+  for (auto qtedge: qtedges)
+  {
+    assert(qtedge);
+    const Edge edge = qtedge->GetEdge();
+    QtNode * const qtnode_from = qtedge->GetFrom();
+    QtNode * const qtnode_to = qtedge->GetTo();
+    const VertexDescriptor vd_from = vds[qtnode_from];
+    const VertexDescriptor vd_to = vds[qtnode_to];
+    add_bundled_edge_between_vertices(edge, vd_from, vd_to, g);
+  }
+  assert(CountQtNodes(*this) == static_cast<int>(boost::num_vertices(g)));
+  assert(CountQtEdges(*this) == static_cast<int>(boost::num_edges(g)));
+  return g;
 }
 
 void ribi::cmap::QtConceptMap::Undo()
