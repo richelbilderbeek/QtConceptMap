@@ -161,7 +161,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnEdge() const noexcept
   const double measured_y1{GetY(*GetQtEdges(q).at(0))};
   const double measured_y2{GetY(*GetQtEdges(q).at(0)->GetQtNode())};
   //qDebug() << "expected_x:" << expected_x << "measured_x1:" << measured_x1;
-  QSKIP("Edge must be at correct position");
+  QSKIP("Edge must be at correct position", "");
   QVERIFY(std::abs(expected_x - measured_x1) < 1.0);
   QVERIFY(std::abs(expected_y - measured_y1) < 1.0);
   QVERIFY(std::abs(expected_x - measured_x2) < 1.0);
@@ -171,7 +171,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnEdge() const noexcept
 void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnNode() const noexcept
 {
   QtConceptMap q;
-  QSKIP("Minimal run");
+  QSKIP("Minimal run", "");
   ProcessCommands(q,
     {
       "--command",
@@ -198,7 +198,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveNodeCommandOnNode() const noexcep
       "move_node(from, 100, 200)"
     }
   );
-  QSKIP("Command must be accepted");
+  QSKIP("Command must be accepted", "");
   QVERIFY(q.GetUndo().count() == 2);
   const double expected_x{150.0};
   const double measured_x{GetX(*GetQtNodes(q).at(0))};
@@ -326,7 +326,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
     const double measured_y1{GetY(*qtedge)};
     const double measured_x3{GetX(*qtedge->GetQtNode())};
     const double measured_y3{GetY(*qtedge->GetQtNode())};
-    QSKIP("Must have same topology");
+    QSKIP("Must have same topology", "");
     QVERIFY(std::abs(expected_x - measured_x1) < 2.0);
     QVERIFY(std::abs(expected_y - measured_y1) < 2.0);
     QVERIFY(std::abs(expected_x - measured_x3) < 2.0);

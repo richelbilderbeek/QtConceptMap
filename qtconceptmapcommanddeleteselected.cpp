@@ -16,7 +16,6 @@
 #include "find_first_custom_edge_with_my_edge.h"
 #include "find_first_custom_vertex_with_my_vertex.h"
 #include "remove_selected_custom_edges_and_vertices.h"
-#include "qtconceptmapexamplesitem.h"
 #include "qtconceptmaptoolsitem.h"
 
 ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(

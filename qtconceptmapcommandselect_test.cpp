@@ -3,7 +3,6 @@
 #include "qtconceptmapcommandselect.h"
 #include "qtconceptmap.h"
 #include "conceptmapfactory.h"
-#include "qtconceptmapexamplesitem.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 

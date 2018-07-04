@@ -38,7 +38,6 @@
 #include "qtconceptmapcommandunselect.h"
 #include "qtconceptmapcommandunselectall.h"
 #include "qtconceptmapconcepteditdialog.h"
-#include "qtconceptmapexamplesitem.h"
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapitemhighlighter.h"
 #include "qtconceptmapnewarrow.h"
