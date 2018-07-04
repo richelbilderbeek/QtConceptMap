@@ -84,7 +84,7 @@ void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
 {
   #ifndef NDEBUG
   const double x1{GetX(qtnode)};
-  const double x2{qtnode.GetCenterX()};
+  const double x2{qtnode.pos().x()};
   if ( std::abs(x1 - x2))
   {
     qCritical()
@@ -95,7 +95,7 @@ void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
   }
   assert(std::abs(x1 - x2) < 1.0);
   const double y1{GetY(qtnode)};
-  const double y2{qtnode.GetCenterY()};
+  const double y2{qtnode.pos().y()};
   if ( std::abs(y1 - y2))
   {
     qDebug()
@@ -134,21 +134,18 @@ void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
 
 QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
 {
-  return QPointF(
-    qtnode.GetCenterX(),
-    qtnode.GetCenterY()
-  );
+  return qtnode.pos();
 }
 
 ribi::cmap::Concept ribi::cmap::GetConcept(const QtNode& qtnode) noexcept
 {
   return Concept(
-    GetName(qtnode),
-    GetExamples(qtnode),
-    IsComplex(qtnode),
-    GetRatingComplexity(qtnode),
-    GetRatingConcreteness(qtnode),
-    GetRatingSpecificity(qtnode)
+    Unwordwrap(qtnode.GetText()),
+    qtnode.GetExamples(),
+    qtnode.GetIsComplex(),
+    qtnode.GetRatingComplexity(),
+    qtnode.GetRatingConcreteness(),
+    qtnode.GetRatingSpecificity()
   );
 }
 
@@ -199,12 +196,12 @@ std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 
 double ribi::cmap::GetX(const QtNode& qtnode) noexcept
 {
-  return qtnode.GetCenterX();
+  return qtnode.pos().x();
 }
 
 double ribi::cmap::GetY(const QtNode& qtnode) noexcept
 {
-  return qtnode.GetCenterY();
+  return qtnode.pos().y();
 }
 
 bool ribi::cmap::HasExamples(const QtNode& qtnode) noexcept
