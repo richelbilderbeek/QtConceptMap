@@ -182,10 +182,7 @@ void ribi::cmap::AddNodesToScene(
   {
     assert(boost::num_vertices(conceptmap));
     const Node& node = conceptmap[*i];
-    QtNode * const qtnode{
-      new QtNode(
-        node.GetConcept(), node.IsCenterNode(), node.GetX(), node.GetY())
-    };
+    QtNode * const qtnode{new QtNode(node)};
     assert(qtnode);
     assert(node.GetId() == qtnode->GetId());
     assert(!qtnode->scene());
