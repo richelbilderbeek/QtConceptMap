@@ -175,7 +175,6 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
   assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
   assert(GetY(qtedge) == GetY(*qtedge.GetQtNode()));
-  CheckInvariants(*qtedge.GetQtNode());
 }
 
 void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept

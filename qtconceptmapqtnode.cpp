@@ -60,7 +60,6 @@ ribi::cmap::QtNode::QtNode(
     m_rating_specificity{concept.GetRatingSpecificity()},
     m_show_bounding_rect{false}
 {
-  assert(m_id == id);
   //Allow mouse tracking
   this->setAcceptHoverEvents(true);
 
@@ -71,41 +70,12 @@ ribi::cmap::QtNode::QtNode(
   this->SetContourPen(QPen(Qt::black, 1.0));
   this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
   SetNode(concept, is_center_node, center_x, center_y);
-  CheckInvariants(*this);
   assert(m_id == id);
 }
 
 ribi::cmap::QtNode::~QtNode() noexcept
 {
 
-}
-
-void ribi::cmap::CheckInvariants(const QtNode& qtnode) noexcept
-{
-  #ifndef NDEBUG
-  const double x1{GetX(qtnode)};
-  const double x2{qtnode.pos().x()};
-  if ( std::abs(x1 - x2))
-  {
-    qCritical()
-      << "\nx1: " << x1
-      << "\nx2: " << x2
-      << "\nGetText(qtnode) : " << GetText(qtnode).c_str()
-    ;
-  }
-  assert(std::abs(x1 - x2) < 1.0);
-  const double y1{GetY(qtnode)};
-  const double y2{qtnode.pos().y()};
-  if ( std::abs(y1 - y2))
-  {
-    qDebug()
-      << "\ny1: " << y1
-      << "\ny2: " << y2
-      << "\nGetText(qtnode) : " << GetText(qtnode).c_str()
-    ;
-  }
-  assert(std::abs(y1 - y2) < 1.0);
-  #endif
 }
 
 void ribi::cmap::QtNode::DisableAll()
@@ -254,27 +224,18 @@ bool ribi::cmap::IsVisible(const QtNode& qtnode) noexcept
 
 void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
 {
-  CheckInvariants(*this);
-
   QtRoundedEditRectItem::keyPressEvent(event);
-
-  CheckInvariants(*this);
 }
 
 void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)
 {
-  CheckInvariants(qtnode);
-
   qtnode.moveBy(dx, dy);
-
-  CheckInvariants(qtnode);
 }
 
 void ribi::cmap::QtNode::paint(
   QPainter* painter, const QStyleOptionGraphicsItem* item, QWidget* widget
 ) noexcept
 {
-  CheckInvariants(*this);
   assert(this->scene());
   assert(painter);
 
@@ -305,8 +266,6 @@ void ribi::cmap::QtNode::paint(
     painter->setPen(prev_pen);
     painter->setBrush(prev_brush);
   }
-
-  CheckInvariants(*this);
 }
 
 std::function<bool(const ribi::cmap::QtNode* const)>
@@ -351,13 +310,8 @@ void ribi::cmap::QtNode::SetNode(
   m_rating_concreteness = concept.GetRatingConcreteness();
   m_rating_specificity = concept.GetRatingSpecificity();
 
-  //::ribi::cmap::SetX(*this, center_x);
-  //::ribi::cmap::SetY(*this, center_y);
   const std::string text{::ribi::cmap::GetText(concept)};
   ::ribi::cmap::SetText(*this, text);
-  //this->SetText(Wordwrap(node.GetConcept().GetName(), GetWordWrapLength()));
-
-  //this->SetCenterPos(m_node.GetX(), m_node.GetY());
   this->SetCenterPos(center_x, center_y);
 
   if (is_center_node)
@@ -378,9 +332,6 @@ void ribi::cmap::QtNode::SetNode(
     );
     assert(!IsQtCenterNode(*this));
   }
-
-  //Ensures(::ribi::cmap::GetX(*this) == center_x);
-  //Ensures(::ribi::cmap::GetY(*this) == center_y);
   Ensures(::ribi::cmap::GetText(*this) == ::ribi::cmap::GetText(concept));
 }
 

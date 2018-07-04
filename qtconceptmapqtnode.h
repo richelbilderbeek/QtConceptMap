@@ -94,8 +94,6 @@ private:
   friend class QtConceptMapQtNodeTest;
 };
 
-void CheckInvariants(const QtNode& qtnode) noexcept;
-
 ///Get the center of the QtNode
 QPointF GetCenterPos(const QtNode& qtnode) noexcept;
 
