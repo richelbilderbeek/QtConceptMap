@@ -44,7 +44,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::qtnode_is_qtroundededitrectitem_with_eq
   };
   const auto node = GetNode(*qtnode);
   const double node_x = node.GetX();
-  const double edit_rect_x = edit_rect->GetCenterX();
+  const double edit_rect_x = edit_rect->pos().x();
   QVERIFY(std::abs(node_x - edit_rect_x) < 2.0);
 
 }
@@ -57,7 +57,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::qtnode_is_qtroundededitrectitem_with_eq
   };
   const auto node = GetNode(*qtnode);
   const double node_y = node.GetY();
-  const double edit_rect_y = edit_rect->GetCenterY();
+  const double edit_rect_y = edit_rect->pos().y();
   QVERIFY(std::abs(node_y - edit_rect_y) < 2.0);
 }
 

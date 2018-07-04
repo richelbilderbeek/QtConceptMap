@@ -119,7 +119,7 @@ QRectF ribi::cmap::QtEdge::boundingRect() const
   assert(this->scene());
   assert(m_qtnode->scene());
   assert(m_arrow->scene());
-  return m_qtnode->boundingRect().translated(m_qtnode->GetCenterPos())
+  return m_qtnode->boundingRect().translated(m_qtnode->pos())
     .united(m_arrow->boundingRect())
   ;
 
@@ -130,11 +130,11 @@ QRectF ribi::cmap::QtEdge::boundingRect() const
   //return m_qtnode->boundingRect()
   //  .united(m_arrow->boundingRect());
 
-  //return m_qtnode->boundingRect().translated(-m_qtnode->GetCenterPos())
+  //return m_qtnode->boundingRect().translated(-m_qtnode->pos())
   //   .united(m_arrow->boundingRect());
 
   //return m_qtnode->boundingRect()
-  //  .united(m_arrow->boundingRect().translated(m_qtnode->GetCenterPos()));
+  //  .united(m_arrow->boundingRect().translated(m_qtnode->pos()));
 }
 
 void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
@@ -329,13 +329,13 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
   if (event->modifiers() & Qt::ShiftModifier)
   {
     if ((event->pos() - this->m_arrow->GetTail()
-      + m_qtnode->GetCenterPos()).manhattanLength() < 20.0)
+      + m_qtnode->pos()).manhattanLength() < 20.0)
     {
       this->SetHasTailArrow( !m_arrow->HasTail() );
       //this->update(); //Don't!
     }
     else if ((event->pos() - this->m_arrow->GetHead()
-      + m_qtnode->GetCenterPos()).manhattanLength() < 20.0)
+      + m_qtnode->pos()).manhattanLength() < 20.0)
     {
       this->SetHasHeadArrow( !m_arrow->HasHead() );
       //this->update(); //Don't!
@@ -349,12 +349,12 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
     //If the concept is not clicked...
     //but the arrow is...
     QPointF pos_on_arrow = event->pos();
-    pos_on_arrow += (m_qtnode->GetCenterPos());
+    pos_on_arrow += (m_qtnode->pos());
     if (m_arrow->shape().contains(pos_on_arrow)
       || (event->pos() - this->m_arrow->GetTail()
-        + m_qtnode->GetCenterPos()).manhattanLength() < 20.0
+        + m_qtnode->pos()).manhattanLength() < 20.0
       || (event->pos() - this->m_arrow->GetHead()
-        + m_qtnode->GetCenterPos()).manhattanLength() < 20.0
+        + m_qtnode->pos()).manhattanLength() < 20.0
       )
     {
       //give focus to the arrow
@@ -450,7 +450,7 @@ QPainterPath ribi::cmap::QtEdge::shape() const noexcept
   assert(m_arrow->scene());
   assert(m_qtnode);
   assert(m_arrow);
-  return m_qtnode->shape().translated(m_qtnode->GetCenterPos())
+  return m_qtnode->shape().translated(m_qtnode->pos())
     .united(m_arrow->shape())
   ;
 }

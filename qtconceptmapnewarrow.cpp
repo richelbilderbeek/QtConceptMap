@@ -55,9 +55,9 @@ void ribi::cmap::QtNewArrow::Start(QtNode * const from)
 {
   assert(from);
   m_from = from;
-  this->SetTailPos(from->GetCenterX(), from->GetCenterY());
+  this->SetTailPos(from->pos().x(), from->pos().y());
   this->SetHasTail(false);
-  this->SetHeadPos(from->GetCenterX() + 16, from->GetCenterY() - 16);
+  this->SetHeadPos(from->pos().x() + 16, from->pos().y() - 16);
   this->SetHasHead(true);
   this->show();
   assert(!this->isSelected());
@@ -76,12 +76,12 @@ void ribi::cmap::QtNewArrow::paint(
   const Line line = Geometry().CreateLine(
     std::vector<Point>(
       {
-        Point(m_from->GetCenterX(),m_from->GetCenterY()),
+        Point(m_from->pos().x(), m_from->pos().y()),
         Point(this->line().p2().x(),this->line().p2().y())
       }
     )
   );
-  const QRectF qr1 = m_from->boundingRect().translated(m_from->GetCenterPos());
+  const QRectF qr1 = m_from->boundingRect().translated(m_from->pos());
 
   const Rect r1(
     Point(qr1.topLeft().x()    ,qr1.topLeft().y()    ),
@@ -93,7 +93,7 @@ void ribi::cmap::QtNewArrow::paint(
   {
     //Yes,it happens, when the line does not leave the rectangle
     //this happens when the two node rectanges overlap
-    p1.push_back(Point(m_from->GetCenterX(),m_from->GetCenterY()));
+    p1.push_back(Point(m_from->pos().x(),m_from->pos().y()));
   }
   assert(!p1.empty());
   assert(p1.size() == 1);

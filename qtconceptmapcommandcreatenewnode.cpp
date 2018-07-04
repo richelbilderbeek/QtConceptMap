@@ -58,12 +58,12 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
 double ribi::cmap::CommandCreateNewNode::GetX() const noexcept
 {
   assert(m_added_qtnode);
-  return m_added_qtnode->GetCenterX();
+  return m_added_qtnode->pos().x();
 }
 
 double ribi::cmap::CommandCreateNewNode::GetY() const noexcept
 {
-  return m_added_qtnode->GetCenterY();
+  return m_added_qtnode->pos().y();
 }
 
 std::string ribi::cmap::CommandCreateNewNode::GetText() const noexcept

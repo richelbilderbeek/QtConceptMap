@@ -63,7 +63,7 @@ bool ribi::cmap::IsClose(const QtExamplesItem& item, const QtNode& qtnode) noexc
                         |
                         x1
   */
-  const double x1{item.GetCenterX()};
+  const double x1{item.pos().x()};
   const double x2{qtnode.GetOuterRect().right()};
   const double y1{item.GetOuterRect().top()};
   const double y2{qtnode.GetOuterRect().bottom()};
@@ -88,7 +88,7 @@ void ribi::cmap::QtExamplesItem::Reposition()
 
   */
   assert(m_qtnode);
-  const QPointF p = m_qtnode->GetCenterPos();
+  const QPointF p = m_qtnode->pos();
   const auto w = m_qtnode->GetOuterWidth();
   const auto h = m_qtnode->GetOuterHeight();
   const QPointF q(

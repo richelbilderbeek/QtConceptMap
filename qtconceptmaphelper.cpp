@@ -139,7 +139,7 @@ bool ribi::cmap::DoubleCheckEdgesAndNodes(
     std::stringstream msg;
     msg << __func__ << ": "
       << "Internal inconsistency, "
-      << "n_nodes (" << n_nodes << ") != n_qtedges (" << n_qtedges << ")"
+      << "n_nodes (" << n_nodes << ") != n_qtnodes (" << n_qtnodes << ")"
     ;
     throw std::logic_error(msg.str());
   }

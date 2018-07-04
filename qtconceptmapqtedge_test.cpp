@@ -147,53 +147,53 @@ void ribi::cmap::QtConceptMapQtEdgeTest::all_tests()
   //if (verbose) { TRACE("X of QtEdge and QtRoundedEditRectItem must match at creation"); }
   {
     const double edge_x{edge.GetNode().GetX()};
-    const double qtedge_x{qtitem->GetCenterX()};
+    const double qtedge_x{qtitem->pos().x()};
     QVERIFY(edge_x == qtedge_x);
   }
   //if (verbose) { TRACE("If X is set via QtEdge, QtRoundedEditRectItem must sync"); }
   {
-    const double old_x{qtedge->GetQtNode()->GetCenterX()};
+    const double old_x{qtedge->GetQtNode()->pos().x()};
     const double new_x{old_x + 10.0};
     qtedge->GetQtNode()->SetCenterX(new_x);
-    QVERIFY(std::abs(qtitem->GetCenterX() - new_x) < 2.0);
+    QVERIFY(std::abs(qtitem->pos().x() - new_x) < 2.0);
   }
   //if (verbose) { TRACE("If X is set via QtRoundedEditRectItem, QtEdge must sync"); }
   {
-    const double old_x{qtitem->GetCenterX()};
+    const double old_x{qtitem->pos().x()};
     const double new_x{old_x + 10.0};
     qtitem->SetCenterX(new_x);
-    QVERIFY(std::abs(qtedge->GetQtNode()->GetCenterX() - new_x) < 2.0);
+    QVERIFY(std::abs(qtedge->GetQtNode()->pos().x() - new_x) < 2.0);
   }
   //Y
 //  //if (verbose) { TRACE("Y of QtEdge and QtRoundedEditRectItem must match at creation"); }
 //  {
 //    const double edge_y{edge.GetNode().GetY()};
-//    const double qtedge_y{qtitem->GetCenterY()};
+//    const double qtedge_y{qtitem->pos().y()};
 //    QVERIFY(edge_y == qtedge_y);
 //  }
   //if (verbose) { TRACE("If Y is set via QtEdge, QtRoundedEditRectItem must sync"); }
   {
-    const double old_y{qtedge->GetQtNode()->GetCenterY()};
+    const double old_y{qtedge->GetQtNode()->pos().y()};
     const double new_y{old_y + 10.0};
     qtedge->GetQtNode()->SetCenterY(new_y);
-    QVERIFY(std::abs(qtitem->GetCenterY() - new_y) < 2.0);
+    QVERIFY(std::abs(qtitem->pos().y() - new_y) < 2.0);
   }
   //if (verbose) { TRACE("If Y is set via QtRoundedEditRectItem, QtEdge must sync"); }
   {
-    const double old_y{qtitem->GetCenterY()};
+    const double old_y{qtitem->pos().y()};
     const double new_y{old_y + 10.0};
     qtitem->SetCenterY(new_y);
-    QVERIFY(std::abs(qtedge->GetQtNode()->GetCenterY() - new_y) < 2.0);
+    QVERIFY(std::abs(qtedge->GetQtNode()->pos().y() - new_y) < 2.0);
   }
   //Center
   {
-    const double new_x{qtedge->GetQtNode()->GetCenterX() + 123.45};
+    const double new_x{qtedge->GetQtNode()->pos().x() + 123.45};
     qtedge->GetQtNode()->SetCenterX(new_x);
-    QVERIFY(qtedge->GetQtNode()->GetCenterX() == new_x);
+    QVERIFY(qtedge->GetQtNode()->pos().x() == new_x);
   }
   {
-    const double new_y{qtedge->GetQtNode()->GetCenterY() + 123.45};
+    const double new_y{qtedge->GetQtNode()->pos().y() + 123.45};
     qtedge->GetQtNode()->SetCenterY(new_y);
-    QVERIFY(qtedge->GetQtNode()->GetCenterY() == new_y);
+    QVERIFY(qtedge->GetQtNode()->pos().y() == new_y);
   }
 }

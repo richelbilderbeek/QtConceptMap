@@ -62,15 +62,15 @@ void ribi::cmap::QtTool::Reposition() noexcept
   assert(this->isVisible());
 
   this->setPos(
-    m_item->GetCenterX(),
-    m_item->GetCenterY() - (m_item->GetOuterHeight() / 2.0) - 16.0
+    m_item->pos().x(),
+    m_item->pos().y() - (m_item->GetOuterHeight() / 2.0) - 16.0
   );
 
   //Must be close
-  assert(std::abs(this->x() - m_item->GetCenterX()) < 1.0);
+  assert(std::abs(this->x() - m_item->pos().x()) < 1.0);
   assert(
     std::abs(
-      m_item->GetCenterY() - (m_item->GetOuterHeight() / 2.0) - 16.0 - this->y()
+      m_item->pos().y() - (m_item->GetOuterHeight() / 2.0) - 16.0 - this->y()
     ) < 1.0
   );
 }
