@@ -111,10 +111,6 @@ void ribi::cmap::CommandSelect::Redo()
   if (m_renamed_qtnode)
   {
     m_renamed_qtedge = nullptr;
-    if (HasExamples(*m_renamed_qtnode))
-    {
-      SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtnode);
-    }
     SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtnode);
     SetSelectedness(true, *m_renamed_qtnode, GetQtConceptMap());
   }
@@ -129,10 +125,6 @@ void ribi::cmap::CommandSelect::Redo()
     );
     if (m_renamed_qtedge)
     {
-      if (HasExamples(*m_renamed_qtedge))
-      {
-        SetQtExamplesBuddy(GetQtConceptMap(), m_renamed_qtedge);
-      }
       SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtedge);
       SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
       assert(CountSelectedQtEdges(GetQtConceptMap()) > 0 || IsConnectedToCenterNode(*m_renamed_qtedge));

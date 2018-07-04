@@ -64,16 +64,6 @@ void RedoImpl(
   SetConcept(*t, cmd.GetConcept());
 
   assert(GetConcept(*t) == cmd.GetConcept());
-
-  if (HasExamples(*t))
-  {
-    SetQtExamplesBuddy(cmd.GetQtConceptMap(), t);
-  }
-  else
-  {
-    T * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(cmd.GetQtConceptMap(), no_qtnode);
-  }
 }
 
 void ribi::cmap::CommandSetConcept::Redo()
@@ -109,16 +99,6 @@ void UndoImpl(
   SetConcept(*t, cmd.GetPrevConcept());
 
   assert(GetConcept(*t) == cmd.GetPrevConcept());
-
-  if (HasExamples(*t))
-  {
-    SetQtExamplesBuddy(cmd.GetQtConceptMap(), t);
-  }
-  else
-  {
-    T * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(cmd.GetQtConceptMap(), no_qtnode);
-  }
 }
 
 

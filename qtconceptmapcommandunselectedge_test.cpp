@@ -69,7 +69,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
 
   assert(CountSelectedQtEdges(q) == 1);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(HasExamples(*first_qtedge) && GetQtExamplesItemBuddy(q) == first_qtedge->GetQtNode());
+  assert(HasExamples(*first_qtedge));
   assert(!GetQtToolItemBuddy(q));
 
 
@@ -77,14 +77,13 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(!GetQtExamplesItemBuddy(q));
   assert(!GetQtToolItemBuddy(q));
 
   q.Undo();
 
   assert(CountSelectedQtEdges(q) == 1);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(HasExamples(*first_qtedge) && GetQtExamplesItemBuddy(q) == first_qtedge->GetQtNode());
+  assert(HasExamples(*first_qtedge));
   assert(!GetQtToolItemBuddy(q));
 }
 
@@ -125,14 +124,12 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(CountSelectedQtEdges(q) == 1);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == qtedge1->GetQtNode());
 
   q.DoCommand(new CommandSelectEdge(q, qtedge2));
 
   assert(CountSelectedQtEdges(q) == 2);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == qtedge2->GetQtNode());
 
   q.DoCommand(new CommandUnselectEdge(q, qtedge1));
 
@@ -140,7 +137,6 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(CountSelectedQtEdges(q) == 1);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == nullptr);
 
   q.DoCommand(new CommandUnselectEdge(q, qtedge2));
 
@@ -148,7 +144,6 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == nullptr);
 
   q.Undo();
 
@@ -156,14 +151,12 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(CountSelectedQtEdges(q) == 1);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == nullptr);
 
   q.Undo();
 
   assert(CountSelectedQtEdges(q) == 2);
   assert(CountSelectedQtNodes(q) == 0);
   assert(GetQtToolItemBuddy(q) == nullptr);
-  assert(GetQtExamplesItemBuddy(q) == qtedge2->GetQtNode());
 }
 
 void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::Parse() const noexcept

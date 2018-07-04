@@ -413,9 +413,6 @@ void ribi::cmap::QtConceptMapTest::DefaultConstruction() const noexcept
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 0);
 
-  //No examples selected, QGraphicsItem is created though (is that a good idea?)
-  QVERIFY(!q.GetQtExamplesItem().GetBuddyItem());
-
   //No nodes with a Tool icon above it
   QVERIFY(!q.GetQtToolItem().isVisible());
 
@@ -871,12 +868,6 @@ void ribi::cmap::QtConceptMapTest::GetHighlighter() const noexcept
   const auto& h = m.GetQtHighlighter();
   //Nothing to highlight, thus not item
   QVERIFY(!h.GetItem());
-}
-
-void ribi::cmap::QtConceptMapTest::HideExamples() const noexcept
-{
-  QtConceptMap m;
-  HideExamplesItem(m);
 }
 
 void ribi::cmap::QtConceptMapTest::IsCommandPutOnUndoStack() const noexcept

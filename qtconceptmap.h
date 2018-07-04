@@ -45,12 +45,6 @@ public:
   ///Get the current pop-up mode the object is in
   PopupMode GetPopupMode() const noexcept { return m_popup_mode; }
 
-  ///Get the square showing the examples
-  const QtExamplesItem& GetQtExamplesItem() const noexcept;
-
-  ///Get the square showing the examples
-  QtExamplesItem& GetQtExamplesItem() noexcept;
-
   ///Get the QGraphicsItem that can highlight selected QGraphicsItems
   const QtItemHighlighter& GetQtHighlighter() const noexcept;
 
@@ -104,7 +98,7 @@ public slots:
 
 private slots:
 
-  ///A timed event to check for collisions, update QtExamplesItem and QtToolItem
+  ///A timed event to check for collisions, update QtToolItem
   void Respond();
 
 private:
@@ -113,10 +107,6 @@ private:
   ///Is hidden when not active
   ///Must be a pointer, as it will be owned by QGraphicsScene
   QtNewArrow * const m_arrow;
-
-  ///The item showing the examples
-  ///Must be a pointer, as it will be owned by QGraphicsScene
-  QtExamplesItem * const m_examples_item;
 
   ///The item highlighter, used when creating a new relation
   ///Must be a pointer, as it will be owned by QGraphicsScene
@@ -259,10 +249,6 @@ std::vector<QtEdge *> GetQtEdges(const QtConceptMap& q) noexcept;
 ///which should be QtEdge < QtNode < QtNewArrow < QtTool
 constexpr double GetQtEdgeZvalue() { return -1.0; }
 
-///Get the QtExamplesItem its Buddy item
-///Will return a QtNode that is either standalone or on an edge
-QtNode * GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept;
-
 ///Get all the 'standalone' (those not on an edge) QtNodes
 std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;
 
@@ -285,9 +271,6 @@ std::vector<QtNode *> GetSelectedQtNodesAlsoOnQtEdge(const QtConceptMap& q) noex
 ///Checks if the qtedge has its QGraphicsScenes in place
 ///scene can be nullptr
 bool HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept;
-
-///Hide the QtExamplesItem
-void HideExamplesItem(QtConceptMap& q) noexcept;
 
 ///Is the arrow to connect a select QtNode to a potential other
 ///QtNode (to draw an edge) visible?
@@ -386,18 +369,14 @@ void RemoveConceptMap(QtConceptMap& q);
 ///Save the QtConceptMap to a .dot file
 void SaveToFile(const QtConceptMap& q, const std::string& dot_filename);
 
-///Select the QtNode, including updating the QtToolItem and QtExamplesItem
+///Select the QtNode, including updating the QtToolItem
 void Select(QtConceptMap& q, QtEdge& qtedge);
 
-///Select the QtNode, including updating the QtToolItem and QtExamplesItem
+///Select the QtNode, including updating the QtToolItem
 void Select(QtConceptMap& q, QtNode& qtnode);
 
 ///Set focus to the QtNode. Assumes the QtConceptMap has no focus anymore
 void SetFocus(QtConceptMap& q, QtNode* const qtnode);
-
-///Set the buddy of the QtExamplesItem
-void SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode);
-void SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge);
 
 ///Set the buddy of the QtToolItem
 void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);
@@ -419,7 +398,7 @@ void SetRandomFocusExclusive(QtConceptMap& q);
 
 ///Set the selectedness of a QtEdge, also updating the
 ///selectness of the Edge in the QtConceptMap.
-///Use 'Select' to also update the QtToolItem and QtExamplesItem
+///Use 'Select' to also update the QtToolItem
 void SetSelectedness(
   const bool is_selected,
   QtEdge& qtedge,
@@ -428,17 +407,17 @@ void SetSelectedness(
 
 ///Set the selectedness of a QtNode, also updating the
 ///selectness of the node in the ConceptMap.
-///Use 'Select' to also update the QtToolItem and QtExamplesItem
+///Use 'Select' to also update the QtToolItem
 void SetSelectedness(
   const bool is_selected,
   QtNode& qtnode,
   QtConceptMap& q
 );
 
-///Unselect the QtEdge, including updating the QtToolItem and QtExamplesItem
+///Unselect the QtEdge, including updating the QtToolItem
 void Unselect(QtConceptMap& q, QtEdge& qtedge);
 
-///Unselect the QtNode, including updating the QtToolItem and QtExamplesItem
+///Unselect the QtNode, including updating the QtToolItem
 void Unselect(QtConceptMap& q, QtNode& qtnode);
 
 ///Unselect all QtNodes and QtEdges

@@ -55,7 +55,6 @@
 ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   : QtKeyboardFriendlyGraphicsView(parent),
     m_arrow{new QtNewArrow},
-    m_examples_item(new QtExamplesItem),
     m_highlighter{new QtItemHighlighter},
     m_mode{Mode::uninitialized},
     m_popup_mode{PopupMode::normal},
@@ -68,7 +67,6 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   //Add items
   assert(scene());
   scene()->addItem(m_arrow); //Add the QtNewArrow so it has a parent
-  scene()->addItem(m_examples_item); //Add the examples so it has a parent
   scene()->addItem(m_tools);
   m_arrow->hide();
 
@@ -97,8 +95,6 @@ ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   QObject::connect(scene(),SIGNAL(selectionChanged()),this,SLOT(onSelectionChanged()));
   #endif  // KEEP_UNUSED_SLOTS_20170924
 
-  m_examples_item->SetCenterPos(123,456); //Irrelevant where
-
   CheckInvariants(*this);
 
   if (1 == 2) //!OCLINT Temporarily remove timer for bugfixing
@@ -116,7 +112,6 @@ ribi::cmap::QtConceptMap::~QtConceptMap() noexcept
   m_undo.clear();
   m_highlighter->SetItem(nullptr); //Do this before destroying items
   m_tools->SetBuddyItem(nullptr);
-  delete m_examples_item;
   delete m_tools;
   delete m_arrow;
 }
@@ -298,7 +293,6 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
 {
   #ifndef NDEBUG
   assert(q.GetQtNewArrow().scene());
-  assert(q.GetQtExamplesItem().scene());
   assert(q.GetQtToolItem().scene());
   CheckInvariantAllQtNodesHaveAscene(q);
   CheckInvariantAllQtEdgesHaveAscene(q);
@@ -388,11 +382,6 @@ ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QtConceptMap& q) noexcept
   return GetFirstQtNode(q.GetScene());
 }
 
-void ribi::cmap::HideExamplesItem(QtConceptMap& q) noexcept
-{
-  q.GetQtExamplesItem().hide();
-}
-
 bool ribi::cmap::IsArrowVisible(QtConceptMap& q) noexcept
 {
   return q.GetQtNewArrow().isVisible();
@@ -433,7 +422,6 @@ void ribi::cmap::RemoveConceptMap(QtConceptMap& q)
 {
   q.clearFocus();
   q.GetQtNewArrow().hide();
-  q.GetQtExamplesItem().hide();
   q.GetQtHighlighter().SetItem(nullptr); //Do this before destroying items
   q.GetQtToolItem().SetBuddyItem(nullptr);
   assert(!q.GetQtNewArrow().isVisible());
@@ -544,11 +532,6 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(const QtConceptMap& q) 
   return GetQtEdges(q.GetScene());
 }
 
-ribi::cmap::QtNode * ribi::cmap::GetQtExamplesItemBuddy(const QtConceptMap& q) noexcept
-{
-  return q.GetQtExamplesItem().GetBuddyItem();
-}
-
 std::vector<ribi::cmap::QtNode *> ribi::cmap::GetQtNodes(const QtConceptMap& q) noexcept
 {
   return GetQtNodes(q.GetScene());
@@ -580,18 +563,6 @@ std::vector<ribi::cmap::QtNode *> ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(
   const QtConceptMap& q) noexcept
 {
   return GetSelectedQtNodesAlsoOnQtEdge(q.GetScene());
-}
-
-const ribi::cmap::QtExamplesItem& ribi::cmap::QtConceptMap::GetQtExamplesItem() const noexcept
-{
-  assert(m_examples_item);
-  return *m_examples_item;
-}
-
-ribi::cmap::QtExamplesItem& ribi::cmap::QtConceptMap::GetQtExamplesItem() noexcept
-{
-  assert(m_examples_item);
-  return *m_examples_item;
 }
 
 const ribi::cmap::QtItemHighlighter& ribi::cmap::QtConceptMap::GetQtHighlighter() const noexcept
@@ -706,7 +677,6 @@ void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) no
   assert(!q.GetQtToolItem().isSelected());
 
   assert(!dynamic_cast<QtTool*>(item));
-  assert(!dynamic_cast<QtExamplesItem*>(item));
   assert(!dynamic_cast<QtNewArrow*>(item));
   assert(!dynamic_cast<QtItemHighlighter*>(item));
 
@@ -1421,7 +1391,6 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   RemoveConceptMap(*this);
 
   QtNode* const no_qtnode = nullptr;
-  SetQtExamplesBuddy(*this, no_qtnode);
   SetQtToolItemBuddy(*this, no_qtnode);
   CheckInvariants(*this);
 
@@ -1464,16 +1433,6 @@ void SelectImpl(
   static_assert(
     std::is_same<T, ribi::cmap::QtNode>() || std::is_same<T, ribi::cmap::QtEdge>(),
     "T is either QtEdge or QtNode");
-
-  if (HasExamples(t))
-  {
-    SetQtExamplesBuddy(q, &t);
-  }
-  else
-  {
-    T * const no_qtedge_nor_qtnode{nullptr};
-    SetQtExamplesBuddy(q, no_qtedge_nor_qtnode);
-  }
   SetSelectedness(true, t, q);
 }
 
@@ -1507,10 +1466,6 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
     SetSelectedness(true, *new_focus_item, q);
   }
 
-  if (HasExamples(*new_focus_item))
-  {
-    SetQtExamplesBuddy(q, new_focus_item);
-  }
   //Only QtNodes (not on QtEdge) have a QtToolItem
   if (IsQtNodeNotOnEdge(new_focus_item, q))
   {
@@ -1679,33 +1634,6 @@ void ribi::cmap::SetRandomFocusExclusive(
   CheckInvariants(q);
 }
 
-void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtEdge * const qtedge)
-{
-  if (qtedge)
-  {
-    SetQtExamplesBuddy(q, qtedge->GetQtNode());
-  }
-  else
-  {
-    QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(q, no_qtnode);
-  }
-
-  Ensures(qtedge == nullptr || GetQtExamplesItemBuddy(q) == qtedge->GetQtNode()); //!OCLINT no double negation for the reader
-}
-
-void ribi::cmap::SetQtExamplesBuddy(QtConceptMap& q, QtNode * const qtnode)
-{
-  if (qtnode)
-  {
-    assert(HasExamples(*qtnode));
-  }
-  q.GetQtExamplesItem().SetBuddyItem(qtnode);
-
-  Ensures(GetQtExamplesItemBuddy(q) == qtnode); //!OCLINT no double negation for the reader
-}
-
-
 void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode)
 {
   q.GetQtToolItem().SetBuddyItem(qtnode);
@@ -1814,7 +1742,6 @@ void UnselectImpl(
     "T is either QtEdge or QtNode");
 
   ribi::cmap::QtNode * const no_qtnode{nullptr};
-  SetQtExamplesBuddy(q, no_qtnode);
   SetQtToolItemBuddy(q, no_qtnode);
   SetSelectedness(false, t, q);
   if (q.hasFocus()) q.clearFocus();

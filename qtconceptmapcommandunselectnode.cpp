@@ -87,15 +87,6 @@ void ribi::cmap::CommandUnselectNode::Redo()
 
 void ribi::cmap::CommandUnselectNode::Undo()
 {
-  if (m_prev_qttoolitem_buddy && HasExamples(*m_prev_qttoolitem_buddy))
-  {
-    SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
-  }
-  else
-  {
-    QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
-  }
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
   SetSelectedness(true, *m_qtnode, GetQtConceptMap());
 

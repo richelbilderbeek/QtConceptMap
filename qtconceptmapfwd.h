@@ -23,7 +23,6 @@ struct QtEdge;
 struct QtEdgeDialog;
 struct QtExampleDialog;
 struct QtExamplesDialog;
-struct QtExamplesItem;
 struct QtItemHighlighter;
 struct QtNewArrow;
 struct QtNode;

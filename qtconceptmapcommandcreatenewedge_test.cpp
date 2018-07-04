@@ -18,7 +18,6 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noe
   QVERIFY(CountQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 0);
   QVERIFY(CountSelectedQtEdges(q) == 1);
-  QVERIFY(!GetQtExamplesItemBuddy(q));
   QVERIFY(!GetQtToolItemBuddy(q));
 }
 

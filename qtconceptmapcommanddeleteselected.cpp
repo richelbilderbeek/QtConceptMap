@@ -124,12 +124,8 @@ void ribi::cmap::CommandDeleteSelected::Redo()
   }
 
   assert(AllHaveSameScene());
-
-  
-
   GetScene(*this).clearFocus();
   GetQtToolItem(*this).SetBuddyItem(nullptr);
-  GetQtExamplesItem(*this).SetBuddyItem(nullptr);
 
   //Each QtEdge that is on a QtNode that is selected to be deleted,
   //must be selected, so it will be deleted as well

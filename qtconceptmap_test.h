@@ -62,7 +62,6 @@ private slots:
   void DoubleClickTwice() const noexcept;
   void EditModeFlags() const noexcept;
   void GetHighlighter() const noexcept;
-  void HideExamples() const noexcept;
   void IsCommandPutOnUndoStack() const noexcept;
   void MouseWheel() const noexcept;
   void NcenterNodesAndQtCenterNodesMustMatchEdit() const noexcept; //#113

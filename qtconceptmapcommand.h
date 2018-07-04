@@ -40,12 +40,6 @@ struct Command : public QUndoCommand
 };
 
 //Convenience
-QtExamplesItem& GetQtExamplesItem(Command& cmd) noexcept;
-
-//Convenience
-const QtExamplesItem& GetQtExamplesItem(const Command& cmd) noexcept;
-
-//Convenience
 QtTool& GetQtToolItem(Command& cmd) noexcept;
 
 //Convenience

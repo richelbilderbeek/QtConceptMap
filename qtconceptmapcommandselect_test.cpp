@@ -7,20 +7,6 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
-void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtToolItemFails() const noexcept
-{
-  QtConceptMap q;
-  try
-  {
-    q.DoCommand(new CommandSelect(q, q.GetQtExamplesItem()));
-    QVERIFY(!"Should not get here");
-  }
-  catch (std::exception&)
-  {
-    QVERIFY("OK");
-  }
-}
-
 void ribi::cmap::QtConceptMapCommandSelectTest::SelectQtCenterNodeByName() const noexcept
 {
   QtConceptMap q;

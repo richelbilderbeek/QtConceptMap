@@ -71,16 +71,6 @@ void ribi::cmap::CommandSelectEdge::Redo()
 
 void ribi::cmap::CommandSelectEdge::Undo()
 {
-  if (m_prev_qttoolitem_buddy && HasExamples(*m_prev_qttoolitem_buddy))
-  {
-    SetQtExamplesBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
-  }
-  else
-  {
-    QtNode * const no_qtnode{nullptr};
-    SetQtExamplesBuddy(GetQtConceptMap(), no_qtnode);
-  }
-
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
 
   SetSelectedness(false, *m_qtedge, GetQtConceptMap());

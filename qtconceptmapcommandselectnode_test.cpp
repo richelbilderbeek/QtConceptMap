@@ -60,7 +60,6 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
 
-  const auto examples_buddy_before = GetQtExamplesItemBuddy(q);
   const auto tool_buddy_before = GetQtToolItemBuddy(q);
 
   QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("one"));
@@ -69,17 +68,14 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 1);
   assert(HasExamples(*first_qtnode));
-  assert(examples_buddy_before != GetQtExamplesItemBuddy(q));
   assert(tool_buddy_before != GetQtToolItemBuddy(q));
 
   q.Undo();
 
-  const auto examples_buddy_after = GetQtExamplesItemBuddy(q);
   const auto tool_buddy_after = GetQtToolItemBuddy(q);
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  QVERIFY(examples_buddy_before == examples_buddy_after);
   QVERIFY(tool_buddy_before == tool_buddy_after);
 }
 
@@ -91,7 +87,6 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(!GetQtExamplesItemBuddy(q));
   assert(!GetQtToolItemBuddy(q));
 
   QtNode * const qtnode1 = FindFirstQtNode(q, QtNodeHasName("one"));
@@ -99,7 +94,6 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 1);
-  assert(GetQtExamplesItemBuddy(q) == qtnode1);
   assert(GetQtToolItemBuddy(q) == qtnode1);
 
   QtNode * const qtnode2 = FindFirstQtNode(q, QtNodeHasName("two"));
@@ -107,7 +101,6 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 2);
-  QVERIFY(GetQtExamplesItemBuddy(q) == qtnode2);
   QVERIFY(GetQtToolItemBuddy(q) == qtnode2);
 }
 
@@ -119,7 +112,6 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
-  assert(!GetQtExamplesItemBuddy(q));
   assert(!GetQtToolItemBuddy(q));
 
   QtNode * const qtnode1 = FindFirstQtNode(q, QtNodeHasName("one"));
@@ -127,7 +119,6 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 1);
-  assert(GetQtExamplesItemBuddy(q) == qtnode1);
   assert(GetQtToolItemBuddy(q) == qtnode1);
 
   QtNode * const qtnode2 = FindFirstQtNode(q, QtNodeHasName("two"));
@@ -135,21 +126,18 @@ void ribi::cmap::QtConceptMapCommandSelectNodeTest
 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 2);
-  assert(GetQtExamplesItemBuddy(q) == qtnode2);
   assert(GetQtToolItemBuddy(q) == qtnode2);
 
   q.Undo();
 
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 1);
-  QVERIFY(GetQtExamplesItemBuddy(q) == qtnode1);
   QVERIFY(GetQtToolItemBuddy(q) == qtnode1);
 
   q.Undo();
 
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 0);
-  QVERIFY(!GetQtExamplesItemBuddy(q));
   QVERIFY(!GetQtToolItemBuddy(q));
 }
 
