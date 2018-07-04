@@ -79,8 +79,6 @@ void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
   q.keyPressEvent(&e);
   q.show();
   const auto pos_after = qtnode->pos();
-  QSKIP("Minimal run");
-  assert(!e.isAccepted());
   QVERIFY(!e.isAccepted());
   QVERIFY(pos_before == pos_after);
 }
@@ -92,7 +90,7 @@ void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
   q.SetConceptMap(ConceptMapFactory().Get11());
   q.SetMode(Mode::edit);
   q.show();
-  QSKIP("Minimal run");
+  QSKIP("SetMode");
   q.SetMode(Mode::rate);
   q.show();
   q.SetMode(Mode::uninitialized);
@@ -740,10 +738,9 @@ void ribi::cmap::QtConceptMapTest::RateConceptMapHasLessFocusableItems() const n
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.SetMode(Mode::edit);
-  QSKIP("Minimal run");
-  assert(CountCenterNodes(m.ToConceptMap()) > 0);
-  assert(CountQtCenterNodes(m.GetScene()) > 0);
-  assert(CountCenterNodes(m.ToConceptMap()) == CountQtCenterNodes(m.GetScene()));
+  QVERIFY(CountCenterNodes(m.ToConceptMap()) > 0);
+  QVERIFY(CountQtCenterNodes(m.GetScene()) > 0);
+  QVERIFY(CountCenterNodes(m.ToConceptMap()) == CountQtCenterNodes(m.GetScene()));
   const auto n_edit = GetFocusableItems(m).size();
   m.SetMode(Mode::rate);
   const auto n_rate = GetFocusableItems(m).size();
@@ -755,7 +752,7 @@ void ribi::cmap::QtConceptMapTest::RateModeFlags() const noexcept
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
   m.show();
-  QSKIP("Minimal run");
+  QSKIP("SetMode");
   m.SetMode(Mode::rate);
   for (const auto qtnode: GetQtNodes(m.GetScene()))
   {
@@ -1614,7 +1611,7 @@ void ribi::cmap::QtConceptMapTest::UninitializedModeFlags() const noexcept
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
   m.show();
-  QSKIP("Minimal run");
+  QSKIP("SetMode");
   m.SetMode(Mode::uninitialized);
   for (const auto qtnode: GetQtNodes(m.GetScene()))
   {

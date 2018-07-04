@@ -324,12 +324,11 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
     const double measured_y1{GetY(*qtedge)};
     const double measured_x3{GetX(*qtedge->GetQtNode())};
     const double measured_y3{GetY(*qtedge->GetQtNode())};
-    QSKIP("Minimal run");
-    assert(std::abs(expected_x - measured_x1) < 2.0);
-    assert(std::abs(expected_y - measured_y1) < 2.0);
-    assert(std::abs(expected_x - measured_x3) < 2.0);
-    assert(std::abs(expected_y - measured_y3) < 2.0);
-    assert(QFile::exists(filename.c_str()));
+    QVERIFY(std::abs(expected_x - measured_x1) < 2.0);
+    QVERIFY(std::abs(expected_y - measured_y1) < 2.0);
+    QVERIFY(std::abs(expected_x - measured_x3) < 2.0);
+    QVERIFY(std::abs(expected_y - measured_y3) < 2.0);
+    QVERIFY(QFile::exists(filename.c_str()));
   }
   q.SetConceptMap(ConceptMap());
   assert(CountQtNodes(q) == 0);
