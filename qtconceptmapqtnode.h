@@ -9,6 +9,7 @@
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtroundededitrectitem.h"
 #include "conceptmapnode.h"
+#include "conceptmapnodetype.h"
 #include "conceptmapfwd.h"
 #pragma GCC diagnostic pop
 
@@ -32,7 +33,7 @@ struct QtNode : public QtRoundedEditRectItem
   explicit QtNode(
     const Concept& concept,
     const int id,
-    const bool is_center_node,
+    const NodeType type,
     const double center_x = 0.0,
     const double center_y = 0.0,
     QGraphicsItem* parent = 0
@@ -53,7 +54,7 @@ struct QtNode : public QtRoundedEditRectItem
 
   void SetNode(
     const Concept& concept,
-    const bool is_center_node,
+    const NodeType type,
     const double center_x = 0.0,
     const double center_y = 0.0
   ) noexcept;
@@ -111,6 +112,7 @@ int GetId(const QtNode& qtnode) noexcept;
 std::string GetName(const QtNode& qtnode) noexcept;
 Node GetNode(const QtNode& qtnode) noexcept;
 std::string GetText(const QtNode& qtnode) noexcept;
+NodeType GetType(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping
 constexpr int GetWordWrapLength() { return 80; }

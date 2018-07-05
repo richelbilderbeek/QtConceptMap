@@ -6,6 +6,7 @@
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmapcommand.h"
+#include "conceptmapnodetype.h"
 #pragma GCC diagnostic pop
 
 namespace ribi {
@@ -20,7 +21,7 @@ class CommandCreateNewNode final : public Command
   CommandCreateNewNode(
     QtConceptMap& qtconceptmap,
     const std::string& text = "",
-    const bool is_center_node = false,
+    const NodeType type = NodeType::normal,
     const double x = 0.0,
     const double y = 0.0
   );
@@ -39,8 +40,8 @@ class CommandCreateNewNode final : public Command
   private:
   QtNode * m_added_qtnode;
 
-  ///Will the added QtNode be a center node
-  bool m_is_center_node;
+  ///Type of the added QtNode
+  const NodeType m_type;
 
   ///Text on the added QtNode
   const std::string m_text;

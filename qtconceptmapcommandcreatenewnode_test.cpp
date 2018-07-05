@@ -8,7 +8,9 @@ void ribi::cmap::QtConceptMapCommandCreateNewNodeTest::Parse() const noexcept
   QtConceptMap q;
   QVERIFY(ParseCommandCreateNewNode(q, "nonsense") == nullptr);
   {
-    const auto c = ParseCommandCreateNewNode(q, "create_new_node(my text, false, 10, 20)");
+    const auto c = ParseCommandCreateNewNode(
+      q, "create_new_node(my text, 10, 20, normal)"
+    );
     QVERIFY(c);
     assert(c);
     q.DoCommand(c);

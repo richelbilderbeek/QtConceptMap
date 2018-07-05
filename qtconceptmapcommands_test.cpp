@@ -29,7 +29,7 @@ void ribi::cmap::QtConceptMapCommandsTest::NonsenseToEmpty() const noexcept
 void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeCommand() const noexcept
 {
   QtConceptMap q;
-  ProcessCommands(q, { "--command", "create_new_node(my text, false, 10, 20)" } );
+  ProcessCommands(q, { "--command", "create_new_node(my text, 10, 20, normal)" } );
   QVERIFY(q.GetUndo().count() == 1);
   QVERIFY(CountQtNodes(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 1);
@@ -42,7 +42,7 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeThenUnselect() const 
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(to be unselected, false, 10, 20); "
+      "create_new_node(to be unselected, 10, 20, normal); "
       "unselect(to be unselected)"
     }
   );
@@ -58,10 +58,10 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateRelationOverCenterNode() const 
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(center, true, 0, 0); "
-      "unselect(center); "
-      "create_new_node(from, false, 0, -50);"
-      "create_new_node(to, false, 0, 50);"
+      "create_new_node(focal question, 0, 0, center); "
+      "unselect(focal question); "
+      "create_new_node(from, 0, -50, normal);"
+      "create_new_node(to, 0, 50, normal);"
       "create_new_edge(relation, from, to);"
     }
   );
@@ -75,8 +75,8 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateTwoNewNodeCommands() const noex
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(my first text, false, 10, 20); "
-      "create_new_node(my other text, false, 10, 40)"
+      "create_new_node(my first text, 10, 20, normal); "
+      "create_new_node(my other text, 10, 40, normal)"
     }
   );
   QVERIFY(q.GetUndo().count() == 2);
@@ -88,8 +88,8 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateNewEdgeBetweenTwoSelectedNodesC
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(from, false, 10, 20); "
-      "create_new_node(to, false, 10, 40); "
+      "create_new_node(from, 10, 20, normal); "
+      "create_new_node(to, 10, 40, normal); "
       "create_new_edge(between)"
     }
   );
@@ -126,8 +126,8 @@ void ribi::cmap::QtConceptMapCommandsTest
     ProcessCommands(q,
       {
         "--command",
-        "create_new_node(from, false, 100, 200); "
-        "create_new_node(to, false, 100, 400); "
+        "create_new_node(from, 100, 200, normal); "
+        "create_new_node(to, 100, 400, normal); "
         "create_new_edge(relation); "
         "move(nonexisting, 50, 75)"
       }
@@ -147,8 +147,8 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnEdge() const noexcept
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(from, false, 100, 200); "
-      "create_new_node(to, false, 100, 400); "
+      "create_new_node(from, 100, 200, normal); "
+      "create_new_node(to, 100, 400, normal); "
       "create_new_edge(relation); "
       "move(relation, 50, 75)"
     }
@@ -175,7 +175,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnNode() const noexcept
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(move me, false, 50, 75); "
+      "create_new_node(move me, 50, 75, normal); "
       "move(move me, 100, 200)"
     }
   );
@@ -194,7 +194,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveNodeCommandOnNode() const noexcep
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(from, false, 50, 75); "
+      "create_new_node(from, 50, 75, normal); "
       "move_node(from, 100, 200)"
     }
   );
@@ -237,10 +237,10 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveCommandTwoNodesOneEdge() const no
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(center, true, 0, 0); "
-      "unselect(center); "
-      "create_new_node(from, false, 0, -50); "
-      "create_new_node(to, false, 0, 50); "
+      "create_new_node(focal question, 0, 0, center); "
+      "unselect(focal question); "
+      "create_new_node(from, 0, -50, normal); "
+      "create_new_node(to, 0, 50, normal); "
       "create_new_edge(relation, from, to); "
       "save(" + filename + ")"
     }
@@ -263,10 +263,10 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoad() const noexcept
     ProcessCommands(q,
       {
         "--command",
-        "create_new_node(center, true, 0, 0); "
-        "unselect(center); "
-        "create_new_node(from, false, 0, -50); "
-        "create_new_node(to, false, 0, 50); "
+        "create_new_node(focal question, 0, 0, center); "
+        "unselect(focal question); "
+        "create_new_node(from, 0, -50, normal); "
+        "create_new_node(to, 0, 50, normal); "
         "create_new_edge(relation, from, to); "
         "save(" + filename + ")"
       }
@@ -302,10 +302,10 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
     ProcessCommands(q,
       {
         "--command",
-        "create_new_node(center, true, 0, 0); "
-        "unselect(center); "
-        "create_new_node(from, false, 100, 200); "
-        "create_new_node(to, false, 180, 400); "
+        "create_new_node(focal question, 0, 0, center); "
+        "unselect(focal question); "
+        "create_new_node(from, 100, 200, normal); "
+        "create_new_node(to, 180, 400, normal); "
         "create_new_edge(relation); "
         "move(relation, 50, 75); "
         "save(" + filename + ")"
@@ -387,7 +387,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectAllLonelyCenterNode(
   ProcessCommands(q,
     {
       "--command",
-      "set_mode(edit); create_new_node(center, true, 0, 0); unselect_all()"
+      "set_mode(edit); create_new_node(focal question, 0, 0, center); unselect_all()"
     }
   );
   assert(q.GetUndo().count() == 3);
@@ -453,8 +453,8 @@ void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowHeadCommand() const noexce
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(from, false, 10, 20); "
-      "create_new_node(to, false, 10, 40); "
+      "create_new_node(from, 10, 20, normal); "
+      "create_new_node(to, 10, 40, normal); "
       "create_new_edge(between); "
       "toggle_arrow_head()"
     }
@@ -468,8 +468,8 @@ void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowTailCommand() const noexce
   ProcessCommands(q,
     {
       "--command",
-      "create_new_node(from, false, 10, 20); "
-      "create_new_node(to, false, 10, 40); "
+      "create_new_node(from, 10, 20, normal); "
+      "create_new_node(to, 10, 40, normal); "
       "create_new_edge(between); "
       "toggle_arrow_tail()"
     }

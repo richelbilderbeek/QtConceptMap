@@ -56,7 +56,7 @@ ribi::cmap::QtEdge::QtEdge(
       new QtNode(
         concept,
         Node().GetId(), //Nodes have a static counter for IDs
-        false,
+        NodeType::normal,
         x,
         y,
         this

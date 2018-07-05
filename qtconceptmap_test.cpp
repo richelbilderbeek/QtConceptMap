@@ -46,7 +46,7 @@ void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const noexcept
 {
   QtConceptMap q;
   q.showFullScreen();
-  q.DoCommand(new CommandCreateNewNode(q, "center", true));
+  q.DoCommand(new CommandCreateNewNode(q, "center", NodeType::center));
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Delete, Qt::NoModifier);
   q.keyPressEvent(&e);
   QSKIP("Deleting center node must not be accepted", "");
@@ -58,7 +58,7 @@ void ribi::cmap::QtConceptMapTest::CannotEditCenterNode() const noexcept
   QtConceptMap q;
   q.showFullScreen();
   q.DoCommand(new CommandSetMode(q, Mode::edit));
-  q.DoCommand(new CommandCreateNewNode(q, "center", true));
+  q.DoCommand(new CommandCreateNewNode(q, "center", NodeType::center));
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);
   q.SetPopupMode(PopupMode::muted);
   q.keyPressEvent(&e);
@@ -70,7 +70,7 @@ void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
   QtConceptMap q;
   q.showFullScreen();
   q.DoCommand(new CommandSetMode(q, Mode::edit));
-  q.DoCommand(new CommandCreateNewNode(q, "center", true));
+  q.DoCommand(new CommandCreateNewNode(q, "center", NodeType::center));
   const auto selected_qt_nodes = GetSelectedQtNodesAlsoOnQtEdge(q);
   assert(selected_qt_nodes.size() == 1);
   const auto qtnode = selected_qt_nodes[0];
@@ -293,13 +293,13 @@ void ribi::cmap::QtConceptMapTest::create_one_node_and_undo_keyboard() const noe
 void ribi::cmap::QtConceptMapTest::create_one_node_command() const noexcept
 {
   const std::string text = __func__;
-  const bool is_center_node{false};
+  const NodeType type{NodeType::normal};
   const double x{314.15};
   const double y{42.69};
 
   QtConceptMap m;
   m.showFullScreen();
-  m.DoCommand(new CommandCreateNewNode(m, text, is_center_node, x, y));
+  m.DoCommand(new CommandCreateNewNode(m, text, NodeType::normal, x, y));
   m.show();
   QVERIFY(CountQtEdges(m) == 0);
   QVERIFY(CountQtNodes(m) == 1);
@@ -932,7 +932,7 @@ void ribi::cmap::QtConceptMapTest
   ::PressCtrlRightMovesNonCentralNode() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "from", false));
+  q.DoCommand(new CommandCreateNewNode(q, "from", NodeType::normal));
 
   const auto x_before = GetX(*GetQtNodes(q)[0]);
   const auto y_before = GetY(*GetQtNodes(q)[0]);
@@ -1045,8 +1045,8 @@ void ribi::cmap::QtConceptMapTest
   ::PressShiftRightSelectsEdgeAdditively() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "left", false));
-  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
+  q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
   q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
@@ -1072,8 +1072,8 @@ void ribi::cmap::QtConceptMapTest
   ::PressShiftRightSelectsNodeAdditively() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "left", false));
-  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
+  q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
   q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
     = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
@@ -1096,8 +1096,8 @@ void ribi::cmap::QtConceptMapTest
   ::PressRightSelectsEdgeExclusively() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "left", false));
-  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
+  q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
   q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
@@ -1124,8 +1124,8 @@ void ribi::cmap::QtConceptMapTest
   ::PressRightSelectsNodeExclusively() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "left", false));
-  q.DoCommand(new CommandCreateNewNode(q, "right", false));
+  q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
+  q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
   QtNode * const left_qtnode = FindFirstQtNode(q, QtNodeHasName("left"));
   QtNode * const right_qtnode = FindFirstQtNode(q, QtNodeHasName("right"));
   q.DoCommand(new CommandMoveNode(q, left_qtnode , -100.0, 0.0));

@@ -57,7 +57,7 @@ std::function<bool(const ribi::cmap::QtNode&)> ribi::cmap::QtNodeHasText(
 ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
   QtConceptMap& qtconceptmap, std::string s)
 {
-  //"movenode(my_text, 10, 20)"
+  //"move_node(my_text, 10, 20)"
   boost::algorithm::trim(s);
   const std::string str_begin = "move_node(";
   if (s.substr(0, str_begin.size()) != str_begin) return nullptr;
@@ -66,7 +66,7 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
   const std::string t = s.substr(str_begin.size(), s.size() - str_begin.size() - 1);
   assert(t[0] != '(');
   assert(t.back() != ')');
-  // "my text, 10", "20"
+  // "my text", "10", "20"
   std::vector<std::string> v = Container().SeperateString(t, ',');
   for (std::string& u: v) boost::algorithm::trim(u);
   try

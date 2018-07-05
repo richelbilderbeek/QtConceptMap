@@ -848,7 +848,7 @@ void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
   {
     try
     {
-      q.DoCommand(new CommandCreateNewNode(q, "", false, 0.0, 0.0));
+      q.DoCommand(new CommandCreateNewNode(q, "", NodeType::normal, 0.0, 0.0));
     }
     catch (std::exception& e) {} //!OCLINT Correct, nothing happens in catch
   }
@@ -984,7 +984,7 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
   //Create new node at the mouse cursor its position
   try
   {
-    this->DoCommand(new CommandCreateNewNode(*this, "", false, pos.x(), pos.y()));
+    this->DoCommand(new CommandCreateNewNode(*this, "", NodeType::normal, pos.x(), pos.y()));
   }
   catch (std::logic_error& ) {} //!OCLINT This should be an empty catch statement
   CheckInvariants(*this);

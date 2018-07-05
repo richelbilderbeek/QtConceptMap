@@ -30,13 +30,13 @@ bool str_to_bool(std::string s)
 ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   QtConceptMap& qtconceptmap,
   const std::string& text,
-  const bool is_center_node,
+  const NodeType type,
   const double x,
   const double y
 )
   : Command(qtconceptmap),
     m_added_qtnode{nullptr},
-    m_is_center_node{is_center_node},
+    m_type{type},
     m_text{text},
     m_tool_item{nullptr},
     m_tool_item_old_buddy{nullptr},
@@ -47,7 +47,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   {
     std::stringstream msg;
     msg << "Create new "
-      << (m_is_center_node ? std::string("center") : std::string("regular"))
+      << m_type
       << " << node with text '" << m_text << "' at ("
       << m_x << ", " << m_y << ")"
     ;
@@ -89,10 +89,10 @@ ribi::cmap::CommandCreateNewNode * ribi::cmap::ParseCommandCreateNewNode(
   try
   {
     const std::string text = v.at(0);
-    const bool is_center_node = str_to_bool(v.at(1));
-    const double x = std::stod(v.at(2));
-    const double y = std::stod(v.at(3));
-    return new CommandCreateNewNode(qtconceptmap, text, is_center_node, x, y);
+    const double x = std::stod(v.at(1));
+    const double y = std::stod(v.at(2));
+    const NodeType type = ToNodeType(v.at(3));
+    return new CommandCreateNewNode(qtconceptmap, text, type, x, y);
   }
   catch (std::exception&) {} //OK
   return nullptr;
@@ -101,7 +101,7 @@ ribi::cmap::CommandCreateNewNode * ribi::cmap::ParseCommandCreateNewNode(
 void ribi::cmap::CommandCreateNewNode::Redo()
 {
   //Modify the QGraphicsScene
-  m_added_qtnode = new QtNode(Concept(m_text), m_is_center_node, m_x, m_y);
+  m_added_qtnode = new QtNode(Node(Concept(m_text), m_type, m_x, m_y));
   assert(m_added_qtnode);
   assert(Unwordwrap(m_added_qtnode->GetText()) == m_text);
   assert(!m_added_qtnode->scene());

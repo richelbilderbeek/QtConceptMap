@@ -2,6 +2,7 @@
 
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
+#include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmap.h"
 
 #include <QDebug>
@@ -9,10 +10,12 @@
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "from", false, -100, -200));
-  q.DoCommand(new CommandCreateNewNode(q, "to"  , false,  300,  400));
-  assert(CountQtNodes(q) == 2);
-  assert(CountQtEdges(q) == 0);
+  q.DoCommand(new CommandCreateNewNode(q, "from", NodeType::normal, -100, -200));
+  q.DoCommand(new CommandCreateNewNode(q, "to"  , NodeType::normal,  300,  400));
+  QVERIFY(CountQtNodes(q) == 2);
+  QVERIFY(CountQtEdges(q) == 0);
+  QVERIFY(CountSelectedQtNodes(q) == 2);
+  QVERIFY(CountSelectedQtEdges(q) == 0);
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
   QVERIFY(CountQtNodes(q) == 2);
   QVERIFY(CountQtEdges(q) == 1);
@@ -24,8 +27,8 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noe
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "from", false, -100, -200));
-  q.DoCommand(new CommandCreateNewNode(q, "to"  , false,  300,  400));
+  q.DoCommand(new CommandCreateNewNode(q, "from", NodeType::normal, -100, -200));
+  q.DoCommand(new CommandCreateNewNode(q, "to"  , NodeType::normal,  300,  400));
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 0);
   QVERIFY(CountSelectedQtEdges(q) == 0);
@@ -45,8 +48,8 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNode() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "center"   , true , -100, -200));
-  q.DoCommand(new CommandCreateNewNode(q, "something", false,  300,  400));
+  q.DoCommand(new CommandCreateNewNode(q, "center"   , NodeType::center , -100, -200));
+  q.DoCommand(new CommandCreateNewNode(q, "something", NodeType::normal,  300,  400));
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 0);
   q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "invisible"));
@@ -59,10 +62,10 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNo
 void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
-  const auto c1 = ParseCommandCreateNewNode(q, "create_new_node(my text, false, 10, 20)");
+  const auto c1 = ParseCommandCreateNewNode(q, "create_new_node(from, 10, 20, normal)");
   q.DoCommand(c1);
   assert(CountSelectedQtNodes(q) == 1);
-  const auto c2 = ParseCommandCreateNewNode(q, "create_new_node(my text, false, 10, 40)");
+  const auto c2 = ParseCommandCreateNewNode(q, "create_new_node(to, 10, 40, normal)");
   q.DoCommand(c2);
   assert(CountSelectedQtNodes(q) == 2);
   const auto c3 = ParseCommandCreateNewEdge(q, "create_new_edge(my text)");
