@@ -309,7 +309,6 @@ void ribi::cmap::QtConceptMapTest::create_one_node_command() const noexcept
   QVERIFY(v.size() == 1);
   const auto n = v[0];
   QVERIFY(n);
-  QSKIP("CommandCreateNewNode in correct place (EASY)", "");
   QVERIFY(std::abs(n->pos().x() - x) < 2.0);
   QVERIFY(std::abs(n->pos().y() - y) < 2.0);
 }
