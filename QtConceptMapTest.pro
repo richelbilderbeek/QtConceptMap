@@ -74,7 +74,6 @@ include(../RibiClasses/CppQtScopedDisable/CppQtScopedDisable.pri)
 
 # Boost Graph Cookbook #1, just take the subset we need
 INCLUDEPATH += ../boost_graph_cookbook_1/boost_graph_cookbook_1
-
 include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_bundled_edges_and_vertices.pri)
 include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_bundled_vertices.pri)
 include(../boost_graph_cookbook_1/boost_graph_cookbook_1/boost_graph_cookbook_1_no_graphviz_helper.pri)
