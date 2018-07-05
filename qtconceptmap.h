@@ -169,6 +169,9 @@ int CountQtArrowHeads(const QtConceptMap& q) noexcept;
 ///Counts the number of arrow tails on all QtEdges
 int CountQtArrowTails(const QtConceptMap& q) noexcept;
 
+///Counts the QtNodes that are center nodes
+int CountQtCenterNodes(const QtConceptMap& q) noexcept;
+
 ///Counts the QtEdges
 int CountQtEdges(const QtConceptMap& q) noexcept;
 

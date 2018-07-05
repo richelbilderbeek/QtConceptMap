@@ -309,6 +309,11 @@ int ribi::cmap::CountQtArrowTails(const QtConceptMap& q) noexcept
   return CountQtArrowTails(q.GetScene());
 }
 
+int ribi::cmap::CountQtCenterNodes(const QtConceptMap& q) noexcept
+{
+  return CountQtCenterNodes(q.GetScene());
+}
+
 int ribi::cmap::CountQtEdges(const QtConceptMap& q) noexcept
 {
   return CountQtEdges(q.GetScene());
