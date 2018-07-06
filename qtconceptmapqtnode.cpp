@@ -355,6 +355,69 @@ void ribi::cmap::SetConcept(QtNode& qtnode, const Concept& concept)
   );
 }
 
+void ribi::cmap::QtNode::SetRatingComplexity(const int rating_complexity)
+{
+  if (rating_complexity < -1 || rating_complexity > 2)
+  {
+    throw std::invalid_argument(
+      "ribi::cmap::QtNode::SetRatingComplexity: invalid complexity"
+    );
+  }
+  m_rating_complexity = rating_complexity;
+  Ensures(m_rating_complexity >= -1); //!OCLINT not a double negative in practice
+  Ensures(m_rating_complexity <=  2); //!OCLINT not a double negative in practice
+}
+
+void ribi::cmap::SetRatingComplexity(
+  QtNode& qtnode,
+  const int rating_complexity
+)
+{
+  qtnode.SetRatingComplexity(rating_complexity);
+}
+
+void ribi::cmap::QtNode::SetRatingConcreteness(const int rating_concreteness)
+{
+  if (rating_concreteness < -1 || rating_concreteness > 2)
+  {
+    throw std::invalid_argument(
+      "ribi::cmap::QtNode::SetRatingConcreteness: invalid concreteness"
+    );
+  }
+  m_rating_concreteness = rating_concreteness;
+  Ensures(m_rating_concreteness >= -1); //!OCLINT not a double negative in practice
+  Ensures(m_rating_concreteness <=  2); //!OCLINT not a double negative in practice
+}
+
+void ribi::cmap::SetRatingConcreteness(
+  QtNode& qtnode,
+  const int rating_concreteness
+)
+{
+  qtnode.SetRatingConcreteness(rating_concreteness);
+}
+
+void ribi::cmap::QtNode::SetRatingSpecificity(const int rating_specificity)
+{
+  if (rating_specificity < -1 || rating_specificity > 2)
+  {
+    throw std::invalid_argument(
+      "ribi::cmap::QtNode::SetRatingSpecificity: invalid specificity"
+    );
+  }
+  m_rating_specificity = rating_specificity;
+  Ensures(m_rating_specificity >= -1); //!OCLINT not a double negative in practice
+  Ensures(m_rating_specificity <=  2); //!OCLINT not a double negative in practice
+}
+
+void ribi::cmap::SetRatingSpecificity(
+  QtNode& qtnode,
+  const int rating_specificity
+)
+{
+  qtnode.SetRatingSpecificity(rating_specificity);
+}
+
 void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)
 {
   qtnode.SetText( { text } );

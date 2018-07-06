@@ -17,7 +17,7 @@
 #include "conceptmaphelper.h"
 #include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
 #include "find_first_bundled_edge_with_my_edge.h"
-#include "find_first_bundled_vertex_with_my_vertex.h"
+#include "find_if_first_bundled_vertex.h"
 #include "find_first_bundled_vertex_with_my_vertex.h"
 #include "get_my_bundled_edge.h"
 #include "has_bundled_edge_with_my_edge.h"
@@ -1264,18 +1264,22 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF1(
-  QtConceptMap&,
-  QtNode&)
+  QtConceptMap& q,
+  QtNode& qtnode)
 {
-  #ifdef NOT_NOW_20180114
+  const auto concept_map = q.ToConceptMap();
+
   //Rate concept
-  const auto vd = ::find_first_bundled_vertex_with_my_vertex(
-    item.GetNode(), q.ToConceptMap()
+  const auto vd = find_if_first_bundled_vertex(
+    q.ToConceptMap(),
+    [qtnode_id = qtnode.GetId()](const Node& node)
+    {
+      return node.GetId() == qtnode_id;
+    }
   );
   const auto subgraph
     = create_direct_neighbour_bundled_edges_and_vertices_subgraph(
-      vd,
-      q.ToConceptMap()
+      vd, concept_map
     );
   ribi::cmap::QtRateConceptDialog d(subgraph);
 
@@ -1284,39 +1288,12 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
   q.setEnabled(true);
   if (d.GetOkClicked())
   {
-    //Find the original Node
-    //const auto vd = FindNode(item->GetNode(), m_conceptmap);
-    //Update the node here
-    auto node = item.GetNode();
-    node.GetConcept().SetRatingComplexity(d.GetComplexity());
-    node.GetConcept().SetRatingConcreteness(d.GetConcreteness());
-    node.GetConcept().SetRatingSpecificity(d.GetSpecificity());
-
     //Update the QtNode
-    item.GetNode().SetConcept(node.GetConcept());
-    const int n_rated
-      = (node.GetConcept().GetRatingComplexity()   == -1 ? 0 : 1)
-      + (node.GetConcept().GetRatingConcreteness() == -1 ? 0 : 1)
-      + (node.GetConcept().GetRatingSpecificity()  == -1 ? 0 : 1);
-    switch (n_rated)
-    {
-      case 0:
-        item.setBrush(QtBrushFactory().CreateRedGradientBrush());
-        break;
-      case 1:
-      case 2:
-        item.setBrush(QtBrushFactory().CreateYellowGradientBrush());
-        break;
-      case 3:
-        item.setBrush(QtBrushFactory().CreateGreenGradientBrush());
-        break;
-      default:
-        throw std::logic_error(
-          "ribi::cmap::OnNodeKeyDownPressed: invalid n_rated"
-        );
-    }
+    qtnode.SetRatingComplexity(d.GetComplexity());
+    qtnode.SetRatingConcreteness(d.GetConcreteness());
+    qtnode.SetRatingSpecificity(d.GetSpecificity());
+    qtnode.update();
   }
-  #endif // NOT_NOW_20180114
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF2(

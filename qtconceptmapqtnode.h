@@ -59,6 +59,18 @@ struct QtNode : public QtRoundedEditRectItem
     const double center_y = 0.0
   ) noexcept;
 
+  ///Set the rating of this Concept for complexity
+  ///-1: not rated, 0: lowest, 2: highest
+  void SetRatingComplexity(const int rating_complexity);
+
+  ///Set the rating of this Concept for concreteness
+  ///-1: not rated, 0: lowest, 2: highest
+  void SetRatingConcreteness(const int rating_concreteness);
+
+  ///Set the rating of this Concept for specificity
+  ///-1: not rated, 0: lowest, 2: highest
+  void SetRatingSpecificity(const int rating_specificity);
+
   std::string ToStr() const noexcept;
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem *, QWidget *) noexcept final;
@@ -141,6 +153,19 @@ std::function<bool(const QtNode* const)> QtNodeHasId(const int id);
 std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
 
 void SetConcept(QtNode& qtnode, const Concept& concept);
+
+///Set the rating of this Node for complexity
+///-1: not rated, 0: lowest, 2: highest
+void SetRatingComplexity(QtNode& qtnode, const int rating_complexity);
+
+///Set the rating of this Node for concreteness
+///-1: not rated, 0: lowest, 2: highest
+void SetRatingConcreteness(QtNode& qtnode, const int rating_concreteness);
+
+///Set the rating of this Node for specificity
+///-1: not rated, 0: lowest, 2: highest
+void SetRatingSpecificity(QtNode& qtnode, const int rating_specificity);
+
 void SetText(QtNode& qtnode, const std::string& text);
 void SetX(QtNode& qtnode, const double x);
 void SetY(QtNode& qtnode, const double y);
