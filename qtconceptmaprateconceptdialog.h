@@ -5,7 +5,8 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include "qthideandshowdialog.h"
+//#include "qthideandshowdialog.h"
+#include <QDialog>
 
 #include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
@@ -17,7 +18,7 @@ namespace ribi {
 namespace cmap {
 
 ///Rate the focal concept of a sub-ConceptMap.
-class QtRateConceptDialog : public ribi::QtHideAndShowDialog
+class QtRateConceptDialog : public QDialog
 {
   Q_OBJECT //!OCLINT
     

@@ -31,7 +31,7 @@
 ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   const ConceptMap conceptmap,
   QWidget* parent)
-  : QtHideAndShowDialog(parent),
+  : QDialog(parent),
     ui(new Ui::QtRateConceptDialog),
     m_button_ok_clicked(false),
     m_conceptmap(conceptmap),

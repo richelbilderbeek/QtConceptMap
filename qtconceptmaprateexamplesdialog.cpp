@@ -38,7 +38,7 @@ struct QtConceptMapListWidgetItem : public QListWidgetItem
 ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
   const Concept& concept,
   QWidget* parent)
-  : QtHideAndShowDialog(parent),
+  : QDialog(parent),
     ui(new Ui::QtRateExamplesDialog),
     m_concept(concept),
     m_concept_at_start(concept)

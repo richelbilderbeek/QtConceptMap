@@ -33,7 +33,7 @@
 ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   const ConceptMap& conceptmap,
   QWidget *parent)
-  : QtHideAndShowDialog(parent),
+  : QDialog(parent),
     ui(new Ui::QtRateConceptTallyDialog),
     m_data{CreateData(conceptmap)},
     m_focus_name{GetFocusName(conceptmap)}
