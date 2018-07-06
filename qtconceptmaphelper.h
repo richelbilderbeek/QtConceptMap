@@ -39,7 +39,7 @@ int CountSelectedQtEdgesImpl2(const QGraphicsScene& scene) noexcept;
 QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
 
 ///Finds the one QtCenterNode
-///Returns nullptr if there is none
+///Returns nullptr if there is none, two or more
 QtNode * FindQtCenterNode(const QGraphicsScene& scene) noexcept;
 
 ///Find the edge this QtNode is in the center of

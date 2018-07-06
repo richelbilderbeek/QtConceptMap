@@ -1515,6 +1515,7 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
           | QGraphicsItem::ItemIsFocusable
           | QGraphicsItem::ItemIsSelectable
         );
+        assert(!IsQtCenterNode(qtnode));
       break;
       case Mode::rate:
         qtnode->setFlags(
@@ -1535,10 +1536,12 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
           QGraphicsItem::ItemIsFocusable
         | QGraphicsItem::ItemIsSelectable
       );
+      assert(IsQtCenterNode(qtnode));
     }
     else
     {
       qtnode->setFlags(0);
+      assert(IsQtCenterNode(qtnode));
     }
   }
 

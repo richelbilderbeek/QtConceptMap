@@ -208,8 +208,7 @@ ribi::cmap::QtNode * ribi::cmap::FindFirstQtNodeWithName(
 
 ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) noexcept
 {
-  if (!CountQtCenterNodes(scene)) return nullptr;
-  assert(CountQtCenterNodes(scene) == 1);
+  if (CountQtCenterNodes(scene) != 1) return nullptr;
   for (QtNode * const qtnode: GetQtNodes(scene))
   {
     if (IsQtCenterNode(qtnode)) return qtnode;
