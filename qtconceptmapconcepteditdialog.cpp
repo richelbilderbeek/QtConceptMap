@@ -28,6 +28,7 @@
 
 #include <QKeyEvent>
 #include <QObjectList>
+#include <QListWidgetItem>
 
 #include "conceptmapcompetency.h"
 #include "conceptmapexample.h"
@@ -69,7 +70,7 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
 
   //Convert the concept to its GUI elements
   //Add the name
-  ui->edit_concept->setText(concept.GetName().c_str());
+  ui->edit_concept->setPlainText(concept.GetName().c_str());
   //Add the examples
   const std::vector<Example> v = concept.GetExamples().Get();
   std::for_each(v.begin(),v.end(),
@@ -124,7 +125,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
 {
   {
     QListWidgetItem * const item = new QListWidgetItem;
-    item->setText(ui->edit_text->text());
+    item->setText(ui->edit_text->toPlainText());
     item->setFlags(
           Qt::ItemIsSelectable
         | Qt::ItemIsEnabled
@@ -151,7 +152,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_ok_clicked()
 {
   #ifndef CONCEPTMAP_WRITE_TO_CONCEPT
   //Name
-  const std::string name = ui->edit_concept->text().toStdString();
+  const std::string name = ui->edit_concept->toPlainText().toStdString();
   //Examples
   std::vector<Example> v;
 
