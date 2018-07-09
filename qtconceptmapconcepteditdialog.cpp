@@ -52,29 +52,18 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   //Add the name
   ui->edit_concept->setPlainText(concept.GetName().c_str());
   //Add the examples
-  const std::vector<Example> v = concept.GetExamples().Get();
-  std::for_each(v.begin(),v.end(),
-    [this](const Example& example)
-    {
-
-      assert(!example.GetText().empty());
-      QTableWidgetItem *item = new QTableWidgetItem(example.GetText().c_str());
-      ui->list_examples->setItem(0,0,item);
-      /*
-      QtConceptMapListWidgetItem * const item
-        = new QtConceptMapListWidgetItem(example.GetCompetency());
-      item->setText(example.GetText().c_str());
-      item->setFlags(
-            Qt::ItemIsSelectable
-          | Qt::ItemIsEnabled
-          | Qt::ItemIsEditable
-          | Qt::ItemIsDragEnabled
-          | Qt::ItemIsDropEnabled
-      );
-      ui->list_examples->addItem(item);
-      */
-    }
-  );
+  const auto& examples = concept.GetExamples().Get();
+  const int n_examples = examples.size();
+  ui->list_examples->setWordWrap(true);
+  ui->list_examples->setRowCount(n_examples);
+  for (int i = 0; i != n_examples; ++i)
+  {
+    const auto& example = examples[i];
+    QTableWidgetItem * const item = new QTableWidgetItem(example.GetText().c_str());
+    ui->list_examples->setItem(i, 0, item);
+  }
+  assert(ui->list_examples->verticalHeader());
+  ui->list_examples->verticalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
   assert(ui->list_examples->isEnabled());
   QObject::connect(
@@ -108,6 +97,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
 
 void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
 {
+  #ifdef NOT_NOW
   {
     QListWidgetItem * const item = new QListWidgetItem;
     item->setText(ui->edit_text->toPlainText());
@@ -122,6 +112,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
   }
   ui->edit_text->clear();
   ui->edit_text->setFocus();
+  #endif
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialog::RemoveEmptyItem(QListWidgetItem * item)
@@ -140,25 +131,17 @@ ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const
   //Examples
   std::vector<Example> v;
 
-  const int n_items = ui->list_examples->count();
-  for (int i=0; i!=n_items; ++i)
+  const int n_items = ui->list_examples->rowCount();
+  for (int i=0; i != n_items; ++i)
   {
-    const QListWidgetItem * const item = ui->list_examples->item(i);
-    const QtConceptMapListWidgetItem * const braw_item
-      = dynamic_cast<const QtConceptMapListWidgetItem *>(item)
-    ;
-    const Competency competency = braw_item
-      ? braw_item->m_competency : Competency::uninitialized;
-    Example p(
-      item->text().toStdString(),
-      competency
+    const auto* const item = ui->list_examples->item(i, 0);
+    const Example p(
+      item->text().toStdString()
     );
     v.push_back(p);
   }
   assert(n_items == boost::numeric_cast<int>(v.size()));
-  //Set to concept
-  const Examples examples(v);
-  return Concept(name, examples);
+  return Concept(name, Examples(v));
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialog::on_button_ok_clicked()
