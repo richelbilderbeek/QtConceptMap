@@ -77,22 +77,12 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="list_examples">
-     <property name="acceptDrops">
-      <bool>false</bool>
-     </property>
-     <property name="dragEnabled">
-      <bool>true</bool>
-     </property>
-     <property name="dragDropMode">
-      <enum>QAbstractItemView::InternalMove</enum>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
+    <widget class="QTableWidget" name="list_examples">
+     <column>
+      <property name="text">
+       <string>Examples</string>
+      </property>
+     </column>
     </widget>
    </item>
    <item>
@@ -131,7 +121,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>list_examples</tabstop>
   <tabstop>button_ok</tabstop>
  </tabstops>
  <resources/>

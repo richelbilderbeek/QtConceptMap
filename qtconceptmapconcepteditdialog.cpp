@@ -9,6 +9,8 @@
 #include <QKeyEvent>
 #include <QObjectList>
 #include <QListWidgetItem>
+#include <QTableWidgetItem>
+#include <QTableWidget>
 
 #include "conceptmapcompetency.h"
 #include "conceptmapexample.h"
@@ -54,7 +56,11 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   std::for_each(v.begin(),v.end(),
     [this](const Example& example)
     {
+
       assert(!example.GetText().empty());
+      QTableWidgetItem *item = new QTableWidgetItem(example.GetText().c_str());
+      ui->list_examples->setItem(0,0,item);
+      /*
       QtConceptMapListWidgetItem * const item
         = new QtConceptMapListWidgetItem(example.GetCompetency());
       item->setText(example.GetText().c_str());
@@ -66,6 +72,7 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
           | Qt::ItemIsDropEnabled
       );
       ui->list_examples->addItem(item);
+      */
     }
   );
 
