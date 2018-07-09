@@ -40,8 +40,8 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   for (const auto concept: ConceptFactory().GetTests())
   {
     QtConceptMapConceptEditDialog d(concept);
-    QVERIFY(d.ui->edit_text->text().isEmpty());
-    d.ui->edit_text->setText("TO BE ADDED EXAMPLE");
+    QVERIFY(d.ui->edit_text->toPlainText().isEmpty());
+    d.ui->edit_text->setPlainText("TO BE ADDED EXAMPLE");
     d.on_button_add_clicked(); //Should add
     d.on_button_ok_clicked();
     const Concept after(d.GetConcept());
@@ -58,7 +58,7 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   for (const auto concept: ConceptFactory().GetTests())
   {
     QtConceptMapConceptEditDialog d(concept);
-    d.ui->edit_concept->setText(d.ui->edit_concept->text() + "MODIFICATION");
+    d.ui->edit_concept->setPlainText(d.ui->edit_concept->toPlainText() + "MODIFICATION");
     d.on_button_ok_clicked();
     const Concept after(d.GetConcept());
     QVERIFY(concept != after);
