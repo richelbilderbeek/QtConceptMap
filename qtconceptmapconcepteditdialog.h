@@ -8,6 +8,7 @@
 #include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
+struct QTableWidgetItem;
 #pragma GCC diagnostic pop
 
 struct QListWidgetItem;
@@ -50,7 +51,7 @@ protected:
   void keyPressEvent(QKeyEvent *);
 
 private slots:
-  void RemoveEmptyItem(QListWidgetItem * item);
+  void RemoveEmptyItem(QTableWidgetItem * item);
 
 
 private:

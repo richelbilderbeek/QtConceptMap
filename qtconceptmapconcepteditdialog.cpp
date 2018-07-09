@@ -70,9 +70,9 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   assert(ui->list_examples->isEnabled());
   QObject::connect(
     ui->list_examples,
-    SIGNAL(itemChanged(QListWidgetItem*)),
+    SIGNAL(itemChanged(QTableWidgetItem*)),
     this,
-    SLOT(RemoveEmptyItem(QListWidgetItem*))
+    SLOT(RemoveEmptyItem(QTableWidgetItem*))
   );
 }
 
@@ -111,7 +111,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
   ui->edit_text->setFocus();
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog::RemoveEmptyItem(QListWidgetItem * item)
+void ribi::cmap::QtConceptMapConceptEditDialog::RemoveEmptyItem(QTableWidgetItem * item)
 {
   if (item->text().isEmpty())
   {

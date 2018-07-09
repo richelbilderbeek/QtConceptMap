@@ -76,7 +76,8 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
     //Do nothing...
     d.on_button_ok_clicked();
     const Concept after(d.GetConcept());
-    QVERIFY(concept == after);
+    QVERIFY(concept.GetName() == after.GetName());
+    QVERIFY(CollectExamplesTexts(concept) == CollectExamplesTexts(after));
   }
 }
 
