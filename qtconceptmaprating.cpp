@@ -34,7 +34,7 @@ int ribi::cmap::Rating::SuggestComplexity(
 {
   const int n_edges = boost::num_edges(sub_conceptmap);
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const int n_examples = GetExamples(get_my_bundled_vertex(vd, sub_conceptmap)).Get().size();
+  const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
   return SuggestComplexity(n_edges,n_examples);
 }
 
@@ -54,7 +54,7 @@ int ribi::cmap::Rating::SuggestConcreteness(
 ) const noexcept
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const int n_examples = GetExamples(get_my_bundled_vertex(vd, sub_conceptmap)).Get().size();
+  const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
   return SuggestConcreteness(n_examples);
 }
 
@@ -69,6 +69,6 @@ int ribi::cmap::Rating::SuggestSpecificity(
 ) const noexcept
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const int n_examples = GetExamples(get_my_bundled_vertex(vd, sub_conceptmap)).Get().size();
+  const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
   return SuggestSpecificity(n_examples);
 }

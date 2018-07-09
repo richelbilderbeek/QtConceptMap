@@ -94,7 +94,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptExample(
   const int col
 )
 {
-  assert(index < static_cast<int>(concept.GetExamples().Get().size()));
+  assert(index < CountExamples(concept));
   Example& example = concept.GetExamples().Get()[index];
   switch (col)
   {
@@ -138,7 +138,7 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
     const auto focal_concept = GetCenterNode(map).GetConcept();
     const int n_examples{
       boost::numeric_cast<int>(
-        focal_concept.GetExamples().Get().size()
+        CountExamples(focal_concept)
       )
     };
     for (int i=0; i!=n_examples; ++i)
@@ -165,11 +165,11 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 
     const Edge edge = GetEdge(*ed, map);
     const Concept concept = edge.GetNode().GetConcept();
-    rows.push_back(std::make_tuple(*ed, concept,-1));
-    const int n_examples = boost::numeric_cast<int>(concept.GetExamples().Get().size());
+    rows.push_back( { *ed, concept, -1 } );
+    const int n_examples = CountExamples(concept);
     for (int i=0; i!=n_examples; ++i)
     {
-      rows.push_back(std::make_tuple(*ed,concept,i));
+      rows.push_back( { *ed, concept, i } );
     }
   }
   return rows;
@@ -191,7 +191,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
       {
         const int index = std::get<2>(row);
         if (index == -1) return init + 0;
-        assert(index < static_cast<int>(std::get<1>(row).GetExamples().Get().size()));
+        assert(index < CountExamples(std::get<1>(row)));
         return init + (std::get<1>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0);
       }
     );
@@ -209,7 +209,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
       {
         const int index = std::get<2>(row);
         if (index == -1) return init + 0;
-        assert(index < static_cast<int>(std::get<1>(row).GetExamples().Get().size()));
+        assert(index < CountExamples(std::get<1>(row)));
         return init + (std::get<1>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0);
       }
     );
@@ -227,7 +227,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
       {
         const int index = std::get<2>(row);
         if (index == -1) return init + 0;
-        assert(index < static_cast<int>(std::get<1>(row).GetExamples().Get().size()));
+        assert(index < CountExamples(std::get<1>(row)));
         return init + (std::get<1>(row).GetExamples().Get()[index].GetIsSpecific() ? 1 : 0);
       }
     );
@@ -333,7 +333,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   const int row_index
 ) const
 {
-  assert(example_index < static_cast<int>(concept.GetExamples().Get().size()));
+  assert(example_index < CountExamples(concept));
   const int n_cols = 4;
 
   const Example& example = concept.GetExamples().Get()[example_index];
