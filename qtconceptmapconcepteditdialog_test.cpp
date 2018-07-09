@@ -22,15 +22,15 @@ using namespace ribi::cmap;
 void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::add_should_not_close_the_dialog()
 {
-  QtConceptMapConceptEditDialog d(
+  auto * const d = new QtConceptMapConceptEditDialog(
     ConceptFactory().Get0()
   );
-  d.show();
-  QVERIFY(d.isVisible());
-  d.ui->button_add->click();
-  QVERIFY(d.isVisible());
-  d.ui->button_ok->click();
-  QVERIFY(!d.isVisible());
+  d->show();
+  QVERIFY(d->isVisible());
+  d->ui->button_add->click();
+  QVERIFY(d->isVisible());
+  d->ui->button_ok->click();
+  QVERIFY(!d->isVisible());
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialogTest

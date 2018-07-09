@@ -6,6 +6,7 @@
 
 #include <cassert>
 
+#include <QDebug>
 #include <QKeyEvent>
 #include <QObjectList>
 #include <QListWidgetItem>
@@ -43,7 +44,7 @@ struct QtConceptMapListWidgetItem : public QListWidgetItem
 ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   const Concept& concept,
   QWidget* parent)
-  : QtHideAndShowDialog(parent),
+  : QDialog(parent),
     ui(new Ui::QtConceptMapConceptEditDialog)
 {
   ui->setupUi(this);
@@ -105,8 +106,9 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
   const int cur_row_count = ui->list_examples->rowCount();
   assert(ui->list_examples);
   ui->list_examples->insertRow(cur_row_count + 1);
-  //ui->list_examples->setRowCount(cur_row_count + 1);
+  ui->list_examples->setRowCount(cur_row_count + 1);
   ui->list_examples->setItem(cur_row_count, 0, new_item);
+  ui->list_examples->verticalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
   ui->edit_text->clear();
   ui->edit_text->setFocus();
 }

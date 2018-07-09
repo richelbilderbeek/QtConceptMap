@@ -5,8 +5,8 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include "qthideandshowdialog.h"
-#include "qtconceptmapfwd.h"
+#include <QDialog>
+//#include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
 struct QTableWidgetItem;
 #pragma GCC diagnostic pop
@@ -20,7 +20,7 @@ namespace cmap {
 
 struct QtConceptMapConceptEditDialogTest;
 
-class QtConceptMapConceptEditDialog : public ribi::QtHideAndShowDialog
+class QtConceptMapConceptEditDialog : public QDialog
 {
   Q_OBJECT //!OCLINT
   
