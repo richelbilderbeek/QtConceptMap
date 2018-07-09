@@ -97,22 +97,14 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
 
 void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
 {
-  #ifdef NOT_NOW
-  {
-    QListWidgetItem * const item = new QListWidgetItem;
-    item->setText(ui->edit_text->toPlainText());
-    item->setFlags(
-          Qt::ItemIsSelectable
-        | Qt::ItemIsEnabled
-        | Qt::ItemIsEditable
-        | Qt::ItemIsDragEnabled
-        | Qt::ItemIsDropEnabled
-    );
-    ui->list_examples->addItem(item);
-  }
+  auto * const new_item = new QTableWidgetItem(
+    ui->edit_text->toPlainText()
+  );
+  const int cur_row_count = ui->list_examples->rowCount();
+  ui->list_examples->setRowCount(cur_row_count + 1);
+  ui->list_examples->setItem(cur_row_count, 0, new_item);
   ui->edit_text->clear();
   ui->edit_text->setFocus();
-  #endif
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialog::RemoveEmptyItem(QListWidgetItem * item)
