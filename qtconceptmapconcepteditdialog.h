@@ -35,7 +35,8 @@ public:
   ~QtConceptMapConceptEditDialog() noexcept;
 
   ///The concept being modified
-  const Concept& GetConcept() const noexcept { return m_concept; }
+  Concept GetConcept() const noexcept { return ToConcept(); }
+  Concept ToConcept() const noexcept;
 
   const Ui::QtConceptMapConceptEditDialog * GetUi() const noexcept { return ui; }
         Ui::QtConceptMapConceptEditDialog * GetUi()       noexcept { return ui; }
@@ -43,8 +44,6 @@ public:
 public slots:
 
   void on_button_add_clicked();
-
-  ///Finally convert what the GUI displays to a Concept
   void on_button_ok_clicked();
 
 protected:
@@ -56,13 +55,6 @@ private slots:
 
 private:
   Ui::QtConceptMapConceptEditDialog *ui;
-
-
-  ///The concept being modified
-  Concept m_concept;
-
-  ///The original concept, used if user presses cancel
-  const Concept m_concept_original;
 
   friend class QtConceptMapConceptEditDialogTest;
 };

@@ -1,23 +1,3 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -62,9 +42,7 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   const Concept& concept,
   QWidget* parent)
   : QtHideAndShowDialog(parent),
-    ui(new Ui::QtConceptMapConceptEditDialog),
-    m_concept{concept},
-    m_concept_original{concept}
+    ui(new Ui::QtConceptMapConceptEditDialog)
 {
   ui->setupUi(this);
 
@@ -148,9 +126,8 @@ void ribi::cmap::QtConceptMapConceptEditDialog::RemoveEmptyItem(QListWidgetItem 
   }
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog::on_button_ok_clicked()
+ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const noexcept
 {
-  #ifndef CONCEPTMAP_WRITE_TO_CONCEPT
   //Name
   const std::string name = ui->edit_concept->toPlainText().toStdString();
   //Examples
@@ -174,49 +151,10 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_ok_clicked()
   assert(n_items == boost::numeric_cast<int>(v.size()));
   //Set to concept
   const Examples examples(v);
-  m_concept.SetName(name);
-  m_concept.SetExamples(examples);
-  #endif
+  return Concept(name, examples);
+}
+
+void ribi::cmap::QtConceptMapConceptEditDialog::on_button_ok_clicked()
+{
   close();
 }
-
-#ifdef CONCEPTMAP_WRITE_TO_CONCEPT
-const ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::WriteToConcept() const
-{
-  //Name
-  const std::string name = ui->edit_concept->text().toStdString();
-  //Examples
-  std::vector<std::shared_ptr<cmap::Example> > v;
-
-  const int n_items = ui->list_examples->count();
-  for (int i=0; i!=n_items; ++i)
-  {
-    const QListWidgetItem * const item = ui->list_examples->item(i);
-    const QtConceptMapListWidgetItem * const braw_item
-      = dynamic_cast<const QtConceptMapListWidgetItem *>(item);
-    const Competency competency = braw_item
-      ? braw_item->m_competency : cmap::Competency::uninitialized;
-    std::shared_ptr<Example> p(
-      cmap::ExampleFactory().Create(
-        item->text().toStdString(),
-        competency
-      )
-    );
-    v.push_back(p);
-  }
-  assert(n_items == boost::numeric_cast<int>(v.size()));
-  //Set to concept
-  const std::shared_ptr<ribi::cmap::Examples> examples(new cmap::Examples(v));
-  assert(examples);
-  const Concept concept
-    = ribi::cmap::ConceptFactory().Create(
-      name,
-      examples,
-      m_rating_complexity,
-      m_rating_concreteness,
-      m_rating_specificity);
-
-  assert(concept);
-  return concept;
-}
-#endif
