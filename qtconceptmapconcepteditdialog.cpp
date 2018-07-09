@@ -63,8 +63,10 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
     ui->list_examples->setItem(i, 0, item);
   }
   assert(ui->list_examples->verticalHeader());
-  ui->list_examples->verticalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-
+  if (n_examples)
+  {
+    ui->list_examples->verticalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+  }
   assert(ui->list_examples->isEnabled());
   QObject::connect(
     ui->list_examples,
@@ -101,7 +103,9 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
     ui->edit_text->toPlainText()
   );
   const int cur_row_count = ui->list_examples->rowCount();
-  ui->list_examples->setRowCount(cur_row_count + 1);
+  assert(ui->list_examples);
+  ui->list_examples->insertRow(cur_row_count + 1);
+  //ui->list_examples->setRowCount(cur_row_count + 1);
   ui->list_examples->setItem(cur_row_count, 0, new_item);
   ui->edit_text->clear();
   ui->edit_text->setFocus();
