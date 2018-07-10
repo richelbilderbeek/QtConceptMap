@@ -32,7 +32,6 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
   {
     QFont font = ui->list_cluster_relations->font();
     font.setPointSize(8);
-    ui->list_concept_examples->setFont(font);
     ui->list_cluster_relations->setFont(font);
   }
 
@@ -133,7 +132,7 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DoResizeLists() noexcept
   //Set the list displaying the concept its height and widt
   bool done = true;
   for (QListWidget * const w:
-    { ui->list_cluster_relations, ui->list_concept_examples } )
+    { ui->list_cluster_relations } )
   {
     if (w->verticalScrollBar()->isVisible())
     {
@@ -204,14 +203,21 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
   const Node& node
 ) noexcept
 {
+  std::string s =
+    "<b>Voorbeelden/toelichtingen bij concept:</b>\n"
+    "<ul>\n"
+  ;
   for (const Example& example: node.GetConcept().GetExamples().Get())
   {
-    ui->list_concept_examples->addItem(
-      new QListWidgetItem(
-        (boost::lexical_cast<std::string>(
-          static_cast<int>(example.GetCompetency())) + ". " + example.GetText()
-        ).c_str()
-      )
-    );
+    s += "  <li>(" + CompetencyToStrDutch(example.GetCompetency())
+      + ") " + example.GetText() + "</li>\n";
+    ;
   }
+  s += "</ul>";
+  ui->label_concept_examples->setWordWrap(true);
+  ui->label_concept_examples->setText(s.c_str());
+  ui->label_concept_examples->setTextInteractionFlags(
+    Qt::TextInteractionFlag::TextSelectableByMouse |
+    Qt::TextInteractionFlag::TextSelectableByKeyboard
+  );
 }
