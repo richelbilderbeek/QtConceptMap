@@ -28,6 +28,14 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
 {
   ui->setupUi(this);
 
+  assert(ui->label_concept_examples->wordWrap());
+  assert(ui->label_concept_examples->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByMouse);
+  assert(ui->label_concept_examples->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByKeyboard);
+
+  assert(ui->label_cluster_relations->wordWrap());
+  assert(ui->label_cluster_relations->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByMouse);
+  assert(ui->label_cluster_relations->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByKeyboard);
+
   DisplayHeading(node);
   PutExamplesInList(node);
   DisplayEdges(conceptmap, node);
@@ -76,7 +84,6 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
     }
   }
   s += "</ul>";
-  ui->label_cluster_relations->setWordWrap(true);
   ui->label_cluster_relations->setText(s.c_str());
 }
 
@@ -152,10 +159,5 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
     ;
   }
   s += "</ul>";
-  ui->label_concept_examples->setWordWrap(true);
   ui->label_concept_examples->setText(s.c_str());
-  ui->label_concept_examples->setTextInteractionFlags(
-    Qt::TextInteractionFlag::TextSelectableByMouse |
-    Qt::TextInteractionFlag::TextSelectableByKeyboard
-  );
 }

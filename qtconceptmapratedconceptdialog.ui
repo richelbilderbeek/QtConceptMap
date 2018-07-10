@@ -65,12 +65,24 @@
         <property name="text">
          <string>Voorbeelden/toelichtingen bij concept:</string>
         </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_cluster_relations">
         <property name="text">
          <string>Relaties bij het cluster:</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
         </property>
        </widget>
       </item>
