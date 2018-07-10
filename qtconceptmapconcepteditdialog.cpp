@@ -53,31 +53,46 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   //Add the name
   ui->edit_concept->setPlainText(concept.GetName().c_str());
   //Add the examples
+  ui->examples_widget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  const int n_examples = CountExamples(concept);
   const auto& examples = concept.GetExamples().Get();
-  const int n_examples = examples.size();
-  ui->list_examples->setWordWrap(true);
-  ui->list_examples->setRowCount(n_examples);
+  ui->examples_widget->setWordWrap(true);
+  ui->examples_widget->setRowCount(n_examples);
   for (int i = 0; i != n_examples; ++i)
   {
     const auto& example = examples[i];
     QTableWidgetItem * const item = new QTableWidgetItem(example.GetText().c_str());
-    ui->list_examples->setItem(i, 0, item);
+    ui->examples_widget->setItem(i, 0, item);
   }
-  assert(ui->list_examples->verticalHeader());
-  if (n_examples)
-  {
-    ui->list_examples->verticalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-  }
-  assert(ui->list_examples->isEnabled());
-  QObject::connect(
-    ui->list_examples,
+  //showEvent will fit content to QTableWidgetItem
+
+  //Connect signals and slots
+  connect(
+    ui->examples_widget,
     SIGNAL(itemChanged(QTableWidgetItem*)),
     this,
     SLOT(RemoveEmptyItem(QTableWidgetItem*))
   );
+  connect(
+    ui->button_ok,
+    SIGNAL(clicked(bool)),
+    this,
+    SLOT(close())
+  );
+  //connect(ui->examples_widget, SIGNAL(cellChanged(int,int)),
+  //  ui->examples_widget, SLOT(resizeRowsToContents())
+  //);
+  /*
+  connect(
+    ui->examples_widget->horizontalHeader(),
+    SIGNAL(sectionResized(int, int, int)),
+    ui->examples_widget,
+    SLOT(resizeRowsToContents())
+  );
+  */
 }
 
-ribi::cmap::QtConceptMapConceptEditDialog::~QtConceptMapConceptEditDialog() noexcept
+ribi::cmap::QtConceptMapConceptEditDialog::~QtConceptMapConceptEditDialog()
 {
   delete ui;
 }
@@ -91,7 +106,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
     && e->modifiers() & Qt::AltModifier
   )
   {
-    on_button_ok_clicked();
+    close();
     return;
   }
 
@@ -103,23 +118,28 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
   auto * const new_item = new QTableWidgetItem(
     ui->edit_text->toPlainText()
   );
-  const int cur_row_count = ui->list_examples->rowCount();
-  assert(ui->list_examples);
-  ui->list_examples->insertRow(cur_row_count + 1);
-  ui->list_examples->setRowCount(cur_row_count + 1);
-  ui->list_examples->setItem(cur_row_count, 0, new_item);
-  ui->list_examples->verticalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+  assert(ui->examples_widget);
+  const int cur_row_count = ui->examples_widget->rowCount();
+  ui->examples_widget->setRowCount(cur_row_count + 1);
+  ui->examples_widget->setItem(cur_row_count, 0, new_item);
+  ui->examples_widget->resizeRowsToContents();
   ui->edit_text->clear();
   ui->edit_text->setFocus();
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog::RemoveEmptyItem(QTableWidgetItem * item)
+void ribi::cmap::QtConceptMapConceptEditDialog
+  ::RemoveEmptyItem(QTableWidgetItem * item)
 {
   if (item->text().isEmpty())
   {
-    delete item;
+    ui->examples_widget->removeRow(item->row());
     this->update();
   }
+}
+
+void ribi::cmap::QtConceptMapConceptEditDialog::showEvent(QShowEvent *)
+{
+  ui->examples_widget->resizeRowsToContents();
 }
 
 ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const noexcept
@@ -129,10 +149,10 @@ ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const
   //Examples
   std::vector<Example> v;
 
-  const int n_items = ui->list_examples->rowCount();
+  const int n_items = ui->examples_widget->rowCount();
   for (int i=0; i != n_items; ++i)
   {
-    const auto* const item = ui->list_examples->item(i, 0);
+    const auto* const item = ui->examples_widget->item(i, 0);
     const Example p(
       item->text().toStdString()
     );
@@ -140,9 +160,4 @@ ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const
   }
   assert(n_items == boost::numeric_cast<int>(v.size()));
   return Concept(name, Examples(v));
-}
-
-void ribi::cmap::QtConceptMapConceptEditDialog::on_button_ok_clicked()
-{
-  close();
 }

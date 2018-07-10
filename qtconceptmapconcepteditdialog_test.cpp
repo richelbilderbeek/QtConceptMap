@@ -20,17 +20,31 @@
 using namespace ribi::cmap;
 
 void ribi::cmap::QtConceptMapConceptEditDialogTest
-  ::add_should_not_close_the_dialog()
+  ::construction_concept_with_one_example()
 {
-  auto * const d = new QtConceptMapConceptEditDialog(
+  QtConceptMapConceptEditDialog d(
+    ConceptFactory().Get1()
+  );
+  d.show();
+}
+
+void ribi::cmap::QtConceptMapConceptEditDialogTest
+  ::construction_concept_with_two_examples()
+{
+  QtConceptMapConceptEditDialog d(
+    ConceptFactory().Get2()
+  );
+  d.show();
+}
+
+
+void ribi::cmap::QtConceptMapConceptEditDialogTest
+  ::construction_concept_without_examples()
+{
+  QtConceptMapConceptEditDialog d(
     ConceptFactory().Get0()
   );
-  d->show();
-  QVERIFY(d->isVisible());
-  d->ui->button_add->click();
-  QVERIFY(d->isVisible());
-  d->ui->button_ok->click();
-  QVERIFY(!d->isVisible());
+  d.show();
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialogTest
@@ -42,10 +56,10 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
     QtConceptMapConceptEditDialog d(concept);
     QVERIFY(d.ui->edit_text->toPlainText().isEmpty());
     d.ui->edit_text->setPlainText("TO BE ADDED EXAMPLE");
-    d.on_button_add_clicked(); //Should add
-    d.on_button_ok_clicked();
+    d.on_button_add_clicked(); //Adds text
     const Concept after(d.GetConcept());
-    QVERIFY(concept != after);
+    QVERIFY(concept.GetName() == after.GetName());
+    QVERIFY(CollectExamplesTexts(concept) != CollectExamplesTexts(after));
   }
 }
 
@@ -59,9 +73,9 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   {
     QtConceptMapConceptEditDialog d(concept);
     d.ui->edit_concept->setPlainText(d.ui->edit_concept->toPlainText() + "MODIFICATION");
-    d.on_button_ok_clicked();
     const Concept after(d.GetConcept());
-    QVERIFY(concept != after);
+    QVERIFY(concept.GetName() != after.GetName());
+    QVERIFY(CollectExamplesTexts(concept) == CollectExamplesTexts(after));
   }
 }
 
@@ -73,8 +87,6 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   for (const auto concept: ConceptFactory().GetTests())
   {
     QtConceptMapConceptEditDialog d(concept);
-    //Do nothing...
-    d.on_button_ok_clicked();
     const Concept after(d.GetConcept());
     QVERIFY(concept.GetName() == after.GetName());
     QVERIFY(CollectExamplesTexts(concept) == CollectExamplesTexts(after));

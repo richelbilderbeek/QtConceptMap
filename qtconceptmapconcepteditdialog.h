@@ -1,17 +1,9 @@
 #ifndef QTCONCEPTMAPCONCEPTEDITDIALOG_H
 #define QTCONCEPTMAPCONCEPTEDITDIALOG_H
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include <QDialog>
-//#include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
 struct QTableWidgetItem;
-#pragma GCC diagnostic pop
-
-struct QListWidgetItem;
 
 namespace Ui { class QtConceptMapConceptEditDialog; }
 
@@ -33,26 +25,19 @@ public:
   );
   QtConceptMapConceptEditDialog(const QtConceptMapConceptEditDialog&) = delete;
   QtConceptMapConceptEditDialog& operator=(const QtConceptMapConceptEditDialog&) = delete;
-  ~QtConceptMapConceptEditDialog() noexcept;
+  ~QtConceptMapConceptEditDialog();
 
   ///The concept being modified
   Concept GetConcept() const noexcept { return ToConcept(); }
   Concept ToConcept() const noexcept;
 
-  const Ui::QtConceptMapConceptEditDialog * GetUi() const noexcept { return ui; }
-        Ui::QtConceptMapConceptEditDialog * GetUi()       noexcept { return ui; }
-
-public slots:
-
-  void on_button_add_clicked();
-  void on_button_ok_clicked();
-
 protected:
   void keyPressEvent(QKeyEvent *);
 
 private slots:
+  void on_button_add_clicked();
   void RemoveEmptyItem(QTableWidgetItem * item);
-
+  void showEvent(QShowEvent *);
 
 private:
   Ui::QtConceptMapConceptEditDialog *ui;

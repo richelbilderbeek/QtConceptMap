@@ -12,7 +12,9 @@ class QtConceptMapConceptEditDialogTest : public QObject
 
 private slots:
 
-  void add_should_not_close_the_dialog(); //Brainweaver #118
+  void construction_concept_without_examples();
+  void construction_concept_with_one_example();
+  void construction_concept_with_two_examples();
 
   void press_ok_with_changing_examples_should_result_in_changed_concept();
   void press_ok_with_changing_name_should_result_in_changed_concept();
