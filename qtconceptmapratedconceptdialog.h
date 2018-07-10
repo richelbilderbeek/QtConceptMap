@@ -38,14 +38,9 @@ public:
   ///work before an assessor has rated his/her work
   void HideRating() noexcept;
 
-private slots:
-  void DoResizeLists() noexcept;
-
 private:
   Ui::QtConceptMapRatedConceptDialog *ui;
-  QTimer * const m_timer;
 
-  void AddExamples(const Edge& edge) noexcept;
   void DisplayEdges(const ConceptMap& conceptmap, const Node& node) noexcept;
   void DisplayHeading(const Node& node) noexcept;
 
