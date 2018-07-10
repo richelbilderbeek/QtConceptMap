@@ -165,11 +165,17 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 
     const Edge edge = GetEdge(*ed, map);
     const Concept concept = edge.GetNode().GetConcept();
-    rows.push_back( { *ed, concept, -1 } );
+    rows.push_back(
+      std::make_tuple(*ed, concept, -1)
+      //{ *ed, concept, -1 } //Does not work on MXE
+    );
     const int n_examples = CountExamples(concept);
     for (int i=0; i!=n_examples; ++i)
     {
-      rows.push_back( { *ed, concept, i } );
+      rows.push_back(
+        std::make_tuple(*ed, concept, i)
+        //{ *ed, concept, i } //Does not work on MXE
+      );
     }
   }
   return rows;
