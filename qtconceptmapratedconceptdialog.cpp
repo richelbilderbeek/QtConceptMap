@@ -121,10 +121,8 @@ std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetFromArrowText(
   const Edge& edge, const ConceptMap& conceptmap
 ) const noexcept
 {
-  const std::string first_arrow
-    = edge.HasTailArrow() ? "<- " : "-- ";
-  const std::string second_arrow
-    = edge.HasHeadArrow() ? " -> " : " -- ";
+  const std::string first_arrow  = edge.HasTailArrow() ? "&larr; " : "&mdash; ";
+  const std::string second_arrow = edge.HasHeadArrow() ? " &rarr; " : " &mdash; ";
   return first_arrow
     + edge.GetNode().GetConcept().GetName()
     + second_arrow
@@ -136,8 +134,8 @@ std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetToArrowText(
   const Edge& edge, const ConceptMap& conceptmap
 ) const noexcept
 {
-  const std::string first_arrow  = edge.HasHeadArrow() ? "<- " : "-- ";
-  const std::string second_arrow = edge.HasTailArrow() ? " -> " : " -- ";
+  const std::string first_arrow  = edge.HasHeadArrow() ? "&larr; " : "&mdash; ";
+  const std::string second_arrow = edge.HasTailArrow() ? " &rarr; " : " &mdash; ";
   return first_arrow
     + edge.GetNode().GetConcept().GetName()
     + second_arrow
