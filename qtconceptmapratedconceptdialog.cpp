@@ -51,9 +51,7 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
   const Node& node
 ) noexcept
 {
-  std::string s = "<b>Relaties bij het cluster:</b>\n"
-    "<ul>\n"
-  ;
+  std::string s;
   for (const Edge& edge: GetEdges(conceptmap))
   {
     //Do not display edges connected to the center node,
@@ -83,8 +81,18 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
       }
     }
   }
-  s += "</ul>";
-  ui->label_cluster_relations->setText(s.c_str());
+
+  std::string text = "<b>Relaties bij het cluster: </b>";
+  if (s.empty())
+  {
+    text += "geen";
+  }
+  else
+  {
+    text += "\n<ul>\n" + s += "</ul>";
+  }
+
+  ui->label_cluster_relations->setText(text.c_str());
 }
 
 void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(const Node& node) noexcept
@@ -148,16 +156,23 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
   const Node& node
 ) noexcept
 {
-  std::string s =
-    "<b>Voorbeelden/toelichtingen bij concept:</b>\n"
-    "<ul>\n"
-  ;
-  for (const Example& example: node.GetConcept().GetExamples().Get())
+  std::string s = "<b>Voorbeelden/toelichtingen bij concept: </b>";
+  if (CountExamples(node) == 0)
   {
-    s += "  <li>(" + CompetencyToStrDutch(example.GetCompetency())
-      + ") " + example.GetText() + "</li>\n";
-    ;
+    s += "geen";
   }
-  s += "</ul>";
+  else
+  {
+    s += "\n<ul>\n"
+    ;
+    for (const Example& example: node.GetConcept().GetExamples().Get())
+    {
+      s += "  <li>(" + CompetencyToStrDutch(example.GetCompetency())
+        + ") " + example.GetText() + "</li>\n";
+      ;
+    }
+    s += "</ul>";
+
+  }
   ui->label_concept_examples->setText(s.c_str());
 }
