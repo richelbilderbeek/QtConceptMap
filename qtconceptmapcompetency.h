@@ -2,16 +2,16 @@
 #define QTCONCEPTMAPCOMPETENCY_H
 
 #include <map>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include <QColor>
 #include <QIcon>
 #include "conceptmapcompetency.h"
 
 #include "qtconceptmapfwd.h"
-#pragma GCC diagnostic pop
+
 
 namespace ribi {
 namespace cmap {

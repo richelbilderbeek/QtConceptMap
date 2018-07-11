@@ -1,15 +1,15 @@
 #ifndef QTCONCEPTMAPRATECONCEPTTALLYDIALOG_H
 #define QTCONCEPTMAPRATECONCEPTTALLYDIALOG_H
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include <QDialog>
 //#include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmap.h"
-#pragma GCC diagnostic pop
+
 
 struct QTableWidgetItem;
 namespace Ui { class QtRateConceptTallyDialog; }

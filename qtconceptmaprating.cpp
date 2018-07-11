@@ -1,7 +1,7 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "qtconceptmaprating.h"
 
 #include <cassert>
@@ -12,7 +12,7 @@
 #include "conceptmapconcept.h"
 #include "conceptmapexamples.h"
 #include "get_my_bundled_vertex.h"
-#pragma GCC diagnostic pop
+
 
 int ribi::cmap::Rating::SuggestComplexity(
   const int n_edges,

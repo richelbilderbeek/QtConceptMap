@@ -14,10 +14,10 @@
 #include "conceptmapexamples.h"
 #include "conceptmapnode.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
+
+
 #include "ui_qtconceptmapratedconceptdialog.h"
-#pragma GCC diagnostic pop
+
 
 ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
   const ConceptMap& conceptmap,

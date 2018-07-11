@@ -1,7 +1,7 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "qtconceptmapconcepteditdialog.h"
 
 #include <cassert>
@@ -24,7 +24,7 @@
 #include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmapconcepteditdialog.h"
 
-#pragma GCC diagnostic pop
+
 
 ///QTreeWidgetItem with the only function of storing a
 ///cmap::Competency additionally, only used in testing

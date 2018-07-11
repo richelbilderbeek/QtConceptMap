@@ -1,5 +1,5 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
+
+
 #include "qtconceptmaprateexamplesdialog.h"
 
 #include <QDesktopWidget>
@@ -15,7 +15,7 @@
 
 
 #include "ui_qtconceptmaprateexamplesdialog.h"
-#pragma GCC diagnostic pop
+
 
 struct QtConceptMapListWidgetItem : public QListWidgetItem
 {

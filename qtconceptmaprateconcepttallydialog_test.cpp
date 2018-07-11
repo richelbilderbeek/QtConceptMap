@@ -27,7 +27,7 @@
 #include "qtconceptmaprating.h"
 
 #include "ui_qtconceptmaprateconcepttallydialog.h"
-#pragma GCC diagnostic pop
+
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_empty_conceptmap()
 {

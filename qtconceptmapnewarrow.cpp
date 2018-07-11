@@ -1,7 +1,7 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "qtconceptmapnewarrow.h"
 
 #include <string>
@@ -18,7 +18,7 @@
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/linestring.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
-#pragma GCC diagnostic pop
+
 
 ribi::cmap::QtNewArrow::QtNewArrow()
   : QtArrowItem(0.0, 0.0, false, 0.0, 0.0, true),

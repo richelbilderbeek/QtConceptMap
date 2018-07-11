@@ -20,10 +20,10 @@
 
 #include "qtconceptmapexamplesdialog.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include <cassert>
 
 #include <boost/bind/bind.hpp>
@@ -40,10 +40,10 @@
 
 
 #include "ui_qtconceptmapexamplesdialog.h"
-#pragma GCC diagnostic pop
+
 
 ribi::cmap::QtExamplesDialog::QtExamplesDialog(QWidget *parent)
-  : QtHideAndShowDialog(parent),
+  : QDialog(parent),
     ui(new Ui::QtExamplesDialog),
     m_dialogs{},
     m_examples{}

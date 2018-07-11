@@ -1,15 +1,15 @@
 #ifndef QTCONCEPTMAPEXAMPLEDIALOG_H
 #define QTCONCEPTMAPEXAMPLEDIALOG_H
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-#include "qthideandshowdialog.h"
+
+
+
+
+#include <QDialog>
 #include "conceptmapexample.h"
 
 #include "qtconceptmapfwd.h"
-#pragma GCC diagnostic pop
+
 
 namespace Ui { class QtExampleDialog; }
 
@@ -17,7 +17,7 @@ namespace ribi {
 namespace cmap {
 
 ///Displays and modifies an Example
-class QtExampleDialog : public ribi::QtHideAndShowDialog
+class QtExampleDialog : public QDialog
 {
   Q_OBJECT //!OCLINT
 

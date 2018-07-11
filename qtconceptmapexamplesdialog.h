@@ -4,14 +4,14 @@
 #include <memory>
 #include <vector>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "conceptmapexamples.h"
-#include "qthideandshowdialog.h"
+#include <QDialog>
 #include "qtconceptmapfwd.h"
-#pragma GCC diagnostic pop
+
 
 namespace Ui { class QtExamplesDialog; }
 
@@ -19,7 +19,7 @@ namespace ribi {
 namespace cmap {
 
 ///Displays and modifies Examples
-class QtExamplesDialog : public ribi::QtHideAndShowDialog
+class QtExamplesDialog : public QDialog
 {
   Q_OBJECT //!OCLINT
 

@@ -1,7 +1,7 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "qtconceptmaprateconceptdialog.h"
 
 #include <boost/bind.hpp>
@@ -25,7 +25,7 @@
 #include "qtconceptmap.h"
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconceptdialog.h"
-#pragma GCC diagnostic pop
+
 
 
 ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(

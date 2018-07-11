@@ -1,5 +1,5 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
+
+
 #include "qtconceptmaprateconcepttallydialog.h"
 
 #include <cassert>
@@ -28,7 +28,7 @@
 #include "qtconceptmaprating.h"
 
 #include "ui_qtconceptmaprateconcepttallydialog.h"
-#pragma GCC diagnostic pop
+
 
 ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   const ConceptMap& conceptmap,

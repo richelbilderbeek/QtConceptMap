@@ -1,7 +1,7 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "qtconceptmapitemhighlighter.h"
 
 #include <boost/math/constants/constants.hpp>
@@ -10,7 +10,7 @@
 #include <QTimer>
 #include "qtconceptmapqtnode.h"
 
-#pragma GCC diagnostic pop
+
 
 ribi::cmap::QtItemHighlighter::QtItemHighlighter(QObject *parent)
   : QObject(parent),

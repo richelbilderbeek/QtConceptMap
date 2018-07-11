@@ -1,7 +1,7 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "qtconceptmapconceptdialog.h"
 
 #include <cassert>
@@ -17,10 +17,10 @@
 
 #include "ui_qtconceptmapconceptdialog.h"
 
-#pragma GCC diagnostic pop
+
 
 ribi::cmap::QtConceptDialog::QtConceptDialog(QWidget *parent) :
-  ribi::QtHideAndShowDialog(parent),
+  QDialog(parent),
   ui(new Ui::QtConceptDialog),
   m_concept{ConceptFactory().Create()},
   m_qtexamplesdialog{new QtExamplesDialog(this)}

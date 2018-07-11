@@ -1,7 +1,7 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+
+
+
+
 #include "qtconceptmapcompetency.h"
 
 #include <cassert>
@@ -12,7 +12,7 @@
 #include <QPixmap>
 
 #include "qtimage.h"
-#pragma GCC diagnostic pop
+
 
 ribi::cmap::QtCompetency::QtCompetency()
   : m_color_map{CreateColorMap()},
