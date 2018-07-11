@@ -1,7 +1,3 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmap.h"
 
 #include <iostream>
@@ -49,7 +45,6 @@
 #include "qtquadbezierarrowitem.h"
 #include "set_my_bundled_vertex.h"
 #include "set_vertex_selectedness.h"
-#pragma GCC diagnostic pop
 
 ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
   : QtKeyboardFriendlyGraphicsView(parent),

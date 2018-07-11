@@ -1,11 +1,6 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include "qtconceptmapbrushfactory.h"
 #include <cassert>
 #include <QLinearGradient>
-#pragma GCC diagnostic pop
 
 const int ribi::cmap::QtBrushFactory::sm_bottom = 10;
 const int ribi::cmap::QtBrushFactory::sm_left = -100;

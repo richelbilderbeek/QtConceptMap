@@ -1,12 +1,7 @@
 #ifndef QTCONCEPTMAPBRUSHFACTORY_H
 #define QTCONCEPTMAPBRUSHFACTORY_H
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 #include <QBrush>
-#pragma GCC diagnostic pop
 
 namespace ribi {
 namespace cmap {
