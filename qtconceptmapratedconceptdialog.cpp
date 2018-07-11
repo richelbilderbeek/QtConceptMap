@@ -1,6 +1,7 @@
 #include "qtconceptmapratedconceptdialog.h"
 
 #include <cassert>
+#include <sstream>
 
 #include <boost/lexical_cast.hpp>
 
@@ -154,23 +155,30 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
   const Node& node
 ) noexcept
 {
-  std::string s = "<b>Voorbeelden/toelichtingen bij concept: </b>";
+  std::stringstream s;
+  s << "<b>Voorbeelden/toelichtingen bij concept: </b>";
   if (CountExamples(node) == 0)
   {
-    s += "geen";
+    s << "geen";
   }
   else
   {
-    s += "\n<ul>\n"
+    s << "\n<ul>\n"
     ;
     for (const Example& example: node.GetConcept().GetExamples().Get())
     {
-      s += "  <li>(" + CompetencyToStrDutch(example.GetCompetency())
-        + ") " + example.GetText() + "</li>\n";
+      s << "  <li>"
+        << "(" + CompetencyToStrDutchShort(example.GetCompetency())
+        << " "
+        << (example.GetIsComplex() ? "X" : "")
+        << (example.GetIsSpecific() ? "S" : "")
+        << (example.GetIsConcrete() ? "C" : "")
+        << ") "
+        << example.GetText() + "</li>\n";
       ;
     }
-    s += "</ul>";
+    s << "</ul>";
 
   }
-  ui->label_concept_examples->setText(s.c_str());
+  ui->label_concept_examples->setText(s.str().c_str());
 }

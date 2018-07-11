@@ -1164,6 +1164,9 @@ void ribi::cmap::QtConceptMap::Respond()
   CheckInvariants(*this);
 }
 
+// void ribi::cmap::QtConceptMap::focusInEvent(
+//  QFocusEvent *event
+//)
 void ribi::cmap::QtConceptMap::onFocusItemChanged(
   QGraphicsItem * newFocus, QGraphicsItem */*oldFocus*/, Qt::FocusReason reason
 )
