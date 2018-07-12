@@ -68,11 +68,21 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
       //Dependent on arrow
       if (GetFrom(edge, conceptmap) == node && !IsCenterNode(GetTo(edge, conceptmap)))
       {
-        s << "  <li>" << GetFromArrowText(edge, conceptmap) << "</li>\n";
+        s << "  <li>"
+          << "(" << (GetIsComplex(edge) ? "X" : ".")
+          << ") "
+          << GetFromArrowText(edge, conceptmap)
+          << "</li>\n"
+        ;
       }
       else if (GetTo(edge, conceptmap) == node)
       {
-        s << "  <li>" << GetToArrowText(edge, conceptmap) << "</li>\n";
+        s << "  <li>"
+          << "(" << (GetIsComplex(edge) ? "X" : ".")
+          << ") "
+          << GetToArrowText(edge, conceptmap)
+          << "</li>\n"
+        ;
       }
       //Indendent on arrow: all examples
       for (const Example& example: GetExamples(edge).Get())
