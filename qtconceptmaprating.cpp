@@ -1,7 +1,8 @@
 #include "qtconceptmaprating.h"
 
 #include <cassert>
-#include <boost/numeric/conversion/cast.hpp>
+#include <cmath>
+//#include <boost/numeric/conversion/cast.hpp>
 
 #include "conceptmap.h"
 #include "conceptmapnode.h"
@@ -39,7 +40,12 @@ std::map<std::pair<int, int>, int> ribi::cmap::CreateDefaultRatingComplexity() n
     { {2, 1}, 2 },
     { {2, 2}, 2 },
     { {2, 3}, 2 },
-    { {2, 4}, 2 }
+    { {2, 4}, 2 },
+    { {3, 0}, 2 },
+    { {3, 1}, 2 },
+    { {3, 2}, 2 },
+    { {3, 3}, 2 },
+    { {3, 4}, 2 }
   };
 }
 
@@ -61,10 +67,12 @@ int ribi::cmap::Rating::SuggestComplexity(
   const VertexDescriptor& vd
 ) const noexcept
 {
-  const int n_edges = boost::num_edges(sub_conceptmap);
+  const int n_edges = std::min(3, static_cast<int>(boost::num_edges(sub_conceptmap)));
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const int n_examples = CountExamples(sub_conceptmap[vd]);
-  return ::ribi::cmap::SuggestComplexity(n_edges, n_examples);
+  const int n_examples = std::min(4, CountExamples(sub_conceptmap[vd]));
+  const auto iter = m_rating_complexity.find( { n_edges, n_examples} );
+  assert(iter != std::end(m_rating_complexity));
+  return iter->second;
 }
 
 int ribi::cmap::SuggestConcreteness(const int n_examples) noexcept
