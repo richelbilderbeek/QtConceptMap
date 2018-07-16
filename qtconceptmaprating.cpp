@@ -1,7 +1,3 @@
-
-
-
-
 #include "qtconceptmaprating.h"
 
 #include <cassert>
@@ -13,11 +9,44 @@
 #include "conceptmapexamples.h"
 #include "get_my_bundled_vertex.h"
 
+ribi::cmap::Rating::Rating(
+  const std::map<std::pair<int, int>, int>& rating_complexity
+)
+  : m_rating_complexity{rating_complexity},
+    m_rating_concreteness{},
+    m_rating_specificity{}
+{
 
-int ribi::cmap::Rating::SuggestComplexity(
+}
+
+std::map<std::pair<int, int>, int> ribi::cmap::CreateDefaultRatingComplexity() noexcept
+{
+  //first: number of edges
+  //second: number of examples
+  return
+  {
+    { {0, 0}, 0 },
+    { {0, 1}, 0 },
+    { {0, 2}, 0 },
+    { {0, 3}, 0 },
+    { {0, 4}, 0 },
+    { {1, 0}, 0 },
+    { {1, 1}, 1 },
+    { {1, 2}, 1 },
+    { {1, 3}, 1 },
+    { {1, 4}, 1 },
+    { {2, 0}, 1 },
+    { {2, 1}, 2 },
+    { {2, 2}, 2 },
+    { {2, 3}, 2 },
+    { {2, 4}, 2 }
+  };
+}
+
+int ribi::cmap::SuggestComplexity(
   const int n_edges,
   const int n_examples
-) const noexcept
+) noexcept
 {
   return n_edges == 0  || (n_edges == 1 && n_examples == 0)
     ? 0
@@ -34,11 +63,11 @@ int ribi::cmap::Rating::SuggestComplexity(
 {
   const int n_edges = boost::num_edges(sub_conceptmap);
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
-  return SuggestComplexity(n_edges,n_examples);
+  const int n_examples = CountExamples(sub_conceptmap[vd]);
+  return SuggestComplexity(n_edges, n_examples);
 }
 
-int ribi::cmap::Rating::SuggestConcreteness(const int n_examples) const noexcept
+int ribi::cmap::SuggestConcreteness(const int n_examples) noexcept
 {
   return n_examples < 2
     ? 0
@@ -55,10 +84,10 @@ int ribi::cmap::Rating::SuggestConcreteness(
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
   const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
-  return SuggestConcreteness(n_examples);
+  return ::ribi::cmap::SuggestConcreteness(n_examples);
 }
 
-int ribi::cmap::Rating::SuggestSpecificity(const int n_examples) const noexcept
+int ribi::cmap::SuggestSpecificity(const int n_examples) noexcept
 {
   return SuggestConcreteness(n_examples);
 }
@@ -70,5 +99,5 @@ int ribi::cmap::Rating::SuggestSpecificity(
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
   const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
-  return SuggestSpecificity(n_examples);
+  return ::ribi::cmap::SuggestSpecificity(n_examples);
 }
