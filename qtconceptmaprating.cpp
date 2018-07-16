@@ -64,7 +64,7 @@ int ribi::cmap::Rating::SuggestComplexity(
   const int n_edges = boost::num_edges(sub_conceptmap);
   assert(boost::num_vertices(sub_conceptmap) > 0);
   const int n_examples = CountExamples(sub_conceptmap[vd]);
-  return SuggestComplexity(n_edges, n_examples);
+  return ::ribi::cmap::SuggestComplexity(n_edges, n_examples);
 }
 
 int ribi::cmap::SuggestConcreteness(const int n_examples) noexcept

@@ -5,7 +5,7 @@
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::show_normal_concept_map()
 {
-  ConceptMap m = ConceptMapFactory().Get2();
+  ConceptMap m = ConceptMapFactory().Get3();
   QtRateConceptDialog d(m);
   d.show();
 }

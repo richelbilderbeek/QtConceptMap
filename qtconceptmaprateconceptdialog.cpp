@@ -80,26 +80,40 @@ ribi::cmap::QtRateConceptDialog::~QtRateConceptDialog() noexcept
 
 void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
 {
+  if (boost::num_vertices(m_conceptmap) > 0)
   {
-    const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(
-        cmap::Rating().SuggestComplexity(m_conceptmap,*vertices(m_conceptmap).first)
-      );
-    ui->box_complexity->setToolTip(s.c_str());
+    assert(boost::num_vertices(m_conceptmap) > 0);
+    const auto vd = *vertices(m_conceptmap).first;
+    {
+      assert(boost::num_vertices(m_conceptmap) > 0);
+      const QString s = "Formeel uitgangspunt: "
+        + QString::number(
+          cmap::Rating().SuggestComplexity(m_conceptmap, vd)
+        );
+      ui->box_complexity->setToolTip(s);
+    }
+    {
+      assert(boost::num_vertices(m_conceptmap) > 0);
+      const QString s = "Formeel uitgangspunt: "
+        + QString::number(
+          cmap::Rating().SuggestConcreteness(m_conceptmap, vd)
+        );
+      ui->box_concreteness->setToolTip(s);
+    }
+    {
+      assert(boost::num_vertices(m_conceptmap) > 0);
+      const QString s = "Formeel uitgangspunt: "
+        + QString::number(
+          cmap::Rating().SuggestSpecificity(m_conceptmap, vd)
+        );
+      ui->box_specificity->setToolTip(s);
+    }
   }
+  else
   {
-    const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(
-        cmap::Rating().SuggestConcreteness(m_conceptmap,*vertices(m_conceptmap).first)
-      );
-    ui->box_concreteness->setToolTip(s.c_str());
-  }
-  {
-    const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(
-        cmap::Rating().SuggestSpecificity(m_conceptmap,*vertices(m_conceptmap).first)
-      );
-    ui->box_specificity->setToolTip(s.c_str());
+    ui->box_complexity->setToolTip("Formeel uitgangspunt: -");
+    ui->box_concreteness->setToolTip("Formeel uitgangspunt: -");
+    ui->box_specificity->setToolTip("Formeel uitgangspunt: -");
   }
 }
 
