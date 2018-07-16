@@ -9,11 +9,17 @@ namespace cmap {
 
 std::map<std::pair<int, int>, int> CreateDefaultRatingComplexity() noexcept;
 
+std::map<int, int> CreateDefaultRatingConcreteness() noexcept;
+
+std::map<int, int> CreateDefaultRatingSpecificity() noexcept;
+
 ///Functions to help with rating
 struct Rating
 {
   Rating(
-    const std::map<std::pair<int, int>, int>& rating_complexity = CreateDefaultRatingComplexity()
+    const std::map<std::pair<int, int>, int>& rating_complexity = CreateDefaultRatingComplexity(),
+    const std::map<int, int>& rating_concreteness = CreateDefaultRatingConcreteness(),
+    const std::map<int, int>& rating_specificity = CreateDefaultRatingSpecificity()
   );
 
   ///Calculate a suggested complexity

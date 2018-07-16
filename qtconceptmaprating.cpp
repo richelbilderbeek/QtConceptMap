@@ -11,19 +11,20 @@
 #include "get_my_bundled_vertex.h"
 
 ribi::cmap::Rating::Rating(
-  const std::map<std::pair<int, int>, int>& rating_complexity
+  const std::map<std::pair<int, int>, int>& rating_complexity,
+  const std::map<int, int>& rating_concreteness,
+  const std::map<int, int>& rating_specificity
 )
   : m_rating_complexity{rating_complexity},
-    m_rating_concreteness{},
-    m_rating_specificity{}
+    m_rating_concreteness{rating_concreteness},
+    m_rating_specificity{rating_specificity}
 {
 
 }
 
 std::map<std::pair<int, int>, int> ribi::cmap::CreateDefaultRatingComplexity() noexcept
 {
-  //first: number of edges
-  //second: number of examples
+  // { {number of edges, number of examples}, score }
   return
   {
     { {0, 0}, 0 },
@@ -49,6 +50,31 @@ std::map<std::pair<int, int>, int> ribi::cmap::CreateDefaultRatingComplexity() n
   };
 }
 
+std::map<int, int> ribi::cmap::CreateDefaultRatingConcreteness() noexcept
+{
+  // { n_examples, score }
+  return
+  {
+    {0, 0},
+    {1, 0},
+    {2, 1},
+    {3, 1},
+    {4, 2}
+  };
+}
+
+std::map<int, int> ribi::cmap::CreateDefaultRatingSpecificity() noexcept
+{
+  // { n_examples, score }
+  return
+  {
+    {0, 0},
+    {1, 0},
+    {2, 1},
+    {3, 1},
+    {4, 2}
+  };
+}
 int ribi::cmap::SuggestComplexity(
   const int n_edges,
   const int n_examples
@@ -72,6 +98,7 @@ int ribi::cmap::Rating::SuggestComplexity(
   const int n_examples = std::min(4, CountExamples(sub_conceptmap[vd]));
   const auto iter = m_rating_complexity.find( { n_edges, n_examples} );
   assert(iter != std::end(m_rating_complexity));
+  assert(iter->second == ::ribi::cmap::SuggestComplexity(n_edges, n_examples));
   return iter->second;
 }
 
@@ -91,8 +118,12 @@ int ribi::cmap::Rating::SuggestConcreteness(
 ) const noexcept
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
-  return ::ribi::cmap::SuggestConcreteness(n_examples);
+  const int n_examples = CountExamples(sub_conceptmap[vd]);
+
+  const auto iter = m_rating_concreteness.find(n_examples);
+  assert(iter != std::end(m_rating_concreteness));
+  assert(iter->second == ::ribi::cmap::SuggestConcreteness(n_examples));
+  return iter->second;
 }
 
 int ribi::cmap::SuggestSpecificity(const int n_examples) noexcept
@@ -106,6 +137,9 @@ int ribi::cmap::Rating::SuggestSpecificity(
 ) const noexcept
 {
   assert(boost::num_vertices(sub_conceptmap) > 0);
-  const int n_examples = CountExamples(get_my_bundled_vertex(vd, sub_conceptmap));
-  return ::ribi::cmap::SuggestSpecificity(n_examples);
+  const int n_examples = CountExamples(sub_conceptmap[vd]);
+  const auto iter = m_rating_specificity.find(n_examples);
+  assert(iter != std::end(m_rating_specificity));
+  assert(iter->second == ::ribi::cmap::SuggestSpecificity(n_examples));
+  return iter->second;
 }
