@@ -42,7 +42,7 @@ struct Rating
   ) const noexcept;
 
   private:
-  const std::map<std::pair<int, int>, int> m_rating_complexity;
+  std::map<std::pair<int, int>, int> m_rating_complexity;
   std::map<int, int> m_rating_concreteness;
   std::map<int, int> m_rating_specificity;
 };
