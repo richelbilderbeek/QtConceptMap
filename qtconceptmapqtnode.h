@@ -44,6 +44,10 @@ struct QtNode : public QtRoundedEditRectItem
 
   const auto& GetExamples() const noexcept { return m_examples; }
   int GetId() const noexcept { return m_id; }
+
+  ///The concept on an edge (only) being complex,
+  ///as rated by an assessor.
+  ///This is different than an example being complex.
   auto GetIsComplex() const noexcept { return m_is_complex; }
   int GetRatingComplexity() const noexcept { return m_rating_complexity; }
   int GetRatingConcreteness() const noexcept { return m_rating_concreteness; }

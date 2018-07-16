@@ -26,16 +26,15 @@
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconceptdialog.h"
 
-
-
 ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   const ConceptMap conceptmap,
+  const Rating& rating,
   QWidget* parent)
   : QDialog(parent),
     ui(new Ui::QtRateConceptDialog),
     m_button_ok_clicked(false),
     m_conceptmap(conceptmap),
-    m_widget(new QtConceptMap)
+    m_widget(new QtConceptMap(rating))
 {
   if (!boost::num_vertices(conceptmap))
   {
@@ -80,26 +79,40 @@ ribi::cmap::QtRateConceptDialog::~QtRateConceptDialog() noexcept
 
 void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
 {
+  if (boost::num_vertices(m_conceptmap) > 0)
   {
-    const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(
-        cmap::Rating().SuggestComplexity(m_conceptmap,*vertices(m_conceptmap).first)
-      );
-    ui->box_complexity->setToolTip(s.c_str());
+    const auto& rating = m_widget->GetRating();
+
+    // Without vertices, there is no valid vertex descriptor
+    assert(boost::num_vertices(m_conceptmap) > 0);
+    const auto vd = *vertices(m_conceptmap).first;
+    {
+      const QString s = "Formeel uitgangspunt: "
+        + QString::number(
+          rating.SuggestComplexity(m_conceptmap, vd)
+        );
+      ui->box_complexity->setToolTip(s);
+    }
+    {
+      const QString s = "Formeel uitgangspunt: "
+        + QString::number(
+          rating.SuggestConcreteness(m_conceptmap, vd)
+        );
+      ui->box_concreteness->setToolTip(s);
+    }
+    {
+      const QString s = "Formeel uitgangspunt: "
+        + QString::number(
+          rating.SuggestSpecificity(m_conceptmap, vd)
+        );
+      ui->box_specificity->setToolTip(s);
+    }
   }
+  else
   {
-    const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(
-        cmap::Rating().SuggestConcreteness(m_conceptmap,*vertices(m_conceptmap).first)
-      );
-    ui->box_concreteness->setToolTip(s.c_str());
-  }
-  {
-    const std::string s = "Formeel uitgangspunt: "
-      + boost::lexical_cast<std::string>(
-        cmap::Rating().SuggestSpecificity(m_conceptmap,*vertices(m_conceptmap).first)
-      );
-    ui->box_specificity->setToolTip(s.c_str());
+    ui->box_complexity->setToolTip("Formeel uitgangspunt: -");
+    ui->box_concreteness->setToolTip("Formeel uitgangspunt: -");
+    ui->box_specificity->setToolTip("Formeel uitgangspunt: -");
   }
 }
 

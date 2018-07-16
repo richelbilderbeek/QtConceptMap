@@ -1,6 +1,7 @@
 #include "qtconceptmapratedconceptdialog.h"
 
 #include <cassert>
+#include <sstream>
 
 #include <boost/lexical_cast.hpp>
 
@@ -22,6 +23,7 @@
 ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
   const ConceptMap& conceptmap,
   const Node& node,
+  const Role role,
   QWidget *parent)
   : QDialog(parent),
     ui(new Ui::QtConceptMapRatedConceptDialog)
@@ -32,13 +34,14 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
   assert(ui->label_concept_examples->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByMouse);
   assert(ui->label_concept_examples->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByKeyboard);
 
+
   assert(ui->label_cluster_relations->wordWrap());
   assert(ui->label_cluster_relations->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByMouse);
   assert(ui->label_cluster_relations->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByKeyboard);
 
-  DisplayHeading(node);
-  PutExamplesInList(node);
-  DisplayEdges(conceptmap, node);
+  DisplayHeading(node, role);
+  PutExamplesInList(node, role);
+  DisplayEdges(conceptmap, node, role);
 }
 
 ribi::cmap::QtConceptMapRatedConceptDialog::~QtConceptMapRatedConceptDialog()
@@ -48,10 +51,11 @@ ribi::cmap::QtConceptMapRatedConceptDialog::~QtConceptMapRatedConceptDialog()
 
 void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
   const ConceptMap& conceptmap,
-  const Node& node
+  const Node& node,
+  const Role role
 ) noexcept
 {
-  std::string s;
+  std::stringstream s;
   for (const Edge& edge: GetEdges(conceptmap))
   {
     //Do not display edges connected to the center node,
@@ -67,54 +71,98 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
       //Dependent on arrow
       if (GetFrom(edge, conceptmap) == node && !IsCenterNode(GetTo(edge, conceptmap)))
       {
-        s += "  <li>" + GetFromArrowText(edge, conceptmap) + "</li>\n";
+        s << "  <li>";
+        if (role == Role::assessor)
+        {
+          s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+        }
+        s << GetFromArrowText(edge, conceptmap)
+          << "</li>\n"
+        ;
       }
       else if (GetTo(edge, conceptmap) == node)
       {
-        s += "  <li>" + GetToArrowText(edge, conceptmap) + "</li>\n";
+        s << "  <li>";
+        if (role == Role::assessor)
+        {
+          s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+        }
+        s << GetToArrowText(edge, conceptmap)
+          << "</li>\n"
+        ;
       }
       //Indendent on arrow: all examples
-      const auto examples_texts = CollectExamplesTexts(edge);
-      for (const auto& example_text: examples_texts)
+      for (const Example& example: GetExamples(edge).Get())
       {
-        s += "  <li>" + example_text + "</li>\n";
+
+        s << "  <li>";
+        if (role == Role::assessor)
+        {
+          s << "(" + CompetencyToStrDutchShort(example.GetCompetency())
+            << " "
+            << (example.GetIsComplex() ? "X" : "")
+            << (example.GetIsSpecific() ? "S" : "")
+            << (example.GetIsConcrete() ? "C" : "")
+            << ") "
+          ;
+        }
+        s << example.GetText()
+          << "</li>\n"
+        ;
       }
     }
   }
 
-  std::string text = "<b>Relaties bij het cluster: </b>";
-  if (s.empty())
+  std::stringstream text;
+  text << "<b>Relaties bij het cluster: </b>";
+  if (s.str().empty())
   {
-    text += "geen";
+    text << "geen";
   }
   else
   {
-    text += "\n<ul>\n" + s += "</ul>";
+    text << "\n<ul>\n" << s.str() << "</ul>";
   }
 
-  ui->label_cluster_relations->setText(text.c_str());
+  ui->label_cluster_relations->setText(text.str().c_str());
 }
 
-void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(const Node& node) noexcept
+void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(
+  const Node& node,
+  const Role role) noexcept
 {
-  ui->label_name->setText(
-    ("Cluster bij concept: " + node.GetConcept().GetName()).c_str()
-  );
-  ui->label_complexity->setText(
-    ("Complexiteit: " + boost::lexical_cast<std::string>(
-      node.GetConcept().GetRatingComplexity())
-    ).c_str()
-  );
-  ui->label_concreteness->setText(
-    ("Concreetheid: " + boost::lexical_cast<std::string>(
-      node.GetConcept().GetRatingConcreteness())
-    ).c_str()
-  );
-  ui->label_specificity->setText(
-    ("Specificiteit: " + boost::lexical_cast<std::string>(
-      node.GetConcept().GetRatingSpecificity())
-    ).c_str()
-  );
+  {
+    std::stringstream s;
+    s << "Cluster bij concept: ";
+    if (role == Role::assessor)
+    {
+      s << "("
+        << "X:"
+        << (GetRatingComplexity(node) == -1 ? "?" : std::to_string(GetRatingComplexity(node)))
+        << ", "
+        << "S:"
+        << (GetRatingSpecificity(node) == -1 ? "?" : std::to_string(GetRatingSpecificity(node)))
+        << ", "
+        << "C:"
+        << (GetRatingConcreteness(node) == -1 ? "?" : std::to_string(GetRatingConcreteness(node)))
+        << ") "
+      ;
+    }
+    s << GetText(node);
+    ui->label_name->setText(s.str().c_str());
+  }
+  if (role == Role::assessor)
+  {
+    ui->label_complexity->setText("Complexiteit: " + QString::number(node.GetConcept().GetRatingComplexity()));
+    ui->label_concreteness->setText("Concreetheid: " + QString::number(node.GetConcept().GetRatingConcreteness()));
+    ui->label_specificity->setText("Specificiteit: " + QString::number(node.GetConcept().GetRatingSpecificity()));
+  }
+  else
+  {
+    ui->label_complexity->hide();
+    ui->label_concreteness->hide();
+    ui->label_specificity->hide();
+  }
 }
 
 std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetFromArrowText(
@@ -124,9 +172,9 @@ std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetFromArrowText(
   const std::string first_arrow  = edge.HasTailArrow() ? "&larr; " : "&mdash; ";
   const std::string second_arrow = edge.HasHeadArrow() ? " &rarr; " : " &mdash; ";
   return first_arrow
-    + edge.GetNode().GetConcept().GetName()
+    + GetText(edge)
     + second_arrow
-    + GetTo(edge, conceptmap).GetConcept().GetName()
+    + GetText(GetTo(edge, conceptmap))
   ;
 }
 
@@ -137,40 +185,44 @@ std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetToArrowText(
   const std::string first_arrow  = edge.HasHeadArrow() ? "&larr; " : "&mdash; ";
   const std::string second_arrow = edge.HasTailArrow() ? " &rarr; " : " &mdash; ";
   return first_arrow
-    + edge.GetNode().GetConcept().GetName()
+    + GetText(edge)
     + second_arrow
-    + GetFrom(edge, conceptmap).GetConcept().GetName()
+    + GetText(GetFrom(edge, conceptmap))
   ;
 }
 
-void ribi::cmap::QtConceptMapRatedConceptDialog::HideRating() noexcept
-{
-  ui->label_complexity->hide();
-  ui->label_concreteness->hide();
-  ui->label_specificity->hide();
-}
-
 void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
-  const Node& node
+  const Node& node,
+  const Role role
 ) noexcept
 {
-  std::string s = "<b>Voorbeelden/toelichtingen bij concept: </b>";
+  std::stringstream s;
+  s << "<b>Voorbeelden/toelichtingen bij concept: </b>";
   if (CountExamples(node) == 0)
   {
-    s += "geen";
+    s << "geen";
   }
   else
   {
-    s += "\n<ul>\n"
+    s << "\n<ul>\n"
     ;
     for (const Example& example: node.GetConcept().GetExamples().Get())
     {
-      s += "  <li>(" + CompetencyToStrDutch(example.GetCompetency())
-        + ") " + example.GetText() + "</li>\n";
-      ;
+      s << "  <li>";
+      if (role == Role::assessor)
+      {
+        s << "(" + CompetencyToStrDutchShort(example.GetCompetency())
+          << " "
+          << (example.GetIsComplex() ? "X" : "")
+          << (example.GetIsSpecific() ? "S" : "")
+          << (example.GetIsConcrete() ? "C" : "")
+          << ") ";
+      }
+      s << example.GetText() + "</li>\n";
+
     }
-    s += "</ul>";
+    s << "</ul>";
 
   }
-  ui->label_concept_examples->setText(s.c_str());
+  ui->label_concept_examples->setText(s.str().c_str());
 }

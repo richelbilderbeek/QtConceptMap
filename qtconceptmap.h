@@ -7,6 +7,7 @@
 #include "qtconceptmapmode.h"
 #include "qtconceptmappopupmode.h"
 #include "conceptmapgraphtypes.h"
+#include "qtconceptmaprating.h"
 
 namespace ribi {
 namespace cmap {
@@ -26,7 +27,10 @@ class QtConceptMap : public ribi::QtKeyboardFriendlyGraphicsView //!OCLINT canno
 
 public:
 
-  explicit QtConceptMap(QWidget* parent = 0);
+  explicit QtConceptMap(
+    const Rating& rating = CreateDefaultRating(),
+    QWidget* parent = 0
+  );
   QtConceptMap(const QtConceptMap&) = delete;
   QtConceptMap& operator=(const QtConceptMap&) = delete;
   ~QtConceptMap() noexcept;
@@ -41,6 +45,8 @@ public:
 
   ///Get the mode the object is in
   Mode GetMode() const noexcept { return m_mode; }
+
+  const auto& GetRating() const noexcept { return m_rating; }
 
   ///Get the current pop-up mode the object is in
   PopupMode GetPopupMode() const noexcept { return m_popup_mode; }
@@ -92,6 +98,7 @@ public slots:
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent * event) override;
   void mousePressEvent(QMouseEvent *event) override;
+  //void focusInEvent(QFocusEvent *event) override;
   void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
   void showEvent(QShowEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
@@ -118,6 +125,9 @@ private:
 
   ///The type of pop ups: absent (best for printing) or present (best for UX)
   PopupMode m_popup_mode;
+
+  ///The suggested rating of the concepts
+  const Rating m_rating;
 
   ///Responds to many things
   QTimer * const m_timer;
@@ -359,7 +369,10 @@ void OnNodeKeyDownPressedEditF2(
 );
 
 ///An item wants to be edited from F1 in rate mode
-void OnNodeKeyDownPressedRateF1(QtConceptMap& q, QtNode& item);
+void OnNodeKeyDownPressedRateF1(
+  QtConceptMap& q,
+  QtNode& item
+);
 
 ///An item wants to be edited from F2 in rate mode
 void OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode& item);

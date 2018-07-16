@@ -11,7 +11,8 @@ class QtConceptMapRatingTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void all_tests();
+  void construction();
+  void default_suggestions();
 };
 
 } //~namespace cmap

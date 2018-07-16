@@ -3,16 +3,12 @@
 
 #include <string>
 #include <vector>
-
-
-
-
-
 #include <QDialog>
 #include "qtconceptmapfwd.h"
+#include "qtconceptmaprole.h"
 #include "conceptmapnode.h"
 #include "conceptmap.h"
-
+#include "qtconceptmaprole.h"
 
 namespace Ui { class QtConceptMapRatedConceptDialog; }
 
@@ -25,33 +21,43 @@ class QtConceptMapRatedConceptDialog : public QDialog
   
 public:
 
+  ///In the role of student, no ratings are shown
   explicit QtConceptMapRatedConceptDialog(
     const ConceptMap& conceptmap,
     const Node& node,
+    const Role role,
     QWidget *parent = 0
   );
   QtConceptMapRatedConceptDialog(const QtConceptMapRatedConceptDialog&) = delete;
   QtConceptMapRatedConceptDialog& operator=(const QtConceptMapRatedConceptDialog&) = delete;
   ~QtConceptMapRatedConceptDialog() noexcept;
 
-  ///Hides the rating. This is used when a student views his/her
-  ///work before an assessor has rated his/her work
-  void HideRating() noexcept;
-
 private:
   Ui::QtConceptMapRatedConceptDialog *ui;
 
-  void DisplayEdges(const ConceptMap& conceptmap, const Node& node) noexcept;
-  void DisplayHeading(const Node& node) noexcept;
+  void DisplayEdges(
+    const ConceptMap& conceptmap,
+    const Node& node,
+    const Role role
+  ) noexcept;
+
+  void DisplayHeading(
+    const Node& node,
+    const Role role
+  ) noexcept;
 
   std::string GetFromArrowText(
     const Edge& edge, const ConceptMap& conceptmap
   ) const noexcept;
+
   std::string GetToArrowText(
     const Edge& edge, const ConceptMap& conceptmap
   ) const noexcept;
 
-  void PutExamplesInList(const Node& node) noexcept;
+  void PutExamplesInList(
+    const Node& node,
+    const Role role
+  ) noexcept;
 };
 
 } //~namespace cmap

@@ -46,12 +46,16 @@
 #include "set_my_bundled_vertex.h"
 #include "set_vertex_selectedness.h"
 
-ribi::cmap::QtConceptMap::QtConceptMap(QWidget* parent)
+ribi::cmap::QtConceptMap::QtConceptMap(
+  const Rating& rating,
+  QWidget* parent
+)
   : QtKeyboardFriendlyGraphicsView(parent),
     m_arrow{new QtNewArrow},
     m_highlighter{new QtItemHighlighter},
     m_mode{Mode::uninitialized},
     m_popup_mode{PopupMode::normal},
+    m_rating{rating},
     m_timer{new QTimer(this)},
     m_tools{new QtTool}
 {
@@ -789,7 +793,10 @@ void ribi::cmap::keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept
   event->setAccepted(false); //Signal to dialog to close
 }
 
-void ribi::cmap::keyPressEventF1(QtConceptMap& q, QKeyEvent * const event) noexcept
+void ribi::cmap::keyPressEventF1(
+  QtConceptMap& q,
+  QKeyEvent * const event
+) noexcept
 {
   try
   {
@@ -1164,6 +1171,9 @@ void ribi::cmap::QtConceptMap::Respond()
   CheckInvariants(*this);
 }
 
+// void ribi::cmap::QtConceptMap::focusInEvent(
+//  QFocusEvent *event
+//)
 void ribi::cmap::QtConceptMap::onFocusItemChanged(
   QGraphicsItem * newFocus, QGraphicsItem */*oldFocus*/, Qt::FocusReason reason
 )
@@ -1260,7 +1270,8 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
 
 void ribi::cmap::OnNodeKeyDownPressedRateF1(
   QtConceptMap& q,
-  QtNode& qtnode)
+  QtNode& qtnode
+)
 {
   const auto concept_map = q.ToConceptMap();
 
@@ -1276,7 +1287,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
     = create_direct_neighbour_bundled_edges_and_vertices_subgraph(
       vd, concept_map
     );
-  ribi::cmap::QtRateConceptDialog d(subgraph);
+  ribi::cmap::QtRateConceptDialog d(subgraph, q.GetRating());
 
   q.setEnabled(false);
   d.exec();

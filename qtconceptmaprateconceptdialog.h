@@ -1,17 +1,12 @@
 #ifndef QTCONCEPTMAPRATECONCEPTDIALOG_H
 #define QTCONCEPTMAPRATECONCEPTDIALOG_H
 
-
-
-
-
-//#include "qthideandshowdialog.h"
 #include <QDialog>
 
 #include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
 #include "conceptmap.h"
-
+#include "qtconceptmaprating.h"
 
 namespace Ui { class QtRateConceptDialog; }
 namespace ribi {
@@ -26,8 +21,11 @@ class QtRateConceptDialog : public QDialog
   ///concept is the center node
   ///conceptmap[0] is the same as concept and might be changed
   ///conceptmap is non-const, as GetRatedConcept will produce a new concept
-  explicit QtRateConceptDialog(const ConceptMap conceptmap,
-    QWidget* parent = 0);
+  explicit QtRateConceptDialog(
+    const ConceptMap conceptmap,
+    const Rating& rating = CreateDefaultRating(),
+    QWidget* parent = 0
+  );
   QtRateConceptDialog(const QtRateConceptDialog&) = delete;
   QtRateConceptDialog& operator=(const QtRateConceptDialog&) = delete;
   ~QtRateConceptDialog() noexcept;
@@ -63,7 +61,6 @@ private:
   const boost::shared_ptr<QtConceptMap> m_widget;
 
   void DisplaySuggestions() noexcept;
-
 };
 
 } //~namespace cmap

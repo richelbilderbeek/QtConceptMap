@@ -4,23 +4,21 @@
 
 #include "conceptmapfactory.h"
 
-void ribi::cmap::QtConceptMapRatedConceptDialogTest::do_resize_lists()
+void ribi::cmap::QtConceptMapRatedConceptDialogTest::show_assessor()
 {
   const auto conceptmap = ConceptMapFactory().GetQtRatedConceptDialogExample();
   const auto node = GetFirstNode(conceptmap);
-  QtConceptMapRatedConceptDialog d(conceptmap, node);
+  QtConceptMapRatedConceptDialog d(conceptmap, node, Role::assessor);
   d.show();
   QTest::qWait(1000);
   d.show();
 }
 
-void ribi::cmap::QtConceptMapRatedConceptDialogTest::hide_rating()
+void ribi::cmap::QtConceptMapRatedConceptDialogTest::show_student()
 {
   const auto conceptmap = ConceptMapFactory().GetQtRatedConceptDialogExample();
   const auto node = GetFirstNode(conceptmap);
-  QtConceptMapRatedConceptDialog d(conceptmap, node);
-  d.show();
-  d.HideRating();
+  QtConceptMapRatedConceptDialog d(conceptmap, node, Role::student);
   d.show();
 }
 
@@ -30,7 +28,7 @@ void ribi::cmap::QtConceptMapRatedConceptDialogTest::show_example()
   const auto nodes = GetNodes(conceptmap);
   for (const auto node: nodes)
   {
-    QtConceptMapRatedConceptDialog d(conceptmap, node);
+    QtConceptMapRatedConceptDialog d(conceptmap, node, Role::assessor);
     d.show();
   }
 }

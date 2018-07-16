@@ -11,8 +11,8 @@ class QtConceptMapRatedConceptDialogTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void do_resize_lists();
-  void hide_rating();
+  void show_assessor();
+  void show_student();
   void show_example();
 };
 
