@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <cmath>
-//#include <boost/numeric/conversion/cast.hpp>
 
 #include "conceptmap.h"
 #include "conceptmapnode.h"
@@ -19,7 +18,21 @@ ribi::cmap::Rating::Rating(
     m_rating_concreteness{rating_concreteness},
     m_rating_specificity{rating_specificity}
 {
+  // [0, 3] number of nodes, [0, 4] number of examples
+  assert(m_rating_complexity.size() == 20);
+  // [0, 4] examples
+  assert(m_rating_concreteness.size() == 5);
+  // [0, 4] examples
+  assert(m_rating_specificity.size() == 5);
+}
 
+ribi::cmap::Rating ribi::cmap::CreateDefaultRating() noexcept
+{
+  return Rating(
+    CreateDefaultRatingComplexity(),
+    CreateDefaultRatingConcreteness(),
+    CreateDefaultRatingSpecificity()
+  );
 }
 
 std::map<std::pair<int, int>, int> ribi::cmap::CreateDefaultRatingComplexity() noexcept

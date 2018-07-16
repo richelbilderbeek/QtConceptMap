@@ -26,16 +26,15 @@
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconceptdialog.h"
 
-
-
 ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   const ConceptMap conceptmap,
+  const Rating& rating,
   QWidget* parent)
   : QDialog(parent),
     ui(new Ui::QtRateConceptDialog),
     m_button_ok_clicked(false),
     m_conceptmap(conceptmap),
-    m_widget(new QtConceptMap)
+    m_widget(new QtConceptMap(rating))
 {
   if (!boost::num_vertices(conceptmap))
   {
@@ -82,29 +81,29 @@ void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
 {
   if (boost::num_vertices(m_conceptmap) > 0)
   {
+    const auto& rating = m_widget->GetRating();
+
+    // Without vertices, there is no valid vertex descriptor
     assert(boost::num_vertices(m_conceptmap) > 0);
     const auto vd = *vertices(m_conceptmap).first;
     {
-      assert(boost::num_vertices(m_conceptmap) > 0);
       const QString s = "Formeel uitgangspunt: "
         + QString::number(
-          cmap::Rating().SuggestComplexity(m_conceptmap, vd)
+          rating.SuggestComplexity(m_conceptmap, vd)
         );
       ui->box_complexity->setToolTip(s);
     }
     {
-      assert(boost::num_vertices(m_conceptmap) > 0);
       const QString s = "Formeel uitgangspunt: "
         + QString::number(
-          cmap::Rating().SuggestConcreteness(m_conceptmap, vd)
+          rating.SuggestConcreteness(m_conceptmap, vd)
         );
       ui->box_concreteness->setToolTip(s);
     }
     {
-      assert(boost::num_vertices(m_conceptmap) > 0);
       const QString s = "Formeel uitgangspunt: "
         + QString::number(
-          cmap::Rating().SuggestSpecificity(m_conceptmap, vd)
+          rating.SuggestSpecificity(m_conceptmap, vd)
         );
       ui->box_specificity->setToolTip(s);
     }

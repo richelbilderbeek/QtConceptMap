@@ -5,7 +5,11 @@
 
 void ribi::cmap::QtConceptMapRatingTest::construction()
 {
-  const Rating r;
+  const Rating r(
+    CreateDefaultRatingComplexity(),
+    CreateDefaultRatingConcreteness(),
+    CreateDefaultRatingSpecificity()
+  );
 
   const auto sub_conceptmap = ConceptMapFactory().Get11();
   const auto vip = boost::vertices(sub_conceptmap);
@@ -38,6 +42,10 @@ void ribi::cmap::QtConceptMapRatingTest::default_suggestions()
   QVERIFY(SuggestComplexity(2, 3) == 2);
   QVERIFY(SuggestComplexity(2, 4) == 2);
   QVERIFY(SuggestComplexity(2, 5) == 2);
+
+  QVERIFY(SuggestComplexity(3, 0) == 2);
+  QVERIFY(SuggestComplexity(3, 6) == 2);
+  QVERIFY(SuggestComplexity(4, 7) == 2);
 
   //Number of examples
   QVERIFY(SuggestConcreteness(0) == 0);

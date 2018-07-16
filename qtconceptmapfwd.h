@@ -30,7 +30,7 @@ struct QtNodeDialog;   //QtDialog showing a Node
 struct QtQtEdgeDialog; //QtDialog showing a QtEdge
 struct QtQtNodeDialog; //QtDialog showing a QtNode
 struct QtTool;
-
+struct Rating;
 } //~namespace cmap
 } //~namespace ribi
 

@@ -16,10 +16,11 @@ std::map<int, int> CreateDefaultRatingSpecificity() noexcept;
 ///Functions to help with rating
 struct Rating
 {
+  ///Use CreateDefaultRating for a default-constructed Rating
   Rating(
-    const std::map<std::pair<int, int>, int>& rating_complexity = CreateDefaultRatingComplexity(),
-    const std::map<int, int>& rating_concreteness = CreateDefaultRatingConcreteness(),
-    const std::map<int, int>& rating_specificity = CreateDefaultRatingSpecificity()
+    const std::map<std::pair<int, int>, int>& rating_complexity,
+    const std::map<int, int>& rating_concreteness,
+    const std::map<int, int>& rating_specificity
   );
 
   ///Calculate a suggested complexity
@@ -45,6 +46,9 @@ struct Rating
   std::map<int, int> m_rating_concreteness;
   std::map<int, int> m_rating_specificity;
 };
+
+///Create a default-constructed Rating
+Rating CreateDefaultRating() noexcept;
 
 ///Calculate a suggested complexity
 int SuggestComplexity(const int n_edges, const int n_examples) noexcept;
