@@ -35,7 +35,9 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_empty_co
   const ConceptMap empty_conceptmap;
   try
   {
-    QtRateConceptTallyDialog{empty_conceptmap};
+    QtRateConceptTallyDialog{empty_conceptmap,
+      ribi::cmap::CreateDefaultRating()
+    };
     QVERIFY(!"Should not get here");
   }
   catch (std::logic_error& e)
@@ -53,7 +55,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_test_con
 {
   using namespace ribi::cmap;
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
-  QtRateConceptTallyDialog{conceptmap};
+  QtRateConceptTallyDialog{conceptmap, ribi::cmap::CreateDefaultRating()};
   QVERIFY("Should be no throw");
 }
 
@@ -61,7 +63,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::key_presses()
 {
   using namespace ribi::cmap;
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
-  QtRateConceptTallyDialog d(conceptmap);
+  QtRateConceptTallyDialog d(conceptmap, ribi::cmap::CreateDefaultRating());
   //Translate
   QTest::keyClick(&d, Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier);
   //Close
@@ -73,7 +75,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::measure_ui_from_test_co
   using namespace ribi::cmap;
 
   const ConceptMap conceptmap = ConceptMapFactory().GetRateConceptTallyDialogExample();
-  QtRateConceptTallyDialog d{conceptmap};
+  QtRateConceptTallyDialog d{conceptmap, ribi::cmap::CreateDefaultRating()};
   d.show();
   d.resize(500,500);
   for (int i=0; i!=1000; ++i) qApp->processEvents();

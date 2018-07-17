@@ -21,7 +21,7 @@ void ribi::cmap::QtConceptMapRatingTest::construction()
     const int n_edges = boost::num_edges(sub_conceptmap);
     assert(boost::num_vertices(sub_conceptmap) > 0);
     const int n_examples = CountExamples(sub_conceptmap[vd]);
-    const auto expected = SuggestComplexity(n_edges, n_examples);
+    const auto expected = RatingComplexity::SuggestComplexityDefault(n_edges, n_examples);
     QVERIFY(expected == created);
   }
 }
@@ -29,41 +29,40 @@ void ribi::cmap::QtConceptMapRatingTest::construction()
 void ribi::cmap::QtConceptMapRatingTest::default_suggestions()
 {
   //Number of edges, number of examples
-  QVERIFY(SuggestComplexity(0, 0) == 0);
-  QVERIFY(SuggestComplexity(1, 0) == 0);
-  QVERIFY(SuggestComplexity(1, 1) == 1);
-  QVERIFY(SuggestComplexity(1, 2) == 1);
-  QVERIFY(SuggestComplexity(1, 3) == 1);
-  QVERIFY(SuggestComplexity(1, 4) == 1);
-  QVERIFY(SuggestComplexity(1, 5) == 1);
-  QVERIFY(SuggestComplexity(2, 0) == 1);
-  QVERIFY(SuggestComplexity(2, 1) == 2);
-  QVERIFY(SuggestComplexity(2, 2) == 2);
-  QVERIFY(SuggestComplexity(2, 3) == 2);
-  QVERIFY(SuggestComplexity(2, 4) == 2);
-  QVERIFY(SuggestComplexity(2, 5) == 2);
-
-  QVERIFY(SuggestComplexity(3, 0) == 2);
-  QVERIFY(SuggestComplexity(3, 6) == 2);
-  QVERIFY(SuggestComplexity(4, 7) == 2);
-
-  //Number of examples
-  QVERIFY(SuggestConcreteness(0) == 0);
-  QVERIFY(SuggestConcreteness(1) == 0);
-  QVERIFY(SuggestConcreteness(2) == 1);
-  QVERIFY(SuggestConcreteness(3) == 1);
-  QVERIFY(SuggestConcreteness(4) == 2);
-  QVERIFY(SuggestConcreteness(5) == 2);
-  QVERIFY(SuggestConcreteness(6) == 2);
-  QVERIFY(SuggestConcreteness(7) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(0, 0) == 0);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(1, 0) == 0);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(1, 1) == 1);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(1, 2) == 1);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(1, 3) == 1);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(1, 4) == 1);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(1, 5) == 1);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(2, 0) == 1);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(2, 1) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(2, 2) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(2, 3) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(2, 4) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(2, 5) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(3, 0) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(3, 6) == 2);
+  QVERIFY(RatingComplexity::SuggestComplexityDefault(4, 7) == 2);
 
   //Number of examples
-  QVERIFY(SuggestSpecificity(0) == 0);
-  QVERIFY(SuggestSpecificity(1) == 0);
-  QVERIFY(SuggestSpecificity(2) == 1);
-  QVERIFY(SuggestSpecificity(3) == 1);
-  QVERIFY(SuggestSpecificity(4) == 2);
-  QVERIFY(SuggestSpecificity(5) == 2);
-  QVERIFY(SuggestSpecificity(6) == 2);
-  QVERIFY(SuggestSpecificity(7) == 2);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(0) == 0);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(1) == 0);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(2) == 1);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(3) == 1);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(4) == 2);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(5) == 2);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(6) == 2);
+  QVERIFY(RatingConcreteness::SuggestConcretenessDefault(7) == 2);
+
+  //Number of examples
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(0) == 0);
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(1) == 0);
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(2) == 1);
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(3) == 1);
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(4) == 2);
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(5) == 2);
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(6) == 2);
+  QVERIFY(RatingSpecificity::SuggestSpecificityDefault(7) == 2);
 }

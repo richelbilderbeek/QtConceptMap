@@ -234,7 +234,10 @@ void ribi::cmap::QtConceptMap::changeEvent(QEvent * event)
 }
 
 void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclomatic complexity is acceptable here
-  const QtConceptMap& q
+  const QtConceptMap&
+  #ifndef NDEBUG
+    q
+  #endif
 ) noexcept
 {
   #ifndef NDEBUG
@@ -1637,7 +1640,10 @@ void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge)
 void ribi::cmap::SetSelectedness(
   const bool is_selected,
   QtEdge& qtedge,
-  QtConceptMap& q
+  QtConceptMap&
+  #ifndef NDEBUG
+  q
+  #endif
 )
 {
   //First select Node
@@ -1650,7 +1656,10 @@ void ribi::cmap::SetSelectedness(
 
 void ribi::cmap::SetSelectedness(const bool is_selected,
   QtNode& qtnode,
-  QtConceptMap& q
+  QtConceptMap&
+  #ifndef NDEBUG
+    q
+  #endif
 )
 {
   //Otherwise find_first_bundled_vertex_with_my_vertex will fail
