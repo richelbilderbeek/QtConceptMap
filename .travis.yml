@@ -50,11 +50,11 @@ before_script:
 script: 
   # Build and run tests
   - qmake -qt=qt5 QtConceptMapTest.pro
-  - make debug  
+  - make debug -s
   - ./QtConceptMapTest
   # Build demo
   - qmake -qt=qt5 QtConceptMapDemo.pro
-  - make debug  
+  - make debug -s  
   # cppcheck
   - cppcheck --quiet --error-exitcode=1 . 
   # Get code coverage

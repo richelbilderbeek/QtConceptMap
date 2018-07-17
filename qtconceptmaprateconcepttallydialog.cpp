@@ -1,5 +1,3 @@
-
-
 #include "qtconceptmaprateconcepttallydialog.h"
 
 #include <cassert>
@@ -32,11 +30,13 @@
 
 ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   const ConceptMap& conceptmap,
-  QWidget *parent)
-  : QDialog(parent),
+  const ribi::cmap::Rating& rating,
+  QWidget *parent
+) : QDialog(parent),
     ui(new Ui::QtRateConceptTallyDialog),
     m_data{CreateData(conceptmap)},
-    m_focus_name{GetFocusName(conceptmap)}
+    m_focus_name{GetFocusName(conceptmap)},
+    m_rating{rating}
 {
   ui->setupUi(this);
 
@@ -201,10 +201,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
         return init + (std::get<1>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0);
       }
     );
-  const int n_tallied = n_examples + n_edges;
-  if (n_tallied < 2) return 0;
-  if (n_tallied < 4) return 1;
-  return 2;
+  return m_rating.SuggestComplexity(n_edges, n_examples);
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
@@ -219,10 +216,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
         return init + (std::get<1>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0);
       }
     );
-  const int n_tallied = n_examples;
-  if (n_tallied < 2) return 0;
-  if (n_tallied < 4) return 1;
-  return 2;
+  return m_rating.SuggestConcreteness(n_examples);
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
@@ -237,10 +231,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
         return init + (std::get<1>(row).GetExamples().Get()[index].GetIsSpecific() ? 1 : 0);
       }
     );
-  const int n_tallied = n_examples;
-  if (n_tallied < 2) return 0;
-  if (n_tallied < 4) return 1;
-  return 2;
+  return m_rating.SuggestSpecificity(n_examples);
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)

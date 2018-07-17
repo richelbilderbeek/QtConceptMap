@@ -1,15 +1,10 @@
 #ifndef QTCONCEPTMAPRATECONCEPTTALLYDIALOG_H
 #define QTCONCEPTMAPRATECONCEPTTALLYDIALOG_H
 
-
-
-
-
 #include <QDialog>
-//#include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmap.h"
-
+#include "conceptmaprating.h"
 
 struct QTableWidgetItem;
 namespace Ui { class QtRateConceptTallyDialog; }
@@ -25,6 +20,7 @@ public:
   ///Sub concept map is modified by this dialog
   explicit QtRateConceptTallyDialog(
     const ribi::cmap::ConceptMap& sub_conceptmap,
+    const ribi::cmap::Rating& rating,
     QWidget *parent = 0
   );
   QtRateConceptTallyDialog(const QtRateConceptTallyDialog&) = delete;
@@ -55,7 +51,6 @@ private slots:
 
 private:
   Ui::QtRateConceptTallyDialog *ui;
-  //const ConceptMap m_map;
 
   ///The concept map is converted to this data type
   ///The std::vector index equals the row
@@ -65,11 +60,14 @@ private:
   /// on the edges connected to the focal node
   ///The index is the index of the example being judged, or -1,
   /// denoting it is the concept name being judged
-  using Row = std::tuple<EdgeDescriptor,Concept,int>;
+  using Row = std::tuple<EdgeDescriptor, Concept, int>;
   std::vector<Row> m_data;
 
   ///The name of this concept, for example 'my own development'
   const std::string m_focus_name;
+
+  ///The way the examples are rated
+  const ribi::cmap::Rating m_rating;
 
   ///Will throw if col is absent
   void ChangeConceptExample(
