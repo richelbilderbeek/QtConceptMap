@@ -29,6 +29,16 @@ int ribi::cmap::QtNodeFactory::GetNumberOfTests() const noexcept
   return static_cast<int>(GetTests().size());
 }
 
+std::unique_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetCenter() const noexcept
+{
+  return Create(Node(Concept(), NodeType::center));
+}
+
+std::unique_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetNormal() const noexcept
+{
+  return Create(Node());
+}
+
 std::unique_ptr<ribi::cmap::QtNode> ribi::cmap::QtNodeFactory::GetTest(
   const int i
 ) const

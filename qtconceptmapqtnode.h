@@ -53,6 +53,8 @@ struct QtNode : public QtRoundedEditRectItem
   int GetRatingConcreteness() const noexcept { return m_rating_concreteness; }
   int GetRatingSpecificity() const noexcept { return m_rating_specificity; }
 
+  auto GetNodeType() const noexcept { return m_node_type; }
+
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
 
@@ -106,6 +108,8 @@ private:
   int m_rating_specificity = -1;
 
   bool m_show_bounding_rect;
+
+  NodeType m_node_type;
 
   friend class QtConceptMapTest;
   friend class QtConceptMapQtNodeTest;

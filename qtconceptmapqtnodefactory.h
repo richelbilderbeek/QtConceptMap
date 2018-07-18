@@ -1,15 +1,10 @@
 #ifndef QTCONCEPTMAPQTNODEFACTORY_H
 #define QTCONCEPTMAPQTNODEFACTORY_H
 
-
-
-
-
 #include <memory>
 #include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmapnode.h"
-
 
 namespace ribi {
 namespace cmap {
@@ -23,6 +18,12 @@ struct QtNodeFactory
 
   ///Obtain a Node or CenterNode from an XML std::string
   Node FromXml(const std::string& s) const noexcept;
+
+  ///Create a normal QtNode
+  std::unique_ptr<QtNode> GetNormal() const noexcept;
+
+  ///Create a center QtNode
+  std::unique_ptr<QtNode> GetCenter() const noexcept;
 
   ///Obtain testing nodes
   int GetNumberOfTests() const noexcept;

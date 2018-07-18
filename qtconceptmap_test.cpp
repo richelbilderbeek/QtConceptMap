@@ -91,7 +91,6 @@ void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
   q.SetConceptMap(ConceptMapFactory().Get11());
   q.SetMode(Mode::edit);
   q.show();
-  QSKIP("SetMode", "");
   q.SetMode(Mode::rate);
   q.show();
   q.SetMode(Mode::uninitialized);
@@ -824,7 +823,6 @@ void ribi::cmap::QtConceptMapTest::RateConceptMapHasLessFocusableItems() const n
   //In rate mode, the center node cannot be focused on
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
-  QSKIP("SetMode", "");
   m.SetMode(Mode::edit);
   QVERIFY(CountCenterNodes(m.ToConceptMap()) > 0);
   QVERIFY(CountQtCenterNodes(m.GetScene()) > 0);
@@ -840,7 +838,6 @@ void ribi::cmap::QtConceptMapTest::RateModeFlags() const noexcept
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
   m.show();
-  QSKIP("SetMode", "");
   m.SetMode(Mode::rate);
   for (const auto qtnode: GetQtNodes(m.GetScene()))
   {
@@ -896,7 +893,6 @@ void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchEdit() c
     m.SetMode(Mode::edit);
     const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
     const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
-    QSKIP("SetMode", "");
     QVERIFY(n_center_nodes == n_qt_center_nodes);
   }
 }
@@ -910,7 +906,6 @@ void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchRate() c
     m.SetMode(Mode::edit);
     const int n_center_nodes{CountCenterNodes(GetNodes(conceptmap))};
     const int n_qt_center_nodes{CountQtCenterNodes(m.GetScene())};
-    QSKIP("SetMode", "");
     QVERIFY(n_center_nodes == n_qt_center_nodes);
   }
 }
@@ -1719,7 +1714,6 @@ void ribi::cmap::QtConceptMapTest::UninitializedModeFlags() const noexcept
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
   m.show();
-  QSKIP("SetMode", "");
   m.SetMode(Mode::uninitialized);
   for (const auto qtnode: GetQtNodes(m.GetScene()))
   {

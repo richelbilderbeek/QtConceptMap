@@ -197,7 +197,7 @@ void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 
 bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
 {
-  return !(qtnode.flags() & QGraphicsItem::ItemIsMovable);
+  return qtnode.GetNodeType() == NodeType::center;
 }
 
 bool ribi::cmap::IsComplex(const QtNode& qtnode) noexcept
@@ -317,6 +317,7 @@ void ribi::cmap::QtNode::SetNode(
   m_rating_complexity = concept.GetRatingComplexity();
   m_rating_concreteness = concept.GetRatingConcreteness();
   m_rating_specificity = concept.GetRatingSpecificity();
+  m_node_type = type;
 
   const std::string text{::ribi::cmap::GetText(concept)};
   ::ribi::cmap::SetText(*this, text);
@@ -445,6 +446,7 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtNode& qtnode) noe
   os
     << qtnode.GetExamples() << ','
     << qtnode.GetIsComplex() << ','
+    << qtnode.GetNodeType() << ','
     << qtnode.GetRatingComplexity() << ','
     << qtnode.GetRatingConcreteness() << ','
     << qtnode.GetRatingSpecificity()

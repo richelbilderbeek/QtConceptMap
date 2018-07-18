@@ -1503,12 +1503,23 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
     switch (mode)
     {
       case Mode::edit:
-        qtnode->setFlags(
-            QGraphicsItem::ItemIsMovable
-          | QGraphicsItem::ItemIsFocusable
-          | QGraphicsItem::ItemIsSelectable
-        );
-        assert(!IsQtCenterNode(qtnode));
+        if (IsQtCenterNode(qtnode))
+        {
+          qtnode->setFlags(
+              QGraphicsItem::ItemIsFocusable
+            | QGraphicsItem::ItemIsSelectable
+          );
+          assert(IsQtCenterNode(qtnode));
+        }
+        else
+        {
+          qtnode->setFlags(
+              QGraphicsItem::ItemIsMovable
+            | QGraphicsItem::ItemIsFocusable
+            | QGraphicsItem::ItemIsSelectable
+          );
+          assert(!IsQtCenterNode(qtnode));
+        }
       break;
       case Mode::rate:
         qtnode->setFlags(
