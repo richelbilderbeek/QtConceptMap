@@ -994,7 +994,14 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
   //Create new node at the mouse cursor its position
   try
   {
-    this->DoCommand(new CommandCreateNewNode(*this, "", NodeType::normal, pos.x(), pos.y()));
+    this->DoCommand(
+      new CommandCreateNewNode(
+        *this,
+        "",
+        NodeType::normal,
+        pos.x(), pos.y()
+      )
+    );
   }
   catch (std::logic_error& ) {} //!OCLINT This should be an empty catch statement
   CheckInvariants(*this);
