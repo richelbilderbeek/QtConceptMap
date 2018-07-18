@@ -145,8 +145,8 @@ void ribi::cmap::AddEdgesToScene(
         qtto
       )
     };
-    assert(GetX(*qtedge) == GetX(edge));
-    assert(GetY(*qtedge) == GetY(edge));
+    assert(std::abs(GetX(*qtedge) - GetX(edge)) < 2.0);
+    assert(std::abs(GetY(*qtedge) - GetY(edge)) < 2.0);
     if (IsConnectedToCenterNode(*qtedge))
     {
       qtedge->GetQtNode()->setVisible(false);
@@ -154,8 +154,8 @@ void ribi::cmap::AddEdgesToScene(
     assert(qtedge && HasScene(*qtedge, nullptr));
     scene.addItem(qtedge);
     assert(HasScene(*qtedge, &scene));
-    assert(GetX(*qtedge) == GetX(edge));
-    assert(GetY(*qtedge) == GetY(edge));
+    assert(std::abs(GetX(*qtedge) - GetX(edge)) < 2.0);
+    assert(std::abs(GetY(*qtedge) - GetY(edge)) < 2.0);
     CheckInvariants(*qtedge);
   }
 }
