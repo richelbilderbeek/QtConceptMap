@@ -204,16 +204,12 @@ void ribi::cmap::AddQtNode(
   QtConceptMap& q
 )
 {
-
-
   assert(qtnode);
   assert(!qtnode->scene());
   assert(!q.GetScene().items().contains(qtnode));
   qtnode->setSelected(true);
   q.GetScene().addItem(qtnode);
   assert(qtnode->scene());
-
-
 }
 
 void ribi::cmap::QtConceptMap::changeEvent(QEvent * event)
@@ -1342,7 +1338,9 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
   {
     case Qt::Key_Delete: keyPressEventDelete(q, event); break;
     case Qt::Key_E: keyPressEventE(q, event); break;
-    case Qt::Key_Equal: q.scale(1.1,1.1); break;
+    case Qt::Key_Equal:
+      if (q.GetMode() == Mode::edit) q.scale(1.1,1.1);
+      break;
     case Qt::Key_Escape: keyPressEventEscape(q, event); break;
     case Qt::Key_F1: keyPressEventF1(q, event); break;
     case Qt::Key_F2: keyPressEventF2(q, event); break;
@@ -1352,7 +1350,9 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
     #endif
     case Qt::Key_H: keyPressEventH(q, event); break;
-    case Qt::Key_Minus: q.scale(0.9,0.9); break;
+    case Qt::Key_Minus:
+      if (q.GetMode() == Mode::edit) q.scale(0.9,0.9);
+      break;
     case Qt::Key_N: keyPressEventN(q, event); break;
     case Qt::Key_T: keyPressEventT(q, event); break;
     case Qt::Key_Z: keyPressEventZ(q, event); break;
@@ -1816,8 +1816,8 @@ void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
 
 void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)
 {
+  if (m_mode != Mode::edit) return;
   CheckInvariants(*this);
-
   const double s{1.1};
   if (event->delta() > 0)
   {

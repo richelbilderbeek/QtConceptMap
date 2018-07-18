@@ -8,6 +8,7 @@ namespace ribi {
 namespace cmap {
 
 ///The mode of the concept map:
+/// * uninitialized: a plain view mode, best for printing
 /// * edit: the concept map is edited by the student
 /// * rate: the edited concept map is rated by the assessor
 enum class Mode { uninitialized, edit, rate };
