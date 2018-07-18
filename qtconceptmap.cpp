@@ -1712,9 +1712,20 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
   const auto qtnodes = GetQtNodes(*this);
   ConceptMap g;
   std::map<QtNode *, VertexDescriptor> vds;
+  //First add center node
   for (auto qtnode: qtnodes)
   {
     assert(qtnode);
+    if (!IsCenterNode(*qtnode)) continue;
+    const auto vd = add_bundled_vertex(GetNode(*qtnode), g);
+    vds.insert( { qtnode, vd } );
+  }
+
+  //Second, add non-center nodes
+  for (auto qtnode: qtnodes)
+  {
+    assert(qtnode);
+    if (IsCenterNode(*qtnode)) continue;
     const auto vd = add_bundled_vertex(GetNode(*qtnode), g);
     vds.insert( { qtnode, vd } );
   }

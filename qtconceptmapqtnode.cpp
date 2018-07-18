@@ -168,7 +168,7 @@ std::string ribi::cmap::GetText(const QtNode& qtnode) noexcept
 
 ribi::cmap::NodeType ribi::cmap::GetType(const QtNode& qtnode) noexcept
 {
-  return IsCenterNode(qtnode) ? NodeType::center : NodeType::normal;
+  return qtnode.GetNodeType();
 }
 
 
