@@ -57,6 +57,10 @@ struct QtTool : public QGraphicsPixmapItem
   void setVisible(bool visible);
 };
 
+///Get the Z order of each tool,
+///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
+constexpr double GetQtToolZvalue() { return 2.0; }
+
 } //~namespace cmap
 } //~namespace ribi
 

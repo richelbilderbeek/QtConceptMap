@@ -24,7 +24,7 @@ class QtRateExamplesDialog : public QDialog
 public:
   explicit QtRateExamplesDialog(
     const Concept& concept,
-    QWidget* parent = 0
+    QWidget* parent = nullptr
   );
   QtRateExamplesDialog(const QtRateExamplesDialog&) = delete;
   QtRateExamplesDialog& operator=(const QtRateExamplesDialog&) = delete;

@@ -8,9 +8,22 @@
 
 #include "qtconceptmapqtnodefactory.h"
 
+void ribi::cmap::QtConceptMapQtNodeTest::center_qtnode_is_center_node()
+{
+  const auto qtnode = QtNodeFactory().GetCenter();
+  QVERIFY(IsCenterNode(*qtnode));
+}
+
+void ribi::cmap::QtConceptMapQtNodeTest::normal_qtnode_is_not_center_node()
+{
+
+  const auto qtnode = QtNodeFactory().GetNormal();
+  QVERIFY(!IsCenterNode(*qtnode));
+}
+
 void ribi::cmap::QtConceptMapQtNodeTest::disable_and_enable()
 {
-  const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
+  const auto qtnode = QtNodeFactory().GetTest(1);
   qtnode->show();
   qtnode->DisableAll();
   qtnode->show();

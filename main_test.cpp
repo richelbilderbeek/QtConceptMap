@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
   //{ QtConceptMapCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRatingTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapQtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order

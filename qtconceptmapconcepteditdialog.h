@@ -21,7 +21,7 @@ public:
   ///concept is only modified if user clicks OK
   explicit QtConceptMapConceptEditDialog(
     const Concept& concept,
-    QWidget* parent = 0
+    QWidget* parent = nullptr
   );
   QtConceptMapConceptEditDialog(const QtConceptMapConceptEditDialog&) = delete;
   QtConceptMapConceptEditDialog& operator=(const QtConceptMapConceptEditDialog&) = delete;

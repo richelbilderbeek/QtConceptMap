@@ -119,6 +119,9 @@ void ribi::cmap::CommandCreateNewNode::Redo()
   m_added_qtnode->setSelected(true);
   m_added_qtnode->setFocus();
   m_added_qtnode->SetBrushFunction(GetQtNodeBrushFunction(GetQtConceptMap().GetMode()));
+
+  Ensures(m_added_qtnode->pos().x() == m_x);
+  Ensures(m_added_qtnode->pos().y() == m_y);
 }
 
 void ribi::cmap::CommandCreateNewNode::Undo()

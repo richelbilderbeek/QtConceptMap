@@ -53,6 +53,8 @@ struct QtNode : public QtRoundedEditRectItem
   int GetRatingConcreteness() const noexcept { return m_rating_concreteness; }
   int GetRatingSpecificity() const noexcept { return m_rating_specificity; }
 
+  auto GetNodeType() const noexcept { return m_node_type; }
+
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
 
@@ -107,6 +109,8 @@ private:
 
   bool m_show_bounding_rect;
 
+  NodeType m_node_type;
+
   friend class QtConceptMapTest;
   friend class QtConceptMapQtNodeTest;
 };
@@ -119,6 +123,10 @@ Concept GetConcept(const QtNode& qtnode) noexcept;
 
 ///Get the Example of the QtNode its Node its Concept
 const Examples& GetExamples(const QtNode& qtnode) noexcept;
+
+///Get the Z order of each node,
+///which should be QtEdgeArrow < QtEdge < 0.0 < QtNode < QtNewArrow < QtTool
+constexpr double GetQtNodeZvalue() { return 0.5; }
 
 int GetRatingComplexity(const QtNode& qtnode) noexcept;
 int GetRatingConcreteness(const QtNode& qtnode) noexcept;

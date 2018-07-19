@@ -94,6 +94,7 @@ int main(int argc, char *argv[])
   }
 
   ribi::cmap::QtConceptMap d;
+  d.SetMode(ribi::cmap::Mode::edit);
   d.show();
   d.setGeometry(0, 0, get_screen_width(args), get_screen_height(args));
   //Put the dialog in the screen center

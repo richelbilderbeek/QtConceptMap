@@ -41,6 +41,10 @@ struct QtNewArrow : public QtArrowItem
   QtNode * m_from;
 };
 
+///Get the Z order of each NewArrow,
+///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
+constexpr double GetQtNewArrowZvalue() { return 1.0; }
+
 } //~namespace cmap
 } //~namespace ribi
 

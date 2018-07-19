@@ -11,6 +11,10 @@ class QtConceptMapQtNodeTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void center_qtnode_is_center_node();
+  void normal_qtnode_is_not_center_node();
+
+  //Done
   void disable_and_enable();
   void press_nonsense_is_rejected();
   void qtnode_is_qtroundededitrectitem();

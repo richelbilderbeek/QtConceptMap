@@ -17,10 +17,11 @@ namespace cmap {
 ///QtConceptMap does offer UI interaction
 ///Cannot mark it as a final class, because that would break Qt4 compatibility
 ///The Z values of its objects are set as such:
-///  3: QtTool
-///  2: QtNewArrow
-///  0: QtNodes
-/// -1: QtEdges
+///  3: QtTool: GetQtToolZvalue()
+///  2: QtNewArrow: GetQtNewArrowZvalue()
+///  0: QtNodes: GetQtNodeZvalue()
+/// -1: QtEdges: GetQtEdgeZvalue()
+/// -2: QtEdge's arrow: GetQtEdgeArrowZvalue()`
 class QtConceptMap : public ribi::QtKeyboardFriendlyGraphicsView //!OCLINT cannot get it smaller
 {
   Q_OBJECT //!OCLINT
@@ -29,7 +30,7 @@ public:
 
   explicit QtConceptMap(
     const Rating& rating = CreateDefaultRating(),
-    QWidget* parent = 0
+    QWidget* parent = nullptr
   );
   QtConceptMap(const QtConceptMap&) = delete;
   QtConceptMap& operator=(const QtConceptMap&) = delete;
@@ -257,10 +258,6 @@ QtNode * GetQtCenterNode(const QtConceptMap& q) noexcept;
 
 ///Get all the QtEdges
 std::vector<QtEdge *> GetQtEdges(const QtConceptMap& q) noexcept;
-
-///Get the Z order of each edge,
-///which should be QtEdge < QtNode < QtNewArrow < QtTool
-constexpr double GetQtEdgeZvalue() { return -1.0; }
 
 ///Get all the 'standalone' (those not on an edge) QtNodes
 std::vector<QtNode *> GetQtNodes(const QtConceptMap& q) noexcept;

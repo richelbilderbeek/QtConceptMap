@@ -1,31 +1,14 @@
-
-
-
-
 #include "qtconceptmapqtedge.h"
 
 #include <cassert>
-#include <cmath>
-#include <boost/lambda/lambda.hpp>
 
-#include <QCursor>
 #include <QDebug>
-#include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
-#include <QGraphicsScene>
-#include <QKeyEvent>
-#include <QPainter>
 
-#include "conceptmapconcept.h"
-#include "conceptmapedge.h"
-#include "conceptmapnode.h"
-#include "container.h"
+#include "qtconceptmap.h"
 #include "qtconceptmaphelper.h"
-#include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapqtnode.h"
 #include "qtquadbezierarrowitem.h"
-
-
 
 ribi::cmap::QtEdge::QtEdge(
     const Edge& edge,
@@ -104,9 +87,9 @@ ribi::cmap::QtEdge::QtEdge(
   m_qtnode->SetCenterY(y);
 
   //Set Z values
-  this->setZValue(-1.0);
-  m_arrow->setZValue(-1.0);
-  m_qtnode->setZValue(1.0);
+  this->setZValue(GetQtEdgeZvalue());
+  m_arrow->setZValue(GetQtEdgeArrowZvalue());
+  m_qtnode->setZValue(GetQtNodeZvalue());
 }
 
 ribi::cmap::QtEdge::~QtEdge() noexcept
@@ -175,6 +158,9 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
   assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
   assert(GetY(qtedge) == GetY(*qtedge.GetQtNode()));
+  assert(qtedge.zValue() == GetQtEdgeZvalue());
+  assert(qtedge.GetArrow()->zValue() == GetQtEdgeArrowZvalue());
+  assert(qtedge.GetQtNode()->zValue() == GetQtNodeZvalue());
 }
 
 void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept
@@ -380,6 +366,20 @@ void ribi::cmap::QtEdge::paint(
 ) noexcept
 {
   CheckInvariants(*this);
+
+  //When connecting to center node, the center of the arrow must
+  //be kept between source and target node
+  if (IsConnectedToCenterNode(*this))
+  {
+    const double x_in_middle{(m_arrow->GetFromX() + m_arrow->GetToX()) / 2.0};
+    const double y_in_middle{(m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0};
+    m_qtnode->SetCenterX(x_in_middle);
+    m_qtnode->SetCenterY(y_in_middle);
+    m_arrow->SetMidX(x_in_middle);
+    m_arrow->SetMidY(y_in_middle);
+    qDebug() << "Move center";
+  }
+
   {
     QPen pen(Qt::black);
     assert(!IsDashed(pen));
