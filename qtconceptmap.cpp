@@ -70,7 +70,6 @@ ribi::cmap::QtConceptMap::QtConceptMap(
   //Add items
   assert(scene());
   scene()->addItem(m_arrow); //Add the QtNewArrow so it has a parent
-  scene()->addItem(m_tools);
   m_arrow->hide();
 
   //Without this line, mouseMoveEvent won't be called
@@ -295,7 +294,8 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
 {
   #ifndef NDEBUG
   assert(q.GetQtNewArrow().scene());
-  assert(q.GetQtToolItem().scene());
+  //Only show tools icon in edit mode
+  assert(q.GetMode() != Mode::edit || q.GetQtToolItem().scene());
   CheckInvariantAllQtNodesHaveAscene(q);
   CheckInvariantAllQtEdgesHaveAscene(q);
   CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
@@ -1550,6 +1550,17 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
       qtnode->setFlags(0);
       assert(IsQtCenterNode(qtnode));
     }
+  }
+
+  if (mode == Mode::edit && !m_tools->scene())
+  {
+    scene()->addItem(m_tools);
+    assert(m_tools->scene());
+  }
+  else if (m_tools->scene())
+  {
+    scene()->removeItem(m_tools);
+    assert(!m_tools->scene());
   }
 
   CheckInvariants(*this);
