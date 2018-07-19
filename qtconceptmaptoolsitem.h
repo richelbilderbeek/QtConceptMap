@@ -58,7 +58,7 @@ struct QtTool : public QGraphicsPixmapItem
 };
 
 ///Get the Z order of each tool,
-///which should be QtEdge < QtNode < QtNewArrow < QtTool
+///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
 constexpr double GetQtToolZvalue() { return 2.0; }
 
 } //~namespace cmap

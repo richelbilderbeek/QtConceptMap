@@ -105,7 +105,7 @@ ribi::cmap::QtEdge::QtEdge(
 
   //Set Z values
   this->setZValue(GetQtEdgeZvalue());
-  m_arrow->setZValue(GetQtEdgeZvalue());
+  m_arrow->setZValue(GetQtEdgeArrowZvalue());
   m_qtnode->setZValue(GetQtNodeZvalue());
 }
 
@@ -175,6 +175,9 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetQtNode()->GetContourPen().color() == Qt::white);
   assert(GetX(qtedge) == GetX(*qtedge.GetQtNode()));
   assert(GetY(qtedge) == GetY(*qtedge.GetQtNode()));
+  assert(qtedge.zValue() == GetQtEdgeZvalue());
+  assert(qtedge.GetArrow()->zValue() == GetQtEdgeArrowZvalue());
+  assert(qtedge.GetQtNode()->zValue() == GetQtNodeZvalue());
 }
 
 void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept

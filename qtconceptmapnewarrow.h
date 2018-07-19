@@ -42,7 +42,7 @@ struct QtNewArrow : public QtArrowItem
 };
 
 ///Get the Z order of each NewArrow,
-///which should be QtEdge < QtNode < QtNewArrow < QtTool
+///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
 constexpr double GetQtNewArrowZvalue() { return 1.0; }
 
 } //~namespace cmap

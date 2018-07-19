@@ -62,6 +62,7 @@ ribi::cmap::QtConceptMap::QtConceptMap(
   static_assert(GetQtNewArrowZvalue() < GetQtToolZvalue(), "");
   static_assert(GetQtNodeZvalue() < GetQtNewArrowZvalue(), "");
   static_assert(GetQtEdgeZvalue() < GetQtNodeZvalue(), "");
+  static_assert(GetQtEdgeArrowZvalue() <  GetQtEdgeZvalue(), "");
 
   this->setScene(new QGraphicsScene(this));
   assert(!m_highlighter->GetItem());

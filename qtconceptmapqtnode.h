@@ -125,8 +125,8 @@ Concept GetConcept(const QtNode& qtnode) noexcept;
 const Examples& GetExamples(const QtNode& qtnode) noexcept;
 
 ///Get the Z order of each node,
-///which should be QtEdge < QtNode < QtNewArrow < QtTool
-constexpr double GetQtNodeZvalue() { return 0.0; }
+///which should be QtEdgeArrow < QtEdge < 0.0 < QtNode < QtNewArrow < QtTool
+constexpr double GetQtNodeZvalue() { return 0.5; }
 
 int GetRatingComplexity(const QtNode& qtnode) noexcept;
 int GetRatingConcreteness(const QtNode& qtnode) noexcept;

@@ -151,8 +151,12 @@ std::string GetText(const QtEdge& qtedge) noexcept;
 QPointF GetCenterPos(const QtEdge& qtedge) noexcept;
 
 ///Get the Z order of each edge,
-///which should be QtEdge < QtNode < QtNewArrow < QtTool
-constexpr double GetQtEdgeZvalue() { return -1.0; }
+///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
+constexpr double GetQtEdgeZvalue() { return -2.0; }
+
+///Get the Z order of each edge,
+///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
+constexpr double GetQtEdgeArrowZvalue() { return -3.0; }
 
 ///Get the x coordinat of the center of the QtNode at the QtEdge
 double GetX(const QtEdge& qtedge) noexcept;
