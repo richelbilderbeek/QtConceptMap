@@ -66,7 +66,7 @@ ribi::cmap::QtNode::QtNode(
   this->SetPadding(QtRoundedEditRectItem::Padding(1.0, 6.0, 1.0, 2.0));
 
   this->setAcceptHoverEvents(true);
-  this->setZValue(0.0);
+  this->setZValue(GetQtNodeZvalue());
   this->SetContourPen(QPen(Qt::black, 1.0));
   this->SetFocusPen(QPen(Qt::black, 1.0, Qt::DashLine));
   SetNode(concept, type, center_x, center_y);

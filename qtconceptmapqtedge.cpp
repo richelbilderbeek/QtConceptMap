@@ -104,9 +104,9 @@ ribi::cmap::QtEdge::QtEdge(
   m_qtnode->SetCenterY(y);
 
   //Set Z values
-  this->setZValue(-1.0);
-  m_arrow->setZValue(-1.0);
-  m_qtnode->setZValue(1.0);
+  this->setZValue(GetQtEdgeZvalue());
+  m_arrow->setZValue(GetQtEdgeZvalue());
+  m_qtnode->setZValue(GetQtNodeZvalue());
 }
 
 ribi::cmap::QtEdge::~QtEdge() noexcept

@@ -25,7 +25,7 @@ ribi::cmap::QtNewArrow::QtNewArrow()
     m_from{nullptr}
 {
   //New arrows are above all items
-  this->setZValue(1.0);
+  this->setZValue(GetQtNewArrowZvalue());
 
   //A new arrow must not be moveable
   this->setFlag(QGraphicsItem::ItemIsSelectable,false);

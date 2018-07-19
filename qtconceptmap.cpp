@@ -59,6 +59,10 @@ ribi::cmap::QtConceptMap::QtConceptMap(
     m_timer{new QTimer(this)},
     m_tools{new QtTool}
 {
+  static_assert(GetQtNewArrowZvalue() < GetQtToolZvalue(), "");
+  static_assert(GetQtNodeZvalue() < GetQtNewArrowZvalue(), "");
+  static_assert(GetQtEdgeZvalue() < GetQtNodeZvalue(), "");
+
   this->setScene(new QGraphicsScene(this));
   assert(!m_highlighter->GetItem());
 
