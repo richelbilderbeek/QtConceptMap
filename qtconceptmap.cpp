@@ -1248,16 +1248,15 @@ void ribi::cmap::OnNodeKeyDownPressed(
 
 
 void ribi::cmap::OnNodeKeyDownPressedEditF2(
-  QtConceptMap&,
-  QtNode&,
-  QKeyEvent * const
+  QtConceptMap& q,
+  QtNode& qtnode,
+  QKeyEvent * const event
 )
 {
-  #ifdef NOT_NOW_20180115
   event->accept();
 
   //Edit concept
-  QtConceptMapConceptEditDialog d(qtnode.GetConcept());
+  QtConceptMapConceptEditDialog d(GetConcept(qtnode));
   q.setEnabled(false);
   //Block pop-ups in testing
   if (q.GetPopupMode() == PopupMode::normal)
@@ -1271,7 +1270,6 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   q.DoCommand(new CommandSetConcept(q, d.GetConcept()));
 
   CheckInvariants(q);
-  #endif // NOT_NOW_20180115
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF1(
