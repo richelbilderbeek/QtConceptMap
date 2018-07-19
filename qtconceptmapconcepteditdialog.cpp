@@ -81,6 +81,31 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
     this,
     SLOT(close())
   );
+  int total_height_increase=300;
+  for(int i=0; i<ui->examples_widget->rowCount(); ++i)
+  {
+      QString text = ui->examples_widget->item(i,0)->text();
+      std::string text_string =text.toUtf8().constData();
+      int n_characters = text_string.length();
+      int n_characters_for_new_line =88; //amount of characters that fit on one line
+      int height_resize=19; //text height +padding height *2
+      QStringList lines = text.split( "\n", QString::SkipEmptyParts);
+      for(int j=0; j<lines.count()-1; ++j)
+      {
+          height_resize+=15;
+      }
+      while(n_characters>n_characters_for_new_line)
+      {
+          n_characters_for_new_line+=88;
+          height_resize+=15; //text height
+      }
+      total_height_increase +=height_resize;
+  }
+
+  QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //increases the height of the window when a new line is added
+  ui->examples_widget->resizeRowsToContents();
+  ui->edit_text->clear();
+  ui->edit_text->setFocus();
   //connect(ui->examples_widget, SIGNAL(cellChanged(int,int)),
   //  ui->examples_widget, SLOT(resizeRowsToContents())
   //);
