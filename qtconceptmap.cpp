@@ -181,6 +181,9 @@ void ribi::cmap::AddNodesToScene(
     const Node& node = conceptmap[*i];
     QtNode * const qtnode{new QtNode(node)};
     assert(qtnode);
+    if (IsCenterNode(*qtnode)) {
+      qtnode->setOpacity(0.5);
+    }
     assert(node.GetId() == qtnode->GetId());
     assert(!qtnode->scene());
     scene.addItem(qtnode);
