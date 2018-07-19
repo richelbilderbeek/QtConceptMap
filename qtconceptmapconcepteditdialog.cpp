@@ -134,12 +134,16 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
       int n_characters = text_string.length();
       int n_characters_for_new_line =88; //amount of characters that fit on one line
       int height_resize=19; //text height +padding height *2
+      QStringList lines = text.split( "\n", QString::SkipEmptyParts);
+      for(int j=0; j<lines.count()-1; ++j)
+      {
+          height_resize+=15;
+      }
       while(n_characters>n_characters_for_new_line)
       {
           n_characters_for_new_line+=88;
           height_resize+=15; //text height
       }
-      std::cout<<"height_resize: " << height_resize <<"\n" << std::flush;
       total_height_increase +=height_resize;
   }
 
@@ -165,12 +169,16 @@ void ribi::cmap::QtConceptMapConceptEditDialog
         int n_characters = text_string.length();
         int n_characters_for_new_line =88; //amount of characters that fit on one line
         int height_resize=19; //text height +padding height *2
+        QStringList lines = text.split( "\n", QString::SkipEmptyParts);
+        for(int j=0; j<lines.count()-1; ++j)
+        {
+            height_resize+=15;
+        }
         while(n_characters>n_characters_for_new_line)
         {
             n_characters_for_new_line+=88;
             height_resize+=15; //text height
         }
-        std::cout<<"height_resize: " << height_resize <<"\n" << std::flush;
         total_height_increase +=height_resize;
     }
 
