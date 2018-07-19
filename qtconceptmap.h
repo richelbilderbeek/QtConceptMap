@@ -29,7 +29,7 @@ public:
 
   explicit QtConceptMap(
     const Rating& rating = CreateDefaultRating(),
-    QWidget* parent = 0
+    QWidget* parent = nullptr
   );
   QtConceptMap(const QtConceptMap&) = delete;
   QtConceptMap& operator=(const QtConceptMap&) = delete;

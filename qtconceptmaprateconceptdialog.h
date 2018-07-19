@@ -24,7 +24,7 @@ class QtRateConceptDialog : public QDialog
   explicit QtRateConceptDialog(
     const ConceptMap conceptmap,
     const Rating& rating = CreateDefaultRating(),
-    QWidget* parent = 0
+    QWidget* parent = nullptr
   );
   QtRateConceptDialog(const QtRateConceptDialog&) = delete;
   QtRateConceptDialog& operator=(const QtRateConceptDialog&) = delete;
