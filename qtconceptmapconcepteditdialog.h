@@ -23,6 +23,7 @@ public:
     const Concept& concept,
     QWidget* parent = nullptr
   );
+  void resize_window_to_examples_widget_size();
   QtConceptMapConceptEditDialog(const QtConceptMapConceptEditDialog&) = delete;
   QtConceptMapConceptEditDialog& operator=(const QtConceptMapConceptEditDialog&) = delete;
   ~QtConceptMapConceptEditDialog();
