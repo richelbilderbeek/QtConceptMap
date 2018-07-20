@@ -1309,24 +1309,19 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF2(
-  QtConceptMap&, QtNode&)
+  QtConceptMap& q, QtNode& qtnode)
 {
-  #ifdef NOT_NOW_20180114
-  //Rate examples
-  if (!HasExamples(item)) return;
-  ribi::cmap::QtRateExamplesDialog d(item.GetNode().GetConcept());
+  //Without examples, there is nothing to rate
+  if (!HasExamples(qtnode)) return;
+
+  QtRateExamplesDialog d(GetConcept(qtnode));
   q.setEnabled(false);
   d.exec();
   q.setEnabled(true);
-  //Find the original Node
-  const auto vd = ::find_first_bundled_vertex_with_my_vertex(item.GetNode(), q.ToConceptMap());
-  //Update the node here
-  auto node = item.GetNode();
-  node.GetConcept().SetExamples(d.GetRatedExamples());
-
-  //Update the QtNode
-  item.GetNode().GetConcept().SetExamples(d.GetRatedExamples());
-  #endif
+  if (d.HasClickedOk())
+  {
+    SetExamples(qtnode, d.GetRatedExamples());
+  }
 }
 
 void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT Although the NCSS is high, the code is easy to read

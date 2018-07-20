@@ -1,21 +1,11 @@
-
-
 #include "qtconceptmaprateexamplesdialog.h"
 
 #include <QDesktopWidget>
 #include <QKeyEvent>
-#include <QListWidgetItem>
 
-#include "conceptmapconceptfactory.h"
-#include "conceptmapconcept.h"
-#include "conceptmapexamplefactory.h"
-#include "conceptmapexamplesfactory.h"
 #include "conceptmaphelper.h"
 #include "qtconceptmapcompetency.h"
-
-
 #include "ui_qtconceptmaprateexamplesdialog.h"
-
 
 struct QtConceptMapListWidgetItem : public QListWidgetItem
 {
@@ -39,9 +29,7 @@ ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
   const Concept& concept,
   QWidget* parent)
   : QDialog(parent),
-    ui(new Ui::QtRateExamplesDialog),
-    m_concept(concept),
-    m_concept_at_start(concept)
+    ui(new Ui::QtRateExamplesDialog)
 {
   ui->setupUi(this);
 
@@ -212,7 +200,8 @@ void ribi::cmap::QtRateExamplesDialog::on_button_ti_knowledge_clicked()
 
 void ribi::cmap::QtRateExamplesDialog::on_button_ok_clicked()
 {
-  const Examples p = GetRatedExamples();
-  m_concept.SetExamples(p);
+  m_clicked_ok = true;
+  //Should work somehow, but I could not get it to
+  //setResult(QDialog::Accepted);
   close();
 }

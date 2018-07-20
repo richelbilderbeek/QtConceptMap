@@ -58,6 +58,8 @@ struct QtNode : public QtRoundedEditRectItem
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
 
+  void SetExamples(const Examples examples) noexcept;
+
   void SetNode(
     const Concept& concept,
     const NodeType type,
@@ -165,6 +167,8 @@ std::function<bool(const QtNode* const)> QtNodeHasId(const int id);
 std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
 
 void SetConcept(QtNode& qtnode, const Concept& concept);
+
+void SetExamples(QtNode& qtnode, const Examples& examples) noexcept;
 
 ///Set the rating of this Node for complexity
 ///-1: not rated, 0: lowest, 2: highest

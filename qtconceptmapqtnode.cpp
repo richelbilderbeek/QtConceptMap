@@ -307,6 +307,11 @@ void ribi::cmap::QtNode::SetBrushFunction(
   this->update();
 }
 
+void ribi::cmap::QtNode::SetExamples(const Examples examples) noexcept
+{
+  m_examples = examples;
+}
+
 void ribi::cmap::QtNode::SetNode(
   const Concept& concept,
   const NodeType type,
@@ -357,6 +362,11 @@ void ribi::cmap::SetConcept(QtNode& qtnode, const Concept& concept)
     GetX(qtnode),
     GetY(qtnode)
   );
+}
+
+void ribi::cmap::SetExamples(QtNode& qtnode, const Examples& examples) noexcept
+{
+  qtnode.SetExamples(examples);
 }
 
 void ribi::cmap::QtNode::SetRatingComplexity(const int rating_complexity)

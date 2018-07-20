@@ -33,8 +33,10 @@ public:
   ///Obtain the rated examples
   Examples GetRatedExamples() const;
 
+  bool HasClickedOk() const noexcept { return m_clicked_ok; }
+
 protected:
-  void keyPressEvent(QKeyEvent *);
+  void keyPressEvent(QKeyEvent *) override;
 
 public slots:
   void on_button_prof_clicked();
@@ -49,11 +51,8 @@ public slots:
 private:
   Ui::QtRateExamplesDialog *ui;
 
-  ///The concept, which is modified when clicking OK, but remains unmodified when
-  ///the user clicks cancel
-  Concept m_concept;
-
-  const Concept m_concept_at_start;
+  ///Was the OK button clicked to close?
+  bool m_clicked_ok = false;
 };
 
 } //~namespace cmap
