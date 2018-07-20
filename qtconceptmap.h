@@ -92,8 +92,6 @@ public:
 public slots:
 
   void changeEvent(QEvent *) override;
-  void dragEnterEvent(QDragEnterEvent *event) override;
-  void dropEvent(QDropEvent *event) override;
   void hideEvent(QHideEvent *) override;
   void keyPressEvent(QKeyEvent* event) override;
   void mouseDoubleClickEvent(QMouseEvent *event) override;

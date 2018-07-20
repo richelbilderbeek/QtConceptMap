@@ -377,7 +377,6 @@ void ribi::cmap::QtEdge::paint(
     m_qtnode->SetCenterY(y_in_middle);
     m_arrow->SetMidX(x_in_middle);
     m_arrow->SetMidY(y_in_middle);
-    qDebug() << "Move center";
   }
 
   {

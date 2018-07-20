@@ -153,11 +153,14 @@ std::string ribi::cmap::GetName(const QtNode& qtnode) noexcept
 
 ribi::cmap::Node ribi::cmap::GetNode(const QtNode& qtnode) noexcept
 {
+  //ID is important, as it is what makes
+  // a QtNode/Node uniquely identifyable
   return Node(
     GetConcept(qtnode),
     GetType(qtnode),
     GetX(qtnode),
-    GetY(qtnode)
+    GetY(qtnode),
+    GetId(qtnode)
   );
 }
 

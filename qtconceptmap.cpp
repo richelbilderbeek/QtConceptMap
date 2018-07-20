@@ -12,6 +12,7 @@
 #include "add_bundled_vertex.h"
 #include "conceptmaphelper.h"
 #include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
+#include "count_if_bundled_vertex.h"
 #include "find_first_bundled_edge_with_my_edge.h"
 #include "find_if_first_bundled_vertex.h"
 #include "find_first_bundled_vertex_with_my_vertex.h"
@@ -335,16 +336,6 @@ int ribi::cmap::CountSelectedQtNodes(const QtConceptMap& q) noexcept
 int ribi::cmap::CountSelectedQtEdges(const QtConceptMap& q) noexcept
 {
   return CountSelectedQtEdges(q.GetScene());
-}
-
-void ribi::cmap::QtConceptMap::dragEnterEvent(QDragEnterEvent *)
-{
-  qDebug() << __func__;
-}
-
-void ribi::cmap::QtConceptMap::dropEvent(QDropEvent *)
-{
-  qDebug() << __func__;
 }
 
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
@@ -805,7 +796,10 @@ void ribi::cmap::keyPressEventF1(
   try
   {
     const auto items = q.scene()->selectedItems();
-    if (items.size() != 1) return;
+    if (items.size() != 1)
+    {
+      return;
+    }
     if (QtNode * const qtnode = dynamic_cast<QtNode*>(items.front()))
     {
       OnNodeKeyDownPressed(q, *qtnode, event);
@@ -1204,7 +1198,6 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
     //Will tigger onSelectionChanged and hide the arrow
     GetQtToolItem().GetBuddyItem()->setSelected(true);
 
-    qDebug() << __func__ << ": setFocus";
     GetQtToolItem().GetBuddyItem()->setFocus();
     GetQtNewArrow().setVisible(true);
   }
@@ -1223,6 +1216,7 @@ void ribi::cmap::OnNodeKeyDownPressed(
   QKeyEvent * const event
 )
 {
+
   if (IsQtCenterNode(&qtnode))
   {
     event->ignore();
@@ -1283,14 +1277,17 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
 )
 {
   const auto concept_map = q.ToConceptMap();
-
-  //Rate concept
-  const auto vd = find_if_first_bundled_vertex(
-    q.ToConceptMap(),
+  const auto equal_id_pred =
     [qtnode_id = qtnode.GetId()](const Node& node)
     {
       return node.GetId() == qtnode_id;
-    }
+    };
+
+  //Rate concept
+  assert(count_if_bundled_vertex(concept_map, equal_id_pred) == 1);
+  const auto vd = find_if_first_bundled_vertex(
+    concept_map,
+    equal_id_pred
   );
   const auto subgraph
     = create_direct_neighbour_bundled_edges_and_vertices_subgraph(
