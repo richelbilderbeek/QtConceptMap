@@ -1,23 +1,12 @@
-
-
-
-
 #include "qtconceptmapconceptdialog.h"
 
 #include <cassert>
-#include <boost/bind/bind.hpp>
-#include <boost/lambda/lambda.hpp>
 
-#include "conceptmapcompetencies.h"
 #include "conceptmapconcept.h"
 #include "conceptmapconceptfactory.h"
-#include "conceptmapexamples.h"
 #include "conceptmapexamplesfactory.h"
 #include "qtconceptmapexamplesdialog.h"
-
 #include "ui_qtconceptmapconceptdialog.h"
-
-
 
 ribi::cmap::QtConceptDialog::QtConceptDialog(QWidget *parent) :
   QDialog(parent),
