@@ -1,8 +1,5 @@
-
-
-
-
 #include "qtconceptmapconcepteditdialog.h"
+
 #include <iostream>
 #include <cassert>
 
@@ -25,23 +22,6 @@
 #include "conceptmapconceptfactory.h"
 #include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmapconcepteditdialog.h"
-
-
-
-///QTreeWidgetItem with the only function of storing a
-///cmap::Competency additionally, only used in testing
-struct QtConceptMapListWidgetItem : public QListWidgetItem
-{
-  QtConceptMapListWidgetItem(
-    const ribi::cmap::Competency competency
-    )
-    : QListWidgetItem(0),
-      m_competency(competency)
-  {
-
-  }
-  const ribi::cmap::Competency m_competency;
-};
 
 ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   const Concept& concept,
