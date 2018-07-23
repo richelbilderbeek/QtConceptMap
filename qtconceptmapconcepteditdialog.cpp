@@ -1,26 +1,6 @@
 #include "qtconceptmapconcepteditdialog.h"
 
-#include <iostream>
 #include <cassert>
-
-#include <QDesktopWidget>
-#include <QMainWindow>
-#include <QDebug>
-#include <QKeyEvent>
-#include <QObjectList>
-#include <QListWidgetItem>
-#include <QTableWidgetItem>
-#include <QTableWidget>
-
-#include "conceptmapcompetency.h"
-#include "conceptmapexample.h"
-#include "conceptmapexamplefactory.h"
-#include "conceptmapexamplesfactory.h"
-#include "conceptmapexamples.h"
-#include "conceptmaphelper.h"
-#include "conceptmapconcept.h"
-#include "conceptmapconceptfactory.h"
-#include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmapconcepteditdialog.h"
 
 ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
@@ -213,6 +193,6 @@ ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const
     );
     v.push_back(p);
   }
-  assert(n_items == boost::numeric_cast<int>(v.size()));
+  assert(n_items == static_cast<int>(v.size()));
   return Concept(name, Examples(v));
 }
