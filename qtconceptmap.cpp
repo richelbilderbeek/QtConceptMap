@@ -190,22 +190,6 @@ void ribi::cmap::AddNodesToScene(
   }
 }
 
-/*
-void ribi::cmap::AddQtNode(
-  QtNode * const qtnode,
-  QtConceptMap& q
-)
-{
-  assert(qtnode);
-  assert(!qtnode->scene());
-  assert(!q.GetScene().items().contains(qtnode));
-  qtnode->setSelected(true);
-  q.GetScene().addItem(qtnode);
-  assert(qtnode->scene());
-  assert(qtnode->zValue() == GetQtNodeZvalue());
-}
-*/
-
 void ribi::cmap::QtConceptMap::changeEvent(QEvent * event)
 {
   CheckInvariants(*this);
