@@ -23,7 +23,8 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::construction_concept_with_one_example()
 {
   QtConceptMapConceptEditDialog d(
-    ConceptFactory().Get1()
+    ConceptFactory().Get1(),
+    QtConceptMapConceptEditDialog::EditType::concept
   );
   d.show();
 }
@@ -32,7 +33,8 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::construction_concept_with_two_examples()
 {
   QtConceptMapConceptEditDialog d(
-    ConceptFactory().Get2()
+    ConceptFactory().Get2(),
+    QtConceptMapConceptEditDialog::EditType::concept
   );
   d.show();
 }
@@ -42,7 +44,8 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   ::construction_concept_without_examples()
 {
   QtConceptMapConceptEditDialog d(
-    ConceptFactory().Get0()
+    ConceptFactory().Get0(),
+    QtConceptMapConceptEditDialog::EditType::concept
   );
   d.show();
 }
@@ -53,7 +56,10 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   //Assume reading in a concept and clicking OK after adding an example
   for (const auto concept: ConceptFactory().GetTests())
   {
-    QtConceptMapConceptEditDialog d(concept);
+    QtConceptMapConceptEditDialog d(
+      concept,
+      QtConceptMapConceptEditDialog::EditType::concept
+    );
     QVERIFY(d.ui->edit_text->toPlainText().isEmpty());
     d.ui->edit_text->setPlainText("TO BE ADDED EXAMPLE");
     d.on_button_add_clicked(); //Adds text
@@ -71,7 +77,10 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   //Assume reading in a concept and clicking OK after modification of the name does modify concept
   for (const auto concept: ConceptFactory().GetTests())
   {
-    QtConceptMapConceptEditDialog d(concept);
+    QtConceptMapConceptEditDialog d(
+      concept,
+      QtConceptMapConceptEditDialog::EditType::concept
+    );
     d.ui->edit_concept->setPlainText(d.ui->edit_concept->toPlainText() + "MODIFICATION");
     const Concept after(d.GetConcept());
     QVERIFY(concept.GetName() != after.GetName());
@@ -86,7 +95,10 @@ void ribi::cmap::QtConceptMapConceptEditDialogTest
   //Assume reading in a concept and clicking OK without modification does not modify anything
   for (const auto concept: ConceptFactory().GetTests())
   {
-    QtConceptMapConceptEditDialog d(concept);
+    QtConceptMapConceptEditDialog d(
+      concept,
+      QtConceptMapConceptEditDialog::EditType::concept
+    );
     const Concept after(d.GetConcept());
     QVERIFY(concept.GetName() == after.GetName());
     QVERIFY(CollectExamplesTexts(concept) == CollectExamplesTexts(after));
