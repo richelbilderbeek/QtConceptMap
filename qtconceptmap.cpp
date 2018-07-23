@@ -1344,11 +1344,9 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   AddEdgesToScene(*this, conceptmap);
   CheckInvariants(*this);
 
-  //The new concept map must be displayed in full
-  fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
-  //this->fitInView(this->sceneRect().marginsAdded(QMarginsF(40, 40, 40, 40)));
-  //ensureVisible(scene()->sceneRect(), 50, 100);
-  //fitInView(scene()->sceneRect(), Qt::KeepAspectRatioByExpanding);
+  //Do not fit to view, as requested by the employer
+  //fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
+
   CheckInvariants(*this);
 
   #ifndef NDEBUG
@@ -1651,8 +1649,10 @@ void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)
   CheckInvariants(*this);
 
   m_timer->start(10);
-  // this->fitInView(this->sceneRect()); //Don't!
-  // Caused https://github.com/richelbilderbeek/Brainweaver/issues/125
+
+  //Do not fit to view, as requested by the employer
+  // this->fitInView(this->sceneRect());
+
   CheckInvariants(*this);
 }
 
