@@ -156,24 +156,12 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(
           ? "?" : std::to_string(GetRatingConcreteness(node)))
         << ") "
       ;
+      ui->label_name->setToolTip(
+        "X: complexiteit, S: specificiteit, C: concreetheid"
+      );
     }
     s << GetText(node);
     ui->label_name->setText(s.str().c_str());
-  }
-  if (role == Role::assessor)
-  {
-    ui->label_complexity->setText("Complexiteit: "
-      + QString::number(node.GetConcept().GetRatingComplexity()));
-    ui->label_concreteness->setText("Concreetheid: "
-      + QString::number(node.GetConcept().GetRatingConcreteness()));
-    ui->label_specificity->setText("Specificiteit: "
-      + QString::number(node.GetConcept().GetRatingSpecificity()));
-  }
-  else
-  {
-    ui->label_complexity->hide();
-    ui->label_concreteness->hide();
-    ui->label_specificity->hide();
   }
 }
 
