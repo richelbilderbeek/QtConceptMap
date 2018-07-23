@@ -320,7 +320,9 @@ ribi::cmap::GetQtNodeBrushFunctionEdit() noexcept
   return [](const QtNode& qtnode)
   {
     //Gold if center node
-    //Gray if solitary node
+    //If solitary node (that is, a concept)
+    // * grey if no examples
+    // * red if examples
     //Blue if relation node
     if (IsCenterNode(qtnode))
     {
