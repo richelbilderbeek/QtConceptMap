@@ -79,26 +79,6 @@ std::pair<int, int> ribi::cmap::GetFromToIds(const EdgeDescriptor ed, const Conc
   return std::make_pair(from.GetId(), to.GetId());
 }
 
-
-std::pair<ribi::cmap::QtNode*, ribi::cmap::QtNode*>
-ribi::cmap::GetFromToQtNodes(
-  const EdgeDescriptor,
-  const QtConceptMap&)
-{
-  #ifdef NOT_NOW_20180119
-  const std::pair<int, int> from_to_ids = GetFromToIds(ed, q.ToConceptMap());
-
-  //Find the QtNodes where a new QtEdge needs to be created in between
-  QtNode * const qtfrom = FindQtNode(from_to_ids.first, q);
-  assert(qtfrom);
-  QtNode * const qtto = FindQtNode(from_to_ids.second, q);
-  assert(qtto);
-  assert(qtfrom != qtto);
-  return std::make_pair(qtfrom, qtto);
-  #endif // NOT_NOW_20180119
-  return std::make_pair(nullptr, nullptr);
-}
-
 std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
 {
   return c.GetText();
