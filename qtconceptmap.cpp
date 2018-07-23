@@ -1153,7 +1153,7 @@ void ribi::cmap::QtConceptMap::onFocusItemChanged(
     GetQtNewArrow().Start(GetQtToolItem().GetBuddyItem()); //Also sets visibility
     GetQtToolItem().setSelected(false);
 
-    //Will tigger onSelectionChanged and hide the arrow
+    //Will trigger onSelectionChanged and hide the arrow
     GetQtToolItem().GetBuddyItem()->setSelected(true);
 
     GetQtToolItem().GetBuddyItem()->setFocus();
