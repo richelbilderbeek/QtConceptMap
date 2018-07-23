@@ -1208,7 +1208,10 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   event->accept();
 
   //Edit concept
-  QtConceptMapConceptEditDialog d(GetConcept(qtnode));
+  QtConceptMapConceptEditDialog d(
+    GetConcept(qtnode),
+    QtConceptMapConceptEditDialog::EditType::concept
+  );
   q.setEnabled(false);
   //Block pop-ups in testing
   if (q.GetPopupMode() == PopupMode::normal)

@@ -17,10 +17,15 @@ class QtConceptMapConceptEditDialog : public QDialog
   Q_OBJECT //!OCLINT
   
 public:
+  /// concept: a stand-alone node
+  /// relation: a node on an edge
+  enum EditType { concept, relation };
+
   ///concept is not const as user might want to modify it
   ///concept is only modified if user clicks OK
   explicit QtConceptMapConceptEditDialog(
     const Concept& concept,
+    const EditType edit_type,
     QWidget* parent = nullptr
   );
   QtConceptMapConceptEditDialog(const QtConceptMapConceptEditDialog&) = delete;
