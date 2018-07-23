@@ -328,6 +328,10 @@ ribi::cmap::GetQtNodeBrushFunctionEdit() noexcept
     }
     if (!qtnode.parentItem())
     {
+      if (HasExamples(qtnode))
+      {
+        return QtBrushFactory().CreateRedGradientBrush();
+      }
       return QtBrushFactory().CreateGrayGradientBrush();
     }
     assert(qtnode.parentItem());
