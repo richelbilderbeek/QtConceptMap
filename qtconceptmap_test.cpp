@@ -116,41 +116,6 @@ void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldUnselectAll() const noexc
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::ConceptMapMustFitWindow() const noexcept
-{
-  QtConceptMap q;
-
-  CheckInvariants(q);
-
-  q.showFullScreen();
-
-  CheckInvariants(q);
-
-  q.SetConceptMap(ConceptMapFactory().Get11());
-  //m.SetConceptMap(ConceptMapFactory().GetStarShaped());
-
-  CheckInvariants(q);
-
-  q.show();
-
-  CheckInvariants(q);
-
-  QTest::qWait(100);
-  qApp->processEvents();
-  QVERIFY(!q.verticalScrollBar()->isVisible());
-  QVERIFY(!q.horizontalScrollBar()->isVisible());
-}
-
-void ribi::cmap::QtConceptMapTest::ConceptMapMustFitWindowAfterSetting() const noexcept
-{
-  QtConceptMap q;
-  q.showFullScreen();
-  q.SetConceptMap(ConceptMapFactory().Get11());
-  QTest::qWait(100);
-  QVERIFY(!q.verticalScrollBar()->isVisible());
-  QVERIFY(!q.horizontalScrollBar()->isVisible());
-}
-
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommand() const noexcept
 {
   //When there are two selected nodes, an edge can be created

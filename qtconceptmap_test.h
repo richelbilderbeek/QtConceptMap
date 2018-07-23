@@ -21,8 +21,6 @@ private slots:
   void CannotEditCenterNode() const noexcept; //#104
   void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
-  void ConceptMapMustFitWindow() const noexcept; //#135
-  void ConceptMapMustFitWindowAfterSetting() const noexcept;
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeCommand() const noexcept;
   void CreateOneEdgeKeyboard() const noexcept;
