@@ -60,7 +60,7 @@ void ribi::cmap::QtConceptMapTest::CannotEditCenterNode() const noexcept
   q.DoCommand(new CommandSetMode(q, Mode::edit));
   q.DoCommand(new CommandCreateNewNode(q, "center", NodeType::center));
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_F2, Qt::NoModifier);
-  q.SetPopupMode(PopupMode::muted);
+  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
   q.keyPressEvent(&e);
   QVERIFY(!e.isAccepted());
 }
@@ -937,8 +937,8 @@ void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexce
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.SetConceptMap(ConceptMapFactory().Get1());
-  m.SetPopupMode(PopupMode::normal); //
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
   m.keyPressEvent(event);
   QVERIFY(!event->isAccepted());
 }
@@ -950,7 +950,7 @@ void ribi::cmap::QtConceptMapTest::PressF2CanEditNonFocalQuestion() const noexce
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.SetConceptMap(ConceptMapFactory().Get2());
-  m.SetPopupMode(PopupMode::muted); //
+  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
   //Press space until other non-center QtNode is selected
   while (1)
   {

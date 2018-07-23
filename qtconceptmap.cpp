@@ -42,7 +42,6 @@ ribi::cmap::QtConceptMap::QtConceptMap(
     m_arrow{new QtNewArrow},
     m_highlighter{new QtItemHighlighter},
     m_mode{Mode::uninitialized},
-    m_popup_mode{PopupMode::normal},
     m_rating{rating},
     m_timer{new QTimer(this)},
     m_tools{new QtTool}
@@ -1213,11 +1212,7 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
     QtConceptMapConceptEditDialog::EditType::concept
   );
   q.setEnabled(false);
-  //Block pop-ups in testing
-  if (q.GetPopupMode() == PopupMode::normal)
-  {
-    d.exec();
-  }
+  d.exec();
   q.setEnabled(true);
 
   assert(GetSelectedQtNodesAlsoOnQtEdge(q).size() == 1);
@@ -1510,13 +1505,6 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
   }
 
   CheckInvariants(*this);
-}
-
-void ribi::cmap::QtConceptMap::SetPopupMode(
-  const ribi::cmap::PopupMode mode
-) noexcept
-{
-  m_popup_mode = mode;
 }
 
 void ribi::cmap::SetRandomFocus(

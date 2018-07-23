@@ -5,7 +5,6 @@
 #include "qtkeyboardfriendlygraphicsview.h"
 #include "qtconceptmapfwd.h"
 #include "qtconceptmapmode.h"
-#include "qtconceptmappopupmode.h"
 #include "conceptmapgraphtypes.h"
 #include "qtconceptmaprating.h"
 
@@ -49,9 +48,6 @@ public:
 
   const auto& GetRating() const noexcept { return m_rating; }
 
-  ///Get the current pop-up mode the object is in
-  PopupMode GetPopupMode() const noexcept { return m_popup_mode; }
-
   ///Get the QGraphicsItem that can highlight selected QGraphicsItems
   const QtItemHighlighter& GetQtHighlighter() const noexcept;
 
@@ -75,8 +71,6 @@ public:
   void Redo() noexcept;
 
   void SetConceptMap(const ConceptMap& conceptmap);
-
-  void SetPopupMode(const PopupMode mode) noexcept;
 
   void SetMode(const Mode mode) noexcept;
 
@@ -125,9 +119,6 @@ private:
   ///The type of concept map: plain (best for printing),
   /// edit (modify the graph) or rate (only grade the existing nodes)
   Mode m_mode;
-
-  ///The type of pop ups: absent (best for printing) or present (best for UX)
-  PopupMode m_popup_mode;
 
   ///The suggested rating of the concepts
   const Rating m_rating;
