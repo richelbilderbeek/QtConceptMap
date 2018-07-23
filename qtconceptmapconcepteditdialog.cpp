@@ -62,7 +62,7 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
       total_height_increase +=height_resize;
   }
 
-  QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //increases the height of the window when a new line is added
+  QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //!OCLINT increases the height of the window when a new line is added
   ui->examples_widget->resizeRowsToContents();
   ui->edit_text->clear();
   ui->edit_text->setFocus();
@@ -132,7 +132,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
       total_height_increase +=height_resize;
   }
 
-  QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //increases the height of the window when a new line is added
+  QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //!OCLINT increases the height of the window when a new line is added
   ui->examples_widget->resizeRowsToContents();
   ui->edit_text->clear();
   ui->edit_text->setFocus();

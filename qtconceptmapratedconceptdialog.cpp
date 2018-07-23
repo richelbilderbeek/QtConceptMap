@@ -31,20 +31,25 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
   ui->setupUi(this);
 
   assert(ui->label_concept_examples->wordWrap());
-  assert(ui->label_concept_examples->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByMouse);
-  assert(ui->label_concept_examples->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByKeyboard);
+  assert(ui->label_concept_examples->textInteractionFlags()
+    & Qt::TextInteractionFlag::TextSelectableByMouse);
+  assert(ui->label_concept_examples->textInteractionFlags()
+    & Qt::TextInteractionFlag::TextSelectableByKeyboard);
 
 
   assert(ui->label_cluster_relations->wordWrap());
-  assert(ui->label_cluster_relations->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByMouse);
-  assert(ui->label_cluster_relations->textInteractionFlags() & Qt::TextInteractionFlag::TextSelectableByKeyboard);
+  assert(ui->label_cluster_relations->textInteractionFlags()
+    & Qt::TextInteractionFlag::TextSelectableByMouse);
+  assert(ui->label_cluster_relations->textInteractionFlags()
+    & Qt::TextInteractionFlag::TextSelectableByKeyboard);
 
   DisplayHeading(node, role);
   PutExamplesInList(node, role);
   DisplayEdges(conceptmap, node, role);
 }
 
-ribi::cmap::QtConceptMapRatedConceptDialog::~QtConceptMapRatedConceptDialog()
+ribi::cmap::QtConceptMapRatedConceptDialog
+  ::~QtConceptMapRatedConceptDialog()
 {
   delete ui;
 }
@@ -69,7 +74,8 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
     if (IsConnectedTo(edge, node, conceptmap))
     {
       //Dependent on arrow
-      if (GetFrom(edge, conceptmap) == node && !IsCenterNode(GetTo(edge, conceptmap)))
+      if (GetFrom(edge, conceptmap) == node
+        && !IsCenterNode(GetTo(edge, conceptmap)))
       {
         s << "  <li>";
         if (role == Role::assessor)
@@ -138,13 +144,16 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(
     {
       s << "("
         << "X:"
-        << (GetRatingComplexity(node) == -1 ? "?" : std::to_string(GetRatingComplexity(node)))
+        << (GetRatingComplexity(node) == -1
+          ? "?" : std::to_string(GetRatingComplexity(node)))
         << ", "
         << "S:"
-        << (GetRatingSpecificity(node) == -1 ? "?" : std::to_string(GetRatingSpecificity(node)))
+        << (GetRatingSpecificity(node) == -1
+          ? "?" : std::to_string(GetRatingSpecificity(node)))
         << ", "
         << "C:"
-        << (GetRatingConcreteness(node) == -1 ? "?" : std::to_string(GetRatingConcreteness(node)))
+        << (GetRatingConcreteness(node) == -1
+          ? "?" : std::to_string(GetRatingConcreteness(node)))
         << ") "
       ;
     }
@@ -153,9 +162,12 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(
   }
   if (role == Role::assessor)
   {
-    ui->label_complexity->setText("Complexiteit: " + QString::number(node.GetConcept().GetRatingComplexity()));
-    ui->label_concreteness->setText("Concreetheid: " + QString::number(node.GetConcept().GetRatingConcreteness()));
-    ui->label_specificity->setText("Specificiteit: " + QString::number(node.GetConcept().GetRatingSpecificity()));
+    ui->label_complexity->setText("Complexiteit: "
+      + QString::number(node.GetConcept().GetRatingComplexity()));
+    ui->label_concreteness->setText("Concreetheid: "
+      + QString::number(node.GetConcept().GetRatingConcreteness()));
+    ui->label_specificity->setText("Specificiteit: "
+      + QString::number(node.GetConcept().GetRatingSpecificity()));
   }
   else
   {
@@ -169,8 +181,10 @@ std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetFromArrowText(
   const Edge& edge, const ConceptMap& conceptmap
 ) const noexcept
 {
-  const std::string first_arrow  = edge.HasTailArrow() ? "&larr; " : "&mdash; ";
-  const std::string second_arrow = edge.HasHeadArrow() ? " &rarr; " : " &mdash; ";
+  const std::string first_arrow  = edge.HasTailArrow()
+    ? "&larr; " : "&mdash; ";
+  const std::string second_arrow = edge.HasHeadArrow()
+    ? " &rarr; " : " &mdash; ";
   return first_arrow
     + GetText(edge)
     + second_arrow
@@ -182,8 +196,10 @@ std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetToArrowText(
   const Edge& edge, const ConceptMap& conceptmap
 ) const noexcept
 {
-  const std::string first_arrow  = edge.HasHeadArrow() ? "&larr; " : "&mdash; ";
-  const std::string second_arrow = edge.HasTailArrow() ? " &rarr; " : " &mdash; ";
+  const std::string first_arrow = edge.HasHeadArrow()
+    ? "&larr; " : "&mdash; ";
+  const std::string second_arrow = edge.HasTailArrow()
+    ? " &rarr; " : " &mdash; ";
   return first_arrow
     + GetText(edge)
     + second_arrow
