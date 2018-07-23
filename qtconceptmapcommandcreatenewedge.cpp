@@ -68,17 +68,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CheckCanRedo() con
   }
 }
 
-std::pair<int, int> ribi::cmap::GetFromToIds(const EdgeDescriptor ed, const ConceptMap& c)
-{
-  const VertexDescriptor vd_from = boost::source(ed, c);
-  const VertexDescriptor vd_to = boost::target(ed, c);
-  assert(vd_from != vd_to);
-  const Node from = get_my_bundled_vertex(vd_from, c);
-  const Node to   = get_my_bundled_vertex(vd_to  , c);
-  assert(from.GetId() != to.GetId());
-  return std::make_pair(from.GetId(), to.GetId());
-}
-
 std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
 {
   return c.GetText();

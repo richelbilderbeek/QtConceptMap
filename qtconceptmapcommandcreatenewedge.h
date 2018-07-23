@@ -59,9 +59,6 @@ EdgeDescriptor AddEdgeBetweenTwoSelectedVertices(
 CommandCreateNewEdgeBetweenTwoSelectedNodes * ParseCommandCreateNewEdge(
   QtConceptMap& qtconceptmap, std::string s);
 
-///Get the ID of the Nodes being the source and target of the edge descriptor
-std::pair<int, int> GetFromToIds(const EdgeDescriptor ed, const ConceptMap& c);
-
 std::string GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept;
 
 ///Get the mean X coordinat of the selected nodes
