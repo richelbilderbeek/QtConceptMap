@@ -46,7 +46,7 @@ ribi::cmap::QtNode::QtNode(
   const double center_y,
   QGraphicsItem* parent)
   : QtRoundedEditRectItem(
-      { concept.GetName() },
+      Wordwrap(concept.GetName(), GetWordWrapLength()),
       ribi::QtRoundedEditRectItem::Padding(),
       QFont("monospace",9),
       parent
@@ -434,7 +434,7 @@ void ribi::cmap::SetRatingSpecificity(
 
 void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)
 {
-  qtnode.SetText( { text } );
+  qtnode.SetText( Wordwrap(text, GetWordWrapLength()) );
 }
 
 void ribi::cmap::SetX(QtNode& qtnode, const double x)
