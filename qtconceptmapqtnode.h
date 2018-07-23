@@ -141,7 +141,7 @@ std::string GetText(const QtNode& qtnode) noexcept;
 NodeType GetType(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping
-constexpr int GetWordWrapLength() { return 80; }
+constexpr int GetWordWrapLength() { return 40; }
 
 ///Get the x coordinat of the center of the QtNode
 double GetX(const QtNode& qtnode) noexcept;
