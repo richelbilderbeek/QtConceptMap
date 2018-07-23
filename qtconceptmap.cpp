@@ -1,26 +1,15 @@
 #include "qtconceptmap.h"
 
-#include <iostream>
-#include <boost/numeric/conversion/cast.hpp>
-
+#include <QEvent>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QTimer>
 
 #include <gsl/gsl_assert>
 
-#include "add_bundled_edge_between_vertices.h"
-#include "add_bundled_vertex.h"
-#include "conceptmaphelper.h"
 #include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
 #include "count_if_bundled_vertex.h"
-#include "find_first_bundled_edge_with_my_edge.h"
 #include "find_if_first_bundled_vertex.h"
-#include "find_first_bundled_vertex_with_my_vertex.h"
-#include "get_my_bundled_edge.h"
-#include "has_bundled_edge_with_my_edge.h"
-#include "has_bundled_vertex_with_my_vertex.h"
-#include "get_my_bundled_vertex.h"
-#include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapcollect.h"
 #include "qtconceptmapcommand.h"
 #include "qtconceptmapcommandcreatenewedge.h"
@@ -36,7 +25,6 @@
 #include "qtconceptmapcommandunselectall.h"
 #include "qtconceptmapconcepteditdialog.h"
 #include "qtconceptmaphelper.h"
-#include "qtconceptmapitemhighlighter.h"
 #include "qtconceptmapnewarrow.h"
 #include "qtconceptmaprateconceptdialog.h"
 #include "qtconceptmapitemhighlighter.h"
@@ -44,8 +32,6 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtquadbezierarrowitem.h"
-#include "set_my_bundled_vertex.h"
-#include "set_vertex_selectedness.h"
 
 ribi::cmap::QtConceptMap::QtConceptMap(
   const Rating& rating,
@@ -164,7 +150,6 @@ void ribi::cmap::AddEdgesToScene(
     CheckInvariants(*qtedge);
   }
 }
-
 
 void ribi::cmap::AddNodesToScene(
   QtConceptMap& qtconceptmap,
