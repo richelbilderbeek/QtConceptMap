@@ -37,7 +37,9 @@ void ribi::cmap::CommandDeleteSelected::AddDeletedQtEdges()
   for (const auto qtedge: m_qtedges_removed)
   {
     assert(qtedge);
-    AddQtEdge(qtedge, GetQtConceptMap());
+    GetQtConceptMap().GetScene().addItem(qtedge);
+    assert(qtedge->scene());
+    assert(qtedge->zValue() == GetQtEdgeZvalue());
   }
 }
 
@@ -46,7 +48,12 @@ void ribi::cmap::CommandDeleteSelected::AddDeletedQtNodes()
   for (const auto qtnode: m_qtnodes_removed)
   {
     assert(qtnode);
-    AddQtNode(qtnode, GetQtConceptMap());
+    assert(!qtnode->scene());
+    assert(!GetQtConceptMap().GetScene().items().contains(qtnode));
+    qtnode->setSelected(true);
+    GetQtConceptMap().GetScene().addItem(qtnode);
+    assert(qtnode->scene());
+    assert(qtnode->zValue() == GetQtNodeZvalue());
   }
 }
 

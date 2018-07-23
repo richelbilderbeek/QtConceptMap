@@ -190,20 +190,7 @@ void ribi::cmap::AddNodesToScene(
   }
 }
 
-void ribi::cmap::AddQtEdge(
-  QtEdge * const qtedge,
-  QtConceptMap& q
-)
-{
-  assert(qtedge);
-  assert(!qtedge->scene());
-  assert(!q.GetScene().items().contains(qtedge));
-
-  q.GetScene().addItem(qtedge);
-  assert(qtedge->scene());
-  qtedge->setZValue(GetQtEdgeZvalue());
-}
-
+/*
 void ribi::cmap::AddQtNode(
   QtNode * const qtnode,
   QtConceptMap& q
@@ -215,7 +202,9 @@ void ribi::cmap::AddQtNode(
   qtnode->setSelected(true);
   q.GetScene().addItem(qtnode);
   assert(qtnode->scene());
+  assert(qtnode->zValue() == GetQtNodeZvalue());
 }
+*/
 
 void ribi::cmap::QtConceptMap::changeEvent(QEvent * event)
 {

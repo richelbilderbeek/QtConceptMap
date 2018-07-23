@@ -144,17 +144,10 @@ void AddNodesToScene(QtConceptMap& qtconceptmap, const ConceptMap& conceptmap) n
 
 ///Add a QtNode to the scene, add its Node to the ConceptMap
 ///This is used by, among others, CommandDeleteSelected::undo
-void AddQtEdge(
-  QtEdge * const qtedge,
-  QtConceptMap& q
-);
-
-///Add a QtNode to the scene, add its Node to the ConceptMap
-///This is used by, among others, CommandDeleteSelected::undo
-void AddQtNode(
-  QtNode * const qtnode,
-  QtConceptMap& q
-);
+//void AddQtNode(
+//  QtNode * const qtnode,
+//  QtConceptMap& q
+//);
 
 ///Checks if the QtConceptMap is in a valid state
 void CheckInvariants(const QtConceptMap& q) noexcept;
