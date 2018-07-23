@@ -1,14 +1,15 @@
 #include "qtconceptmap.h"
 
-#include <QEvent>
-#include <QKeyEvent>
 #include <QDebug>
+#include <QEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
 #include <QTimer>
 
 #include <gsl/gsl_assert>
 
-#include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
 #include "count_if_bundled_vertex.h"
+#include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
 #include "find_if_first_bundled_vertex.h"
 #include "qtconceptmapcollect.h"
 #include "qtconceptmapcommand.h"
@@ -25,11 +26,11 @@
 #include "qtconceptmapcommandunselectall.h"
 #include "qtconceptmapconcepteditdialog.h"
 #include "qtconceptmaphelper.h"
-#include "qtconceptmapnewarrow.h"
-#include "qtconceptmaprateconceptdialog.h"
 #include "qtconceptmapitemhighlighter.h"
-#include "qtconceptmaprateexamplesdialog.h"
+#include "qtconceptmapnewarrow.h"
 #include "qtconceptmapqtedge.h"
+#include "qtconceptmaprateconceptdialog.h"
+#include "qtconceptmaprateexamplesdialog.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtquadbezierarrowitem.h"
 
@@ -73,16 +74,14 @@ ribi::cmap::QtConceptMap::QtConceptMap(
     //this->scene()->setBackgroundBrush(QBrush(QColor(255,255,255)));
   }
 
-  //Connect the scene
-  #ifdef KEEP_UNUSED_SLOTS_20170924
+  //Connect the scene to respond to focus events
   QObject::connect(
     scene(),
-    SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)), //DOES NOT EXIST
+    SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
     this,
-    SLOT(onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason))
+    SLOT(OnFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason))
   );
   QObject::connect(scene(),SIGNAL(selectionChanged()),this,SLOT(onSelectionChanged()));
-  #endif  // KEEP_UNUSED_SLOTS_20170924
 
   CheckInvariants(*this);
 
@@ -1134,15 +1133,11 @@ void ribi::cmap::QtConceptMap::Respond()
   CheckInvariants(*this);
 }
 
-// void ribi::cmap::QtConceptMap::focusInEvent(
-//  QFocusEvent *event
-//)
-void ribi::cmap::QtConceptMap::onFocusItemChanged(
+void ribi::cmap::QtConceptMap::OnFocusItemChanged(
   QGraphicsItem * newFocus, QGraphicsItem */*oldFocus*/, Qt::FocusReason reason
 )
 {
   CheckInvariants(*this);
-
   //Focus on QtToolItem
   if (newFocus == &GetQtToolItem()
     && !GetQtNewArrow().isVisible()

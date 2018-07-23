@@ -97,8 +97,12 @@ public slots:
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent * event) override;
   void mousePressEvent(QMouseEvent *event) override;
-  //void focusInEvent(QFocusEvent *event) override;
-  void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
+
+  ///No override, this is the slot called
+  ///whenever a GraphicsScene::onFocusItemChanged signal
+  ///is emitted
+  void OnFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
+
   void showEvent(QShowEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
 
