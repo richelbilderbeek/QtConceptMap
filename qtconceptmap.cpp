@@ -1031,11 +1031,11 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     return;
   }
 
-  if (dynamic_cast<QtTool*>(item))
+  if (QtTool * const qtool = dynamic_cast<QtTool*>(item))
   {
-    qDebug() << "\nClicked on QtTool, "
-      << "which does nothing in mousePressEventNoArrowActive";
-    event->ignore();
+    assert(qtool->GetBuddyItem());
+    q.GetQtNewArrow().Start(qtool->GetBuddyItem());
+    event->accept();
     return;
   }
   assert(dynamic_cast<QtEdge*>(item) || dynamic_cast<QtNode*>(item));
