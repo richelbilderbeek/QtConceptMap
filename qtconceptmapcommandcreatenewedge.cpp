@@ -121,7 +121,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
 
   m_added_qtedge->setFocus();
   //m_added_qtedge->GetQtNode()->setFocus();
-  SetSelectedness(true, *m_added_qtedge, GetQtConceptMap());
+  SetSelectedness(true, *m_added_qtedge);
 
   m_added_qtedge->GetQtNode()->SetBrushFunction(
     GetQtNodeBrushFunction(
@@ -132,8 +132,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
   QtNode * const no_qtnode{nullptr};
   SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
 
-  SetSelectedness(false, *m_added_qtedge->GetFrom(), GetQtConceptMap());
-  SetSelectedness(false, *m_added_qtedge->GetTo(), GetQtConceptMap());
+  SetSelectedness(false, *m_added_qtedge->GetFrom());
+  SetSelectedness(false, *m_added_qtedge->GetTo());
 
   // Cannot write this:
   //   assert(m_added_qtedge->GetEdge() == m_added_edge);
@@ -161,7 +161,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Undo()
 
   GetQtConceptMap().GetScene().clearFocus();
 
-  SetSelectedness(false, *m_added_qtedge           , GetQtConceptMap());
+  SetSelectedness(false, *m_added_qtedge);
 
   //QtConceptMap
   assert(AllHaveScene(&GetQtConceptMap().GetScene()));
@@ -170,8 +170,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Undo()
   //GetQtConceptMap().GetScene().removeItem(m_added_qtnode); //Get these for free
   //GetQtConceptMap().GetScene().removeItem(m_added_qtedge->GetArrow()); //Get these for free
 
-  SetSelectedness(true, *m_added_qtedge->GetFrom(), GetQtConceptMap());
-  SetSelectedness(true, *m_added_qtedge->GetTo()  , GetQtConceptMap());
+  SetSelectedness(true, *m_added_qtedge->GetFrom());
+  SetSelectedness(true, *m_added_qtedge->GetTo());
   m_added_qtedge->GetTo()->setFocus();
 
   Ensures(CountSelectedQtEdges(GetScene(*this)) == 0);

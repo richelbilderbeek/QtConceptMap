@@ -42,6 +42,9 @@ struct QtTool : public QGraphicsPixmapItem
   ///item cannot be const, as the user might want to modify it
   void SetBuddyItem(QtNode * const item);
 
+  ///Define a type for this item, must be unique
+  int type() const override { return UserType + 14; }
+
   protected:
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
   void mousePressEvent(QGraphicsSceneMouseEvent *event);

@@ -393,8 +393,7 @@ void SetRandomFocusExclusive(QtConceptMap& q);
 ///Use 'Select' to also update the QtToolItem
 void SetSelectedness(
   const bool is_selected,
-  QtEdge& qtedge,
-  QtConceptMap& q
+  QtEdge& qtedge
 );
 
 ///Set the selectedness of a QtNode, also updating the
@@ -402,8 +401,7 @@ void SetSelectedness(
 ///Use 'Select' to also update the QtToolItem
 void SetSelectedness(
   const bool is_selected,
-  QtNode& qtnode,
-  QtConceptMap& q
+  QtNode& qtnode
 );
 
 ///Unselect the QtEdge, including updating the QtToolItem

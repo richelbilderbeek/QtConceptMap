@@ -22,11 +22,11 @@ ribi::cmap::CommandSelect::CommandSelect(
   : Command(qtconceptmap),
     m_cmd{nullptr}
 {
-  if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))
+  if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
     m_cmd = new CommandSelectEdge(qtconceptmap, qtedge, this);
   }
-  else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
+  else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
     if (QtEdge * const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
     {
@@ -64,14 +64,14 @@ ribi::cmap::CommandSelect * ribi::cmap::  ParseCommandSelect(
   assert(t.back() != ')');
   for (QGraphicsItem * const item: qtconceptmap.items())
   {
-    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
     {
       if (GetText(*qtedge) == t)
       {
         return new CommandSelect(qtconceptmap, *qtedge);
       }
     }
-    if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
     {
       if (QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap))
       {
@@ -94,12 +94,6 @@ ribi::cmap::CommandSelect * ribi::cmap::  ParseCommandSelect(
 
 void ribi::cmap::CommandSelect::Redo()
 {
-  #ifndef NDEBUG
-  const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
-  const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
-  #endif
-
   m_cmd->redo();
   /*
   m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap(),
@@ -140,14 +134,6 @@ void ribi::cmap::CommandSelect::Redo()
   assert((m_renamed_qtedge != nullptr) ^ (m_renamed_qtnode != nullptr));
   */
 
-  #ifndef NDEBUG
-  const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
-  const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
-  assert(n_selected_items_after > n_selected_items_before);
-  #endif
-
-  
 }
 
 void ribi::cmap::CommandSelect::Undo()

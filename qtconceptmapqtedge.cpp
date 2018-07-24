@@ -61,10 +61,11 @@ ribi::cmap::QtEdge::QtEdge(
 
   this->m_arrow->setFlags(0);
 
-  this->setFlags(QGraphicsItem::ItemIsSelectable);
-  //this->setFlags(0);
+  //this->setFlags(QGraphicsItem::ItemIsSelectable);
+  this->setFlags(0);
 
   GetQtNode()->SetContourPen(QPen(Qt::white));
+
   {
     //Cannot simplify this to the line below, for reasons unknown
     //GetQtNode()->SetFocusPen(QPen(Qt::black, Qt::DashLine));
@@ -74,6 +75,8 @@ ribi::cmap::QtEdge::QtEdge(
   }
 
   GetQtNode()->setFlags(GetQtNodeFlags());
+  m_qtnode->SetCenterX(x);
+  m_qtnode->SetCenterY(y);
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
@@ -83,8 +86,6 @@ ribi::cmap::QtEdge::QtEdge(
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
   }
 
-  m_qtnode->SetCenterX(x);
-  m_qtnode->SetCenterY(y);
 
   //Set Z values
   this->setZValue(GetQtEdgeZvalue());
@@ -169,6 +170,11 @@ void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept
   qtedge.setVisible(false);
   qtedge.GetArrow()->setEnabled(false);
   qtedge.GetArrow()->setVisible(false);
+}
+
+void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent *) noexcept
+{
+  qDebug() << "QtEdge";
 }
 
 void ribi::cmap::EnableAll(QtEdge& qtedge) noexcept
@@ -287,10 +293,6 @@ bool ribi::cmap::IsVisible(const QtEdge& qtedge) noexcept
 
 bool ribi::cmap::QtEdge::IsSelected() const
 {
-  assert(QGraphicsItem::isSelected() == this->GetQtNode()->isSelected()
-    //If the QtEdge is connected to the center node, the QtNode is made invisible
-    || IsConnectedToCenterNode(*this)
-  );
   return QGraphicsItem::isSelected();
 }
 
@@ -318,12 +320,14 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
     {
       this->SetHasTailArrow( !m_arrow->HasTail() );
       //this->update(); //Don't!
+      return;
     }
-    else if ((event->pos() - this->m_arrow->GetHead()
+    if ((event->pos() - this->m_arrow->GetHead()
       + m_qtnode->pos()).manhattanLength() < 20.0)
     {
       this->SetHasHeadArrow( !m_arrow->HasHead() );
       //this->update(); //Don't!
+      return;
     }
   }
 
@@ -435,10 +439,6 @@ void ribi::cmap::QtEdge::SetSelected(const bool selected)
 {
   QGraphicsItem::setSelected(selected);
   this->GetQtNode()->setSelected(selected);
-  assert(GetQtNode()->isSelected() == QGraphicsItem::isSelected()
-    || IsConnectedToCenterNode(*this)
-  );
-  assert(IsSelected() == selected);
 }
 
 QPainterPath ribi::cmap::QtEdge::shape() const noexcept

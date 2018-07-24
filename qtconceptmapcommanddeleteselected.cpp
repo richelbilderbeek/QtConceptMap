@@ -92,7 +92,7 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtEdges()
   m_qtedges_removed = GetSelectedQtEdges(GetQtConceptMap());
   for (QtEdge * const qtedge: GetSelectedQtEdges(GetQtConceptMap()))
   {
-    SetSelectedness(false, *qtedge, GetQtConceptMap());
+    SetSelectedness(false, *qtedge);
     GetQtConceptMap().GetScene().removeItem(qtedge);
     assert(!qtedge->scene());
   }
@@ -103,7 +103,7 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
   m_qtnodes_removed = GetSelectedQtNodes(GetQtConceptMap());
   for (QtNode * const qtnode: GetSelectedQtNodes(GetQtConceptMap()))
   {
-    SetSelectedness(false, *qtnode, GetQtConceptMap());
+    SetSelectedness(false, *qtnode);
     GetScene(*this).removeItem(qtnode);
     assert(!qtnode->scene());
   }
@@ -149,11 +149,11 @@ void ribi::cmap::CommandDeleteSelected::SelectAllQtEdgesOnSelectedQtNodes()
   {
     if (qtedge->GetFrom()->isSelected())
     {
-      SetSelectedness(true, *qtedge, GetQtConceptMap());
+      SetSelectedness(true, *qtedge);
     }
     else if (qtedge->GetTo()->isSelected())
     {
-      SetSelectedness(true, *qtedge, GetQtConceptMap());
+      SetSelectedness(true, *qtedge);
     }
   }
 }
@@ -165,13 +165,13 @@ void ribi::cmap::CommandDeleteSelected::SetSelected(
 {
   for (auto item: v)
   {
-    if (QtNode* const qtnode = dynamic_cast<QtNode*>(item))
+    if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(item))
     {
-      SetSelectedness(is_selected, *qtnode, GetQtConceptMap());
+      SetSelectedness(is_selected, *qtnode);
     }
-    else if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(item))
+    else if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(item))
     {
-      SetSelectedness(is_selected, *qtedge, GetQtConceptMap());
+      SetSelectedness(is_selected, *qtedge);
     }
     else
     {

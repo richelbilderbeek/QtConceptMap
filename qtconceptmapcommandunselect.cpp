@@ -26,11 +26,11 @@ ribi::cmap::CommandUnselect::CommandUnselect(
 )  : Command(qtconceptmap, parent),
      m_cmd{nullptr}
 {
-  if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))
+  if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
     m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge, this);
   }
-  else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
+  else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
     if (QtEdge* const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
     {
@@ -68,14 +68,14 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
   assert(t.back() != ')');
   for (QGraphicsItem * const item: qtconceptmap.items())
   {
-    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
     {
       if (GetText(*qtedge) == t)
       {
         return new CommandUnselect(qtconceptmap, *qtedge);
       }
     }
-    if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
     {
       if (GetText(*qtnode) == t)
       {

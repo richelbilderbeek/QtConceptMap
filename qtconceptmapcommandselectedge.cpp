@@ -53,25 +53,15 @@ ribi::cmap::CommandSelectEdge * ribi::cmap::ParseCommandSelectEdge(
 
 void ribi::cmap::CommandSelectEdge::Redo()
 {
-  #ifndef NDEBUG
-  const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
-  #endif
-
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
   assert(m_qtedge);
 
   Select(GetQtConceptMap(), *m_qtedge);
-
-  #ifndef NDEBUG
-  const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
-  Ensures(n_selected_qtedges_after == n_selected_qtedges_before + 1);
-  #endif
 }
 
 void ribi::cmap::CommandSelectEdge::Undo()
 {
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
-
-  SetSelectedness(false, *m_qtedge, GetQtConceptMap());
+  SetSelectedness(false, *m_qtedge);
 }

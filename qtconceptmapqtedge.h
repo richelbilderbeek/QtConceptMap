@@ -90,11 +90,10 @@ struct QtEdge : public QGraphicsItem
   int type() const override { return UserType + 4; }
 
 protected:
-  //void focusInEvent(QFocusEvent *event) noexcept override final;
-  //void focusOutEvent(QFocusEvent *event) noexcept override final;
 
-  ///Respons to a mouse press
+  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) noexcept override final;
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
+
 
   ///Paint this QGraphicItem
   void paint(

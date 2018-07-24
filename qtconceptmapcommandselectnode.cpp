@@ -90,5 +90,5 @@ void ribi::cmap::CommandSelectNode::Undo()
     SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
   }
 
-  SetSelectedness(false, *m_qtnode, GetQtConceptMap());
+  SetSelectedness(false, *m_qtnode);
 }

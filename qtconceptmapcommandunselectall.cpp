@@ -30,7 +30,7 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
     if (!item->isSelected()) continue;
 
     //Do not add a QtNode that is on a QtEdge, only keep that QtEdge
-    if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
     {
       if (FindQtEdge(qtnode, GetQtConceptMap())) continue;
     }
@@ -38,7 +38,7 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
     try
     {
 
-      assert(dynamic_cast<QtEdge*>(item) || dynamic_cast<QtNode*>(item));
+      assert(qgraphicsitem_cast<QtEdge*>(item) || qgraphicsitem_cast<QtNode*>(item));
       m_cmds.push_back(new CommandUnselect(GetQtConceptMap(), *item, this));
     }
     catch (std::exception&) {} //OK
@@ -48,11 +48,11 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
     throw std::invalid_argument("Cannot unselect if none selected");
   }
   /*
-  if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))
+  if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
     m_cmds = new CommandUnselectAllEdge(qtconceptmap, qtedge, this);
   }
-  else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
+  else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
     if (QtEdge* const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
     {

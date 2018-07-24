@@ -69,6 +69,5 @@ void ribi::cmap::CommandUnselectEdge::Redo()
 void ribi::cmap::CommandUnselectEdge::Undo()
 {
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
-  SetSelectedness(true, *m_qtedge, GetQtConceptMap());
-
+  SetSelectedness(true, *m_qtedge);
 }

@@ -39,6 +39,9 @@ struct QtNewArrow : public QtArrowItem
   ///The source node
   ///Cannot be const as the user might want to edit it
   QtNode * m_from;
+
+  ///Define a usertype for QtEdge, must be unique
+  int type() const override { return UserType + 5; }
 };
 
 ///Get the Z order of each NewArrow,

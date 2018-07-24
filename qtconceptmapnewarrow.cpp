@@ -1,7 +1,3 @@
-
-
-
-
 #include "qtconceptmapnewarrow.h"
 
 #include <string>

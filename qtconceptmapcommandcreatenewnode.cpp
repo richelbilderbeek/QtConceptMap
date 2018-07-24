@@ -127,7 +127,7 @@ void ribi::cmap::CommandCreateNewNode::Redo()
 void ribi::cmap::CommandCreateNewNode::Undo()
 {
   m_added_qtnode->clearFocus();
-  SetSelectedness(false, *m_added_qtnode, GetQtConceptMap());
+  SetSelectedness(false, *m_added_qtnode);
 
   //Remove QtNode
   assert(m_added_qtnode->scene());
