@@ -207,6 +207,7 @@ QtEdge * FindQtEdge(
 
 ///Finds the first QtNode in a QGraphicsScene with a matching node ID
 ///Returns nullptr if there is none
+[[deprecated("Before deletion")]]
 QtNode * FindQtNode(const int node_id, const QtConceptMap& q) noexcept;
 
 ///Get the first QtEdge
