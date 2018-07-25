@@ -1584,11 +1584,6 @@ void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode)
   q.GetQtToolItem().SetBuddyItem(qtnode);
 }
 
-void ribi::cmap::SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge)
-{
-  SetQtToolItemBuddy(q, qtedge->GetQtNode());
-}
-
 void ribi::cmap::SetSelectedness(
   const bool is_selected,
   QtEdge& qtedge

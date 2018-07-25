@@ -49,7 +49,6 @@ void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const noexcept
   q.DoCommand(new CommandCreateNewNode(q, "center", NodeType::center));
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Delete, Qt::NoModifier);
   q.keyPressEvent(&e);
-  QSKIP("Deleting center node must not be accepted", "");
   QVERIFY(!e.isAccepted());
 }
 
@@ -79,7 +78,6 @@ void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
   q.keyPressEvent(&e);
   q.show();
   const auto pos_after = qtnode->pos();
-  QSKIP("Can not move center node", "");
   QVERIFY(!e.isAccepted());
   QVERIFY(pos_before == pos_after);
 }
@@ -756,7 +754,6 @@ void ribi::cmap::QtConceptMapTest::DoubleClickTwice() const noexcept
   //Does not create a new node, as the double-click took place on an existing node
   QTest::mouseDClick(m.viewport(), Qt::LeftButton);
   m.show();
-  QSKIP("Do not create a new node", "");
   QVERIFY(boost::num_vertices(m.ToConceptMap()) == 1);
 }
 
@@ -962,7 +959,7 @@ void ribi::cmap::QtConceptMapTest::PressF2CanEditNonFocalQuestion() const noexce
   }
   //F2 should activate 'Edit Concept' popup
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
-  QSKIP("F2 should activate 'Edit Concept' popup", "");
+  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
   m.keyPressEvent(event);
   QVERIFY(event->isAccepted());
 }

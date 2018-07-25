@@ -135,19 +135,6 @@ ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
   return nullptr;
 }
 
-ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdgeWithName(
-  const QGraphicsScene& scene,
-  const std::string& name) noexcept
-{
-  return FindFirstQtEdge(
-    scene,
-    [name](const QtEdge* const qtedge)
-    {
-      return GetText(*qtedge) == name;
-    }
-  );
-}
-
 ribi::cmap::QtNode * ribi::cmap::FindFirstQtNode(
   const QGraphicsScene& scene, const std::function<bool(QtNode*)> predicate) noexcept
 {
@@ -160,13 +147,6 @@ ribi::cmap::QtNode * ribi::cmap::FindFirstQtNode(
     }
   }
   return nullptr;
-}
-
-ribi::cmap::QtNode * ribi::cmap::FindFirstQtNodeWithName(
-  const QGraphicsScene& scene,
-  const std::string& name) noexcept
-{
-  return FindFirstQtNode(scene, QtNodeHasName(name));
 }
 
 ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) noexcept
