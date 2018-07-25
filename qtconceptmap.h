@@ -243,6 +243,9 @@ std::vector<QtNode *> GetSelectedQtNodesAlsoOnQtEdge(const QtConceptMap& q) noex
 ///scene can be nullptr
 bool HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept;
 
+///Returns true if there is one QGraphicsItem selected
+bool HasSelectedItems(const QtConceptMap& q) noexcept;
+
 ///Is the arrow to connect a select QtNode to a potential other
 ///QtNode (to draw an edge) visible?
 bool IsArrowVisible(QtConceptMap& q) noexcept;

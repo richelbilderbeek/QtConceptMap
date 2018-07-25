@@ -198,20 +198,6 @@ void ribi::cmap::EnableAll(QtEdge& qtedge) noexcept
   qtedge.GetArrow()->setVisible(true);
 }
 
-/*
-void ribi::cmap::QtEdge::focusInEvent(QFocusEvent* e) noexcept
-{
-  QGraphicsItem::focusInEvent(e);
-  assert(hasFocus());
-}
-
-void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
-{
-  QGraphicsItem::focusOutEvent(e);
-  assert(!hasFocus());
-}
-*/
-
 ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
 {
   return GetConcept(*qtedge.GetQtNode());
@@ -314,13 +300,6 @@ void ribi::cmap::QtEdge::keyPressEvent(QKeyEvent *event) noexcept
 {
   //Don't forward the keyPressEvent!
   //These are handled by Commands in the QtConceptMap
-  //if (1 == 2)
-  {
-    //m_arrow->keyPressEvent(event);
-    //m_edge.SetHeadArrow(m_arrow->HasHead());
-    //m_edge.SetTailArrow(m_arrow->HasTail());
-  }
-  QGraphicsItem::keyPressEvent(event);
 }
 */
 

@@ -538,6 +538,18 @@ bool ribi::cmap::HasScene(const QtEdge& qtedge, const QGraphicsScene * const sce
   ;
 }
 
+bool ribi::cmap::HasSelectedItems(const QtConceptMap& q) noexcept
+{
+  for (const auto * const item:  q.items())
+  {
+    if (item->isSelected())
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 void ribi::cmap::QtConceptMap::hideEvent(QHideEvent *)
 {
   CheckInvariants(*this);
@@ -994,6 +1006,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   const QPointF pos = q.mapToScene(event->pos());
   QGraphicsItem * const item = q.GetScene().itemAt(pos, QTransform());
 
+  //If clicking in the void, unselect all
   if (!item)
   {
     try
@@ -1008,6 +1021,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     return;
   }
 
+  //If clicking on a tool icon, start a new arrow
   if (QtTool * const qtool = qgraphicsitem_cast<QtTool*>(item))
   {
     assert(qtool->GetBuddyItem());
@@ -1015,6 +1029,8 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     event->accept();
     return;
   }
+
+  //Clicking on the quad Bezier arrow anyway ...
   if (qgraphicsitem_cast<QtQuadBezierArrowItem*>(item))
   {
     qDebug() << "Should not click on the QtQuadBezierArrow,"
@@ -1024,6 +1040,8 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     return;
     //q.DoCommand(new CommandT
   }
+
+  //Click on an edge or a node
   assert(qgraphicsitem_cast<QtEdge*>(item) || qgraphicsitem_cast<QtNode*>(item));
   try
   {
@@ -1034,6 +1052,10 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     }
     else
     {
+      if (HasSelectedItems(q))
+      {
+        q.DoCommand(new CommandUnselectAll(q));
+      }
       q.DoCommand(new CommandSelect(q, *item));
     }
     event->accept();
@@ -1120,7 +1142,7 @@ void ribi::cmap::QtConceptMap::Respond()
 }
 
 void ribi::cmap::QtConceptMap::OnFocusItemChanged(
-  QGraphicsItem * newFocus, QGraphicsItem */*oldFocus*/, Qt::FocusReason reason
+  QGraphicsItem * newFocus, QGraphicsItem *, Qt::FocusReason reason
 )
 {
   CheckInvariants(*this);
@@ -1699,35 +1721,6 @@ void ribi::cmap::Unselect(QtConceptMap& q, QtNode& qtnode)
 {
   UnselectImpl(q, qtnode);
 }
-/*
-void ribi::cmap::UnselectAll(QtConceptMap& q)
-{
-  CheckInvariants(q);
-
-  UnselectAllQtNodes(q);
-  UnselectAllQtEdges(q);
-  q.GetQtExamplesItem().SetBuddyItem(nullptr);
-  q.GetQtToolItem().SetBuddyItem(nullptr);
-
-  CheckInvariants(q);
-}
-
-void ribi::cmap::UnselectAllQtEdges(QtConceptMap& q)
-{
-  for (QtEdge * const qtedge: GetQtEdges(q))
-  {
-    SetSelectedness(false, *qtedge, q);
-  }
-}
-
-void ribi::cmap::UnselectAllQtNodes(QtConceptMap& q)
-{
-  for (QtNode * const qtnode: GetQtNodes(q))
-  {
-    SetSelectedness(false, *qtnode, q);
-  }
-}
-*/
 
 void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)
 {

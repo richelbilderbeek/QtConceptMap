@@ -1,41 +1,9 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
-
-
-
-
 #include "qtconceptmapexampledialog.h"
-#include "ui_qtconceptmapexampledialog.h"
 
 #include <cassert>
-#include <boost/bind/bind.hpp>
-#include <boost/lambda/lambda.hpp>
 
 #include "conceptmapcompetencies.h"
-#include "conceptmapexample.h"
-#include "conceptmapexamplefactory.h"
-
-
-
-
+#include "ui_qtconceptmapexampledialog.h"
 
 ribi::cmap::QtExampleDialog::QtExampleDialog(QWidget *parent) :
   QDialog(parent),
@@ -64,7 +32,7 @@ ribi::cmap::QtExampleDialog::~QtExampleDialog()
   delete ui;
 }
 
-int ribi::cmap::QtExampleDialog::GetMinimumHeight(const Example& /*example*/) noexcept
+int ribi::cmap::QtExampleDialog::GetMinimumHeight(const Example&) noexcept
 {
   return 166;
 }

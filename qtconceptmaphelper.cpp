@@ -320,15 +320,6 @@ ribi::cmap::GetQtNodeBrushFunctionUninitialized() noexcept
   };
 }
 
-/*
-std::vector<ribi::cmap::QtNode *> ribi::cmap::GetQtNodes(
-  const QGraphicsScene& scene
-) noexcept
-{
-  return GetQtNodes(scene);
-}
-*/
-
 std::vector<ribi::cmap::QtNode *>
 ribi::cmap::GetQtNodes(const QGraphicsScene& scene) noexcept
 {
