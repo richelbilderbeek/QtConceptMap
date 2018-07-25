@@ -1,32 +1,8 @@
 #include "qtconceptmaprateconcepttallydialog.h"
 
-#include <cassert>
-#include <sstream>
-#include <numeric>
-
-#include <vector>
-#include <boost/shared_ptr.hpp>
-#include <boost/numeric/conversion/cast.hpp>
 #include <QKeyEvent>
 
-#include "conceptmapconceptfactory.h"
-
-#include "conceptmapcenternodefactory.h"
-#include "conceptmap.h"
-#include "conceptmapfactory.h"
-#include "conceptmapconcept.h"
-#include "conceptmapedge.h"
-#include "conceptmapedgefactory.h"
-#include "conceptmapnode.h"
-#include "conceptmapnodefactory.h"
-#include "conceptmapexample.h"
-#include "conceptmapedge.h"
-#include "conceptmapexamples.h"
-
-#include "qtconceptmaprating.h"
-
 #include "ui_qtconceptmaprateconcepttallydialog.h"
-
 
 ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   const ConceptMap& conceptmap,
