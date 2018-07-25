@@ -133,7 +133,7 @@ void ribi::cmap::QtRateConceptDialog::on_button_tally_relevancies_clicked()
 {
   QtRateConceptTallyDialog d(
     m_conceptmap,
-    ribi::cmap::CreateDefaultRating()
+    m_widget->GetRating()
   );
   d.exec(); //Keep this dialog visible, as of 2013-08-30
   ui->box_complexity->setCurrentIndex(d.GetSuggestedComplexity());
