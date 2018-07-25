@@ -80,6 +80,39 @@ ribi::cmap::QtNode::~QtNode() noexcept
 
 }
 
+QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateEditFlags(
+  const QtNode& qtnode) noexcept
+{
+  if (qtnode.GetNodeType() == NodeType::center)
+  {
+    return
+        QGraphicsItem::ItemIsFocusable
+      | QGraphicsItem::ItemIsSelectable
+    ;
+  }
+  assert(qtnode.GetNodeType() != NodeType::center);
+  return
+      QGraphicsItem::ItemIsFocusable
+    | QGraphicsItem::ItemIsMovable
+    | QGraphicsItem::ItemIsSelectable
+  ;
+}
+
+QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateRateFlags(
+  const QtNode&) noexcept
+{
+  return
+      QGraphicsItem::ItemIsFocusable
+    | QGraphicsItem::ItemIsSelectable
+  ;
+}
+
+QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateUninitializedFlags(
+  const QtNode&) noexcept
+{
+  return 0;
+}
+
 void ribi::cmap::QtNode::DisableAll()
 {
   this->setEnabled(false);
@@ -339,27 +372,7 @@ void ribi::cmap::QtNode::SetNode(
   const std::string text{::ribi::cmap::GetText(concept)};
   ::ribi::cmap::SetText(*this, text);
   this->SetCenterPos(center_x, center_y);
-
-  if (type == NodeType::center)
-  {
-    this->setFlags(
-        QGraphicsItem::ItemIsFocusable
-      | QGraphicsItem::ItemIsSelectable
-    );
-    assert(!(flags() & QGraphicsItem::ItemIsMovable));
-    assert(!IsMovable(*this));
-    assert(IsQtCenterNode(*this));
-  }
-  else
-  {
-    this->setFlags(
-        QGraphicsItem::ItemIsFocusable
-      | QGraphicsItem::ItemIsMovable
-      | QGraphicsItem::ItemIsSelectable
-    );
-    assert(IsMovable(*this));
-    assert(!IsQtCenterNode(*this));
-  }
+  this->setFlags(CreateEditFlags(*this));
   Ensures(::ribi::cmap::GetText(*this) == ::ribi::cmap::GetText(concept));
 }
 

@@ -3,15 +3,10 @@
 
 #include <functional>
 
-
-
-
-
-#include "qtroundededitrectitem.h"
+#include "conceptmapfwd.h"
 #include "conceptmapnode.h"
 #include "conceptmapnodetype.h"
-#include "conceptmapfwd.h"
-
+#include "qtroundededitrectitem.h"
 
 namespace ribi {
 namespace cmap {
@@ -91,7 +86,6 @@ struct QtNode : public QtRoundedEditRectItem
   }
 
 protected:
-
   void focusInEvent(QFocusEvent *event) noexcept final override;
   void focusOutEvent(QFocusEvent *event) noexcept final override;
   void keyPressEvent(QKeyEvent *event) noexcept final;
@@ -123,6 +117,15 @@ private:
   friend class QtConceptMapQtNodeTest;
 };
 
+///Create the flags for the node, when in Edit mode
+QGraphicsItem::GraphicsItemFlags CreateEditFlags(const QtNode& qtnode) noexcept;
+
+///Create the flags for the node, when in Rate mode
+QGraphicsItem::GraphicsItemFlags CreateRateFlags(const QtNode& qtnode) noexcept;
+
+///Create the flags for the node, when in Uninitialized mode
+QGraphicsItem::GraphicsItemFlags CreateUninitializedFlags(const QtNode& qtnode) noexcept;
+
 ///Get the center of the QtNode
 QPointF GetCenterPos(const QtNode& qtnode) noexcept;
 
@@ -131,6 +134,7 @@ Concept GetConcept(const QtNode& qtnode) noexcept;
 
 ///Get the Example of the QtNode its Node its Concept
 const Examples& GetExamples(const QtNode& qtnode) noexcept;
+
 
 ///Get the Z order of each node,
 ///which should be QtEdgeArrow < QtEdge < 0.0 < QtNode < QtNewArrow < QtTool

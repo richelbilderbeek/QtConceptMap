@@ -297,6 +297,18 @@ int ribi::cmap::CountSelectedQtEdges(const QtConceptMap& q) noexcept
   return CountSelectedQtEdges(q.GetScene());
 }
 
+QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateFlags(const QtNode& qtnode, const Mode mode) noexcept
+{
+  switch (mode)
+  {
+    case Mode::edit: return CreateEditFlags(qtnode);
+    case Mode::rate: return CreateRateFlags(qtnode);
+    case Mode::uninitialized: return CreateUninitializedFlags(qtnode);
+  }
+  assert(!"Should not get here"); //!OCLINT accepted idiom
+  return 0;
+}
+
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
   const QtConceptMap& q,
   const std::function<bool(QtEdge*)> predicate) noexcept
@@ -1449,55 +1461,8 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
   {
     const auto f = GetQtNodeBrushFunction(m_mode);
     qtnode->SetBrushFunction(f);
-    switch (mode)
-    {
-      case Mode::edit:
-        if (IsQtCenterNode(qtnode))
-        {
-          qtnode->setFlags(
-              QGraphicsItem::ItemIsFocusable
-            | QGraphicsItem::ItemIsSelectable
-          );
-          assert(IsQtCenterNode(qtnode));
-        }
-        else
-        {
-          qtnode->setFlags(
-              QGraphicsItem::ItemIsMovable
-            | QGraphicsItem::ItemIsFocusable
-            | QGraphicsItem::ItemIsSelectable
-          );
-          assert(!IsQtCenterNode(qtnode));
-        }
-      break;
-      case Mode::rate:
-        qtnode->setFlags(
-            QGraphicsItem::ItemIsFocusable
-          | QGraphicsItem::ItemIsSelectable
-        );
-      break;
-      case Mode::uninitialized:
-        qtnode->setFlags(0);
-      break;
-    }
+    qtnode->setFlags(CreateFlags(*qtnode, mode));
   }
-  if (QtNode * const qtnode = FindQtCenterNode(*scene()))
-  {
-    if (m_mode == Mode::edit)
-    {
-      qtnode->setFlags(
-          QGraphicsItem::ItemIsFocusable
-        | QGraphicsItem::ItemIsSelectable
-      );
-      assert(IsQtCenterNode(qtnode));
-    }
-    else
-    {
-      qtnode->setFlags(0);
-      assert(IsQtCenterNode(qtnode));
-    }
-  }
-
   if (mode == Mode::edit && !m_tools->scene())
   {
     scene()->addItem(m_tools);

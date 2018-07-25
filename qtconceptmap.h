@@ -1,6 +1,7 @@
 #ifndef QTCONCEPTMAPCONCEPTMAP_H
 #define QTCONCEPTMAPCONCEPTMAP_H
 
+#include <QGraphicsItem>
 #include <QUndoStack>
 #include "qtkeyboardfriendlygraphicsview.h"
 #include "qtconceptmapfwd.h"
@@ -97,6 +98,9 @@ public slots:
   ///is emitted
   void OnFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
 
+  ///Called when a QGraphicsItems's onDragLeave signal is emitted
+  //void OnDragEnd();
+
   void showEvent(QShowEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
 
@@ -171,6 +175,9 @@ int CountQtNodes(const QtConceptMap& q) noexcept;
 int CountSelectedQtNodes(const QtConceptMap& q) noexcept;
 
 int CountSelectedQtEdges(const QtConceptMap& q) noexcept;
+
+///Create the flags for a QtNode in a certain Mode
+QGraphicsItem::GraphicsItemFlags CreateFlags(const QtNode& qtnode, const Mode mode) noexcept;
 
 ///Finds the first QtEdge by a predicate
 ///Returns nullptr if there is none
