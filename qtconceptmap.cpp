@@ -667,8 +667,7 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
   //Move edges
   for (QtEdge * const qtedge: GetQtEdges(q))
   {
-    if (IsSelected(*qtedge)
-      && IsMovable(*qtedge))
+    if (IsSelected(*qtedge))
     {
       q.DoCommand(new CommandMoveEdge(q, qtedge, dx, dy));
       event->accept();
