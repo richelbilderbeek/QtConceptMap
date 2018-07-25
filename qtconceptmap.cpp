@@ -85,11 +85,9 @@ ribi::cmap::QtConceptMap::QtConceptMap(
 
   CheckInvariants(*this);
 
-  if (1 == 2) //!OCLINT Temporarily remove timer for bugfixing
-  {
-    QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(Respond()));
-    //Timer is started in showEvent
-  }
+  QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(Respond()));
+  //Timer is started in showEvent
+
   CheckInvariants(*this);
 }
 
