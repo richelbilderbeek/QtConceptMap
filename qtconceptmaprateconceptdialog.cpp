@@ -1,27 +1,8 @@
-
-
-
-
 #include "qtconceptmaprateconceptdialog.h"
 
-#include <boost/bind.hpp>
-#include <boost/lambda/lambda.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/numeric/conversion/cast.hpp>
 #include <QDesktopWidget>
-#include <QFileDialog>
 #include <QKeyEvent>
 
-#include "conceptmapconceptfactory.h"
-#include "conceptmapconcept.h"
-#include "conceptmapfactory.h"
-#include "conceptmap.h"
-#include "conceptmapedge.h"
-#include "conceptmapexamplesfactory.h"
-#include "conceptmapexamples.h"
-#include "conceptmapnodefactory.h"
-#include "conceptmapnode.h"
-#include "qtconceptmaprating.h"
 #include "qtconceptmap.h"
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconceptdialog.h"
