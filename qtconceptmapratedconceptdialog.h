@@ -46,19 +46,21 @@ private:
     const Role role
   ) noexcept;
 
-  std::string GetFromArrowText(
-    const Edge& edge, const ConceptMap& conceptmap
-  ) const noexcept;
-
-  std::string GetToArrowText(
-    const Edge& edge, const ConceptMap& conceptmap
-  ) const noexcept;
-
   void PutExamplesInList(
     const Node& node,
     const Role role
   ) noexcept;
 };
+
+std::string GetFromArrowText(
+  const Edge& edge,
+  const ConceptMap& conceptmap
+) noexcept;
+
+std::string GetToArrowText(
+  const Edge& edge,
+  const ConceptMap& conceptmap
+) noexcept;
 
 ///Convert examples to HTML list items:
 ///
@@ -68,6 +70,16 @@ private:
 ///Will produce an empty string if there are no examples
 std::string ToHtmlListItems(
   const Examples& examples,
+  const Role role
+) noexcept;
+
+///Convert an edge to one HTML list item:
+///Will produce an empty string if the edge is connected
+///to the center node.
+std::string ToHtmlListItems(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
   const Role role
 ) noexcept;
 

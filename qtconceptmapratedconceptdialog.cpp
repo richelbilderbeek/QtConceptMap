@@ -63,43 +63,7 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
   std::stringstream s;
   for (const Edge& edge: GetEdges(conceptmap))
   {
-    //Do not display edges connected to the center node,
-    //as there is no text on these anyways
-    if (IsCenterNode(GetFrom(edge, conceptmap))
-      || IsCenterNode(GetTo(edge, conceptmap))
-    )
-    {
-      continue;
-    }
-    if (IsConnectedTo(edge, node, conceptmap))
-    {
-      //Dependent on arrow
-      if (GetFrom(edge, conceptmap) == node
-        && !IsCenterNode(GetTo(edge, conceptmap)))
-      {
-        s << "  <li>";
-        if (role == Role::assessor)
-        {
-          s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
-        }
-        s << GetFromArrowText(edge, conceptmap)
-          << "</li>\n"
-        ;
-      }
-      else if (GetTo(edge, conceptmap) == node)
-      {
-        s << "  <li>";
-        if (role == Role::assessor)
-        {
-          s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
-        }
-        s << GetToArrowText(edge, conceptmap)
-          << "</li>\n"
-        ;
-      }
-      //Indendent on arrow: all examples
-      s << ToHtmlListItems(GetExamples(edge), role);
-    }
+    s << ToHtmlListItems(edge, conceptmap, node, role);
   }
 
   std::stringstream text;
@@ -148,9 +112,9 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayHeading(
   }
 }
 
-std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetFromArrowText(
+std::string ribi::cmap::GetFromArrowText(
   const Edge& edge, const ConceptMap& conceptmap
-) const noexcept
+) noexcept
 {
   const std::string first_arrow  = edge.HasTailArrow()
     ? "&larr; " : "&mdash; ";
@@ -163,9 +127,9 @@ std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetFromArrowText(
   ;
 }
 
-std::string ribi::cmap::QtConceptMapRatedConceptDialog::GetToArrowText(
+std::string ribi::cmap::GetToArrowText(
   const Edge& edge, const ConceptMap& conceptmap
-) const noexcept
+) noexcept
 {
   const std::string first_arrow = edge.HasHeadArrow()
     ? "&larr; " : "&mdash; ";
@@ -212,6 +176,53 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
 
   }
   ui->label_concept_examples->setText(s.str().c_str());
+}
+
+std::string ribi::cmap::ToHtmlListItems(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
+  const Role role) noexcept
+{
+  //Do not display edges connected to the center node,
+  //as there is no text on these anyways
+  if (IsCenterNode(GetFrom(edge, conceptmap))
+    || IsCenterNode(GetTo(edge, conceptmap))
+  )
+  {
+    return "";
+  }
+  std::stringstream s;
+  if (IsConnectedTo(edge, node, conceptmap))
+  {
+    //Dependent on arrow
+    if (GetFrom(edge, conceptmap) == node
+      && !IsCenterNode(GetTo(edge, conceptmap)))
+    {
+      s << "  <li>";
+      if (role == Role::assessor)
+      {
+        s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+      }
+      s << GetFromArrowText(edge, conceptmap)
+        << "</li>\n"
+      ;
+    }
+    else if (GetTo(edge, conceptmap) == node)
+    {
+      s << "  <li>";
+      if (role == Role::assessor)
+      {
+        s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+      }
+      s << GetToArrowText(edge, conceptmap)
+        << "</li>\n"
+      ;
+    }
+    //Indendent on arrow: all examples
+    s << ToHtmlListItems(GetExamples(edge), role);
+  }
+  return s.str();
 }
 
 std::string ribi::cmap::ToHtmlListItems(
