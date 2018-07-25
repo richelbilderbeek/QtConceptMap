@@ -60,6 +60,17 @@ private:
   ) noexcept;
 };
 
+///Convert examples to HTML list items:
+///
+/// <li>First example</li>
+/// <li>Second example</li>
+///
+///Will produce an empty string if there are no examples
+std::string ToHtmlListItems(
+  const Examples& examples,
+  const Role role
+) noexcept;
+
 } //~namespace cmap
 
 } //~namespace ribi

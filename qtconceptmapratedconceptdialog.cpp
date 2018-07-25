@@ -98,24 +98,7 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
         ;
       }
       //Indendent on arrow: all examples
-      for (const Example& example: GetExamples(edge).Get())
-      {
-
-        s << "  <li>";
-        if (role == Role::assessor)
-        {
-          s << "(" + CompetencyToStrDutchShort(example.GetCompetency())
-            << " "
-            << (example.GetIsComplex() ? "X" : "")
-            << (example.GetIsSpecific() ? "S" : "")
-            << (example.GetIsConcrete() ? "C" : "")
-            << ") "
-          ;
-        }
-        s << example.GetText()
-          << "</li>\n"
-        ;
-      }
+      s << ToHtmlListItems(GetExamples(edge), role);
     }
   }
 
@@ -229,4 +212,30 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
 
   }
   ui->label_concept_examples->setText(s.str().c_str());
+}
+
+std::string ribi::cmap::ToHtmlListItems(
+  const Examples& examples,
+  const Role role) noexcept
+{
+  std::stringstream s;
+  for (const Example& example: examples.Get())
+  {
+
+    s << "  <li>";
+    if (role == Role::assessor)
+    {
+      s << "(" + CompetencyToStrDutchShort(example.GetCompetency())
+        << " "
+        << (example.GetIsComplex() ? "X" : "")
+        << (example.GetIsSpecific() ? "S" : "")
+        << (example.GetIsConcrete() ? "C" : "")
+        << ") "
+      ;
+    }
+    s << example.GetText()
+      << "</li>\n"
+    ;
+  }
+  return s.str();
 }
