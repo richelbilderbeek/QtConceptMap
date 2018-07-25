@@ -178,25 +178,11 @@ QtEdge * FindFirstQtEdge(
   const QtConceptMap& q,
   const std::function<bool(QtEdge*)> predicate) noexcept;
 
-///FindFirstQtEdge with a predicate to check for the name on the QtEdge
-///Returns nullptr if there is none
-[[deprecated("Use FindFirstQtEdge(q, QtEdgeHasName(name)) instead")]]
-QtEdge * FindFirstQtEdgeWithName(
-  const QtConceptMap& q,
-  const std::string& name) noexcept;
-
 ///Finds the first QtNode by a predicate
 ///Returns nullptr if there is none
 QtNode * FindFirstQtNode(
   const QtConceptMap& q,
   const std::function<bool(QtNode*)> predicate) noexcept;
-
-///FindFirstQtNode with a predicate to check for the name on the QtNode
-///Returns nullptr if there is none
-[[deprecated("Use FindFirstQtNode(q, QtNodeHasName(name)) instead")]]
-QtNode * FindFirstQtNodeWithName(
-  const QtConceptMap& q,
-  const std::string& name) noexcept;
 
 ///Find the edge this QtNode is in the center of a QtEdge.
 ///Returns nullptr if the QtNode is not on a QtEdge
@@ -204,11 +190,6 @@ QtEdge * FindQtEdge(
   const QtNode * const qtnode,
   const QtConceptMap& qtconceptmap
 ) noexcept;
-
-///Finds the first QtNode in a QGraphicsScene with a matching node ID
-///Returns nullptr if there is none
-[[deprecated("Before deletion")]]
-QtNode * FindQtNode(const int node_id, const QtConceptMap& q) noexcept;
 
 ///Get the first QtEdge
 ///Returns nullpt if there are no QtEdges in the scene
@@ -372,11 +353,6 @@ void SetFocus(QtConceptMap& q, QtNode* const qtnode);
 ///Set the buddy of the QtToolItem
 void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);
 
-//A QtEdge never has a QtToolItem, as one cannot draw edges
-//between the relationship nodes.
-[[deprecated("a QtToolItem never connects with a QtEdge")]]
-void SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge);
-
 ///Focus on a random QtNode (both as vertices as those on the edges)
 /// @param keep_old_selection if false, all previous selection loses focus
 void SetRandomFocus(QtConceptMap& q, const bool keep_old_selection);
@@ -408,16 +384,6 @@ void Unselect(QtConceptMap& q, QtEdge& qtedge);
 
 ///Unselect the QtNode, including updating the QtToolItem
 void Unselect(QtConceptMap& q, QtNode& qtnode);
-
-///Unselect all QtNodes and QtEdges
-[[deprecated("Use CommandUnselectAll instead")]] void UnselectAll(QtConceptMap& q);
-
-///Unselect all QtEdges (and the Edges in the ConceptMap)
-[[deprecated("Use CommandUnselectAll instead")]] void UnselectAllQtEdges(QtConceptMap& q);
-
-///Unselect all QtNodes (and the Nodes in the ConceptMap)
-[[deprecated("Use CommandUnselectAll instead")]] void UnselectAllQtNodes(QtConceptMap& q);
-
 
 } //~namespace cmap
 } //~namespace ribi

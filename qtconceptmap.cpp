@@ -321,17 +321,6 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
   return FindQtEdge(qtnode, qtconceptmap.GetScene());
 }
 
-ribi::cmap::QtNode * ribi::cmap::FindQtNode(
-  const int, // node_id
-  const QtConceptMap&) noexcept
-{
-  assert(1 == 2);
-  #ifdef NOT_NOW_20180119
-  return FindQtNode(node_id, q.GetScene());
-  #endif // NOT_NOW_20180119
-  return nullptr;
-}
-
 ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QtConceptMap& q) noexcept
 {
   return GetFirstQtEdge(q.GetScene());
