@@ -192,36 +192,38 @@ std::string ribi::cmap::ToHtmlListItems(
   {
     return "";
   }
-  std::stringstream s;
-  if (IsConnectedTo(edge, node, conceptmap))
+  if (!IsConnectedTo(edge, node, conceptmap))
   {
-    //Dependent on arrow
-    if (GetFrom(edge, conceptmap) == node
-      && !IsCenterNode(GetTo(edge, conceptmap)))
-    {
-      s << "  <li>";
-      if (role == Role::assessor)
-      {
-        s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
-      }
-      s << GetFromArrowText(edge, conceptmap)
-        << "</li>\n"
-      ;
-    }
-    else if (GetTo(edge, conceptmap) == node)
-    {
-      s << "  <li>";
-      if (role == Role::assessor)
-      {
-        s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
-      }
-      s << GetToArrowText(edge, conceptmap)
-        << "</li>\n"
-      ;
-    }
-    //Indendent on arrow: all examples
-    s << ToHtmlListItems(GetExamples(edge), role);
+    return "";
   }
+  assert(IsConnectedTo(edge, node, conceptmap));
+  std::stringstream s;
+  //Dependent on arrow
+  if (GetFrom(edge, conceptmap) == node
+    && !IsCenterNode(GetTo(edge, conceptmap)))
+  {
+    s << "  <li>";
+    if (role == Role::assessor)
+    {
+      s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+    }
+    s << GetFromArrowText(edge, conceptmap)
+      << "</li>\n"
+    ;
+  }
+  else if (GetTo(edge, conceptmap) == node)
+  {
+    s << "  <li>";
+    if (role == Role::assessor)
+    {
+      s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+    }
+    s << GetToArrowText(edge, conceptmap)
+      << "</li>\n"
+    ;
+  }
+  //Indendent on arrow: all examples
+  s << ToHtmlListItems(GetExamples(edge), role);
   return s.str();
 }
 
