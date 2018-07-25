@@ -109,21 +109,21 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 {
   std::vector<Row> rows;
   //Add the focal concept its examples (not its name: this cannot be judged)
-  /*
   {
-    const auto focal_concept = GetCenterNode(map).GetConcept();
-    const int n_examples{
-      boost::numeric_cast<int>(
-        CountExamples(focal_concept)
-      )
-    };
+    const auto focal_concept = GetFirstNode(map).GetConcept();
+    const int n_examples{CountExamples(focal_concept)};
     for (int i=0; i!=n_examples; ++i)
     {
-      Edge empty_edge;
-      data.push_back(std::make_tuple(empty_edge,focal_concept,i));
+      const Row row{
+        std::make_tuple(
+          EdgeDescriptor(),
+          focal_concept,
+          i
+        )
+      };
+      rows.push_back(row);
     }
   }
-  */
 
   //Collect all relations of the focal node of this sub concept map
   //for(const Edge edge: map->GetEdges())
