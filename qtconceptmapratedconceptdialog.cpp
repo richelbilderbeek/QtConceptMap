@@ -188,11 +188,8 @@ std::string ribi::cmap::ToHtmlListItems(
   //as there is no text on these anyways
   if (IsCenterNode(GetFrom(edge, conceptmap))
     || IsCenterNode(GetTo(edge, conceptmap))
+    || !IsConnectedTo(edge, node, conceptmap)
   )
-  {
-    return "";
-  }
-  if (!IsConnectedTo(edge, node, conceptmap))
   {
     return "";
   }
