@@ -102,6 +102,9 @@ void ribi::cmap::CommandCreateNewNode::Redo()
 {
   //Modify the QGraphicsScene
   m_added_qtnode = new QtNode(Node(Concept(m_text), m_type, m_x, m_y));
+  assert(!IsOnEdge(*m_added_qtnode));
+  assert(IsQtNodeNotOnEdge(m_added_qtnode));
+
   assert(m_added_qtnode);
   assert(Unwordwrap(m_added_qtnode->GetText()) == m_text);
   assert(!m_added_qtnode->scene());

@@ -27,13 +27,9 @@ int CountQtNodes(const QGraphicsScene& scene) noexcept;
 
 ///Only counts the QtNodes that are not on an edge
 int CountSelectedQtNodes(const QGraphicsScene& scene) noexcept;
+
+///Counts selected QtNodes that are on a QtEdge
 int CountSelectedQtEdges(const QGraphicsScene& scene) noexcept;
-
-///CountSelectedQtEdges implementation 1: counts selected QtEdges
-int CountSelectedQtEdgesImpl1(const QGraphicsScene& scene) noexcept;
-
-///CountSelectedQtEdges implementation 2: counts selected QtNodes that are on a QtEdge
-int CountSelectedQtEdgesImpl2(const QGraphicsScene& scene) noexcept;
 
 ///Get the one selected QtEdge. Throws if there is not exactly one edge selected
 QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
@@ -141,31 +137,8 @@ bool IsDashed(const QPen& pen) noexcept;
 bool IsQtCenterNode(const QGraphicsItem* const item);
 bool IsQtCenterNode(const QtNode& qtnode);
 
-///Is this QtNode in the center on a QtEdge?
-bool IsOnEdge(
-  const QtNode * const qtnode,
-  const QGraphicsScene&
-) noexcept;
-
-///Is this QtNode in the center on a QtEdge?
-bool IsOnEdge(
-  const QtNode * const qtnode
-) noexcept;
-
 ///Is there a QtCenterNode among the selected items?
 bool IsQtCenterNodeSelected(const QGraphicsScene& scene);
-
-///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
-bool IsQtNodeNotOnEdge(
-  const QGraphicsItem * const item,
-  const QGraphicsScene& scene
-) noexcept;
-
-///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
-bool IsQtNodeOnEdge(
-  const QGraphicsItem * const item,
-  const QGraphicsScene& scene
-) noexcept;
 
 } //~namespace cmap
 } //~namespace ribi

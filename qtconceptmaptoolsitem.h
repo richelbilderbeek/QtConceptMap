@@ -32,7 +32,7 @@ struct QtTool : public QGraphicsPixmapItem
 
   ///Get the item the tools item floats above
   ///Return type cannot be const, as the user might want to modify it
-  QtNode * GetBuddyItem() const { return m_item; }
+  QtNode * GetBuddyItem() const noexcept { return m_qtnode; }
 
   ///If the QtTool has a buddy item, reposition it above that item
   ///Does nothing otherwise
@@ -40,10 +40,15 @@ struct QtTool : public QGraphicsPixmapItem
 
   ///Set the position from the widget it floats above
   ///item cannot be const, as the user might want to modify it
+  ///Must not be a QtNode on a QtEdge
   void SetBuddyItem(QtNode * const item);
 
-  ///Define a type for this item, must be unique
-  int type() const override { return UserType + 14; }
+  ///Define a usertype for this QGraphicsItem, must be unique
+  enum { Type = UserType + 14 };
+  int type() const override
+  {
+    return Type;
+  }
 
   protected:
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
@@ -55,7 +60,7 @@ struct QtTool : public QGraphicsPixmapItem
   void setPos(qreal ax, qreal ay) { QGraphicsPixmapItem::setPos(ax,ay); }
 
   ///The item the tools item floats above
-  QtNode * m_item;
+  QtNode * m_qtnode;
 
   void setVisible(bool visible);
 };

@@ -1,13 +1,8 @@
 #ifndef CONCEPTMAPCOMMANDCREATENEWNODE_H
 #define CONCEPTMAPCOMMANDCREATENEWNODE_H
 
-
-
-
-
 #include "qtconceptmapcommand.h"
 #include "conceptmapnodetype.h"
-
 
 namespace ribi {
 namespace cmap {

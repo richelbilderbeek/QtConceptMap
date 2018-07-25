@@ -85,9 +85,12 @@ struct QtEdge : public QGraphicsItem
     m_show_bounding_rect = show_bounding_rect;
   }
 
-  //void keyPressEvent(QKeyEvent *event) noexcept override final;
-  ///Define a usertype for QtEdge, must be unique
-  int type() const override { return UserType + 4; }
+  ///Define a usertype for this QGraphicsItem, must be unique
+  enum { Type = UserType + 4 };
+  int type() const override
+  {
+    return Type;
+  }
 
 protected:
 

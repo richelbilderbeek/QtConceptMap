@@ -65,14 +65,14 @@ void ribi::cmap::CommandMove::Redo()
   m_moved_qtnode = FindFirstQtNode(GetQtConceptMap(),
     [name = m_name, &q = GetQtConceptMap()](QtNode * const qtnode)
     {
-      return name == GetText(*qtnode) && !IsOnEdge(*qtnode, q)
+      return name == GetText(*qtnode) && !IsOnEdge(*qtnode)
         && qtnode->flags() & QGraphicsItem::ItemIsMovable
       ;
     }
   );
   if (m_moved_qtnode)
   {
-    assert(!IsOnEdge(*m_moved_qtnode, GetQtConceptMap()));
+    assert(!IsOnEdge(*m_moved_qtnode));
     m_moved_qtedge = nullptr;
 
     MoveQtNode(*m_moved_qtnode, m_dx, m_dy, GetQtConceptMap());

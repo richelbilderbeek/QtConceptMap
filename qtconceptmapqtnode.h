@@ -83,7 +83,12 @@ struct QtNode : public QtRoundedEditRectItem
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem *, QWidget *) noexcept final;
 
-  int type() const override { return UserType + 3; }
+  ///Define a usertype for this QGraphicsItem, must be unique
+  enum { Type = UserType + 3 };
+  int type() const override
+  {
+    return Type;
+  }
 
 protected:
 
@@ -156,7 +161,19 @@ bool HasExamples(const QtNode& qtnode) noexcept;
 bool IsCenterNode(const QtNode& qtnode) noexcept;
 bool IsComplex(const QtNode& qtnode) noexcept;
 bool IsEnabled(const QtNode& qtnode) noexcept;
+
+///Is this QtNode in the center on a QtEdge?
+///Simple: if it has a parent item (a QtEdge),
+///it is on a QtEdge
+bool IsOnEdge(const QtNode& qtnode) noexcept;
+
 bool IsMovable(const QtNode& qtnode) noexcept;
+
+///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
+bool IsQtNodeOnEdge(
+  const QGraphicsItem * const item
+) noexcept;
+
 bool IsSelectable(const QtNode& qtnode) noexcept;
 bool IsSelected(const QtNode& qtnode) noexcept;
 bool IsVisible(const QtNode& qtnode) noexcept;

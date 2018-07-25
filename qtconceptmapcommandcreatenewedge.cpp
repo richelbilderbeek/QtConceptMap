@@ -100,8 +100,8 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
 
   const auto qtnodes = GetSelectedQtNodes(GetQtConceptMap());
   assert(qtnodes.size() == 2);
-  assert(!IsOnEdge(qtnodes[0]));
-  assert(!IsOnEdge(qtnodes[1]));
+  assert(!IsOnEdge(*qtnodes[0]));
+  assert(!IsOnEdge(*qtnodes[1]));
 
   //Create the new QtEdge
   m_added_qtedge = new QtEdge(
@@ -149,8 +149,6 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
   {
     m_added_qtedge->GetQtNode()->setVisible(false);
   }
-  Ensures(CountSelectedQtEdges(GetScene(*this)) == 1);
-  Ensures(CountSelectedQtNodes(GetScene(*this)) == 0);
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
 }
 

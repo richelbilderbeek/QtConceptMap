@@ -128,9 +128,7 @@ void ribi::cmap::AddEdgesToScene(
     const Edge& edge = conceptmap[*i];
     QtEdge * const qtedge{
       new QtEdge(
-        edge.GetNode().GetConcept(),
-        edge.GetNode().GetX(),
-        edge.GetNode().GetY(),
+        edge.GetNode(),
         qtfrom,
         qtto
       )
@@ -241,7 +239,13 @@ void ribi::cmap::CheckInvariantAllQtNodesHaveAscene(
 void ribi::cmap::CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(const QtConceptMap& q) noexcept
 {
   QtNode * const qtnode = q.GetQtToolItem().GetBuddyItem();
-  assert(!qtnode || IsQtNodeNotOnEdge(qtnode, q));
+  #ifndef NDEBUG
+  if (qtnode && !IsQtNodeNotOnEdge(qtnode))
+  {
+    qCritical() << "Should not associate a QtEdge";
+  }
+  #endif
+  assert(!qtnode || IsQtNodeNotOnEdge(qtnode));
 }
 
 void ribi::cmap::CheckInvariants(const QtConceptMap&
@@ -347,30 +351,9 @@ bool ribi::cmap::IsInScene(const QtEdge& qtedge, const QGraphicsScene& scene) no
   return scene.items().contains(const_cast<QtEdge*>(&qtedge));
 }
 
-bool ribi::cmap::IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept
-{
-  return IsOnEdge(&qtnode, q.GetScene());
-}
-
 bool ribi::cmap::IsQtCenterNodeSelected(const QtConceptMap& q)
 {
   return IsQtCenterNodeSelected(q.GetScene());
-}
-
-bool ribi::cmap::IsQtNodeNotOnEdge(
-  const QGraphicsItem * const item,
-  const QtConceptMap& q
-) noexcept
-{
-  return IsQtNodeNotOnEdge(item, q.GetScene());
-}
-
-bool ribi::cmap::IsQtNodeOnEdge(
-  const QGraphicsItem * const item,
-  const QtConceptMap& q
-) noexcept
-{
-  return IsQtNodeOnEdge(item, q.GetScene());
 }
 
 void ribi::cmap::RemoveConceptMap(QtConceptMap& q)
@@ -694,7 +677,7 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
   for (QtNode * const qtnode: GetQtNodes(q))
   {
     if (IsSelected(*qtnode)
-      && IsQtNodeNotOnEdge(qtnode, q)
+      && IsQtNodeNotOnEdge(qtnode)
       && IsMovable(*qtnode))
     {
       q.DoCommand(new CommandMoveNode(q, qtnode, dx, dy));
@@ -875,7 +858,7 @@ void ribi::cmap::MoveQtEdgesAndQtNodesRandomly(QtConceptMap& q)
     else
     {
       QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item);
-      if (qtnode && IsQtNodeNotOnEdge(qtnode, q))
+      if (qtnode && IsQtNodeNotOnEdge(qtnode))
       {
         Move(*qtnode, dx, dy);
       }
@@ -921,7 +904,7 @@ void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexc
       const double dx = qtnode->x() - other_qtnode->x() > 0.0 ? 1.0 : -1.0;
       const double dy = qtnode->y() - other_qtnode->y() > 0.0 ? 1.0 : -1.0;
 
-      if (IsQtNodeOnEdge(qtnode, q.GetScene()))
+      if (IsQtNodeOnEdge(qtnode))
       {
         QtEdge * const qtedge = FindQtEdge(qtnode, q.GetScene());
         assert(qtedge);
@@ -929,7 +912,7 @@ void ribi::cmap::MoveQtNodesAwayFromEachOther(ribi::cmap::QtConceptMap& q) noexc
       }
       else
       {
-        assert(IsQtNodeNotOnEdge(qtnode, q.GetScene()));
+        assert(IsQtNodeNotOnEdge(qtnode));
         Move(*qtnode, dx, dy);
       }
     }
@@ -1421,7 +1404,7 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
   }
 
   //Only QtNodes (not on QtEdge) have a QtToolItem
-  if (IsQtNodeNotOnEdge(new_focus_item, q))
+  if (IsQtNodeNotOnEdge(new_focus_item))
   {
     SetQtToolItemBuddy(q, new_focus_item);
   }

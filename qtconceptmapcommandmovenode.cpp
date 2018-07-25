@@ -34,8 +34,9 @@ ribi::cmap::CommandMoveNode::CommandMoveNode(
   {
     throw std::invalid_argument("Cannot move unmovable QtNode");
   }
-  if (IsQtNodeOnEdge(m_qtnode, GetQtConceptMap()))
+  if (IsQtNodeOnEdge(m_qtnode))
   {
+    //Use CommandMoveEdge to move an edge
     throw std::invalid_argument("Cannot move QtNode on QtEdge");
   }
 
@@ -79,7 +80,7 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
       [&qtconceptmap, text](const QtNode * const qtnode)
       {
         return GetText(*qtnode) == text
-          && !IsOnEdge(*qtnode, qtconceptmap)
+          && !IsOnEdge(*qtnode)
           && IsMovable(*qtnode)
         ;
       }
@@ -92,26 +93,16 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
 
 void ribi::cmap::CommandMoveNode::Redo()
 {
-  
-
   assert(m_qtnode);
-  assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
+  assert(!IsOnEdge(*m_qtnode));
   assert(IsMovable(*m_qtnode));
-
-  MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());
-
-  
+  MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());  
 }
 
 void ribi::cmap::CommandMoveNode::Undo()
 {
-  
-
   assert(m_qtnode);
-  assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
+  assert(!IsOnEdge(*m_qtnode));
   assert(IsMovable(*m_qtnode));
-
   MoveQtNode(*m_qtnode, -m_dx, -m_dy, GetQtConceptMap());
-
-  
 }

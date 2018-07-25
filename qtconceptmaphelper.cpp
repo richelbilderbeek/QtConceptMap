@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
+#include "qtconceptmap.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmapcollect.h"
 #include "qtconceptmapqtedge.h"
@@ -53,58 +54,22 @@ int ribi::cmap::CountQtNodes(const QGraphicsScene& scene) noexcept
 {
   int cnt{0};
   for (const auto item: scene.items()) {
-    if (IsQtNodeNotOnEdge(item, scene)) ++cnt;
+    if (IsQtNodeNotOnEdge(item)) ++cnt;
   }
   return cnt;
 }
 
 int ribi::cmap::CountSelectedQtEdges(const QGraphicsScene& scene) noexcept
 {
-  //Impl1 always works, as it relies on the QtEdges
-  //Impl2 relies on QtNodes, which are hidden when connected to a center node
-  qCritical()
-    << "1" << CountSelectedQtEdgesImpl1(scene)
-    << "2" << CountSelectedQtEdgesImpl2(scene)
-    << "C" << CountQtCenterNodes(scene)
-  ;
-  assert( (1 + 1 == 2)
-    ||
-       (CountSelectedQtEdgesImpl1(scene) == CountSelectedQtEdgesImpl2(scene)
-           && CountQtCenterNodes(scene) == 0)
-    || (CountSelectedQtEdgesImpl1(scene) >= CountSelectedQtEdgesImpl2(scene)
-           && CountQtCenterNodes(scene)  > 0)
-  );
-  return CountSelectedQtEdgesImpl1(scene);
-}
-
-int ribi::cmap::CountSelectedQtEdgesImpl1(const QGraphicsScene& scene) noexcept
-{
-  int cnt{0};
-  for (auto item: scene.items())
-  {
-    if (qgraphicsitem_cast<QtEdge*>(item)
-      && qgraphicsitem_cast<QtEdge*>(item)->IsSelected()
-    )
-    {
-      ++cnt;
-    }
-  }
-  return cnt;
-}
-
-int ribi::cmap::CountSelectedQtEdgesImpl2(const QGraphicsScene& scene) noexcept
-{
   int cnt{0};
   for (auto item: scene.items()) {
-    if (qgraphicsitem_cast<QtNode*>(item)
-      && qgraphicsitem_cast<QtNode*>(item)->isSelected()
-      && IsOnEdge(qgraphicsitem_cast<QtNode*>(item), scene)
+    if (qgraphicsitem_cast<QtEdge*>(item)
+      && qgraphicsitem_cast<QtEdge*>(item)->IsSelected()
     ) {
       ++cnt;
     }
   }
   return cnt;
-
 }
 
 int ribi::cmap::CountSelectedQtNodes(const QGraphicsScene& scene) noexcept
@@ -113,7 +78,7 @@ int ribi::cmap::CountSelectedQtNodes(const QGraphicsScene& scene) noexcept
   for (auto item: scene.items()) {
     if (qgraphicsitem_cast<QtNode*>(item)
       && qgraphicsitem_cast<QtNode*>(item)->isSelected()
-      && !IsOnEdge(qgraphicsitem_cast<QtNode*>(item), scene)
+      && !IsQtNodeOnEdge(item)
     ) {
       ++cnt;
     }
@@ -391,9 +356,9 @@ ribi::cmap::GetQtNodes(const QGraphicsScene& scene) noexcept
   std::vector<QtNode*> qtnodes;
   std::copy_if(std::begin(qtnodes_all), std::end(qtnodes_all),
     std::back_inserter(qtnodes),
-    [&scene](const QtNode* const qtnode)
+    [](const QtNode* const qtnode)
     {
-      return !IsOnEdge(qtnode, scene);
+      return !IsOnEdge(*qtnode);
     }
   );
   return qtnodes;
@@ -423,15 +388,6 @@ ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept
   return selected;
 }
 
-/*
-std::vector<ribi::cmap::QtNode *>
-ribi::cmap::GetSelectedQtNodes(const QGraphicsScene& scene) noexcept
-{
-
-  return GetSelectedQtNodes(scene);
-}
-*/
-
 std::vector<ribi::cmap::QtNode *>
 ribi::cmap::GetSelectedQtNodes(const QGraphicsScene& scene) noexcept
 {
@@ -441,10 +397,10 @@ ribi::cmap::GetSelectedQtNodes(const QGraphicsScene& scene) noexcept
     std::begin(qtnodes),
     std::end(qtnodes),
     std::back_inserter(selected),
-    [&scene](QtNode* const qtnode)
+    [](QtNode* const qtnode)
     {
       return qtnode->isSelected()
-        && !IsOnEdge(qtnode, scene)
+        && !IsOnEdge(*qtnode)
       ;
     }
   );
@@ -487,20 +443,6 @@ bool ribi::cmap::IsQtCenterNode(const QtNode& qtnode)
   return IsCenterNode(qtnode);
 }
 
-bool ribi::cmap::IsOnEdge(
-  const QtNode * const qtnode,
-  const QGraphicsScene& //scene
-) noexcept
-{
-  return qtnode->parentItem();
-}
-
-bool ribi::cmap::IsOnEdge(
-  const QtNode * const qtnode
-) noexcept
-{
-  return qtnode->parentItem();
-}
 
 bool ribi::cmap::IsQtCenterNodeSelected(const QGraphicsScene& scene)
 {
@@ -515,19 +457,17 @@ bool ribi::cmap::IsQtCenterNodeSelected(const QGraphicsScene& scene)
 }
 
 bool ribi::cmap::IsQtNodeNotOnEdge(
-  const QGraphicsItem * const item,
-  const QGraphicsScene& scene
+  const QGraphicsItem * const item
 ) noexcept
 {
   const QtNode* const qtnode{qgraphicsitem_cast<const QtNode*>(item)};
-  return qtnode && !IsOnEdge(qtnode, scene);
+  return qtnode && !IsOnEdge(*qtnode);
 }
 
 bool ribi::cmap::IsQtNodeOnEdge(
-  const QGraphicsItem * const item,
-  const QGraphicsScene& scene
+  const QGraphicsItem * const item
 ) noexcept
 {
   const QtNode* const qtnode{qgraphicsitem_cast<const QtNode*>(item)};
-  return qtnode && IsOnEdge(qtnode, scene);
+  return qtnode && IsOnEdge(*qtnode);
 }

@@ -27,7 +27,7 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
   {
     throw std::invalid_argument("Cannot unselect nullptr QtNode");
   }
-  if (IsQtNodeOnEdge(qtnode, GetQtConceptMap()))
+  if (IsQtNodeOnEdge(qtnode))
   {
     throw std::invalid_argument(
       "Cannot unselect QtNode on QtEdge, "
@@ -62,7 +62,7 @@ ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
     [&qtconceptmap, t](QtNode * const qtnode)
     {
       return GetText(*qtnode) == t
-        && !IsQtNodeOnEdge(qtnode, qtconceptmap);
+        && !IsQtNodeOnEdge(qtnode);
     }
   );
   return new CommandUnselectNode(qtconceptmap, first_qtnode);

@@ -32,6 +32,13 @@ struct QtNewArrow : public QtArrowItem
   const QtNode * GetFrom() const noexcept;
   QtNode * GetFrom() noexcept;
 
+  ///Define a usertype for this QGraphicsItem, must be unique
+  enum { Type = UserType + 5 };
+  int type() const override
+  {
+    return Type;
+  }
+
   private:
   ///Must be suppplied
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
@@ -39,9 +46,6 @@ struct QtNewArrow : public QtArrowItem
   ///The source node
   ///Cannot be const as the user might want to edit it
   QtNode * m_from;
-
-  ///Define a usertype for QtEdge, must be unique
-  int type() const override { return UserType + 5; }
 };
 
 ///Get the Z order of each NewArrow,

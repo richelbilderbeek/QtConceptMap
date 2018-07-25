@@ -16,6 +16,8 @@ ribi::cmap::QtEdge::QtEdge(
     QtNode * const to
 ) : QtEdge(edge.GetNode(), from, to)
 {
+  assert(std::abs(GetX(*this) - GetX(edge)) < 2.0);
+  assert(std::abs(GetY(*this) - GetY(edge)) < 2.0);
 }
 
 ribi::cmap::QtEdge::QtEdge(
@@ -24,6 +26,18 @@ ribi::cmap::QtEdge::QtEdge(
     QtNode * const to
 ) : QtEdge(node.GetConcept(), node.GetX(), node.GetY(), from, to)
 {
+  #ifndef NDEBUG
+  if (std::abs(GetX(*this) - GetX(node)) >= 2.0)
+  {
+    qCritical()
+      << GetX(*this)
+      << GetX(node)
+    ;
+  }
+  #endif
+  assert(std::abs(GetX(*this) - GetX(node)) < 2.0);
+  assert(std::abs(GetY(*this) - GetY(node)) < 2.0);
+
 }
 
 ribi::cmap::QtEdge::QtEdge(
@@ -48,7 +62,7 @@ ribi::cmap::QtEdge::QtEdge(
     m_show_bounding_rect{false},
     m_to{to}
 {
-  assert(IsOnEdge(m_qtnode));
+  assert(IsOnEdge(*m_qtnode));
   CheckInput(from, to);
   m_arrow = new QtQuadBezierArrowItem(
     from,
@@ -61,8 +75,8 @@ ribi::cmap::QtEdge::QtEdge(
 
   this->m_arrow->setFlags(0);
 
-  //this->setFlags(QGraphicsItem::ItemIsSelectable);
-  this->setFlags(0);
+  //QtEdge must be selectable
+  this->setFlags(QGraphicsItem::ItemIsSelectable);
 
   GetQtNode()->SetContourPen(QPen(Qt::white));
 
@@ -75,8 +89,6 @@ ribi::cmap::QtEdge::QtEdge(
   }
 
   GetQtNode()->setFlags(GetQtNodeFlags());
-  m_qtnode->SetCenterX(x);
-  m_qtnode->SetCenterY(y);
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
@@ -86,6 +98,7 @@ ribi::cmap::QtEdge::QtEdge(
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
   }
 
+  m_qtnode->SetCenterPos(x, y);
 
   //Set Z values
   this->setZValue(GetQtEdgeZvalue());
@@ -135,11 +148,11 @@ void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
   {
     throw std::invalid_argument("QtEdge must have a different from and to");
   }
-  if (IsOnEdge(from))
+  if (IsOnEdge(*from))
   {
     throw std::invalid_argument("QtNode 'from' must not be on an edge");
   }
-  if (IsOnEdge(to))
+  if (IsOnEdge(*to))
   {
     throw std::invalid_argument("QtNode 'from' must not be on an edge");
   }

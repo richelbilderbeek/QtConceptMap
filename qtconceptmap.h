@@ -269,21 +269,19 @@ bool IsArrowVisible(QtConceptMap& q) noexcept;
 bool IsInScene(const QtEdge& qtedge, const QGraphicsScene& scene) noexcept;
 
 ///Is this QtNode in the center on a QtEdge?
-bool IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept;
+bool IsOnEdge(const QtNode& qtnode) noexcept;
 
 ///Is there a QtCenterNode among the selected items?
 bool IsQtCenterNodeSelected(const QtConceptMap& q);
 
 ///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
 bool IsQtNodeNotOnEdge(
-  const QGraphicsItem * const item,
-  const QtConceptMap& q
+  const QGraphicsItem * const item
 ) noexcept;
 
 ///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
 bool IsQtNodeOnEdge(
-  const QGraphicsItem * const item,
-  const QtConceptMap& q
+  const QGraphicsItem * const item
 ) noexcept;
 
 ///

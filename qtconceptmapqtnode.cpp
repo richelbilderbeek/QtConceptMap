@@ -20,8 +20,8 @@
 #include "container.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnodefactory.h"
-
 
 ribi::cmap::QtNode::QtNode(
   const Node& node,
@@ -211,6 +211,15 @@ bool ribi::cmap::IsComplex(const QtNode& qtnode) noexcept
 bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept
 {
   return qtnode.isEnabled();
+}
+
+bool ribi::cmap::IsOnEdge(
+  const QtNode& qtnode
+) noexcept
+{
+  const auto parent_item = qtnode.parentItem();
+  assert(!parent_item || qgraphicsitem_cast<QtEdge*>(parent_item));
+  return parent_item;
 }
 
 bool ribi::cmap::IsMovable(const QtNode& qtnode) noexcept
