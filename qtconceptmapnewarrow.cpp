@@ -1,15 +1,12 @@
 #include "qtconceptmapnewarrow.h"
 
 #include <string>
-#include <boost/lexical_cast.hpp>
 
 #include <QFont>
 #include <QPainter>
-#include <QDebug>
 
 #include "geometry.h"
 #include "qtconceptmapqtnode.h"
-
 
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/linestring.hpp>

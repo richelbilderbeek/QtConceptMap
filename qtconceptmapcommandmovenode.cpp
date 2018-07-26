@@ -1,19 +1,15 @@
 #include "qtconceptmapcommandmovenode.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-
-
 #include <gsl/gsl_assert>
-//#include <QApplication>
-#include "container.h"
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
+#include "container.h"
 #include "qtconceptmap.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtnode.h"
 
 ribi::cmap::CommandMoveNode::CommandMoveNode(
   QtConceptMap& qtconceptmap,

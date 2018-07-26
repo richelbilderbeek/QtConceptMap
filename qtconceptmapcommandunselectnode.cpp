@@ -1,18 +1,17 @@
 #include "qtconceptmapcommandunselectnode.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
-//#include <QApplication>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
+
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
+#include "container.h"
+#include "count_vertices_with_selectedness.h"
 #include "qtconceptmap.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtnode.h"
 
 ribi::cmap::CommandUnselectNode::CommandUnselectNode(
   QtConceptMap& qtconceptmap,

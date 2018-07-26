@@ -1,19 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDMOVENODE_H
 #define CONCEPTMAPCOMMANDMOVENODE_H
 
-
-
-
-
-
-//#include "conceptmapnode.h"
-//#include "conceptmap.h"
-//#include "qtconceptmapqtnode.h"
-//#include <QGraphicsScene>
-//#include "qtconceptmaptoolsitem.h"
 #include "qtconceptmapcommand.h"
-//#include "qtconceptmapmode.h"
-
 
 namespace ribi {
 namespace cmap {

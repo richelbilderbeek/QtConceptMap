@@ -4,7 +4,6 @@
 #include <climits>
 
 #include <QCursor>
-#include <QDebug>
 #include <QGraphicsItem>
 #include <QKeyEvent>
 #include <QPainter>
@@ -113,14 +112,16 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateUninitializedFlags(
   return 0;
 }
 
-void ribi::cmap::QtNode::dragEnterEvent(QGraphicsSceneDragDropEvent *)
+void ribi::cmap::QtNode::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
 {
-  qDebug() << "QtNode enter drag";
+  assert(!"ribi::cmap::QtNode::dragEnterEvent is never called");
+  QtRoundedEditRectItem::dragEnterEvent(event);
 }
 
-void ribi::cmap::QtNode::dragLeaveEvent(QGraphicsSceneDragDropEvent *)
+void ribi::cmap::QtNode::dragLeaveEvent(QGraphicsSceneDragDropEvent * event)
 {
-  qDebug() << "QtNode leave drag";
+  assert(!"ribi::cmap::QtNode::dragLeaveEvent is never called");
+  QtRoundedEditRectItem::dragLeaveEvent(event);
 }
 
 void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept
@@ -227,6 +228,13 @@ void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
   //m_concept_item->hoverMoveEvent(e);
   //Won't cause a hover, because the concept item
   //is not visible??
+  std::stringstream s;
+  s
+    << "QGraphicsItem::ItemIsFocusable: " << static_cast<bool>(flags() & QGraphicsItem::ItemIsFocusable)
+    << "\nQGraphicsItem::ItemIsMovable: " << static_cast<bool>(flags() & QGraphicsItem::ItemIsMovable)
+    << "\nQGraphicsItem::ItemIsSelectable: " << static_cast<bool>(flags() & QGraphicsItem::ItemIsSelectable)
+  ;
+  this->setToolTip(s.str().c_str());
 }
 
 bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
@@ -276,6 +284,11 @@ bool ribi::cmap::IsVisible(const QtNode& qtnode) noexcept
 void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
 {
   QtRoundedEditRectItem::keyPressEvent(event);
+}
+
+void ribi::cmap::QtNode::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+{
+  QtRoundedEditRectItem::mouseMoveEvent(event);
 }
 
 void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)

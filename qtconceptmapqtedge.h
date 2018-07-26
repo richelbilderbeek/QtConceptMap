@@ -94,7 +94,7 @@ struct QtEdge : public QGraphicsItem
 
 protected:
 
-  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) noexcept override final;
+  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override final;
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
 
 

@@ -1,7 +1,6 @@
 #include "qtconceptmapqtedge.h"
 
 #include <cassert>
-
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 
@@ -88,7 +87,7 @@ ribi::cmap::QtEdge::QtEdge(
     GetQtNode()->SetFocusPen(focus_pen);
   }
 
-  GetQtNode()->setFlags(CreateFlags(*GetQtNode()));
+  GetQtNode()->setFlags(CreateEditFlags(*GetQtNode()));
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
@@ -177,9 +176,10 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetQtNode()->zValue() == GetQtNodeZvalue());
 }
 
-void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent *) noexcept
+void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
 {
-  qDebug() << "QtEdge";
+  assert(!"ribi::cmap::QtEdge::dragEnterEvent is never called");
+  QGraphicsItem::dragEnterEvent(event);
 }
 
 ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept

@@ -3,7 +3,6 @@
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
-//#include <QApplication>
 #include "container.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"

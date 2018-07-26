@@ -22,7 +22,7 @@ struct QtNode : public QtRoundedEditRectItem
   virtual ~QtNode() noexcept;
 
   explicit QtNode(
-    const Node& node,
+    const Node& node = Node(),
     QGraphicsItem* parent = 0
   );
   explicit QtNode(
@@ -89,6 +89,7 @@ protected:
   void focusOutEvent(QFocusEvent *event) noexcept final override;
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event) noexcept final;
   void keyPressEvent(QKeyEvent *event) noexcept final;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override final;
 
 private:
 

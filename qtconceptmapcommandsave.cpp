@@ -1,22 +1,20 @@
 #include "qtconceptmapcommandsave.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
-
 #include <gsl/gsl_assert>
-//#include <QApplication>
 #include <QFile>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
+
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
+#include "container.h"
+#include "count_vertices_with_selectedness.h"
+#include "find_first_custom_vertex_with_my_vertex.h"
 #include "qtconceptmap.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtnode.h"
 
 ribi::cmap::CommandSave::CommandSave(
   QtConceptMap& qtconceptmap,

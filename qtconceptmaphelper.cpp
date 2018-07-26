@@ -1,7 +1,6 @@
 #include "qtconceptmaphelper.h"
 
 #include <QGraphicsScene>
-#include <QDebug>
 
 #include "qtconceptmap.h"
 #include "qtconceptmapbrushfactory.h"

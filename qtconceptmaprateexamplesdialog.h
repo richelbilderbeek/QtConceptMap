@@ -1,15 +1,9 @@
 #ifndef QTCONCEPTMAPRATEEXAMPLESDIALOG_H
 #define QTCONCEPTMAPRATEEXAMPLESDIALOG_H
 
-
-
-
-
 #include <QDialog>
-//#include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
-
 
 namespace Ui { class QtRateExamplesDialog; }
 

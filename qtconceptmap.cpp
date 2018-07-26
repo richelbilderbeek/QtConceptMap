@@ -309,14 +309,16 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateFlags(const QtNode& qtnode, c
   return 0;
 }
 
-void ribi::cmap::QtConceptMap::dragEnterEvent(QDragEnterEvent *)
+void ribi::cmap::QtConceptMap::dragEnterEvent(QDragEnterEvent * event)
 {
-  qDebug() << "QtConceptMap drag enter";
+  assert(!"ribi::cmap::QtConceptMap::dragEnterEvent is never called");
+  QtKeyboardFriendlyGraphicsView::dragEnterEvent(event);
 }
 
-void ribi::cmap::QtConceptMap::dragLeaveEvent(QDragLeaveEvent *)
+void ribi::cmap::QtConceptMap::dragLeaveEvent(QDragLeaveEvent * event)
 {
-  qDebug() << "QtConceptMap drag leave";
+  assert(!"ribi::cmap::QtConceptMap::dragLeaveEvent is never called");
+  QtKeyboardFriendlyGraphicsView::dragLeaveEvent(event);
 }
 
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
@@ -967,8 +969,6 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
 
 void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 {
-
-  qDebug() << "QtConceptMap move";
   CheckInvariants(*this);
   event->ignore();
 
@@ -1017,8 +1017,6 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
     assert(event);
     mousePressEventNoArrowActive(*this, event);
   }
-  //Just to raise awareness :-)
-  assert(event->isAccepted());
 
   //Vital to move the QtNodes and QtEdges
   QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
@@ -1381,18 +1379,6 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   //fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
 
   CheckInvariants(*this);
-
-  #ifndef NDEBUG
-  if (CountQtNodes(*this) != static_cast<int>(boost::num_vertices(conceptmap)))
-  {
-    qDebug()
-      << "CountQtNodes(*this):"
-      << CountQtNodes(*this)
-      << "static_cast<int>(boost::num_vertices(conceptmap)):"
-      << static_cast<int>(boost::num_vertices(conceptmap))
-    ;
-  }
-  #endif
   Ensures(CountQtNodes(*this) ==
     static_cast<int>(boost::num_vertices(conceptmap)));
   Ensures(CountQtEdges(*this) ==

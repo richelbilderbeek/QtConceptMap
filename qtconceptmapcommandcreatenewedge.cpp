@@ -25,7 +25,6 @@
 #include "qtconceptmaphelper.h"
 #include "qtconceptmaptoolsitem.h"
 
-#include <QDebug>
 #include <QBrush>
 
 ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes

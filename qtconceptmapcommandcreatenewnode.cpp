@@ -1,21 +1,15 @@
 #include "qtconceptmapcommandcreatenewnode.h"
 
-#include <cassert>
 #include <boost/algorithm/string/trim.hpp>
+
 #include <gsl/gsl_assert>
-#include <QDebug>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
-#include "conceptmap.h"
+
 #include "conceptmaphelper.h"
-#include "conceptmapnode.h"
+#include "container.h"
 #include "qtconceptmap.h"
-#include "qtconceptmaptoolsitem.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
-#include "set_vertex_selectedness.h"
-#include "set_my_custom_vertex.h"
+#include "qtconceptmapqtnode.h"
+#include "qtconceptmaptoolsitem.h"
 
 bool str_to_bool(std::string s)
 {
