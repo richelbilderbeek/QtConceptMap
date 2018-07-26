@@ -195,13 +195,10 @@ std::string ribi::cmap::ToHtmlListItems(
 {
   //Do not display edges connected to the center node,
   //as there is no text on these anyways
-  assert(
-    !(IsCenterNode(GetFrom(edge, conceptmap))
-      || IsCenterNode(GetTo(edge, conceptmap))
-      || !IsConnectedTo(edge, node, conceptmap)
-    )
-  );
+  assert(!IsCenterNode(GetFrom(edge, conceptmap)));
+  assert(!IsCenterNode(GetTo(edge, conceptmap)));
   assert(IsConnectedTo(edge, node, conceptmap));
+
   std::stringstream s;
   //Dependent on arrow
   if (GetFrom(edge, conceptmap) == node
