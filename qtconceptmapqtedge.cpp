@@ -178,7 +178,7 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
 
 void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
 {
-  assert(!"ribi::cmap::QtEdge::dragEnterEvent is never called");
+  assert(!"ribi::cmap::QtEdge::dragEnterEvent is never called"); //!OCLINT accepted idiom
   QGraphicsItem::dragEnterEvent(event);
 }
 

@@ -63,6 +63,15 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::DisplayEdges(
   std::stringstream s;
   for (const Edge& edge: GetEdges(conceptmap))
   {
+    //Do not display edges connected to the center node,
+    //as there is no text on these anyways
+    if (IsCenterNode(GetFrom(edge, conceptmap))
+      || IsCenterNode(GetTo(edge, conceptmap))
+      || !IsConnectedTo(edge, node, conceptmap)
+    )
+    {
+      continue;
+    }
     s << ToHtmlListItems(edge, conceptmap, node, role);
   }
 
@@ -186,13 +195,12 @@ std::string ribi::cmap::ToHtmlListItems(
 {
   //Do not display edges connected to the center node,
   //as there is no text on these anyways
-  if (IsCenterNode(GetFrom(edge, conceptmap))
-    || IsCenterNode(GetTo(edge, conceptmap))
-    || !IsConnectedTo(edge, node, conceptmap)
-  )
-  {
-    return "";
-  }
+  assert(
+    !(IsCenterNode(GetFrom(edge, conceptmap))
+      || IsCenterNode(GetTo(edge, conceptmap))
+      || !IsConnectedTo(edge, node, conceptmap)
+    )
+  );
   assert(IsConnectedTo(edge, node, conceptmap));
   std::stringstream s;
   //Dependent on arrow
