@@ -10,8 +10,9 @@ QtConceptMapDemo allows scripting:
  * `toggle_arrow_tail`
  * `unselect`
 
+```
 --command "set_mode(edit); create_new_node(center, true, 0, 0); unselect(center); create_new_node(from, false, 0, -50); create_new_node(to, false, 0, 50); create_new_edge(relation); move(relation, 200, 0); toggle_arrow_head(); toggle_arrow_tail()" //!OCLINT
-
+```
 
 ## `create_new_edge`
 
