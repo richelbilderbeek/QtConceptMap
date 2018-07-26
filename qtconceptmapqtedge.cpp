@@ -88,7 +88,7 @@ ribi::cmap::QtEdge::QtEdge(
     GetQtNode()->SetFocusPen(focus_pen);
   }
 
-  GetQtNode()->setFlags(GetQtNodeFlags());
+  GetQtNode()->setFlags(CreateFlags(GetQtNode()));
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
@@ -194,14 +194,6 @@ ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
     m_arrow->HasTail(),
     m_arrow->HasHead()
   );
-}
-
-QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
-{
-  return QGraphicsItem::ItemIsFocusable
-    | QGraphicsItem::ItemIsMovable
-    | QGraphicsItem::ItemIsSelectable
-  ;
 }
 
 std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept

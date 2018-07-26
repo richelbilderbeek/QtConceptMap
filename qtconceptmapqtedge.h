@@ -141,8 +141,6 @@ private:
 
 void CheckInvariants(const QtEdge& qtedge);
 
-QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
-
 Concept GetConcept(const QtEdge& qtedge) noexcept;
 
 std::string GetText(const QtEdge& qtedge) noexcept;
