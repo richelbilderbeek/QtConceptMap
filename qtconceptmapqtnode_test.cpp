@@ -21,16 +21,6 @@ void ribi::cmap::QtConceptMapQtNodeTest::normal_qtnode_is_not_center_node()
   QVERIFY(!IsCenterNode(*qtnode));
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::disable_and_enable()
-{
-  const auto qtnode = QtNodeFactory().GetTest(1);
-  qtnode->show();
-  qtnode->DisableAll();
-  qtnode->show();
-  qtnode->EnableAll();
-  qtnode->show();
-}
-
 void ribi::cmap::QtConceptMapQtNodeTest::press_nonsense_is_rejected()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);

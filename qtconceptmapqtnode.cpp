@@ -113,16 +113,14 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateUninitializedFlags(
   return 0;
 }
 
-void ribi::cmap::QtNode::DisableAll()
+void ribi::cmap::QtNode::dragEnterEvent(QGraphicsSceneDragDropEvent *)
 {
-  this->setEnabled(false);
-  this->setVisible(false);
+  qDebug() << "QtNode enter drag";
 }
 
-void ribi::cmap::QtNode::EnableAll()
+void ribi::cmap::QtNode::dragLeaveEvent(QGraphicsSceneDragDropEvent *)
 {
-  this->setEnabled(true);
-  this->setVisible(true);
+  qDebug() << "QtNode leave drag";
 }
 
 void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept

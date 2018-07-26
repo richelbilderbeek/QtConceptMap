@@ -177,25 +177,9 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetQtNode()->zValue() == GetQtNodeZvalue());
 }
 
-void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept
-{
-  qtedge.setEnabled(false);
-  qtedge.setVisible(false);
-  qtedge.GetArrow()->setEnabled(false);
-  qtedge.GetArrow()->setVisible(false);
-}
-
 void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent *) noexcept
 {
   qDebug() << "QtEdge";
-}
-
-void ribi::cmap::EnableAll(QtEdge& qtedge) noexcept
-{
-  qtedge.setEnabled(true);
-  qtedge.setVisible(true);
-  qtedge.GetArrow()->setEnabled(true);
-  qtedge.GetArrow()->setVisible(true);
 }
 
 ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept

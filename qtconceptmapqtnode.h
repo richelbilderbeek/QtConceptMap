@@ -34,9 +34,6 @@ struct QtNode : public QtRoundedEditRectItem
     QGraphicsItem* parent = 0
   );
 
-  void DisableAll();
-  void EnableAll();
-
   const auto& GetExamples() const noexcept { return m_examples; }
   int GetId() const noexcept { return m_id; }
 
@@ -86,10 +83,12 @@ struct QtNode : public QtRoundedEditRectItem
   }
 
 protected:
+  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override final;
+  void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override final;
   void focusInEvent(QFocusEvent *event) noexcept final override;
   void focusOutEvent(QFocusEvent *event) noexcept final override;
-  void keyPressEvent(QKeyEvent *event) noexcept final;
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event) noexcept final;
+  void keyPressEvent(QKeyEvent *event) noexcept final;
 
 private:
 

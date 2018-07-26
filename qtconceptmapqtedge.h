@@ -140,8 +140,6 @@ private:
 };
 
 void CheckInvariants(const QtEdge& qtedge);
-void DisableAll(QtEdge& qtedge) noexcept;
-void EnableAll(QtEdge& qtedge) noexcept;
 
 QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
 
