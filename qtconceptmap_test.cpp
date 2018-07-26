@@ -382,39 +382,36 @@ void ribi::cmap::QtConceptMapTest::DefaultConstruction() const noexcept
 
 void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept
 {
-  qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
   QtConceptMap q;
   q.showFullScreen();
   const auto concept_map = ConceptMapFactory().GetStarShaped();
   q.SetConceptMap(concept_map);
   q.show();
   //Select the node at the center of the star
-  qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
   while (CountSelectedQtEdges(q) != 0
     || CountSelectedQtNodes(q) != 1
     || (CountSelectedQtNodes(q) > 0 && GetNode(*GetSelectedQtNodes(q)[0]).GetConcept().GetName()
       != std::string("X"))
   )
   {
-    qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
     CheckInvariants(q);
     q.show();
-    qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
     QTest::keyClick(&q, Qt::Key_Space, Qt::NoModifier, 100);
-    qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
     CheckInvariants(q);
   }
-  qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
+  qDebug() << __func__ << ":" << __LINE__;
+  q.show(); //Error here
+  qDebug() << __func__ << ":" << __LINE__;
+  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier, 100); //Or here
+  qDebug() << __func__ << ":" << __LINE__;
   q.show();
-  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier, 100);
-  qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
-  q.show();
-  qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
+  qDebug() << __func__ << ":" << __LINE__;
   q.Undo();
-  qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
+  qDebug() << __func__ << ":" << __LINE__;
   q.show();
-  qDebug() << "DeleteNodeThatIsConnectedToMultipleEdgesKeyboard:" << __LINE__;
+  qDebug() << __func__ << ":" << __LINE__;
   q.Redo();
+  qDebug() << __func__ << ":" << __LINE__;
   q.show();
 }
 
