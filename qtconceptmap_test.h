@@ -13,14 +13,14 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void ClickOnNothingShouldUnselectAll() const noexcept;
-  void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept;
+
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
   void CannotEditCenterNode() const noexcept; //#104
   void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
+  void ClickOnNothingShouldUnselectAll() const noexcept;
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeCommand() const noexcept;
   void CreateOneEdgeKeyboard() const noexcept;
@@ -43,6 +43,7 @@ private slots:
   void create_two_nodes_command() const noexcept;
   void create_two_nodes_keyboard() const noexcept;
   void DefaultConstruction() const noexcept;
+  void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept;
   void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
   void DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const noexcept;
   void DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept;
@@ -84,7 +85,6 @@ private slots:
   void PressZ() const noexcept;
   void QtNodeInCenterMustBeGold() const noexcept; //#111
   void QtNodesMustShowExampleWhenFocused() const noexcept; //#96
-  void RateConceptMapHasLessFocusableItems() const noexcept;
   void RateModeFlags() const noexcept;
   void SelectRandomNodeKeyboardEdit() const noexcept; //#138, skip on Travis
 

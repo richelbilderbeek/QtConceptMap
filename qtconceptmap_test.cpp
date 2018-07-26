@@ -780,21 +780,6 @@ void ribi::cmap::QtConceptMapTest::EditModeFlags() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapTest::RateConceptMapHasLessFocusableItems() const noexcept
-{
-  //In rate mode, the center node cannot be focused on
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get11());
-  m.SetMode(Mode::edit);
-  QVERIFY(CountCenterNodes(m.ToConceptMap()) > 0);
-  QVERIFY(CountQtCenterNodes(m.GetScene()) > 0);
-  QVERIFY(CountCenterNodes(m.ToConceptMap()) == CountQtCenterNodes(m.GetScene()));
-  const auto n_edit = GetFocusableItems(m).size();
-  m.SetMode(Mode::rate);
-  const auto n_rate = GetFocusableItems(m).size();
-  QVERIFY(n_rate < n_edit);
-}
-
 void ribi::cmap::QtConceptMapTest::RateModeFlags() const noexcept
 {
   QtConceptMap m;
@@ -806,8 +791,8 @@ void ribi::cmap::QtConceptMapTest::RateModeFlags() const noexcept
     if (IsQtCenterNode(qtnode))
     {
       QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsMovable));
-      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsSelectable));
-      QVERIFY(!(qtnode->flags() & QGraphicsItem::ItemIsFocusable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsSelectable));
+      QVERIFY( (qtnode->flags() & QGraphicsItem::ItemIsFocusable));
     }
     else
     {
@@ -817,7 +802,6 @@ void ribi::cmap::QtConceptMapTest::RateModeFlags() const noexcept
     }
   }
 }
-
 
 void ribi::cmap::QtConceptMapTest::GetHighlighter() const noexcept
 {
@@ -1614,7 +1598,8 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const noexcept
 void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
 {
   QtConceptMap q;
-  q.showFullScreen();
+  q.SetMode(Mode::edit);
+  q.show();
   QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
   QtNode * const qtnode = GetFirstQtNode(q);
   q.DoCommand(new CommandUnselectNode(q, qtnode));
@@ -1643,12 +1628,25 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const 
 void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept
 {
   QtConceptMap q;
+  q.SetMode(Mode::edit);
   q.showFullScreen();
 
   QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
-  QtNode * const qtnode = GetFirstQtNode(q);
-  q.DoCommand(new CommandUnselectNode(q, qtnode));
+  q.show();
 
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+
+  QtNode * const qtnode = GetFirstQtNode(q);
+  assert(!IsQtNodeOnEdge(qtnode));
+  assert(IsSelectable(*qtnode));
+  q.DoCommand(new CommandUnselectNode(q, qtnode));
+  q.show();
+
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+
+  qDebug() << "GO CLICK";
   const auto first_pos = q.mapFromScene(GetFirstQtNode(q)->pos().toPoint());
   QMouseEvent first_click(QEvent::Type::MouseButtonPress, first_pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   q.mousePressEvent(&first_click);

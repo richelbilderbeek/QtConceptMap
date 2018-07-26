@@ -1014,12 +1014,14 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   }
   else
   {
-    assert(event);
     mousePressEventNoArrowActive(*this, event);
   }
 
   //Vital to move the QtNodes and QtEdges
-  QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
+  if (!event->isAccepted())
+  {
+    QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
+  }
 
   CheckInvariants(*this);
 }
