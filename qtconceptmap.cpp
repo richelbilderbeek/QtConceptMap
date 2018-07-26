@@ -1083,8 +1083,10 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
         q.DoCommand(new CommandUnselectAll(q));
       }
       q.DoCommand(new CommandSelect(q, *item));
+
+      //Essential for having movable QtNodes and QtEdges
+      event->ignore();
     }
-    event->accept();
   }
   catch (std::exception&) {} //OK
 
