@@ -309,6 +309,16 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateFlags(const QtNode& qtnode, c
   return 0;
 }
 
+void ribi::cmap::QtConceptMap::dragEnterEvent(QDragEnterEvent *)
+{
+  qDebug() << "QtConceptMap drag enter";
+}
+
+void ribi::cmap::QtConceptMap::dragLeaveEvent(QDragLeaveEvent *)
+{
+  qDebug() << "QtConceptMap drag leave";
+}
+
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
   const QtConceptMap& q,
   const std::function<bool(QtEdge*)> predicate) noexcept
@@ -957,12 +967,15 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
 
 void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 {
+
+  qDebug() << "QtConceptMap move";
   CheckInvariants(*this);
+  event->ignore();
 
   if (m_arrow->isVisible())
   {
     const QPointF pos = mapToScene(event->pos());
-    m_arrow->SetHeadPos(pos.x(),pos.y());
+    m_arrow->SetHeadPos(pos.x(), pos.y());
 
     //Move the item under the arrow
     QtNode* const item_below = GetItemBelowCursor(*this, mapToScene(event->pos()));
@@ -1004,6 +1017,11 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
     assert(event);
     mousePressEventNoArrowActive(*this, event);
   }
+  //Just to raise awareness :-)
+  assert(event->isAccepted());
+
+  //Vital to move the QtNodes and QtEdges
+  QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
 
   CheckInvariants(*this);
 }
@@ -1047,7 +1065,6 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     ;
     event->ignore();
     return;
-    //q.DoCommand(new CommandT
   }
 
   //Click on an edge or a node
