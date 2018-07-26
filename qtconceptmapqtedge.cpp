@@ -88,7 +88,7 @@ ribi::cmap::QtEdge::QtEdge(
     GetQtNode()->SetFocusPen(focus_pen);
   }
 
-  GetQtNode()->setFlags(CreateFlags(GetQtNode()));
+  GetQtNode()->setFlags(CreateFlags(*GetQtNode()));
 
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
