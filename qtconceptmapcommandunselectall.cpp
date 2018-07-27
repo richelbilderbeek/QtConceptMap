@@ -20,8 +20,9 @@
 #include <QGraphicsScene>
 
 ribi::cmap::CommandUnselectAll::CommandUnselectAll(
-  QtConceptMap& qtconceptmap
-)  : Command(qtconceptmap),
+  QtConceptMap& qtconceptmap,
+  QUndoCommand *parent
+)  : Command(qtconceptmap, parent),
      m_cmds{}
 {
   for (QGraphicsItem * const item: GetQtConceptMap().GetScene().items())

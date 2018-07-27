@@ -14,7 +14,8 @@ class CommandUnselectAll final : public Command
 
   ///@param node_or_edge_name the node or edge name/text to be unselected
   CommandUnselectAll(
-    QtConceptMap& qtconceptmap
+    QtConceptMap& qtconceptmap,
+    QUndoCommand *parent = nullptr
   );
   CommandUnselectAll(const CommandUnselectAll&) = delete;
   CommandUnselectAll& operator=(const CommandUnselectAll&) = delete;
