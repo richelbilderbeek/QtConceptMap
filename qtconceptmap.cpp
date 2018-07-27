@@ -1001,6 +1001,9 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 
   QtKeyboardFriendlyGraphicsView::mouseMoveEvent(event);
 
+  //The tools icon must follow the freshly moved item
+  m_tools->Reposition();
+
   CheckInvariants(*this);
 }
 
