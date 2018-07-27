@@ -1246,7 +1246,9 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   //Edit concept
   QtConceptMapConceptEditDialog d(
     GetConcept(qtnode),
-    QtConceptMapConceptEditDialog::EditType::concept
+    IsOnEdge(qtnode)
+    ? QtConceptMapConceptEditDialog::EditType::relation
+    : QtConceptMapConceptEditDialog::EditType::concept
   );
   q.setEnabled(false);
   d.exec();
