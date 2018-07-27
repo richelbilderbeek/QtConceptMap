@@ -27,7 +27,7 @@ ribi::cmap::CommandSelectEdge::CommandSelectEdge(
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Select edge";
+    msg << "Select edge with text '" << GetText(*m_qtedge) << "'";
     this->setText(msg.str().c_str());
   }
 }

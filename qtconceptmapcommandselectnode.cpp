@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
+#include "conceptmaphelper.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmap.h"
@@ -34,7 +35,7 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Select node";
+    msg << "Select node with text '" << GetText(*m_qtnode) << "'";
     this->setText(msg.str().c_str());
   }
 }

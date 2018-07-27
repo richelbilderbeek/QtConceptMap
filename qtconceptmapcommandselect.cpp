@@ -47,9 +47,7 @@ ribi::cmap::CommandSelect::CommandSelect(
 
   //QCommands have a text
   {
-    std::stringstream msg;
-    msg << "Select item";
-    this->setText(msg.str().c_str());
+    this->setText(m_cmd->text());
   }
 }
 

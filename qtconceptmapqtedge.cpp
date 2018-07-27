@@ -182,6 +182,11 @@ void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
   QGraphicsItem::dragEnterEvent(event);
 }
 
+QPointF ribi::cmap::GetCenterPos(const QtEdge& qtedge) noexcept
+{
+  return GetCenterPos(*qtedge.GetQtNode());
+}
+
 ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
 {
   return GetConcept(*qtedge.GetQtNode());
@@ -196,14 +201,10 @@ ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
   );
 }
 
+
 std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
 {
   return GetText(*qtedge.GetQtNode());
-}
-
-QPointF ribi::cmap::GetCenterPos(const QtEdge& qtedge) noexcept
-{
-  return GetCenterPos(*qtedge.GetQtNode());
 }
 
 double ribi::cmap::GetX(const QtEdge& qtedge) noexcept

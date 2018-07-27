@@ -1,12 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDSELECT_H
 #define CONCEPTMAPCOMMANDSELECT_H
 
-
-
-
-
 #include "qtconceptmapcommand.h"
-
 
 namespace ribi {
 namespace cmap {
