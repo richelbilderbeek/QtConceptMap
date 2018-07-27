@@ -1041,7 +1041,6 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   {
     try
     {
-      qDebug() << "Unselecting all";
       q.DoCommand(new CommandUnselectAll(q));
       event->accept();
     }

@@ -22,22 +22,17 @@ ribi::cmap::CommandUnselect::CommandUnselect(
 {
   if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
-    qDebug() << __func__ << ":" << __LINE__;
     m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge, this);
   }
   else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
-    qDebug() << __func__ << ":" << __LINE__;
     if (!IsOnEdge(*qtnode))
     {
-      qDebug() << __func__ << ":" << __LINE__;
       m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
     }
-    qDebug() << __func__ << ":" << __LINE__;
   }
   if (!m_cmd)
   {
-    qDebug() << __func__ << ":" << __LINE__;
     throw std::invalid_argument("item is not a QtEdge nor QtNode");
   }
 

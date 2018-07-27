@@ -2,22 +2,12 @@
 
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
-#include <gsl/gsl_assert>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
-#include "find_first_custom_edge_with_my_edge.h"
-#include "set_edge_selectedness.h"
-#include "set_vertex_selectedness.h"
-#include "conceptmap.h"
-#include "conceptmaphelper.h"
-#include "conceptmapnode.h"
+#include <QDebug>
+
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
-#include "qtconceptmaphelper.h"
 #include "qtconceptmapcommandunselect.h"
-#include <QGraphicsScene>
 
 ribi::cmap::CommandUnselectAll::CommandUnselectAll(
   QtConceptMap& qtconceptmap,
@@ -32,13 +22,15 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
     assert(item->isSelected());
 
     //Do not add a QtNode that is on a QtEdge, only keep that QtEdge
-    if (qgraphicsitem_cast<QtNode*>(item)
-      || qgraphicsitem_cast<QtNode*>(item)
-    )
+    const bool is_qtedge{qgraphicsitem_cast<QtEdge*>(item)};
+    const bool is_qtnode{
+      qgraphicsitem_cast<QtNode*>(item)
+      && !IsOnEdge(*qgraphicsitem_cast<QtNode*>(item))
+    };
+    if (is_qtedge || is_qtnode)
     {
       try
       {
-        assert(qgraphicsitem_cast<QtNode*>(item));
         new CommandUnselect(GetQtConceptMap(), *item, m_cmd);
       }
       catch (std::exception&) {} //OK
@@ -80,6 +72,7 @@ ribi::cmap::CommandUnselectAll * ribi::cmap::ParseCommandUnselectAll(
 
 void ribi::cmap::CommandUnselectAll::Redo()
 {
+  assert(m_cmd);
   m_cmd->redo();
 }
 

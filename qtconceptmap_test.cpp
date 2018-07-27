@@ -399,21 +399,12 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeybo
     QTest::keyClick(&q, Qt::Key_Space, Qt::NoModifier, 100);
     CheckInvariants(q);
   }
-  qDebug() << __func__ << ":" << __LINE__;
   q.show();
-  QSKIP("Travis-only error", "");
-  qDebug() << "Error here";
-  qDebug() << __func__ << ":" << __LINE__;
   QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier, 100); //Or here
-  qDebug() << __func__ << ":" << __LINE__;
   q.show();
-  qDebug() << __func__ << ":" << __LINE__;
   q.Undo();
-  qDebug() << __func__ << ":" << __LINE__;
   q.show();
-  qDebug() << __func__ << ":" << __LINE__;
   q.Redo();
-  qDebug() << __func__ << ":" << __LINE__;
   q.show();
 }
 
@@ -1656,7 +1647,6 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const 
   assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
 
-  qDebug() << "GO CLICK";
   const auto first_pos = q.mapFromScene(GetFirstQtNode(q)->pos().toPoint());
   QMouseEvent first_click(QEvent::Type::MouseButtonPress, first_pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   q.mousePressEvent(&first_click);
