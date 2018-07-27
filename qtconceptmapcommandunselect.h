@@ -6,8 +6,6 @@
 namespace ribi {
 namespace cmap {
 
-///Start a new node
-///-Can be used only when there is an existing concept map
 class CommandUnselect final : public Command
 {
   public:
@@ -20,7 +18,7 @@ class CommandUnselect final : public Command
   );
   CommandUnselect(const CommandUnselect&) = delete;
   CommandUnselect& operator=(const CommandUnselect&) = delete;
-  ~CommandUnselect() noexcept {}
+  ~CommandUnselect() noexcept;
 
   void Redo() override;
   void Undo() override;

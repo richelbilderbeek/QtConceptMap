@@ -17,9 +17,9 @@ class QtConceptMapQtNodeTest;
 ///QtNode displays a Node as a QtConceptMapElement
 ///Instead of duplicating state, Node's members
 ///are scattered over the class
-struct QtNode : public QtRoundedEditRectItem
+struct QtNode final : public QtRoundedEditRectItem
 {
-  virtual ~QtNode() noexcept;
+  ~QtNode() noexcept;
 
   explicit QtNode(
     const Node& node = Node(),

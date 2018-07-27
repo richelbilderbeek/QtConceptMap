@@ -29,6 +29,10 @@ ribi::cmap::CommandLoad::CommandLoad(
   }
 }
 
+ribi::cmap::CommandLoad::~CommandLoad()
+{
+
+}
 
 ribi::cmap::CommandLoad * ribi::cmap::ParseCommandLoad(
   QtConceptMap& qtconceptmap, std::string s)

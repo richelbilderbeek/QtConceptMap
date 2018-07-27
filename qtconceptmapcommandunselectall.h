@@ -19,15 +19,15 @@ class CommandUnselectAll final : public Command
   );
   CommandUnselectAll(const CommandUnselectAll&) = delete;
   CommandUnselectAll& operator=(const CommandUnselectAll&) = delete;
-  ~CommandUnselectAll() noexcept {}
+  ~CommandUnselectAll() noexcept;
 
   void Redo() override;
   void Undo() override;
 
   private:
 
-  ///The actual commands
-  std::vector<Command *> m_cmds;
+  ///The actual command, in which subcommands are children
+  QUndoCommand * m_cmd;
 };
 
 /// Works on, for example  'create_new_node(0, 0, from)'

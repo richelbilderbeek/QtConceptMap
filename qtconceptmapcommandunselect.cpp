@@ -1,23 +1,17 @@
 #include "qtconceptmapcommandunselect.h"
 
 #include <cassert>
+
 #include <boost/algorithm/string/trim.hpp>
-#include <gsl/gsl_assert>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
-#include "find_first_custom_edge_with_my_edge.h"
-#include "set_edge_selectedness.h"
-#include "set_vertex_selectedness.h"
-#include "conceptmap.h"
-#include "conceptmaphelper.h"
-#include "conceptmapnode.h"
+
+#include <QDebug>
+#include <QUndoCommand>
+
 #include "qtconceptmap.h"
-#include "qtconceptmapqtedge.h"
-#include "qtconceptmapqtnode.h"
-#include "qtconceptmaphelper.h"
 #include "qtconceptmapcommandunselectedge.h"
 #include "qtconceptmapcommandunselectnode.h"
+#include "qtconceptmapqtedge.h"
+#include "qtconceptmapqtnode.h"
 
 ribi::cmap::CommandUnselect::CommandUnselect(
   QtConceptMap& qtconceptmap,
@@ -28,21 +22,22 @@ ribi::cmap::CommandUnselect::CommandUnselect(
 {
   if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
+    qDebug() << __func__ << ":" << __LINE__;
     m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge, this);
   }
   else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
-    if (QtEdge* const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
+    qDebug() << __func__ << ":" << __LINE__;
+    if (!IsOnEdge(*qtnode))
     {
-      m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge2, this);
-    }
-    else
-    {
+      qDebug() << __func__ << ":" << __LINE__;
       m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
     }
+    qDebug() << __func__ << ":" << __LINE__;
   }
   if (!m_cmd)
   {
+    qDebug() << __func__ << ":" << __LINE__;
     throw std::invalid_argument("item is not a QtEdge nor QtNode");
   }
 
@@ -52,6 +47,11 @@ ribi::cmap::CommandUnselect::CommandUnselect(
     msg << "Unselect item";
     this->setText(msg.str().c_str());
   }
+}
+
+ribi::cmap::CommandUnselect::~CommandUnselect() noexcept
+{
+
 }
 
 ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(

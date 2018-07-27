@@ -38,6 +38,11 @@ ribi::cmap::CommandMoveEdge::CommandMoveEdge(
   }
 }
 
+ribi::cmap::CommandMoveEdge::~CommandMoveEdge() noexcept
+{
+
+}
+
 ribi::cmap::CommandMoveEdge * ribi::cmap::ParseCommandMoveEdge(
   QtConceptMap& qtconceptmap, std::string s)
 {

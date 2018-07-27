@@ -11,7 +11,7 @@ namespace ribi {
 namespace cmap {
 
 ///Allows the user to rate the examples of a concept
-class QtRateExamplesDialog : public QDialog
+class QtRateExamplesDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
   

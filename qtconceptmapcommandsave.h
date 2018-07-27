@@ -24,7 +24,7 @@ class CommandSave final : public Command
   );
   CommandSave(const CommandSave&) = delete;
   CommandSave& operator=(const CommandSave&) = delete;
-  ~CommandSave() noexcept {}
+  ~CommandSave() noexcept;
 
   ///Get the filename
   std::string GetFilename() const noexcept { return m_filename; }

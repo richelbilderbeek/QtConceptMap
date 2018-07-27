@@ -31,6 +31,10 @@ ribi::cmap::CommandSave::CommandSave(
   }
 }
 
+ribi::cmap::CommandSave::~CommandSave()
+{
+
+}
 
 ribi::cmap::CommandSave * ribi::cmap::ParseCommandSave(
   QtConceptMap& qtconceptmap, std::string s)

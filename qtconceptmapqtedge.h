@@ -18,7 +18,7 @@ struct Node;
 ///The QtEdge is a QGraphicsItem that
 ///draws a curve underneath itself, between head and tail arrowhead
 ///It parents an arrow and a QtNode.
-struct QtEdge : public QGraphicsItem
+struct QtEdge final : public QGraphicsItem
 {
   QtEdge(
     const Edge& edge,

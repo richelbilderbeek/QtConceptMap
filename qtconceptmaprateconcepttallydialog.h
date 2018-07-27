@@ -12,7 +12,7 @@ namespace Ui { class QtRateConceptTallyDialog; }
 namespace ribi {
 namespace cmap {
 
-class QtRateConceptTallyDialog : public QDialog
+class QtRateConceptTallyDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
   

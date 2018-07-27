@@ -19,7 +19,7 @@ class CommandMoveEdge final : public Command
   );
   CommandMoveEdge(const CommandMoveEdge&) = delete;
   CommandMoveEdge& operator=(const CommandMoveEdge&) = delete;
-  ~CommandMoveEdge() noexcept {}
+  ~CommandMoveEdge() noexcept;
 
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }

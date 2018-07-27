@@ -49,6 +49,11 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   }
 }
 
+ribi::cmap::CommandCreateNewNode::~CommandCreateNewNode()
+{
+
+}
+
 double ribi::cmap::CommandCreateNewNode::GetX() const noexcept
 {
   assert(m_added_qtnode);

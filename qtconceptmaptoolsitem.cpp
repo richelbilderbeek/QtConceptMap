@@ -33,6 +33,11 @@ ribi::cmap::QtTool::QtTool()
   this->setZValue(GetQtToolZvalue());
 }
 
+ribi::cmap::QtTool::~QtTool()
+{
+
+}
+
 void ribi::cmap::QtTool::hoverMoveEvent(QGraphicsSceneHoverEvent *)
 {
   this->setCursor(QCursor(Qt::PointingHandCursor));

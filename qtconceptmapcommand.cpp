@@ -12,6 +12,11 @@ ribi::cmap::Command::Command(
   assert(&m_qtconceptmap == &qtconceptmap);
 }
 
+ribi::cmap::Command::~Command() noexcept
+{
+
+}
+
 void ribi::cmap::Command::undo()
 {
   CheckInvariants(GetQtConceptMap());

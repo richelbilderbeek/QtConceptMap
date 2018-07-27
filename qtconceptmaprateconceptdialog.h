@@ -13,7 +13,7 @@ namespace ribi {
 namespace cmap {
 
 ///Rate the focal concept of a sub-ConceptMap.
-class QtRateConceptDialog : public QDialog
+class QtRateConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
     

@@ -40,6 +40,11 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   }
 }
 
+ribi::cmap::CommandSelectNode::~CommandSelectNode()
+{
+
+}
+
 ribi::cmap::CommandSelectNode * ribi::cmap::ParseCommandSelectNode(
   QtConceptMap& qtconceptmap, std::string s)
 {

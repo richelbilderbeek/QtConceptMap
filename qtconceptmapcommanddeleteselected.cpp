@@ -30,6 +30,10 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   setText("delete selected nodes and edges");
 }
 
+ribi::cmap::CommandDeleteSelected::~CommandDeleteSelected()
+{
+
+}
 
 void ribi::cmap::CommandDeleteSelected::AddDeletedQtEdges()
 {

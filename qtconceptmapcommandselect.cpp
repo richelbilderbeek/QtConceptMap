@@ -51,6 +51,11 @@ ribi::cmap::CommandSelect::CommandSelect(
   }
 }
 
+ribi::cmap::CommandSelect::~CommandSelect() noexcept
+{
+
+}
+
 ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
   QtConceptMap& qtconceptmap, std::string s)
 {

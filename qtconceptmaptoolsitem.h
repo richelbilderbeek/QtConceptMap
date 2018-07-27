@@ -23,12 +23,12 @@ namespace cmap {
 ///QtTool cannot have its visibility set directly:
 ///- if it has a buddy, it is visible
 ///- if it has no buddy, it is invisible
-struct QtTool : public QGraphicsPixmapItem
+struct QtTool final : public QGraphicsPixmapItem
 {
   explicit QtTool();
   QtTool(const QtTool& other) = delete;
   QtTool& operator=(const QtTool& other) = delete;
-  virtual ~QtTool() noexcept {}
+  ~QtTool() noexcept;
 
   ///Get the item the tools item floats above
   ///Return type cannot be const, as the user might want to modify it

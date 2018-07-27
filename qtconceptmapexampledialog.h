@@ -17,7 +17,7 @@ namespace ribi {
 namespace cmap {
 
 ///Displays and modifies an Example
-class QtExampleDialog : public QDialog
+class QtExampleDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
 

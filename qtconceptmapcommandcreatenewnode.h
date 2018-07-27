@@ -22,7 +22,7 @@ class CommandCreateNewNode final : public Command
   );
   CommandCreateNewNode(const CommandCreateNewNode&) = delete;
   CommandCreateNewNode& operator=(const CommandCreateNewNode&) = delete;
-  ~CommandCreateNewNode() noexcept {}
+  ~CommandCreateNewNode() noexcept;
 
   double GetX() const noexcept;
   double GetY() const noexcept;

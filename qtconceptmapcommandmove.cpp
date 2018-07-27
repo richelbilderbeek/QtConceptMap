@@ -34,6 +34,11 @@ ribi::cmap::CommandMove::CommandMove(
   }
 }
 
+ribi::cmap::CommandMove::~CommandMove() noexcept
+{
+
+}
+
 ribi::cmap::CommandMove * ribi::cmap::ParseCommandMove(
   QtConceptMap& qtconceptmap, std::string s)
 {

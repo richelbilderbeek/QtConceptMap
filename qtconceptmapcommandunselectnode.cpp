@@ -44,6 +44,11 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
   }
 }
 
+ribi::cmap::CommandUnselectNode::~CommandUnselectNode() noexcept
+{
+
+}
+
 ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
   QtConceptMap& qtconceptmap, std::string s)
 {

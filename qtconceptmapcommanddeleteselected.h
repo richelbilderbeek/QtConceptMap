@@ -20,7 +20,7 @@ class CommandDeleteSelected final : public Command
   );
   CommandDeleteSelected(const CommandDeleteSelected&) = delete;
   CommandDeleteSelected& operator=(const CommandDeleteSelected&) = delete;
-  ~CommandDeleteSelected() noexcept {}
+  ~CommandDeleteSelected() noexcept;
 
   void Undo() override;
   void Redo() override;

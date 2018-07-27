@@ -32,6 +32,11 @@ ribi::cmap::CommandSetConcept::CommandSetConcept(
   }
 }
 
+ribi::cmap::CommandSetConcept::~CommandSetConcept() noexcept
+{
+
+}
+
 ribi::cmap::CommandSetConcept * ribi::cmap::ParseCommandSetConcept(
   QtConceptMap& qtconceptmap, std::string s)
 {

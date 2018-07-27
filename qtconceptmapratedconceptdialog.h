@@ -15,7 +15,7 @@ namespace Ui { class QtConceptMapRatedConceptDialog; }
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapRatedConceptDialog : public QDialog
+class QtConceptMapRatedConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
   

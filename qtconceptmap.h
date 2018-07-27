@@ -22,7 +22,8 @@ namespace cmap {
 ///  0: QtNodes: GetQtNodeZvalue()
 /// -1: QtEdges: GetQtEdgeZvalue()
 /// -2: QtEdge's arrow: GetQtEdgeArrowZvalue()`
-class QtConceptMap : public ribi::QtKeyboardFriendlyGraphicsView //!OCLINT cannot get it smaller
+class QtConceptMap final //!OCLINT cannot get it smaller
+  : public ribi::QtKeyboardFriendlyGraphicsView
 {
   Q_OBJECT //!OCLINT
 

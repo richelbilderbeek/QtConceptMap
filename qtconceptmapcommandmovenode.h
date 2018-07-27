@@ -21,7 +21,7 @@ class CommandMoveNode final : public Command
   );
   CommandMoveNode(const CommandMoveNode&) = delete;
   CommandMoveNode& operator=(const CommandMoveNode&) = delete;
-  ~CommandMoveNode() noexcept {}
+  ~CommandMoveNode() noexcept;
 
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }

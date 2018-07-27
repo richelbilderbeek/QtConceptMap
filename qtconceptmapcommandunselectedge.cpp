@@ -32,6 +32,11 @@ ribi::cmap::CommandUnselectEdge::CommandUnselectEdge(
   }
 }
 
+ribi::cmap::CommandUnselectEdge::~CommandUnselectEdge()
+{
+
+}
+
 ribi::cmap::CommandUnselectEdge * ribi::cmap::ParseCommandUnselectEdge(
   QtConceptMap& qtconceptmap, std::string s)
 {

@@ -25,7 +25,7 @@ class CommandMove final : public Command
   );
   CommandMove(const CommandMove&) = delete;
   CommandMove& operator=(const CommandMove&) = delete;
-  ~CommandMove() noexcept {}
+  ~CommandMove() noexcept;
 
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }

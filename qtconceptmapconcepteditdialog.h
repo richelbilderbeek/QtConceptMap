@@ -12,7 +12,7 @@ namespace cmap {
 
 struct QtConceptMapConceptEditDialogTest;
 
-class QtConceptMapConceptEditDialog : public QDialog
+class QtConceptMapConceptEditDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
   

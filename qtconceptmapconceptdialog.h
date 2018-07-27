@@ -16,7 +16,7 @@ namespace ribi {
 namespace cmap {
 
 ///Displays and modifies a Concept
-class QtConceptDialog : public QDialog
+class QtConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
 

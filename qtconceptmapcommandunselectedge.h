@@ -25,7 +25,7 @@ class CommandUnselectEdge final : public Command
   );
   CommandUnselectEdge(const CommandUnselectEdge&) = delete;
   CommandUnselectEdge& operator=(const CommandUnselectEdge&) = delete;
-  ~CommandUnselectEdge() noexcept {}
+  ~CommandUnselectEdge() noexcept;
 
   void Redo() override;
   void Undo() override;
