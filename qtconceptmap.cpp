@@ -1474,8 +1474,8 @@ void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
   auto qtnodes = GetQtNodesAlsoOnQtEdge(*scene());
   for (auto qtnode: qtnodes)
   {
-    const auto f = GetQtNodeBrushFunction(m_mode);
-    qtnode->SetBrushFunction(f);
+    qtnode->SetBrushFunction(GetQtNodeBrushFunction(m_mode));
+    qtnode->SetVignetteBrushFunction(GetQtNodeVignetteBrushFunction(m_mode));
     qtnode->setFlags(CreateFlags(*qtnode, mode));
   }
   if (mode == Mode::edit && !m_tools->scene())

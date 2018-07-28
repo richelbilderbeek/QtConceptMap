@@ -310,7 +310,8 @@ void ribi::cmap::QtNode::paint(
 
   if (HasExamples(*this))
   {
-    painter->setBrush(Qt::transparent);
+    painter->setBrush(m_vignette_brush_function(*this));
+    //painter->setBrush(Qt::transparent);
     painter->setPen(Qt::black);
     painter->drawRect(
       (GetInnerRect().width() / 2.0) - 5.0,
@@ -319,6 +320,8 @@ void ribi::cmap::QtNode::paint(
       3.0
     );
   }
+
+  painter->setBrush(Qt::transparent);
 
   if (m_show_bounding_rect)
   {
@@ -468,6 +471,14 @@ void ribi::cmap::SetRatingSpecificity(
 void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)
 {
   qtnode.SetText( Wordwrap(text, GetWordWrapLength()) );
+}
+
+void ribi::cmap::QtNode::SetVignetteBrushFunction(
+  const std::function<QBrush(const ribi::cmap::QtNode&)>& f
+) noexcept
+{
+  m_vignette_brush_function = f;
+  this->update();
 }
 
 void ribi::cmap::SetX(QtNode& qtnode, const double x)

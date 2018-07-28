@@ -243,7 +243,7 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
-ribi::cmap::GetQtNodeBrushFunction(const Mode mode)
+ribi::cmap::GetQtNodeBrushFunction(const Mode mode) noexcept
 {
   switch (mode)
   {
@@ -251,9 +251,8 @@ ribi::cmap::GetQtNodeBrushFunction(const Mode mode)
     case Mode::rate: return GetQtNodeBrushFunctionRate();
     case Mode::uninitialized: return GetQtNodeBrushFunctionUninitialized();
   }
-  throw std::logic_error(
-    "ribi::cmap::QtConceptMap::GetNodeBrushFunction: unimplemented mode"
-  );
+  assert(!"Should not get here"); //!OCLINT accepted idiom
+  return GetQtNodeBrushFunctionUninitialized();
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
@@ -339,6 +338,33 @@ ribi::cmap::GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept
   return Collect<QtNode>(scene);
 }
 
+std::function<QBrush(const ribi::cmap::QtNode&)>
+ribi::cmap::GetQtNodeVignetteBrushFunction(const Mode mode) noexcept
+{
+  switch (mode)
+  {
+    case Mode::edit:
+      return [](const QtNode&) { return Qt::transparent; };
+    case Mode::rate:
+      return [](const QtNode& qtnode)
+      {
+        if (!HasExamples(qtnode))
+        {
+          //return QBrush(Qt::transparent);
+          return QBrush(QColor(0, 0, 255));
+        }
+        const int n_rated = CountExamplesRated(GetExamples(qtnode));
+        const int n_examples = CountExamples(GetExamples(qtnode));
+        if (n_rated == n_examples) return QBrush(Qt::green);
+        if (n_rated == 0) return QBrush(Qt::red);
+        return QBrush(QColor(255, 128, 0));
+      };
+    case Mode::uninitialized:
+      return [](const QtNode&) { return Qt::transparent; };
+  }
+  assert(!"Should not get here"); //!OCLINT accepted idiom
+  return [](const QtNode&) { return Qt::transparent; };
+}
 
 std::vector<ribi::cmap::QtEdge *>
 ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept

@@ -71,6 +71,9 @@ struct QtNode final : public QtRoundedEditRectItem
   ///-1: not rated, 0: lowest, 2: highest
   void SetRatingSpecificity(const int rating_specificity);
 
+  ///Sets the function that determines the brush of the QtNode
+  void SetVignetteBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
+
   std::string ToStr() const noexcept;
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem *, QWidget *) noexcept final;
@@ -95,6 +98,9 @@ private:
 
   ///The function that determines this QtNode its brush
   std::function<QBrush(const ribi::cmap::QtNode&)> m_brush_function;
+
+  ///The function that determines this QtNode's vignette's brush
+  std::function<QBrush(const ribi::cmap::QtNode&)> m_vignette_brush_function;
 
   ///The node being edited, or displayed and not changed, or rated
   Examples m_examples;

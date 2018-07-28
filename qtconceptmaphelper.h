@@ -90,7 +90,9 @@ std::vector<QtEdge*> GetQtEdges(
 ) noexcept;
 
 ///The function how a QtNode determines it is colored
-std::function<QBrush(const QtNode&)> GetQtNodeBrushFunction(const Mode mode);
+std::function<QBrush(const QtNode&)> GetQtNodeBrushFunction(
+  const Mode mode
+) noexcept;
 
 ///The function how a QtNode in Mode::Edit determines it is colored
 std::function<QBrush(const QtNode&)> GetQtNodeBrushFunctionEdit() noexcept;
@@ -106,6 +108,11 @@ std::vector<QtNode *> GetQtNodes(const QGraphicsScene& scene) noexcept;
 
 ///Get both the QtNodes that are 'standalone' or are on an edge
 std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept;
+
+///The function how a QtNode's vignette determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunction(
+  const Mode mode
+) noexcept;
 
 ///Get the selected QtEdges
 std::vector<QtEdge *> GetSelectedQtEdges(const QGraphicsScene& scene) noexcept;
