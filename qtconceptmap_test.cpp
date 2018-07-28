@@ -746,6 +746,7 @@ void ribi::cmap::QtConceptMapTest::DoubleClick() const noexcept
 void ribi::cmap::QtConceptMapTest::DoubleClickTwice() const noexcept
 {
   QtConceptMap m;
+  m.SetMode(Mode::edit);
   m.show();
   assert(boost::num_vertices(m.ToConceptMap()) == 0);
   //Creates a new node
