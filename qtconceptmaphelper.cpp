@@ -262,24 +262,23 @@ ribi::cmap::GetQtNodeBrushFunctionEdit() noexcept
   return [](const QtNode& qtnode)
   {
     //Gold if center node
-    //If solitary node (that is, a concept)
-    // * grey if no examples
-    // * red if examples
-    //Blue if relation node
+    //Grey if no examples
+    //Red if solitary node (that is, a concept) with examples
+    //Blue if relation node with examples
     if (IsCenterNode(qtnode))
     {
       return QtBrushFactory().CreateGoldGradientBrush();
     }
-    if (!qtnode.parentItem())
+    if (!HasExamples(qtnode))
     {
-      if (HasExamples(qtnode))
-      {
-        return QtBrushFactory().CreateRedGradientBrush();
-      }
       return QtBrushFactory().CreateGrayGradientBrush();
     }
-    assert(qtnode.parentItem());
-    return QtBrushFactory().CreateBlueGradientBrush();
+    if (IsOnEdge(qtnode))
+    {
+      return QtBrushFactory().CreateBlueGradientBrush();
+    }
+    assert(!IsOnEdge(qtnode));
+    return QtBrushFactory().CreateRedGradientBrush();
   };
 }
 
