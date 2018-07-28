@@ -946,6 +946,8 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
 {
   CheckInvariants(*this);
 
+  if (m_mode != Mode::edit) return;
+
   const QPointF pos = mapToScene(event->pos());
 
   //Do not create new nodes when double-clicking on an existing one
