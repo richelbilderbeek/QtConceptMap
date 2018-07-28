@@ -737,6 +737,7 @@ void ribi::cmap::QtConceptMapTest::DoubleClick() const noexcept
 {
   QtConceptMap m;
   m.showFullScreen();
+  m.SetMode(Mode::edit);
   assert(boost::num_vertices(m.ToConceptMap()) == 0);
   QTest::mouseDClick(m.viewport(), Qt::LeftButton);
   QVERIFY(boost::num_vertices(m.ToConceptMap()) == 1);
