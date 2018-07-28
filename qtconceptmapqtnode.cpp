@@ -57,7 +57,8 @@ ribi::cmap::QtNode::QtNode(
     m_rating_complexity{concept.GetRatingComplexity()},
     m_rating_concreteness{concept.GetRatingConcreteness()},
     m_rating_specificity{concept.GetRatingSpecificity()},
-    m_show_bounding_rect{false}
+    m_show_bounding_rect{false},
+    m_vignette_brush_function{GetQtNodeVignetteBrushFunctionUninitialized()}
 {
   //Allow mouse tracking
   this->setAcceptHoverEvents(true);

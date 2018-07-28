@@ -343,26 +343,41 @@ ribi::cmap::GetQtNodeVignetteBrushFunction(const Mode mode) noexcept
 {
   switch (mode)
   {
-    case Mode::edit:
-      return [](const QtNode&) { return Qt::transparent; };
-    case Mode::rate:
-      return [](const QtNode& qtnode)
-      {
-        if (!HasExamples(qtnode))
-        {
-          //return QBrush(Qt::transparent);
-          return QBrush(QColor(0, 0, 255));
-        }
-        const int n_rated = CountExamplesRated(GetExamples(qtnode));
-        const int n_examples = CountExamples(GetExamples(qtnode));
-        if (n_rated == n_examples) return QBrush(Qt::green);
-        if (n_rated == 0) return QBrush(Qt::red);
-        return QBrush(QColor(255, 128, 0));
-      };
-    case Mode::uninitialized:
-      return [](const QtNode&) { return Qt::transparent; };
+    case Mode::edit: return GetQtNodeVignetteBrushFunctionEdit();
+    case Mode::rate: return GetQtNodeVignetteBrushFunctionRate();
+    case Mode::uninitialized: return GetQtNodeVignetteBrushFunctionUninitialized();
   }
   assert(!"Should not get here"); //!OCLINT accepted idiom
+  return GetQtNodeVignetteBrushFunctionUninitialized();
+}
+
+std::function<QBrush(const ribi::cmap::QtNode&)>
+ribi::cmap::GetQtNodeVignetteBrushFunctionEdit() noexcept
+{
+  return [](const QtNode&) { return Qt::transparent; };
+}
+
+std::function<QBrush(const ribi::cmap::QtNode&)>
+ribi::cmap::GetQtNodeVignetteBrushFunctionRate() noexcept
+{
+  return [](const QtNode& qtnode)
+  {
+    if (!HasExamples(qtnode))
+    {
+      //return QBrush(Qt::transparent);
+      return QBrush(QColor(0, 0, 255));
+    }
+    const int n_rated = CountExamplesRated(GetExamples(qtnode));
+    const int n_examples = CountExamples(GetExamples(qtnode));
+    if (n_rated == n_examples) return QBrush(Qt::green);
+    if (n_rated == 0) return QBrush(Qt::red);
+    return QBrush(QColor(255, 128, 0));
+  };
+}
+
+std::function<QBrush(const ribi::cmap::QtNode&)>
+ribi::cmap::GetQtNodeVignetteBrushFunctionUninitialized() noexcept
+{
   return [](const QtNode&) { return Qt::transparent; };
 }
 

@@ -99,8 +99,6 @@ private:
   ///The function that determines this QtNode its brush
   std::function<QBrush(const ribi::cmap::QtNode&)> m_brush_function;
 
-  ///The function that determines this QtNode's vignette's brush
-  std::function<QBrush(const ribi::cmap::QtNode&)> m_vignette_brush_function;
 
   ///The node being edited, or displayed and not changed, or rated
   Examples m_examples;
@@ -118,6 +116,9 @@ private:
   bool m_show_bounding_rect;
 
   NodeType m_node_type;
+
+  ///The function that determines this QtNode's vignette's brush
+  std::function<QBrush(const ribi::cmap::QtNode&)> m_vignette_brush_function;
 
   friend class QtConceptMapTest;
   friend class QtConceptMapQtNodeTest;

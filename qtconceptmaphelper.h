@@ -114,6 +114,15 @@ std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunction(
   const Mode mode
 ) noexcept;
 
+///The function how a QtNode in Mode::Edit determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunctionEdit() noexcept;
+
+///The function how a QtNode in Mode::Rate determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunctionRate() noexcept;
+
+///The function how a QtNode in Mode::Unitialized determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunctionUninitialized() noexcept;
+
 ///Get the selected QtEdges
 std::vector<QtEdge *> GetSelectedQtEdges(const QGraphicsScene& scene) noexcept;
 
