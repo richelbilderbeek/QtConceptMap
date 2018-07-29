@@ -171,11 +171,14 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
       s << "  <li>";
       if (role == Role::assessor)
       {
-        s << "(" + CompetencyToStrDutchShort(example.GetCompetency())
-          << " "
-          << (example.GetIsComplex() ? "X" : "")
-          << (example.GetIsSpecific() ? "S" : "")
-          << (example.GetIsConcrete() ? "C" : "")
+        s << "(VB:"
+          << CompetencyToStrDutchShort(example.GetCompetency())
+          << ", "
+          << (example.GetIsComplex() ? "X:1" : "X:0")
+          << ", "
+          << (example.GetIsSpecific() ? "S:1" : "S:0")
+          << ", "
+          << (example.GetIsConcrete() ? "C:1" : "C:0")
           << ") ";
       }
       s << example.GetText() + "</li>\n";
@@ -242,9 +245,11 @@ std::string ribi::cmap::ToHtmlListItems(
     {
       s << "(" + CompetencyToStrDutchShort(example.GetCompetency())
         << " "
-        << (example.GetIsComplex() ? "X" : "")
-        << (example.GetIsSpecific() ? "S" : "")
-        << (example.GetIsConcrete() ? "C" : "")
+        << (example.GetIsComplex() ? "X:1" : "X:0")
+        << ", "
+        << (example.GetIsSpecific() ? "S:1" : "S:0")
+        << ", "
+        << (example.GetIsConcrete() ? "C:1" : "C:0")
         << ") "
       ;
     }
