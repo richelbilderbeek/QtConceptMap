@@ -226,9 +226,6 @@ bool ribi::cmap::HasExamples(const QtNode& qtnode) noexcept
 void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 {
   this->setCursor(QCursor(Qt::PointingHandCursor));
-  //m_concept_item->hoverMoveEvent(e);
-  //Won't cause a hover, because the concept item
-  //is not visible??
   std::stringstream s;
   s
     << "QGraphicsItem::ItemIsFocusable: " << static_cast<bool>(flags() & QGraphicsItem::ItemIsFocusable)
