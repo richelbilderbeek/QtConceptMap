@@ -23,7 +23,7 @@ class QtRateConceptDialog final : public QDialog
   ///conceptmap is non-const, as GetRatedConcept will produce a new concept
   explicit QtRateConceptDialog(
     const ConceptMap conceptmap,
-    const Rating& rating = CreateDefaultRating(),
+    const Rating& rating,
     QWidget* parent = nullptr
   );
   QtRateConceptDialog(const QtRateConceptDialog&) = delete;
