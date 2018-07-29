@@ -290,6 +290,10 @@ ribi::cmap::GetQtNodeBrushFunctionRate() noexcept
     {
       return QtBrushFactory().CreateGoldGradientBrush();
     }
+    if (IsOnEdge(qtnode))
+    {
+      return QtBrushFactory().CreateBlueGradientBrush();
+    }
     const int n_rated
       = (GetRatingComplexity(qtnode)   == -1 ? 0 : 1)
       + (GetRatingConcreteness(qtnode) == -1 ? 0 : 1)
