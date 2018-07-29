@@ -207,7 +207,7 @@ std::string ribi::cmap::ToHtmlListItems(
     s << "  <li>";
     if (role == Role::assessor)
     {
-      s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+      s << "(" << (GetIsComplex(edge) ? "X:1" : "X:0") << ") ";
     }
     s << GetFromArrowText(edge, conceptmap)
       << "</li>\n"
@@ -218,7 +218,7 @@ std::string ribi::cmap::ToHtmlListItems(
     s << "  <li>";
     if (role == Role::assessor)
     {
-      s << "(" << (GetIsComplex(edge) ? "X" : ".") << ") ";
+      s << "(" << (GetIsComplex(edge) ? "X:1" : "X:0") << ") ";
     }
     s << GetToArrowText(edge, conceptmap)
       << "</li>\n"
