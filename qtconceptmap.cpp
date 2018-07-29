@@ -1226,7 +1226,10 @@ void ribi::cmap::OnNodeKeyDownPressed(
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F1)
   {
-    OnNodeKeyDownPressedRateF1(q, qtnode);
+    if (!IsOnEdge(qtnode))
+    {
+      OnNodeKeyDownPressedRateF1(q, qtnode);
+    }
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F2)
   {
@@ -1272,6 +1275,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
   QtNode& qtnode
 )
 {
+  assert(!IsOnEdge(qtnode));
   const auto concept_map = q.ToConceptMap();
   const auto equal_id_pred =
     [qtnode_id = qtnode.GetId()](const Node& node)
