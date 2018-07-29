@@ -52,7 +52,12 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 
   ui->table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+  #ifndef NDEBUG
   ui->label_debug->setVisible(true);
+  #else
+  ui->label_debug->setVisible(false);
+  #endif
+
   QObject::connect(ui->table,SIGNAL(cellChanged(int,int)),this,SLOT(OnCellChanged(int,int)));
 
   ShowDebugLabel();
@@ -230,12 +235,7 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
       ui->table->setHorizontalHeaderItem(3,item);
     }
     {
-      const int x = GetSuggestedComplexity();
-      const int c = GetSuggestedConcreteness();
-      const int s = GetSuggestedSpecificity();
-      std::stringstream m;
-      m << "Complexity: " << x << ", concreteness: " << c << ", specificity: " << s;
-      ui->label_debug->setText(m.str().c_str());
+      ShowDebugLabel();
     }
     return;
   }
@@ -291,11 +291,10 @@ void ribi::cmap::QtRateConceptTallyDialog::resizeEvent(QResizeEvent *)
 
 void ribi::cmap::QtRateConceptTallyDialog::ShowDebugLabel() const noexcept
 {
-  const int x = GetSuggestedComplexity();
-  const int c = GetSuggestedConcreteness();
-  const int s = GetSuggestedSpecificity();
   std::stringstream m;
-  m << "Complexiteit: " << x << ", concreetheid: " << c << ", specificiteit: " << s;
+  m << "Complexity: " << GetSuggestedComplexity() << ", "
+    << "concreteness: " << GetSuggestedConcreteness() << ", "
+    << "specificity: " << GetSuggestedSpecificity();
   ui->label_debug->setText(m.str().c_str());
 }
 
