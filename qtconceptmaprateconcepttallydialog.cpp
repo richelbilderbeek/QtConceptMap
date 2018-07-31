@@ -54,7 +54,7 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 
   QObject::connect(ui->table,SIGNAL(cellChanged(int,int)),this,SLOT(OnCellChanged(int,int)));
 
-  ShowDebugLabel();
+  UpdateRatingLabel();
 }
 
 ribi::cmap::QtRateConceptTallyDialog::~QtRateConceptTallyDialog() noexcept
@@ -161,21 +161,25 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
   //Tally the edges that contribute to complexity
   const int n_edges = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-      {
-        return init + (std::get<2>(row) == -1 && std::get<1>(row).GetIsComplex() ? 1 : 0);
-      }
-    );
+    {
+      return init
+        + (std::get<2>(row) == -1 && std::get<1>(row).GetIsComplex() ? 1 : 0)
+      ;
+    }
+  );
 
   //Tally the examples that contribute to complexity
   const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-      {
-        const int index = std::get<2>(row);
-        if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<1>(row)));
-        return init + (std::get<1>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0);
-      }
-    );
+    {
+      const int index = std::get<2>(row);
+      if (index == -1) return init + 0;
+      assert(index < CountExamples(std::get<1>(row)));
+      return init
+        + (std::get<1>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0)
+       ;
+    }
+  );
   return m_rating.SuggestComplexity(n_edges, n_examples);
 }
 
@@ -184,13 +188,15 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
   //Tally the examples that contribute to concreteness
   const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-      {
-        const int index = std::get<2>(row);
-        if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<1>(row)));
-        return init + (std::get<1>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0);
-      }
-    );
+    {
+      const int index = std::get<2>(row);
+      if (index == -1) return init + 0;
+      assert(index < CountExamples(std::get<1>(row)));
+      return init
+        + (std::get<1>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0)
+      ;
+    }
+  );
   return m_rating.SuggestConcreteness(n_examples);
 }
 
@@ -229,7 +235,7 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
       ui->table->setHorizontalHeaderItem(3,item);
     }
     {
-      ShowDebugLabel();
+      UpdateRatingLabel();
     }
     return;
   }
@@ -255,7 +261,7 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
   {
     ChangeConceptExample(concept, index, *item, col);
   }
-  ShowDebugLabel();
+  UpdateRatingLabel();
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::on_button_ok_clicked()
@@ -279,19 +285,11 @@ void ribi::cmap::QtRateConceptTallyDialog::resizeEvent(QResizeEvent *)
   ui->table->setColumnWidth(1, small_col_width);
   ui->table->setColumnWidth(2, small_col_width);
   const int extra_space = 8;
-  ui->table->setColumnWidth(3,ui->table->width() - (3 * small_col_width) - (3 * extra_space));
+  ui->table->setColumnWidth(
+    3,
+    ui->table->width() - (3 * small_col_width) - (3 * extra_space)
+  );
 }
-
-
-void ribi::cmap::QtRateConceptTallyDialog::ShowDebugLabel() const noexcept
-{
-  std::stringstream m;
-  m << "X: " << GetSuggestedComplexity() << ", "
-    << "C: " << GetSuggestedConcreteness() << ", "
-    << "S: " << GetSuggestedSpecificity();
-  ui->label_rating->setText(m.str().c_str());
-}
-
 
 void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   const Concept& concept,
@@ -390,4 +388,13 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
     const int column = 3;
     ui->table->setItem(row_index, column, i);
   }
+}
+
+void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
+{
+  std::stringstream m;
+  m << "X: " << GetSuggestedComplexity() << ", "
+    << "C: " << GetSuggestedConcreteness() << ", "
+    << "S: " << GetSuggestedSpecificity();
+  ui->label_rating->setText(m.str().c_str());
 }
