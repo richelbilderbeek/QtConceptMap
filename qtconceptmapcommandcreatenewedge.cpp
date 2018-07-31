@@ -141,13 +141,14 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
   //? added_edge = m_added_qtedge->GetEdge();
   //? assert(m_added_qtedge->GetEdge() == added_edge);
 
+
+  #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
   //Do not create a node on the edge if it is connected to a center node
-  if (IsCenterNode(*m_added_qtedge->GetFrom())
-    || IsCenterNode(*m_added_qtedge->GetTo())
-  )
+  if (IsConnectedToCenterNode(*m_added_qtedge)
   {
     m_added_qtedge->GetQtNode()->setVisible(false);
   }
+  #endif
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
 }
 

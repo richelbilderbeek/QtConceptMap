@@ -23,10 +23,13 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
 
     //Do not add a QtNode that is on a QtEdge, only keep that QtEdge
     const bool is_qtedge{qgraphicsitem_cast<QtEdge*>(item)};
-    const bool is_qtnode{
-      qgraphicsitem_cast<QtNode*>(item)
-      && !IsOnEdge(*qgraphicsitem_cast<QtNode*>(item))
-    };
+    const bool is_qtnode{qgraphicsitem_cast<QtNode*>(item)};
+    if (qgraphicsitem_cast<QtNode*>(item)
+      && IsOnEdge(*qgraphicsitem_cast<QtNode*>(item)))
+    {
+      qDebug() << "SKIP";
+      continue;
+    }
     if (is_qtedge || is_qtnode)
     {
       try

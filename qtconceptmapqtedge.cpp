@@ -89,6 +89,7 @@ ribi::cmap::QtEdge::QtEdge(
 
   GetQtNode()->setFlags(CreateEditFlags(*GetQtNode()));
 
+  #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
   if (IsConnectedToCenterNode(*this))
@@ -96,6 +97,7 @@ ribi::cmap::QtEdge::QtEdge(
     m_arrow->SetMidX( (m_arrow->GetFromX() + m_arrow->GetToX()) / 2.0 );
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
   }
+  #endif // STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
 
   m_qtnode->SetCenterPos(x, y);
 
@@ -340,6 +342,7 @@ void ribi::cmap::QtEdge::paint(
 {
   CheckInvariants(*this);
 
+  #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
   //When connecting to center node, the center of the arrow must
   //be kept between source and target node
   if (IsConnectedToCenterNode(*this))
@@ -351,6 +354,7 @@ void ribi::cmap::QtEdge::paint(
     m_arrow->SetMidX(x_in_middle);
     m_arrow->SetMidY(y_in_middle);
   }
+  #endif // STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
 
   {
     QPen pen(Qt::black);

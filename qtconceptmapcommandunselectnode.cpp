@@ -4,6 +4,8 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
 
+#include <QDebug>
+
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
@@ -22,6 +24,7 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
     m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {
+  qDebug() << "Start unselect node";
   if (!m_qtnode)
   {
     throw std::invalid_argument("Cannot unselect nullptr QtNode");

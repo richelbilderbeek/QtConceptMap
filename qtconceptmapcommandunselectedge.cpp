@@ -3,6 +3,9 @@
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
+
+#include <QDebug>
+
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
 
@@ -16,12 +19,15 @@ ribi::cmap::CommandUnselectEdge::CommandUnselectEdge(
     m_prev_qttoolitem_buddy{nullptr},
     m_qtedge{qtedge}
 {
+  qDebug() << "Start Unselect Edge";
   if (!m_qtedge)
   {
+    qDebug() << "No QtEdge";
     throw std::invalid_argument("Cannot unselect nullptr QtEdge");
   }
   if (!IsSelected(*m_qtedge))
   {
+    qDebug() << "No selected QtEdge";
     throw std::invalid_argument("Cannot unselect QtEdge that is already unselected");
   }
   //QCommands have a text
@@ -30,6 +36,7 @@ ribi::cmap::CommandUnselectEdge::CommandUnselectEdge(
     msg << "Unselect edge";
     this->setText(msg.str().c_str());
   }
+  qDebug() << "End Unselect Edge constructor";
 }
 
 ribi::cmap::CommandUnselectEdge::~CommandUnselectEdge()

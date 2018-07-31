@@ -68,8 +68,8 @@ ribi::cmap::QtConceptMap::QtConceptMap(
 
   {
     QLinearGradient linearGradient(-500,-500,500,500);
-    linearGradient.setColorAt(0.0,QColor(214,214,214));
-    linearGradient.setColorAt(1.0,QColor(255,255,255));
+    linearGradient.setColorAt(0.0, QColor(214,214,214));
+    linearGradient.setColorAt(1.0, QColor(255,255,255));
     scene()->setBackgroundBrush(linearGradient);
     //this->scene()->setBackgroundBrush(QBrush(QColor(255,255,255)));
   }
@@ -77,9 +77,9 @@ ribi::cmap::QtConceptMap::QtConceptMap(
   //Connect the scene to respond to focus events
   QObject::connect(
     scene(),
-    SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
+    SIGNAL(focusItemChanged(QGraphicsItem*, QGraphicsItem*, Qt::FocusReason)),
     this,
-    SLOT(OnFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason))
+    SLOT(OnFocusItemChanged(QGraphicsItem*, QGraphicsItem*, Qt::FocusReason))
   );
   //QObject::connect(scene(),SIGNAL(selectionChanged()),this,SLOT(onSelectionChanged()));
 
@@ -133,10 +133,12 @@ void ribi::cmap::AddEdgesToScene(
     };
     assert(std::abs(GetX(*qtedge) - GetX(edge)) < 2.0);
     assert(std::abs(GetY(*qtedge) - GetY(edge)) < 2.0);
+    #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
     if (IsConnectedToCenterNode(*qtedge))
     {
       qtedge->GetQtNode()->setVisible(false);
     }
+    #endif // STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
     assert(qtedge && HasScene(*qtedge, nullptr));
     scene.addItem(qtedge);
     assert(HasScene(*qtedge, &scene));
@@ -449,7 +451,7 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
 {
   #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
   const QList<QGraphicsItem*> v = q.scene()->items(
-    pos.x(),pos.y(),2.0,2.0,Qt::IntersectsItemShape,Qt::AscendingOrder
+    pos.x(),pos.y(),2.0,2.0, Qt::IntersectsItemShape, Qt::AscendingOrder
   );
   #else
   const QList<QGraphicsItem*> v = q.scene()->items(pos.x(),pos.y(),2.0,2.0);
@@ -1023,6 +1025,8 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   }
 
   //Vital to move the QtNodes and QtEdges
+  //qDebug() << "TEMP!"; return;
+
   if (!event->isAccepted())
   {
     QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
@@ -1043,6 +1047,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   {
     try
     {
+      qDebug() << "Unselecting";
       q.DoCommand(new CommandUnselectAll(q));
       event->accept();
     }
@@ -1311,6 +1316,9 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
 void ribi::cmap::OnNodeKeyDownPressedRateF2(
   QtConceptMap& q, QtNode& qtnode)
 {
+  //Relation's examples are not rated
+  if (IsOnEdge(qtnode)) return;
+
   //Without examples, there is nothing to rate
   if (!HasExamples(qtnode)) return;
 
