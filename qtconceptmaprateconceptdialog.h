@@ -58,7 +58,8 @@ private:
   ///Cannot be const, only used in calculating the suggestions
   const ConceptMap m_conceptmap;
 
-  const boost::shared_ptr<QtConceptMap> m_widget;
+  //const boost::shared_ptr<QtConceptMap> m_qtconceptmap;
+  const std::unique_ptr<QtConceptMap> m_qtconceptmap;
 
   void DisplaySuggestions() noexcept;
 };

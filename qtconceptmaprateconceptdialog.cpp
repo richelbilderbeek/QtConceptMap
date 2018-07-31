@@ -15,7 +15,7 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
     ui(new Ui::QtRateConceptDialog),
     m_button_ok_clicked(false),
     m_conceptmap(conceptmap),
-    m_widget(new QtConceptMap(rating))
+    m_qtconceptmap{std::make_unique<QtConceptMap>(rating)}
 {
   if (!boost::num_vertices(conceptmap))
   {
@@ -23,12 +23,12 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   }
 
   ui->setupUi(this);
-  m_widget->SetConceptMap(conceptmap);
+  m_qtconceptmap->SetConceptMap(conceptmap);
 
-  assert(m_widget);
+  assert(m_qtconceptmap);
   assert(ui->conceptmap_layout);
 
-  ui->conceptmap_layout->addWidget(m_widget.get());
+  ui->conceptmap_layout->addWidget(m_qtconceptmap.get());
   ui->box_complexity->setCurrentIndex(
     GetFirstNode(conceptmap).GetConcept().GetRatingComplexity()
   );
@@ -49,8 +49,6 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
     this->setGeometry(screen.adjusted(64,64,-64,-64));
     this->move( screen.center() - this->rect().center() );
   }
-  //The rating by the Tally dialog must be visible as of 2013-08-30
-  //so let this dialog follow the ratings done by the tally dialog
 }
 
 ribi::cmap::QtRateConceptDialog::~QtRateConceptDialog() noexcept
@@ -62,7 +60,7 @@ void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
 {
   if (boost::num_vertices(m_conceptmap) > 0)
   {
-    const auto& rating = m_widget->GetRating();
+    const auto& rating = m_qtconceptmap->GetRating();
 
     // Without vertices, there is no valid vertex descriptor
     assert(boost::num_vertices(m_conceptmap) > 0);
@@ -133,7 +131,7 @@ void ribi::cmap::QtRateConceptDialog::on_button_tally_relevancies_clicked()
 {
   QtRateConceptTallyDialog d(
     m_conceptmap,
-    m_widget->GetRating()
+    m_qtconceptmap->GetRating()
   );
   d.exec(); //Keep this dialog visible, as of 2013-08-30
   ui->box_complexity->setCurrentIndex(d.GetSuggestedComplexity());
