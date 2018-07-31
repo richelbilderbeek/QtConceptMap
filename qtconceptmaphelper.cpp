@@ -366,6 +366,10 @@ ribi::cmap::GetQtNodeVignetteBrushFunctionRate() noexcept
 {
   return [](const QtNode& qtnode)
   {
+    if (IsOnEdge(qtnode))
+    {
+      return QBrush(Qt::transparent);
+    }
     if (!HasExamples(qtnode))
     {
       //return QBrush(Qt::transparent);
