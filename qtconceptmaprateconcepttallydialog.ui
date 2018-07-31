@@ -80,9 +80,12 @@
     </widget>
    </item>
    <item row="2" column="1" colspan="2">
-    <widget class="QLabel" name="label_debug">
+    <widget class="QLabel" name="label_rating">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The suggest complexity (X), concreteness (C) and specificity (s) of the concept&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
-      <string>DEBUG ONLY: X: ? C:? S:?</string>
+      <string>X: ?, C:?, S:?</string>
      </property>
     </widget>
    </item>
