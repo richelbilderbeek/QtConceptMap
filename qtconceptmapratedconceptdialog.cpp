@@ -171,7 +171,7 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
       s << "  <li>";
       if (role == Role::assessor)
       {
-        s << "(VB:"
+        s << "("
           << CompetencyToStrDutchShort(example.GetCompetency())
           << ", "
           << (example.GetIsComplex() ? "X:1" : "X:0")
