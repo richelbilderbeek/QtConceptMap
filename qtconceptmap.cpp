@@ -1231,6 +1231,7 @@ void ribi::cmap::OnNodeKeyDownPressed(
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F1)
   {
+    //Can only rate relations
     if (!IsOnEdge(qtnode))
     {
       OnNodeKeyDownPressedRateF1(q, qtnode);

@@ -159,7 +159,7 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
 {
   //Tally the edges that contribute to complexity
-  const int n_edges = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_edges = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
       {
         return init + (std::get<2>(row) == -1 && std::get<1>(row).GetIsComplex() ? 1 : 0);
@@ -167,7 +167,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
     );
 
   //Tally the examples that contribute to complexity
-  const int n_examples = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
       {
         const int index = std::get<2>(row);
@@ -182,7 +182,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
 {
   //Tally the examples that contribute to concreteness
-  const int n_examples = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
       {
         const int index = std::get<2>(row);
@@ -197,7 +197,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
 {
   //Tally the examples that contribute to specificity
-  const int n_examples = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
       {
         const int index = std::get<2>(row);
