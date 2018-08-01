@@ -15,7 +15,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget
         int n_characters_for_new_line =88; //amount of characters that fit on one line
          //text height +padding height *2
         QStringList lines = text.split( "\n", QString::SkipEmptyParts);
-        int height_resize =18;
+        float height_resize =18;
         if(n_characters<n_characters_for_new_line)
         {
             height_resize=21;
@@ -24,10 +24,15 @@ void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget
         {
             height_resize+=17;
         }
-
+        int counter=0;
         while(n_characters>n_characters_for_new_line)
         {
+            counter++;
             n_characters_for_new_line+=92;
+            if(counter>1)
+            {
+                height_resize-=0.8;
+            }
             height_resize+=17; //text height
         }
         std::cout<<"resize amount: "<<height_resize<<"\n"<<std::flush;
