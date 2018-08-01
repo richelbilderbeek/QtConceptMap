@@ -30,6 +30,9 @@ public:
   ///
   Concept GetConcept() const noexcept;
 
+  ///Get the modified sub-concept map
+  const ConceptMap& GetConceptMap() const noexcept { return m_conceptmap; }
+
   ///Obtain the suggested complexity, calculated from this dialog
   int GetSuggestedComplexity() const;
 
@@ -52,6 +55,9 @@ private slots:
 private:
   Ui::QtRateConceptTallyDialog *ui;
 
+  ///Copy of the original concept map, with same IDs
+  ConceptMap m_conceptmap;
+
   ///The concept map is converted to this data type
   ///The std::vector index equals the row
   ///Every row is a pair of a Concept and an integer
@@ -60,7 +66,7 @@ private:
   /// on the edges connected to the focal node
   ///The index is the index of the example being judged, or -1,
   /// denoting it is the concept (name) itself is being judged
-  using Row = std::tuple<EdgeDescriptor, Concept, int>;
+  using Row = std::tuple<VertexDescriptor, EdgeDescriptor, Concept, int>;
   std::vector<Row> m_data;
 
   ///The name of this concept, for example 'my own development'

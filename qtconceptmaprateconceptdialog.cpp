@@ -137,4 +137,5 @@ void ribi::cmap::QtRateConceptDialog::on_button_tally_relevancies_clicked()
   ui->box_complexity->setCurrentIndex(d.GetSuggestedComplexity());
   ui->box_concreteness->setCurrentIndex(d.GetSuggestedConcreteness());
   ui->box_specificity->setCurrentIndex(d.GetSuggestedSpecificity());
+  m_conceptmap = d.GetConceptMap();
 }

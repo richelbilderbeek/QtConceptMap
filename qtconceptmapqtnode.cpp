@@ -80,6 +80,11 @@ ribi::cmap::QtNode::~QtNode() noexcept
 
 }
 
+int ribi::cmap::CountExamples(const QtNode& qtnode) noexcept
+{
+  return GetExamples(qtnode).Get().size();
+}
+
 QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateEditFlags(
   const QtNode& qtnode) noexcept
 {
