@@ -27,13 +27,9 @@ int CountQtNodes(const QGraphicsScene& scene) noexcept;
 
 ///Only counts the QtNodes that are not on an edge
 int CountSelectedQtNodes(const QGraphicsScene& scene) noexcept;
+
+///Counts selected QtNodes that are on a QtEdge
 int CountSelectedQtEdges(const QGraphicsScene& scene) noexcept;
-
-///CountSelectedQtEdges implementation 1: counts selected QtEdges
-int CountSelectedQtEdgesImpl1(const QGraphicsScene& scene) noexcept;
-
-///CountSelectedQtEdges implementation 2: counts selected QtNodes that are on a QtEdge
-int CountSelectedQtEdgesImpl2(const QGraphicsScene& scene) noexcept;
 
 ///Get the one selected QtEdge. Throws if there is not exactly one edge selected
 QtEdge * ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene);
@@ -63,13 +59,6 @@ QtEdge * FindFirstQtEdge(
   const QGraphicsScene& scene,
   const std::function<bool(QtEdge*)> predicate) noexcept;
 
-///FindFirstQtNode with the predicate of HasName(name)
-///Returns nullptr if there is none
-[[deprecated("Use FindFirstQtEdge(scene, QtEdgeHasName(name)) instead")]]
-QtEdge * FindFirstQtEdgeWithName(
-  const QGraphicsScene& scene,
-  const std::string& name) noexcept;
-
 ///Find the first QtNode
 ///Returns nullpt if there are no QtNodes in the scene
 QtNode * GetFirstQtNode(const QGraphicsScene& scene) noexcept;
@@ -79,13 +68,6 @@ QtNode * GetFirstQtNode(const QGraphicsScene& scene) noexcept;
 QtNode * FindFirstQtNode(
   const QGraphicsScene& scene,
   const std::function<bool(QtNode*)> predicate) noexcept;
-
-///FindFirstQtNode with the predicate of HasName(name)
-///Returns nullptr if there is none
-[[deprecated("Use FindFirstQtNode(scene, QtNodeHasName(name)) instead")]]
-QtNode * FindFirstQtNodeWithName(
-  const QGraphicsScene& scene,
-  const std::string& name) noexcept;
 
 ///Find the last QtEdge
 ///Returns nullpt if there are no QtEdges in the scene
@@ -108,7 +90,9 @@ std::vector<QtEdge*> GetQtEdges(
 ) noexcept;
 
 ///The function how a QtNode determines it is colored
-std::function<QBrush(const QtNode&)> GetQtNodeBrushFunction(const Mode mode);
+std::function<QBrush(const QtNode&)> GetQtNodeBrushFunction(
+  const Mode mode
+) noexcept;
 
 ///The function how a QtNode in Mode::Edit determines it is colored
 std::function<QBrush(const QtNode&)> GetQtNodeBrushFunctionEdit() noexcept;
@@ -124,6 +108,20 @@ std::vector<QtNode *> GetQtNodes(const QGraphicsScene& scene) noexcept;
 
 ///Get both the QtNodes that are 'standalone' or are on an edge
 std::vector<QtNode *> GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept;
+
+///The function how a QtNode's vignette determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunction(
+  const Mode mode
+) noexcept;
+
+///The function how a QtNode in Mode::Edit determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunctionEdit() noexcept;
+
+///The function how a QtNode in Mode::Rate determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunctionRate() noexcept;
+
+///The function how a QtNode in Mode::Unitialized determines it is colored
+std::function<QBrush(const QtNode&)> GetQtNodeVignetteBrushFunctionUninitialized() noexcept;
 
 ///Get the selected QtEdges
 std::vector<QtEdge *> GetSelectedQtEdges(const QGraphicsScene& scene) noexcept;
@@ -141,31 +139,8 @@ bool IsDashed(const QPen& pen) noexcept;
 bool IsQtCenterNode(const QGraphicsItem* const item);
 bool IsQtCenterNode(const QtNode& qtnode);
 
-///Is this QtNode in the center on a QtEdge?
-bool IsOnEdge(
-  const QtNode * const qtnode,
-  const QGraphicsScene&
-) noexcept;
-
-///Is this QtNode in the center on a QtEdge?
-bool IsOnEdge(
-  const QtNode * const qtnode
-) noexcept;
-
 ///Is there a QtCenterNode among the selected items?
 bool IsQtCenterNodeSelected(const QGraphicsScene& scene);
-
-///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
-bool IsQtNodeNotOnEdge(
-  const QGraphicsItem * const item,
-  const QGraphicsScene& scene
-) noexcept;
-
-///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
-bool IsQtNodeOnEdge(
-  const QGraphicsItem * const item,
-  const QGraphicsScene& scene
-) noexcept;
 
 } //~namespace cmap
 } //~namespace ribi

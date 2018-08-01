@@ -40,27 +40,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_complexity">
-        <property name="text">
-         <string>Complexiteit: ?</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_concreteness">
-        <property name="text">
-         <string>Concreetheid: ?</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_specificity">
-        <property name="text">
-         <string>Specificiteit: ?</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="label_concept_examples">
         <property name="text">
          <string>Voorbeelden/toelichtingen bij concept:</string>

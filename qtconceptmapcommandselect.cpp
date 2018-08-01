@@ -3,6 +3,9 @@
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
+
+#include <QDebug>
+
 #include "count_vertices_with_selectedness.h"
 #include "container.h"
 #include "conceptmap.h"
@@ -22,11 +25,11 @@ ribi::cmap::CommandSelect::CommandSelect(
   : Command(qtconceptmap),
     m_cmd{nullptr}
 {
-  if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))
+  if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
     m_cmd = new CommandSelectEdge(qtconceptmap, qtedge, this);
   }
-  else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
+  else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
     if (QtEdge * const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
     {
@@ -44,13 +47,16 @@ ribi::cmap::CommandSelect::CommandSelect(
 
   //QCommands have a text
   {
-    std::stringstream msg;
-    msg << "Select item";
-    this->setText(msg.str().c_str());
+    this->setText(m_cmd->text());
   }
 }
 
-ribi::cmap::CommandSelect * ribi::cmap::  ParseCommandSelect(
+ribi::cmap::CommandSelect::~CommandSelect() noexcept
+{
+
+}
+
+ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"select(my text)"
@@ -64,14 +70,14 @@ ribi::cmap::CommandSelect * ribi::cmap::  ParseCommandSelect(
   assert(t.back() != ')');
   for (QGraphicsItem * const item: qtconceptmap.items())
   {
-    if (QtEdge * const qtedge = dynamic_cast<QtEdge*>(item))
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
     {
       if (GetText(*qtedge) == t)
       {
         return new CommandSelect(qtconceptmap, *qtedge);
       }
     }
-    if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
     {
       if (QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap))
       {
@@ -94,73 +100,10 @@ ribi::cmap::CommandSelect * ribi::cmap::  ParseCommandSelect(
 
 void ribi::cmap::CommandSelect::Redo()
 {
-  #ifndef NDEBUG
-  const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
-  const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_before = n_selected_qtedges_before + n_selected_qtnodes_before;
-  #endif
-
   m_cmd->redo();
-  /*
-  m_renamed_qtnode = FindFirstQtNode(GetQtConceptMap(),
-    [name = m_name, &qtconceptmap = GetQtConceptMap()](QtNode * const qtnode)
-    {
-      return name == GetText(*qtnode) && !IsQtNodeOnEdge(qtnode, qtconceptmap);
-    }
-  );
-  if (m_renamed_qtnode)
-  {
-    m_renamed_qtedge = nullptr;
-    SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtnode);
-    SetSelectedness(true, *m_renamed_qtnode, GetQtConceptMap());
-  }
-  else
-  {
-    assert(!m_renamed_qtnode);
-    m_renamed_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
-      [name = m_name](QtEdge * const qtedge)
-      {
-        return name == GetText(*qtedge);
-      }
-    );
-    if (m_renamed_qtedge)
-    {
-      SetQtToolItemBuddy(GetQtConceptMap(), m_renamed_qtedge);
-      SetSelectedness(true, *m_renamed_qtedge, GetQtConceptMap());
-      assert(CountSelectedQtEdges(GetQtConceptMap()) > 0 || IsConnectedToCenterNode(*m_renamed_qtedge));
-    }
-  }
-  if (!m_renamed_qtedge && !m_renamed_qtnode)
-  {
-    std::stringstream msg;
-    msg << "Could not find a QtEdge nor QtNode with text '"
-      << m_name << "'";
-    throw std::invalid_argument(msg.str());
-  }
-  assert((m_renamed_qtedge != nullptr) ^ (m_renamed_qtnode != nullptr));
-  */
-
-  #ifndef NDEBUG
-  const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
-  const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  const int n_selected_items_after = n_selected_qtedges_after + n_selected_qtnodes_after;
-  assert(n_selected_items_after > n_selected_items_before);
-  #endif
-
-  
 }
 
 void ribi::cmap::CommandSelect::Undo()
 {
   m_cmd->undo();
-  /*
-  if (m_renamed_qtedge)
-  {
-    SetSelectedness(false, *m_renamed_qtedge, GetQtConceptMap());
-  }
-  if (m_renamed_qtnode)
-  {
-    SetSelectedness(false, *m_renamed_qtnode, GetQtConceptMap());
-  }
-  */
 }

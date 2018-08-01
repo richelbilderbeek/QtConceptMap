@@ -20,7 +20,7 @@ class CommandSelectEdge final : public Command
   );
   CommandSelectEdge(const CommandSelectEdge&) = delete;
   CommandSelectEdge& operator=(const CommandSelectEdge&) = delete;
-  ~CommandSelectEdge() noexcept {}
+  ~CommandSelectEdge() noexcept;
 
   const QtEdge * GetQtEdge() const noexcept { return m_qtedge; }
 

@@ -23,7 +23,7 @@ std::string ribi::cmap::QtBrushFactory::BrushToStr(const QBrush& brush)
 
 QBrush ribi::cmap::QtBrushFactory::CreateBlueGradientBrush() noexcept
 {
-  QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
+  QLinearGradient linearGradient(sm_left, sm_top, sm_right, sm_bottom);
   linearGradient.setColorAt(0.0,GetBlue());
   linearGradient.setColorAt(1.0,GetWhite());
   QBrush b(linearGradient);
@@ -37,7 +37,7 @@ QBrush ribi::cmap::QtBrushFactory::CreateBlueGradientBrush() noexcept
 
 QBrush ribi::cmap::QtBrushFactory::CreateGoldGradientBrush() noexcept
 {
-  QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
+  QLinearGradient linearGradient(sm_left, sm_top, sm_right, sm_bottom);
   //USC gold: 255, 204, 0
   linearGradient.setColorAt(0.0,QColor(255, 204, 0));
   //UCLA gold: 255, 232, 0
@@ -47,53 +47,53 @@ QBrush ribi::cmap::QtBrushFactory::CreateGoldGradientBrush() noexcept
 
 QBrush ribi::cmap::QtBrushFactory::CreateGrayGradientBrush() noexcept
 {
-  QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
+  QLinearGradient linearGradient(sm_left, sm_top, sm_right, sm_bottom);
   linearGradient.setColorAt(0.0,QColor(196,196,196));
-  linearGradient.setColorAt(1.0,QColor(255,255,255));
+  linearGradient.setColorAt(1.0,QColor(255, 255, 255));
   return linearGradient;
 }
 
 QBrush ribi::cmap::QtBrushFactory::CreateGreenGradientBrush() noexcept
 {
-  QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
-  linearGradient.setColorAt(0.0,QColor( sm_color_mid_value,255, sm_color_mid_value));
-  linearGradient.setColorAt(1.0,QColor(255,255,255));
+  QLinearGradient linearGradient(sm_left, sm_top, sm_right, sm_bottom);
+  linearGradient.setColorAt(0.0,QColor( sm_color_mid_value, 255, sm_color_mid_value));
+  linearGradient.setColorAt(1.0,QColor(255, 255, 255));
   return linearGradient;
 }
 
 QBrush ribi::cmap::QtBrushFactory::CreateRedGradientBrush() noexcept
 {
-  QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
+  QLinearGradient linearGradient(sm_left, sm_top, sm_right, sm_bottom);
   linearGradient.setColorAt(0.0,QColor(255, sm_color_mid_value, sm_color_mid_value));
-  linearGradient.setColorAt(1.0,QColor(255,255,255));
+  linearGradient.setColorAt(1.0,QColor(255, 255, 255));
   return linearGradient;
 }
 
 QBrush ribi::cmap::QtBrushFactory::CreateYellowGradientBrush() noexcept
 {
-  QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
-  linearGradient.setColorAt(0.0,QColor(255,255, sm_color_mid_value));
-  linearGradient.setColorAt(1.0,QColor(255,255,255));
+  QLinearGradient linearGradient(sm_left, sm_top, sm_right, sm_bottom);
+  linearGradient.setColorAt(0.0,QColor(255, 255, sm_color_mid_value));
+  linearGradient.setColorAt(1.0,QColor(255, 255, 255));
   return linearGradient;
 }
 
 QBrush ribi::cmap::QtBrushFactory::CreateWhiteGradientBrush() noexcept
 {
-  QLinearGradient linearGradient(sm_left,sm_top,sm_right,sm_bottom);
+  QLinearGradient linearGradient(sm_left, sm_top, sm_right, sm_bottom);
   const int low_value = 250;
-  linearGradient.setColorAt(0.0,QColor(low_value,low_value,low_value));
-  linearGradient.setColorAt(1.0,QColor(255,255,255));
+  linearGradient.setColorAt(0.0,QColor(low_value, low_value, low_value));
+  linearGradient.setColorAt(1.0,QColor(255, 255, 255));
   return linearGradient;
 }
 
 QColor ribi::cmap::QtBrushFactory::GetBlue() const noexcept
 {
   return QColor(
-    sm_color_mid_value, sm_color_mid_value,255
+    sm_color_mid_value, sm_color_mid_value, 255
   );
 }
 
 QColor ribi::cmap::QtBrushFactory::GetWhite() const noexcept
 {
-  return QColor(255,255,255);
+  return QColor(255, 255, 255);
 }

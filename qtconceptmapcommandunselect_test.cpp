@@ -12,24 +12,6 @@
 #include "qtconceptmapqtedge.h"
 #include "conceptmapfactory.h"
 
-void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectAbsentItemFails() const noexcept
-{
-  QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-  assert(CountSelectedQtEdges(q) == 0);
-  assert(CountSelectedQtNodes(q) == 0);
-  try
-  {
-    QtEdge * const first_qtedge = FindFirstQtEdge(q, QtEdgeHasName("absent"));
-    q.DoCommand(new CommandUnselect(q, *first_qtedge));
-    QVERIFY(!"Should not get here");
-  }
-  catch (std::exception&)
-  {
-    QVERIFY("OK");
-  }
-}
-
 void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectLonelyQtCenterNodeByName() const noexcept
 {
   QtConceptMap q;

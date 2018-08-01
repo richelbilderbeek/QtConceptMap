@@ -12,7 +12,7 @@ namespace Ui { class QtRateConceptTallyDialog; }
 namespace ribi {
 namespace cmap {
 
-class QtRateConceptTallyDialog : public QDialog
+class QtRateConceptTallyDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
   
@@ -59,7 +59,7 @@ private:
   ///  which might be the concept on the focal node and the concept
   /// on the edges connected to the focal node
   ///The index is the index of the example being judged, or -1,
-  /// denoting it is the concept name being judged
+  /// denoting it is the concept (name) itself is being judged
   using Row = std::tuple<EdgeDescriptor, Concept, int>;
   std::vector<Row> m_data;
 
@@ -79,13 +79,11 @@ private:
     Concept& concept, const QTableWidgetItem& item, const int col
   );
 
-
   std::vector<Row> CreateData(const ConceptMap& map);
 
   ///Put uneditable nothing in the table its cell
   void PutNothing(const int row, const int col) noexcept;
 
-  void ShowDebugLabel() const noexcept;
 
   ///Will throw if table has not exactly the right number of columns
   void ShowExample(
@@ -100,6 +98,9 @@ private:
     const Row& row,
     const ConceptMap& conceptmap
   ) noexcept;
+
+  ///Update the suggest XCS on the rating label
+  void UpdateRatingLabel() const noexcept;
 };
 
 

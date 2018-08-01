@@ -32,6 +32,13 @@ struct QtNewArrow : public QtArrowItem
   const QtNode * GetFrom() const noexcept;
   QtNode * GetFrom() noexcept;
 
+  ///Define a usertype for this QGraphicsItem, must be unique
+  enum { Type = UserType + 5 };
+  int type() const override
+  {
+    return Type;
+  }
+
   private:
   ///Must be suppplied
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);

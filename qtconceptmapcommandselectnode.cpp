@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
+#include "conceptmaphelper.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmap.h"
@@ -21,7 +22,7 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   {
     throw std::invalid_argument("Cannot select nullptr QtNode");
   }
-  if (IsQtNodeOnEdge(qtnode, GetQtConceptMap()))
+  if (IsQtNodeOnEdge(qtnode))
   {
     throw std::invalid_argument(
       "Cannot select QtNode on QtEdge, "
@@ -34,9 +35,14 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Select node";
+    msg << "Select node with text '" << GetText(*m_qtnode) << "'";
     this->setText(msg.str().c_str());
   }
+}
+
+ribi::cmap::CommandSelectNode::~CommandSelectNode()
+{
+
 }
 
 ribi::cmap::CommandSelectNode * ribi::cmap::ParseCommandSelectNode(
@@ -56,7 +62,7 @@ ribi::cmap::CommandSelectNode * ribi::cmap::ParseCommandSelectNode(
     [&qtconceptmap, t](QtNode * const qtnode)
     {
       return GetText(*qtnode) == t
-        && !IsQtNodeOnEdge(qtnode, qtconceptmap);
+        && !IsQtNodeOnEdge(qtnode);
     }
   );
   return new CommandSelectNode(qtconceptmap, first_qtnode);
@@ -90,5 +96,5 @@ void ribi::cmap::CommandSelectNode::Undo()
     SetQtToolItemBuddy(GetQtConceptMap(), no_qtnode);
   }
 
-  SetSelectedness(false, *m_qtnode, GetQtConceptMap());
+  SetSelectedness(false, *m_qtnode);
 }

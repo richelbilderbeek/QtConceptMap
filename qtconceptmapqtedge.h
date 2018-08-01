@@ -18,7 +18,7 @@ struct Node;
 ///The QtEdge is a QGraphicsItem that
 ///draws a curve underneath itself, between head and tail arrowhead
 ///It parents an arrow and a QtNode.
-struct QtEdge : public QGraphicsItem
+struct QtEdge final : public QGraphicsItem
 {
   QtEdge(
     const Edge& edge,
@@ -85,16 +85,18 @@ struct QtEdge : public QGraphicsItem
     m_show_bounding_rect = show_bounding_rect;
   }
 
-  //void keyPressEvent(QKeyEvent *event) noexcept override final;
-  ///Define a usertype for QtEdge, must be unique
-  int type() const override { return UserType + 4; }
+  ///Define a usertype for this QGraphicsItem, must be unique
+  enum { Type = UserType + 4 };
+  int type() const override
+  {
+    return Type;
+  }
 
 protected:
-  //void focusInEvent(QFocusEvent *event) noexcept override final;
-  //void focusOutEvent(QFocusEvent *event) noexcept override final;
 
-  ///Respons to a mouse press
+  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override final;
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
+
 
   ///Paint this QGraphicItem
   void paint(
@@ -138,17 +140,11 @@ private:
 };
 
 void CheckInvariants(const QtEdge& qtedge);
-void DisableAll(QtEdge& qtedge) noexcept;
-void EnableAll(QtEdge& qtedge) noexcept;
-
-QGraphicsItem::GraphicsItemFlags GetQtNodeFlags() noexcept;
-
-Concept GetConcept(const QtEdge& qtedge) noexcept;
-
-std::string GetText(const QtEdge& qtedge) noexcept;
 
 ///Get the coordinat of the center of the QtNode at the QtEdge
 QPointF GetCenterPos(const QtEdge& qtedge) noexcept;
+
+Concept GetConcept(const QtEdge& qtedge) noexcept;
 
 ///Get the Z order of each edge,
 ///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
@@ -157,6 +153,9 @@ constexpr double GetQtEdgeZvalue() { return -2.0; }
 ///Get the Z order of each edge,
 ///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool
 constexpr double GetQtEdgeArrowZvalue() { return -3.0; }
+
+///Obtain the unwordwrapped text of the relation
+std::string GetText(const QtEdge& qtedge) noexcept;
 
 ///Get the x coordinat of the center of the QtNode at the QtEdge
 double GetX(const QtEdge& qtedge) noexcept;

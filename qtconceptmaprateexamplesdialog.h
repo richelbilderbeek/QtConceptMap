@@ -1,15 +1,9 @@
 #ifndef QTCONCEPTMAPRATEEXAMPLESDIALOG_H
 #define QTCONCEPTMAPRATEEXAMPLESDIALOG_H
 
-
-
-
-
 #include <QDialog>
-//#include "qthideandshowdialog.h"
 #include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
-
 
 namespace Ui { class QtRateExamplesDialog; }
 
@@ -17,7 +11,7 @@ namespace ribi {
 namespace cmap {
 
 ///Allows the user to rate the examples of a concept
-class QtRateExamplesDialog : public QDialog
+class QtRateExamplesDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
   
@@ -33,8 +27,10 @@ public:
   ///Obtain the rated examples
   Examples GetRatedExamples() const;
 
+  bool HasClickedOk() const noexcept { return m_clicked_ok; }
+
 protected:
-  void keyPressEvent(QKeyEvent *);
+  void keyPressEvent(QKeyEvent *) override;
 
 public slots:
   void on_button_prof_clicked();
@@ -49,11 +45,8 @@ public slots:
 private:
   Ui::QtRateExamplesDialog *ui;
 
-  ///The concept, which is modified when clicking OK, but remains unmodified when
-  ///the user clicks cancel
-  Concept m_concept;
-
-  const Concept m_concept_at_start;
+  ///Was the OK button clicked to close?
+  bool m_clicked_ok = false;
 };
 
 } //~namespace cmap

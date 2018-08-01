@@ -19,7 +19,7 @@ class CommandSetConcept final : public Command
   );
   CommandSetConcept(const CommandSetConcept&) = delete;
   CommandSetConcept& operator=(const CommandSetConcept&) = delete;
-  ~CommandSetConcept() noexcept {}
+  ~CommandSetConcept() noexcept;
 
   const Concept& GetConcept() const noexcept { return m_concept; }
   const Concept& GetPrevConcept() const noexcept { return m_prev_concept; }

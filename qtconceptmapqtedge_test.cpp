@@ -32,23 +32,6 @@ void ribi::cmap::QtConceptMapQtEdgeTest::change_focus()
   m.show();
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::enable_and_disable()
-{
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get11());
-  m.show();
-  const auto qtedge = GetFirstQtEdge(m.GetScene());
-  assert(qtedge);
-  DisableAll(*qtedge);
-  m.show();
-  QVERIFY(!qtedge->isEnabled());
-  QVERIFY(!qtedge->GetArrow()->isEnabled());
-  EnableAll(*qtedge);
-  m.show();
-  QVERIFY(qtedge->isEnabled());
-  QVERIFY(qtedge->GetArrow()->isEnabled());
-}
-
 void ribi::cmap::QtConceptMapQtEdgeTest::show_bounding_rect()
 {
   QtConceptMap m;
@@ -59,8 +42,6 @@ void ribi::cmap::QtConceptMapQtEdgeTest::show_bounding_rect()
   m.showFullScreen();
   QTest::qWait(100);
 }
-
-
 
 void ribi::cmap::QtConceptMapQtEdgeTest::node_must_have_dotted_black_line_when_selected()
 {

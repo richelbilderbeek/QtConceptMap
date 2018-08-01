@@ -12,12 +12,14 @@ class QtConceptMapCommandUnselectAllTest : public QObject
 
 private slots:
 
+  //TODO
+  ///UnselectAll one of two QtEdges by name
+  void UnselectAllOneOfTwoQtEdgesByName() const noexcept;
 
+  //DONE
   ///UnselectAlling an absent item fails
   void UnselectAllAbsentItemFails() const noexcept;
 
-  ///UnselectAll one of two QtEdges by name
-  void UnselectAllOneOfTwoQtEdgesByName() const noexcept;
 
   ///UnselectAll one of two QtEdges by name and undo
   void UnselectAllOneOfTwoQtEdgesByNameAndUndo() const noexcept;

@@ -4,7 +4,6 @@
 #include <climits>
 
 #include <QCursor>
-#include <QDebug>
 #include <QGraphicsItem>
 #include <QKeyEvent>
 #include <QPainter>
@@ -20,8 +19,8 @@
 #include "container.h"
 #include "qtconceptmapbrushfactory.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnodefactory.h"
-
 
 ribi::cmap::QtNode::QtNode(
   const Node& node,
@@ -46,7 +45,7 @@ ribi::cmap::QtNode::QtNode(
   const double center_y,
   QGraphicsItem* parent)
   : QtRoundedEditRectItem(
-      { concept.GetName() },
+      Wordwrap(concept.GetName(), GetWordWrapLength()),
       ribi::QtRoundedEditRectItem::Padding(),
       QFont("monospace",9),
       parent
@@ -58,7 +57,8 @@ ribi::cmap::QtNode::QtNode(
     m_rating_complexity{concept.GetRatingComplexity()},
     m_rating_concreteness{concept.GetRatingConcreteness()},
     m_rating_specificity{concept.GetRatingSpecificity()},
-    m_show_bounding_rect{false}
+    m_show_bounding_rect{false},
+    m_vignette_brush_function{GetQtNodeVignetteBrushFunctionUninitialized()}
 {
   //Allow mouse tracking
   this->setAcceptHoverEvents(true);
@@ -80,16 +80,49 @@ ribi::cmap::QtNode::~QtNode() noexcept
 
 }
 
-void ribi::cmap::QtNode::DisableAll()
+QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateEditFlags(
+  const QtNode& qtnode) noexcept
 {
-  this->setEnabled(false);
-  this->setVisible(false);
+  if (qtnode.GetNodeType() == NodeType::center)
+  {
+    return
+        QGraphicsItem::ItemIsFocusable
+      | QGraphicsItem::ItemIsSelectable
+    ;
+  }
+  assert(qtnode.GetNodeType() != NodeType::center);
+  return
+      QGraphicsItem::ItemIsFocusable
+    | QGraphicsItem::ItemIsMovable
+    | QGraphicsItem::ItemIsSelectable
+  ;
 }
 
-void ribi::cmap::QtNode::EnableAll()
+QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateRateFlags(
+  const QtNode&) noexcept
 {
-  this->setEnabled(true);
-  this->setVisible(true);
+  return
+      QGraphicsItem::ItemIsFocusable
+    | QGraphicsItem::ItemIsSelectable
+  ;
+}
+
+QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateUninitializedFlags(
+  const QtNode&) noexcept
+{
+  return 0;
+}
+
+void ribi::cmap::QtNode::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
+{
+  assert(!"ribi::cmap::QtNode::dragEnterEvent is never called");
+  QtRoundedEditRectItem::dragEnterEvent(event);
+}
+
+void ribi::cmap::QtNode::dragLeaveEvent(QGraphicsSceneDragDropEvent * event)
+{
+  assert(!"ribi::cmap::QtNode::dragLeaveEvent is never called");
+  QtRoundedEditRectItem::dragLeaveEvent(event);
 }
 
 void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept
@@ -153,11 +186,14 @@ std::string ribi::cmap::GetName(const QtNode& qtnode) noexcept
 
 ribi::cmap::Node ribi::cmap::GetNode(const QtNode& qtnode) noexcept
 {
+  //ID is important, as it is what makes
+  // a QtNode/Node uniquely identifyable
   return Node(
     GetConcept(qtnode),
     GetType(qtnode),
     GetX(qtnode),
-    GetY(qtnode)
+    GetY(qtnode),
+    GetId(qtnode)
   );
 }
 
@@ -190,9 +226,13 @@ bool ribi::cmap::HasExamples(const QtNode& qtnode) noexcept
 void ribi::cmap::QtNode::hoverMoveEvent(QGraphicsSceneHoverEvent*) noexcept
 {
   this->setCursor(QCursor(Qt::PointingHandCursor));
-  //m_concept_item->hoverMoveEvent(e);
-  //Won't cause a hover, because the concept item
-  //is not visible??
+  std::stringstream s;
+  s
+    << "QGraphicsItem::ItemIsFocusable: " << static_cast<bool>(flags() & QGraphicsItem::ItemIsFocusable)
+    << "\nQGraphicsItem::ItemIsMovable: " << static_cast<bool>(flags() & QGraphicsItem::ItemIsMovable)
+    << "\nQGraphicsItem::ItemIsSelectable: " << static_cast<bool>(flags() & QGraphicsItem::ItemIsSelectable)
+  ;
+  this->setToolTip(s.str().c_str());
 }
 
 bool ribi::cmap::IsCenterNode(const QtNode& qtnode) noexcept
@@ -208,6 +248,15 @@ bool ribi::cmap::IsComplex(const QtNode& qtnode) noexcept
 bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept
 {
   return qtnode.isEnabled();
+}
+
+bool ribi::cmap::IsOnEdge(
+  const QtNode& qtnode
+) noexcept
+{
+  const auto parent_item = qtnode.parentItem();
+  assert(!parent_item || qgraphicsitem_cast<QtEdge*>(parent_item));
+  return parent_item;
 }
 
 bool ribi::cmap::IsMovable(const QtNode& qtnode) noexcept
@@ -235,6 +284,11 @@ void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
   QtRoundedEditRectItem::keyPressEvent(event);
 }
 
+void ribi::cmap::QtNode::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+{
+  QtRoundedEditRectItem::mouseMoveEvent(event);
+}
+
 void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)
 {
   qtnode.moveBy(dx, dy);
@@ -254,7 +308,8 @@ void ribi::cmap::QtNode::paint(
 
   if (HasExamples(*this))
   {
-    painter->setBrush(Qt::transparent);
+    painter->setBrush(m_vignette_brush_function(*this));
+    //painter->setBrush(Qt::transparent);
     painter->setPen(Qt::black);
     painter->drawRect(
       (GetInnerRect().width() / 2.0) - 5.0,
@@ -263,6 +318,8 @@ void ribi::cmap::QtNode::paint(
       3.0
     );
   }
+
+  painter->setBrush(Qt::transparent);
 
   if (m_show_bounding_rect)
   {
@@ -304,6 +361,11 @@ void ribi::cmap::QtNode::SetBrushFunction(
   this->update();
 }
 
+void ribi::cmap::QtNode::SetExamples(const Examples examples) noexcept
+{
+  m_examples = examples;
+}
+
 void ribi::cmap::QtNode::SetNode(
   const Concept& concept,
   const NodeType type,
@@ -322,27 +384,7 @@ void ribi::cmap::QtNode::SetNode(
   const std::string text{::ribi::cmap::GetText(concept)};
   ::ribi::cmap::SetText(*this, text);
   this->SetCenterPos(center_x, center_y);
-
-  if (type == NodeType::center)
-  {
-    this->setFlags(
-        QGraphicsItem::ItemIsFocusable
-      | QGraphicsItem::ItemIsSelectable
-    );
-    assert(!(flags() & QGraphicsItem::ItemIsMovable));
-    assert(!IsMovable(*this));
-    assert(IsQtCenterNode(*this));
-  }
-  else
-  {
-    this->setFlags(
-        QGraphicsItem::ItemIsFocusable
-      | QGraphicsItem::ItemIsMovable
-      | QGraphicsItem::ItemIsSelectable
-    );
-    assert(IsMovable(*this));
-    assert(!IsQtCenterNode(*this));
-  }
+  this->setFlags(CreateEditFlags(*this));
   Ensures(::ribi::cmap::GetText(*this) == ::ribi::cmap::GetText(concept));
 }
 
@@ -354,6 +396,11 @@ void ribi::cmap::SetConcept(QtNode& qtnode, const Concept& concept)
     GetX(qtnode),
     GetY(qtnode)
   );
+}
+
+void ribi::cmap::SetExamples(QtNode& qtnode, const Examples& examples) noexcept
+{
+  qtnode.SetExamples(examples);
 }
 
 void ribi::cmap::QtNode::SetRatingComplexity(const int rating_complexity)
@@ -421,7 +468,15 @@ void ribi::cmap::SetRatingSpecificity(
 
 void ribi::cmap::SetText(QtNode& qtnode, const std::string& text)
 {
-  qtnode.SetText( { text } );
+  qtnode.SetText( Wordwrap(text, GetWordWrapLength()) );
+}
+
+void ribi::cmap::QtNode::SetVignetteBrushFunction(
+  const std::function<QBrush(const ribi::cmap::QtNode&)>& f
+) noexcept
+{
+  m_vignette_brush_function = f;
+  this->update();
 }
 
 void ribi::cmap::SetX(QtNode& qtnode, const double x)

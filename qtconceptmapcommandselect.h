@@ -1,12 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDSELECT_H
 #define CONCEPTMAPCOMMANDSELECT_H
 
-
-
-
-
 #include "qtconceptmapcommand.h"
-
 
 namespace ribi {
 namespace cmap {
@@ -25,7 +20,7 @@ class CommandSelect final : public Command
   );
   CommandSelect(const CommandSelect&) = delete;
   CommandSelect& operator=(const CommandSelect&) = delete;
-  ~CommandSelect() noexcept {}
+  ~CommandSelect() noexcept;
 
   void Redo() override;
   void Undo() override;

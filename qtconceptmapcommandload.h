@@ -19,7 +19,7 @@ class CommandLoad final : public Command
   );
   CommandLoad(const CommandLoad&) = delete;
   CommandLoad& operator=(const CommandLoad&) = delete;
-  ~CommandLoad() noexcept {}
+  ~CommandLoad() noexcept;
 
   ///Get the filename
   std::string GetFilename() const noexcept { return m_filename; }

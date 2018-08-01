@@ -1,19 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDMOVENODE_H
 #define CONCEPTMAPCOMMANDMOVENODE_H
 
-
-
-
-
-
-//#include "conceptmapnode.h"
-//#include "conceptmap.h"
-//#include "qtconceptmapqtnode.h"
-//#include <QGraphicsScene>
-//#include "qtconceptmaptoolsitem.h"
 #include "qtconceptmapcommand.h"
-//#include "qtconceptmapmode.h"
-
 
 namespace ribi {
 namespace cmap {
@@ -33,7 +21,7 @@ class CommandMoveNode final : public Command
   );
   CommandMoveNode(const CommandMoveNode&) = delete;
   CommandMoveNode& operator=(const CommandMoveNode&) = delete;
-  ~CommandMoveNode() noexcept {}
+  ~CommandMoveNode() noexcept;
 
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }

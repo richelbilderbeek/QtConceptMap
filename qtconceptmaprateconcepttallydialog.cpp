@@ -1,32 +1,8 @@
 #include "qtconceptmaprateconcepttallydialog.h"
 
-#include <cassert>
-#include <sstream>
-#include <numeric>
-
-#include <vector>
-#include <boost/shared_ptr.hpp>
-#include <boost/numeric/conversion/cast.hpp>
 #include <QKeyEvent>
 
-#include "conceptmapconceptfactory.h"
-
-#include "conceptmapcenternodefactory.h"
-#include "conceptmap.h"
-#include "conceptmapfactory.h"
-#include "conceptmapconcept.h"
-#include "conceptmapedge.h"
-#include "conceptmapedgefactory.h"
-#include "conceptmapnode.h"
-#include "conceptmapnodefactory.h"
-#include "conceptmapexample.h"
-#include "conceptmapedge.h"
-#include "conceptmapexamples.h"
-
-#include "qtconceptmaprating.h"
-
 #include "ui_qtconceptmaprateconcepttallydialog.h"
-
 
 ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   const ConceptMap& conceptmap,
@@ -76,10 +52,9 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 
   ui->table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-  ui->label_debug->setVisible(true);
   QObject::connect(ui->table,SIGNAL(cellChanged(int,int)),this,SLOT(OnCellChanged(int,int)));
 
-  ShowDebugLabel();
+  UpdateRatingLabel();
 }
 
 ribi::cmap::QtRateConceptTallyDialog::~QtRateConceptTallyDialog() noexcept
@@ -133,21 +108,21 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 {
   std::vector<Row> rows;
   //Add the focal concept its examples (not its name: this cannot be judged)
-  /*
   {
-    const auto focal_concept = GetCenterNode(map).GetConcept();
-    const int n_examples{
-      boost::numeric_cast<int>(
-        CountExamples(focal_concept)
-      )
-    };
+    const auto focal_concept = GetFirstNode(map).GetConcept();
+    const int n_examples{CountExamples(focal_concept)};
     for (int i=0; i!=n_examples; ++i)
     {
-      Edge empty_edge;
-      data.push_back(std::make_tuple(empty_edge,focal_concept,i));
+      const Row row{
+        std::make_tuple(
+          EdgeDescriptor(),
+          focal_concept,
+          i
+        )
+      };
+      rows.push_back(row);
     }
   }
-  */
 
   //Collect all relations of the focal node of this sub concept map
   //for(const Edge edge: map->GetEdges())
@@ -184,45 +159,51 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
 {
   //Tally the edges that contribute to complexity
-  const int n_edges = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_edges = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-      {
-        return init + (std::get<2>(row) == -1 && std::get<1>(row).GetIsComplex() ? 1 : 0);
-      }
-    );
+    {
+      return init
+        + (std::get<2>(row) == -1 && std::get<1>(row).GetIsComplex() ? 1 : 0)
+      ;
+    }
+  );
 
   //Tally the examples that contribute to complexity
-  const int n_examples = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-      {
-        const int index = std::get<2>(row);
-        if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<1>(row)));
-        return init + (std::get<1>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0);
-      }
-    );
+    {
+      const int index = std::get<2>(row);
+      if (index == -1) return init + 0;
+      assert(index < CountExamples(std::get<1>(row)));
+      return init
+        + (std::get<1>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0)
+       ;
+    }
+  );
   return m_rating.SuggestComplexity(n_edges, n_examples);
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
 {
   //Tally the examples that contribute to concreteness
-  const int n_examples = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-      {
-        const int index = std::get<2>(row);
-        if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<1>(row)));
-        return init + (std::get<1>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0);
-      }
-    );
+    {
+      const int index = std::get<2>(row);
+      if (index == -1) return init + 0;
+      assert(index < CountExamples(std::get<1>(row)));
+      return init
+        + (std::get<1>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0)
+      ;
+    }
+  );
   return m_rating.SuggestConcreteness(n_examples);
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
 {
   //Tally the examples that contribute to specificity
-  const int n_examples = std::accumulate(m_data.begin(),m_data.end(),0,
+  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
       {
         const int index = std::get<2>(row);
@@ -254,12 +235,7 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
       ui->table->setHorizontalHeaderItem(3,item);
     }
     {
-      const int x = GetSuggestedComplexity();
-      const int c = GetSuggestedConcreteness();
-      const int s = GetSuggestedSpecificity();
-      std::stringstream m;
-      m << "Complexity: " << x << ", concreteness: " << c << ", specificity: " << s;
-      ui->label_debug->setText(m.str().c_str());
+      UpdateRatingLabel();
     }
     return;
   }
@@ -285,7 +261,7 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
   {
     ChangeConceptExample(concept, index, *item, col);
   }
-  ShowDebugLabel();
+  UpdateRatingLabel();
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::on_button_ok_clicked()
@@ -309,20 +285,11 @@ void ribi::cmap::QtRateConceptTallyDialog::resizeEvent(QResizeEvent *)
   ui->table->setColumnWidth(1, small_col_width);
   ui->table->setColumnWidth(2, small_col_width);
   const int extra_space = 8;
-  ui->table->setColumnWidth(3,ui->table->width() - (3 * small_col_width) - (3 * extra_space));
+  ui->table->setColumnWidth(
+    3,
+    ui->table->width() - (3 * small_col_width) - (3 * extra_space)
+  );
 }
-
-
-void ribi::cmap::QtRateConceptTallyDialog::ShowDebugLabel() const noexcept
-{
-  const int x = GetSuggestedComplexity();
-  const int c = GetSuggestedConcreteness();
-  const int s = GetSuggestedSpecificity();
-  std::stringstream m;
-  m << "Complexiteit: " << x << ", concreetheid: " << c << ", specificiteit: " << s;
-  ui->label_debug->setText(m.str().c_str());
-}
-
 
 void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   const Concept& concept,
@@ -421,4 +388,13 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
     const int column = 3;
     ui->table->setItem(row_index, column, i);
   }
+}
+
+void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
+{
+  std::stringstream m;
+  m << "X: " << GetSuggestedComplexity() << ", "
+    << "C: " << GetSuggestedConcreteness() << ", "
+    << "S: " << GetSuggestedSpecificity();
+  ui->label_rating->setText(m.str().c_str());
 }

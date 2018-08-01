@@ -20,7 +20,7 @@ class CommandDeleteSelected final : public Command
   );
   CommandDeleteSelected(const CommandDeleteSelected&) = delete;
   CommandDeleteSelected& operator=(const CommandDeleteSelected&) = delete;
-  ~CommandDeleteSelected() noexcept {}
+  ~CommandDeleteSelected() noexcept;
 
   void Undo() override;
   void Redo() override;
@@ -29,7 +29,11 @@ class CommandDeleteSelected final : public Command
   //ConceptMap m_conceptmap_after;
   //const ConceptMap m_conceptmap_before;
   QGraphicsItem * const m_focus_item_before;
-  std::vector<QtEdge *> m_qtedges_removed;
+
+  ///The QtEdges that were selected when removed
+  std::vector<QtEdge *> m_selected_qtedges_removed;
+  std::vector<QtEdge *> m_unselected_qtedges_removed;
+
   std::vector<QtNode *> m_qtnodes_removed;
 
   //QGraphicsScene& m_scene;
@@ -48,15 +52,15 @@ class CommandDeleteSelected final : public Command
   ///Checks if the QtNodes are in a valid state before deletion
   void CheckQtNodesBeforeDelete() const noexcept;
 
-  ///Remove the selected QtEdges
-  void RemoveSelectedQtEdges();
+  ///Remove the selected QtEdges and the QtEdges connected to a selected QtNode
+  void RemoveQtEdges();
 
   ///Remove the selected QtNpodes
   void RemoveSelectedQtNodes();
 
   ///Each QtEdge that is on a QtNode that is selected to be deleted,
   ///must be selected, so it will be deleted as well
-  void SelectAllQtEdgesOnSelectedQtNodes();
+  //void SelectAllQtEdgesOnSelectedQtNodes();
 
   void SetSelected(const QList<QGraphicsItem *>& v, const bool is_selected) noexcept;
 

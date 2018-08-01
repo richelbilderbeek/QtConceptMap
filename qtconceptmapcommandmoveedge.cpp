@@ -3,7 +3,6 @@
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
-//#include <QApplication>
 #include "container.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
@@ -37,6 +36,11 @@ ribi::cmap::CommandMoveEdge::CommandMoveEdge(
     msg << "Move edge by predicate";
     this->setText(msg.str().c_str());
   }
+}
+
+ribi::cmap::CommandMoveEdge::~CommandMoveEdge() noexcept
+{
+
 }
 
 ribi::cmap::CommandMoveEdge * ribi::cmap::ParseCommandMoveEdge(

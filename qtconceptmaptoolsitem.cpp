@@ -1,21 +1,18 @@
-
-
-
-
 #include "qtconceptmaptoolsitem.h"
 
-#include <cmath>
 #include <cassert>
+#include <cmath>
+
 #include <QCursor>
-#include <QPainter>
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QPainter>
+
+#include "qtconceptmap.h"
 #include "qtconceptmapqtnode.h"
 
-
-
 ribi::cmap::QtTool::QtTool()
-  : m_item(nullptr)
+  : m_qtnode(nullptr)
 {
   this->setPixmap(QPixmap(":/CppQtConceptMap/images/CppQtConceptMapArrow14x14.png"));
 
@@ -34,6 +31,11 @@ ribi::cmap::QtTool::QtTool()
   this->setVisible(false);
 
   this->setZValue(GetQtToolZvalue());
+}
+
+ribi::cmap::QtTool::~QtTool()
+{
+
 }
 
 void ribi::cmap::QtTool::hoverMoveEvent(QGraphicsSceneHoverEvent *)
@@ -57,28 +59,28 @@ void ribi::cmap::QtTool::paint(
 
 void ribi::cmap::QtTool::Reposition() noexcept
 {
-  if (!m_item) return;
+  if (!m_qtnode) return;
 
   assert(this->isVisible());
 
   this->setPos(
-    m_item->pos().x(),
-    m_item->pos().y() - (m_item->GetOuterHeight() / 2.0) - 16.0
+    m_qtnode->pos().x(),
+    m_qtnode->pos().y() - (m_qtnode->GetOuterHeight() / 2.0) - 16.0
   );
 
   //Must be close
-  assert(std::abs(this->x() - m_item->pos().x()) < 1.0);
+  assert(std::abs(this->x() - m_qtnode->pos().x()) < 1.0);
   assert(
     std::abs(
-      m_item->pos().y() - (m_item->GetOuterHeight() / 2.0) - 16.0 - this->y()
+      m_qtnode->pos().y() - (m_qtnode->GetOuterHeight() / 2.0) - 16.0 - this->y()
     ) < 1.0
   );
 }
 
-void ribi::cmap::QtTool::SetBuddyItem(QtNode * const item)
+void ribi::cmap::QtTool::SetBuddyItem(QtNode * const qtnode)
 {
-  m_item = item;
-  this->setVisible(m_item != nullptr);
+  m_qtnode = qtnode;
+  this->setVisible(m_qtnode != nullptr);
   Reposition();
   //this->update();
 }

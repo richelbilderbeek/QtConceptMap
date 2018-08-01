@@ -13,7 +13,7 @@ namespace ribi {
 namespace cmap {
 
 ///Rate the focal concept of a sub-ConceptMap.
-class QtRateConceptDialog : public QDialog
+class QtRateConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
     
@@ -23,7 +23,7 @@ class QtRateConceptDialog : public QDialog
   ///conceptmap is non-const, as GetRatedConcept will produce a new concept
   explicit QtRateConceptDialog(
     const ConceptMap conceptmap,
-    const Rating& rating = CreateDefaultRating(),
+    const Rating& rating,
     QWidget* parent = nullptr
   );
   QtRateConceptDialog(const QtRateConceptDialog&) = delete;
@@ -58,7 +58,8 @@ private:
   ///Cannot be const, only used in calculating the suggestions
   const ConceptMap m_conceptmap;
 
-  const boost::shared_ptr<QtConceptMap> m_widget;
+  //const boost::shared_ptr<QtConceptMap> m_qtconceptmap;
+  const std::unique_ptr<QtConceptMap> m_qtconceptmap;
 
   void DisplaySuggestions() noexcept;
 };

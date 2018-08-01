@@ -2,78 +2,59 @@
 
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
-#include <gsl/gsl_assert>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
-#include "find_first_custom_edge_with_my_edge.h"
-#include "set_edge_selectedness.h"
-#include "set_vertex_selectedness.h"
-#include "conceptmap.h"
-#include "conceptmaphelper.h"
-#include "conceptmapnode.h"
+#include <QDebug>
+
 #include "qtconceptmap.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
-#include "qtconceptmaphelper.h"
 #include "qtconceptmapcommandunselect.h"
-#include <QGraphicsScene>
 
 ribi::cmap::CommandUnselectAll::CommandUnselectAll(
-  QtConceptMap& qtconceptmap
-)  : Command(qtconceptmap),
-     m_cmds{}
+  QtConceptMap& qtconceptmap,
+  QUndoCommand *parent
+)  : Command(qtconceptmap, parent),
+     m_cmd{new QUndoCommand(this)}
 {
-  for (QGraphicsItem * const item: GetQtConceptMap().GetScene().items())
+  //Unselect the QtNodes
+  for (QGraphicsItem * const item: GetQtConceptMap().GetScene().selectedItems())
   {
     assert(item);
-    if (!item->isSelected()) continue;
+    assert(item->isSelected());
 
     //Do not add a QtNode that is on a QtEdge, only keep that QtEdge
-    if (QtNode * const qtnode = dynamic_cast<QtNode*>(item))
+    const bool is_qtedge{qgraphicsitem_cast<QtEdge*>(item)};
+    const bool is_qtnode{qgraphicsitem_cast<QtNode*>(item)};
+    if (qgraphicsitem_cast<QtNode*>(item)
+      && IsOnEdge(*qgraphicsitem_cast<QtNode*>(item)))
     {
-      if (FindQtEdge(qtnode, GetQtConceptMap())) continue;
+      qDebug() << "SKIP";
+      continue;
     }
-
-    try
+    if (is_qtedge || is_qtnode)
     {
-
-      assert(dynamic_cast<QtEdge*>(item) || dynamic_cast<QtNode*>(item));
-      m_cmds.push_back(new CommandUnselect(GetQtConceptMap(), *item, this));
+      try
+      {
+        new CommandUnselect(GetQtConceptMap(), *item, m_cmd);
+      }
+      catch (std::exception&) {} //OK
     }
-    catch (std::exception&) {} //OK
   }
-  if (m_cmds.empty())
+
+  if (!m_cmd->childCount())
   {
     throw std::invalid_argument("Cannot unselect if none selected");
   }
-  /*
-  if (QtEdge* const qtedge = dynamic_cast<QtEdge*>(&item))
-  {
-    m_cmds = new CommandUnselectAllEdge(qtconceptmap, qtedge, this);
-  }
-  else if (QtNode* const qtnode = dynamic_cast<QtNode*>(&item))
-  {
-    if (QtEdge* const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
-    {
-      m_cmds = new CommandUnselectAllEdge(qtconceptmap, qtedge2, this);
-    }
-    else
-    {
-      m_cmds = new CommandUnselectAllNode(qtconceptmap, qtnode, this);
-    }
-  }
-  if (!m_cmds)
-  {
-    throw std::invalid_argument("item is not a QtEdge nor QtNode");
-  }
-  */
   //QCommands have a text
   {
     std::stringstream msg;
-    msg << "Unselect all";
+    msg << "Unselect all (" << m_cmd->childCount() << " items)";
     this->setText(msg.str().c_str());
   }
+}
+
+ribi::cmap::CommandUnselectAll::~CommandUnselectAll() noexcept
+{
+
 }
 
 ribi::cmap::CommandUnselectAll * ribi::cmap::ParseCommandUnselectAll(
@@ -94,54 +75,11 @@ ribi::cmap::CommandUnselectAll * ribi::cmap::ParseCommandUnselectAll(
 
 void ribi::cmap::CommandUnselectAll::Redo()
 {
-  for (auto * const cmd: m_cmds)
-  {
-    cmd->redo();
-  }
-  /*
-  m_unselectalled_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
-    [name = m_name](QtNode * const qtnode)
-    {
-      return name == GetText(*qtnode);
-    }
-  );
-  if (m_unselectalled_qtnode)
-  {
-    SetSelectedness(false, *m_unselectalled_qtnode, GetQtConceptMap());
-  }
-  else
-  {
-    m_unselectalled_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
-      [name = m_name](QtEdge * const qtedge)
-      {
-        return name == GetText(*qtedge);
-      }
-    );
-    if (m_unselectalled_qtedge)
-    {
-      SetSelectedness(false, *m_unselectalled_qtedge, GetQtConceptMap());
-    }
-  }
-  */
+  assert(m_cmd);
+  m_cmd->redo();
 }
 
 void ribi::cmap::CommandUnselectAll::Undo()
 {
-  std::for_each(
-    std::rbegin(m_cmds), std::rend(m_cmds),
-    [](Command * const cmd)
-    {
-      cmd->undo();
-    }
-  );
-  /*
-  if (m_unselectalled_qtedge)
-  {
-    SetSelectedness(true, *m_unselectalled_qtedge, GetQtConceptMap());
-  }
-  if (m_unselectalled_qtnode)
-  {
-    SetSelectedness(true, *m_unselectalled_qtnode, GetQtConceptMap());
-  }
-  */
+  m_cmd->undo();
 }

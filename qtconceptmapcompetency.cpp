@@ -13,7 +13,6 @@
 
 #include "qtimage.h"
 
-
 ribi::cmap::QtCompetency::QtCompetency()
   : m_color_map{CreateColorMap()},
     m_icon_map{CreateIconMap()}

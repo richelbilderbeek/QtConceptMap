@@ -1,19 +1,15 @@
 #include "qtconceptmapcommandmovenode.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
-
-
 #include <gsl/gsl_assert>
-//#include <QApplication>
-#include "container.h"
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
+#include "container.h"
 #include "qtconceptmap.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtnode.h"
 
 ribi::cmap::CommandMoveNode::CommandMoveNode(
   QtConceptMap& qtconceptmap,
@@ -34,8 +30,9 @@ ribi::cmap::CommandMoveNode::CommandMoveNode(
   {
     throw std::invalid_argument("Cannot move unmovable QtNode");
   }
-  if (IsQtNodeOnEdge(m_qtnode, GetQtConceptMap()))
+  if (IsQtNodeOnEdge(m_qtnode))
   {
+    //Use CommandMoveEdge to move an edge
     throw std::invalid_argument("Cannot move QtNode on QtEdge");
   }
 
@@ -46,6 +43,11 @@ ribi::cmap::CommandMoveNode::CommandMoveNode(
       << m_dx << " and dy=" << m_dy;
     this->setText(msg.str().c_str());
   }
+}
+
+ribi::cmap::CommandMoveNode::~CommandMoveNode() noexcept
+{
+
 }
 
 std::function<bool(const ribi::cmap::QtNode&)> ribi::cmap::QtNodeHasText(
@@ -79,7 +81,7 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
       [&qtconceptmap, text](const QtNode * const qtnode)
       {
         return GetText(*qtnode) == text
-          && !IsOnEdge(*qtnode, qtconceptmap)
+          && !IsOnEdge(*qtnode)
           && IsMovable(*qtnode)
         ;
       }
@@ -92,26 +94,16 @@ ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
 
 void ribi::cmap::CommandMoveNode::Redo()
 {
-  
-
   assert(m_qtnode);
-  assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
+  assert(!IsOnEdge(*m_qtnode));
   assert(IsMovable(*m_qtnode));
-
-  MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());
-
-  
+  MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());  
 }
 
 void ribi::cmap::CommandMoveNode::Undo()
 {
-  
-
   assert(m_qtnode);
-  assert(!IsOnEdge(*m_qtnode, GetQtConceptMap()));
+  assert(!IsOnEdge(*m_qtnode));
   assert(IsMovable(*m_qtnode));
-
   MoveQtNode(*m_qtnode, -m_dx, -m_dy, GetQtConceptMap());
-
-  
 }

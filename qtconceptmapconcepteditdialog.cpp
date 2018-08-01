@@ -1,30 +1,8 @@
-
-
-
-
 #include "qtconceptmapconcepteditdialog.h"
-#include <iostream>
+
 #include <cassert>
-
-#include <QDesktopWidget>
-#include <QMainWindow>
-#include <QDebug>
-#include <QKeyEvent>
-#include <QObjectList>
-#include <QListWidgetItem>
-#include <QTableWidgetItem>
-#include <QTableWidget>
-
-#include "conceptmapcompetency.h"
-#include "conceptmapexample.h"
-#include "conceptmapexamplefactory.h"
-#include "conceptmapexamplesfactory.h"
-#include "conceptmapexamples.h"
-#include "conceptmaphelper.h"
-#include "conceptmapconcept.h"
-#include "conceptmapconceptfactory.h"
-#include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmapconcepteditdialog.h"
+
 
 void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget_size()
 {
@@ -71,21 +49,34 @@ struct QtConceptMapListWidgetItem : public QListWidgetItem
   const ribi::cmap::Competency m_competency;
 };
 
+=======
+>>>>>>> 919aafb205b7aeafd583d10ca23d55a09e04f231
 ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
-  const Concept& concept,
+  const Concept& c,
+  const EditType edit_type,
   QWidget* parent)
   : QDialog(parent),
     ui(new Ui::QtConceptMapConceptEditDialog)
 {
   ui->setupUi(this);
 
+  if (edit_type == EditType::concept)
+  {
+    this->setWindowTitle("Concept bewerken");
+    ui->label_concept_or_relation->setText("Concept");
+  }
+  if (edit_type == EditType::relation)
+  {
+    this->setWindowTitle("Relatie bewerken");
+    ui->label_concept_or_relation->setText("Relatie");
+  }
   //Convert the concept to its GUI elements
   //Add the name
-  ui->edit_concept->setPlainText(concept.GetName().c_str());
+  ui->edit_concept->setPlainText(c.GetName().c_str());
   //Add the examples
   ui->examples_widget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-  const int n_examples = CountExamples(concept);
-  const auto& examples = concept.GetExamples().Get();
+  const int n_examples = CountExamples(c);
+  const auto& examples = c.GetExamples().Get();
   ui->examples_widget->setWordWrap(true);
   ui->examples_widget->setRowCount(n_examples);
   for (int i = 0; i != n_examples; ++i)
@@ -110,8 +101,15 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
     SLOT(close())
   );
 
+<<<<<<< HEAD
   resize_window_to_examples_widget_size();
 
+=======
+  QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //!OCLINT increases the height of the window when a new line is added
+  ui->examples_widget->resizeRowsToContents();
+  ui->edit_text->clear();
+  ui->edit_text->setFocus();
+>>>>>>> 919aafb205b7aeafd583d10ca23d55a09e04f231
   //connect(ui->examples_widget, SIGNAL(cellChanged(int,int)),
   //  ui->examples_widget, SLOT(resizeRowsToContents())
   //);
@@ -161,6 +159,10 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
 
   resize_window_to_examples_widget_size();
 
+<<<<<<< HEAD
+=======
+  QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //!OCLINT increases the height of the window when a new line is added
+>>>>>>> 919aafb205b7aeafd583d10ca23d55a09e04f231
   ui->examples_widget->resizeRowsToContents();
   ui->edit_text->clear();
   ui->edit_text->setFocus();
@@ -199,6 +201,6 @@ ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const
     );
     v.push_back(p);
   }
-  assert(n_items == boost::numeric_cast<int>(v.size()));
+  assert(n_items == static_cast<int>(v.size()));
   return Concept(name, Examples(v));
 }

@@ -1,7 +1,6 @@
 #include "qtconceptmapqtedge.h"
 
 #include <cassert>
-
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 
@@ -16,6 +15,8 @@ ribi::cmap::QtEdge::QtEdge(
     QtNode * const to
 ) : QtEdge(edge.GetNode(), from, to)
 {
+  assert(std::abs(GetX(*this) - GetX(edge)) < 2.0);
+  assert(std::abs(GetY(*this) - GetY(edge)) < 2.0);
 }
 
 ribi::cmap::QtEdge::QtEdge(
@@ -24,6 +25,18 @@ ribi::cmap::QtEdge::QtEdge(
     QtNode * const to
 ) : QtEdge(node.GetConcept(), node.GetX(), node.GetY(), from, to)
 {
+  #ifndef NDEBUG
+  if (std::abs(GetX(*this) - GetX(node)) >= 2.0)
+  {
+    qCritical()
+      << GetX(*this)
+      << GetX(node)
+    ;
+  }
+  #endif
+  assert(std::abs(GetX(*this) - GetX(node)) < 2.0);
+  assert(std::abs(GetY(*this) - GetY(node)) < 2.0);
+
 }
 
 ribi::cmap::QtEdge::QtEdge(
@@ -48,7 +61,7 @@ ribi::cmap::QtEdge::QtEdge(
     m_show_bounding_rect{false},
     m_to{to}
 {
-  assert(IsOnEdge(m_qtnode));
+  assert(IsOnEdge(*m_qtnode));
   CheckInput(from, to);
   m_arrow = new QtQuadBezierArrowItem(
     from,
@@ -61,10 +74,11 @@ ribi::cmap::QtEdge::QtEdge(
 
   this->m_arrow->setFlags(0);
 
+  //QtEdge must be selectable
   this->setFlags(QGraphicsItem::ItemIsSelectable);
-  //this->setFlags(0);
 
   GetQtNode()->SetContourPen(QPen(Qt::white));
+
   {
     //Cannot simplify this to the line below, for reasons unknown
     //GetQtNode()->SetFocusPen(QPen(Qt::black, Qt::DashLine));
@@ -73,8 +87,9 @@ ribi::cmap::QtEdge::QtEdge(
     GetQtNode()->SetFocusPen(focus_pen);
   }
 
-  GetQtNode()->setFlags(GetQtNodeFlags());
+  GetQtNode()->setFlags(CreateEditFlags(*GetQtNode()));
 
+  #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
   //m_edge must be initialized before m_arrow
   //if 'from' or 'to' are CenterNodes, then no item must be put at the center
   if (IsConnectedToCenterNode(*this))
@@ -82,9 +97,9 @@ ribi::cmap::QtEdge::QtEdge(
     m_arrow->SetMidX( (m_arrow->GetFromX() + m_arrow->GetToX()) / 2.0 );
     m_arrow->SetMidY( (m_arrow->GetFromY() + m_arrow->GetToY()) / 2.0 );
   }
+  #endif // STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
 
-  m_qtnode->SetCenterX(x);
-  m_qtnode->SetCenterY(y);
+  m_qtnode->SetCenterPos(x, y);
 
   //Set Z values
   this->setZValue(GetQtEdgeZvalue());
@@ -134,11 +149,11 @@ void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
   {
     throw std::invalid_argument("QtEdge must have a different from and to");
   }
-  if (IsOnEdge(from))
+  if (IsOnEdge(*from))
   {
     throw std::invalid_argument("QtNode 'from' must not be on an edge");
   }
-  if (IsOnEdge(to))
+  if (IsOnEdge(*to))
   {
     throw std::invalid_argument("QtNode 'from' must not be on an edge");
   }
@@ -163,35 +178,16 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetQtNode()->zValue() == GetQtNodeZvalue());
 }
 
-void ribi::cmap::DisableAll(QtEdge& qtedge) noexcept
+void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
 {
-  qtedge.setEnabled(false);
-  qtedge.setVisible(false);
-  qtedge.GetArrow()->setEnabled(false);
-  qtedge.GetArrow()->setVisible(false);
+  assert(!"ribi::cmap::QtEdge::dragEnterEvent is never called"); //!OCLINT accepted idiom
+  QGraphicsItem::dragEnterEvent(event);
 }
 
-void ribi::cmap::EnableAll(QtEdge& qtedge) noexcept
+QPointF ribi::cmap::GetCenterPos(const QtEdge& qtedge) noexcept
 {
-  qtedge.setEnabled(true);
-  qtedge.setVisible(true);
-  qtedge.GetArrow()->setEnabled(true);
-  qtedge.GetArrow()->setVisible(true);
+  return GetCenterPos(*qtedge.GetQtNode());
 }
-
-/*
-void ribi::cmap::QtEdge::focusInEvent(QFocusEvent* e) noexcept
-{
-  QGraphicsItem::focusInEvent(e);
-  assert(hasFocus());
-}
-
-void ribi::cmap::QtEdge::focusOutEvent(QFocusEvent* e) noexcept
-{
-  QGraphicsItem::focusOutEvent(e);
-  assert(!hasFocus());
-}
-*/
 
 ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
 {
@@ -207,22 +203,10 @@ ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
   );
 }
 
-QGraphicsItem::GraphicsItemFlags ribi::cmap::GetQtNodeFlags() noexcept
-{
-  return QGraphicsItem::ItemIsFocusable
-    | QGraphicsItem::ItemIsMovable
-    | QGraphicsItem::ItemIsSelectable
-  ;
-}
 
 std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
 {
   return GetText(*qtedge.GetQtNode());
-}
-
-QPointF ribi::cmap::GetCenterPos(const QtEdge& qtedge) noexcept
-{
-  return GetCenterPos(*qtedge.GetQtNode());
 }
 
 double ribi::cmap::GetX(const QtEdge& qtedge) noexcept
@@ -287,10 +271,6 @@ bool ribi::cmap::IsVisible(const QtEdge& qtedge) noexcept
 
 bool ribi::cmap::QtEdge::IsSelected() const
 {
-  assert(QGraphicsItem::isSelected() == this->GetQtNode()->isSelected()
-    //If the QtEdge is connected to the center node, the QtNode is made invisible
-    || IsConnectedToCenterNode(*this)
-  );
   return QGraphicsItem::isSelected();
 }
 
@@ -299,13 +279,6 @@ void ribi::cmap::QtEdge::keyPressEvent(QKeyEvent *event) noexcept
 {
   //Don't forward the keyPressEvent!
   //These are handled by Commands in the QtConceptMap
-  //if (1 == 2)
-  {
-    //m_arrow->keyPressEvent(event);
-    //m_edge.SetHeadArrow(m_arrow->HasHead());
-    //m_edge.SetTailArrow(m_arrow->HasTail());
-  }
-  QGraphicsItem::keyPressEvent(event);
 }
 */
 
@@ -318,12 +291,14 @@ void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexce
     {
       this->SetHasTailArrow( !m_arrow->HasTail() );
       //this->update(); //Don't!
+      return;
     }
-    else if ((event->pos() - this->m_arrow->GetHead()
+    if ((event->pos() - this->m_arrow->GetHead()
       + m_qtnode->pos()).manhattanLength() < 20.0)
     {
       this->SetHasHeadArrow( !m_arrow->HasHead() );
       //this->update(); //Don't!
+      return;
     }
   }
 
@@ -367,6 +342,7 @@ void ribi::cmap::QtEdge::paint(
 {
   CheckInvariants(*this);
 
+  #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
   //When connecting to center node, the center of the arrow must
   //be kept between source and target node
   if (IsConnectedToCenterNode(*this))
@@ -377,8 +353,8 @@ void ribi::cmap::QtEdge::paint(
     m_qtnode->SetCenterY(y_in_middle);
     m_arrow->SetMidX(x_in_middle);
     m_arrow->SetMidY(y_in_middle);
-    qDebug() << "Move center";
   }
+  #endif // STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
 
   {
     QPen pen(Qt::black);
@@ -436,10 +412,6 @@ void ribi::cmap::QtEdge::SetSelected(const bool selected)
 {
   QGraphicsItem::setSelected(selected);
   this->GetQtNode()->setSelected(selected);
-  assert(GetQtNode()->isSelected() == QGraphicsItem::isSelected()
-    || IsConnectedToCenterNode(*this)
-  );
-  assert(IsSelected() == selected);
 }
 
 QPainterPath ribi::cmap::QtEdge::shape() const noexcept

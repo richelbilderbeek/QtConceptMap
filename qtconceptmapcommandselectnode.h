@@ -20,7 +20,7 @@ class CommandSelectNode final : public Command
   );
   CommandSelectNode(const CommandSelectNode&) = delete;
   CommandSelectNode& operator=(const CommandSelectNode&) = delete;
-  ~CommandSelectNode() noexcept {}
+  ~CommandSelectNode() noexcept;
 
   void Redo() override;
   void Undo() override;

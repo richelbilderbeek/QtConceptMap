@@ -3,15 +3,10 @@
 
 #include <functional>
 
-
-
-
-
-#include "qtroundededitrectitem.h"
+#include "conceptmapfwd.h"
 #include "conceptmapnode.h"
 #include "conceptmapnodetype.h"
-#include "conceptmapfwd.h"
-
+#include "qtroundededitrectitem.h"
 
 namespace ribi {
 namespace cmap {
@@ -22,12 +17,12 @@ class QtConceptMapQtNodeTest;
 ///QtNode displays a Node as a QtConceptMapElement
 ///Instead of duplicating state, Node's members
 ///are scattered over the class
-struct QtNode : public QtRoundedEditRectItem
+struct QtNode final : public QtRoundedEditRectItem
 {
-  virtual ~QtNode() noexcept;
+  ~QtNode() noexcept;
 
   explicit QtNode(
-    const Node& node,
+    const Node& node = Node(),
     QGraphicsItem* parent = 0
   );
   explicit QtNode(
@@ -38,9 +33,6 @@ struct QtNode : public QtRoundedEditRectItem
     const double center_y = 0.0,
     QGraphicsItem* parent = 0
   );
-
-  void DisableAll();
-  void EnableAll();
 
   const auto& GetExamples() const noexcept { return m_examples; }
   int GetId() const noexcept { return m_id; }
@@ -57,6 +49,8 @@ struct QtNode : public QtRoundedEditRectItem
 
   ///Sets the function that determines the brush of the QtNode
   void SetBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
+
+  void SetExamples(const Examples examples) noexcept;
 
   void SetNode(
     const Concept& concept,
@@ -77,22 +71,34 @@ struct QtNode : public QtRoundedEditRectItem
   ///-1: not rated, 0: lowest, 2: highest
   void SetRatingSpecificity(const int rating_specificity);
 
+  ///Sets the function that determines the brush of the QtNode
+  void SetVignetteBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;
+
   std::string ToStr() const noexcept;
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem *, QWidget *) noexcept final;
 
-  int type() const override { return UserType + 3; }
-protected:
+  ///Define a usertype for this QGraphicsItem, must be unique
+  enum { Type = UserType + 3 };
+  int type() const override
+  {
+    return Type;
+  }
 
+protected:
+  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override final;
+  void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override final;
   void focusInEvent(QFocusEvent *event) noexcept final override;
   void focusOutEvent(QFocusEvent *event) noexcept final override;
-  void keyPressEvent(QKeyEvent *event) noexcept final;
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event) noexcept final;
+  void keyPressEvent(QKeyEvent *event) noexcept final;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override final;
 
 private:
 
   ///The function that determines this QtNode its brush
   std::function<QBrush(const ribi::cmap::QtNode&)> m_brush_function;
+
 
   ///The node being edited, or displayed and not changed, or rated
   Examples m_examples;
@@ -111,9 +117,21 @@ private:
 
   NodeType m_node_type;
 
+  ///The function that determines this QtNode's vignette's brush
+  std::function<QBrush(const ribi::cmap::QtNode&)> m_vignette_brush_function;
+
   friend class QtConceptMapTest;
   friend class QtConceptMapQtNodeTest;
 };
+
+///Create the flags for the node, when in Edit mode
+QGraphicsItem::GraphicsItemFlags CreateEditFlags(const QtNode& qtnode) noexcept;
+
+///Create the flags for the node, when in Rate mode
+QGraphicsItem::GraphicsItemFlags CreateRateFlags(const QtNode& qtnode) noexcept;
+
+///Create the flags for the node, when in Uninitialized mode
+QGraphicsItem::GraphicsItemFlags CreateUninitializedFlags(const QtNode& qtnode) noexcept;
 
 ///Get the center of the QtNode
 QPointF GetCenterPos(const QtNode& qtnode) noexcept;
@@ -139,7 +157,7 @@ std::string GetText(const QtNode& qtnode) noexcept;
 NodeType GetType(const QtNode& qtnode) noexcept;
 
 ///Number of characters for wordwrapping
-constexpr int GetWordWrapLength() { return 80; }
+constexpr int GetWordWrapLength() { return 40; }
 
 ///Get the x coordinat of the center of the QtNode
 double GetX(const QtNode& qtnode) noexcept;
@@ -153,7 +171,19 @@ bool HasExamples(const QtNode& qtnode) noexcept;
 bool IsCenterNode(const QtNode& qtnode) noexcept;
 bool IsComplex(const QtNode& qtnode) noexcept;
 bool IsEnabled(const QtNode& qtnode) noexcept;
+
+///Is this QtNode in the center on a QtEdge?
+///Simple: if it has a parent item (a QtEdge),
+///it is on a QtEdge
+bool IsOnEdge(const QtNode& qtnode) noexcept;
+
 bool IsMovable(const QtNode& qtnode) noexcept;
+
+///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
+bool IsQtNodeOnEdge(
+  const QGraphicsItem * const item
+) noexcept;
+
 bool IsSelectable(const QtNode& qtnode) noexcept;
 bool IsSelected(const QtNode& qtnode) noexcept;
 bool IsVisible(const QtNode& qtnode) noexcept;
@@ -165,6 +195,8 @@ std::function<bool(const QtNode* const)> QtNodeHasId(const int id);
 std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
 
 void SetConcept(QtNode& qtnode, const Concept& concept);
+
+void SetExamples(QtNode& qtnode, const Examples& examples) noexcept;
 
 ///Set the rating of this Node for complexity
 ///-1: not rated, 0: lowest, 2: highest

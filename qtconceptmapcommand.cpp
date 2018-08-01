@@ -5,11 +5,16 @@
 ribi::cmap::Command::Command(
   QtConceptMap& qtconceptmap,
   QUndoCommand * const parent
-) noexcept
+)
   : QUndoCommand(parent),
     m_qtconceptmap(qtconceptmap)
 {
   assert(&m_qtconceptmap == &qtconceptmap);
+}
+
+ribi::cmap::Command::~Command() noexcept
+{
+
 }
 
 void ribi::cmap::Command::undo()

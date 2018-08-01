@@ -1,19 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDMOVEEDGE_H
 #define CONCEPTMAPCOMMANDMOVEEDGE_H
 
-
-
-
-
-
-//#include "conceptmapnode.h"
-//#include "conceptmap.h"
-//#include "qtconceptmapqtnode.h"
-//#include <QGraphicsScene>
-//#include "qtconceptmaptoolsitem.h"
 #include "qtconceptmapcommand.h"
-//#include "qtconceptmapmode.h"
-
 
 namespace ribi {
 namespace cmap {
@@ -31,7 +19,7 @@ class CommandMoveEdge final : public Command
   );
   CommandMoveEdge(const CommandMoveEdge&) = delete;
   CommandMoveEdge& operator=(const CommandMoveEdge&) = delete;
-  ~CommandMoveEdge() noexcept {}
+  ~CommandMoveEdge() noexcept;
 
   auto GetDx() const noexcept { return m_dx; }
   auto GetDy() const noexcept { return m_dy; }

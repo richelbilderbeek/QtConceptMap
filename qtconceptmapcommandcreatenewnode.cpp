@@ -1,21 +1,15 @@
 #include "qtconceptmapcommandcreatenewnode.h"
 
-#include <cassert>
 #include <boost/algorithm/string/trim.hpp>
+
 #include <gsl/gsl_assert>
-#include <QDebug>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
-#include "find_first_custom_vertex_with_my_vertex.h"
-#include "conceptmap.h"
+
 #include "conceptmaphelper.h"
-#include "conceptmapnode.h"
+#include "container.h"
 #include "qtconceptmap.h"
-#include "qtconceptmaptoolsitem.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
-#include "set_vertex_selectedness.h"
-#include "set_my_custom_vertex.h"
+#include "qtconceptmapqtnode.h"
+#include "qtconceptmaptoolsitem.h"
 
 bool str_to_bool(std::string s)
 {
@@ -53,6 +47,11 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
     ;
     this->setText(msg.str().c_str());
   }
+}
+
+ribi::cmap::CommandCreateNewNode::~CommandCreateNewNode()
+{
+
 }
 
 double ribi::cmap::CommandCreateNewNode::GetX() const noexcept
@@ -102,6 +101,9 @@ void ribi::cmap::CommandCreateNewNode::Redo()
 {
   //Modify the QGraphicsScene
   m_added_qtnode = new QtNode(Node(Concept(m_text), m_type, m_x, m_y));
+  assert(!IsOnEdge(*m_added_qtnode));
+  assert(IsQtNodeNotOnEdge(m_added_qtnode));
+
   assert(m_added_qtnode);
   assert(Unwordwrap(m_added_qtnode->GetText()) == m_text);
   assert(!m_added_qtnode->scene());
@@ -127,7 +129,7 @@ void ribi::cmap::CommandCreateNewNode::Redo()
 void ribi::cmap::CommandCreateNewNode::Undo()
 {
   m_added_qtnode->clearFocus();
-  SetSelectedness(false, *m_added_qtnode, GetQtConceptMap());
+  SetSelectedness(false, *m_added_qtnode);
 
   //Remove QtNode
   assert(m_added_qtnode->scene());

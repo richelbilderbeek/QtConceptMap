@@ -1,11 +1,11 @@
 #ifndef QTCONCEPTMAPCONCEPTMAP_H
 #define QTCONCEPTMAPCONCEPTMAP_H
 
+#include <QGraphicsItem>
 #include <QUndoStack>
 #include "qtkeyboardfriendlygraphicsview.h"
 #include "qtconceptmapfwd.h"
 #include "qtconceptmapmode.h"
-#include "qtconceptmappopupmode.h"
 #include "conceptmapgraphtypes.h"
 #include "qtconceptmaprating.h"
 
@@ -22,7 +22,8 @@ namespace cmap {
 ///  0: QtNodes: GetQtNodeZvalue()
 /// -1: QtEdges: GetQtEdgeZvalue()
 /// -2: QtEdge's arrow: GetQtEdgeArrowZvalue()`
-class QtConceptMap : public ribi::QtKeyboardFriendlyGraphicsView //!OCLINT cannot get it smaller
+class QtConceptMap final //!OCLINT cannot get it smaller
+  : public ribi::QtKeyboardFriendlyGraphicsView
 {
   Q_OBJECT //!OCLINT
 
@@ -49,9 +50,6 @@ public:
 
   const auto& GetRating() const noexcept { return m_rating; }
 
-  ///Get the current pop-up mode the object is in
-  PopupMode GetPopupMode() const noexcept { return m_popup_mode; }
-
   ///Get the QGraphicsItem that can highlight selected QGraphicsItems
   const QtItemHighlighter& GetQtHighlighter() const noexcept;
 
@@ -76,8 +74,6 @@ public:
 
   void SetConceptMap(const ConceptMap& conceptmap);
 
-  void SetPopupMode(const PopupMode mode) noexcept;
-
   void SetMode(const Mode mode) noexcept;
 
   ///Restart the timer
@@ -93,14 +89,21 @@ public slots:
 
   void changeEvent(QEvent *) override;
   void dragEnterEvent(QDragEnterEvent *event) override;
-  void dropEvent(QDropEvent *event) override;
+  void dragLeaveEvent(QDragLeaveEvent *event) override;
   void hideEvent(QHideEvent *) override;
   void keyPressEvent(QKeyEvent* event) override;
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent * event) override;
   void mousePressEvent(QMouseEvent *event) override;
-  //void focusInEvent(QFocusEvent *event) override;
-  void onFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
+
+  ///No override, this is the slot called
+  ///whenever a GraphicsScene::onFocusItemChanged signal
+  ///is emitted
+  void OnFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
+
+  ///Called when a QGraphicsItems's onDragLeave signal is emitted
+  //void OnDragEnd();
+
   void showEvent(QShowEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
 
@@ -124,9 +127,6 @@ private:
   /// edit (modify the graph) or rate (only grade the existing nodes)
   Mode m_mode;
 
-  ///The type of pop ups: absent (best for printing) or present (best for UX)
-  PopupMode m_popup_mode;
-
   ///The suggested rating of the concepts
   const Rating m_rating;
 
@@ -143,20 +143,6 @@ void AddEdgeToScene(QtConceptMap& qtconceptmap, const EdgeDescriptor ed) noexcep
 void AddEdgesToScene(QtConceptMap& qtconceptmap, const ConceptMap& conceptmap) noexcept;
 
 void AddNodesToScene(QtConceptMap& qtconceptmap, const ConceptMap& conceptmap) noexcept;
-
-///Add a QtNode to the scene, add its Node to the ConceptMap
-///This is used by, among others, CommandDeleteSelected::undo
-void AddQtEdge(
-  QtEdge * const qtedge,
-  QtConceptMap& q
-);
-
-///Add a QtNode to the scene, add its Node to the ConceptMap
-///This is used by, among others, CommandDeleteSelected::undo
-void AddQtNode(
-  QtNode * const qtnode,
-  QtConceptMap& q
-);
 
 ///Checks if the QtConceptMap is in a valid state
 void CheckInvariants(const QtConceptMap& q) noexcept;
@@ -193,18 +179,14 @@ int CountSelectedQtNodes(const QtConceptMap& q) noexcept;
 
 int CountSelectedQtEdges(const QtConceptMap& q) noexcept;
 
+///Create the flags for a QtNode in a certain Mode
+QGraphicsItem::GraphicsItemFlags CreateFlags(const QtNode& qtnode, const Mode mode) noexcept;
+
 ///Finds the first QtEdge by a predicate
 ///Returns nullptr if there is none
 QtEdge * FindFirstQtEdge(
   const QtConceptMap& q,
   const std::function<bool(QtEdge*)> predicate) noexcept;
-
-///FindFirstQtEdge with a predicate to check for the name on the QtEdge
-///Returns nullptr if there is none
-[[deprecated("Use FindFirstQtEdge(q, QtEdgeHasName(name)) instead")]]
-QtEdge * FindFirstQtEdgeWithName(
-  const QtConceptMap& q,
-  const std::string& name) noexcept;
 
 ///Finds the first QtNode by a predicate
 ///Returns nullptr if there is none
@@ -212,23 +194,12 @@ QtNode * FindFirstQtNode(
   const QtConceptMap& q,
   const std::function<bool(QtNode*)> predicate) noexcept;
 
-///FindFirstQtNode with a predicate to check for the name on the QtNode
-///Returns nullptr if there is none
-[[deprecated("Use FindFirstQtNode(q, QtNodeHasName(name)) instead")]]
-QtNode * FindFirstQtNodeWithName(
-  const QtConceptMap& q,
-  const std::string& name) noexcept;
-
 ///Find the edge this QtNode is in the center of a QtEdge.
 ///Returns nullptr if the QtNode is not on a QtEdge
 QtEdge * FindQtEdge(
   const QtNode * const qtnode,
   const QtConceptMap& qtconceptmap
 ) noexcept;
-
-///Finds the first QtNode in a QGraphicsScene with a matching node ID
-///Returns nullptr if there is none
-QtNode * FindQtNode(const int node_id, const QtConceptMap& q) noexcept;
 
 ///Get the first QtEdge
 ///Returns nullpt if there are no QtEdges in the scene
@@ -282,6 +253,9 @@ std::vector<QtNode *> GetSelectedQtNodesAlsoOnQtEdge(const QtConceptMap& q) noex
 ///scene can be nullptr
 bool HasScene(const QtEdge& qtedge, const QGraphicsScene * const scene) noexcept;
 
+///Returns true if there is one QGraphicsItem selected
+bool HasSelectedItems(const QtConceptMap& q) noexcept;
+
 ///Is the arrow to connect a select QtNode to a potential other
 ///QtNode (to draw an edge) visible?
 bool IsArrowVisible(QtConceptMap& q) noexcept;
@@ -290,21 +264,19 @@ bool IsArrowVisible(QtConceptMap& q) noexcept;
 bool IsInScene(const QtEdge& qtedge, const QGraphicsScene& scene) noexcept;
 
 ///Is this QtNode in the center on a QtEdge?
-bool IsOnEdge(const QtNode& qtnode, const QtConceptMap& q) noexcept;
+bool IsOnEdge(const QtNode& qtnode) noexcept;
 
 ///Is there a QtCenterNode among the selected items?
 bool IsQtCenterNodeSelected(const QtConceptMap& q);
 
 ///Is this QGraphicsItem an autonomous QtNode, that is, a QtNode not on an edge?
 bool IsQtNodeNotOnEdge(
-  const QGraphicsItem * const item,
-  const QtConceptMap& q
+  const QGraphicsItem * const item
 ) noexcept;
 
 ///Is this QGraphicsItem an QtNode on an edge, instead of an autonomous QtNode?
 bool IsQtNodeOnEdge(
-  const QGraphicsItem * const item,
-  const QtConceptMap& q
+  const QGraphicsItem * const item
 ) noexcept;
 
 ///
@@ -394,11 +366,6 @@ void SetFocus(QtConceptMap& q, QtNode* const qtnode);
 ///Set the buddy of the QtToolItem
 void SetQtToolItemBuddy(QtConceptMap& q, QtNode * const qtnode);
 
-//A QtEdge never has a QtToolItem, as one cannot draw edges
-//between the relationship nodes.
-[[deprecated("a QtToolItem never connects with a QtEdge")]]
-void SetQtToolItemBuddy(QtConceptMap& q, QtEdge * const qtedge);
-
 ///Focus on a random QtNode (both as vertices as those on the edges)
 /// @param keep_old_selection if false, all previous selection loses focus
 void SetRandomFocus(QtConceptMap& q, const bool keep_old_selection);
@@ -414,8 +381,7 @@ void SetRandomFocusExclusive(QtConceptMap& q);
 ///Use 'Select' to also update the QtToolItem
 void SetSelectedness(
   const bool is_selected,
-  QtEdge& qtedge,
-  QtConceptMap& q
+  QtEdge& qtedge
 );
 
 ///Set the selectedness of a QtNode, also updating the
@@ -423,8 +389,7 @@ void SetSelectedness(
 ///Use 'Select' to also update the QtToolItem
 void SetSelectedness(
   const bool is_selected,
-  QtNode& qtnode,
-  QtConceptMap& q
+  QtNode& qtnode
 );
 
 ///Unselect the QtEdge, including updating the QtToolItem
@@ -432,16 +397,6 @@ void Unselect(QtConceptMap& q, QtEdge& qtedge);
 
 ///Unselect the QtNode, including updating the QtToolItem
 void Unselect(QtConceptMap& q, QtNode& qtnode);
-
-///Unselect all QtNodes and QtEdges
-[[deprecated("Use CommandUnselectAll instead")]] void UnselectAll(QtConceptMap& q);
-
-///Unselect all QtEdges (and the Edges in the ConceptMap)
-[[deprecated("Use CommandUnselectAll instead")]] void UnselectAllQtEdges(QtConceptMap& q);
-
-///Unselect all QtNodes (and the Nodes in the ConceptMap)
-[[deprecated("Use CommandUnselectAll instead")]] void UnselectAllQtNodes(QtConceptMap& q);
-
 
 } //~namespace cmap
 } //~namespace ribi

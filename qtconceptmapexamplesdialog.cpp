@@ -1,46 +1,10 @@
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
 #include "qtconceptmapexamplesdialog.h"
-
-
-
-
 
 #include <cassert>
 
-#include <boost/bind/bind.hpp>
-#include <boost/lambda/lambda.hpp>
-
-#include <QLabel>
-#include <QLayout>
-#include <QVBoxLayout>
-
-#include "conceptmapexample.h"
-#include "conceptmapexamples.h"
-#include "conceptmapexamplesfactory.h"
 #include "qtconceptmapexampledialog.h"
 
-
 #include "ui_qtconceptmapexamplesdialog.h"
-
 
 ribi::cmap::QtExamplesDialog::QtExamplesDialog(QWidget *parent)
   : QDialog(parent),

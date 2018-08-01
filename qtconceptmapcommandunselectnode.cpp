@@ -1,18 +1,19 @@
 #include "qtconceptmapcommandunselectnode.h"
 
 #include <cassert>
-//#include <boost/graph/isomorphism.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
-//#include <QApplication>
-#include "count_vertices_with_selectedness.h"
-#include "container.h"
+
+#include <QDebug>
+
 #include "conceptmap.h"
 #include "conceptmaphelper.h"
 #include "conceptmapnode.h"
+#include "container.h"
+#include "count_vertices_with_selectedness.h"
 #include "qtconceptmap.h"
-#include "qtconceptmapqtnode.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtnode.h"
 
 ribi::cmap::CommandUnselectNode::CommandUnselectNode(
   QtConceptMap& qtconceptmap,
@@ -23,11 +24,12 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
     m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {
+  qDebug() << "Start unselect node";
   if (!m_qtnode)
   {
     throw std::invalid_argument("Cannot unselect nullptr QtNode");
   }
-  if (IsQtNodeOnEdge(qtnode, GetQtConceptMap()))
+  if (IsQtNodeOnEdge(qtnode))
   {
     throw std::invalid_argument(
       "Cannot unselect QtNode on QtEdge, "
@@ -43,6 +45,11 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
     msg << "Unselect node";
     this->setText(msg.str().c_str());
   }
+}
+
+ribi::cmap::CommandUnselectNode::~CommandUnselectNode() noexcept
+{
+
 }
 
 ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
@@ -62,7 +69,7 @@ ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
     [&qtconceptmap, t](QtNode * const qtnode)
     {
       return GetText(*qtnode) == t
-        && !IsQtNodeOnEdge(qtnode, qtconceptmap);
+        && !IsQtNodeOnEdge(qtnode);
     }
   );
   return new CommandUnselectNode(qtconceptmap, first_qtnode);
@@ -88,6 +95,5 @@ void ribi::cmap::CommandUnselectNode::Redo()
 void ribi::cmap::CommandUnselectNode::Undo()
 {
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
-  SetSelectedness(true, *m_qtnode, GetQtConceptMap());
-
+  SetSelectedness(true, *m_qtnode);
 }
