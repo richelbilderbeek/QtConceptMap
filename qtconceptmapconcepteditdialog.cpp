@@ -1,5 +1,6 @@
 #include "qtconceptmapconcepteditdialog.h"
 
+#include <iostream>
 #include <cassert>
 #include "ui_qtconceptmapconcepteditdialog.h"
 
@@ -12,20 +13,28 @@ void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget
         std::string text_string =text.toUtf8().constData();
         int n_characters = text_string.length();
         int n_characters_for_new_line =88; //amount of characters that fit on one line
-        int height_resize=21; //text height +padding height *2
+         //text height +padding height *2
         QStringList lines = text.split( "\n", QString::SkipEmptyParts);
+        int height_resize =18;
+        if(n_characters<n_characters_for_new_line)
+        {
+            height_resize=21;
+        }
         for(int j=0; j<lines.count()-1; ++j)
         {
-            height_resize+=14;
+            height_resize+=17;
         }
+
         while(n_characters>n_characters_for_new_line)
         {
             n_characters_for_new_line+=92;
-            height_resize+=14; //text height
+            height_resize+=17; //text height
         }
+        std::cout<<"resize amount: "<<height_resize<<"\n"<<std::flush;
         total_height_increase +=height_resize;
     }
-
+    int correction=14; //for some reason it doesnt work without the correction
+    total_height_increase -=correction;
     QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //increases the height of the window when a new line is added
     ui->examples_widget->resizeRowsToContents();
     ui->edit_text->clear();
