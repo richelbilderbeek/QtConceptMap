@@ -144,7 +144,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
 
   #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
   //Do not create a node on the edge if it is connected to a center node
-  if (IsConnectedToCenterNode(*m_added_qtedge)
+  if (IsConnectedToCenterNode(*m_added_qtedge))
   {
     m_added_qtedge->GetQtNode()->setVisible(false);
   }

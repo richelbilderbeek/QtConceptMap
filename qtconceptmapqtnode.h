@@ -124,6 +124,9 @@ private:
   friend class QtConceptMapQtNodeTest;
 };
 
+///Count the number of examples
+int CountExamples(const QtNode& qtnode) noexcept;
+
 ///Create the flags for the node, when in Edit mode
 QGraphicsItem::GraphicsItemFlags CreateEditFlags(const QtNode& qtnode) noexcept;
 

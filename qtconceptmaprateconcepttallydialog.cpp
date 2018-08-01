@@ -1,20 +1,23 @@
 #include "qtconceptmaprateconcepttallydialog.h"
 
+#include <QDebug>
 #include <QKeyEvent>
 
 #include "ui_qtconceptmaprateconcepttallydialog.h"
 
 ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
-  const ConceptMap& conceptmap,
+  const ConceptMap& original_conceptmap,
   const ribi::cmap::Rating& rating,
   QWidget *parent
 ) : QDialog(parent),
     ui(new Ui::QtRateConceptTallyDialog),
-    m_data{CreateData(conceptmap)},
-    m_focus_name{GetFocusName(conceptmap)},
+    m_conceptmap{original_conceptmap},
+    m_focus_name{GetFocusName(original_conceptmap)},
     m_rating{rating}
 {
   ui->setupUi(this);
+
+  m_data = CreateData(m_conceptmap);
 
   const int n_rows = static_cast<int>(m_data.size());
   ui->table->setRowCount(n_rows);
@@ -32,12 +35,12 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   for (int row_index=0; row_index!=n_rows; ++row_index)
   {
     const Row& row = m_data[row_index];
-    const Concept concept = std::get<1>(row);
-    const int example_index = std::get<2>(row);
+    const Concept concept = std::get<2>(row);
+    const int example_index = std::get<3>(row);
 
     if (example_index == -1)
     {
-      ShowNoExample(concept, row_index, row, conceptmap);
+      ShowNoExample(concept, row_index, row, m_conceptmap);
     }
     else
     {
@@ -76,7 +79,10 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptExample(
     case 0: example.SetIsComplex(item.checkState() == Qt::Checked ); break;
     case 1: example.SetIsConcrete(item.checkState() == Qt::Checked ); break;
     case 2: example.SetIsSpecific(item.checkState() == Qt::Checked ); break;
-    case 3: break; //It's read-only! //example->SetText( item->text().toStdString() ); break;
+    case 3:
+      //Cannot change name!
+      //example.SetText(item.text().toStdString());
+      break;
     default:
       assert(!"QtRateConceptTallyDialog::OnCellChanged: unknown col, index not -1"); //!OCLINT accepted idiom
       break;
@@ -94,7 +100,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptName(
     case 0: concept.SetIsComplex(item.checkState() == Qt::Checked ); break;
     case 1: break; //Empty cell
     case 2: break; //Empty cell
-    case 3: break; //It's read-only! //concept.SetName( item->text().toStdString() ); break;
+    case 3: break; //Cannot change name
     default:
       assert(!"QtRateConceptTallyDialog::ChangeConceptName: unknown col, index -1"); //!OCLINT accepted idiom
       break;
@@ -107,14 +113,16 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
 )
 {
   std::vector<Row> rows;
-  //Add the focal concept its examples (not its name: this cannot be judged)
+  //Add the focal concept its examples (not its name: this cannot be tallied)
   {
-    const auto focal_concept = GetFirstNode(map).GetConcept();
+    const VertexDescriptor vd = *boost::vertices(map).first;
+    const Concept focal_concept = map[vd].GetConcept();
     const int n_examples{CountExamples(focal_concept)};
     for (int i=0; i!=n_examples; ++i)
     {
       const Row row{
         std::make_tuple(
+          vd,
           EdgeDescriptor(),
           focal_concept,
           i
@@ -127,29 +135,32 @@ std::vector<ribi::cmap::QtRateConceptTallyDialog::Row>
   //Collect all relations of the focal node of this sub concept map
   //for(const Edge edge: map->GetEdges())
   const auto eip = boost::edges(map);
-  for (auto ed = eip.first; ed != eip.second; ++ed)
+  for (auto ei = eip.first; ei != eip.second; ++ei)
   {
+    const EdgeDescriptor ed = *ei;
 
     //But skip the connections to the focal question
-    if (IsCenterNode(GetFrom(*ed, map))
-      || IsCenterNode(GetTo(*ed, map)))
+    if (IsCenterNode(GetFrom(ed, map))
+      || IsCenterNode(GetTo(ed, map)))
     {
       continue;
     }
 
-
-    const Edge edge = GetEdge(*ed, map);
+    const Edge edge = GetEdge(*ei, map);
     const Concept concept = edge.GetNode().GetConcept();
     rows.push_back(
-      std::make_tuple(*ed, concept, -1)
-      //{ *ed, concept, -1 } //Does not work on MXE
+      std::make_tuple(
+        VertexDescriptor(),
+        ed,
+        concept,
+        -1
+      )
     );
     const int n_examples = CountExamples(concept);
     for (int i=0; i!=n_examples; ++i)
     {
       rows.push_back(
-        std::make_tuple(*ed, concept, i)
-        //{ *ed, concept, i } //Does not work on MXE
+        std::make_tuple(VertexDescriptor(), ed, concept, i)
       );
     }
   }
@@ -161,25 +172,21 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
   //Tally the edges that contribute to complexity
   const int n_edges = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-    {
-      return init
-        + (std::get<2>(row) == -1 && std::get<1>(row).GetIsComplex() ? 1 : 0)
-      ;
-    }
-  );
+      {
+        return init + (std::get<3>(row) == -1 && std::get<2>(row).GetIsComplex() ? 1 : 0);
+      }
+    );
 
   //Tally the examples that contribute to complexity
   const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-    {
-      const int index = std::get<2>(row);
-      if (index == -1) return init + 0;
-      assert(index < CountExamples(std::get<1>(row)));
-      return init
-        + (std::get<1>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0)
-       ;
-    }
-  );
+      {
+        const int index = std::get<3>(row);
+        if (index == -1) return init + 0;
+        assert(index < CountExamples(std::get<2>(row)));
+        return init + (std::get<2>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0);
+      }
+    );
   return m_rating.SuggestComplexity(n_edges, n_examples);
 }
 
@@ -188,15 +195,13 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
   //Tally the examples that contribute to concreteness
   const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
-    {
-      const int index = std::get<2>(row);
-      if (index == -1) return init + 0;
-      assert(index < CountExamples(std::get<1>(row)));
-      return init
-        + (std::get<1>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0)
-      ;
-    }
-  );
+      {
+        const int index = std::get<3>(row);
+        if (index == -1) return init + 0;
+        assert(index < CountExamples(std::get<2>(row)));
+        return init + (std::get<2>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0);
+      }
+    );
   return m_rating.SuggestConcreteness(n_examples);
 }
 
@@ -206,10 +211,10 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
   const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
     [](int init, const Row& row)
       {
-        const int index = std::get<2>(row);
+        const int index = std::get<3>(row);
         if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<1>(row)));
-        return init + (std::get<1>(row).GetExamples().Get()[index].GetIsSpecific() ? 1 : 0);
+        assert(index < CountExamples(std::get<2>(row)));
+        return init + (std::get<2>(row).GetExamples().Get()[index].GetIsSpecific() ? 1 : 0);
       }
     );
   return m_rating.SuggestSpecificity(n_examples);
@@ -246,20 +251,31 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(int row_index, int col)
 {
   assert(row_index >= 0 && row_index < static_cast<int>(m_data.size()));
   assert(col >= 0 && col < 4);
-  const QTableWidgetItem * const item = ui->table->item(row_index,col);
+  const QTableWidgetItem * const item = ui->table->item(row_index, col);
   assert(item);
   Row& row = m_data[row_index];
-  Concept& concept = std::get<1>(row);
-  const int index = std::get<2>(row);
+  const VertexDescriptor vd = std::get<0>(row);
+  const EdgeDescriptor ed = std::get<1>(row);
+  Concept& concept = std::get<2>(row);
+  const int index = std::get<3>(row);
 
   if (index == -1)
   {
     ChangeConceptName(concept, *item, col);
-
   }
   else
   {
     ChangeConceptExample(concept, index, *item, col);
+  }
+  if (vd != VertexDescriptor())
+  {
+    assert(ed == EdgeDescriptor());
+    SetConcept(m_conceptmap[vd], concept);
+  }
+  else
+  {
+    assert(ed != EdgeDescriptor());
+    SetConcept(m_conceptmap[ed], concept);
   }
   UpdateRatingLabel();
 }
@@ -297,6 +313,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   const int row_index
 ) const
 {
+  qDebug() << "row_index:" << row_index;
   assert(example_index < CountExamples(concept));
   const int n_cols = 4;
 
@@ -334,7 +351,8 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
     QTableWidgetItem * const item = new QTableWidgetItem;
     item->setFlags(
         Qt::ItemIsSelectable
-      | Qt::ItemIsEnabled);
+      | Qt::ItemIsEnabled
+    );
     const std::string s = example.GetText();
     item->setText(s.c_str());
     ui->table->setItem(row_index, col_index, item);
@@ -349,6 +367,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
   const ConceptMap& conceptmap
 ) noexcept
 {
+  qDebug() << "row_index:" << row_index;
   //Display concept text
   //Put X checkbox in the relation's name
   //Keep C and S columns empty
@@ -369,7 +388,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
         Qt::ItemIsSelectable
       | Qt::ItemIsEnabled
     );
-    const EdgeDescriptor edge { std::get<0>(row) };
+    const EdgeDescriptor edge { std::get<1>(row) };
     const bool center_is_from {
       ribi::cmap::GetFrom(edge,conceptmap) == ribi::cmap::GetFirstNode(conceptmap)
     };
@@ -395,6 +414,7 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
   std::stringstream m;
   m << "X: " << GetSuggestedComplexity() << ", "
     << "C: " << GetSuggestedConcreteness() << ", "
-    << "S: " << GetSuggestedSpecificity();
+    << "S: " << GetSuggestedSpecificity()
+  ;
   ui->label_rating->setText(m.str().c_str());
 }

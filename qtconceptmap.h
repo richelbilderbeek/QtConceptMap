@@ -343,7 +343,7 @@ void OnNodeKeyDownPressedRateF1(
   QtNode& item
 );
 
-///An item wants to be edited from F2 in rate mode
+///An item wants to be rated from F2 in rate mode
 void OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode& item);
 
 void ProcessKey(QtConceptMap& q, QKeyEvent * const event);

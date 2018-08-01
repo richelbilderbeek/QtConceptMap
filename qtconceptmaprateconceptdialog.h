@@ -55,8 +55,8 @@ private:
   ///The center concept, may be changed when the user clicks OK
   Concept m_concept;
 
-  ///Cannot be const, only used in calculating the suggestions
-  const ConceptMap m_conceptmap;
+  ///Can be modified by tally
+  ConceptMap m_conceptmap;
 
   //const boost::shared_ptr<QtConceptMap> m_qtconceptmap;
   const std::unique_ptr<QtConceptMap> m_qtconceptmap;
