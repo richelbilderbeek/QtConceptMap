@@ -39,8 +39,15 @@ void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget
         total_height_increase +=height_resize;
     }
     int correction=14; //for some reason it doesnt work without the correction
+
     total_height_increase -=correction;
     QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //increases the height of the window when a new line is added
+
+    if(QtConceptMapConceptEditDialog::size().height()> 800)
+    {
+        QtConceptMapConceptEditDialog::setFixedHeight(800);
+    }
+
     ui->examples_widget->resizeRowsToContents();
     ui->edit_text->clear();
     ui->edit_text->setFocus();
