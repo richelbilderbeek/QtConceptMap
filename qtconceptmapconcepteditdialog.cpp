@@ -2,15 +2,21 @@
 
 #include <iostream>
 #include <cassert>
+#include <QScrollBar>
+#include <QTableView>
 #include "ui_qtconceptmapconcepteditdialog.h"
 
-void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget_size()
+/*void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget_size()
 {
     int total_height_increase=300;
+    QtConceptMapConceptEditDialog::setFixedHeight(800);
+    //ui->examples_widget->resizeRowsToContents();
+    //ui->edit_text->clear();
+    //ui->edit_text->setFocus();
     for(int i=0; i<ui->examples_widget->rowCount(); ++i)
     {
-        QString text = ui->examples_widget->item(i,0)->text();
-        std::string text_string =text.toUtf8().constData();
+        //QString text = ui->examples_widget->item(i,0)->text();
+        //std::string text_string =text.toUtf8().constData();
         int n_characters = text_string.length();
         int n_characters_for_new_line =88; //amount of characters that fit on one line
          //text height +padding height *2
@@ -36,22 +42,29 @@ void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget
             height_resize+=17; //text height
         }
         std::cout<<"resize amount: "<<height_resize<<"\n"<<std::flush;
-        total_height_increase +=height_resize;
+        total_height_increase +=ui->examples_widget->rowHeight(i);//height_resize
+        std::cout<<"Height row "<< i  << " :"<<ui->examples_widget->rowHeight(i) << "\n" << std::flush;
+        //ui->examples_widget->setWordWrap(true);
+
     }
+    std::cout<<"total height: "<< total_height_increase <<"\n"<<std::flush;
+    ui->examples_widget->setWordWrap(true);
+    ui->examples_widget->resizeRowsToContents();
+    ui->edit_text->clear();
+    ui->edit_text->setFocus();
+
     int correction=14; //for some reason it doesnt work without the correction
 
     total_height_increase -=correction;
-    QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase); //increases the height of the window when a new line is added
+    QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase);//total_height_increase); //increases the height of the window when a new line is added
 
     if(QtConceptMapConceptEditDialog::size().height()> 800)
     {
         QtConceptMapConceptEditDialog::setFixedHeight(800);
     }
 
-    ui->examples_widget->resizeRowsToContents();
-    ui->edit_text->clear();
-    ui->edit_text->setFocus();
-}
+
+}*/
 
 ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   const Concept& c,
@@ -102,7 +115,26 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
     this,
     SLOT(close())
   );
-    resize_window_to_examples_widget_size();
+
+  //If I use the function resize_window_to_examples_widget_size(), when the program starts,
+  //all the row sizes will be read as 177 because of the table->resizeRowsToContents.
+  //I have no idea why...
+  auto table =ui->examples_widget;
+  int n_rows=table->verticalHeader()->count();
+  int scrollBarHeight=table->horizontalScrollBar()->height();
+  int horizontalHeaderHeight=table->horizontalHeader()->height();
+  int rowTotalHeight=0;
+
+  for (int i = 0; i < n_rows; ++i)
+  {
+      rowTotalHeight+=table->rowHeight(i);//verticalHeader()->sectionSize(i);
+      //std::cout<<"Height row "<< i  << " :"<<tableView->verticalHeader()->sectionSize(i) << "\n" << std::flush;
+  }
+  QtConceptMapConceptEditDialog::setFixedHeight(rowTotalHeight+horizontalHeaderHeight+scrollBarHeight + 300);
+  table->resizeRowsToContents();
+  ui->edit_text->clear();
+  ui->edit_text->setFocus();
+  //resize_window_to_examples_widget_size();
   //connect(ui->examples_widget, SIGNAL(cellChanged(int,int)),
   //  ui->examples_widget, SLOT(resizeRowsToContents())
   //);
@@ -116,6 +148,24 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   */
 }
 
+void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget_size()
+{
+        auto table =ui->examples_widget;
+        int n_rows=table->verticalHeader()->count();
+        int scrollBarHeight=table->horizontalScrollBar()->height();
+        int horizontalHeaderHeight=table->horizontalHeader()->height();
+        int rowTotalHeight=0;
+        table->resizeRowsToContents();
+        for (int i = 0; i < n_rows; ++i)
+        {
+            rowTotalHeight+=table->rowHeight(i);//verticalHeader()->sectionSize(i);
+            //std::cout<<"Height row "<< i  << " :"<<tableView->verticalHeader()->sectionSize(i) << "\n" << std::flush;
+        }
+        QtConceptMapConceptEditDialog::setFixedHeight(rowTotalHeight+horizontalHeaderHeight+scrollBarHeight + 260);
+        table->resizeRowsToContents();
+        ui->edit_text->clear();
+        ui->edit_text->setFocus();
+}
 ribi::cmap::QtConceptMapConceptEditDialog::~QtConceptMapConceptEditDialog()
 {
   delete ui;
@@ -137,7 +187,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
   //QDialog::keyPressEvent(e); //Causes dialog to close unwanted?
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
+void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()//QTableView *tableView)
 {
   auto * const new_item = new QTableWidgetItem(
     ui->edit_text->toPlainText()
@@ -148,7 +198,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()
   ui->examples_widget->setRowCount(cur_row_count + 1);
   ui->examples_widget->setItem(cur_row_count, 0, new_item);
 
-  resize_window_to_examples_widget_size();
+   resize_window_to_examples_widget_size();
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialog

@@ -2,6 +2,7 @@
 #define QTCONCEPTMAPCONCEPTEDITDIALOG_H
 
 #include <QDialog>
+#include <QTableView>
 #include "conceptmapconcept.h"
 struct QTableWidgetItem;
 
@@ -19,6 +20,7 @@ class QtConceptMapConceptEditDialog final : public QDialog
 public:
   /// concept: a stand-alone node
   /// relation: a node on an edge
+
   enum EditType { concept, relation };
 
   ///concept is not const as user might want to modify it
@@ -29,6 +31,7 @@ public:
     QWidget* parent = nullptr
   );
   void resize_window_to_examples_widget_size();
+    void verticalResizeTableViewToContents();
   QtConceptMapConceptEditDialog(const QtConceptMapConceptEditDialog&) = delete;
   QtConceptMapConceptEditDialog& operator=(const QtConceptMapConceptEditDialog&) = delete;
   ~QtConceptMapConceptEditDialog();
@@ -41,7 +44,7 @@ protected:
   void keyPressEvent(QKeyEvent *);
 
 private slots:
-  void on_button_add_clicked();
+  void on_button_add_clicked();//QTableView *tableView);
   void RemoveEmptyItem(QTableWidgetItem * item);
   void showEvent(QShowEvent *);
 
