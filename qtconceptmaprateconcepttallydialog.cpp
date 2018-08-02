@@ -12,7 +12,6 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 ) : QDialog(parent),
     ui(new Ui::QtRateConceptTallyDialog),
     m_data{CreateData(conceptmap)},
-    m_focus_name{QString(GetFocusName(conceptmap).c_str())},
     m_rating{rating}
 {
   ui->setupUi(this);
@@ -20,7 +19,8 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 
   //Set text on top
   ui->label_concept_name->setText(
-    QString("Voorbeelden/toelichting bij concept: ") + m_focus_name
+    QString("Voorbeelden/toelichting bij concept: ")
+      + QString(GetFocusName(conceptmap).c_str())
   );
 
   DisplayData();
@@ -214,28 +214,6 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
 void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
 {
   if (event->key() == Qt::Key_Escape) { close(); return; }
-  if ( (event->modifiers() & Qt::ControlModifier)
-    && (event->modifiers() & Qt::ShiftModifier)
-    && event->key() == Qt::Key_T)
-  {
-    //Translate
-    this->setWindowTitle("Relevance of illustrations");
-    {
-      ui->label_concept_name->setText(
-        QString("Illustrations and relations of the cluster: ") + m_focus_name
-      );
-    }
-    {
-      auto * const item = new QTableWidgetItem;
-      item->setText("Illustrations and relations of the cluster:");
-      ui->table->setHorizontalHeaderItem(3,item);
-    }
-    {
-      UpdateRatingLabel();
-    }
-    return;
-  }
-
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(
