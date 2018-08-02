@@ -232,7 +232,7 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
       );
     }
     {
-      QTableWidgetItem * const item = new QTableWidgetItem;
+      auto * const item = new QTableWidgetItem;
       item->setText("Illustrations and relations of the cluster:");
       ui->table->setHorizontalHeaderItem(3,item);
     }
@@ -260,7 +260,7 @@ void ribi::cmap::QtRateConceptTallyDialog::PutNothing(
   const int row, const int col
 ) noexcept
 {
-  QTableWidgetItem * const i = new QTableWidgetItem;
+  auto * const i = new QTableWidgetItem;
   i->setFlags(Qt::ItemIsEnabled);
   ui->table->setItem(row, col, i);
 }
@@ -295,7 +295,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   //First three columns, but not the last one
   for (int col_index=0; col_index!=n_cols-1; ++col_index)
   {
-    QTableWidgetItem * const item = new QTableWidgetItem;
+    auto * const item = new QTableWidgetItem;
     item->setFlags(
       Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable
     );
@@ -320,14 +320,13 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   {
     const int col_index = 3;
     //Text
-    QTableWidgetItem * const item = new QTableWidgetItem;
+    auto * const item = new QTableWidgetItem;
     item->setFlags(
         Qt::ItemIsSelectable
       | Qt::ItemIsEnabled
     );
     assert(text == QString(example.GetText().c_str()));
     item->setText(text);
-    ui->table->setItem(row_index, col_index, item);
     ui->table->setItem(row_index, col_index, item);
   }
 }
@@ -348,7 +347,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
   {
     //Put X checkbox in the relation's name in column[0]
     const int column = 0;
-    QTableWidgetItem * const i = new QTableWidgetItem;
+    auto * const i = new QTableWidgetItem;
     i->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     i->setCheckState(concept.GetIsComplex() ? Qt::Checked : Qt::Unchecked);
     ui->table->setItem(row_index, column, i);
@@ -357,7 +356,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
   PutNothing(row_index, 2);
   {
     //Put the relation's name in place
-    QTableWidgetItem * const i = new QTableWidgetItem;
+    auto * const i = new QTableWidgetItem;
     i->setFlags(
         Qt::ItemIsSelectable
       | Qt::ItemIsEnabled
