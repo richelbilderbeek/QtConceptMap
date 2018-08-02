@@ -31,7 +31,7 @@ public:
   Concept GetConcept() const noexcept;
 
   ///Get the modified sub-concept map
-  const ConceptMap& GetConceptMap() const noexcept { return m_conceptmap; }
+  //const ConceptMap& GetConceptMap() const noexcept { return m_conceptmap; }
 
   ///Obtain the suggested complexity, calculated from this dialog
   int GetSuggestedComplexity() const;
@@ -45,6 +45,9 @@ public:
   const Ui::QtRateConceptTallyDialog * GetUi() const noexcept { return ui; }
         Ui::QtRateConceptTallyDialog * GetUi()       noexcept { return ui; }
 
+  ///Apply the UI to a concept map.
+  void Write(ConceptMap& conceptmap) const;
+
 protected:
   void keyPressEvent(QKeyEvent *);
   void resizeEvent(QResizeEvent *);
@@ -55,9 +58,6 @@ private slots:
 private:
   Ui::QtRateConceptTallyDialog *ui;
 
-  ///Copy of the original concept map, with same IDs
-  ConceptMap m_conceptmap;
-
   ///The concept map is converted to this data type
   ///The std::vector index equals the row
   ///Every row is a pair of a Concept and an integer
@@ -66,15 +66,22 @@ private:
   /// on the edges connected to the focal node
   ///The index is the index of the example being judged, or -1,
   /// denoting it is the concept (name) itself is being judged
-  using Row = std::tuple<VertexDescriptor, EdgeDescriptor, Concept, int>;
-  std::vector<Row> m_data;
+  using Row = std::tuple<
+    VertexDescriptor, EdgeDescriptor, //find it in concept map
+    Concept,                          //boolean states
+    int,                              // example index, -1 if not an example
+    QString                           // text, read-only
+  >;
+  using Data = std::vector<Row>;
+  Data m_data;
 
   ///The name of this concept, for example 'my own development'
-  const std::string m_focus_name;
+  const QString m_focus_name;
 
   ///The way the examples are rated
   const ribi::cmap::Rating m_rating;
 
+  #ifdef REALLY_NEED_THIS_20180702
   ///Will throw if col is absent
   void ChangeConceptExample(
     Concept& concept, const int index, const QTableWidgetItem& item, const int col
@@ -84,8 +91,14 @@ private:
   void ChangeConceptName(
     Concept& concept, const QTableWidgetItem& item, const int col
   );
+  #endif // REALLY_NEED_THIS_20180702
 
-  std::vector<Row> CreateData(const ConceptMap& map);
+  ///Extract all information to convert the UI's table's state
+  ///to a ConceptMap
+  Data CreateData(const ConceptMap& map);
+
+  ///Display the data extracted from the ConceptMap in the table
+  void DisplayData();
 
   ///Put uneditable nothing in the table its cell
   void PutNothing(const int row, const int col) noexcept;
@@ -95,14 +108,13 @@ private:
   void ShowExample(
     const Concept& concept,
     const int example_index,
-    const int row_index
+    const int row_index,
+    const QString& text
   ) const;
 
   void ShowNoExample(
-    const Concept& concept,
     const int row_index,
-    const Row& row,
-    const ConceptMap& conceptmap
+    const Row& row
   ) noexcept;
 
   ///Update the suggest XCS on the rating label
