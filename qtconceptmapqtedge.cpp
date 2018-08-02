@@ -13,7 +13,7 @@ ribi::cmap::QtEdge::QtEdge(
     const Edge& edge,
     QtNode * const from,
     QtNode * const to
-) : QtEdge(edge.GetNode(), from, to)
+) : QtEdge(edge.GetNode(), from, to, edge.GetId())
 {
   assert(std::abs(GetX(*this) - GetX(edge)) < 2.0);
   assert(std::abs(GetY(*this) - GetY(edge)) < 2.0);
@@ -22,8 +22,9 @@ ribi::cmap::QtEdge::QtEdge(
 ribi::cmap::QtEdge::QtEdge(
     const Node& node,
     QtNode * const from,
-    QtNode * const to
-) : QtEdge(node.GetConcept(), node.GetX(), node.GetY(), from, to)
+    QtNode * const to,
+    const int edge_id
+) : QtEdge(node.GetConcept(), node.GetX(), node.GetY(), from, to, edge_id)
 {
   #ifndef NDEBUG
   if (std::abs(GetX(*this) - GetX(node)) >= 2.0)
@@ -44,10 +45,12 @@ ribi::cmap::QtEdge::QtEdge(
     const double x,
     const double y,
     QtNode * const from,
-    QtNode * const to
+    QtNode * const to,
+    const int edge_id
 )
   : m_arrow{nullptr}, //Will be initialized below
     m_from{from},
+    m_id{edge_id},
     m_qtnode{
       new QtNode(
         concept,
@@ -394,6 +397,14 @@ std::function<bool(ribi::cmap::QtEdge* const)>
 void ribi::cmap::SetConcept(QtEdge& qtedge, const Concept& concept) noexcept
 {
   SetConcept(*qtedge.GetQtNode(), concept);
+}
+
+void ribi::cmap::SetExamples(
+  QtEdge& qtedge,
+  const Examples& examples) noexcept
+{
+  assert(qtedge.GetQtNode());
+  SetExamples(*qtedge.GetQtNode(), examples);
 }
 
 void ribi::cmap::QtEdge::SetHasHeadArrow(const bool has_head_arrow) noexcept

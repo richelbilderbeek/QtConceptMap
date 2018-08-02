@@ -7,6 +7,7 @@
 #include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
 #include "find_if_first_bundled_vertex.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconceptdialog.h"
@@ -170,23 +171,48 @@ void ribi::cmap::QtRateConceptDialog::on_button_tally_relevancies_clicked()
 }
 
 void ribi::cmap::QtRateConceptDialog::Write(
-  QtConceptMap& /* q */,
-  QtNode& qtnode
+  QtConceptMap& q,
+  QtNode& focal_qtnode
 ) const
 {
-  #ifdef NOW_NOW_20180802
   //Copy the sub-conceptmap to the QtConceptMap
   {
     const auto vip = boost::vertices(m_sub_conceptmap);
     for (auto vi = vip.first; vi != vip.second; ++vi)
     {
       const VertexDescriptor vd{*vi};
-
+      const Node& node{m_sub_conceptmap[vd]};
+      QtNode * const qtnode = FindFirstQtNode(
+        q,
+        [node_id = node.GetId()](const QtNode * const some_qtnode)
+        {
+          return some_qtnode->GetId() == node_id;
+        }
+      );
+      assert(qtnode);
+      SetExamples(*qtnode, GetExamples(node));
     }
   }
-  #endif
+  {
+    const auto eip = boost::edges(m_sub_conceptmap);
+    for (auto ei = eip.first; ei != eip.second; ++ei)
+    {
+      const EdgeDescriptor ed{*ei};
+      const Edge& edge{m_sub_conceptmap[ed]};
+      QtEdge * const qtedge = FindFirstQtEdge(
+        q,
+        [edge_id = edge.GetId()](const QtEdge * const some_qtedge)
+        {
+          return some_qtedge->GetId() == edge_id;
+        }
+      );
+      assert(qtedge);
+      SetExamples(*qtedge, GetExamples(edge));
+    }
+  }
+
   //Need to do more, see https://github.com/richelbilderbeek/Brainweaver/issues/245
-  qtnode.SetRatingComplexity(GetComplexity());
-  qtnode.SetRatingConcreteness(GetConcreteness());
-  qtnode.SetRatingSpecificity(GetSpecificity());
+  focal_qtnode.SetRatingComplexity(GetComplexity());
+  focal_qtnode.SetRatingConcreteness(GetConcreteness());
+  focal_qtnode.SetRatingSpecificity(GetSpecificity());
 }

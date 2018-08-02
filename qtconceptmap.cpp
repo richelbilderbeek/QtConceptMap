@@ -126,7 +126,7 @@ void ribi::cmap::AddEdgesToScene(
     const Edge& edge = conceptmap[*i];
     QtEdge * const qtedge{
       new QtEdge(
-        edge.GetNode(),
+        edge,
         qtfrom,
         qtto
       )

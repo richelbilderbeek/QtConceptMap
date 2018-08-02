@@ -28,14 +28,16 @@ struct QtEdge final : public QGraphicsItem
   QtEdge(
     const Node& node,
     QtNode * const from,
-    QtNode * const to
+    QtNode * const to,
+    const int edge_id
   );
   QtEdge(
     const Concept& concept,
     const double x,
     const double y,
     QtNode * const from,
-    QtNode * const to
+    QtNode * const to,
+    const int edge_id
   );
   QtEdge(const QtEdge&) = delete;
   QtEdge& operator=(const QtEdge&) = delete;
@@ -53,6 +55,9 @@ struct QtEdge final : public QGraphicsItem
   const QtNode * GetFrom() const noexcept { return m_from; }
   ///The node item the arrow originates from
    QtNode * GetFrom() noexcept { return m_from; }
+
+  ///Get the unique edge ID
+  int GetId() const noexcept { return m_id; }
 
   ///The node item the arrow targets
   const QtNode * GetTo() const noexcept { return m_to; }
@@ -116,6 +121,11 @@ private:
 
   ///The node item the arrow originates from
   QtNode * const m_from;
+
+  ///ID of the Edge it must represent. Like for the Edge,
+  ///it must be unique. Used in conversion
+  ///between ConceptMap and QtConceptMap
+  const int m_id;
 
   ///The QtNode around Edge its Node
   QtNode * const m_qtnode;
@@ -184,6 +194,8 @@ void Move(QtEdge& qtedge, const double dx, const double dy);
 std::function<bool(QtEdge* const)> QtEdgeHasName(const std::string& name);
 
 void SetConcept(QtEdge& qtedge, const Concept& concept) noexcept;
+
+void SetExamples(QtEdge& qtedge, const Examples& examples) noexcept;
 
 std::string ToStr(const QtEdge& qtedge) noexcept;
 
