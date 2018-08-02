@@ -46,6 +46,11 @@ ribi::cmap::QtRateConceptTallyDialog::Data
   const ConceptMap& map
 )
 {
+  if (boost::num_vertices(map) == 0)
+  {
+    throw std::invalid_argument("Cannot create data from empty concept map");
+  }
+
   std::vector<Row> rows;
   //Add the focal concept its examples (not its name: this cannot be tallied)
   {

@@ -40,9 +40,11 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_empty_co
     };
     QVERIFY(!"Should not get here");
   }
-  catch (std::logic_error& e)
+  catch (std::invalid_argument& e)
   {
-    QVERIFY("Should get here");
+    QVERIFY(std::string(e.what())
+      == "Cannot create data from empty concept map"
+    );
   }
   catch (...)
   {
