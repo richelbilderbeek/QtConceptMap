@@ -56,7 +56,7 @@ private:
   Concept m_concept;
 
   ///Can be modified by tally
-  ConceptMap m_conceptmap;
+  ConceptMap m_sub_conceptmap;
 
   const std::unique_ptr<QtConceptMap> m_qtconceptmap;
 
