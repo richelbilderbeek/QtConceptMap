@@ -247,6 +247,7 @@ void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(
 
 void ribi::cmap::QtRateConceptTallyDialog::on_button_ok_clicked()
 {
+  m_has_user_clicked_ok = true;
   close();
 }
 

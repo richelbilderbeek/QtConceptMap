@@ -42,6 +42,8 @@ public:
   ///Obtain the suggested specificity, calculated from this dialog
   int GetSuggestedSpecificity() const;
 
+  bool HasUserClickedOk() const noexcept { return m_has_user_clicked_ok; }
+
   const Ui::QtRateConceptTallyDialog * GetUi() const noexcept { return ui; }
         Ui::QtRateConceptTallyDialog * GetUi()       noexcept { return ui; }
 
@@ -77,6 +79,9 @@ private:
 
   ///The name of this concept, for example 'my own development'
   const QString m_focus_name;
+
+  ///Has the user clicked OK to close this dialog?
+  bool m_has_user_clicked_ok{false};
 
   ///The way the examples are rated
   const ribi::cmap::Rating m_rating;
