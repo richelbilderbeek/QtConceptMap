@@ -36,7 +36,7 @@ class QtRateConceptDialog final : public QDialog
   int GetConcreteness() const noexcept;
   int GetSpecificity() const noexcept;
 
-  void Write(const QtConceptMap& q, const QtNode& qtnode) const;
+  void Write(QtConceptMap& q, QtNode& qtnode) const;
 
 protected:
   void keyPressEvent(QKeyEvent *);
