@@ -40,7 +40,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_empty_co
     };
     QVERIFY(!"Should not get here");
   }
-  catch (std::invalid_argument& e)
+  catch (const std::invalid_argument& e)
   {
     QVERIFY(std::string(e.what())
       == "Cannot create data from empty concept map"
@@ -76,55 +76,68 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::measure_ui_from_test_co
 {
   using namespace ribi::cmap;
 
-  const ConceptMap conceptmap = ConceptMapFactory().GetRateConceptTallyDialogExample();
-  QtRateConceptTallyDialog d{conceptmap, ribi::cmap::CreateDefaultRating()};
+  const ConceptMap conceptmap{
+    ConceptMapFactory().GetRateConceptTallyDialogExample()
+  };
+  QtRateConceptTallyDialog d{
+    conceptmap, ribi::cmap::CreateDefaultRating()
+  };
   d.show();
-  d.resize(500,500);
+  d.resize(500, 500);
   for (int i=0; i!=1000; ++i) qApp->processEvents();
-
-  QCOMPARE(d.GetUi()->table->columnCount(), 4);
-  QCOMPARE(d.GetUi()->table->rowCount(), 5);
+  QCOMPARE(d.ui->table->columnCount(), 4);
+  QCOMPARE(d.ui->table->rowCount(), 5);
   QVERIFY(boost::num_vertices(conceptmap) == 3);
   QVERIFY(boost::num_edges(conceptmap) == 2);
 
   // [X] [empty] [empty] via 'prerequisite' verbonden met 'order'
-  QVERIFY(d.GetUi()->table->item(0,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(0,1)->flags() == Qt::ItemIsEnabled); //Empty
-  QVERIFY(d.GetUi()->table->item(0,2)->flags() == Qt::ItemIsEnabled); //Empty
-  QVERIFY(d.GetUi()->table->item(0,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(0, 0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(0, 1)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.ui->table->item(0, 2)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.ui->table->item(0, 3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(0, 3)->text() == "via 'prerequisite' verbonden met 'Order'");
 
   // [X] [C] [S] Always establish order first
-  QVERIFY(d.GetUi()->table->item(1,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(1,1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(1,2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(1,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(1, 0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(1, 1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(1, 2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(1, 3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(1, 3)->text() == "Always establish order first");
 
   // [X] [C] [S] Punishment
-  QVERIFY(d.GetUi()->table->item(2,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(2,1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(2,2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(2,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(2, 0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(2, 1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(2, 2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(2, 3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(2, 3)->text() == "Punishment");
 
   // [X] [empty] [empty] via 'strengthen' verbonden met 'order'
-  QVERIFY(d.GetUi()->table->item(3,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(3,1)->flags() == Qt::ItemIsEnabled); //Empty
-  QVERIFY(d.GetUi()->table->item(3,2)->flags() == Qt::ItemIsEnabled); //Empty
-  QVERIFY(d.GetUi()->table->item(3,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(3, 0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(3, 1)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.ui->table->item(3, 2)->flags() == Qt::ItemIsEnabled); //Empty
+  QVERIFY(d.ui->table->item(3, 3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(3, 3)->text() == "via 'strengthen' verbonden met 'Order'");
 
   // [X] [C] [S] Students teaching each other get to know each other
-  QVERIFY(d.GetUi()->table->item(4,0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(4,1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(4,2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
-  QVERIFY(d.GetUi()->table->item(4,3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(4, 0)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(4, 1)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(4, 2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
+  QVERIFY(d.ui->table->item(4, 3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+  QVERIFY(d.ui->table->item(4, 3)->text() == "Students teaching each other, get to know each other");
+
+  #ifdef REALLY_TEST_DEEPER
+  d.Write(conceptmap);
+  QVERIFY(d == ConceptMapFactory().GetRateConceptTallyDialogExample());
 
   //Modify first row
-  d.GetUi()->table->item(0,0)->setCheckState(d.GetUi()->table->item(0,0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(0,3)->setText("order (as in peace and quiet)");
+  d.ui->table->item(0, 0)->setCheckState(d.ui->table->item(0, 0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
+  d.ui->table->item(0, 3)->setText("order (as in peace and quiet)");
 
   //Modify second row
-  d.GetUi()->table->item(1,0)->setCheckState(d.GetUi()->table->item(1,0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(1,1)->setCheckState(d.GetUi()->table->item(1,1)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(1,2)->setCheckState(d.GetUi()->table->item(1,2)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.GetUi()->table->item(1,3)->setText("Order should be established first");
+  d.ui->table->item(1, 0)->setCheckState(d.ui->table->item(1, 0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
+  d.ui->table->item(1, 1)->setCheckState(d.ui->table->item(1, 1)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
+  d.ui->table->item(1, 2)->setCheckState(d.ui->table->item(1, 2)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
+  d.ui->table->item(1, 3)->setText("Order should be established first");
+  #endif // REALLY_TEST_DEEPER
 
 }
