@@ -18,14 +18,13 @@ class QtRateConceptDialog final : public QDialog
   Q_OBJECT //!OCLINT
     
   public:
-  ///concept is the center node
-  ///conceptmap[0] is the same as concept and might be changed
-  ///conceptmap is non-const, as GetRatedConcept will produce a new concept
+
   explicit QtRateConceptDialog(
-    const ConceptMap conceptmap,
-    const Rating& rating,
+    const QtConceptMap& q,
+    const QtNode& qtnode,
     QWidget* parent = nullptr
   );
+
   QtRateConceptDialog(const QtRateConceptDialog&) = delete;
   QtRateConceptDialog& operator=(const QtRateConceptDialog&) = delete;
   ~QtRateConceptDialog() noexcept;
@@ -37,6 +36,7 @@ class QtRateConceptDialog final : public QDialog
   int GetConcreteness() const noexcept;
   int GetSpecificity() const noexcept;
 
+  void Write(QtConceptMap& q, QtNode& qtnode) const;
 
 protected:
   void keyPressEvent(QKeyEvent *);
@@ -50,15 +50,14 @@ private:
   Ui::QtRateConceptDialog *ui;
 
   ///To distinguish between closing the dialog by clicking OK, or by ALT-F4
-  bool m_button_ok_clicked;
+  bool m_button_ok_clicked{false};
 
   ///The center concept, may be changed when the user clicks OK
   Concept m_concept;
 
   ///Can be modified by tally
-  ConceptMap m_conceptmap;
+  ConceptMap m_sub_conceptmap;
 
-  //const boost::shared_ptr<QtConceptMap> m_qtconceptmap;
   const std::unique_ptr<QtConceptMap> m_qtconceptmap;
 
   void DisplaySuggestions() noexcept;

@@ -1281,34 +1281,14 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
 )
 {
   assert(!IsOnEdge(qtnode));
-  const auto concept_map = q.ToConceptMap();
-  const auto equal_id_pred =
-    [qtnode_id = qtnode.GetId()](const Node& node)
-    {
-      return node.GetId() == qtnode_id;
-    };
-
-  //Rate concept
-  assert(count_if_bundled_vertex(concept_map, equal_id_pred) == 1);
-  const auto vd = find_if_first_bundled_vertex(
-    concept_map,
-    equal_id_pred
-  );
-  const auto subgraph
-    = create_direct_neighbour_bundled_edges_and_vertices_subgraph(
-      vd, concept_map
-    );
-  ribi::cmap::QtRateConceptDialog d(subgraph, q.GetRating());
-
+  ribi::cmap::QtRateConceptDialog d(q, qtnode);
   q.setEnabled(false);
   d.exec();
   q.setEnabled(true);
   if (d.GetOkClicked())
   {
-    //Update the QtNode
-    qtnode.SetRatingComplexity(d.GetComplexity());
-    qtnode.SetRatingConcreteness(d.GetConcreteness());
-    qtnode.SetRatingSpecificity(d.GetSpecificity());
+    d.Write(q, qtnode);
+    q.update();
     qtnode.update();
   }
 }

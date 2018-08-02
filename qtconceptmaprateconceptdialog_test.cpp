@@ -5,21 +5,26 @@
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::show_normal_concept_map()
 {
+  #ifdef SHOW_RATE_CONCEPT_DIALOG_20180802
   ConceptMap m = ConceptMapFactory().Get3();
   QtRateConceptDialog d(m, CreateDefaultRating());
   d.show();
+  #endif
 }
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::show_concept_map_with_only_center_node()
 {
+  #ifdef SHOW_RATE_CONCEPT_DIALOG_20180802
   ConceptMap m = ConceptMapFactory().Get1();
   QtRateConceptDialog d(m, CreateDefaultRating());
   d.show();
+  #endif // SHOW_RATE_CONCEPT_DIALOG_20180802
 
 }
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::show_empty_concept_map()
 {
+  #ifdef SHOW_RATE_CONCEPT_DIALOG_20180802
   ConceptMap m = ConceptMapFactory().Get0();
   try
   {
@@ -31,4 +36,5 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::show_empty_concept_map()
   {
     QVERIFY("OK");
   }
+  #endif // SHOW_RATE_CONCEPT_DIALOG_20180802
 }

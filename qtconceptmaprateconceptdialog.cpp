@@ -3,40 +3,66 @@
 #include <QDesktopWidget>
 #include <QKeyEvent>
 
+#include "count_if_bundled_vertex.h"
+#include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
+#include "find_if_first_bundled_vertex.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtnode.h"
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconceptdialog.h"
 
 ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
-  const ConceptMap conceptmap,
-  const Rating& rating,
-  QWidget* parent)
-  : QDialog(parent),
+  const QtConceptMap& q,
+  const QtNode& qtnode,
+  QWidget* parent
+): QDialog(parent),
     ui(new Ui::QtRateConceptDialog),
-    m_button_ok_clicked(false),
-    m_conceptmap(conceptmap),
-    m_qtconceptmap{std::make_unique<QtConceptMap>(rating)}
+    m_button_ok_clicked{false},
+    m_sub_conceptmap{},
+    m_qtconceptmap{std::make_unique<QtConceptMap>(q.GetRating())}
 {
-  if (!boost::num_vertices(conceptmap))
+  ui->setupUi(this);
+
+  //Check input
+  assert(!IsOnEdge(qtnode));
+
+  //Create sub-concept map
+  const auto equal_id_pred =
+    [qtnode_id = qtnode.GetId()](const Node& node)
+    {
+      return node.GetId() == qtnode_id;
+    };
+
+  const ConceptMap full_conceptmap{q.ToConceptMap()};
+  assert(count_if_bundled_vertex(full_conceptmap, equal_id_pred) == 1);
+  const auto vd = find_if_first_bundled_vertex(
+    full_conceptmap,
+    equal_id_pred
+  );
+  m_sub_conceptmap
+    = create_direct_neighbour_bundled_edges_and_vertices_subgraph(
+      vd, full_conceptmap
+    );
+
+  if (!boost::num_vertices(m_sub_conceptmap))
   {
     throw std::invalid_argument("Need at least one concept");
   }
 
-  ui->setupUi(this);
-  m_qtconceptmap->SetConceptMap(conceptmap);
+  m_qtconceptmap->SetConceptMap(m_sub_conceptmap);
 
   assert(m_qtconceptmap);
   assert(ui->conceptmap_layout);
 
   ui->conceptmap_layout->addWidget(m_qtconceptmap.get());
   ui->box_complexity->setCurrentIndex(
-    GetFirstNode(conceptmap).GetConcept().GetRatingComplexity()
+    GetFirstNode(m_sub_conceptmap).GetConcept().GetRatingComplexity()
   );
   ui->box_concreteness->setCurrentIndex(
-    GetFirstNode(conceptmap).GetConcept().GetRatingConcreteness()
+    GetFirstNode(m_sub_conceptmap).GetConcept().GetRatingConcreteness()
   );
   ui->box_specificity->setCurrentIndex(
-    GetFirstNode(conceptmap).GetConcept().GetRatingSpecificity()
+    GetFirstNode(m_sub_conceptmap).GetConcept().GetRatingSpecificity()
   );
   ui->box_complexity->setFocus();
 
@@ -46,7 +72,7 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   //Center the dialog
   {
     const QRect screen = QApplication::desktop()->screenGeometry();
-    this->setGeometry(screen.adjusted(64,64,-64,-64));
+    this->setGeometry(screen.adjusted(64, 64, -64, -64));
     this->move( screen.center() - this->rect().center() );
   }
 }
@@ -58,31 +84,31 @@ ribi::cmap::QtRateConceptDialog::~QtRateConceptDialog() noexcept
 
 void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
 {
-  if (boost::num_vertices(m_conceptmap) > 0)
+  if (boost::num_vertices(m_sub_conceptmap) > 0)
   {
     const auto& rating = m_qtconceptmap->GetRating();
 
     // Without vertices, there is no valid vertex descriptor
-    assert(boost::num_vertices(m_conceptmap) > 0);
-    const auto vd = *vertices(m_conceptmap).first;
+    assert(boost::num_vertices(m_sub_conceptmap) > 0);
+    const auto vd = *vertices(m_sub_conceptmap).first;
     {
       const QString s = "Formeel uitgangspunt: "
         + QString::number(
-          rating.SuggestComplexity(m_conceptmap, vd)
+          rating.SuggestComplexity(m_sub_conceptmap, vd)
         );
       ui->box_complexity->setToolTip(s);
     }
     {
       const QString s = "Formeel uitgangspunt: "
         + QString::number(
-          rating.SuggestConcreteness(m_conceptmap, vd)
+          rating.SuggestConcreteness(m_sub_conceptmap, vd)
         );
       ui->box_concreteness->setToolTip(s);
     }
     {
       const QString s = "Formeel uitgangspunt: "
         + QString::number(
-          rating.SuggestSpecificity(m_conceptmap, vd)
+          rating.SuggestSpecificity(m_sub_conceptmap, vd)
         );
       ui->box_specificity->setToolTip(s);
     }
@@ -130,7 +156,7 @@ void ribi::cmap::QtRateConceptDialog::on_button_ok_clicked()
 void ribi::cmap::QtRateConceptDialog::on_button_tally_relevancies_clicked()
 {
   QtRateConceptTallyDialog d(
-    m_conceptmap,
+    m_sub_conceptmap,
     m_qtconceptmap->GetRating()
   );
   d.exec(); //Keep this dialog visible, as of 2013-08-30
@@ -139,6 +165,28 @@ void ribi::cmap::QtRateConceptDialog::on_button_tally_relevancies_clicked()
     ui->box_complexity->setCurrentIndex(d.GetSuggestedComplexity());
     ui->box_concreteness->setCurrentIndex(d.GetSuggestedConcreteness());
     ui->box_specificity->setCurrentIndex(d.GetSuggestedSpecificity());
-    d.Write(m_conceptmap);
+    d.Write(m_sub_conceptmap);
   }
+}
+
+void ribi::cmap::QtRateConceptDialog::Write(
+  QtConceptMap& /* q */,
+  QtNode& qtnode
+) const
+{
+  #ifdef NOW_NOW_20180802
+  //Copy the sub-conceptmap to the QtConceptMap
+  {
+    const auto vip = boost::vertices(m_sub_conceptmap);
+    for (auto vi = vip.first; vi != vip.second; ++vi)
+    {
+      const VertexDescriptor vd{*vi};
+
+    }
+  }
+  #endif
+  //Need to do more, see https://github.com/richelbilderbeek/Brainweaver/issues/245
+  qtnode.SetRatingComplexity(GetComplexity());
+  qtnode.SetRatingConcreteness(GetConcreteness());
+  qtnode.SetRatingSpecificity(GetSpecificity());
 }
