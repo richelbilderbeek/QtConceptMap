@@ -81,18 +81,6 @@ private:
   ///The way the examples are rated
   const ribi::cmap::Rating m_rating;
 
-  #ifdef REALLY_NEED_THIS_20180702
-  ///Will throw if col is absent
-  void ChangeConceptExample(
-    Concept& concept, const int index, const QTableWidgetItem& item, const int col
-  );
-
-  ///Will throw if col is absent
-  void ChangeConceptName(
-    Concept& concept, const QTableWidgetItem& item, const int col
-  );
-  #endif // REALLY_NEED_THIS_20180702
-
   ///Extract all information to convert the UI's table's state
   ///to a ConceptMap
   Data CreateData(const ConceptMap& map);

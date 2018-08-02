@@ -18,14 +18,13 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
   ui->setupUi(this);
 
 
-  DisplayData();
-
   //Set text on top
   ui->label_concept_name->setText(
     QString("Voorbeelden/toelichting bij concept: ") + m_focus_name
   );
 
-  ui->table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  DisplayData();
+
 
   QObject::connect(
     ui->table,
@@ -41,50 +40,6 @@ ribi::cmap::QtRateConceptTallyDialog::~QtRateConceptTallyDialog() noexcept
 {
   delete ui;
 }
-
-#ifdef REALLY_NEED_THIS_20180702
-void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptExample(
-  Concept& concept,
-  const int index,
-  const QTableWidgetItem& item,
-  const int col
-)
-{
-  assert(index < CountExamples(concept));
-  Example& example = concept.GetExamples().Get()[index];
-  switch (col)
-  {
-    case 0: example.SetIsComplex(item.checkState() == Qt::Checked ); break;
-    case 1: example.SetIsConcrete(item.checkState() == Qt::Checked ); break;
-    case 2: example.SetIsSpecific(item.checkState() == Qt::Checked ); break;
-    case 3:
-      //Cannot change name!
-      //example.SetText(item.text().toStdString());
-      break;
-    default:
-      assert(!"QtRateConceptTallyDialog::OnCellChanged: unknown col, index not -1"); //!OCLINT accepted idiom
-      break;
-  }
-}
-
-void ribi::cmap::QtRateConceptTallyDialog::ChangeConceptName(
-  Concept& concept,
-  const QTableWidgetItem& item,
-  const int col
-)
-{
-  switch (col)
-  {
-    case 0: concept.SetIsComplex(item.checkState() == Qt::Checked ); break;
-    case 1: break; //Empty cell
-    case 2: break; //Empty cell
-    case 3: break; //Cannot change name
-    default:
-      assert(!"QtRateConceptTallyDialog::ChangeConceptName: unknown col, index -1"); //!OCLINT accepted idiom
-      break;
-  }
-}
-#endif // REALLY_NEED_THIS_20180702
 
 ribi::cmap::QtRateConceptTallyDialog::Data
   ribi::cmap::QtRateConceptTallyDialog::CreateData(
@@ -171,6 +126,8 @@ ribi::cmap::QtRateConceptTallyDialog::Data
 
 void ribi::cmap::QtRateConceptTallyDialog::DisplayData()
 {
+  ui->table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
   const int n_rows = static_cast<int>(m_data.size());
   ui->table->setRowCount(n_rows);
   ui->table->setWordWrap(true);
@@ -285,36 +242,6 @@ void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
 void ribi::cmap::QtRateConceptTallyDialog::OnCellChanged(
   int /* row_index */, int /* col */ )
 {
-  #ifdef REALLY_NEED_THIS_20180702
-  assert(row_index >= 0 && row_index < static_cast<int>(m_data.size()));
-  assert(col >= 0 && col < 4);
-  const QTableWidgetItem * const item = ui->table->item(row_index, col);
-  assert(item);
-  Row& row = m_data[row_index];
-  const VertexDescriptor vd = std::get<0>(row);
-  const EdgeDescriptor ed = std::get<1>(row);
-  Concept& concept = std::get<2>(row);
-  const int index = std::get<3>(row);
-
-  if (index == -1)
-  {
-    ChangeConceptName(concept, *item, col);
-  }
-  else
-  {
-    ChangeConceptExample(concept, index, *item, col);
-  }
-  if (vd != VertexDescriptor())
-  {
-    assert(ed == EdgeDescriptor());
-    SetConcept(m_conceptmap[vd], concept);
-  }
-  else
-  {
-    assert(ed != EdgeDescriptor());
-    SetConcept(m_conceptmap[ed], concept);
-  }
-  #endif // REALLY_NEED_THIS_20180702
   UpdateRatingLabel();
 }
 
