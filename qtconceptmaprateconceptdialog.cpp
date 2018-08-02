@@ -3,40 +3,64 @@
 #include <QDesktopWidget>
 #include <QKeyEvent>
 
+#include "count_if_bundled_vertex.h"
+#include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
+#include "find_if_first_bundled_vertex.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtnode.h"
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconceptdialog.h"
 
 ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
-  const ConceptMap conceptmap,
-  const Rating& rating,
-  QWidget* parent)
-  : QDialog(parent),
+  const QtConceptMap& q,
+  const QtNode& qtnode,
+  QWidget* parent
+): QDialog(parent),
     ui(new Ui::QtRateConceptDialog),
-    m_button_ok_clicked(false),
-    m_conceptmap(conceptmap),
-    m_qtconceptmap{std::make_unique<QtConceptMap>(rating)}
+    m_button_ok_clicked{false},
+    m_conceptmap{q.ToConceptMap()},
+    m_qtconceptmap{std::make_unique<QtConceptMap>(q.GetRating())}
 {
-  if (!boost::num_vertices(conceptmap))
+  assert(!IsOnEdge(qtnode));
+
+  const auto equal_id_pred =
+    [qtnode_id = qtnode.GetId()](const Node& node)
+    {
+      return node.GetId() == qtnode_id;
+    };
+
+  //Rate concept
+  assert(count_if_bundled_vertex(m_conceptmap, equal_id_pred) == 1);
+  const auto vd = find_if_first_bundled_vertex(
+    m_conceptmap,
+    equal_id_pred
+  );
+  const auto subgraph
+    = create_direct_neighbour_bundled_edges_and_vertices_subgraph(
+      vd, m_conceptmap
+    );
+  // Start from usual
+
+  if (!boost::num_vertices(m_conceptmap))
   {
     throw std::invalid_argument("Need at least one concept");
   }
 
   ui->setupUi(this);
-  m_qtconceptmap->SetConceptMap(conceptmap);
+  m_qtconceptmap->SetConceptMap(m_conceptmap);
 
   assert(m_qtconceptmap);
   assert(ui->conceptmap_layout);
 
   ui->conceptmap_layout->addWidget(m_qtconceptmap.get());
   ui->box_complexity->setCurrentIndex(
-    GetFirstNode(conceptmap).GetConcept().GetRatingComplexity()
+    GetFirstNode(m_conceptmap).GetConcept().GetRatingComplexity()
   );
   ui->box_concreteness->setCurrentIndex(
-    GetFirstNode(conceptmap).GetConcept().GetRatingConcreteness()
+    GetFirstNode(m_conceptmap).GetConcept().GetRatingConcreteness()
   );
   ui->box_specificity->setCurrentIndex(
-    GetFirstNode(conceptmap).GetConcept().GetRatingSpecificity()
+    GetFirstNode(m_conceptmap).GetConcept().GetRatingSpecificity()
   );
   ui->box_complexity->setFocus();
 
@@ -46,7 +70,7 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   //Center the dialog
   {
     const QRect screen = QApplication::desktop()->screenGeometry();
-    this->setGeometry(screen.adjusted(64,64,-64,-64));
+    this->setGeometry(screen.adjusted(64, 64, -64, -64));
     this->move( screen.center() - this->rect().center() );
   }
 }
