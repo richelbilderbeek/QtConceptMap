@@ -61,20 +61,17 @@ ribi::cmap::QtRateConceptTallyDialog::Data
     {
       rows.push_back(
         Row{
-          //std::make_tuple(
-            vd,
-            EdgeDescriptor(),
-            focal_concept,
-            i,
-            QString(focal_concept.GetName().c_str())
-          //)
+          vd,
+          EdgeDescriptor(),
+          focal_concept,
+          i,
+          QString(GetExample(focal_concept, i).GetText().c_str())
         }
       );
     }
   }
 
   //Collect all relations of the focal node of this sub concept map
-  //for(const Edge edge: map->GetEdges())
   const auto eip = boost::edges(map);
   for (auto ei = eip.first; ei != eip.second; ++ei)
   {
@@ -115,15 +112,15 @@ ribi::cmap::QtRateConceptTallyDialog::Data
     const int n_examples = CountExamples(concept);
     for (int i=0; i!=n_examples; ++i)
     {
-      rows.push_back(
-        std::make_tuple(
-          VertexDescriptor(),
-          ed,
-          concept,
-          i,
-          QString(GetExample(concept, i).GetText().c_str())
-        )
-      );
+      const Row row{
+        VertexDescriptor(),
+        ed,
+        concept,
+        i,
+        QString(GetExample(edge, i).GetText().c_str())
+      };
+      rows.push_back(row);
+      assert(concept.GetExamples().Get()[i].GetText() == std::get<4>(rows.back()).toStdString());
     }
   }
   return rows;
@@ -149,17 +146,14 @@ void ribi::cmap::QtRateConceptTallyDialog::DisplayData()
   for (int row_index=0; row_index!=n_rows; ++row_index)
   {
     const Row& row = m_data[row_index];
-    const Concept concept = std::get<2>(row);
-    const int example_index = std::get<3>(row);
-    const QString& text = std::get<4>(row);
-
+    const int example_index{std::get<3>(row)};
     if (example_index == -1)
     {
       ShowNoExample(row_index, row);
     }
     else
     {
-      ShowExample(concept, example_index, row_index, text);
+      ShowExample(row_index, row);
     }
   }
 }
@@ -279,18 +273,15 @@ void ribi::cmap::QtRateConceptTallyDialog::resizeEvent(QResizeEvent *)
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
-  const Concept& concept,
-  const int example_index,
   const int row_index,
-  const QString& text
+  const Row& row
 ) const
 {
-  qDebug() << "row_index:" << row_index;
-  assert(example_index < CountExamples(concept));
+  const int example_index{std::get<3>(row)};
+  assert(example_index >= 0);
+  assert(example_index < CountExamples(std::get<2>(row)));
+  const Example& example = GetExample(std::get<2>(row), example_index);
   const int n_cols = 4;
-
-  const Example& example = GetExample(concept, example_index);
-  //Display index'th example
 
   //First three columns, but not the last one
   for (int col_index=0; col_index!=n_cols-1; ++col_index)
@@ -320,13 +311,11 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   {
     const int col_index = 3;
     //Text
-    auto * const item = new QTableWidgetItem;
+    auto * const item = new QTableWidgetItem(std::get<4>(row));
     item->setFlags(
         Qt::ItemIsSelectable
       | Qt::ItemIsEnabled
     );
-    assert(text == QString(example.GetText().c_str()));
-    item->setText(text);
     ui->table->setItem(row_index, col_index, item);
   }
 }

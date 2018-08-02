@@ -99,10 +99,8 @@ private:
 
   ///Will throw if table has not exactly the right number of columns
   void ShowExample(
-    const Concept& concept,
-    const int example_index,
     const int row_index,
-    const QString& text
+    const Row& row
   ) const;
 
   void ShowNoExample(
