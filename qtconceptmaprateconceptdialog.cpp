@@ -166,3 +166,11 @@ void ribi::cmap::QtRateConceptDialog::on_button_tally_relevancies_clicked()
     d.Write(m_conceptmap);
   }
 }
+
+void ribi::cmap::QtRateConceptDialog::Write(const QtConceptMap& q, const QtNode& qtnode) const
+{
+  //Need to do more, see https://github.com/richelbilderbeek/Brainweaver/issues/245
+  qtnode.SetRatingComplexity(d.GetComplexity());
+  qtnode.SetRatingConcreteness(d.GetConcreteness());
+  qtnode.SetRatingSpecificity(d.GetSpecificity());
+}

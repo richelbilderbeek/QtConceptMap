@@ -1287,10 +1287,8 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
   q.setEnabled(true);
   if (d.GetOkClicked())
   {
-    //Update the QtNode
-    qtnode.SetRatingComplexity(d.GetComplexity());
-    qtnode.SetRatingConcreteness(d.GetConcreteness());
-    qtnode.SetRatingSpecificity(d.GetSpecificity());
+    d.Write(q, qtnode);
+    q.update();
     qtnode.update();
   }
 }
