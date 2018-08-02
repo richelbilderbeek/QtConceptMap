@@ -55,18 +55,17 @@ ribi::cmap::QtRateConceptTallyDialog::Data
   //Add the focal concept its examples (not its name: this cannot be tallied)
   {
     const VertexDescriptor vd = *boost::vertices(map).first;
+    assert(vd == VertexDescriptor()); //Reminder!
     const Concept focal_concept = map[vd].GetConcept();
     const int n_examples{CountExamples(focal_concept)};
     for (int i=0; i!=n_examples; ++i)
     {
-      rows.push_back(
-        Row{
-          vd,
-          EdgeDescriptor(),
-          focal_concept,
-          i,
-          QString(GetExample(focal_concept, i).GetText().c_str())
-        }
+      rows.emplace_back(
+        vd,
+        EdgeDescriptor(*boost::edges(map).second),
+        focal_concept,
+        i,
+        QString(GetExample(focal_concept, i).GetText().c_str())
       );
     }
   }
@@ -76,6 +75,7 @@ ribi::cmap::QtRateConceptTallyDialog::Data
   for (auto ei = eip.first; ei != eip.second; ++ei)
   {
     const EdgeDescriptor ed = *ei;
+    assert(ed != EdgeDescriptor());
 
     //But skip the connections to the focal question
     if (IsCenterNode(GetFrom(ed, map))
@@ -100,27 +100,23 @@ ribi::cmap::QtRateConceptTallyDialog::Data
       + "'"
     };
 
-    rows.push_back(
-      std::make_tuple(
-        VertexDescriptor(),
-        ed,
-        concept,
-        -1,
-        s
-      )
+    rows.emplace_back(
+      VertexDescriptor(*boost::vertices(map).second), //Out of range
+      ed,
+      concept,
+      -1,
+      s
     );
     const int n_examples = CountExamples(concept);
     for (int i=0; i!=n_examples; ++i)
     {
-      const Row row{
-        VertexDescriptor(),
+      rows.emplace_back(
+        VertexDescriptor(*boost::vertices(map).second),
         ed,
         concept,
         i,
         QString(GetExample(edge, i).GetText().c_str())
-      };
-      rows.push_back(row);
-      assert(concept.GetExamples().Get()[i].GetText() == std::get<4>(rows.back()).toStdString());
+      );
     }
   }
   return rows;
@@ -357,11 +353,11 @@ void ribi::cmap::QtRateConceptTallyDialog::Write(
   {
     const Row& row = m_data[row_index];
     const int example_index{std::get<3>(row)};
-    if (std::get<0>(row) == VertexDescriptor())
+    if (std::get<0>(row) == *boost::vertices(conceptmap).second)
     {
       //Edge
+      assert(std::get<1>(row) != *boost::edges(conceptmap).second);
       const EdgeDescriptor ed = std::get<1>(row);
-      assert(std::get<1>(row) != EdgeDescriptor());
       if (example_index >= 0)
       {
         //Examples has XCS
@@ -389,7 +385,7 @@ void ribi::cmap::QtRateConceptTallyDialog::Write(
     {
       //Node
       const VertexDescriptor vd = std::get<0>(row);
-      assert(std::get<1>(row) == EdgeDescriptor());
+      assert(std::get<1>(row) == *boost::edges(conceptmap).second);
       if (example_index >= 0)
       {
         //Examples has XCS
