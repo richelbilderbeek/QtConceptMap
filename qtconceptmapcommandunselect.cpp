@@ -20,23 +20,18 @@ ribi::cmap::CommandUnselect::CommandUnselect(
 )  : Command(qtconceptmap, parent),
      m_cmd{nullptr}
 {
-  qDebug() << "Start";
-
   if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
-    qDebug() << "Edge";
     m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge, this);
   }
   else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
     if (!IsOnEdge(*qtnode))
     {
-      qDebug() << "QtNode";
       m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
     }
     else
     {
-      qDebug() << "QtNode on Edge";
       QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap);
       assert(qtedge2);
       m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge2, this);
@@ -44,7 +39,6 @@ ribi::cmap::CommandUnselect::CommandUnselect(
   }
   if (!m_cmd)
   {
-    qDebug() << "Nothing";
     throw std::invalid_argument("item is not a QtEdge nor QtNode");
   }
 
@@ -54,7 +48,6 @@ ribi::cmap::CommandUnselect::CommandUnselect(
     msg << "Unselect item";
     this->setText(msg.str().c_str());
   }
-  qDebug() << "Done";
 }
 
 ribi::cmap::CommandUnselect::~CommandUnselect() noexcept

@@ -792,7 +792,6 @@ void ribi::cmap::keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexc
     }
     if (qtnodes.size() != 1)
     {
-      qDebug() << "QtNodes selected:" << items.size();
       return;
     }
     OnNodeKeyDownPressed(q, *qtnodes.back(), event);
@@ -1054,7 +1053,6 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   {
     try
     {
-      qDebug() << "Unselecting from the void";
       q.DoCommand(new CommandUnselectAll(q));
       event->accept();
     }

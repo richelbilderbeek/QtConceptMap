@@ -24,7 +24,6 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
     m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {
-  qDebug() << "Start unselect node";
   if (!m_qtnode)
   {
     throw std::invalid_argument("Cannot unselect nullptr QtNode");
