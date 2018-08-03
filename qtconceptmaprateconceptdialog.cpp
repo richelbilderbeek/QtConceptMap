@@ -208,12 +208,9 @@ void ribi::cmap::QtRateConceptDialog::Write(
       );
       assert(qtedge);
       SetIsComplex(*qtedge, GetIsComplex(edge));
-      //qtedge->SetIsComplex(edge.GetNode().GetConcept().SetIsComplex(
       SetExamples(*qtedge, GetExamples(edge));
     }
   }
-
-  //Need to do more, see https://github.com/richelbilderbeek/Brainweaver/issues/245
   focal_qtnode.SetRatingComplexity(GetComplexity());
   focal_qtnode.SetRatingConcreteness(GetConcreteness());
   focal_qtnode.SetRatingSpecificity(GetSpecificity());
