@@ -179,8 +179,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::unchecking_decreases_sc
   d.ui->table->item(4, 1)->setCheckState(Qt::Unchecked);
   d.ui->table->item(4, 2)->setCheckState(Qt::Unchecked);
 
-  QSKIP("NOT NOW, #252", "ISSUE 252");
-  assert(d.GetSuggestedComplexity() == 0);
-  assert(d.GetSuggestedConcreteness() == 0);
-  assert(d.GetSuggestedSpecificity() == 0);
+  QVERIFY(d.GetSuggestedComplexity() == 0);
+  QVERIFY(d.GetSuggestedConcreteness() == 0);
+  QVERIFY(d.GetSuggestedSpecificity() == 0);
 }

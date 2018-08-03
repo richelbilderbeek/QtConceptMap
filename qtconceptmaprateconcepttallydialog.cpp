@@ -156,54 +156,60 @@ void ribi::cmap::QtRateConceptTallyDialog::DisplayData()
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
 {
-  //Tally the edges that contribute to complexity
-  const int n_edges = std::accumulate(m_data.begin(), m_data.end(), 0,
-    [](int init, const Row& row)
-      {
-        return init + (std::get<3>(row) == -1 && std::get<2>(row).GetIsComplex() ? 1 : 0);
-      }
-    );
-
-  //Tally the examples that contribute to complexity
-  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
-    [](int init, const Row& row)
-      {
-        const int index = std::get<3>(row);
-        if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<2>(row)));
-        return init + (std::get<2>(row).GetExamples().Get()[index].GetIsComplex() ? 1 : 0);
-      }
-    );
+  const int n_rows{ui->table->rowCount()};
+  int n_edges{0};
+  int n_examples{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    // If only the first column is checkable, it is an edge
+    // If the second and third columns are also checkable, it is an example
+    assert(ui->table->item(i, 0)->flags() & Qt::ItemIsUserCheckable);
+    const bool is_complex{ui->table->item(i, 0)->checkState() == Qt::Checked};
+    if (!is_complex) continue;
+    if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
+    {
+      //Example
+      assert(ui->table->item(i, 2)->flags() & Qt::ItemIsUserCheckable);
+      ++n_examples;
+    }
+    else
+    {
+      //Edge
+      ++n_edges;
+    }
+  }
   return m_rating.SuggestComplexity(n_edges, n_examples);
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
 {
-  //Tally the examples that contribute to concreteness
-  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
-    [](int init, const Row& row)
-      {
-        const int index = std::get<3>(row);
-        if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<2>(row)));
-        return init + (std::get<2>(row).GetExamples().Get()[index].GetIsConcrete() ? 1 : 0);
-      }
-    );
+  const int n_rows{ui->table->rowCount()};
+  int n_examples{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    if ( (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
+      && ui->table->item(i, 1)->checkState() == Qt::Checked
+    )
+    {
+      ++n_examples;
+    }
+  }
   return m_rating.SuggestConcreteness(n_examples);
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
 {
-  //Tally the examples that contribute to specificity
-  const int n_examples = std::accumulate(m_data.begin(), m_data.end(), 0,
-    [](int init, const Row& row)
-      {
-        const int index = std::get<3>(row);
-        if (index == -1) return init + 0;
-        assert(index < CountExamples(std::get<2>(row)));
-        return init + (std::get<2>(row).GetExamples().Get()[index].GetIsSpecific() ? 1 : 0);
-      }
-    );
+  const int n_rows{ui->table->rowCount()};
+  int n_examples{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    if ( (ui->table->item(i, 2)->flags() & Qt::ItemIsUserCheckable)
+      && ui->table->item(i, 2)->checkState() == Qt::Checked
+    )
+    {
+      ++n_examples;
+    }
+  }
   return m_rating.SuggestSpecificity(n_examples);
 }
 
