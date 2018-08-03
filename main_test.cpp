@@ -85,6 +85,7 @@ int main(int argc, char *argv[])
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRatingTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapQtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
