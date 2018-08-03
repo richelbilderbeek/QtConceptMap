@@ -202,7 +202,8 @@ ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
   return Edge(
     GetNode(*m_qtnode),
     m_arrow->HasTail(),
-    m_arrow->HasHead()
+    m_arrow->HasHead(),
+    GetId()
   );
 }
 
@@ -417,6 +418,11 @@ void ribi::cmap::QtEdge::SetHasTailArrow(const bool has_tail_arrow) noexcept
 {
   assert(m_arrow);
   this->m_arrow->SetHasTail(has_tail_arrow);
+}
+
+void ribi::cmap::SetIsComplex(QtEdge& qtedge, const bool is_complex)
+{
+  SetIsComplex(*qtedge.GetQtNode(), is_complex);
 }
 
 void ribi::cmap::QtEdge::SetSelected(const bool selected)

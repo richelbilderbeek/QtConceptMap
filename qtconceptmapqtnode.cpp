@@ -408,6 +408,11 @@ void ribi::cmap::SetExamples(QtNode& qtnode, const Examples& examples) noexcept
   qtnode.SetExamples(examples);
 }
 
+void ribi::cmap::SetIsComplex(QtNode& qtnode, const bool is_complex)
+{
+  qtnode.SetIsComplex(is_complex);
+}
+
 void ribi::cmap::QtNode::SetRatingComplexity(const int rating_complexity)
 {
   if (rating_complexity < -1 || rating_complexity > 2)

@@ -131,6 +131,7 @@ void ribi::cmap::AddEdgesToScene(
         qtto
       )
     };
+    assert(edge.GetId() == qtedge->GetId());
     assert(std::abs(GetX(*qtedge) - GetX(edge)) < 2.0);
     assert(std::abs(GetY(*qtedge) - GetY(edge)) < 2.0);
     #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
@@ -1640,6 +1641,7 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
   {
     assert(qtedge);
     const Edge edge = qtedge->GetEdge();
+    assert(edge.GetId() == qtedge->GetId());
     QtNode * const qtnode_from = qtedge->GetFrom();
     QtNode * const qtnode_to = qtedge->GetTo();
     const VertexDescriptor vd_from = vds[qtnode_from];

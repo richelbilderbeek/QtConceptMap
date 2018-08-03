@@ -52,6 +52,11 @@ struct QtNode final : public QtRoundedEditRectItem
 
   void SetExamples(const Examples examples) noexcept;
 
+  ///m_is_complex is used to determine if a concept is complex.
+  ///In this context, m_is_complex is used to determine whether a QtNode and
+  ///whether a QtEdge is complex
+  void SetIsComplex(const bool is_complex = true) noexcept { m_is_complex = is_complex; }
+
   void SetNode(
     const Concept& concept,
     const NodeType type,
@@ -99,7 +104,6 @@ private:
   ///The function that determines this QtNode its brush
   std::function<QBrush(const ribi::cmap::QtNode&)> m_brush_function;
 
-
   ///The node being edited, or displayed and not changed, or rated
   Examples m_examples;
 
@@ -108,6 +112,9 @@ private:
   ///the concept map
   const int m_id;
 
+  ///m_is_complex is used to determine if a concept is complex.
+  ///In this context, m_is_complex is used to determine whether a QtNode and
+  ///whether a QtEdge is complex
   bool m_is_complex = false;
   int m_rating_complexity = -1;
   int m_rating_concreteness = -1;
@@ -200,6 +207,9 @@ std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
 void SetConcept(QtNode& qtnode, const Concept& concept);
 
 void SetExamples(QtNode& qtnode, const Examples& examples) noexcept;
+
+///Set the tallied complexity
+void SetIsComplex(QtNode& qtnode, const bool is_complex = true);
 
 ///Set the rating of this Node for complexity
 ///-1: not rated, 0: lowest, 2: highest

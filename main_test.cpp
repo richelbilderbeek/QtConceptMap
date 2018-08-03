@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
   //{ QtConceptMapRatingTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapQtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order

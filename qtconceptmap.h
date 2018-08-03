@@ -42,8 +42,6 @@ public:
   ///an item with a name that is absent in the concept map is moved
   void DoCommand(Command * const command);
 
-  ///Convert to concept map
-  ConceptMap ToConceptMap() const noexcept;
 
   ///Get the mode the object is in
   Mode GetMode() const noexcept { return m_mode; }
@@ -81,6 +79,9 @@ public:
 
   ///Stop the timer
   void StopTimer();
+
+  ///Convert to concept map
+  ConceptMap ToConceptMap() const noexcept;
 
   ///Will throw if there is nothing to be undone
   void Undo();

@@ -141,3 +141,46 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::measure_ui_from_test_co
   #endif // REALLY_TEST_DEEPER
 
 }
+
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::unchecking_decreases_score()
+{
+  using namespace ribi::cmap;
+
+  const ConceptMap conceptmap{
+    ConceptMapFactory().GetRateConceptTallyDialogExample()
+  };
+  QtRateConceptTallyDialog d{
+    conceptmap, ribi::cmap::CreateDefaultRating()
+  };
+  d.show();
+  d.resize(500, 500);
+  assert(d.GetSuggestedComplexity() == 2);
+  assert(d.GetSuggestedConcreteness() == 1);
+  assert(d.GetSuggestedSpecificity() == 1);
+
+  // [X] [empty] [empty] via 'prerequisite' verbonden met 'order'
+  d.ui->table->item(0, 0)->setCheckState(Qt::Unchecked);
+
+  // [X] [C] [S] Always establish order first
+  d.ui->table->item(1, 0)->setCheckState(Qt::Unchecked);
+  d.ui->table->item(1, 1)->setCheckState(Qt::Unchecked);
+  d.ui->table->item(1, 2)->setCheckState(Qt::Unchecked);
+
+  // [X] [C] [S] Punishment
+  d.ui->table->item(2, 0)->setCheckState(Qt::Unchecked);
+  d.ui->table->item(2, 1)->setCheckState(Qt::Unchecked);
+  d.ui->table->item(2, 2)->setCheckState(Qt::Unchecked);
+
+  // [X] [empty] [empty] via 'strengthen' verbonden met 'order'
+  d.ui->table->item(3, 0)->setCheckState(Qt::Unchecked);
+
+  // [X] [C] [S] Students teaching each other get to know each other
+  d.ui->table->item(4, 0)->setCheckState(Qt::Unchecked);
+  d.ui->table->item(4, 1)->setCheckState(Qt::Unchecked);
+  d.ui->table->item(4, 2)->setCheckState(Qt::Unchecked);
+
+  QSKIP("NOT NOW, #252", "ISSUE 252");
+  assert(d.GetSuggestedComplexity() == 0);
+  assert(d.GetSuggestedConcreteness() == 0);
+  assert(d.GetSuggestedSpecificity() == 0);
+}

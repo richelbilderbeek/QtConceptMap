@@ -207,6 +207,8 @@ void ribi::cmap::QtRateConceptDialog::Write(
         }
       );
       assert(qtedge);
+      SetIsComplex(*qtedge, GetIsComplex(edge));
+      //qtedge->SetIsComplex(edge.GetNode().GetConcept().SetIsComplex(
       SetExamples(*qtedge, GetExamples(edge));
     }
   }

@@ -197,6 +197,9 @@ void SetConcept(QtEdge& qtedge, const Concept& concept) noexcept;
 
 void SetExamples(QtEdge& qtedge, const Examples& examples) noexcept;
 
+///Set the tallied complexity
+void SetIsComplex(QtEdge& edge, const bool is_complex = true);
+
 std::string ToStr(const QtEdge& qtedge) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const QtEdge& qtedge) noexcept;

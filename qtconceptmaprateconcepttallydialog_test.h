@@ -15,6 +15,7 @@ private slots:
   void construct_with_test_conceptmap();
   void key_presses();
   void measure_ui_from_test_concept_map();
+  void unchecking_decreases_score();
 
 };
 
