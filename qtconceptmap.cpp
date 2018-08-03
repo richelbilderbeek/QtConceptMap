@@ -607,7 +607,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   CheckInvariants(q);
-  if (!event->modifiers() || (event->modifiers() &  Qt::ShiftModifier))
+  if (!event->modifiers() || (event->modifiers() & Qt::ShiftModifier))
   {
     keyPressEventArrowsSelect(q, event);
   }
@@ -773,7 +773,7 @@ void ribi::cmap::keyPressEventF1(
       OnNodeKeyDownPressed(q, *qtnode, event);
     }
   }
-  catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
+  catch (const std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
 
 void ribi::cmap::keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexcept
@@ -1025,9 +1025,6 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
     mousePressEventNoArrowActive(*this, event);
   }
 
-  //Vital to move the QtNodes and QtEdges
-  //qDebug() << "TEMP!"; return;
-
   if (!event->isAccepted())
   {
     QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
@@ -1048,7 +1045,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   {
     try
     {
-      qDebug() << "Unselecting";
+      qDebug() << "Unselecting from the void";
       q.DoCommand(new CommandUnselectAll(q));
       event->accept();
     }
@@ -1092,12 +1089,12 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
       Command * const command{new CommandSelect(q, *item)};
       if (HasSelectedItems(q))
       {
-        new CommandUnselectAll(q, command);
+        q.DoCommand(new CommandUnselectAll(q));
       }
       q.DoCommand(command);
 
       //Essential for having movable QtNodes and QtEdges
-      //event->ignore();
+      //event->ignore(); //Nonsense, use mouseMoveEvent instead
 
       //Essential for selecting QtNodes and QtEdges cleanly
       event->accept();
@@ -1333,6 +1330,7 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_F2: keyPressEventF2(q, event); break;
     case Qt::Key_F4: keyPressEventF4(q, event); break;
     #ifndef NDEBUG
+    case Qt::Key_F7: q.DoCommand(new CommandUnselectAll(q)); break;
     case Qt::Key_F8: MoveQtEdgesAndQtNodesRandomly(q); break;
     case Qt::Key_F9: std::exit(1); break; //Cause a deliberate hard crash
     #endif
