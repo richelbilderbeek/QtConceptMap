@@ -782,11 +782,20 @@ void ribi::cmap::keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexc
   try
   {
     const auto items = q.scene()->selectedItems();
-    if (items.size() != 1) return;
-    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(items.front()))
+    std::vector<QtNode*> qtnodes;
+    for (auto * const item: items)
     {
-      OnNodeKeyDownPressed(q, *qtnode, event);
+      if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
+      {
+        qtnodes.push_back(qtnode);
+      }
     }
+    if (qtnodes.size() != 1)
+    {
+      qDebug() << "QtNodes selected:" << items.size();
+      return;
+    }
+    OnNodeKeyDownPressed(q, *qtnodes.back(), event);
   }
   catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
   CheckInvariants(q);
