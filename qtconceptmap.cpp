@@ -811,7 +811,6 @@ void ribi::cmap::keyPressEventF1(
   try
   {
     const auto items = q.scene()->selectedItems();
-    qDebug() << "n items: " << items.size();
     std::vector<QtNode*> qtnodes;
     for (auto * const item: items)
     {
@@ -820,7 +819,6 @@ void ribi::cmap::keyPressEventF1(
         qtnodes.push_back(qtnode);
       }
     }
-    qDebug() << "n qtnodes: " << qtnodes.size();
     if (qtnodes.size() != 1)
     {
       return;
