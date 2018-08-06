@@ -1,5 +1,6 @@
 #include "qtconceptmaphelper.h"
 
+#include <QDebug>
 #include <QGraphicsScene>
 
 #include "qtconceptmap.h"
@@ -225,10 +226,10 @@ std::vector<ribi::cmap::QtEdge*> ribi::cmap::GetQtEdges(
   assert(from);
   const std::vector<QtEdge*> v = GetQtEdges(scene);
   std::vector<QtEdge*> w;
-  std::copy_if(v.begin(),v.end(),std::back_inserter(w),
+  std::copy_if(v.begin(),v.end(), std::back_inserter(w),
     [from](const QtEdge* const qtedge)
     {
-      return *qtedge->GetFrom() == *from || *qtedge->GetTo() == *from;
+      return qtedge->GetFrom() == from || qtedge->GetTo() == from;
     }
   );
   return w;
@@ -239,6 +240,7 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(
   const QGraphicsScene& scene
 ) noexcept
 {
+  //Unsure if this works
   return Collect<QtEdge>(scene);
 }
 

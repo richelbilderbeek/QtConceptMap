@@ -98,6 +98,7 @@ public slots:
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent * event) override;
   void mousePressEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
 
   ///No override, this is the slot called
   ///whenever a GraphicsScene::onFocusItemChanged signal
@@ -129,6 +130,11 @@ private:
   ///The type of concept map: plain (best for printing),
   /// edit (modify the graph) or rate (only grade the existing nodes)
   Mode m_mode;
+
+  ///Will be the QGraphicsScene coordinat.
+  ///Will have size 1 at the moment the mouse is pressed
+  ///Will be empty of the mouse has been released
+  std::vector<QPointF> m_last_mouse_click_pos;
 
   ///The suggested rating of the concepts
   const Rating m_rating;

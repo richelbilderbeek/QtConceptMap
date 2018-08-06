@@ -501,6 +501,7 @@ ribi::cmap::QtNode * ribi::cmap::GetQtCenterNode(const QtConceptMap& q) noexcept
 
 std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(const QtConceptMap& q) noexcept
 {
+  //Unsure if this works
   return GetQtEdges(q.GetScene());
 }
 
@@ -1028,7 +1029,7 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
       )
     );
   }
-  catch (std::logic_error& ) {} //!OCLINT This should be an empty catch statement
+  catch (const std::logic_error& ) {} //!OCLINT This should be an empty catch statement
   CheckInvariants(*this);
 }
 
@@ -1055,8 +1056,54 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
   }
   else
   {
-    assert(m_highlighter);
     m_highlighter->SetItem(nullptr); //item_below is allowed to be nullptr
+
+    if (event->buttons() & Qt::LeftButton)
+    {
+      assert(!m_last_mouse_click_pos.empty());
+      const QPointF new_pos = mapToScene(event->pos());
+      const double dx{new_pos.x() - m_last_mouse_click_pos[0].x()};
+      const double dy{new_pos.y() - m_last_mouse_click_pos[0].y()};
+      for (auto * const item  : scene()->selectedItems())
+      {
+        if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
+        {
+          qtnode->moveBy(dx, dy);
+          qtnode->update();
+          if (IsOnEdge(*qtnode))
+          {
+            QtEdge * const qtedge{
+              qgraphicsitem_cast<QtEdge*>(qtnode->parentItem())
+            };
+            assert(qtedge);
+            qtedge->update();
+            qtedge->GetArrow()->update();
+          }
+          else
+          {
+            for (QGraphicsItem * const this_item: scene()->items())
+            {
+              if (QtEdge * const this_qtedge = qgraphicsitem_cast<QtEdge*>(this_item))
+              {
+                this_qtedge->update();
+                this_qtedge->GetArrow()->update();
+              }
+            }
+            #ifdef WOULD_GETQTEDGES_AND_COLLECT_WORK
+            const auto qtedges = GetQtEdges(qtnode, scene());
+            for (QtEdge* const qtedge: qtedges)
+            {
+              qtedge->update();
+              qtedge->GetQtNode()->update();
+              qtedge->GetArrow()->update();
+            }
+            #endif
+          }
+        }
+      }
+      m_last_mouse_click_pos[0] = new_pos;
+    }
+    assert(m_highlighter);
   }
   CheckInvariants(*this);
 
@@ -1070,11 +1117,17 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
   m_tools->Reposition();
 
   CheckInvariants(*this);
+
+  this->repaint();
+  this->update();
 }
 
 void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
   CheckInvariants(*this);
+
+  m_last_mouse_click_pos.resize(1);
+  m_last_mouse_click_pos[0] = mapToScene(event->pos());
 
   if (IsArrowVisible(*this))
   {
@@ -1202,6 +1255,11 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
 
   assert(!q.GetQtNewArrow().isSelected());
   CheckInvariants(q);
+}
+
+void ribi::cmap::QtConceptMap::mouseReleaseEvent(QMouseEvent *)
+{
+  m_last_mouse_click_pos.resize(0);
 }
 
 void ribi::cmap::QtConceptMap::Respond()
