@@ -13,21 +13,28 @@ struct QtEdge;
 struct QtNode;
 struct QtTool;
 
-class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
+class CommandCreateNewEdge final : public Command
 {
   public:
 
-  CommandCreateNewEdgeBetweenTwoSelectedNodes(
+  CommandCreateNewEdge(
     QtConceptMap& qtconceptmap,
     const std::string& text = ""
   );
-  CommandCreateNewEdgeBetweenTwoSelectedNodes(
-    const CommandCreateNewEdgeBetweenTwoSelectedNodes&
+
+  CommandCreateNewEdge(
+    QtConceptMap& qtconceptmap,
+    QtNode * const from,
+    QtNode * const to,
+    const std::string& text = ""
+  );
+  CommandCreateNewEdge(
+    const CommandCreateNewEdge&
   ) = delete;
-  CommandCreateNewEdgeBetweenTwoSelectedNodes& operator=(
-    const CommandCreateNewEdgeBetweenTwoSelectedNodes&
+  CommandCreateNewEdge& operator=(
+    const CommandCreateNewEdge&
   ) = delete;
-  ~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept;
+  ~CommandCreateNewEdge() noexcept;
 
 
   void Redo() override;
@@ -37,11 +44,17 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
   const std::string& GetText() const noexcept { return m_text; }
 
   private:
+  ///The QtEdge being added
+  QtEdge * m_added_qtedge;
+
+  ///Source QtNode
+  QtNode * const m_from;
+
   ///The text to appear on the edge
   const std::string m_text;
 
-  ///The QtEdge being added
-  QtEdge * m_added_qtedge;
+  ///Target QtNode
+  QtNode * const m_to;
 
   ///Checks if added elements have already or not the supplied
   ///QScene. scene may be nullptr
@@ -54,12 +67,13 @@ class CommandCreateNewEdgeBetweenTwoSelectedNodes final : public Command
 ///Add an Edge located in between two selected vertices with a certain text
 EdgeDescriptor AddEdgeBetweenTwoSelectedVertices(
   const std::string& text,
-  ConceptMap& c);
+  ConceptMap& c
+);
 
-CommandCreateNewEdgeBetweenTwoSelectedNodes * ParseCommandCreateNewEdge(
+CommandCreateNewEdge * ParseCommandCreateNewEdge(
   QtConceptMap& qtconceptmap, std::string s);
 
-std::string GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept;
+std::string GetText(const CommandCreateNewEdge& c) noexcept;
 
 ///Get the mean X coordinat of the selected nodes
 double GetSelectedNodesMeanX(const ConceptMap& c);

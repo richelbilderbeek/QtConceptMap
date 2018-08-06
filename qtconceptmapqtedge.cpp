@@ -13,7 +13,14 @@ ribi::cmap::QtEdge::QtEdge(
     const Edge& edge,
     QtNode * const from,
     QtNode * const to
-) : QtEdge(edge.GetNode(), from, to, edge.GetId())
+) : QtEdge(
+  edge.GetNode(),
+  from,
+  to,
+  edge.HasTailArrow(),
+  edge.HasHeadArrow(),
+  edge.GetId()
+)
 {
   assert(std::abs(GetX(*this) - GetX(edge)) < 2.0);
   assert(std::abs(GetY(*this) - GetY(edge)) < 2.0);
@@ -23,8 +30,19 @@ ribi::cmap::QtEdge::QtEdge(
     const Node& node,
     QtNode * const from,
     QtNode * const to,
+    const bool has_tail_arrow,
+    const bool has_head_arrow,
     const int edge_id
-) : QtEdge(node.GetConcept(), node.GetX(), node.GetY(), from, to, edge_id)
+) : QtEdge(
+  node.GetConcept(),
+  node.GetX(),
+  node.GetY(),
+  from,
+  to,
+  has_tail_arrow,
+  has_head_arrow,
+  edge_id
+)
 {
   #ifndef NDEBUG
   if (std::abs(GetX(*this) - GetX(node)) >= 2.0)
@@ -46,6 +64,8 @@ ribi::cmap::QtEdge::QtEdge(
     const double y,
     QtNode * const from,
     QtNode * const to,
+    const bool has_tail_arrow,
+    const bool has_head_arrow,
     const int edge_id
 )
   : m_arrow{nullptr}, //Will be initialized below
@@ -68,9 +88,9 @@ ribi::cmap::QtEdge::QtEdge(
   CheckInput(from, to);
   m_arrow = new QtQuadBezierArrowItem(
     from,
-    false, //edge.HasTailArrow(),
+    has_tail_arrow,
     this->GetQtNode(),
-    false, //edge.HasHeadArrow(),
+    has_head_arrow,
     to,
     this // parent
   );

@@ -16,7 +16,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noe
   QVERIFY(CountQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 2);
   QVERIFY(CountSelectedQtEdges(q) == 0);
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
+  q.DoCommand(new CommandCreateNewEdge(q, "between"));
   QVERIFY(CountQtNodes(q) == 2);
   QVERIFY(CountQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 0);
@@ -33,7 +33,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const
   assert(CountQtEdges(q) == 0);
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 2);
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
+  q.DoCommand(new CommandCreateNewEdge(q, "between"));
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 1);
@@ -52,7 +52,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNo
   q.DoCommand(new CommandCreateNewNode(q, "something", NodeType::normal,  300,  400));
   assert(CountQtNodes(q) == 2);
   assert(CountQtEdges(q) == 0);
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "invisible"));
+  q.DoCommand(new CommandCreateNewEdge(q, "invisible"));
   QVERIFY(CountQtNodes(q) == 2);
   QVERIFY(CountQtEdges(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 1);

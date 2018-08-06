@@ -36,7 +36,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q));
   q.DoCommand(new CommandCreateNewNode(q));
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q));
+  q.DoCommand(new CommandCreateNewEdge(q));
   assert(IsSelected(*GetFirstQtEdge(q)));
 
   const Concept concept("any name", Examples( { Example("John"), Example("Jane")} ));
@@ -54,7 +54,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q));
   q.DoCommand(new CommandCreateNewNode(q));
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q));
+  q.DoCommand(new CommandCreateNewEdge(q));
   assert(IsSelected(*GetFirstQtEdge(q)));
 
   const Concept concept("any name", Examples( { Example("John"), Example("Jane")} ));

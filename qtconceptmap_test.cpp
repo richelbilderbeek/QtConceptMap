@@ -130,7 +130,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommand() const noexcept
   m.show();
   QVERIFY(CountSelectedQtEdges(m) == 0);
   QVERIFY(CountSelectedQtNodes(m) == 2);
-  m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
+  m.DoCommand(new CommandCreateNewEdge(m));
   m.show();
   QVERIFY(CountQtEdges(m) == 1);
   QVERIFY(CountQtNodes(m) == 2);
@@ -155,7 +155,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommandAndCheckZorder() const no
   QVERIFY(CountSelectedQtNodes(m) == 2);
 
   //Create edge between nodes
-  m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
+  m.DoCommand(new CommandCreateNewEdge(m));
   m.show();
   QVERIFY(CountQtEdges(m) == 1);
   QVERIFY(CountQtNodes(m) == 2);
@@ -596,7 +596,7 @@ void ribi::cmap::QtConceptMapTest::delete_one_edge_command() const noexcept
   }
   QVERIFY(CountSelectedQtEdges(m) == 0);
   QVERIFY(CountSelectedQtNodes(m) == 2);
-  m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
+  m.DoCommand(new CommandCreateNewEdge(m));
   m.show();
   QVERIFY(CountQtEdges(m) == 1);
   QVERIFY(CountQtNodes(m) == 2);
@@ -989,7 +989,7 @@ void ribi::cmap::QtConceptMapTest
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
   q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
+  q.DoCommand(new CommandCreateNewEdge(q, "between"));
   q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
     = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
@@ -1040,7 +1040,7 @@ void ribi::cmap::QtConceptMapTest
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
   q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q, "between"));
+  q.DoCommand(new CommandCreateNewEdge(q, "between"));
   q.DoCommand(new CommandUnselectAll(q));
   QtNode * const left_qtnode
     = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
@@ -1287,7 +1287,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadCommand() const noexcept
 
   try
   {
-    m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
+    m.DoCommand(new CommandCreateNewEdge(m));
     QVERIFY(CountQtEdges(m) == 1);
     QVERIFY(CountQtNodes(m) == 2);
     QVERIFY(CountSelectedQtEdges(m) == 1);
@@ -1493,7 +1493,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const noexcept
 
   try
   {
-    m.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(m));
+    m.DoCommand(new CommandCreateNewEdge(m));
     m.show();
     QVERIFY(CountQtEdges(m) == 1);
     QVERIFY(CountQtNodes(m) == 2);

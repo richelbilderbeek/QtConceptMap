@@ -46,7 +46,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q));
   q.DoCommand(new CommandCreateNewNode(q));
-  q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q));
+  q.DoCommand(new CommandCreateNewEdge(q));
 
   assert(CountSelectedQtEdges(q) == 1);
   assert(CountSelectedQtNodes(q) == 0);

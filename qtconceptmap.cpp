@@ -737,7 +737,7 @@ void ribi::cmap::keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept
   {
     try
     {
-      q.DoCommand(new CommandCreateNewEdgeBetweenTwoSelectedNodes(q));
+      q.DoCommand(new CommandCreateNewEdge(q));
     }
     catch (std::exception&) {} //!OCLINT Correct, nothing happens in catch
     event->setAccepted(true);
@@ -1118,7 +1118,6 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
 
   event->accept();
 
-
   assert(!q.GetQtNewArrow().isSelected());
   if (q.GetQtNewArrow().isVisible())
   {
@@ -1132,12 +1131,17 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
       q.GetQtNewArrow().GetFrom()->setSelected(true);
       try
       {
-        const auto command = new CommandCreateNewEdgeBetweenTwoSelectedNodes(q);
+        const auto command = new CommandCreateNewEdge(
+          q,
+          q.GetQtNewArrow().GetFrom(),
+          q.GetQtHighlighter().GetItem(),
+          ""
+        );
         q.DoCommand(command);
         q.GetQtNewArrow().hide();
         q.GetQtHighlighter().SetItem(nullptr);
       }
-      catch (std::logic_error&)
+      catch (const std::logic_error&)
       {
         return;
       }

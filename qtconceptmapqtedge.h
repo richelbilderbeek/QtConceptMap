@@ -29,6 +29,8 @@ struct QtEdge final : public QGraphicsItem
     const Node& node,
     QtNode * const from,
     QtNode * const to,
+    const bool has_tail_arrow,
+    const bool has_head_arrow,
     const int edge_id
   );
   QtEdge(
@@ -37,6 +39,8 @@ struct QtEdge final : public QGraphicsItem
     const double y,
     QtNode * const from,
     QtNode * const to,
+    const bool has_tail_arrow,
+    const bool has_head_arrow,
     const int edge_id
   );
   QtEdge(const QtEdge&) = delete;

@@ -27,25 +27,55 @@
 
 #include <QBrush>
 
-ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
-  ::CommandCreateNewEdgeBetweenTwoSelectedNodes(
+ribi::cmap::CommandCreateNewEdge
+  ::CommandCreateNewEdge(
   QtConceptMap& qtconceptmap,
   const std::string& text
-) : Command(qtconceptmap),
-    m_text{text},
-    m_added_qtedge{nullptr}
+) : CommandCreateNewEdge(
+  qtconceptmap,
+  GetSelectedQtNodes(qtconceptmap.GetScene()).at(0),
+  GetSelectedQtNodes(qtconceptmap.GetScene()).at(1),
+  text
+)
 {
-  this->setText("Create new edge between two selected nodes");
+  //Done
 }
 
-ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
-  ::~CommandCreateNewEdgeBetweenTwoSelectedNodes() noexcept
+ribi::cmap::CommandCreateNewEdge
+  ::CommandCreateNewEdge(
+  QtConceptMap& qtconceptmap,
+  QtNode * const from,
+  QtNode * const to,
+  const std::string& text
+) : Command(qtconceptmap),
+    m_added_qtedge{nullptr},
+    m_from{from},
+    m_text{text},
+    m_to{to}
+{
+  assert(m_from);
+  assert(m_to);
+  assert(!IsOnEdge(*m_from));
+  assert(!IsOnEdge(*m_to));
+
+  this->setText(
+    QString("Create new edge. From '")
+    + QString::fromStdString(::ribi::cmap::GetText(*from))
+    + QString("' to '")
+    + QString::fromStdString(::ribi::cmap::GetText(*to))
+    + "' with text '"
+    + QString::fromStdString(text) + "'"
+  );
+}
+
+ribi::cmap::CommandCreateNewEdge
+  ::~CommandCreateNewEdge() noexcept
 {
   // delete m_added_qtedge;//NO! No ownership
   m_added_qtedge = nullptr;
 }
 
-bool ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
+bool ribi::cmap::CommandCreateNewEdge
   ::AllHaveScene(const QGraphicsScene * const scene) noexcept
 {
   return m_added_qtedge->scene() == scene
@@ -54,7 +84,7 @@ bool ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes
   ;
 }
 
-void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CheckCanRedo() const
+void ribi::cmap::CommandCreateNewEdge::CheckCanRedo() const
 {
   if (CountSelectedQtNodes(GetQtConceptMap()) != 2)
   {
@@ -67,12 +97,12 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::CheckCanRedo() con
   }
 }
 
-std::string ribi::cmap::GetText(const CommandCreateNewEdgeBetweenTwoSelectedNodes& c) noexcept
+std::string ribi::cmap::GetText(const CommandCreateNewEdge& c) noexcept
 {
   return c.GetText();
 }
 
-ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::ParseCommandCreateNewEdge(
+ribi::cmap::CommandCreateNewEdge * ribi::cmap::ParseCommandCreateNewEdge(
   QtConceptMap& qtconceptmap, std::string s)
 {
   //"create_new_edge(my text)"
@@ -85,10 +115,10 @@ ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes * ribi::cmap::ParseComma
   assert(t[0] != '(');
   assert(t.back() != ')');
   // "my text"
-  return new CommandCreateNewEdgeBetweenTwoSelectedNodes(qtconceptmap, t);
+  return new CommandCreateNewEdge(qtconceptmap, t);
 }
 
-void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
+void ribi::cmap::CommandCreateNewEdge::Redo()
 {
   CheckCanRedo(); //Throws if not
 
@@ -97,10 +127,10 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
 
   GetQtConceptMap().GetScene().clearFocus();
 
-  const auto qtnodes = GetSelectedQtNodes(GetQtConceptMap());
+  const auto qtnodes = { m_from, m_to };
   assert(qtnodes.size() == 2);
-  assert(!IsOnEdge(*qtnodes[0]));
-  assert(!IsOnEdge(*qtnodes[1]));
+  assert(!IsOnEdge(*m_from));
+  assert(!IsOnEdge(*m_to));
 
   //Create the new QtEdge
   m_added_qtedge = new QtEdge(
@@ -108,12 +138,13 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
       Node(
         Concept(m_text),
         NodeType::normal,
-        (GetX(*qtnodes[0]) + GetX(*qtnodes[1])) / 2.0,
-        (GetY(*qtnodes[0]) + GetY(*qtnodes[1])) / 2.0
-      )
+        (GetX(*m_from) + GetX(*m_to)) / 2.0,
+        (GetY(*m_from) + GetY(*m_to)) / 2.0
+      ),
+      true //Arrow head
     ),
-    qtnodes[0],
-    qtnodes[1]
+    m_from,
+    m_to
   );
 
   //-----------------------
@@ -157,7 +188,7 @@ void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Redo()
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
 }
 
-void ribi::cmap::CommandCreateNewEdgeBetweenTwoSelectedNodes::Undo()
+void ribi::cmap::CommandCreateNewEdge::Undo()
 {
   Expects(CountSelectedQtEdges(GetScene(*this)) == 1);
   Expects(CountSelectedQtNodes(GetScene(*this)) == 0);
