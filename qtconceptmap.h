@@ -287,15 +287,25 @@ void keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noexcept;
 ///Can be additive (with Shift pressed) and exclusive (without shift pressed)
 void keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) noexcept;
 
+///1: Toggle arrow tail
+void keyPressEvent1(QtConceptMap& q, QKeyEvent * const event) noexcept;
+
+///2:Toggle arrow head
+void keyPressEvent2(QtConceptMap& q, QKeyEvent * const event) noexcept;
+
 void keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventE(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventEscape(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventF1(QtConceptMap& q, QKeyEvent * const event) noexcept;
 void keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexcept;
 void keyPressEventF4(QtConceptMap& q, QKeyEvent *event) noexcept;
+
+///CTRL + H: Toggle arrow head
 void keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventSpace(QtConceptMap& q, QKeyEvent *) noexcept;
+
+///CTRL + T: Toggle arrow tail
 void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 

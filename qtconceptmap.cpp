@@ -604,6 +604,34 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
   CheckInvariants(*this);
 }
 
+void ribi::cmap::keyPressEvent1(QtConceptMap& q, QKeyEvent *event) noexcept
+{
+  try
+  {
+    const auto cmd = new CommandToggleArrowTail(q);
+    q.DoCommand(cmd);
+  }
+  catch (const std::exception&)
+  {
+    return;
+  }
+  event->setAccepted(true);
+}
+
+void ribi::cmap::keyPressEvent2(QtConceptMap& q, QKeyEvent *event) noexcept
+{
+  try
+  {
+    const auto cmd = new CommandToggleArrowHead(q);
+    q.DoCommand(cmd);
+  }
+  catch (const std::exception&)
+  {
+    return;
+  }
+  event->setAccepted(true);
+}
+
 void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   CheckInvariants(q);
@@ -1331,6 +1359,8 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
   //Pass event
   switch (event->key())
   {
+    case Qt::Key_1: keyPressEvent1(q, event); break;
+    case Qt::Key_2: keyPressEvent2(q, event); break;
     case Qt::Key_Delete: keyPressEventDelete(q, event); break;
     case Qt::Key_E: keyPressEventE(q, event); break;
     case Qt::Key_Equal:
