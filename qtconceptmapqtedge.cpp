@@ -143,7 +143,7 @@ QRectF ribi::cmap::QtEdge::boundingRect() const
   //QMarginsF ruthlessly prevents ugly stains
   return m_qtnode->boundingRect().translated(m_qtnode->pos())
     .united(m_arrow->boundingRect())
-    .marginsAdded(QMarginsF(300.0, 300.0, 300.0, 300.0))
+    .adjusted(-300.0, -300.0, 300.0, 300.0)
   ;
 
   //Don't forget to update ::shape if you change ::boundingRect!
