@@ -91,6 +91,8 @@ public slots:
   void changeEvent(QEvent *) override;
   void dragEnterEvent(QDragEnterEvent *event) override;
   void dragLeaveEvent(QDragLeaveEvent *event) override;
+  void focusInEvent(QFocusEvent *event) override;
+  void focusOutEvent(QFocusEvent *event) override;
   void hideEvent(QHideEvent *) override;
   void keyPressEvent(QKeyEvent* event) override;
   void mouseDoubleClickEvent(QMouseEvent *event) override;
@@ -351,11 +353,16 @@ void OnNodeKeyDownPressedEditF2(
 ///An item wants to be edited from F1 in rate mode
 void OnNodeKeyDownPressedRateF1(
   QtConceptMap& q,
-  QtNode& item
+  QtNode& item,
+  QKeyEvent * const event
 );
 
 ///An item wants to be rated from F2 in rate mode
-void OnNodeKeyDownPressedRateF2(QtConceptMap& q, QtNode& item);
+void OnNodeKeyDownPressedRateF2(
+  QtConceptMap& q,
+  QtNode& item,
+  QKeyEvent * const event
+);
 
 void ProcessKey(QtConceptMap& q, QKeyEvent * const event);
 

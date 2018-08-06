@@ -66,12 +66,13 @@ ribi::cmap::QtConceptMap::QtConceptMap(
   //Allow dragging and dropping
   this->setAcceptDrops(true);
 
+  //Grey
   {
-    QLinearGradient linearGradient(-500,-500,500,500);
-    linearGradient.setColorAt(0.0, QColor(214,214,214));
-    linearGradient.setColorAt(1.0, QColor(255,255,255));
+    QLinearGradient linearGradient(-500, -500, 500, 500);
+    linearGradient.setColorAt(0.0, QColor(214, 214, 214));
+    linearGradient.setColorAt(1.0, QColor(255, 255, 255));
     scene()->setBackgroundBrush(linearGradient);
-    //this->scene()->setBackgroundBrush(QBrush(QColor(255,255,255)));
+    //this->scene()->setBackgroundBrush(QBrush(QColor(255, 255, 255)));
   }
 
   //Connect the scene to respond to focus events
@@ -356,6 +357,24 @@ ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QtConceptMap& q) noexcept
   return GetFirstQtNode(q.GetScene());
 }
 
+void ribi::cmap::QtConceptMap::focusInEvent(QFocusEvent *event)
+{
+  QLinearGradient linearGradient(-500, -500, 500, 500);
+  linearGradient.setColorAt(0.0, QColor(214, 214, 255));
+  linearGradient.setColorAt(1.0, QColor(255, 255, 255));
+  scene()->setBackgroundBrush(linearGradient);
+  QGraphicsView::focusInEvent(event);
+}
+
+void ribi::cmap::QtConceptMap::focusOutEvent(QFocusEvent *event)
+{
+  QLinearGradient linearGradient(-500, -500, 500, 500);
+  linearGradient.setColorAt(0.0, QColor(214, 214, 214));
+  linearGradient.setColorAt(1.0, QColor(255, 255, 255));
+  scene()->setBackgroundBrush(linearGradient);
+  QGraphicsView::focusOutEvent(event);
+}
+
 bool ribi::cmap::IsArrowVisible(QtConceptMap& q) noexcept
 {
   return q.GetQtNewArrow().isVisible();
@@ -452,10 +471,10 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
 {
   #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
   const QList<QGraphicsItem*> v = q.scene()->items(
-    pos.x(),pos.y(),2.0,2.0, Qt::IntersectsItemShape, Qt::AscendingOrder
+    pos.x(),pos.y(), 2.0, 2.0, Qt::IntersectsItemShape, Qt::AscendingOrder
   );
   #else
-  const QList<QGraphicsItem*> v = q.scene()->items(pos.x(),pos.y(),2.0,2.0);
+  const QList<QGraphicsItem*> v = q.scene()->items(pos.x(),pos.y(), 2.0, 2.0);
   #endif
   std::vector<QtNode*> qtnodes;
   std::for_each(v.begin(),v.end(),
@@ -792,14 +811,21 @@ void ribi::cmap::keyPressEventF1(
   try
   {
     const auto items = q.scene()->selectedItems();
-    if (items.size() != 1)
+    qDebug() << "n items: " << items.size();
+    std::vector<QtNode*> qtnodes;
+    for (auto * const item: items)
+    {
+      if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
+      {
+        qtnodes.push_back(qtnode);
+      }
+    }
+    qDebug() << "n qtnodes: " << qtnodes.size();
+    if (qtnodes.size() != 1)
     {
       return;
     }
-    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(items.front()))
-    {
-      OnNodeKeyDownPressed(q, *qtnode, event);
-    }
+    OnNodeKeyDownPressed(q, *qtnodes.back(), event);
   }
   catch (const std::exception&) {} //!OCLINT Correct, nothing happens in catch
 }
@@ -1256,7 +1282,6 @@ void ribi::cmap::OnNodeKeyDownPressed(
   QKeyEvent * const event
 )
 {
-
   if (IsQtCenterNode(&qtnode))
   {
     event->ignore();
@@ -1274,14 +1299,15 @@ void ribi::cmap::OnNodeKeyDownPressed(
     //Can only rate relations
     if (!IsOnEdge(qtnode))
     {
-      OnNodeKeyDownPressedRateF1(q, qtnode);
+      OnNodeKeyDownPressedRateF1(q, qtnode, event);
     }
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F2)
   {
-    OnNodeKeyDownPressedRateF2(q, qtnode);
+    OnNodeKeyDownPressedRateF2(q, qtnode, event);
   }
   q.show();
+  q.setEnabled(true);
   q.setFocus();
   q.scene()->setFocusItem(&qtnode);
   qtnode.setSelected(true);
@@ -1311,15 +1337,18 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   assert(GetSelectedQtNodesAlsoOnQtEdge(q).size() == 1);
   assert(GetSelectedQtNodesAlsoOnQtEdge(q)[0] == &qtnode);
   q.DoCommand(new CommandSetConcept(q, d.GetConcept()));
-
+  q.setFocus();
   CheckInvariants(q);
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF1(
   QtConceptMap& q,
-  QtNode& qtnode
+  QtNode& qtnode,
+  QKeyEvent * const event
 )
 {
+  event->accept();
+
   assert(!IsOnEdge(qtnode));
   ribi::cmap::QtRateConceptDialog d(q, qtnode);
   q.setEnabled(false);
@@ -1331,16 +1360,22 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
     q.update();
     qtnode.update();
   }
+  q.setFocus();
 }
 
 void ribi::cmap::OnNodeKeyDownPressedRateF2(
-  QtConceptMap& q, QtNode& qtnode)
+  QtConceptMap& q,
+  QtNode& qtnode,
+  QKeyEvent * const event
+)
 {
   //Relation's examples are not rated
   if (IsOnEdge(qtnode)) return;
 
   //Without examples, there is nothing to rate
   if (!HasExamples(qtnode)) return;
+
+  event->accept();
 
   QtRateExamplesDialog d(GetConcept(qtnode));
   q.setEnabled(false);
@@ -1350,6 +1385,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(
   {
     SetExamples(qtnode, d.GetRatedExamples());
   }
+  q.setFocus();
 }
 
 void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT Although the NCSS is high, the code is easy to read
