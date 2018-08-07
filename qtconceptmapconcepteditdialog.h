@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QTableView>
 #include "conceptmapconcept.h"
+
 struct QTableWidgetItem;
 
 namespace Ui { class QtConceptMapConceptEditDialog; }
@@ -11,6 +12,7 @@ namespace Ui { class QtConceptMapConceptEditDialog; }
 namespace ribi {
 namespace cmap {
 
+struct QNumberedColumn;
 struct QtConceptMapConceptEditDialogTest;
 
 class QtConceptMapConceptEditDialog final : public QDialog
@@ -44,15 +46,19 @@ protected:
   void keyPressEvent(QKeyEvent *);
 
 private slots:
-  void on_button_add_clicked();//QTableView *tableView);
+  void on_button_add_clicked();
   void RemoveEmptyItem(QTableWidgetItem * item);
-  void showEvent(QShowEvent *);
 
 private:
+  ribi::cmap::QNumberedColumn * const m_examples;
+
   Ui::QtConceptMapConceptEditDialog *ui;
 
   friend class QtConceptMapConceptEditDialogTest;
 };
+
+///Get all the examples' texts
+QVector<QString> GetExamplesText(const Concept& concept) noexcept;
 
 } //~namespace cmap
 } //~namespace ribi
