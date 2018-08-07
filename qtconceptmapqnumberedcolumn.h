@@ -16,6 +16,11 @@ public:
     QWidget *parent = 0
   );
   ~QNumberedColumn();
+
+private slots:
+
+  void OnCellChanged(int row, int column);
+
 };
 
 } //~namespace cmap

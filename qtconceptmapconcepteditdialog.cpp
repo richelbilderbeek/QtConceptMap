@@ -69,7 +69,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
   if (e->key()  == Qt::Key_Escape) { close(); return; }
 
   if (
-    (e->key() == Qt::Key_Enter || e->key()  == Qt::Key_Return)
+    (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     && e->modifiers() & Qt::AltModifier
   )
   {
@@ -85,12 +85,15 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()//QTableV
   auto * const new_item = new QTableWidgetItem(
     ui->edit_text->toPlainText()
   );
-
   assert(m_examples);
   const int cur_row_count = m_examples->rowCount();
 
   m_examples->setRowCount(cur_row_count + 1);
   m_examples->setItem(cur_row_count, 0, new_item);
+  m_examples->scrollToBottom();
+
+  ui->edit_text->clear();
+  ui->edit_text->setFocus();
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialog

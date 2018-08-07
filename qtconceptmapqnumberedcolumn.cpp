@@ -26,9 +26,24 @@ ribi::cmap::QNumberedColumn::QNumberedColumn(
     this,
     SLOT(resizeRowsToContents())
   );
+
+  connect(
+    this,
+    SIGNAL(cellChanged(int,int)),
+    this,
+    SLOT(OnCellChanged(int,int))
+  );
 }
 
 ribi::cmap::QNumberedColumn::~QNumberedColumn()
 {
 
+}
+
+void ribi::cmap::QNumberedColumn::OnCellChanged(int row, int column)
+{
+  if (this->item(row, column)->text().isEmpty())
+  {
+    this->removeRow(row);
+  }
 }
