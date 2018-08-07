@@ -1377,6 +1377,21 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   QKeyEvent * const event
 )
 {
+  //Cannot edit relations connected to center node
+  if (IsOnEdge(qtnode))
+  {
+    assert(qtnode.parentItem());
+    assert(qgraphicsitem_cast<QtEdge*>(qtnode.parentItem()));
+    if (
+      IsConnectedToCenterNode(
+        *qgraphicsitem_cast<QtEdge*>(qtnode.parentItem())
+      )
+    )
+    {
+      return;
+    }
+  }
+
   event->accept();
 
   //Edit concept
