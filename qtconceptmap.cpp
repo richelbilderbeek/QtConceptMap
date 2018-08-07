@@ -135,6 +135,12 @@ void ribi::cmap::AddEdgesToScene(
     assert(edge.GetId() == qtedge->GetId());
     assert(std::abs(GetX(*qtedge) - GetX(edge)) < 2.0);
     assert(std::abs(GetY(*qtedge) - GetY(edge)) < 2.0);
+    //Edges connected to the center node must be smaller
+    if (IsConnectedToCenterNode(*qtedge))
+    {
+      qtedge->GetQtNode()->SetInnerWidth(8);
+      qtedge->GetQtNode()->SetInnerHeight(8);
+    }
     #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
     if (IsConnectedToCenterNode(*qtedge))
     {

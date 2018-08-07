@@ -170,13 +170,12 @@ void ribi::cmap::CommandCreateNewEdge::Redo()
   SetSelectedness(false, *m_added_qtedge->GetFrom());
   SetSelectedness(false, *m_added_qtedge->GetTo());
 
-  // Cannot write this:
-  //   assert(m_added_qtedge->GetEdge() == m_added_edge);
-  // as the endpoints of qtedge->GetEdge() have changed
-  // Update the original edge
-  //? added_edge = m_added_qtedge->GetEdge();
-  //? assert(m_added_qtedge->GetEdge() == added_edge);
-
+  //Edges connected to the center node must be smaller
+  if (IsConnectedToCenterNode(*m_added_qtedge))
+  {
+    m_added_qtedge->GetQtNode()->SetInnerWidth(8);
+    m_added_qtedge->GetQtNode()->SetInnerHeight(8);
+  }
 
   #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
   //Do not create a node on the edge if it is connected to a center node
