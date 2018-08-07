@@ -14,7 +14,7 @@
 ribi::cmap::QtTool::QtTool()
   : m_qtnode(nullptr)
 {
-  this->setPixmap(QPixmap(":/CppQtConceptMap/images/CppQtConceptMapArrow14x14.png"));
+  this->setPixmap(QPixmap(":/QtConceptMap/pics/ToolIcon.png"));
 
   assert(!this->pixmap().isNull());
 

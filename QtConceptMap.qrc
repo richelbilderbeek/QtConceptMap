@@ -1,21 +1,16 @@
 <RCC>
-    <qresource prefix="/CppQtConceptMap/images">
-        <file>CppQtConceptMapArrow14x14.png</file>
-        <file>PicBlue.png</file>
-        <file>PicBlue14x14.png</file>
-        <file>PicCyan.png</file>
-        <file>PicCyan14x14.png</file>
-        <file>PicGreen.png</file>
-        <file>PicGreen14x14.png</file>
-        <file>PicOrange.png</file>
-        <file>PicOrange14x14.png</file>
-        <file>PicPurple.png</file>
-        <file>PicPurple14x14.png</file>
-        <file>PicRed.png</file>
-        <file>PicRed14x14.png</file>
-        <file>PicWhite.png</file>
-        <file>PicWhite14x14.png</file>
-        <file>PicYellow.png</file>
-        <file>PicYellow14x14.png</file>
+    <qresource prefix="/QtConceptMap">
+        <file>pics/ArrowLeft.png</file>
+        <file>pics/ArrowRight.png</file>
+        <file>pics/Blue.png</file>
+        <file>pics/Cyan.png</file>
+        <file>pics/Green.png</file>
+        <file>pics/NoArrow.png</file>
+        <file>pics/Orange.png</file>
+        <file>pics/Purple.png</file>
+        <file>pics/Red.png</file>
+        <file>pics/ToolIcon.png</file>
+        <file>pics/White.png</file>
+        <file>pics/Yellow.png</file>
     </qresource>
 </RCC>

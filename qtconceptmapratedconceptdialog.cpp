@@ -124,9 +124,13 @@ std::string ribi::cmap::GetFromArrowText(
 ) noexcept
 {
   const std::string first_arrow  = edge.HasTailArrow()
-    ? "&larr; " : "&mdash; ";
+    ? "<img src=\"qrc:/QtConceptMap/pics/ArrowLeft.png\"/>"
+    : "<img src=\"qrc:/QtConceptMap/pics/NoArrow.png\"/> "
+  ;
   const std::string second_arrow = edge.HasHeadArrow()
-    ? " &rarr; " : " &mdash; ";
+    ? " <img src=\"qrc:/QtConceptMap/pics/ArrowRight.png\"/> "
+    : " <img src=\"qrc:/QtConceptMap/pics/NoArrow.png\"/> "
+  ;
   return first_arrow
     + GetText(edge)
     + second_arrow
@@ -139,9 +143,13 @@ std::string ribi::cmap::GetToArrowText(
 ) noexcept
 {
   const std::string first_arrow = edge.HasHeadArrow()
-    ? "&larr; " : "&mdash; ";
+    ? "<img src=\"qrc:/QtConceptMap/pics/ArrowLeft.png\"/> "
+    : "<img src=\"qrc:/QtConceptMap/pics/NoArrow.png\"/> "
+  ;
   const std::string second_arrow = edge.HasTailArrow()
-    ? " &rarr; " : " &mdash; ";
+    ? " <img src=\"qrc:/QtConceptMap/pics/ArrowRight.png\"/> "
+    : " <img src=\"qrc:/QtConceptMap/pics/NoArrow.png\"/> "
+  ;
   return first_arrow
     + GetText(edge)
     + second_arrow
