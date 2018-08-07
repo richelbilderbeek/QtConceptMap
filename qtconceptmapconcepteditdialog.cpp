@@ -6,66 +6,6 @@
 #include <QTableView>
 #include "ui_qtconceptmapconcepteditdialog.h"
 
-/*void ribi::cmap::QtConceptMapConceptEditDialog::resize_window_to_examples_widget_size()
-{
-    int total_height_increase=300;
-    QtConceptMapConceptEditDialog::setFixedHeight(800);
-    //ui->examples_widget->resizeRowsToContents();
-    //ui->edit_text->clear();
-    //ui->edit_text->setFocus();
-    for(int i=0; i<ui->examples_widget->rowCount(); ++i)
-    {
-        //QString text = ui->examples_widget->item(i,0)->text();
-        //std::string text_string =text.toUtf8().constData();
-        int n_characters = text_string.length();
-        int n_characters_for_new_line =88; //amount of characters that fit on one line
-         //text height +padding height *2
-        QStringList lines = text.split( "\n", QString::SkipEmptyParts);
-        float height_resize =18;
-        if(n_characters<n_characters_for_new_line)
-        {
-            height_resize=21;
-        }
-        for(int j=0; j<lines.count()-1; ++j)
-        {
-            height_resize+=17;
-        }
-        int counter=0;
-        while(n_characters>n_characters_for_new_line)
-        {
-            counter++;
-            n_characters_for_new_line+=92;
-            if(counter>1)
-            {
-                height_resize-=0.8;
-            }
-            height_resize+=17; //text height
-        }
-        std::cout<<"resize amount: "<<height_resize<<"\n"<<std::flush;
-        total_height_increase +=ui->examples_widget->rowHeight(i);//height_resize
-        std::cout<<"Height row "<< i  << " :"<<ui->examples_widget->rowHeight(i) << "\n" << std::flush;
-        //ui->examples_widget->setWordWrap(true);
-
-    }
-    std::cout<<"total height: "<< total_height_increase <<"\n"<<std::flush;
-    ui->examples_widget->setWordWrap(true);
-    ui->examples_widget->resizeRowsToContents();
-    ui->edit_text->clear();
-    ui->edit_text->setFocus();
-
-    int correction=14; //for some reason it doesnt work without the correction
-
-    total_height_increase -=correction;
-    QtConceptMapConceptEditDialog::setFixedHeight(total_height_increase);//total_height_increase); //increases the height of the window when a new line is added
-
-    if(QtConceptMapConceptEditDialog::size().height()> 800)
-    {
-        QtConceptMapConceptEditDialog::setFixedHeight(800);
-    }
-
-
-}*/
-
 ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   const Concept& c,
   const EditType edit_type,
