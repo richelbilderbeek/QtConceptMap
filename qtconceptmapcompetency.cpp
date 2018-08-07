@@ -71,14 +71,14 @@ std::map<ribi::cmap::Competency,QIcon> ribi::cmap::CreateIconMap() noexcept
 {
   return
   {
-    { cmap::Competency::uninitialized      , QIcon(":/CppQtConceptMap/images/PicWhite14x14.png") },
-    { cmap::Competency::profession         , QIcon(":/CppQtConceptMap/images/PicRed14x14.png") },
-    { cmap::Competency::organisations      , QIcon(":/CppQtConceptMap/images/PicOrange14x14.png") },
-    { cmap::Competency::social_surroundings, QIcon(":/CppQtConceptMap/images/PicYellow14x14.png") },
-    { cmap::Competency::target_audience    , QIcon(":/CppQtConceptMap/images/PicGreen14x14.png") },
-    { cmap::Competency::ti_knowledge       , QIcon(":/CppQtConceptMap/images/PicCyan14x14.png") },
-    { cmap::Competency::prof_growth        , QIcon(":/CppQtConceptMap/images/PicBlue14x14.png") },
-    { cmap::Competency::misc               , QIcon(":/CppQtConceptMap/images/PicPurple14x14.png") }
+    { cmap::Competency::uninitialized      , QIcon(":/QtConceptMap/pics/White.png") },
+    { cmap::Competency::profession         , QIcon(":/QtConceptMap/pics/Red.png") },
+    { cmap::Competency::organisations      , QIcon(":/QtConceptMap/pics/Orange.png") },
+    { cmap::Competency::social_surroundings, QIcon(":/QtConceptMap/pics/Yellow.png") },
+    { cmap::Competency::target_audience    , QIcon(":/QtConceptMap/pics/Green.png") },
+    { cmap::Competency::ti_knowledge       , QIcon(":/QtConceptMap/pics/Cyan.png") },
+    { cmap::Competency::prof_growth        , QIcon(":/QtConceptMap/pics/Blue.png") },
+    { cmap::Competency::misc               , QIcon(":/QtConceptMap/pics/Purplepng") }
   };
 }
 
