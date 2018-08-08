@@ -10,6 +10,7 @@ ribi::cmap::QNumberedColumn::QNumberedColumn(
   QWidget *parent
 ) : QTableWidget(text.size(), 1, parent)
 {
+  this->setWordWrap(true);
   this->setAlternatingRowColors(true);
   this->setTextElideMode(Qt::ElideNone);
   this->horizontalHeader()->setStretchLastSection(true);
@@ -36,6 +37,8 @@ ribi::cmap::QNumberedColumn::QNumberedColumn(
     this,
     SLOT(OnCellChanged(int,int))
   );
+
+  this->resizeRowsToContents();
 }
 
 ribi::cmap::QNumberedColumn::~QNumberedColumn()

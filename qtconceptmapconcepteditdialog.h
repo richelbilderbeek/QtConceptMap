@@ -44,6 +44,7 @@ public:
 
 protected:
   void keyPressEvent(QKeyEvent *);
+  void showEvent(QShowEvent *);
 
 private slots:
   void on_button_add_clicked();

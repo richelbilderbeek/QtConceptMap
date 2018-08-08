@@ -97,6 +97,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()//QTableV
 
   m_examples->setRowCount(cur_row_count + 1);
   m_examples->setItem(cur_row_count, 0, new_item);
+  m_examples->resizeRowsToContents();
   m_examples->scrollToBottom();
 
   ui->edit_text->clear();
@@ -111,6 +112,11 @@ void ribi::cmap::QtConceptMapConceptEditDialog
     m_examples->removeRow(item->row());
     this->update();
   }
+}
+
+void ribi::cmap::QtConceptMapConceptEditDialog::showEvent(QShowEvent *)
+{
+  this->m_examples->resizeRowsToContents();
 }
 
 ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const noexcept
