@@ -1,5 +1,7 @@
 #include "qtconceptmapqnumberedcolumn.h"
 
+#include <QApplication>
+#include <QKeyEvent>
 #include <QTableWidgetItem>
 #include <QHeaderView>
 
@@ -14,6 +16,7 @@ ribi::cmap::QNumberedColumn::QNumberedColumn(
   this->horizontalHeader()->setSizeAdjustPolicy(QHeaderView::AdjustToContents);
   this->horizontalHeader()->setHidden(true);
   this->verticalHeader()->setSizeAdjustPolicy(QHeaderView::AdjustToContents);
+
   const int n_lines{text.size()};
   for (int i = 0; i != n_lines; ++i)
   {
@@ -38,6 +41,17 @@ ribi::cmap::QNumberedColumn::QNumberedColumn(
 ribi::cmap::QNumberedColumn::~QNumberedColumn()
 {
 
+}
+
+void ribi::cmap::QNumberedColumn::keyPressEvent(QKeyEvent *event)
+{
+  if (event->key() == Qt::Key_Tab)
+  {
+    this->nextInFocusChain()->setFocus();
+    event->accept();
+    return;
+  }
+  QTableWidget::keyPressEvent(event);
 }
 
 void ribi::cmap::QNumberedColumn::OnCellChanged(int row, int column)

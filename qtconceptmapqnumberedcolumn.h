@@ -19,6 +19,7 @@ public:
 
 private slots:
 
+  void keyPressEvent(QKeyEvent *event);
   void OnCellChanged(int row, int column);
 
 };

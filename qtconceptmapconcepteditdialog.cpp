@@ -33,13 +33,15 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   }
   //Convert the concept to its GUI elements
   ui->edit_concept->setPlainText(c.GetName().c_str());
+  ui->edit_concept->setTabChangesFocus(true);
 
   //Add the examples
   ui->verticalLayout->insertWidget(3, m_examples);
 
   //Prepare text
   ui->edit_text->clear();
-  ui->edit_text->setFocus();
+  ui->edit_text->setTabChangesFocus(true);
+  ui->edit_concept->setFocus();
 
   connect(
     ui->button_ok,
@@ -66,8 +68,13 @@ QVector<QString> ribi::cmap::GetExamplesText(const Concept& concept) noexcept
 
 void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
 {
-  if (e->key()  == Qt::Key_Escape) { close(); return; }
-
+  if (e->key() == Qt::Key_Escape) { close(); return; }
+  //No tabs allowed in editing
+  //if (e->key() == Qt::Key_Tab)
+  //{
+  //  QDialog::keyPressEvent(e);
+  //  return;
+  //}
   if (
     (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     && e->modifiers() & Qt::AltModifier
@@ -77,7 +84,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
     return;
   }
 
-  //QDialog::keyPressEvent(e); //Causes dialog to close unwanted?
+  QDialog::keyPressEvent(e); //Causes dialog to close unwanted?
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()//QTableView *tableView)
