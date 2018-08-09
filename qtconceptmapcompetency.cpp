@@ -78,7 +78,7 @@ std::map<ribi::cmap::Competency,QIcon> ribi::cmap::CreateIconMap() noexcept
     { cmap::Competency::target_audience    , QIcon(":/QtConceptMap/pics/Green.png") },
     { cmap::Competency::ti_knowledge       , QIcon(":/QtConceptMap/pics/Cyan.png") },
     { cmap::Competency::prof_growth        , QIcon(":/QtConceptMap/pics/Blue.png") },
-    { cmap::Competency::misc               , QIcon(":/QtConceptMap/pics/Purplepng") }
+    { cmap::Competency::misc               , QIcon(":/QtConceptMap/pics/Purple.png") }
   };
 }
 
