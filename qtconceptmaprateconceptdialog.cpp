@@ -67,6 +67,9 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
   );
   ui->box_complexity->setFocus();
 
+
+  DisplayAsToolTips(q.GetRating());
+
   //Set suggestions
   DisplaySuggestions();
 
@@ -81,6 +84,15 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
 ribi::cmap::QtRateConceptDialog::~QtRateConceptDialog() noexcept
 {
   delete ui;
+}
+
+void ribi::cmap::QtRateConceptDialog::DisplayAsToolTips(const Rating& rating)
+{
+  ui->label_complexity->setToolTip(
+    QString::fromStdString(
+      ToHtml(rating.GetRatingComplexity())
+    )
+  );
 }
 
 void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept

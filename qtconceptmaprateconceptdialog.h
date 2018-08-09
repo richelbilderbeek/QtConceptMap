@@ -60,6 +60,9 @@ private:
 
   const std::unique_ptr<QtConceptMap> m_qtconceptmap;
 
+  ///Display the Rating as tooltips
+  void DisplayAsToolTips(const Rating& rating);
+
   void DisplaySuggestions() noexcept;
 };
 
