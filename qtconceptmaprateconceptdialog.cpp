@@ -93,6 +93,16 @@ void ribi::cmap::QtRateConceptDialog::DisplayAsToolTips(const Rating& rating)
       ToHtml(rating.GetRatingComplexity())
     )
   );
+  ui->label_concreteness->setToolTip(
+    QString::fromStdString(
+      ToHtml(rating.GetRatingConcreteness())
+    )
+  );
+  ui->label_specificity->setToolTip(
+    QString::fromStdString(
+      ToHtml(rating.GetRatingSpecificity())
+    )
+  );
 }
 
 void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
