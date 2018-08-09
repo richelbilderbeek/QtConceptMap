@@ -25,6 +25,11 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 
   DisplayData();
 
+  ui->table->horizontalHeaderItem(0)->setToolTip(
+    QString::fromStdString(
+      ToHtml(rating.GetRatingComplexity())
+    )
+  );
 
   QObject::connect(
     ui->table,
@@ -154,63 +159,102 @@ void ribi::cmap::QtRateConceptTallyDialog::DisplayData()
   }
 }
 
-int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
+int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedComplexItems() const
 {
   const int n_rows{ui->table->rowCount()};
-  int n_edges{0};
+  int n_x_items{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    if (ui->table->item(i, 0)->checkState() == Qt::Checked)
+    {
+      ++n_x_items;
+    }
+  }
+  return n_x_items;
+}
+
+int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedConcreteExamples() const
+{
+  const int n_rows{ui->table->rowCount()};
+  int n_c_examples{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    //An example
+    if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
+    {
+      if (ui->table->item(i, 1)->checkState() == Qt::Checked)
+      {
+        ++n_c_examples;
+      }
+    }
+  }
+  return n_c_examples;
+}
+
+int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedSpecificExamples() const
+{
+  const int n_rows{ui->table->rowCount()};
+  int n_s_examples{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    //An example
+    if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
+    {
+      if (ui->table->item(i, 2)->checkState() == Qt::Checked)
+      {
+        ++n_s_examples;
+      }
+    }
+  }
+  return n_s_examples;
+
+}
+
+int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfExamples() const
+{
+  //The number of checkboxes in the second column
+  const int n_rows{ui->table->rowCount()};
   int n_examples{0};
   for (int i{0}; i != n_rows; ++i)
   {
-    // If only the first column is checkable, it is an edge
-    // If the second and third columns are also checkable, it is an example
-    assert(ui->table->item(i, 0)->flags() & Qt::ItemIsUserCheckable);
-    const bool is_complex{ui->table->item(i, 0)->checkState() == Qt::Checked};
-    if (!is_complex) continue;
     if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
     {
-      //Example
+      //Both second and third column are checkable in an example
       assert(ui->table->item(i, 2)->flags() & Qt::ItemIsUserCheckable);
       ++n_examples;
     }
-    else
-    {
-      //Edge
-      ++n_edges;
-    }
   }
-  return m_rating.SuggestComplexity(n_edges, n_examples);
+  return n_examples;
+}
+
+int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfRelations() const
+{
+  //Number of rows that are not an example
+  const int n_rows{ui->table->rowCount()};
+  const int n_examples{GetNumberOfExamples()};
+  return n_rows - n_examples;
+}
+
+int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
+{
+  return m_rating.SuggestComplexity(
+    GetNumberOfRelations(),
+    GetNumberOfCheckedComplexItems()
+  );
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedConcreteness() const
 {
-  const int n_rows{ui->table->rowCount()};
-  int n_examples{0};
-  for (int i{0}; i != n_rows; ++i)
-  {
-    if ( (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
-      && ui->table->item(i, 1)->checkState() == Qt::Checked
-    )
-    {
-      ++n_examples;
-    }
-  }
-  return m_rating.SuggestConcreteness(n_examples);
+  return m_rating.SuggestConcreteness(
+    GetNumberOfCheckedConcreteExamples()
+  );
 }
 
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedSpecificity() const
 {
-  const int n_rows{ui->table->rowCount()};
-  int n_examples{0};
-  for (int i{0}; i != n_rows; ++i)
-  {
-    if ( (ui->table->item(i, 2)->flags() & Qt::ItemIsUserCheckable)
-      && ui->table->item(i, 2)->checkState() == Qt::Checked
-    )
-    {
-      ++n_examples;
-    }
-  }
-  return m_rating.SuggestSpecificity(n_examples);
+  return m_rating.SuggestSpecificity(
+    GetNumberOfCheckedSpecificExamples()
+  );
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::keyPressEvent(QKeyEvent * event)
@@ -339,12 +383,33 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
 
 void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
 {
+  ui->label_concept_name->setToolTip(
+      QString("<ul>\n")
+    + QString("  <li><p style='white-space:pre'>Aantal aangevinkte complexe relaties en voorbeelden: ")
+    + QString::number(GetNumberOfCheckedComplexItems())
+    + QString("  </p></li>\n")
+    + QString("  <li><p style='white-space:pre'>Aantal aangevinkte concrete voorbeelden: ")
+    + QString::number(GetNumberOfCheckedConcreteExamples())
+    + QString("  </p></li>\n")
+    + QString("  <li><p style='white-space:pre'>Aantal aangevinkte specifieke voorbeelden: ")
+    + QString::number(GetNumberOfCheckedSpecificExamples())
+    + QString("  </p></li>\n")
+    + QString("  <li><p style='white-space:pre'>Totaal aantal voorbeelden: ")
+    + QString::number(GetNumberOfExamples())
+    + QString("  </p></li>\n")
+    + QString("  <li><p style='white-space:pre'>Aantal relaties: ")
+    + QString::number(GetNumberOfRelations())
+    + QString("  </p></li>\n")
+    + QString("</ul>\n")
+  );
+
   std::stringstream m;
   m << "X: " << GetSuggestedComplexity() << ", "
     << "C: " << GetSuggestedConcreteness() << ", "
     << "S: " << GetSuggestedSpecificity()
   ;
   ui->label_rating->setText(m.str().c_str());
+
 }
 
 void ribi::cmap::QtRateConceptTallyDialog::Write(

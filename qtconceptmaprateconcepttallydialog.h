@@ -30,6 +30,22 @@ public:
   QtRateConceptTallyDialog& operator=(const QtRateConceptTallyDialog&) = delete;
   ~QtRateConceptTallyDialog() noexcept;
 
+  ///Count the number of examples in the table
+  int GetNumberOfExamples() const;
+
+  ///Count the number of checked complex items
+  ///(examples and relations) in the table
+  int GetNumberOfCheckedComplexItems() const;
+
+  ///Count the number of checked concrete examples in the table
+  int GetNumberOfCheckedConcreteExamples() const;
+
+  ///Count the number of checked specific examples in the table
+  int GetNumberOfCheckedSpecificExamples() const;
+
+  ///Count the number of relations in the table
+  int GetNumberOfRelations() const;
+
   ///Obtain the suggested complexity, calculated from this dialog
   int GetSuggestedComplexity() const;
 
