@@ -179,7 +179,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::unchecking_decreases_sc
   d.ui->table->item(4, 1)->setCheckState(Qt::Unchecked);
   d.ui->table->item(4, 2)->setCheckState(Qt::Unchecked);
 
-  QVERIFY(d.GetSuggestedComplexity() == 0);
+  QVERIFY(d.GetSuggestedComplexity() == 1); //There are still two relations
   QVERIFY(d.GetSuggestedConcreteness() == 0);
   QVERIFY(d.GetSuggestedSpecificity() == 0);
 }
