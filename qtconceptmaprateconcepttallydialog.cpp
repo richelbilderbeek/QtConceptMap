@@ -25,12 +25,6 @@ ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog(
 
   DisplayData();
 
-  ui->table->horizontalHeaderItem(0)->setToolTip(
-    QString::fromStdString(
-      ToHtml(rating.GetRatingComplexity())
-    )
-  );
-
   QObject::connect(
     ui->table,
     SIGNAL(cellChanged(int, int)),
@@ -383,6 +377,16 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowNoExample(
 
 void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
 {
+  ui->table->horizontalHeaderItem(0)->setToolTip(
+    QString::fromStdString(
+      ToHtml(
+        m_rating.GetRatingComplexity(),
+        GetNumberOfCheckedComplexItems(),
+        GetNumberOfRelations()
+      )
+    )
+  );
+
   ui->label_concept_name->setToolTip(
       QString("<ul>\n")
     + QString("  <li><p style='white-space:pre'>Aantal aangevinkte complexe relaties en voorbeelden: ")
