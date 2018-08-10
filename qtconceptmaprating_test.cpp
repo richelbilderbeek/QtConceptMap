@@ -3,29 +3,6 @@
 #include "qtconceptmaprating.h"
 #include "conceptmapfactory.h"
 
-void ribi::cmap::QtConceptMapRatingTest::construction()
-{
-  const Rating r(
-    CreateDefaultRatingComplexity(),
-    CreateDefaultRatingConcreteness(),
-    CreateDefaultRatingSpecificity()
-  );
-
-  const auto sub_conceptmap = ConceptMapFactory().Get11();
-  const auto vip = boost::vertices(sub_conceptmap);
-  const auto v_end = vip.second;
-  for (auto vi = vip.first; vi != v_end; ++vi)
-  {
-    const auto vd = *vi;
-    const auto created = r.SuggestComplexity(sub_conceptmap, vd);
-    const int n_edges = boost::num_edges(sub_conceptmap);
-    assert(boost::num_vertices(sub_conceptmap) > 0);
-    const int n_examples = CountExamples(sub_conceptmap[vd]);
-    const auto expected = RatingComplexity::SuggestComplexityDefault(n_edges, n_examples);
-    QVERIFY(expected == created);
-  }
-}
-
 void ribi::cmap::QtConceptMapRatingTest::default_suggestions()
 {
   //Number of edges, number of examples

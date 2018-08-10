@@ -11,7 +11,6 @@ class QtConceptMapRatingTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void construction();
   void default_suggestions();
 };
 
