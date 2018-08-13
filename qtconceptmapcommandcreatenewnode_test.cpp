@@ -15,6 +15,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewNodeTest
     }
   );
   QVERIFY(CountQtNodes(q) == 1);
+  QVERIFY(CountQtCenterNodes(q) == 1);
 }
 
 void ribi::cmap::QtConceptMapCommandCreateNewNodeTest
@@ -28,6 +29,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewNodeTest
     }
   );
   QVERIFY(CountQtNodes(q) == 1);
+  QVERIFY(CountQtCenterNodes(q) == 0);
 }
 
 void ribi::cmap::QtConceptMapCommandCreateNewNodeTest::Parse() const noexcept
