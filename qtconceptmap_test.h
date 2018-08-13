@@ -84,7 +84,6 @@ private slots:
   void PressT() const noexcept;
   void PressZ() const noexcept;
   void QtNodeInCenterMustBeGold() const noexcept; //#111
-  void QtNodesMustShowExampleWhenFocused() const noexcept; //#96
   void RateModeFlags() const noexcept;
   void SelectRandomNodeKeyboardEdit() const noexcept; //#138, skip on Travis
 

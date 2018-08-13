@@ -1118,19 +1118,6 @@ void ribi::cmap::QtConceptMapTest::QtNodeInCenterMustBeGold() const noexcept
   m.show();
 }
 
-void ribi::cmap::QtConceptMapTest::QtNodesMustShowExampleWhenFocused() const noexcept
-{
-  QtConceptMap m;
-  m.show();
-  m.SetConceptMap(ConceptMapFactory().Get11());
-  m.show();
-  for (int i=0; i!=100; ++i)
-  {
-    QTest::keyClick(&m, Qt::Key_Space, Qt::NoModifier, 100);
-    m.show();
-  }
-}
-
 void ribi::cmap::QtConceptMapTest::SelectRandomNodeKeyboardEdit() const noexcept
 {
   if (OnTravis()) return;
@@ -1655,7 +1642,6 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const 
   QMouseEvent first_click(QEvent::Type::MouseButtonPress, first_pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   q.mousePressEvent(&first_click);
 
-  QSKIP("Clicking mouse", "");
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 1);
 
