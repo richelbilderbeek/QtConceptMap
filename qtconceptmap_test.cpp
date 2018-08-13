@@ -1279,23 +1279,32 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadKeyboard() const
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  m.show();
   QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
-  m.show();
+  assert(CountQtEdges(m) == 1);
+  assert(CountQtNodes(m) == 2);
+  assert(CountSelectedQtEdges(m) == 1);
+  assert(CountSelectedQtNodes(m) == 0);
+
+  //Before
+  const auto qtedges_before = GetQtEdges(m.GetScene());
+  assert(qtedges_before.size() == 1);
+  const auto qtedge_before = qtedges_before.back();
+  const bool has_head_arrow_before{
+    HasHeadArrow(*qtedge_before)
+  };
+
+  //Action
   QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
-  m.show();
-  QVERIFY(CountQtEdges(m) == 1);
-  QVERIFY(CountQtNodes(m) == 2);
-  QVERIFY(CountSelectedQtEdges(m) == 1);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
-  const auto qtedges = GetQtEdges(m.GetScene());
-  QVERIFY(qtedges.size() == 1);
-  const auto qtedge = qtedges.back();
-  //QSKIP("Correct arrow heads", "");
-  QVERIFY(qtedge->GetEdge().HasHeadArrow() || qtedge->GetEdge().HasTailArrow());
-  assert(!"FIXED");
+
+  //After
+  const auto qtedges_after = GetQtEdges(m.GetScene());
+  assert(qtedges_after.size() == 1);
+  const auto qtedge_after = qtedges_after.back();
+  const bool has_head_arrow_after{
+    HasHeadArrow(*qtedge_after)
+  };
+  QVERIFY(has_head_arrow_before != has_head_arrow_after);
 }
 
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndToggleKeyboard() const
