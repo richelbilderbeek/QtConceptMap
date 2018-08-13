@@ -64,9 +64,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions
   d.show();
   assert(d.GetSuggestedConcreteness() == 0);
   assert(d.GetSuggestedSpecificity() == 0);
-  QSKIP("WIP", "");
-  assert(d.GetSuggestedComplexity() == 0);
-  assert(!"Fixed 283");
+  QVERIFY(d.GetSuggestedComplexity() == 0);
 }
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()

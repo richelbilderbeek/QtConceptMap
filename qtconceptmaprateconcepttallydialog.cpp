@@ -221,6 +221,23 @@ int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfExamples() const
   return n_examples;
 }
 
+int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfComplexRelations() const
+{
+  //The number of checkboxes in the second column
+  const int n_rows{ui->table->rowCount()};
+  int n_x_relations{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    if (!(ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable))
+    {
+      if (ui->table->item(i, 0)->checkState() == Qt::Checked) {
+        ++n_x_relations;
+      }
+    }
+  }
+  return n_x_relations;
+}
+
 int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfRelations() const
 {
   //Number of rows that are not an example
@@ -232,7 +249,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfRelations() const
 int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
 {
   return m_rating.SuggestComplexity(
-    GetNumberOfRelations(),
+    GetNumberOfComplexRelations(),
     GetNumberOfCheckedComplexItems()
   );
 }
@@ -382,7 +399,7 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
       ToHtml(
         m_rating.GetRatingComplexity(),
         GetNumberOfCheckedComplexItems(),
-        GetNumberOfRelations()
+        GetNumberOfComplexRelations()
       )
     )
   );
@@ -418,6 +435,9 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
     + QString("  </p></li>\n")
     + QString("  <li><p style='white-space:pre'>Totaal aantal voorbeelden: ")
     + QString::number(GetNumberOfExamples())
+    + QString("  </p></li>\n")
+    + QString("  <li><p style='white-space:pre'>Aantal complex relaties: ")
+    + QString::number(GetNumberOfComplexRelations())
     + QString("  </p></li>\n")
     + QString("  <li><p style='white-space:pre'>Aantal relaties: ")
     + QString::number(GetNumberOfRelations())

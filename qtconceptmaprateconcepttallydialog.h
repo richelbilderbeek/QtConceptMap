@@ -43,6 +43,10 @@ public:
   ///Count the number of checked specific examples in the table
   int GetNumberOfCheckedSpecificExamples() const;
 
+  ///Count the number of complex relations in the table. That is,
+  ///are checked to be complex by the assessor
+  int GetNumberOfComplexRelations() const;
+
   ///Count the number of relations in the table
   int GetNumberOfRelations() const;
 
