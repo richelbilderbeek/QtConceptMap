@@ -42,7 +42,7 @@
 #include "qtconceptmaptoolsitem.h"
 #include "qtconceptmapqtedge.h"
 
-void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const noexcept
+void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -52,7 +52,7 @@ void ribi::cmap::QtConceptMapTest::CannotDeleteCenterNode() const noexcept
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::CannotEditCenterNode() const noexcept
+void ribi::cmap::QtConceptMapTest::CannotEditCenterNode() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -64,7 +64,7 @@ void ribi::cmap::QtConceptMapTest::CannotEditCenterNode() const noexcept
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
+void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -82,7 +82,7 @@ void ribi::cmap::QtConceptMapTest::CannotMoveCenterNode() const noexcept
   QVERIFY(pos_before == pos_after);
 }
 
-void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
+void ribi::cmap::QtConceptMapTest::ChangeModes() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -95,7 +95,7 @@ void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
   q.show();
 }
 
-void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldUnselectAll() const noexcept
+void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldUnselectAll() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -114,7 +114,7 @@ void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldUnselectAll() const noexc
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommand() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommand() const
 {
   //When there are two selected nodes, an edge can be created
   //After adding the edges, only the edge will be selected
@@ -139,7 +139,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommand() const noexcept
   m.show();
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommandAndCheckZorder() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommandAndCheckZorder() const
 {
   QtConceptMap m;
   m.showFullScreen();
@@ -173,7 +173,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeCommandAndCheckZorder() const no
   QVERIFY(qtnode2->zValue() > qtedge->zValue());
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeKeyboard() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -186,7 +186,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeKeyboard() const noexcept
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeKeyboardAndUndo() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeKeyboardAndUndo() const
 {
   QtConceptMap m;
   m.showFullScreen();
@@ -211,7 +211,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeKeyboardAndUndo() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::create_one_node_and_undo_command() const noexcept
+void ribi::cmap::QtConceptMapTest::create_one_node_and_undo_command() const
 {
   QtConceptMap m;
   m.showFullScreen();
@@ -231,7 +231,7 @@ void ribi::cmap::QtConceptMapTest::create_one_node_and_undo_command() const noex
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::create_one_node_and_undo_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::create_one_node_and_undo_keyboard() const
 {
   QtConceptMap m;
   m.showFullScreen();
@@ -252,7 +252,7 @@ void ribi::cmap::QtConceptMapTest::create_one_node_and_undo_keyboard() const noe
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::create_one_node_command() const noexcept
+void ribi::cmap::QtConceptMapTest::create_one_node_command() const
 {
   const std::string text = __func__;
   const NodeType type{NodeType::normal};
@@ -275,7 +275,7 @@ void ribi::cmap::QtConceptMapTest::create_one_node_command() const noexcept
   QVERIFY(std::abs(n->pos().y() - y) < 2.0);
 }
 
-void ribi::cmap::QtConceptMapTest::create_one_node_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::create_one_node_keyboard() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -293,7 +293,7 @@ void ribi::cmap::QtConceptMapTest::create_one_node_keyboard() const noexcept
   QVERIFY(CountSelectedQtNodes(q) == 1);
 }
 
-void ribi::cmap::QtConceptMapTest::create_one_node_mouse() const noexcept
+void ribi::cmap::QtConceptMapTest::create_one_node_mouse() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -304,7 +304,7 @@ void ribi::cmap::QtConceptMapTest::create_one_node_mouse() const noexcept
   QVERIFY(n_nodes_in_scene == n_nodes_in_conceptmap);
 }
 
-void ribi::cmap::QtConceptMapTest::create_ten_nodes_and_undo_command() const noexcept
+void ribi::cmap::QtConceptMapTest::create_ten_nodes_and_undo_command() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -326,12 +326,12 @@ void ribi::cmap::QtConceptMapTest::create_ten_nodes_and_undo_command() const noe
   QVERIFY(CountQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::create_ten_nodes_and_undo_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::create_ten_nodes_and_undo_keyboard() const
 {
 
 }
 
-void ribi::cmap::QtConceptMapTest::create_two_nodes_command() const noexcept
+void ribi::cmap::QtConceptMapTest::create_two_nodes_command() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -348,7 +348,7 @@ void ribi::cmap::QtConceptMapTest::create_two_nodes_command() const noexcept
 
 
 
-void ribi::cmap::QtConceptMapTest::create_two_nodes_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::create_two_nodes_keyboard() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -362,7 +362,7 @@ void ribi::cmap::QtConceptMapTest::create_two_nodes_keyboard() const noexcept
   QVERIFY(CountSelectedQtNodes(q) == 2);
 }
 
-void ribi::cmap::QtConceptMapTest::DefaultConstruction() const noexcept
+void ribi::cmap::QtConceptMapTest::DefaultConstruction() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -380,7 +380,7 @@ void ribi::cmap::QtConceptMapTest::DefaultConstruction() const noexcept
   QVERIFY(q.GetUndo().count() == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const
 {
   QtConceptMap q;
   q.showFullScreen();
@@ -409,7 +409,7 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeybo
   q.show();
 }
 
-void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsHeadOfEdgeKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -448,7 +448,7 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsHeadOfEdgeKeyboard() const no
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -488,7 +488,7 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() c
   m.Undo(); //New
 }
 
-void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsTailOfEdgeKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -527,7 +527,7 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsTailOfEdgeKeyboard() const no
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const
 {
   const double delay = 10;
   QtConceptMap m;
@@ -572,17 +572,17 @@ void ribi::cmap::QtConceptMapTest::DeleteNodesThatAreHeadAndTailOfEdgeKeyboard()
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::delete_one_edge_by_node_command() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_one_edge_by_node_command() const
 {
 
 }
 
-void ribi::cmap::QtConceptMapTest::delete_one_edge_by_node_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_one_edge_by_node_keyboard() const
 {
 
 }
 
-void ribi::cmap::QtConceptMapTest::delete_one_edge_command() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_one_edge_command() const
 {
   QtConceptMap m;
   m.show();
@@ -608,7 +608,7 @@ void ribi::cmap::QtConceptMapTest::delete_one_edge_command() const noexcept
   QVERIFY(CountQtNodes(m) == 2);
 }
 
-void ribi::cmap::QtConceptMapTest::delete_one_edge_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_one_edge_keyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -626,7 +626,7 @@ void ribi::cmap::QtConceptMapTest::delete_one_edge_keyboard() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::delete_one_node_command() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_one_node_command() const
 {
   QtConceptMap m;
   m.show();
@@ -644,7 +644,7 @@ void ribi::cmap::QtConceptMapTest::delete_one_node_command() const noexcept
   QVERIFY(CountQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::delete_one_node_command_and_undo() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_one_node_command_and_undo() const
 {
   QtConceptMap m;
   m.show();
@@ -668,7 +668,7 @@ void ribi::cmap::QtConceptMapTest::delete_one_node_command_and_undo() const noex
   QVERIFY(CountSelectedQtNodes(m) == 1);
 }
 
-void ribi::cmap::QtConceptMapTest::delete_one_node_keyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_one_node_keyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -687,7 +687,7 @@ void ribi::cmap::QtConceptMapTest::delete_one_node_keyboard() const noexcept
 }
 
 
-void ribi::cmap::QtConceptMapTest::delete_two_nodes_command() const noexcept
+void ribi::cmap::QtConceptMapTest::delete_two_nodes_command() const
 {
   QtConceptMap m;
   m.show();
@@ -718,7 +718,7 @@ void ribi::cmap::QtConceptMapTest::delete_two_nodes_command() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::DeleteTwoNodesKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::DeleteTwoNodesKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -733,7 +733,7 @@ void ribi::cmap::QtConceptMapTest::DeleteTwoNodesKeyboard() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::DoubleClick() const noexcept
+void ribi::cmap::QtConceptMapTest::DoubleClick() const
 {
   QtConceptMap m;
   m.showFullScreen();
@@ -743,7 +743,7 @@ void ribi::cmap::QtConceptMapTest::DoubleClick() const noexcept
   QVERIFY(boost::num_vertices(m.ToConceptMap()) == 1);
 }
 
-void ribi::cmap::QtConceptMapTest::DoubleClickTwice() const noexcept
+void ribi::cmap::QtConceptMapTest::DoubleClickTwice() const
 {
   QtConceptMap m;
   m.SetMode(Mode::edit);
@@ -759,7 +759,7 @@ void ribi::cmap::QtConceptMapTest::DoubleClickTwice() const noexcept
   QVERIFY(boost::num_vertices(m.ToConceptMap()) == 1);
 }
 
-void ribi::cmap::QtConceptMapTest::EditModeFlags() const noexcept
+void ribi::cmap::QtConceptMapTest::EditModeFlags() const
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
@@ -782,7 +782,7 @@ void ribi::cmap::QtConceptMapTest::EditModeFlags() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapTest::RateModeFlags() const noexcept
+void ribi::cmap::QtConceptMapTest::RateModeFlags() const
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
@@ -805,7 +805,7 @@ void ribi::cmap::QtConceptMapTest::RateModeFlags() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapTest::GetHighlighter() const noexcept
+void ribi::cmap::QtConceptMapTest::GetHighlighter() const
 {
   QtConceptMap m;
   const auto& h = m.GetQtHighlighter();
@@ -813,7 +813,7 @@ void ribi::cmap::QtConceptMapTest::GetHighlighter() const noexcept
   QVERIFY(!h.GetItem());
 }
 
-void ribi::cmap::QtConceptMapTest::IsCommandPutOnUndoStack() const noexcept
+void ribi::cmap::QtConceptMapTest::IsCommandPutOnUndoStack() const
 {
   QtConceptMap m;
   m.show();
@@ -824,7 +824,7 @@ void ribi::cmap::QtConceptMapTest::IsCommandPutOnUndoStack() const noexcept
   QVERIFY(m.GetUndo().count() == 1);
 }
 
-void ribi::cmap::QtConceptMapTest::MouseWheel() const noexcept
+void ribi::cmap::QtConceptMapTest::MouseWheel() const
 {
   QtConceptMap m;
   m.show();
@@ -832,7 +832,7 @@ void ribi::cmap::QtConceptMapTest::MouseWheel() const noexcept
   m.wheelEvent(&e);
 }
 
-void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchEdit() const noexcept
+void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchEdit() const
 {
   for (const auto conceptmap: ConceptMapFactory().GetAllTests())
   {
@@ -845,7 +845,7 @@ void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchEdit() c
   }
 }
 
-void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchRate() const noexcept
+void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchRate() const
 {
   for (const auto conceptmap: ConceptMapFactory().GetAllTests())
   {
@@ -858,7 +858,7 @@ void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchRate() c
   }
 }
 
-void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchUninitialized() const noexcept
+void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchUninitialized() const
 {
   for (const auto conceptmap: ConceptMapFactory().GetAllTests())
   {
@@ -871,7 +871,7 @@ void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchUninitia
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressCtrlRightMovesNonCentralNode() const noexcept
+  ::PressCtrlRightMovesNonCentralNode() const
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "from", NodeType::normal));
@@ -889,7 +889,7 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(y_after == y_before);
 }
 
-void ribi::cmap::QtConceptMapTest::PressEscape() const noexcept
+void ribi::cmap::QtConceptMapTest::PressEscape() const
 {
   QtConceptMap m;
   m.show();
@@ -897,7 +897,7 @@ void ribi::cmap::QtConceptMapTest::PressEscape() const noexcept
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressF1OnEmptyConceptMapIsRejected() const noexcept
+  ::PressF1OnEmptyConceptMapIsRejected() const
 {
   QtConceptMap m;
   m.show();
@@ -906,7 +906,7 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressF2OnEmptyConceptMapIsRejected() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF2OnEmptyConceptMapIsRejected() const
 {
   QtConceptMap m;
   m.show();
@@ -915,7 +915,7 @@ void ribi::cmap::QtConceptMapTest::PressF2OnEmptyConceptMapIsRejected() const no
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const
 {
   QtConceptMap m;
   m.SetMode(Mode::edit);
@@ -926,7 +926,7 @@ void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexce
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressF2CanEditNonFocalQuestion() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF2CanEditNonFocalQuestion() const
 {
   //Cannot do this test: the popup freezes the test
   //Can edit a non-center node in edit mode
@@ -952,7 +952,7 @@ void ribi::cmap::QtConceptMapTest::PressF2CanEditNonFocalQuestion() const noexce
 
 
 
-void ribi::cmap::QtConceptMapTest::PressF4IsRejected() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF4IsRejected() const
 {
   //F4 has no purpose
   QtConceptMap m;
@@ -962,21 +962,21 @@ void ribi::cmap::QtConceptMapTest::PressF4IsRejected() const noexcept
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressH() const noexcept
+void ribi::cmap::QtConceptMapTest::PressH() const
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::PressN() const noexcept
+void ribi::cmap::QtConceptMapTest::PressN() const
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::PressQuestionMark() const noexcept
+void ribi::cmap::QtConceptMapTest::PressQuestionMark() const
 {
   QtConceptMap m;
   m.show();
@@ -984,7 +984,7 @@ void ribi::cmap::QtConceptMapTest::PressQuestionMark() const noexcept
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressShiftRightSelectsEdgeAdditively() const noexcept
+  ::PressShiftRightSelectsEdgeAdditively() const
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
@@ -1011,7 +1011,7 @@ void ribi::cmap::QtConceptMapTest
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressShiftRightSelectsNodeAdditively() const noexcept
+  ::PressShiftRightSelectsNodeAdditively() const
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
@@ -1035,7 +1035,7 @@ void ribi::cmap::QtConceptMapTest
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressRightSelectsEdgeExclusively() const noexcept
+  ::PressRightSelectsEdgeExclusively() const
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
@@ -1063,7 +1063,7 @@ void ribi::cmap::QtConceptMapTest
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressRightSelectsNodeExclusively() const noexcept
+  ::PressRightSelectsNodeExclusively() const
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
@@ -1087,7 +1087,7 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const noexcept
+void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const
 {
   QtConceptMap m;
   m.show();
@@ -1096,21 +1096,21 @@ void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressT() const noexcept
+void ribi::cmap::QtConceptMapTest::PressT() const
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_T, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::PressZ() const noexcept
+void ribi::cmap::QtConceptMapTest::PressZ() const
 {
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier);
 }
 
-void ribi::cmap::QtConceptMapTest::QtNodeInCenterMustBeGold() const noexcept
+void ribi::cmap::QtConceptMapTest::QtNodeInCenterMustBeGold() const
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get1());
@@ -1118,7 +1118,7 @@ void ribi::cmap::QtConceptMapTest::QtNodeInCenterMustBeGold() const noexcept
   m.show();
 }
 
-void ribi::cmap::QtConceptMapTest::SelectRandomNodeKeyboardEdit() const noexcept
+void ribi::cmap::QtConceptMapTest::SelectRandomNodeKeyboardEdit() const
 {
   if (OnTravis()) return;
   QtConceptMap m;
@@ -1152,7 +1152,7 @@ void ribi::cmap::QtConceptMapTest::SelectRandomNodeKeyboardEdit() const noexcept
   ); //Good enough?
 }
 
-void ribi::cmap::QtConceptMapTest::SetConceptMap4() const noexcept
+void ribi::cmap::QtConceptMapTest::SetConceptMap4() const
 {
   QtConceptMap m;
   m.show();
@@ -1164,12 +1164,13 @@ void ribi::cmap::QtConceptMapTest::SetConceptMap4() const noexcept
   m.show();
   m.SetConceptMap(ConceptMap());
   m.show();
-  QSKIP("Not now, 2018-08-01", "");
+  //QSKIP("Not now, 2018-08-01", "");
   QTest::qWait(100);
   m.show();
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::SetConceptMaps() const noexcept
+void ribi::cmap::QtConceptMapTest::SetConceptMaps() const
 {
   for (const auto concept_map: ConceptMapFactory().GetAllTests())
   {
@@ -1184,7 +1185,7 @@ void ribi::cmap::QtConceptMapTest::SetConceptMaps() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedEdge() const noexcept
+void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedEdge() const
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
@@ -1196,7 +1197,7 @@ void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedEdge() const noe
   q.show();
 }
 
-void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedNode() const noexcept
+void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedNode() const
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetStarShaped());
@@ -1209,7 +1210,7 @@ void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedNode() const noe
   q.show();
 }
 
-void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapTwoSelectedNodes() const noexcept
+void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapTwoSelectedNodes() const
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetStarShaped());
@@ -1227,7 +1228,7 @@ void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapTwoSelectedNodes() const no
   q.show();
 }
 
-void ribi::cmap::QtConceptMapTest::SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept
+void ribi::cmap::QtConceptMapTest::SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const
 {
   for (const auto conceptmap: ConceptMapFactory().GetAllTests())
   {
@@ -1247,7 +1248,7 @@ void ribi::cmap::QtConceptMapTest::SettingConceptMapsEdgesQtEdgesNodesQtNodesMus
   }
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadCommand() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadCommand() const
 {
   //When there are two selected nodes, an edge can be created
   //After adding the edges, only the edge will be selected
@@ -1308,7 +1309,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadCommand() const noexcept
     const auto qtedges_now = GetQtEdges(m.GetScene());
     QVERIFY(qtedges_now.size() == 1);
     const auto qtedge_now = qtedges_now.back();
-    QSKIP("Correct arrow heads", "");
+    //QSKIP("Correct arrow heads", "");
     QVERIFY(qtedge_now->GetEdge().HasHeadArrow());
 
   }
@@ -1323,9 +1324,10 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadCommand() const noexcept
   const auto concept_map_again = LoadFromFile(dot_filename);
 
   QVERIFY(HasSimilarData(m.ToConceptMap(), concept_map_again, 0.001));
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -1344,11 +1346,12 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadKeyboard() const noexcep
   const auto qtedges = GetQtEdges(m.GetScene());
   QVERIFY(qtedges.size() == 1);
   const auto qtedge = qtedges.back();
-  QSKIP("Correct arrow heads", "");
-  QVERIFY(qtedge->GetEdge().HasHeadArrow());
+  //QSKIP("Correct arrow heads", "");
+  QVERIFY(qtedge->GetEdge().HasHeadArrow() || qtedge->GetEdge().HasTailArrow());
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndToggleKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndToggleKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -1368,7 +1371,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndToggleKeyboard() cons
     const auto qtedges = GetQtEdges(m.GetScene());
     QVERIFY(qtedges.size() == 1);
     const auto qtedge = qtedges.back();
-    QSKIP("Correct arrow heads", "");
+    //QSKIP("Correct arrow heads", "");
     QVERIFY(qtedge->GetEdge().HasHeadArrow());
   }
   //Toggle
@@ -1398,9 +1401,10 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndToggleKeyboard() cons
     const auto qtedge = qtedges.back();
     QVERIFY(!qtedge->GetEdge().HasHeadArrow());
   }
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndUndoKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndUndoKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -1418,7 +1422,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndUndoKeyboard() const 
   QVERIFY(CountSelectedQtNodes(m) == 0);
   {
     const auto qtedges = GetQtEdges(m.GetScene());
-    QSKIP("Correct numer of edges", "");
+    //QSKIP("Correct numer of edges", "");
     QVERIFY(qtedges.size() == 1);
     const auto qtedge = qtedges.back();
     QVERIFY(qtedge->GetEdge().HasHeadArrow());
@@ -1450,18 +1454,18 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndUndoKeyboard() const 
     const auto qtedge = qtedges.back();
     QVERIFY(!qtedge->GetEdge().HasHeadArrow());
   }
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const
 {
   //When there are two selected nodes, an edge can be created
   //After adding the edges, only the edge will be selected
   //The edge its center concept will be between the two nodes
   QtConceptMap m;
   m.show();
-  QVERIFY(CountSelectedQtEdges(m) == 0);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
-  try
+
+  //Create nodes
   {
     const int n{2};
     for (int i=0; i!=n; ++i)
@@ -1469,72 +1473,44 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const noexcept
       m.DoCommand(new CommandCreateNewNode(m));
       m.show();
     }
-    QVERIFY(CountSelectedQtEdges(m) == 0);
-    QVERIFY(CountSelectedQtNodes(m) == 2);
-  }
-  catch (std::exception& e)
-  {
-    qDebug() << __func__ << ": caught exception " << e.what();
-    QVERIFY(!"Should not get here");
+    assert(CountQtEdges(m) == 0);
+    assert(CountQtNodes(m) == 2);
+    assert(CountSelectedQtEdges(m) == 0);
+    assert(CountSelectedQtNodes(m) == 2);
   }
 
-  try
+  //Create edge
   {
     m.DoCommand(new CommandCreateNewEdge(m));
     m.show();
-    QVERIFY(CountQtEdges(m) == 1);
-    QVERIFY(CountQtNodes(m) == 2);
-    QVERIFY(CountSelectedQtEdges(m) == 1);
-    QVERIFY(CountSelectedQtNodes(m) == 0);
+    assert(CountQtEdges(m) == 1);
+    assert(CountQtNodes(m) == 2);
+    assert(CountSelectedQtEdges(m) == 1);
+    assert(CountSelectedQtNodes(m) == 0);
   }
-  catch (std::exception& e)
-  {
-    qDebug() << __func__ << ": caught exception " << e.what();
-    QVERIFY(!"Should not get here");
-  }
-
   //Preconditions
-  QVERIFY(CountQtEdges(m) == 1);
-  QVERIFY(CountQtNodes(m) == 2);
-  QVERIFY(CountSelectedQtEdges(m) == 1);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
   const auto qtedges = GetQtEdges(m.GetScene());
-  QVERIFY(qtedges.size() == 1);
+  assert(qtedges.size() == 1);
   const auto qtedge = qtedges.back();
-  QVERIFY(!qtedge->GetEdge().HasHeadArrow());
+  const bool has_tail_arrow_before{
+    qtedge->GetEdge().HasTailArrow()
+  };
 
-  try
+  //Create tail
   {
     m.DoCommand(new CommandToggleArrowTail(m));
     m.show();
-    //Postconditions
-    QVERIFY(CountQtEdges(m) == 1);
-    QVERIFY(CountQtNodes(m) == 2);
-    QVERIFY(CountSelectedQtEdges(m) == 1);
-    QVERIFY(CountSelectedQtNodes(m) == 0);
     const auto qtedges_now = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges_now.size() == 1);
+    assert(qtedges_now.size() == 1);
     const auto qtedge_now = qtedges_now.back();
-    QSKIP("Correct arrow heads", "");
-    QVERIFY(qtedge_now->GetEdge().HasTailArrow());
-
+    const bool has_tail_arrow_after{
+      qtedge_now->GetEdge().HasTailArrow()
+    };
+    QVERIFY(has_tail_arrow_before != has_tail_arrow_after);
   }
-  catch (std::exception& e)
-  {
-    qDebug() << __func__ << ": caught exception " << e.what();
-    QVERIFY(!"Should not get here");
-  }
-  const std::string dot_filename{"create_one_edge_with_head_command.dot"};
-  SaveToFile(m.ToConceptMap(), dot_filename);
-
-  const auto concept_map_again = LoadFromFile(dot_filename);
-
-  QVERIFY(HasSimilarData(m.ToConceptMap(), concept_map_again, 0.001));
-
 }
 
-
-void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const noexcept
+void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const
 {
   QtConceptMap m;
   m.show();
@@ -1549,11 +1525,12 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const noexcep
   const auto qtedges = GetQtEdges(m.GetScene());
   QVERIFY(qtedges.size() == 1);
   const auto qtedge = qtedges.back();
-  QSKIP("Correct arrow heads", "");
+  //QSKIP("Correct arrow heads", "");
   QVERIFY(qtedge->GetEdge().HasTailArrow());
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMap() const noexcept
+void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMap() const
 {
   QtConceptMap m;
   m.showFullScreen();
@@ -1562,7 +1539,7 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMap() const noexcept
   QVERIFY(boost::num_vertices(m.ToConceptMap()) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept
+void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMapIsNotAccepted() const
 {
   QtConceptMap m;
   m.showFullScreen();
@@ -1573,7 +1550,7 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMapIsNotAccepted() c
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const noexcept
+void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const
 {
   QtConceptMap q;
   QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
@@ -1582,11 +1559,12 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const noexcept
   const auto pos = q.mapFromScene(GetFirstQtNode(q)->pos().toPoint());
   QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   q.mousePressEvent(&e);
-  QSKIP("Accepted event", "");
+  //QSKIP("Accepted event", "");
   QVERIFY(e.isAccepted());
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
+void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const
 {
   QtConceptMap q;
   q.SetMode(Mode::edit);
@@ -1597,11 +1575,12 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
   const auto pos = q.mapFromScene(qtnode->pos().toPoint());
   QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
   q.mousePressEvent(&e);
-  QSKIP("Click should select", "");
+  //QSKIP("Click should select", "");
   QVERIFY(CountSelectedQtNodes(q) == 1);
+  assert(!"FIXED");
 }
 
-void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept
+void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
@@ -1617,7 +1596,7 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnEdgeSelectsAndUnselectsIt() const 
   m.mousePressEvent(&e);
 }
 
-void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept
+void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const
 {
   QtConceptMap q;
   q.SetMode(Mode::edit);
@@ -1653,7 +1632,7 @@ void ribi::cmap::QtConceptMapTest::TwoClicksOnNodeSelectsAndUnselectsIt() const 
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapTest::UninitializedModeFlags() const noexcept
+void ribi::cmap::QtConceptMapTest::UninitializedModeFlags() const
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
