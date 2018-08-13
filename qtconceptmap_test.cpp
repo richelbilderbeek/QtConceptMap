@@ -1413,7 +1413,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndUndoKeyboard() const
 
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const
 {
-  QSKIP("Arrow tail");
+  QSKIP("Arrow tail", "");
 
   //When there are two selected nodes, an edge can be created
   //After adding the edges, only the edge will be selected
@@ -1469,7 +1469,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const
 
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const
 {
-  QSKIP("Arrow tail");
+  QSKIP("Arrow tail", "");
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
