@@ -5,7 +5,6 @@
 #include <numeric>
 
 #include <vector>
-#include <boost/numeric/conversion/cast.hpp>
 #include <QKeyEvent>
 
 #include "conceptmapconceptfactory.h"
@@ -26,17 +25,17 @@
 
 #include "ui_qtconceptmaprateconcepttallydialog.h"
 
+using namespace ribi::cmap;
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_empty_conceptmap()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithEmptyConceptmap()
 {
-  using namespace ribi::cmap;
   const ConceptMap empty_conceptmap;
   try
   {
-    QtRateConceptTallyDialog{empty_conceptmap,
-      ribi::cmap::CreateDefaultRating()
+    QtRateConceptTallyDialog{
+      empty_conceptmap, CreateDefaultRating()
     };
-    QVERIFY(!"Should not get here");
+    assert(!"Should not get here");
   }
   catch (const std::invalid_argument& e)
   {
@@ -44,41 +43,52 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_empty_co
       == "Cannot create data from empty concept map"
     );
   }
-  catch (...)
-  {
-    QVERIFY(!"Should not get here");
-  }
 }
 
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::construct_with_test_conceptmap()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithTestConceptmap()
 {
-  using namespace ribi::cmap;
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
-  QtRateConceptTallyDialog{conceptmap, ribi::cmap::CreateDefaultRating()};
+  QtRateConceptTallyDialog{conceptmap, CreateDefaultRating()};
   QVERIFY("Should be no throw");
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::key_presses()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions()
 {
-  using namespace ribi::cmap;
+  const ConceptMap conceptmap{
+    ConceptMapFactory().GetRateConceptTallyDialogExample283()
+  };
+  QtRateConceptTallyDialog d{
+    conceptmap, CreateDefaultRating()
+  };
+  d.show();
+  assert(d.GetSuggestedConcreteness() == 0);
+  assert(d.GetSuggestedSpecificity() == 0);
+  QSKIP("WIP", "");
+  assert(d.GetSuggestedComplexity() == 0);
+  assert(!"Fixed 283");
+}
+
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()
+{
+
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
-  QtRateConceptTallyDialog d(conceptmap, ribi::cmap::CreateDefaultRating());
+  QtRateConceptTallyDialog d(conceptmap, CreateDefaultRating());
   //Translate
   QTest::keyClick(&d, Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier);
   //Close
   QTest::keyClick(&d, Qt::Key_Escape);
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::measure_ui_from_test_concept_map()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::MeasureUiFromTestConceptmap()
 {
-  using namespace ribi::cmap;
+
 
   const ConceptMap conceptmap{
     ConceptMapFactory().GetRateConceptTallyDialogExample()
   };
   QtRateConceptTallyDialog d{
-    conceptmap, ribi::cmap::CreateDefaultRating()
+    conceptmap, CreateDefaultRating()
   };
   d.show();
   d.resize(500, 500);
@@ -122,33 +132,16 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::measure_ui_from_test_co
   QVERIFY(d.ui->table->item(4, 2)->flags() == (Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable));
   QVERIFY(d.ui->table->item(4, 3)->flags() == (Qt::ItemIsSelectable | Qt::ItemIsEnabled));
   QVERIFY(d.ui->table->item(4, 3)->text() == "Students teaching each other, get to know each other");
-
-  #ifdef REALLY_TEST_DEEPER
-  d.Write(conceptmap);
-  QVERIFY(d == ConceptMapFactory().GetRateConceptTallyDialogExample());
-
-  //Modify first row
-  d.ui->table->item(0, 0)->setCheckState(d.ui->table->item(0, 0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.ui->table->item(0, 3)->setText("order (as in peace and quiet)");
-
-  //Modify second row
-  d.ui->table->item(1, 0)->setCheckState(d.ui->table->item(1, 0)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.ui->table->item(1, 1)->setCheckState(d.ui->table->item(1, 1)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.ui->table->item(1, 2)->setCheckState(d.ui->table->item(1, 2)->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
-  d.ui->table->item(1, 3)->setText("Order should be established first");
-  #endif // REALLY_TEST_DEEPER
-
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::unchecking_decreases_score()
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::UncheckingDecreasesSuggestion()
 {
-  using namespace ribi::cmap;
 
   const ConceptMap conceptmap{
     ConceptMapFactory().GetRateConceptTallyDialogExample()
   };
   QtRateConceptTallyDialog d{
-    conceptmap, ribi::cmap::CreateDefaultRating()
+    conceptmap, CreateDefaultRating()
   };
   d.show();
   d.resize(500, 500);

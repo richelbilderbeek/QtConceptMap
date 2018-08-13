@@ -11,11 +11,12 @@ class QtConceptMapRateConceptTallyDialogTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void construct_with_empty_conceptmap();
-  void construct_with_test_conceptmap();
-  void key_presses();
-  void measure_ui_from_test_concept_map();
-  void unchecking_decreases_score();
+  void ConstructWithEmptyConceptmap();
+  void ConstructWithTestConceptmap();
+  void GivesCorrectSuggestions();
+  void KeyPresses();
+  void MeasureUiFromTestConceptmap();
+  void UncheckingDecreasesSuggestion();
 
 };
 
