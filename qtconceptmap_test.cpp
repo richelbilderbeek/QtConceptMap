@@ -1156,18 +1156,10 @@ void ribi::cmap::QtConceptMapTest::SetConceptMap4() const
 {
   QtConceptMap m;
   m.show();
-  QTest::qWait(100);
-  m.show();
   m.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
-  m.show();
-  QTest::qWait(100);
   m.show();
   m.SetConceptMap(ConceptMap());
   m.show();
-  //QSKIP("Not now, 2018-08-01", "");
-  QTest::qWait(100);
-  m.show();
-  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::SetConceptMaps() const
@@ -1479,7 +1471,7 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const
     assert(CountSelectedQtNodes(m) == 2);
   }
 
-  //Create edge
+  //Create edge, arrow will be put at head or tail randomly
   {
     m.DoCommand(new CommandCreateNewEdge(m));
     m.show();
@@ -1517,16 +1509,32 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
   QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
+
+  assert(CountQtEdges(m) == 1);
+  assert(CountQtNodes(m) == 2);
+  assert(CountSelectedQtEdges(m) == 1);
+  assert(CountSelectedQtNodes(m) == 0);
+
+  //Before
+  const auto qtedges_before = GetQtEdges(m.GetScene());
+  assert(qtedges_before.size() == 1);
+  const auto qtedge_before = qtedges_before.back();
+  const bool has_tail_arrow_before{
+    qtedge_before->GetEdge().HasTailArrow()
+  };
+
+  //Action
   QTest::keyClick(&m, Qt::Key_T, Qt::ControlModifier, 100);
-  QVERIFY(CountQtEdges(m) == 1);
-  QVERIFY(CountQtNodes(m) == 2);
-  QVERIFY(CountSelectedQtEdges(m) == 1);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
-  const auto qtedges = GetQtEdges(m.GetScene());
-  QVERIFY(qtedges.size() == 1);
-  const auto qtedge = qtedges.back();
-  //QSKIP("Correct arrow heads", "");
-  QVERIFY(qtedge->GetEdge().HasTailArrow());
+
+  //After
+  const auto qtedges_after = GetQtEdges(m.GetScene());
+  assert(qtedges_after.size() == 1);
+  const auto qtedge_after = qtedges_after.back();
+  const bool has_tail_arrow_after{
+    qtedge_before->GetEdge().HasTailArrow()
+  };
+
+  QVERIFY(has_tail_arrow_before != has_tail_arrow_after);
   assert(!"FIXED");
 }
 
