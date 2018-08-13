@@ -1354,52 +1354,52 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndUndoKeyboard() const
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  m.show();
   QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
-  m.show();
-  //QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
-  //m.show();
+  //Remove head
+  QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
+  //Add head
+  QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
   QVERIFY(CountQtEdges(m) == 1);
   QVERIFY(CountQtNodes(m) == 2);
   QVERIFY(CountSelectedQtEdges(m) == 1);
   QVERIFY(CountSelectedQtNodes(m) == 0);
   {
     const auto qtedges = GetQtEdges(m.GetScene());
-    //QSKIP("Correct numer of edges", "");
-    QVERIFY(qtedges.size() == 1);
+    assert(qtedges.size() == 1);
     const auto qtedge = qtedges.back();
-    QVERIFY(qtedge->GetEdge().HasHeadArrow());
+    QVERIFY(HasHeadArrow(*qtedge));
   }
+
   //Undo
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier, 100);
   m.show();
+
   {
     const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
+    assert(qtedges.size() == 1);
     const auto qtedge = qtedges.back();
-    QVERIFY(!qtedge->GetEdge().HasHeadArrow());
+    QVERIFY(!HasHeadArrow(*qtedge));
   }
   //Redo
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier | Qt::ShiftModifier, 100);
   m.show();
+
   {
     const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
+    assert(qtedges.size() == 1);
     const auto qtedge = qtedges.back();
-    QVERIFY(qtedge->GetEdge().HasHeadArrow());
+    QVERIFY(HasHeadArrow(*qtedge));
   }
   //Undo
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier, 100);
   m.show();
   {
     const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
+    assert(qtedges.size() == 1);
     const auto qtedge = qtedges.back();
-    QVERIFY(!qtedge->GetEdge().HasHeadArrow());
+    QVERIFY(!HasHeadArrow(*qtedge));
   }
-  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const
