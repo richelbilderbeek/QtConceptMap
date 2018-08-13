@@ -174,12 +174,11 @@ int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedConcreteExamples() c
   for (int i{0}; i != n_rows; ++i)
   {
     //An example
-    if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
+    if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable
+      && ui->table->item(i, 1)->checkState() == Qt::Checked
+    )
     {
-      if (ui->table->item(i, 1)->checkState() == Qt::Checked)
-      {
-        ++n_c_examples;
-      }
+      ++n_c_examples;
     }
   }
   return n_c_examples;
@@ -192,12 +191,10 @@ int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedSpecificExamples() c
   for (int i{0}; i != n_rows; ++i)
   {
     //An example
-    if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
-    {
-      if (ui->table->item(i, 2)->checkState() == Qt::Checked)
-      {
-        ++n_s_examples;
-      }
+    if (ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable
+      && ui->table->item(i, 2)->checkState() == Qt::Checked
+    ){
+      ++n_s_examples;
     }
   }
   return n_s_examples;
@@ -228,11 +225,10 @@ int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfComplexRelations() const
   int n_x_relations{0};
   for (int i{0}; i != n_rows; ++i)
   {
-    if (!(ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable))
-    {
-      if (ui->table->item(i, 0)->checkState() == Qt::Checked) {
-        ++n_x_relations;
-      }
+    if (!(ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable)
+      && ui->table->item(i, 0)->checkState() == Qt::Checked
+    ) {
+      ++n_x_relations;
     }
   }
   return n_x_relations;
@@ -424,9 +420,9 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
 
   ui->label_concept_name->setToolTip(
       QString("<ul>\n")
-    + QString("  <li><p style='white-space:pre'>Aantal aangevinkte complexe relaties en voorbeelden: ")
+    + QString("  <li><nobr>Aantal aangevinkte complexe relaties en voorbeelden: ")
     + QString::number(GetNumberOfCheckedComplexItems())
-    + QString("  </p></li>\n")
+    + QString("  </nobr></li>\n")
     + QString("  <li><p style='white-space:pre'>Aantal aangevinkte concrete voorbeelden: ")
     + QString::number(GetNumberOfCheckedConcreteExamples())
     + QString("  </p></li>\n")

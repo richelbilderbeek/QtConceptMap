@@ -39,7 +39,7 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
       {
         new CommandUnselect(GetQtConceptMap(), *item, m_cmd);
       }
-      catch (std::exception&) {} //OK
+      catch (const std::exception&) {} //!OCLINT indeed, an empty catch
     }
   }
 

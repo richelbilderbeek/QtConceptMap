@@ -26,15 +26,15 @@ ribi::cmap::CommandUnselect::CommandUnselect(
   }
   else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
-    if (!IsOnEdge(*qtnode))
-    {
-      m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
-    }
-    else
+    if (IsOnEdge(*qtnode))
     {
       QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap);
       assert(qtedge2);
       m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge2, this);
+    }
+    else
+    {
+      m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
     }
   }
   if (!m_cmd)
@@ -69,19 +69,15 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
   assert(t.back() != ')');
   for (QGraphicsItem * const item: qtconceptmap.items())
   {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item);
+    if (qtedge && GetText(*qtedge) == t)
     {
-      if (GetText(*qtedge) == t)
-      {
-        return new CommandUnselect(qtconceptmap, *qtedge);
-      }
+      return new CommandUnselect(qtconceptmap, *qtedge);
     }
-    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
+    QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item);
+    if (qtnode && GetText(*qtnode) == t)
     {
-      if (GetText(*qtnode) == t)
-      {
-        return new CommandUnselect(qtconceptmap, *qtnode);
-      }
+      return new CommandUnselect(qtconceptmap, *qtnode);
     }
   }
   return nullptr;
@@ -90,44 +86,9 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
 void ribi::cmap::CommandUnselect::Redo()
 {
   m_cmd->redo();
-  /*
-  m_unselected_qtnode = FindFirstQtNode(GetQtConceptMap().GetScene(),
-    [name = m_name](QtNode * const qtnode)
-    {
-      return name == GetText(*qtnode);
-    }
-  );
-  if (m_unselected_qtnode)
-  {
-    SetSelectedness(false, *m_unselected_qtnode, GetQtConceptMap());
-  }
-  else
-  {
-    m_unselected_qtedge = FindFirstQtEdge(GetQtConceptMap().GetScene(),
-      [name = m_name](QtEdge * const qtedge)
-      {
-        return name == GetText(*qtedge);
-      }
-    );
-    if (m_unselected_qtedge)
-    {
-      SetSelectedness(false, *m_unselected_qtedge, GetQtConceptMap());
-    }
-  }
-  */
 }
 
 void ribi::cmap::CommandUnselect::Undo()
 {
   m_cmd->undo();
-  /*
-  if (m_unselected_qtedge)
-  {
-    SetSelectedness(true, *m_unselected_qtedge, GetQtConceptMap());
-  }
-  if (m_unselected_qtnode)
-  {
-    SetSelectedness(true, *m_unselected_qtnode, GetQtConceptMap());
-  }
-  */
 }
