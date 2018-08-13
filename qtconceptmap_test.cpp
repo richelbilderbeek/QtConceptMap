@@ -400,7 +400,6 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeybo
     CheckInvariants(q);
   }
   q.show();
-  //QSKIP("Travis-only bug: deletion of QtNodes without connected QtEdges", "");
   QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier, 100); //Or here
   q.show();
   q.Undo();
@@ -1318,43 +1317,26 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndToggleKeyboard() cons
   QTest::keyClick(&m, Qt::Key_E, Qt::ControlModifier, 100);
   m.show();
 
-  QVERIFY(CountQtEdges(m) == 1);
-  QVERIFY(CountQtNodes(m) == 2);
-  QVERIFY(CountSelectedQtEdges(m) == 1);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
+  assert(CountQtEdges(m) == 1);
+  assert(CountQtNodes(m) == 2);
+  assert(CountSelectedQtEdges(m) == 1);
+  assert(CountSelectedQtNodes(m) == 0);
+  for (int i = 0; i != 2; ++i)
   {
-    const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
-    const auto qtedge = qtedges.back();
-    //QSKIP("Correct arrow heads", "");
-    QVERIFY(qtedge->GetEdge().HasHeadArrow());
-  }
-  //Toggle
-  QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
-  m.show();
-  {
-    const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
-    const auto qtedge = qtedges.back();
-    QVERIFY(!qtedge->GetEdge().HasHeadArrow());
-  }
-  //Toggle
-  QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
-  m.show();
-  {
-    const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
-    const auto qtedge = qtedges.back();
-    QVERIFY(qtedge->GetEdge().HasHeadArrow());
-  }
-  //Toggle
-  QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
-  m.show();
-  {
-    const auto qtedges = GetQtEdges(m.GetScene());
-    QVERIFY(qtedges.size() == 1);
-    const auto qtedge = qtedges.back();
-    QVERIFY(!qtedge->GetEdge().HasHeadArrow());
+    QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
+    {
+      const auto qtedges = GetQtEdges(m.GetScene());
+      assert(qtedges.size() == 1);
+      const auto qtedge = qtedges.back();
+      QVERIFY(!qtedge->GetEdge().HasHeadArrow());
+    }
+    QTest::keyClick(&m, Qt::Key_H, Qt::ControlModifier, 100);
+    {
+      const auto qtedges = GetQtEdges(m.GetScene());
+      assert(qtedges.size() == 1);
+      const auto qtedge = qtedges.back();
+      QVERIFY(qtedge->GetEdge().HasHeadArrow());
+    }
   }
 }
 

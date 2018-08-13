@@ -1,7 +1,7 @@
 #include "qtconceptmapqtedge_test.h"
 
 #include <cmath>
-//#include <boost/lambda/lambda.hpp>
+#include <memory>
 
 #include "conceptmapconcept.h"
 #include "conceptmapedgefactory.h"
@@ -113,11 +113,11 @@ void ribi::cmap::QtConceptMapQtEdgeTest::AllTests()
   const int edge_test_index{0};
   const Node node_from{NodeFactory().GetTest(node_test_index)};
   const Node node_to{NodeFactory().GetTest(node_test_index)};
-  const boost::shared_ptr<QtNode> qtnode_from{new QtNode(node_from)};
-  const boost::shared_ptr<QtNode> qtnode_to{new QtNode(node_to)};
+  const std::shared_ptr<QtNode> qtnode_from{new QtNode(node_from)};
+  const std::shared_ptr<QtNode> qtnode_to{new QtNode(node_to)};
   const Edge edge{EdgeFactory().GetTest(edge_test_index)};
-  const boost::shared_ptr<QtEdge> qtedge{new QtEdge(edge,qtnode_from.get(),qtnode_to.get())};
-  //const boost::shared_ptr<QtEdge> qtedge{new QtEdge(edge,qtnode_from,qtnode_to)};
+  const std::shared_ptr<QtEdge> qtedge{new QtEdge(edge,qtnode_from.get(),qtnode_to.get())};
+  //const std::shared_ptr<QtEdge> qtedge{new QtEdge(edge,qtnode_from,qtnode_to)};
   QtRoundedEditRectItem * qtitem{dynamic_cast<QtRoundedEditRectItem*>(qtedge->GetQtNode())};
   //if (verbose) { TRACE("QtEdge must accept hover events"); } //NOT SURE
   {
