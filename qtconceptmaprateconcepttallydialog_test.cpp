@@ -69,7 +69,6 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()
 {
-
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
   QtRateConceptTallyDialog d(conceptmap, CreateDefaultRating());
   //Translate
@@ -80,8 +79,6 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::MeasureUiFromTestConceptmap()
 {
-
-
   const ConceptMap conceptmap{
     ConceptMapFactory().GetRateConceptTallyDialogExample()
   };
@@ -89,8 +86,6 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::MeasureUiFromTestConcep
     conceptmap, CreateDefaultRating()
   };
   d.show();
-  d.resize(500, 500);
-  for (int i=0; i!=1000; ++i) qApp->processEvents();
   QCOMPARE(d.ui->table->columnCount(), 4);
   QCOMPARE(d.ui->table->rowCount(), 5);
   QVERIFY(boost::num_vertices(conceptmap) == 3);
@@ -142,33 +137,24 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::UncheckingDecreasesSugg
     conceptmap, CreateDefaultRating()
   };
   d.show();
-  d.resize(500, 500);
   assert(d.GetSuggestedComplexity() == 2);
   assert(d.GetSuggestedConcreteness() == 1);
   assert(d.GetSuggestedSpecificity() == 1);
 
-  // [X] [empty] [empty] via 'prerequisite' verbonden met 'order'
-  d.ui->table->item(0, 0)->setCheckState(Qt::Unchecked);
+  //Uncheck all
+  for (int col = 0; col != 3; ++col)
+  {
+    for (int row = 0; row != 5; ++row)
+    {
+      QTableWidgetItem * const item = d.ui->table->item(row, col);
+      if (item && (item->flags() & Qt::ItemIsUserCheckable))
+      {
+        item->setCheckState(Qt::Unchecked);
+      }
+    }
+  }
 
-  // [X] [C] [S] Always establish order first
-  d.ui->table->item(1, 0)->setCheckState(Qt::Unchecked);
-  d.ui->table->item(1, 1)->setCheckState(Qt::Unchecked);
-  d.ui->table->item(1, 2)->setCheckState(Qt::Unchecked);
-
-  // [X] [C] [S] Punishment
-  d.ui->table->item(2, 0)->setCheckState(Qt::Unchecked);
-  d.ui->table->item(2, 1)->setCheckState(Qt::Unchecked);
-  d.ui->table->item(2, 2)->setCheckState(Qt::Unchecked);
-
-  // [X] [empty] [empty] via 'strengthen' verbonden met 'order'
-  d.ui->table->item(3, 0)->setCheckState(Qt::Unchecked);
-
-  // [X] [C] [S] Students teaching each other get to know each other
-  d.ui->table->item(4, 0)->setCheckState(Qt::Unchecked);
-  d.ui->table->item(4, 1)->setCheckState(Qt::Unchecked);
-  d.ui->table->item(4, 2)->setCheckState(Qt::Unchecked);
-
-  QVERIFY(d.GetSuggestedComplexity() == 1); //There are still two relations
+  QVERIFY(d.GetSuggestedComplexity() == 0);
   QVERIFY(d.GetSuggestedConcreteness() == 0);
   QVERIFY(d.GetSuggestedSpecificity() == 0);
 }
