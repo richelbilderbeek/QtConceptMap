@@ -158,7 +158,11 @@ void CheckInvariants(const QtEdge& qtedge);
 ///Get the coordinat of the center of the QtNode at the QtEdge
 QPointF GetCenterPos(const QtEdge& qtedge) noexcept;
 
+///Create a Concept to represent the QtEdge
 Concept GetConcept(const QtEdge& qtedge) noexcept;
+
+///Create a Node to represent the QtEdge
+Node GetNode(const QtEdge& qtedge) noexcept;
 
 ///Get the Z order of each edge,
 ///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool

@@ -15,13 +15,14 @@ private slots:
   //To do/review:
 
   //Done:
-  void all_tests();
-  void change_focus();
-  void node_must_have_dotted_black_line_when_selected(); //#127
-  void node_must_have_white_border_when_not_selected(); //#127
-  void show_bounding_rect();
-  void to_str();
-  void to_stream();
+  void AllTests();
+  void ChangeFocus();
+  void GetNodeMustBeCorrect();
+  void NodeMustHaveDottedBlackLineWhenSelected(); //#127
+  void NodeMustHaveWhiteBorderWhenNotSelected(); //#127
+  void ShowBoundingRect();
+  void ToStr();
+  void ToStream();
 };
 
 } //~namespace cmap

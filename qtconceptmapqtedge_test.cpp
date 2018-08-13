@@ -1,7 +1,7 @@
 #include "qtconceptmapqtedge_test.h"
 
 #include <cmath>
-#include <boost/lambda/lambda.hpp>
+//#include <boost/lambda/lambda.hpp>
 
 #include "conceptmapconcept.h"
 #include "conceptmapedgefactory.h"
@@ -16,7 +16,7 @@
 #include "qtquadbezierarrowitem.h"
 #include "qtroundededitrectitem.h"
 
-void ribi::cmap::QtConceptMapQtEdgeTest::change_focus()
+void ribi::cmap::QtConceptMapQtEdgeTest::ChangeFocus()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -32,7 +32,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::change_focus()
   m.show();
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::show_bounding_rect()
+void ribi::cmap::QtConceptMapQtEdgeTest::ShowBoundingRect()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -43,7 +43,21 @@ void ribi::cmap::QtConceptMapQtEdgeTest::show_bounding_rect()
   QTest::qWait(100);
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::node_must_have_dotted_black_line_when_selected()
+void ribi::cmap::QtConceptMapQtEdgeTest::GetNodeMustBeCorrect()
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  m.show();
+  const QtEdge * const qtedge = GetFirstQtEdge(m.GetScene());
+  assert(qtedge);
+  const Edge edge = qtedge->GetEdge();
+  QVERIFY(HasHeadArrow(*qtedge) == HasHeadArrow(edge));
+  QVERIFY(HasTailArrow(*qtedge) == HasTailArrow(edge));
+  QVERIFY(qtedge->GetId() == edge.GetId());
+  QVERIFY(GetNode(*qtedge) == GetNode(edge));
+}
+
+void ribi::cmap::QtConceptMapQtEdgeTest::NodeMustHaveDottedBlackLineWhenSelected()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
@@ -59,7 +73,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::node_must_have_dotted_black_line_when_s
 }
 
 
-void ribi::cmap::QtConceptMapQtEdgeTest::node_must_have_white_border_when_not_selected()
+void ribi::cmap::QtConceptMapQtEdgeTest::NodeMustHaveWhiteBorderWhenNotSelected()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
@@ -70,17 +84,17 @@ void ribi::cmap::QtConceptMapQtEdgeTest::node_must_have_white_border_when_not_se
   QVERIFY(qtnode->GetContourPen().style() == Qt::SolidLine);
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::to_str()
+void ribi::cmap::QtConceptMapQtEdgeTest::ToStr()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
   m.show();
-  const auto qtedge = GetFirstQtEdge(m.GetScene());
+  const QtEdge * const qtedge = GetFirstQtEdge(m.GetScene());
   assert(qtedge);
-  QVERIFY(!ToStr(*qtedge).empty());
+  QVERIFY(!::ribi::cmap::ToStr(*qtedge).empty());
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::to_stream()
+void ribi::cmap::QtConceptMapQtEdgeTest::ToStream()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -91,7 +105,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::to_stream()
   QVERIFY(!s.str().empty());
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::all_tests()
+void ribi::cmap::QtConceptMapQtEdgeTest::AllTests()
 {
   using namespace ribi;
   using namespace ribi::cmap;

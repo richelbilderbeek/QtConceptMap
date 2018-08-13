@@ -223,12 +223,16 @@ ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
 {
   return Edge(
     GetNode(*m_qtnode),
-    m_arrow->HasTail(),
     m_arrow->HasHead(),
+    m_arrow->HasTail(),
     GetId()
   );
 }
 
+ribi::cmap::Node ribi::cmap::GetNode(const QtEdge& qtedge) noexcept
+{
+  return ::ribi::cmap::GetNode(*qtedge.GetQtNode());
+}
 
 std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept
 {
