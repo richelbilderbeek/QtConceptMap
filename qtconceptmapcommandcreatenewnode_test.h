@@ -11,6 +11,8 @@ class QtConceptMapCommandCreateNewNodeTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void CreateNewCenterNode() const noexcept;
+  void CreateNewNode() const noexcept;
   void Parse() const noexcept;
 };
 
