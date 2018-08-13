@@ -385,43 +385,19 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectAllLonelyCenterNode(
 
 void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() const noexcept
 {
-  #ifdef FIX_ISSUE_2
   QtConceptMap q;
   ProcessCommands(q,
     {
       "--command",
-      "set_mode(edit); create_new_node(center, true, 0, 0); unselect(center)"
+      "set_mode(edit); create_new_node(focal question, 0, 0, center); unselect(focal question)"
     }
   );
-
+  q.show();
+  assert(CountQtEdges(q) == 0);
+  assert(CountQtNodes(q) == 1);
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 0);
-  q.show();
-  QtNode * const qtnode = GetFirstQtNode(q);
-  assert(qtnode->GetContourPen().style() == Qt::SolidLine );
-  assert(qtnode->GetFocusPen().style() == Qt::DashLine);
-  assert(qtnode->pen().style() == Qt::SolidLine);
-  assert(!qtnode->hasFocus());
-
-  // Do not let qtnode get focused again, see
-  // what causes this
-
-  // Logger does not log anything :-( ?
-  QEventLogger * event_logger = new QEventLogger("./event", &q, false);
-  qApp->installEventFilter(event_logger);
-
-  q.update();
-
-  while (1)
-  {
-    qApp->processEvents();
-    assert(!qtnode->hasFocus());
-  }
-  assert(!"FIXED");
-  #endif // FIX_ISSUE_2
 }
-
-
 
 void ribi::cmap::QtConceptMapCommandsTest::SetModeCommand() const noexcept
 {
