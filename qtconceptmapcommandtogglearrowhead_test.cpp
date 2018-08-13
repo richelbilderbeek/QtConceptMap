@@ -41,9 +41,9 @@ void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("first"))));
-  assert(CountQtArrowHeads(q) == 0);
-  q.DoCommand(new CommandToggleArrowHead(q));
   assert(CountQtArrowHeads(q) == 1);
+  q.DoCommand(new CommandToggleArrowHead(q));
+  QVERIFY(CountQtArrowHeads(q) != 1);
 }
 
 void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest::Parse() const noexcept

@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
   //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandUnselectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -81,9 +82,9 @@ int main(int argc, char *argv[])
   //{ QtConceptMapCommandToggleArrowHeadTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandToggleArrowTailTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRatingTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapQtEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapQtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
