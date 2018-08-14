@@ -5,11 +5,13 @@
 #include <QTableView>
 #include "conceptmapconcept.h"
 
+class Ruffian;
 struct QTableWidgetItem;
 
 namespace Ui { class QtConceptMapConceptEditDialog; }
 
 namespace ribi {
+
 namespace cmap {
 
 struct QNumberedColumn;
@@ -42,8 +44,9 @@ public:
   Concept GetConcept() const noexcept { return ToConcept(); }
   Concept ToConcept() const noexcept;
 
-protected:
   void keyPressEvent(QKeyEvent *);
+
+protected:
   void showEvent(QShowEvent *);
 
 private slots:
@@ -52,7 +55,6 @@ private slots:
 
 private:
   ribi::cmap::QNumberedColumn * const m_examples;
-
   Ui::QtConceptMapConceptEditDialog *ui;
 
   friend class QtConceptMapConceptEditDialogTest;

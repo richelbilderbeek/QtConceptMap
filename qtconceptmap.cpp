@@ -1409,6 +1409,9 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   );
   q.setEnabled(false);
   d.exec();
+  //d.setModal(true);
+  //d.show();
+  //d.setFocus();
   q.setEnabled(true);
 
   assert(GetSelectedQtNodesAlsoOnQtEdge(q).size() == 1);

@@ -1,5 +1,5 @@
-#ifndef qtconceptmap_test_TEST_H
-#define qtconceptmap_test_TEST_H
+#ifndef RIBI_CMAP_QTCONCEPTMAP_TEST_H
+#define RIBI_CMAP_QTCONCEPTMAP_TEST_H
 
 #include <QtTest/QtTest>
 
@@ -118,4 +118,4 @@ private slots:
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // qtconceptmap_test_TEST_H
+#endif // RIBI_CMAP_QTCONCEPTMAP_TEST_H
