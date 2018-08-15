@@ -137,9 +137,6 @@ ribi::cmap::QtEdge::~QtEdge() noexcept
 
 QRectF ribi::cmap::QtEdge::boundingRect() const
 {
-  assert(this->scene());
-  assert(m_qtnode->scene());
-  assert(m_arrow->scene());
   //QMarginsF ruthlessly prevents ugly stains
   return m_qtnode->boundingRect().translated(m_qtnode->pos())
     .united(m_arrow->boundingRect())
@@ -459,9 +456,6 @@ void ribi::cmap::QtEdge::SetSelected(const bool selected)
 
 QPainterPath ribi::cmap::QtEdge::shape() const noexcept
 {
-  assert(this->scene());
-  assert(m_qtnode->scene());
-  assert(m_arrow->scene());
   assert(m_qtnode);
   assert(m_arrow);
   return m_qtnode->shape().translated(m_qtnode->pos())

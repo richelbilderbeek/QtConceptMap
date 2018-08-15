@@ -95,6 +95,15 @@ void ribi::cmap::CommandCreateNewEdge::CheckCanRedo() const
     ;
     throw std::invalid_argument(msg.str());
   }
+  if (CountSelectedQtEdges(GetQtConceptMap()) != 0)
+  {
+    std::stringstream msg;
+    msg << __func__ << ": "
+      << "Must have zero selected edges, instead of "
+      << CountSelectedQtEdges(GetQtConceptMap())
+    ;
+    throw std::invalid_argument(msg.str());
+  }
 }
 
 std::string ribi::cmap::GetText(const CommandCreateNewEdge& c) noexcept
