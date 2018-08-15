@@ -303,7 +303,6 @@ void ribi::cmap::QtNode::paint(
   QPainter* painter, const QStyleOptionGraphicsItem* item, QWidget* widget
 ) noexcept
 {
-  assert(this->scene());
   assert(painter);
 
   //Set the brush of this QtNode

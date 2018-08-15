@@ -183,12 +183,13 @@ void ribi::cmap::QtEdge::CheckInput(QtNode * const from, QtNode * const to)
 
 void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make this simpler
 {
-  QGraphicsScene * const scene = qtedge.scene();
-  assert(scene);
-  assert(scene == qtedge.GetFrom()->scene());
-  assert(scene == qtedge.GetTo()->scene());
-  assert(scene == qtedge.GetArrow()->scene());
-  assert(scene == qtedge.GetQtNode()->scene());
+  if (QGraphicsScene * const scene = qtedge.scene())
+  {
+    assert(scene == qtedge.GetFrom()->scene());
+    assert(scene == qtedge.GetTo()->scene());
+    assert(scene == qtedge.GetArrow()->scene());
+    assert(scene == qtedge.GetQtNode()->scene());
+  }
   assert(qtedge.GetArrow());
   assert(qtedge.GetArrow()->GetPen().color() == Qt::black);
   assert(qtedge.GetQtNode());
