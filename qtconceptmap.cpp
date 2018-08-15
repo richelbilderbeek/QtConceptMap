@@ -1604,15 +1604,6 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
 
   new_focus_item->setFocus(); //Do after SetQt(Tool&Example)Buddies
   q.update();
-  if (!new_focus_item->isSelected())
-  {
-    qDebug() << "Warning: SetFocus did not select the item";
-  }
-  if (!new_focus_item->hasFocus())
-  {
-    qDebug() << "Warning: SetFocus did not set focus to the item";
-  }
-
   CheckInvariants(q);
 }
 
