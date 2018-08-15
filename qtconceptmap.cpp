@@ -5,7 +5,7 @@
 #include <QFocusEvent>
 #include <QKeyEvent>
 #include <QTimer>
-
+#include <QGraphicsView>
 #include <gsl/gsl_assert>
 
 #include "count_if_bundled_vertex.h"
@@ -1671,17 +1671,24 @@ void ribi::cmap::SetRandomFocusAdditive(
 
   if (items.empty()) return;
 
+
+  QGraphicsItem * const old_focus_item = q.GetScene().focusItem();
+  QtNode * new_focus_item = nullptr;
+
   //Pick random Focusable non-selected QtNotde
   static std::mt19937 rng_engine{0};
   std::uniform_int_distribution<int> distribution(0, static_cast<int>(items.size()) - 1);
-  const int i{distribution(rng_engine)};
-  assert(i >= 0);
-  assert(i < static_cast<int>(items.size()));
-  QtNode * const new_focus_item = qgraphicsitem_cast<QtNode*>(items[i]);
-  assert(new_focus_item);
-  assert(!new_focus_item->isSelected());
+  while (!new_focus_item || old_focus_item == new_focus_item)
+  {
+    const int i{distribution(rng_engine)};
+    assert(i >= 0);
+    assert(i < static_cast<int>(items.size()));
+    new_focus_item = qgraphicsitem_cast<QtNode*>(items[i]);
+    assert(new_focus_item);
+    assert(!new_focus_item->isSelected());
+  }
 
-  if (QGraphicsItem * const old_focus_item = q.GetScene().focusItem())
+  if (old_focus_item)
   {
     //Really loose focus, but not selectedness
     old_focus_item->setEnabled(false);
