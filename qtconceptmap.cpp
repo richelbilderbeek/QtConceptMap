@@ -1663,32 +1663,38 @@ void ribi::cmap::SetRandomFocusAdditive(
   if (items.empty()) return;
 
 
-  QGraphicsItem * const old_focus_item = q.GetScene().focusItem();
-  QtNode * new_focus_item = nullptr;
+  QGraphicsItem * const cur_focus_item = q.GetScene().focusItem();
+
+  //There is only one item: the currently focussed item,
+  //so there is no item to additively give focus
+  if (items.size() == 1 && items[0] == cur_focus_item) return;
+
+
+  QtNode * next_focus_item = nullptr;
 
   //Pick random Focusable non-selected QtNotde
   static std::mt19937 rng_engine{0};
   std::uniform_int_distribution<int> distribution(0, static_cast<int>(items.size()) - 1);
-  while (!new_focus_item || old_focus_item == new_focus_item)
+  while (!next_focus_item || cur_focus_item == next_focus_item)
   {
     const int i{distribution(rng_engine)};
     assert(i >= 0);
     assert(i < static_cast<int>(items.size()));
-    new_focus_item = qgraphicsitem_cast<QtNode*>(items[i]);
-    assert(new_focus_item);
-    assert(!new_focus_item->isSelected());
+    next_focus_item = qgraphicsitem_cast<QtNode*>(items[i]);
+    assert(next_focus_item);
+    assert(!next_focus_item->isSelected());
   }
 
-  if (old_focus_item)
+  if (cur_focus_item)
   {
     //Really loose focus, but not selectedness
-    old_focus_item->setEnabled(false);
-    old_focus_item->setSelected(false);
-    old_focus_item->clearFocus();
-    old_focus_item->setEnabled(true);
-    old_focus_item->setSelected(true);
+    cur_focus_item->setEnabled(false);
+    cur_focus_item->setSelected(false);
+    cur_focus_item->clearFocus();
+    cur_focus_item->setEnabled(true);
+    cur_focus_item->setSelected(true);
   }
-  SetFocus(q, new_focus_item);
+  SetFocus(q, next_focus_item);
 
   CheckInvariants(q);
 }
