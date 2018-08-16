@@ -420,7 +420,7 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
 
   ui->label_concept_name->setToolTip(
       QString("<ul>\n")
-    + QString("  <li><nobr>Aantal aangevinkte complexe relaties en voorbeelden: ")
+    + QString("  <li><nobr>Aantal aangevinkte complexe relaties: ")
     + QString::number(GetNumberOfCheckedComplexItems())
     + QString("  </nobr></li>\n")
     + QString("  <li><p style='white-space:pre'>Aantal aangevinkte concrete voorbeelden: ")
