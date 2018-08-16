@@ -11,7 +11,8 @@ class QtConceptMapItemHighlighterTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void all_tests();
+  void AllTests();
+  void Construction();
 };
 
 } //~namespace cmap

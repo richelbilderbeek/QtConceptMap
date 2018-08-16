@@ -1,7 +1,3 @@
-//
-//
-//
-//
 #include "qtconceptmapitemhighlighter_test.h"
 #include "qtconceptmapitemhighlighter.h"
 #include "conceptmapfactory.h"
@@ -9,9 +5,8 @@
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
-//
 
-void ribi::cmap::QtConceptMapItemHighlighterTest::all_tests()
+void ribi::cmap::QtConceptMapItemHighlighterTest::AllTests()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get2());
@@ -28,4 +23,10 @@ void ribi::cmap::QtConceptMapItemHighlighterTest::all_tests()
   h.Stop();
   QTest::qWait(1000);
   m.show();
+}
+
+void ribi::cmap::QtConceptMapItemHighlighterTest::Construction()
+{
+  const QtItemHighlighter h;
+  QVERIFY(!h.GetItem());
 }

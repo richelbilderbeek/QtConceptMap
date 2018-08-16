@@ -17,7 +17,7 @@ private slots:
   void KeyPresses();
   void MeasureUiFromTestConceptmap();
   void UncheckingDecreasesSuggestion();
-
+  void UserHasNotClickedOkAtConstruction();
 };
 
 } //~namespace cmap

@@ -11,9 +11,10 @@ class QtConceptMapRateExamplesDialogTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void get_rated_examples();
-  void key_presses();
-  void key_presses_from_slots();
+  void GetRatedExamples();
+  void KeyPresses();
+  void KeyPressesFromSlots();
+  void UserHasNotClickedOkAtConstruction();
 };
 
 } //~namespace cmap

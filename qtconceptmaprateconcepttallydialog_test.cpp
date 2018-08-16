@@ -48,7 +48,9 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithEmptyConce
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithTestConceptmap()
 {
-  const ConceptMap conceptmap = ConceptMapFactory().Get6();
+  const ConceptMap conceptmap{
+    ConceptMapFactory().GetRateConceptTallyDialogExample()
+  };
   QtRateConceptTallyDialog{conceptmap, CreateDefaultRating()};
   QVERIFY("Should be no throw");
 }
@@ -157,4 +159,13 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::UncheckingDecreasesSugg
   QVERIFY(d.GetSuggestedComplexity() == 0);
   QVERIFY(d.GetSuggestedConcreteness() == 0);
   QVERIFY(d.GetSuggestedSpecificity() == 0);
+}
+
+void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::UserHasNotClickedOkAtConstruction()
+{
+  const ConceptMap conceptmap{
+    ConceptMapFactory().GetRateConceptTallyDialogExample()
+  };
+  QtRateConceptTallyDialog d{conceptmap, CreateDefaultRating()};
+  QVERIFY(!d.HasUserClickedOk());
 }
