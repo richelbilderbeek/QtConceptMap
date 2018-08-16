@@ -91,8 +91,6 @@ struct QtNode final : public QtRoundedEditRectItem
   }
 
 protected:
-  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override final;
-  void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override final;
   void focusInEvent(QFocusEvent *event) noexcept final override;
   void focusOutEvent(QFocusEvent *event) noexcept final override;
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event) noexcept final;
@@ -180,6 +178,8 @@ bool HasExamples(const QtNode& qtnode) noexcept;
 
 bool IsCenterNode(const QtNode& qtnode) noexcept;
 bool IsComplex(const QtNode& qtnode) noexcept;
+
+[[deprecated]]
 bool IsEnabled(const QtNode& qtnode) noexcept;
 
 ///Is this QtNode in the center on a QtEdge?
@@ -196,6 +196,8 @@ bool IsQtNodeOnEdge(
 
 bool IsSelectable(const QtNode& qtnode) noexcept;
 bool IsSelected(const QtNode& qtnode) noexcept;
+
+[[deprecated]]
 bool IsVisible(const QtNode& qtnode) noexcept;
 
 ///Move a QtNode (and its Node) relatively

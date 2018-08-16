@@ -118,18 +118,6 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateUninitializedFlags(
   return 0;
 }
 
-void ribi::cmap::QtNode::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
-{
-  assert(!"ribi::cmap::QtNode::dragEnterEvent is never called");
-  QtRoundedEditRectItem::dragEnterEvent(event);
-}
-
-void ribi::cmap::QtNode::dragLeaveEvent(QGraphicsSceneDragDropEvent * event)
-{
-  assert(!"ribi::cmap::QtNode::dragLeaveEvent is never called");
-  QtRoundedEditRectItem::dragLeaveEvent(event);
-}
-
 void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept
 {
   QtRoundedEditRectItem::focusInEvent(e);

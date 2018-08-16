@@ -11,16 +11,23 @@ class QtConceptMapQtNodeTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void center_qtnode_is_center_node();
-  void normal_qtnode_is_not_center_node();
 
   //Done
-  void press_nonsense_is_rejected();
-  void qtnode_is_qtroundededitrectitem();
-  void qtnode_is_qtroundededitrectitem_with_equal_x();
-  void qtnode_is_qtroundededitrectitem_with_equal_y();
-  void to_str();
-  void to_stream();
+  void CenterQtNodeIsCenterNode();
+  void CountExamples();
+  void GetExamples();
+  void GetName();
+  void GetRatingComplexity();
+  void GetRatingConcreteness();
+  void GetRatingSpecificity();
+  void IsComplex();
+  void NormalQtNodeIsNotCenterNode();
+  void PressNonsenseIsRejected();
+  void QtNodeIsQtRoundedEditRectItem();
+  void QtNodeIsQtRoundedEditRectItemWithEqualX();
+  void QtNodeIsQtRoundedEditRectItemWithEqualY();
+  void ToStr();
+  void ToStream();
 };
 
 } //~namespace cmap
