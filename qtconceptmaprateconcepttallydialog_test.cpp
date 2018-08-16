@@ -58,7 +58,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithTestConcep
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions()
 {
   const ConceptMap conceptmap{
-    ConceptMapFactory().GetRateConceptTallyDialogExample283()
+    ConceptMapFactory().GetRateConceptTallyDialogExample293()
   };
   QtRateConceptTallyDialog d{
     conceptmap, CreateDefaultRating()
