@@ -153,6 +153,23 @@ void ribi::cmap::QtRateConceptTallyDialog::DisplayData()
   }
 }
 
+int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedComplexExamples() const
+{
+  const int n_rows{ui->table->rowCount()};
+  int n_x_items{0};
+  for (int i{0}; i != n_rows; ++i)
+  {
+    if (
+      ui->table->item(i, 1)->flags() & Qt::ItemIsUserCheckable //An example
+      && ui->table->item(i, 0)->checkState() == Qt::Checked
+    )
+    {
+      ++n_x_items;
+    }
+  }
+  return n_x_items;
+}
+
 int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedComplexItems() const
 {
   const int n_rows{ui->table->rowCount()};
@@ -246,7 +263,7 @@ int ribi::cmap::QtRateConceptTallyDialog::GetSuggestedComplexity() const
 {
   return m_rating.SuggestComplexity(
     GetNumberOfComplexRelations(),
-    GetNumberOfCheckedComplexItems()
+    GetNumberOfCheckedComplexExamples()
   );
 }
 
@@ -394,7 +411,7 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
     QString::fromStdString(
       ToHtml(
         m_rating.GetRatingComplexity(),
-        GetNumberOfCheckedComplexItems(),
+        GetNumberOfCheckedComplexExamples(),
         GetNumberOfComplexRelations()
       )
     )
@@ -420,9 +437,12 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
 
   ui->label_concept_name->setToolTip(
       QString("<ul>\n")
-    + QString("  <li><nobr>Aantal aangevinkte complexe relaties: ")
-    + QString::number(GetNumberOfCheckedComplexItems())
-    + QString("  </nobr></li>\n")
+    //+ QString("  <li><nobr>Aantal aangevinkte complexe voorbeelden en relaties: ")
+    //+ QString::number(GetNumberOfCheckedComplexItems())
+    //+ QString("  </nobr></li>\n")
+    + QString("  <li><p style='white-space:pre'>Aantal aangevinkte complex voorbeelden: ")
+    + QString::number(GetNumberOfCheckedComplexExamples())
+    + QString("  </p></li>\n")
     + QString("  <li><p style='white-space:pre'>Aantal aangevinkte concrete voorbeelden: ")
     + QString::number(GetNumberOfCheckedConcreteExamples())
     + QString("  </p></li>\n")

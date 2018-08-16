@@ -30,12 +30,15 @@ public:
   QtRateConceptTallyDialog& operator=(const QtRateConceptTallyDialog&) = delete;
   ~QtRateConceptTallyDialog() noexcept;
 
-  ///Count the number of examples in the table
-  int GetNumberOfExamples() const;
+
+  ///Count the number of checked complex
+  ///examples in the table
+  int GetNumberOfCheckedComplexExamples() const;
 
   ///Count the number of checked complex items
   ///(examples and relations) in the table
   int GetNumberOfCheckedComplexItems() const;
+
 
   ///Count the number of checked concrete examples in the table
   int GetNumberOfCheckedConcreteExamples() const;
@@ -46,6 +49,9 @@ public:
   ///Count the number of complex relations in the table. That is,
   ///are checked to be complex by the assessor
   int GetNumberOfComplexRelations() const;
+
+  ///Count the number of examples in the table
+  int GetNumberOfExamples() const;
 
   ///Count the number of relations in the table
   int GetNumberOfRelations() const;
