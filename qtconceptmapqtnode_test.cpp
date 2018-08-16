@@ -23,7 +23,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::CountExamples()
 void ribi::cmap::QtConceptMapQtNodeTest::GetExamples()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
-  QVERIFY(ribi::cmap::GetExamples(*qtnode).Get().empty());
+  QVERIFY(!ribi::cmap::GetExamples(*qtnode).Get().empty());
 }
 
 void ribi::cmap::QtConceptMapQtNodeTest::GetName()
