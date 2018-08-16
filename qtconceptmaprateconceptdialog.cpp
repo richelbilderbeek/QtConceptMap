@@ -45,11 +45,7 @@ ribi::cmap::QtRateConceptDialog::QtRateConceptDialog(
       vd, full_conceptmap
     );
 
-  if (!boost::num_vertices(m_sub_conceptmap))
-  {
-    throw std::invalid_argument("Need at least one concept");
-  }
-
+  assert(boost::num_vertices(m_sub_conceptmap) > 0);
   m_qtconceptmap->SetConceptMap(m_sub_conceptmap);
 
   assert(m_qtconceptmap);
@@ -107,40 +103,31 @@ void ribi::cmap::QtRateConceptDialog::DisplayAsToolTips(const Rating& rating)
 
 void ribi::cmap::QtRateConceptDialog::DisplaySuggestions() noexcept
 {
-  if (boost::num_vertices(m_sub_conceptmap) > 0)
+  assert(boost::num_vertices(m_sub_conceptmap) > 0);
+  const QtRateConceptTallyDialog d(
+    m_sub_conceptmap,
+    m_qtconceptmap->GetRating()
+  );
   {
-    assert(boost::num_vertices(m_sub_conceptmap) > 0);
-    const QtRateConceptTallyDialog d(
-      m_sub_conceptmap,
-      m_qtconceptmap->GetRating()
-    );
-    {
-      const QString s = "<nobr>Formeel uitgangspunt: "
-        + QString::number(d.GetSuggestedComplexity())
-        + QString("</nobr>")
-      ;
-      ui->box_complexity->setToolTip(s);
-    }
-    {
-      const QString s = "<nobr>Formeel uitgangspunt: "
-        + QString::number(d.GetSuggestedConcreteness())
-        + QString("</nobr>")
-      ;
-      ui->box_concreteness->setToolTip(s);
-    }
-    {
-      const QString s = "<nobr>Formeel uitgangspunt: "
-        + QString::number(d.GetSuggestedSpecificity())
-        + QString("</nobr>")
-      ;
-      ui->box_specificity->setToolTip(s);
-    }
+    const QString s = "<nobr>Formeel uitgangspunt: "
+      + QString::number(d.GetSuggestedComplexity())
+      + QString("</nobr>")
+    ;
+    ui->box_complexity->setToolTip(s);
   }
-  else
   {
-    ui->box_complexity->setToolTip("Formeel uitgangspunt: -");
-    ui->box_concreteness->setToolTip("Formeel uitgangspunt: -");
-    ui->box_specificity->setToolTip("Formeel uitgangspunt: -");
+    const QString s = "<nobr>Formeel uitgangspunt: "
+      + QString::number(d.GetSuggestedConcreteness())
+      + QString("</nobr>")
+    ;
+    ui->box_concreteness->setToolTip(s);
+  }
+  {
+    const QString s = "<nobr>Formeel uitgangspunt: "
+      + QString::number(d.GetSuggestedSpecificity())
+      + QString("</nobr>")
+    ;
+    ui->box_specificity->setToolTip(s);
   }
 }
 
