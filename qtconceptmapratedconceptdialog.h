@@ -1,6 +1,7 @@
 #ifndef QTCONCEPTMAPRATEDCONCEPTDIALOG_H
 #define QTCONCEPTMAPRATEDCONCEPTDIALOG_H
 
+#include <functional>
 #include <string>
 #include <vector>
 #include <QDialog>
@@ -82,6 +83,28 @@ std::string ToHtmlListItems(
   const Node& node,
   const Role role
 ) noexcept;
+
+std::string ToHtmlListItemFrom(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
+  const Role role
+);
+
+std::string ToHtmlListItemFromTo(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
+  const Role role,
+  const std::function<std::string(const Edge&, const ConceptMap&)> arrow_text_fun
+);
+
+std::string ToHtmlListItemTo(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
+  const Role role
+);
 
 } //~namespace cmap
 

@@ -196,6 +196,52 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
   ui->label_concept_examples->setText(s.str().c_str());
 }
 
+std::string ribi::cmap::ToHtmlListItemFromTo(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
+  const Role role,
+  const std::function<std::string(const Edge&, const ConceptMap&)> arrow_text_fun
+) {
+  assert(
+    (
+      GetFrom(edge, conceptmap) == node
+      && !IsCenterNode(GetTo(edge, conceptmap))
+    ) || GetTo(edge, conceptmap) == node
+  );
+  std::stringstream s;
+  s << "  <li>";
+  if (role == Role::assessor)
+  {
+    s << "(" << (GetIsComplex(edge) ? "X:1" : "X:0") << ") ";
+  }
+  s << arrow_text_fun(edge, conceptmap)
+    << "</li>\n"
+  ;
+  return s.str();
+}
+
+std::string ribi::cmap::ToHtmlListItemFrom(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
+  const Role role
+) {
+  assert(GetFrom(edge, conceptmap) == node);
+  assert(!IsCenterNode(GetTo(edge, conceptmap)));
+  return ToHtmlListItemFromTo(edge, conceptmap, node, role, GetFromArrowText);
+}
+
+std::string ribi::cmap::ToHtmlListItemTo(
+  const Edge& edge,
+  const ConceptMap& conceptmap,
+  const Node& node,
+  const Role role
+) {
+  assert(GetTo(edge, conceptmap) == node);
+  return ToHtmlListItemFromTo(edge, conceptmap, node, role, GetToArrowText);
+}
+
 std::string ribi::cmap::ToHtmlListItems(
   const Edge& edge,
   const ConceptMap& conceptmap,
@@ -213,25 +259,11 @@ std::string ribi::cmap::ToHtmlListItems(
   if (GetFrom(edge, conceptmap) == node
     && !IsCenterNode(GetTo(edge, conceptmap)))
   {
-    s << "  <li>";
-    if (role == Role::assessor)
-    {
-      s << "(" << (GetIsComplex(edge) ? "X:1" : "X:0") << ") ";
-    }
-    s << GetFromArrowText(edge, conceptmap)
-      << "</li>\n"
-    ;
+    s << ToHtmlListItemFrom(edge, conceptmap, node, role);
   }
   else if (GetTo(edge, conceptmap) == node)
   {
-    s << "  <li>";
-    if (role == Role::assessor)
-    {
-      s << "(" << (GetIsComplex(edge) ? "X:1" : "X:0") << ") ";
-    }
-    s << GetToArrowText(edge, conceptmap)
-      << "</li>\n"
-    ;
+    s << ToHtmlListItemTo(edge, conceptmap, node, role);
   }
   //Indendent on arrow: all examples
   s << ToHtmlListItems(GetExamples(edge), role);

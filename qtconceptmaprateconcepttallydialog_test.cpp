@@ -57,6 +57,10 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithTestConcep
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions()
 {
+  // From https://github.com/richelbilderbeek/BrainWeaver/issues/293
+  // [...] bij 2 complexe relaties en 0 of 1 complexe voorbeelden
+  // [...] geeft de computer complexiteit 2 en dat moet 1 zijn
+
   const ConceptMap conceptmap{
     ConceptMapFactory().GetRateConceptTallyDialogExample293()
   };
@@ -64,9 +68,8 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions
     conceptmap, CreateDefaultRating()
   };
   d.show();
-  assert(d.GetSuggestedConcreteness() == 0);
-  assert(d.GetSuggestedSpecificity() == 0);
-  QVERIFY(d.GetSuggestedComplexity() == 0);
+  assert(d.GetSuggestedComplexity() == 1);
+  QVERIFY(d.GetSuggestedComplexity() == 1);
 }
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()
