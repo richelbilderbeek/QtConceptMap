@@ -44,18 +44,8 @@ ribi::cmap::QtEdge::QtEdge(
   edge_id
 )
 {
-  #ifndef NDEBUG
-  if (std::abs(GetX(*this) - GetX(node)) >= 2.0)
-  {
-    qCritical()
-      << GetX(*this)
-      << GetX(node)
-    ;
-  }
-  #endif
   assert(std::abs(GetX(*this) - GetX(node)) < 2.0);
   assert(std::abs(GetY(*this) - GetY(node)) < 2.0);
-
 }
 
 ribi::cmap::QtEdge::QtEdge(
@@ -201,12 +191,6 @@ void ribi::cmap::CheckInvariants(const QtEdge& qtedge) //!OCLINT cannot make thi
   assert(qtedge.GetQtNode()->zValue() == GetQtNodeZvalue());
 }
 
-void ribi::cmap::QtEdge::dragEnterEvent(QGraphicsSceneDragDropEvent * event)
-{
-  assert(!"ribi::cmap::QtEdge::dragEnterEvent is never called"); //!OCLINT accepted idiom
-  QGraphicsItem::dragEnterEvent(event);
-}
-
 QPointF ribi::cmap::GetCenterPos(const QtEdge& qtedge) noexcept
 {
   return GetCenterPos(*qtedge.GetQtNode());
@@ -268,11 +252,6 @@ bool ribi::cmap::IsConnectedToCenterNode(const QtEdge& qtedge)
     || IsQtCenterNode(qtedge.GetTo());
 }
 
-bool ribi::cmap::IsEnabled(const QtEdge& qtedge) noexcept
-{
-  return qtedge.isEnabled();
-}
-
 bool ribi::cmap::IsMovable(const QtEdge& qtedge) noexcept
 {
   //A QtEdge is always immovable
@@ -290,11 +269,6 @@ bool ribi::cmap::IsSelectable(const QtEdge& qtedge) noexcept
 bool ribi::cmap::IsSelected(const QtEdge& qtedge) noexcept
 {
   return qtedge.IsSelected();
-}
-
-bool ribi::cmap::IsVisible(const QtEdge& qtedge) noexcept
-{
-  return qtedge.isVisible();
 }
 
 bool ribi::cmap::QtEdge::IsSelected() const

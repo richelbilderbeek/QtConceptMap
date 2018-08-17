@@ -103,7 +103,6 @@ struct QtEdge final : public QGraphicsItem
 
 protected:
 
-  void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override final;
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
 
 
@@ -189,15 +188,9 @@ bool HasTailArrow(const QtEdge& qtedge) noexcept;
 ///a center node
 bool IsConnectedToCenterNode(const QtEdge& qtedge);
 
-[[deprecated]]
-bool IsEnabled(const QtEdge& qtedge) noexcept;
-
 bool IsMovable(const QtEdge& qtedge) noexcept;
 bool IsSelectable(const QtEdge& qtedge) noexcept;
 bool IsSelected(const QtEdge& qtedge) noexcept;
-
-[[deprecated]]
-bool IsVisible(const QtEdge& qtedge) noexcept;
 
 ///Move a QtEdge (and its Edge) relatively
 void Move(QtEdge& qtedge, const double dx, const double dy);

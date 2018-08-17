@@ -238,11 +238,6 @@ bool ribi::cmap::IsComplex(const QtNode& qtnode) noexcept
   return qtnode.GetIsComplex();
 }
 
-bool ribi::cmap::IsEnabled(const QtNode& qtnode) noexcept
-{
-  return qtnode.isEnabled();
-}
-
 bool ribi::cmap::IsOnEdge(
   const QtNode& qtnode
 ) noexcept
@@ -265,11 +260,6 @@ bool ribi::cmap::IsSelectable(const QtNode& qtnode) noexcept
 bool ribi::cmap::IsSelected(const QtNode& qtnode) noexcept
 {
   return qtnode.isSelected();
-}
-
-bool ribi::cmap::IsVisible(const QtNode& qtnode) noexcept
-{
-  return qtnode.isVisible();
 }
 
 void ribi::cmap::QtNode::keyPressEvent(QKeyEvent *event) noexcept
