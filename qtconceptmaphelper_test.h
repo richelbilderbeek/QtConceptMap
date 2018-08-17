@@ -11,8 +11,9 @@ class QtConceptMapHelperTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void get_qt_center_node();
-  void mess_up();
+  void ExtractTheOneSelectedQtEdge() const noexcept;
+  void GetQtCenterNode() const noexcept;
+  void MessUp() const noexcept;
 };
 
 } //~namespace cmap
