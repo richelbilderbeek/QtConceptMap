@@ -80,6 +80,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()
   QTest::keyClick(&d, Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier);
   //Close
   QTest::keyClick(&d, Qt::Key_Escape);
+  QVERIFY(d.isHidden());
 }
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::MeasureUiFromTestConceptmap()

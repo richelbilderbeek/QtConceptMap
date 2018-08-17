@@ -893,6 +893,7 @@ void ribi::cmap::QtConceptMapTest::PressEscape() const
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_Escape);
+  QVERIFY(m.isHidden());
 }
 
 void ribi::cmap::QtConceptMapTest

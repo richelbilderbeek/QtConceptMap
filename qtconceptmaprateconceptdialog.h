@@ -9,8 +9,11 @@
 #include "qtconceptmaprating.h"
 
 namespace Ui { class QtRateConceptDialog; }
+
 namespace ribi {
 namespace cmap {
+
+class QtConceptMapRateConceptDialogTest;
 
 ///Rate the focal concept of a sub-ConceptMap.
 class QtRateConceptDialog final : public QDialog
@@ -64,6 +67,8 @@ private:
   void DisplayAsToolTips(const Rating& rating);
 
   void DisplaySuggestions() noexcept;
+
+  friend class QtConceptMapRateConceptDialogTest;
 };
 
 } //~namespace cmap

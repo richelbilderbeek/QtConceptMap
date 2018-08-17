@@ -11,12 +11,17 @@ class QtConceptMapRateConceptDialogTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void ShowNormalConceptMap();
-  void ShowConceptMapWithOnlyCenterNode();
-  void UserHasNotPressedOkAtConstruction();
+  void EscapeClosesDialog() const;
+  void OkClosesDialog() const;
+  void OkStoresOkayness() const;
+  void ShowNormalConceptMap() const;
+  void ShowConceptMapWithOnlyCenterNode() const;
+  void TallyRelevanciesCloses() const;
+  void TallyRelevanciesPopsUp() const;
+  void UserHasNotPressedOkAtConstruction() const;
 
   //compleXity, Concreteness, Specificity
-  void XcsAreReadFromQtConceptMap();
+  void XcsAreReadFromQtConceptMap() const;
 };
 
 } //~namespace cmap

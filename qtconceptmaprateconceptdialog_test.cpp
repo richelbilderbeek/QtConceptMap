@@ -1,12 +1,70 @@
 #include "qtconceptmaprateconceptdialog_test.h"
 
+#include "conceptmapfactory.h"
 #include "qtconceptmap.h"
 #include "qtconceptmaprateconceptdialog.h"
-#include "conceptmapfactory.h"
+#include "ui_qtconceptmaprateconceptdialog.h"
+#include "qtconceptmaprateconcepttallydialog.h"
+#include "ui_qtconceptmaprateconcepttallydialog.h"
+
+void ribi::cmap::QtConceptMapRateConceptDialogTest::EscapeClosesDialog() const
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->show();
+  QTest::keyClick(d.get(), Qt::Key_Escape);
+  QVERIFY(d->isHidden());
+}
 
 
+void ribi::cmap::QtConceptMapRateConceptDialogTest::OkClosesDialog() const
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->show();
+  assert(!d->isHidden());
+  d->ui->button_ok->click();
+  QVERIFY(d->isHidden());
+}
 
-void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowNormalConceptMap()
+void ribi::cmap::QtConceptMapRateConceptDialogTest::OkStoresOkayness() const
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->show();
+  QVERIFY(!d->GetOkClicked());
+  d->ui->button_ok->click();
+  QVERIFY(d->GetOkClicked());
+}
+
+void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowNormalConceptMap() const
 {
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
@@ -22,7 +80,7 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowNormalConceptMap()
   d->show();
 }
 
-void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowConceptMapWithOnlyCenterNode()
+void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowConceptMapWithOnlyCenterNode() const
 {
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
@@ -38,7 +96,58 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowConceptMapWithOnlyCenter
   d->show();
 }
 
-void ribi::cmap::QtConceptMapRateConceptDialogTest::UserHasNotPressedOkAtConstruction()
+void ribi::cmap::QtConceptMapRateConceptDialogTest::TallyRelevanciesCloses() const
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().Get1());
+  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->show();
+  QTest::qWaitForWindowActive(d.get());
+  assert(qApp->activeWindow() == d.get());
+  QTimer::singleShot(
+    100,
+    []()
+    {
+      QtRateConceptTallyDialog* const pop_up
+        = qobject_cast<QtRateConceptTallyDialog*>(qApp->activeWindow());
+      QVERIFY(pop_up);
+      pop_up->ui->button_ok->click();
+      QVERIFY(pop_up->isHidden());
+    }
+  );
+  d->ui->button_tally_relevancies->click(); //Closed by QTimer
+}
+
+void ribi::cmap::QtConceptMapRateConceptDialogTest::TallyRelevanciesPopsUp() const
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().Get1());
+  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->show();
+  QTest::qWaitForWindowActive(d.get());
+  assert(qApp->activeWindow() == d.get());
+  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
+  d->ui->button_tally_relevancies->click();
+  QVERIFY(qApp->activeWindow() != d.get());
+}
+
+void ribi::cmap::QtConceptMapRateConceptDialogTest::UserHasNotPressedOkAtConstruction() const
 {
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
@@ -54,7 +163,7 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::UserHasNotPressedOkAtConstru
   QVERIFY(!d->GetOkClicked());
 }
 
-void ribi::cmap::QtConceptMapRateConceptDialogTest::XcsAreReadFromQtConceptMap()
+void ribi::cmap::QtConceptMapRateConceptDialogTest::XcsAreReadFromQtConceptMap() const
 {
   ConceptMap conceptmap;
   const bool is_complex{true};
