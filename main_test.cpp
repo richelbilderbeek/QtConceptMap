@@ -23,7 +23,6 @@
 #include "qtconceptmapcommandunselectedge_test.h"
 #include "qtconceptmapcommandunselectnode_test.h"
 #include "qtconceptmapcompetency_test.h"
-#include "qtconceptmapconceptdialog_test.h"
 #include "qtconceptmapconcepteditdialog_test.h"
 #include "qtconceptmapexampledialog_test.h"
 #include "qtconceptmapexamplesdialog_test.h"
@@ -65,8 +64,6 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  //return error;
   //{ QtConceptMapCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -81,6 +78,7 @@ int main(int argc, char *argv[])
   //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandUnselectTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapHelperTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapNumberedColumnTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapQtEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -116,7 +114,6 @@ int main(int argc, char *argv[])
   { QtConceptMapCommandUnselectTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCompetencyTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtConceptMapConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapExampleDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }

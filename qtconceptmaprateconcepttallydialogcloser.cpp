@@ -5,7 +5,6 @@
 #include <QApplication>
 #include <QDebug>
 #include <QPushButton>
-#include <QTest>
 
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconcepttallydialog.h"
