@@ -11,8 +11,10 @@ class QtConceptMapCommandToggleArrowTailTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void ToggleAbsentEdgeShouldFail() const noexcept;
+  void ToggleEdge() const noexcept;
+  void ToggleEdgeConnectedToCenterNode() const noexcept;
   void Parse() const noexcept;
-
   void ParseNonsenseFails() const noexcept;
 };
 
