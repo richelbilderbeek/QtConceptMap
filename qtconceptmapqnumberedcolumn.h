@@ -17,11 +17,13 @@ public:
   );
   ~QNumberedColumn();
 
-private slots:
+public slots:
 
   void keyPressEvent(QKeyEvent *event);
-  void OnCellChanged(int row, int column);
 
+private slots:
+
+  void OnCellChanged(int row, int column);
 };
 
 } //~namespace cmap

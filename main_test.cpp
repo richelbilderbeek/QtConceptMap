@@ -13,6 +13,7 @@
 #include "qtconceptmapcommandselectedge_test.h"
 #include "qtconceptmapcommandselectnode_test.h"
 #include "qtconceptmapcommandsetconcept_test.h"
+#include "qtconceptmapnumberedcolumn_test.h"
 #include "qtconceptmapcommandsetmode_test.h"
 #include "qtconceptmapcommandtogglearrowhead_test.h"
 #include "qtconceptmapcommandtogglearrowtail_test.h"
@@ -89,6 +90,7 @@ int main(int argc, char *argv[])
   //{ QtConceptMapRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapNumberedColumnTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
@@ -121,6 +123,7 @@ int main(int argc, char *argv[])
   { QtConceptMapItemHighlighterTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapModeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapNewArrowTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtConceptMapNumberedColumnTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapQtEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapQtNodeFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapQtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
