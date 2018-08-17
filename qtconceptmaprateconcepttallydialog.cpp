@@ -325,6 +325,7 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
   const Row& row
 ) const
 {
+  auto ToCheckState = [](const bool b) { return b ? Qt::Checked : Qt::Unchecked; };
   const int example_index{std::get<3>(row)};
   assert(example_index >= 0);
   assert(example_index < CountExamples(std::get<2>(row)));
@@ -340,15 +341,9 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
     );
     switch (col_index)
     {
-      case 0: item->setCheckState(example.GetIsComplex()
-        ? Qt::Checked : Qt::Unchecked);
-      break;
-      case 1: item->setCheckState(example.GetIsConcrete()
-        ? Qt::Checked : Qt::Unchecked);
-      break;
-      case 2: item->setCheckState(example.GetIsSpecific()
-        ? Qt::Checked : Qt::Unchecked);
-      break;
+      case 0: item->setCheckState(ToCheckState(example.GetIsComplex()); break;
+      case 1: item->setCheckState(ToCheckState(example.GetIsConcrete()); break;
+      case 2: item->setCheckState(ToCheckState(example.GetIsSpecific()); break;
       default:
         assert(!"ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog: Unknown col index"); //!OCLINT accepted idiom
       break;
