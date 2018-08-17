@@ -100,6 +100,7 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowConceptMapWithOnlyCenter
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::TallyRelevanciesCloses() const
 {
+  if (OnTravis()) return;
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
   };
