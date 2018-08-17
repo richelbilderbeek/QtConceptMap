@@ -3,12 +3,14 @@
 #include <cassert>
 
 #include <QApplication>
+#include <QDebug>
 #include <QPushButton>
+#include <QTest>
 
 #include "qtconceptmaprateconcepttallydialog.h"
+#include "ui_qtconceptmaprateconcepttallydialog.h"
 
-ribi::cmap::QtRateConceptTallyDialogCloser::QtRateConceptTallyDialogCloser(QPushButton * const button)
-  : m_button{button}
+ribi::cmap::QtRateConceptTallyDialogCloser::QtRateConceptTallyDialogCloser()
 {
 
 }
@@ -25,6 +27,6 @@ void ribi::cmap::QtRateConceptTallyDialogCloser::Close()
       qApp->activeWindow()
     );
   assert(pop_up);
-  m_button->click();
+  pop_up->ui->button_ok->click();
   assert(pop_up->isHidden());
 }

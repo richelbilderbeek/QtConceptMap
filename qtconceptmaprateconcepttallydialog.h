@@ -15,6 +15,7 @@ namespace cmap {
 
 class QtConceptMapRateConceptDialogTest;
 class QtConceptMapRateConceptTallyDialogTest;
+class QtRateConceptTallyDialogCloser;
 
 class QtRateConceptTallyDialog final : public QDialog
 {
@@ -131,6 +132,7 @@ private:
 
   friend class QtConceptMapRateConceptDialogTest;
   friend class QtConceptMapRateConceptTallyDialogTest;
+  friend class QtRateConceptTallyDialogCloser;
 };
 
 

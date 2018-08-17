@@ -7,6 +7,7 @@
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconcepttallydialog.h"
 #include "qtconceptmaprateconcepttallydialogcloser.h"
+#include "conceptmaphelper.h"
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::EscapeClosesDialog() const
 {
@@ -99,6 +100,8 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::ShowConceptMapWithOnlyCenter
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::TallyRelevanciesCloses() const
 {
+  if (OnTravis()) return;
+
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
   };
@@ -113,7 +116,7 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::TallyRelevanciesCloses() con
   d->show();
   QTest::qWaitForWindowActive(d.get());
   assert(qApp->activeWindow() == d.get());
-  QtRateConceptTallyDialogCloser p(d->ui->button_ok);
+  QtRateConceptTallyDialogCloser p;
   QTimer::singleShot(
     100,
     &p,

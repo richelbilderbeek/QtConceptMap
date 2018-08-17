@@ -6,17 +6,16 @@
 namespace ribi {
 namespace cmap {
 
+///Object to close a popped-up QtRateConceptTallyDialog
 class QtRateConceptTallyDialogCloser : public QObject
 {
   Q_OBJECT
 
   public:
-  QtRateConceptTallyDialogCloser(QPushButton * const button);
+  QtRateConceptTallyDialogCloser();
   virtual ~QtRateConceptTallyDialogCloser();
   public slots:
   void Close();
-  private:
-  QPushButton * const m_button;
 };
 
 } //~namespace cmap
