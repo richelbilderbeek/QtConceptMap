@@ -6,6 +6,7 @@
 #include "ui_qtconceptmaprateconceptdialog.h"
 #include "qtconceptmaprateconcepttallydialog.h"
 #include "ui_qtconceptmaprateconcepttallydialog.h"
+#include "qtconceptmaprateconcepttallydialogcloser.h"
 
 void ribi::cmap::QtConceptMapRateConceptDialogTest::EscapeClosesDialog() const
 {
@@ -112,16 +113,11 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::TallyRelevanciesCloses() con
   d->show();
   QTest::qWaitForWindowActive(d.get());
   assert(qApp->activeWindow() == d.get());
+  QtRateConceptTallyDialogCloser p(d->ui->button_ok);
   QTimer::singleShot(
     100,
-    []()
-    {
-      QtRateConceptTallyDialog* const pop_up
-        = qobject_cast<QtRateConceptTallyDialog*>(qApp->activeWindow());
-      QVERIFY(pop_up);
-      pop_up->ui->button_ok->click();
-      QVERIFY(pop_up->isHidden());
-    }
+    &p,
+    SLOT(Close())
   );
   d->ui->button_tally_relevancies->click(); //Closed by QTimer
 }
