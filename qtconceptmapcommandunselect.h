@@ -6,6 +6,7 @@
 namespace ribi {
 namespace cmap {
 
+///Picks the right command depending on a solitary QtNode or QtEdge
 class CommandUnselect final : public Command
 {
   public:

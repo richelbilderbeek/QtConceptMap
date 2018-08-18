@@ -26,6 +26,8 @@
 #include "qtconceptmapcommandunselectall.h"
 #include "qtconceptmapconcepteditdialog.h"
 #include "qtconceptmaphelper.h"
+#include "qtarrowitem.h"
+#include "qtquadbezierarrowitem.h"
 #include "qtconceptmapitemhighlighter.h"
 #include "qtconceptmapnewarrow.h"
 #include "qtconceptmapqtedge.h"
@@ -244,6 +246,37 @@ void ribi::cmap::CheckInvariantAllQtNodesHaveAscene(
   }
 }
 
+void ribi::cmap::CheckInvariantNoLonelyQuadBezierArrows(const QtConceptMap& q) noexcept
+{
+  for (QGraphicsItem * const item: q.scene()->items())
+  {
+    if (QtQuadBezierArrowItem * const qtarrow
+      = qgraphicsitem_cast<QtQuadBezierArrowItem*>(item))
+    {
+      assert(qtarrow->GetFromItem());
+      assert(qtarrow->GetToItem());
+      assert(qtarrow->GetFromItem()->scene());
+      assert(qtarrow->GetToItem()->scene());
+      assert(qtarrow->GetFromItem()->isVisible());
+      assert(qtarrow->GetToItem()->isVisible());
+    }
+  }
+}
+
+void ribi::cmap::CheckInvariantNoUnknownItems(const QtConceptMap& q) noexcept
+{
+  for (QGraphicsItem * const item: q.scene()->items())
+  {
+    assert(
+         qgraphicsitem_cast<QtNode*>(item)
+      || qgraphicsitem_cast<QtEdge*>(item)
+      || qgraphicsitem_cast<QtQuadBezierArrowItem*>(item)
+      || qgraphicsitem_cast<QtArrowItem*>(item)
+      || qgraphicsitem_cast<QtTool*>(item)
+    );
+  }
+}
+
 void ribi::cmap::CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(const QtConceptMap& q) noexcept
 {
   QtNode * const qtnode = q.GetQtToolItem().GetBuddyItem();
@@ -268,6 +301,8 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   assert(q.GetMode() != Mode::edit || q.GetQtToolItem().scene());
   CheckInvariantAllQtNodesHaveAscene(q);
   CheckInvariantAllQtEdgesHaveAscene(q);
+  CheckInvariantNoLonelyQuadBezierArrows(q);
+  CheckInvariantNoUnknownItems(q);
   CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
   #endif
 }
@@ -1870,4 +1905,38 @@ void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)
   }
 
   CheckInvariants(*this);
+}
+
+std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) noexcept
+{
+  for (const QGraphicsItem* const item: c.scene()->items())
+  {
+    os << item << ": ";
+    if (const ribi::cmap::QtNode * const qtnode = qgraphicsitem_cast<const ribi::cmap::QtNode*>(item))
+    {
+      os << *qtnode;
+    }
+    else if (const ribi::cmap::QtEdge * const qtedge = qgraphicsitem_cast<const ribi::cmap::QtEdge*>(item))
+    {
+      os << *qtedge;
+    }
+    else if (const ribi::QtQuadBezierArrowItem * const qtarrow = qgraphicsitem_cast<const ribi::QtQuadBezierArrowItem*>(item))
+    {
+      os << *qtarrow;
+    }
+    else if (const ribi::cmap::QtTool * const qttool = qgraphicsitem_cast<const ribi::cmap::QtTool*>(item))
+    {
+      os << "QtTool connected to " << qttool->GetBuddyItem();
+    }
+    else if (const ribi::QtArrowItem * const qtstraightarrow = qgraphicsitem_cast<const ribi::QtArrowItem*>(item))
+    {
+      os << "QtArrowItem";
+    }
+    else
+    {
+      os << "UNKNOWN ITEM";
+    }
+    os << '\n';
+  }
+  return os;
 }

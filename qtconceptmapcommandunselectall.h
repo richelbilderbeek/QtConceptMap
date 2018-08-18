@@ -7,6 +7,9 @@ namespace ribi {
 namespace cmap {
 
 ///Unselects all
+///Picks the right command for only solitary QtNode or QtEdge:
+///a selected QtNode that is part of a QtEdge is not selected;
+///its parent QtEdge is
 ///Will throw is there is nothing to unselect
 class CommandUnselectAll final : public Command
 {

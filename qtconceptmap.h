@@ -1,6 +1,7 @@
 #ifndef QTCONCEPTMAPCONCEPTMAP_H
 #define QTCONCEPTMAPCONCEPTMAP_H
 
+#include <iosfwd>
 #include <QGraphicsItem>
 #include <QUndoStack>
 #include "qtkeyboardfriendlygraphicsview.h"
@@ -161,6 +162,13 @@ void CheckInvariantAllQtEdgesHaveAscene(const QtConceptMap& q) noexcept;
 
 ///All QtNodes must have a QScene
 void CheckInvariantAllQtNodesHaveAscene(const QtConceptMap& q) noexcept;
+
+///There must be no left-alone quad bezier arrows
+void CheckInvariantNoLonelyQuadBezierArrows(const QtConceptMap& q) noexcept;
+
+///There must be no QGraphicsItem that cannot be cast to known
+///and expected types
+void CheckInvariantNoUnknownItems(const QtConceptMap& q) noexcept;
 
 ///A QtToolItem is never associated with a QtEdge, nor a QtNode
 ///one a QtEdge
@@ -421,6 +429,8 @@ void Unselect(QtConceptMap& q, QtEdge& qtedge);
 
 ///Unselect the QtNode, including updating the QtToolItem
 void Unselect(QtConceptMap& q, QtNode& qtnode);
+
+std::ostream& operator<<(std::ostream& os, const QtConceptMap& c) noexcept;
 
 } //~namespace cmap
 } //~namespace ribi
