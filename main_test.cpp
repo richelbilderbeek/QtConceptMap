@@ -24,8 +24,6 @@
 #include "qtconceptmapcommandunselectnode_test.h"
 #include "qtconceptmapcompetency_test.h"
 #include "qtconceptmapconcepteditdialog_test.h"
-#include "qtconceptmapexampledialog_test.h"
-#include "qtconceptmapexamplesdialog_test.h"
 #include "qtconceptmaphelper_test.h"
 #include "qtconceptmapitemhighlighter_test.h"
 #include "qtconceptmapmode_test.h"
@@ -117,8 +115,6 @@ int main(int argc, char *argv[])
   { QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCompetencyTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapExampleDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapHelperTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapItemHighlighterTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapModeTest t; error |= QTest::qExec(&t, argc, argv); }

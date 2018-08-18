@@ -21,8 +21,6 @@ SOURCES += \
     $$PWD/qtconceptmapcommandunselectall_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
     $$PWD/qtconceptmapconcepteditdialog_test.cpp \
-    $$PWD/qtconceptmapexampledialog_test.cpp \
-    $$PWD/qtconceptmapexamplesdialog_test.cpp \
     $$PWD/qtconceptmaphelper_test.cpp \
     $$PWD/qtconceptmapitemhighlighter_test.cpp \
     $$PWD/qtconceptmapmode_test.cpp \

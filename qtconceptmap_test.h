@@ -67,7 +67,7 @@ private slots:
   void NcenterNodesAndQtCenterNodesMustMatchRate() const; //#113
   void NcenterNodesAndQtCenterNodesMustMatchUninitialized() const; //#113
   void PressCtrlRightMovesNonCentralNode() const;
-  void PressEscape() const;
+  void PressEscapeShouldBeIgnored() const;
   void PressF2CanEditNonFocalQuestion() const;
   void PressF2CannotEditFocalQuestion() const;
   void PressF1OnEmptyConceptMapIsRejected() const;

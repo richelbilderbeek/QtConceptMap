@@ -888,13 +888,14 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(y_after == y_before);
 }
 
-void ribi::cmap::QtConceptMapTest::PressEscape() const
+void ribi::cmap::QtConceptMapTest::PressEscapeShouldBeIgnored() const
 {
   if (OnTravis()) return;
   QtConceptMap m;
   m.show();
+  assert(!m.isHidden());
   QTest::keyClick(&m, Qt::Key_Escape);
-  QVERIFY(m.isHidden());
+  QVERIFY(!m.isHidden());
 }
 
 void ribi::cmap::QtConceptMapTest

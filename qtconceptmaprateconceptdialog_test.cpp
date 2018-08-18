@@ -208,5 +208,4 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::Write() const
   };
   d->show();
   d->Write(*qtconceptmap.get(), *qtnode);
-  assert(!"OK");
 }
