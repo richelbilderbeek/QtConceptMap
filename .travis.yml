@@ -58,7 +58,6 @@ script:
   # cppcheck
   - cppcheck --quiet --error-exitcode=1 . 
   # Get code coverage
-  - rm qtmain.* # qtmain.cpp not be run, ruthlessly delete it and friends
   - ./get_code_cov > /dev/null
   - codecov > /dev/null
   # Call OCLint

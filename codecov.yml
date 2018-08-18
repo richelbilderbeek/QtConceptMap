@@ -1,0 +1,3 @@
+ignore:
+  - qtmain.cpp # Will not be run
+  - qtconceptmaprateconcepttallydialogcloser.cpp # Cannot be tested completely on Travis
