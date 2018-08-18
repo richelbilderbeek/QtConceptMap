@@ -117,8 +117,8 @@ int main(int argc, char *argv[])
   { QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCompetencyTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtConceptMapExampleDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtConceptMapExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapExampleDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptMapExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapHelperTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapItemHighlighterTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapModeTest t; error |= QTest::qExec(&t, argc, argv); }

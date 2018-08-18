@@ -1,12 +1,10 @@
 #ifndef QTCONCEPTMAPEXAMPLESDIALOG_H
 #define QTCONCEPTMAPEXAMPLESDIALOG_H
 
+#ifdef REALLY_NEED_THIS_20180818
+
 #include <memory>
 #include <vector>
-
-
-
-
 
 #include "conceptmapexamples.h"
 #include <QDialog>
@@ -43,5 +41,7 @@ private:
 
 } //~namespace ribi
 } //~namespace cmap
+
+#endif // REALLY_NEED_THIS_20180818
 
 #endif // QTCONCEPTMAPEXAMPLESDIALOG_H

@@ -1,5 +1,7 @@
 #include "qtconceptmapexamplesdialog.h"
 
+#ifdef REALLY_NEED_THIS_20180818
+
 #include <cassert>
 
 #include "qtconceptmapexampledialog.h"
@@ -38,3 +40,5 @@ void ribi::cmap::QtExamplesDialog::SetExamples(const Examples& examples)
   assert( m_examples ==  examples);
   this->setMinimumHeight(GetMinimumHeight(m_examples));
 }
+
+#endif // REALLY_NEED_THIS_20180818

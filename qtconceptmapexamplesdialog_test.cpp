@@ -1,4 +1,7 @@
 #include "qtconceptmapexamplesdialog_test.h"
+
+#ifdef REALLY_NEED_THIS_20180818
+
 #include "qtconceptmapexamplesdialog.h"
 
 #include <boost/bind/bind.hpp>
@@ -25,3 +28,5 @@ void ribi::cmap::QtConceptMapExamplesDialogTest::all_tests()
     QVERIFY(d.GetExamples() == examples);
   }
 }
+
+#endif // REALLY_NEED_THIS_20180818

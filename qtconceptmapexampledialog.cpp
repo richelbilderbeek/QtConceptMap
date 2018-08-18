@@ -1,5 +1,7 @@
 #include "qtconceptmapexampledialog.h"
 
+#ifdef REALLY_NEED_THIS_20180818
+
 #include <cassert>
 
 #include "conceptmapcompetencies.h"
@@ -76,3 +78,5 @@ void ribi::cmap::QtExampleDialog::on_edit_text_textChanged(const QString &arg1)
 {
   m_example.SetText(arg1.toStdString());
 }
+
+#endif // REALLY_NEED_THIS_20180818
