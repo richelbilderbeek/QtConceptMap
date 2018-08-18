@@ -270,8 +270,8 @@ void ribi::cmap::CheckInvariantNoUnknownItems(const QtConceptMap& q) noexcept
     assert(
          qgraphicsitem_cast<QtNode*>(item)
       || qgraphicsitem_cast<QtEdge*>(item)
+      || qgraphicsitem_cast<QtNewArrow*>(item)
       || qgraphicsitem_cast<QtQuadBezierArrowItem*>(item)
-      || qgraphicsitem_cast<QtArrowItem*>(item)
       || qgraphicsitem_cast<QtTool*>(item)
     );
   }
@@ -1926,15 +1926,20 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) no
     }
     else if (const ribi::cmap::QtTool * const qttool = qgraphicsitem_cast<const ribi::cmap::QtTool*>(item))
     {
-      os << "QtTool connected to " << qttool->GetBuddyItem();
+      os << "QtTool, connected to " << qttool->GetBuddyItem();
     }
     else if (const ribi::QtArrowItem * const qtstraightarrow = qgraphicsitem_cast<const ribi::QtArrowItem*>(item))
     {
       os << "QtArrowItem";
     }
+    else if (const ribi::cmap::QtNewArrow * const qtnewarrow = qgraphicsitem_cast<const ribi::cmap::QtNewArrow*>(item))
+    {
+      os << "QtNewArrow, connected to " << qtnewarrow->GetFrom();
+    }
     else
     {
       os << "UNKNOWN ITEM";
+      assert(!"Should not get here");
     }
     os << '\n';
   }
