@@ -1909,24 +1909,35 @@ void ribi::cmap::QtConceptMap::wheelEvent(QWheelEvent *event)
 
 std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) noexcept
 {
+  int index{0};
   for (const QGraphicsItem* const item: c.scene()->items())
   {
-    os << item << ": ";
+    os << index << ' ' << item << ": ";
     if (const ribi::cmap::QtNode * const qtnode = qgraphicsitem_cast<const ribi::cmap::QtNode*>(item))
     {
-      os << *qtnode;
+      os << "QtNode, has parent item " << qtnode->parentItem();
     }
     else if (const ribi::cmap::QtEdge * const qtedge = qgraphicsitem_cast<const ribi::cmap::QtEdge*>(item))
     {
-      os << *qtedge;
+      os << "QtEdge, "
+        << "from " << qtedge->GetFrom()
+        << ", center " << qtedge->GetQtNode()
+        << ", to " << qtedge->GetTo()
+      ;
     }
     else if (const ribi::QtQuadBezierArrowItem * const qtarrow = qgraphicsitem_cast<const ribi::QtQuadBezierArrowItem*>(item))
     {
-      os << *qtarrow;
+      os << "QtQuadBezierArrowItem, "
+        << "from " << qtarrow->GetFromItem()
+        << ", mid " << qtarrow->GetMidItem()
+        << ", to" << qtarrow->GetToItem()
+      ;
     }
     else if (const ribi::cmap::QtTool * const qttool = qgraphicsitem_cast<const ribi::cmap::QtTool*>(item))
     {
-      os << "QtTool, connected to " << qttool->GetBuddyItem();
+      os << "QtTool, "
+        << "is visible: " << qttool->isVisible()
+        << ", buddy item: " << qttool->GetBuddyItem();
     }
     else if (const ribi::QtArrowItem * const qtstraightarrow = qgraphicsitem_cast<const ribi::QtArrowItem*>(item))
     {
@@ -1934,7 +1945,9 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) no
     }
     else if (const ribi::cmap::QtNewArrow * const qtnewarrow = qgraphicsitem_cast<const ribi::cmap::QtNewArrow*>(item))
     {
-      os << "QtNewArrow, connected to " << qtnewarrow->GetFrom();
+      os << "QtNewArrow, "
+        << "is visible: " << qtnewarrow->isVisible()
+        << ", connected to " << qtnewarrow->GetFrom();
     }
     else
     {
@@ -1942,6 +1955,7 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) no
       assert(!"Should not get here");
     }
     os << '\n';
+    ++index;
   }
   return os;
 }
