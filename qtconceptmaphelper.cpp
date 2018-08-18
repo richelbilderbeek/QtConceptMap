@@ -394,18 +394,25 @@ ribi::cmap::GetQtNodeVignetteBrushFunctionUninitialized() noexcept
 std::vector<ribi::cmap::QtEdge *>
 ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept
 {
-  std::vector<ribi::cmap::QtEdge *> selected;
-  const auto qtedges = GetQtEdges(scene);
-  std::copy_if(
-    std::begin(qtedges),
-    std::end(qtedges),
-    std::back_inserter(selected),
-    [](QtEdge* const qtedge)
+  std::vector<ribi::cmap::QtEdge *> v;
+  const auto selected = scene.selectedItems();
+  for (const auto item: selected)
+  {
+    if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(item))
     {
-      return qtedge->IsSelected() || qtedge->GetQtNode()->isSelected();
+      v.push_back(qtedge);
     }
-  );
-  return selected;
+    if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(item))
+    {
+      if (QtEdge* const qtedge_again
+        = qgraphicsitem_cast<QtEdge*>(qtnode->parentItem())
+      )
+      {
+        v.push_back(qtedge_again);
+      }
+    }
+  }
+  return v;
 }
 
 std::vector<ribi::cmap::QtNode *>

@@ -4,6 +4,9 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+
+#include <QDebug>
+
 #include "conceptmap.h"
 #include "conceptmapedge.h"
 #include "conceptmapnode.h"
@@ -108,9 +111,14 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
     }
   }
 
-  std::vector<QtEdge *> qtedges_to_remove = m_selected_qtedges_removed;
-  std::copy(std::begin(m_unselected_qtedges_removed), std::end(m_unselected_qtedges_removed),
-    std::back_inserter(qtedges_to_remove)
+  std::set<QtEdge *> qtedges_to_remove(
+    std::begin(m_selected_qtedges_removed),
+    std::end(m_selected_qtedges_removed)
+  );
+  std::copy(
+    std::begin(m_unselected_qtedges_removed),
+    std::end(m_unselected_qtedges_removed),
+    std::inserter(qtedges_to_remove, std::begin(qtedges_to_remove))
   );
 
   for (QtEdge * const qtedge: qtedges_to_remove)
@@ -134,6 +142,7 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
 
 void ribi::cmap::CommandDeleteSelected::Redo()
 {
+  qDebug() << "REDO";
   assert(AllHaveSameScene());
 
   if (IsQtCenterNodeSelected(GetQtConceptMap()))
@@ -151,14 +160,11 @@ void ribi::cmap::CommandDeleteSelected::Redo()
       throw std::logic_error(msg.str());
     }
   }
-
   assert(AllHaveSameScene());
   GetScene(*this).clearFocus();
   GetQtToolItem(*this).SetBuddyItem(nullptr);
-
   RemoveQtEdges();
   RemoveSelectedQtNodes();
-
   assert(AllHaveSameScene());
 }
 
