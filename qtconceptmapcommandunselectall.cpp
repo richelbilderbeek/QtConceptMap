@@ -20,20 +20,9 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
   {
     assert(item);
     assert(item->isSelected());
-
-    //Do not add a QtNode that is on a QtEdge, only keep that QtEdge
-    const bool is_qtedge{qgraphicsitem_cast<QtEdge*>(item)};
-    const bool is_qtnode{qgraphicsitem_cast<QtNode*>(item)};
-    const bool is_qtnode_on_edge{
-      qgraphicsitem_cast<QtNode*>(item)
-        && IsOnEdge(*qgraphicsitem_cast<QtNode*>(item))
-    };
-    if (is_qtnode_on_edge)
-    {
-      qDebug() << "Skip QtNodes on QtEdge for now";
-      continue;
-    }
-    if (is_qtedge || is_qtnode)
+    if (qgraphicsitem_cast<QtEdge*>(item)
+      || qgraphicsitem_cast<QtNode*>(item)
+    )
     {
       try
       {
