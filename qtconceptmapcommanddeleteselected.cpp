@@ -142,7 +142,6 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
 
 void ribi::cmap::CommandDeleteSelected::Redo()
 {
-  qDebug() << "REDO";
   assert(AllHaveSameScene());
 
   if (IsQtCenterNodeSelected(GetQtConceptMap()))
