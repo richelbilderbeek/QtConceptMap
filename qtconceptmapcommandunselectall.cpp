@@ -20,7 +20,7 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
   {
     if (qgraphicsitem_cast<QtEdge*>(item)
       || (qgraphicsitem_cast<QtNode*>(item)
-          && qgraphicsitem_cast<QtEdge*>(item->parentItem())
+          && !qgraphicsitem_cast<QtEdge*>(item->parentItem())
       )
     )
     {
