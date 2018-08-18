@@ -15,13 +15,13 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
 )  : Command(qtconceptmap, parent),
      m_cmd{new QUndoCommand(this)}
 {
-  //Unselect the QtNodes
+  //Unselect the solitary QtNodes and QtEdges
   for (QGraphicsItem * const item: GetQtConceptMap().GetScene().selectedItems())
   {
-    assert(item);
-    assert(item->isSelected());
     if (qgraphicsitem_cast<QtEdge*>(item)
-      || qgraphicsitem_cast<QtNode*>(item)
+      || (qgraphicsitem_cast<QtNode*>(item)
+          && qgraphicsitem_cast<QtEdge*>(item->parentItem())
+      )
     )
     {
       try
@@ -31,7 +31,6 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
       catch (const std::exception&) {} //!OCLINT indeed, an empty catch
     }
   }
-
   if (!m_cmd->childCount())
   {
     throw std::invalid_argument("Cannot unselect if none selected");

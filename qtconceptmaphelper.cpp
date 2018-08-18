@@ -62,9 +62,8 @@ int ribi::cmap::CountQtNodes(const QGraphicsScene& scene) noexcept
 int ribi::cmap::CountSelectedQtEdges(const QGraphicsScene& scene) noexcept
 {
   int cnt{0};
-  for (auto item: scene.items()) {
+  for (auto item: scene.selectedItems()) {
     if (qgraphicsitem_cast<QtEdge*>(item)
-      && qgraphicsitem_cast<QtEdge*>(item)->IsSelected()
     ) {
       ++cnt;
     }
@@ -77,7 +76,7 @@ int ribi::cmap::CountSelectedQtNodes(const QGraphicsScene& scene) noexcept
   int cnt{0};
   for (auto item: scene.items()) {
     if (qgraphicsitem_cast<QtNode*>(item)
-      && qgraphicsitem_cast<QtNode*>(item)->isSelected()
+      && item->isSelected()
       && !IsQtNodeOnEdge(item)
     ) {
       ++cnt;
