@@ -2,8 +2,9 @@
 
 Branch|[![Travis CI logo](TravisCI.png)](https://travis-ci.org)|[![Codecov logo](Codecov.png)](https://www.codecov.io)
 ---|---|---
-master|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=master)](https://travis-ci.org/richelbilderbeek/QtConceptMap) | [![codecov.io](https://codecov.io/github/richelbilderbeek/QtConceptMap/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/QtConceptMap?branch=master)
-develop|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/QtConceptMap) | [![codecov.io](https://codecov.io/github/richelbilderbeek/QtConceptMap/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/QtConceptMap?branch=develop)
+`master`|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=master)](https://travis-ci.org/richelbilderbeek/QtConceptMap) | [![codecov.io](https://codecov.io/github/richelbilderbeek/QtConceptMap/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/QtConceptMap?branch=master)
+`develop`|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/QtConceptMap) | [![codecov.io](https://codecov.io/github/richelbilderbeek/QtConceptMap/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/QtConceptMap?branch=develop)
+`richel`|[![Build Status](https://travis-ci.org/richelbilderbeek/QtConceptMap.svg?branch=richel)](https://travis-ci.org/richelbilderbeek/QtConceptMap) | [![codecov.io](https://codecov.io/github/richelbilderbeek/QtConceptMap/coverage.svg?branch=richel)](https://codecov.io/github/richelbilderbeek/QtConceptMap?branch=richel)
 
 C++14 concept map widget class using Qt
 
