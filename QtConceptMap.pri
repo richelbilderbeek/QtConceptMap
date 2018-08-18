@@ -26,8 +26,6 @@ HEADERS += \
     $$PWD/qtconceptmapcommandunselectnode.h \
     $$PWD/qtconceptmapcompetency.h \
     $$PWD/qtconceptmapconcepteditdialog.h \
-    $$PWD/qtconceptmapexampledialog.h \
-    $$PWD/qtconceptmapexamplesdialog.h \
     $$PWD/qtconceptmapfwd.h \
     $$PWD/qtconceptmap.h \
     $$PWD/qtconceptmaphelper.h \
@@ -72,8 +70,6 @@ SOURCES += \
     $$PWD/qtconceptmapcompetency.cpp \
     $$PWD/qtconceptmapconcepteditdialog.cpp \
     $$PWD/qtconceptmap.cpp \
-    $$PWD/qtconceptmapexampledialog.cpp \
-    $$PWD/qtconceptmapexamplesdialog.cpp \
     $$PWD/qtconceptmaphelper.cpp \
     $$PWD/qtconceptmapitemhighlighter.cpp \
     $$PWD/qtconceptmapmode.cpp \
@@ -94,8 +90,6 @@ SOURCES += \
 
 FORMS += \
     $$PWD/qtconceptmapconcepteditdialog.ui \
-    $$PWD/qtconceptmapexampledialog.ui \
-    $$PWD/qtconceptmapexamplesdialog.ui \
     $$PWD/qtconceptmaprateconceptdialog.ui \
     $$PWD/qtconceptmaprateconcepttallydialog.ui \
     $$PWD/qtconceptmapratedconceptdialog.ui \

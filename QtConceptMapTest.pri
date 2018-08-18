@@ -21,8 +21,6 @@ SOURCES += \
     $$PWD/qtconceptmapcommandunselectall_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
     $$PWD/qtconceptmapconcepteditdialog_test.cpp \
-    $$PWD/qtconceptmapexampledialog_test.cpp \
-    $$PWD/qtconceptmapexamplesdialog_test.cpp \
     $$PWD/qtconceptmaphelper_test.cpp \
     $$PWD/qtconceptmapitemhighlighter_test.cpp \
     $$PWD/qtconceptmapmode_test.cpp \
@@ -36,7 +34,8 @@ SOURCES += \
     $$PWD/qtconceptmaprateexamplesdialog_test.cpp \
     $$PWD/qtconceptmaprating_test.cpp \
     $$PWD/qtconceptmap_test.cpp \
-    $$PWD/qtconceptmapnumberedcolumn_test.cpp
+    $$PWD/qtconceptmapnumberedcolumn_test.cpp \
+    $$PWD/qtconceptmaprateconcepttallydialogcloser_test.cpp
 
 HEADERS += \
     $$PWD/*_test.h

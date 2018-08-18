@@ -892,6 +892,7 @@ void ribi::cmap::QtConceptMapTest::PressEscapeMustBeIgnored() const
 {
   QtConceptMap m;
   m.show();
+  assert(!m.isHidden());
   QTest::keyClick(&m, Qt::Key_Escape);
   QVERIFY(!m.isHidden());
 }
