@@ -1,14 +1,17 @@
 #include "qtconceptmaprateconcepttallydialogcloser_test.h"
 
-#include "qtconceptmaprateconcepttallydialogcloser.h"
-#include "qtconceptmaprateconcepttallydialog.h"
 #include "conceptmapfactory.h"
+#include "conceptmaphelper.h"
+#include "qtconceptmaprateconcepttallydialog.h"
+#include "qtconceptmaprateconcepttallydialogcloser.h"
 
 using namespace ribi::cmap;
 
 void ribi::cmap::QtConceptMapRateConceptTallyDialogCloserTest::Close()
 {
   QtRateConceptTallyDialogCloser c;
+
+  if (OnTravis()) return;
 
   QTimer::singleShot(100, &c, SLOT(Close()));
   ribi::cmap::QtRateConceptTallyDialog d(
