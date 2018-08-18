@@ -22,6 +22,8 @@ private slots:
 
   //compleXity, Concreteness, Specificity
   void XcsAreReadFromQtConceptMap() const;
+
+  void Write() const;
 };
 
 } //~namespace cmap

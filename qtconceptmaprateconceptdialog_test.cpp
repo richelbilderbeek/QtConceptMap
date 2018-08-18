@@ -192,3 +192,21 @@ void ribi::cmap::QtConceptMapRateConceptDialogTest::XcsAreReadFromQtConceptMap()
   QVERIFY(d->GetConcreteness() == concreteness);
   QVERIFY(d->GetSpecificity() == specificity);
 }
+
+void ribi::cmap::QtConceptMapRateConceptDialogTest::Write() const
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().Get1());
+  auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->show();
+  d->Write(*qtconceptmap.get(), *qtnode);
+  assert(!"OK");
+}
