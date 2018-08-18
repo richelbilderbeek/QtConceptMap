@@ -35,6 +35,7 @@
 #include "qtconceptmapqtnode_test.h"
 #include "qtconceptmaprateconceptdialog_test.h"
 #include "qtconceptmaprateconcepttallydialog_test.h"
+#include "qtconceptmaprateconcepttallydialogcloser_test.h"
 #include "qtconceptmapratedconceptdialog_test.h"
 #include "qtconceptmaprateexamplesdialog_test.h"
 #include "qtconceptmaprating_test.h"
@@ -90,7 +91,8 @@ int main(int argc, char *argv[])
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
-  //assert(!"Don't forget to let Travis test everything");
+  { QtConceptMapRateConceptTallyDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
+  assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
   { QtConceptMapBrushFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -127,6 +129,7 @@ int main(int argc, char *argv[])
   { QtConceptMapQtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtConceptMapRateConceptTallyDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapRateExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapRatedConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapRatingTest t; error |= QTest::qExec(&t, argc, argv); }
