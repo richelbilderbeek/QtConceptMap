@@ -1,3 +1,4 @@
 ignore:
   - qtmain.cpp # Will not be run
   - qtconceptmaprateconcepttallydialogcloser.cpp # Cannot be tested completely on Travis
+  - *_test.cpp # Do not care about tests, they run incomplete on Travis
