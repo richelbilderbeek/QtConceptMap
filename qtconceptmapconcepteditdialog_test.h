@@ -6,19 +6,20 @@
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapConceptEditDialogTest : public QObject
+class QtConceptEditDialogTest : public QObject
 {
     Q_OBJECT //!OCLINT
 
 private slots:
 
-  void construction_concept_without_examples();
-  void construction_concept_with_one_example();
-  void construction_concept_with_two_examples();
+  void ConstructConceptWithoutExamples() const noexcept;
+  void ConstructConceptWithOneExample() const noexcept;
+  void ConstructConceptWithTwoExamples() const noexcept;
+  void ConstructRelationWithoutExamples() const noexcept;
 
-  void press_ok_with_changing_examples_should_result_in_changed_concept();
-  void press_ok_with_changing_name_should_result_in_changed_concept();
-  void press_ok_without_changes_should_result_in_unchanged_concept();
+  void PressOkWithChangingExamplesResultsInChangedConcept() const noexcept;
+  void PressOkWithChangingNameResultsInChangedConcept() const noexcept;
+  void PressOkWithoutChangesResultsInUnchangedConcept() const noexcept;
 };
 
 } //~namespace cmap

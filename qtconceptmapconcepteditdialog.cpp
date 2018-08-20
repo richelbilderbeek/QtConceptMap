@@ -69,22 +69,7 @@ QVector<QString> ribi::cmap::GetExamplesText(const Concept& concept) noexcept
 void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
 {
   if (e->key() == Qt::Key_Escape) { close(); return; }
-  //No tabs allowed in editing
-  //if (e->key() == Qt::Key_Tab)
-  //{
-  //  QDialog::keyPressEvent(e);
-  //  return;
-  //}
-  if (
-    (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
-    && e->modifiers() & Qt::AltModifier
-  )
-  {
-    close();
-    return;
-  }
-
-  QDialog::keyPressEvent(e); //Causes dialog to close unwanted?
+  QDialog::keyPressEvent(e);
 }
 
 void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()//QTableView *tableView)

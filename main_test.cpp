@@ -63,33 +63,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ QtConceptMapCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandSelectTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandSetConceptTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandToggleArrowHeadTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandToggleArrowTailTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandUnselectAllTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandUnselectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandUnselectTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapHelperTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapNumberedColumnTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapQtEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapQtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapRatingTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtConceptMapRateConceptTallyDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
@@ -114,7 +88,7 @@ int main(int argc, char *argv[])
   { QtConceptMapCommandUnselectTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapCompetencyTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtConceptMapConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtConceptEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapHelperTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapItemHighlighterTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapModeTest t; error |= QTest::qExec(&t, argc, argv); }
