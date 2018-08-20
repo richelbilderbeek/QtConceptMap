@@ -68,15 +68,52 @@ void ribi::cmap::QtEdgeTest::ConstructAbuse() const noexcept
   }
 }
 
+void ribi::cmap::QtEdgeTest::OperatorEquals() const noexcept
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto qtedge_1 = GetLastQtEdge(m.GetScene());
+  const auto qtedge_2 = GetLastQtEdge(m.GetScene());
+  QVERIFY(*qtedge_1 == *qtedge_2);
+}
+
+void ribi::cmap::QtEdgeTest::SetExamples() const noexcept
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto qtedge = GetLastQtEdge(m.GetScene());
+  assert(qtedge);
+  const Examples examples_1( { Example("A") } );
+  const Examples examples_2( { Example("B") } );
+  ::ribi::cmap::SetExamples(*qtedge, examples_1);
+  QVERIFY(::ribi::cmap::GetExamples(*qtedge) == examples_1);
+  ::ribi::cmap::SetExamples(*qtedge, examples_2);
+  QVERIFY(::ribi::cmap::GetExamples(*qtedge) == examples_2);
+}
+
+void ribi::cmap::QtEdgeTest::SetIsComplex() const noexcept
+{
+  QtConceptMap m;
+  m.SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto qtedge = GetLastQtEdge(m.GetScene());
+  assert(qtedge);
+  ::ribi::cmap::SetIsComplex(*qtedge, true);
+  QVERIFY(::ribi::cmap::IsComplex(*qtedge));
+  ::ribi::cmap::SetIsComplex(*qtedge, false);
+  QVERIFY(!::ribi::cmap::IsComplex(*qtedge));
+  ::ribi::cmap::SetIsComplex(*qtedge, true);
+  QVERIFY(::ribi::cmap::IsComplex(*qtedge));
+}
+
 void ribi::cmap::QtEdgeTest::ShowBoundingRect() const noexcept
 {
   QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get11());
+  m.SetConceptMap(ConceptMapFactory().GetUnrated());
   const auto qtedge = GetLastQtEdge(m.GetScene());
   assert(qtedge);
   qtedge->SetShowBoundingRect(true);
-  m.showFullScreen();
-  QTest::qWait(100);
+  m.show();
+  QTest::qWaitForWindowActive(&m, 1000);
 }
 
 void ribi::cmap::QtEdgeTest::GetNodeMustBeCorrect() const noexcept

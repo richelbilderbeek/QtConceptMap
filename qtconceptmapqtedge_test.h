@@ -19,8 +19,11 @@ private slots:
   void ChangeFocus() const noexcept;
   void ConstructAbuse() const noexcept;
   void GetNodeMustBeCorrect() const noexcept;
+  void OperatorEquals() const noexcept;
   void NodeMustHaveDottedBlackLineWhenSelected() const noexcept; //#127
   void NodeMustHaveWhiteBorderWhenNotSelected() const noexcept; //#127
+  void SetExamples() const noexcept;
+  void SetIsComplex() const noexcept;
   void ShowBoundingRect() const noexcept;
   void ToStr() const noexcept;
   void ToStream() const noexcept;

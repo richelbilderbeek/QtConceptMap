@@ -211,6 +211,11 @@ ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
   );
 }
 
+const ribi::cmap::Examples& ribi::cmap::GetExamples(const QtEdge& qtedge) noexcept
+{
+  return GetExamples(*qtedge.GetQtNode());
+}
+
 ribi::cmap::Node ribi::cmap::GetNode(const QtEdge& qtedge) noexcept
 {
   return ::ribi::cmap::GetNode(*qtedge.GetQtNode());
@@ -246,6 +251,11 @@ bool ribi::cmap::HasTailArrow(const QtEdge& qtedge) noexcept
   return qtedge.GetArrow()->HasTail();
 }
 
+bool ribi::cmap::IsComplex(QtEdge& edge) noexcept
+{
+  return ::ribi::cmap::IsComplex(*edge.GetQtNode());
+}
+
 bool ribi::cmap::IsConnectedToCenterNode(const QtEdge& qtedge)
 {
   return IsQtCenterNode(qtedge.GetFrom())
@@ -259,11 +269,6 @@ bool ribi::cmap::IsMovable(const QtEdge& qtedge) noexcept
 
   //Its QtNode (which it follows) can be moved
   return qtedge.GetQtNode()->flags() & QGraphicsItem::ItemIsMovable;
-}
-
-bool ribi::cmap::IsSelectable(const QtEdge& qtedge) noexcept
-{
-  return qtedge.flags() & QGraphicsItem::ItemIsSelectable;
 }
 
 bool ribi::cmap::IsSelected(const QtEdge& qtedge) noexcept
@@ -282,50 +287,13 @@ void ribi::cmap::QtEdge::keyPressEvent(QKeyEvent *event) noexcept
   //Don't forward the keyPressEvent!
   //These are handled by Commands in the QtConceptMap
 }
-*/
 
 void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept
 {  
-  if (event->modifiers() & Qt::ShiftModifier)
-  {
-    if ((event->pos() - this->m_arrow->GetTail()
-      + m_qtnode->pos()).manhattanLength() < 20.0)
-    {
-      this->SetHasTailArrow( !m_arrow->HasTail() );
-      //this->update(); //Don't!
-      return;
-    }
-    if ((event->pos() - this->m_arrow->GetHead()
-      + m_qtnode->pos()).manhattanLength() < 20.0)
-    {
-      this->SetHasHeadArrow( !m_arrow->HasHead() );
-      //this->update(); //Don't!
-      return;
-    }
-  }
-
-  //What is clicked on: the concept or the arrow? Assume concept
-  m_arrow->SetPen(QPen(QColor(0,0,0)));
-  if (!m_qtnode->GetInnerRect().contains(event->pos()))
-  {
-    //If the concept is not clicked...
-    //but the arrow is...
-    QPointF pos_on_arrow = event->pos();
-    pos_on_arrow += (m_qtnode->pos());
-    if (m_arrow->shape().contains(pos_on_arrow)
-      || (event->pos() - this->m_arrow->GetTail()
-        + m_qtnode->pos()).manhattanLength() < 20.0
-      || (event->pos() - this->m_arrow->GetHead()
-        + m_qtnode->pos()).manhattanLength() < 20.0
-      )
-    {
-      //give focus to the arrow
-      m_arrow->SetPen(m_arrow->GetFocusPen());
-      return;
-    }
-  }
-  //QtConceptMapElement::mousePressEvent(event);
+  //Don't forward the keyPressEvent!
+  //These are handled by Commands in the QtConceptMap
 }
+*/
 
 void ribi::cmap::Move(QtEdge& qtedge, const double dx, const double dy)
 {

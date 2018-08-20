@@ -103,11 +103,6 @@ struct QtEdge final : public QGraphicsItem
 
 protected:
 
-  ///QtConceptMap catches this
-  [[deprecated]]
-  void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
-
-
   ///Paint this QGraphicItem
   void paint(
     QPainter* painter,
@@ -162,6 +157,8 @@ QPointF GetCenterPos(const QtEdge& qtedge) noexcept;
 ///Create a Concept to represent the QtEdge
 Concept GetConcept(const QtEdge& qtedge) noexcept;
 
+const Examples& GetExamples(const QtEdge& qtedge) noexcept;
+
 ///Create a Node to represent the QtEdge
 Node GetNode(const QtEdge& qtedge) noexcept;
 
@@ -186,14 +183,14 @@ bool HasExamples(const QtEdge& qtnode) noexcept;
 bool HasHeadArrow(const QtEdge& qtedge) noexcept;
 bool HasTailArrow(const QtEdge& qtedge) noexcept;
 
+///Get the tallied complexity
+bool IsComplex(QtEdge& edge) noexcept;
+
 ///Checks if the QtEdge is connected to a QtNode that is
 ///a center node
 bool IsConnectedToCenterNode(const QtEdge& qtedge);
 
 bool IsMovable(const QtEdge& qtedge) noexcept;
-
-[[deprecated]]
-bool IsSelectable(const QtEdge& qtedge) noexcept;
 
 bool IsSelected(const QtEdge& qtedge) noexcept;
 
