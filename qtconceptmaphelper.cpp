@@ -155,7 +155,6 @@ ribi::cmap::QtNode * ribi::cmap::FindQtCenterNode(const QGraphicsScene& scene) n
   {
     if (IsQtCenterNode(qtnode)) return qtnode;
   }
-  assert(!"Should not get here"); //!OCLINT accepted idiom
   return nullptr;
 }
 
@@ -176,10 +175,11 @@ ribi::cmap::QtEdge * ribi::cmap::FindQtEdge(
 }
 
 ribi::cmap::QtNode *
-ribi::cmap::GetQtCenterNode(const QGraphicsScene& scene) noexcept
+ribi::cmap::GetQtCenterNode(const QGraphicsScene& scene)
 {
   const auto qtnodes = GetQtCenterNodes(scene);
   if (qtnodes.empty()) return nullptr;
+  assert(qtnodes.size() == 1);
   return qtnodes.front();
 }
 
@@ -250,10 +250,10 @@ ribi::cmap::GetQtNodeBrushFunction(const Mode mode) noexcept
   {
     case Mode::edit: return GetQtNodeBrushFunctionEdit();
     case Mode::rate: return GetQtNodeBrushFunctionRate();
+    default:
+      assert(!"Should not get here"); //!OCLINT accepted idiom
     case Mode::uninitialized: return GetQtNodeBrushFunctionUninitialized();
   }
-  assert(!"Should not get here"); //!OCLINT accepted idiom
-  return GetQtNodeBrushFunctionUninitialized();
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
