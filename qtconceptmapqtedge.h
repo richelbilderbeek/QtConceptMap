@@ -103,6 +103,8 @@ struct QtEdge final : public QGraphicsItem
 
 protected:
 
+  ///QtConceptMap catches this
+  [[deprecated]]
   void mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept override final;
 
 
@@ -189,7 +191,10 @@ bool HasTailArrow(const QtEdge& qtedge) noexcept;
 bool IsConnectedToCenterNode(const QtEdge& qtedge);
 
 bool IsMovable(const QtEdge& qtedge) noexcept;
+
+[[deprecated]]
 bool IsSelectable(const QtEdge& qtedge) noexcept;
+
 bool IsSelected(const QtEdge& qtedge) noexcept;
 
 ///Move a QtEdge (and its Edge) relatively

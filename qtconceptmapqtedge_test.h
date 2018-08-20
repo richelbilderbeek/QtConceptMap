@@ -15,14 +15,15 @@ private slots:
   //To do/review:
 
   //Done:
-  void AllTests();
-  void ChangeFocus();
-  void GetNodeMustBeCorrect();
-  void NodeMustHaveDottedBlackLineWhenSelected(); //#127
-  void NodeMustHaveWhiteBorderWhenNotSelected(); //#127
-  void ShowBoundingRect();
-  void ToStr();
-  void ToStream();
+  void AllTests() const noexcept;
+  void ChangeFocus() const noexcept;
+  void ConstructAbuse() const noexcept;
+  void GetNodeMustBeCorrect() const noexcept;
+  void NodeMustHaveDottedBlackLineWhenSelected() const noexcept; //#127
+  void NodeMustHaveWhiteBorderWhenNotSelected() const noexcept; //#127
+  void ShowBoundingRect() const noexcept;
+  void ToStr() const noexcept;
+  void ToStream() const noexcept;
 };
 
 } //~namespace cmap
