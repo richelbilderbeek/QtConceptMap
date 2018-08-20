@@ -13,8 +13,8 @@ namespace Ui { class QtRateConceptTallyDialog; }
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapRateConceptDialogTest;
-class QtConceptMapRateConceptTallyDialogTest;
+class QtRateConceptDialogTest;
+class QtRateConceptTallyDialogTest;
 class QtRateConceptTallyDialogCloser;
 
 class QtRateConceptTallyDialog final : public QDialog
@@ -130,8 +130,8 @@ private:
   ///Update the suggest XCS on the rating label
   void UpdateRatingLabel() const noexcept;
 
-  friend class QtConceptMapRateConceptDialogTest;
-  friend class QtConceptMapRateConceptTallyDialogTest;
+  friend class QtRateConceptDialogTest;
+  friend class QtRateConceptTallyDialogTest;
   friend class QtRateConceptTallyDialogCloser;
 };
 

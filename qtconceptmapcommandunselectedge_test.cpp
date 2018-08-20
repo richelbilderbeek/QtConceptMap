@@ -8,7 +8,7 @@
 #include "qtconceptmapqtedge.h"
 #include "conceptmapfactory.h"
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::UnselectAbsentItemFails() const noexcept
+void ribi::cmap::QtCommandUnselectEdgeTest::UnselectAbsentItemFails() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -26,7 +26,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::UnselectAbsentItemFails() 
   }
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::UnselectQtCenterEdgeByName() const noexcept
+void ribi::cmap::QtCommandUnselectEdgeTest::UnselectQtCenterEdgeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -40,7 +40,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::UnselectQtCenterEdgeByName
   assert(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
+void ribi::cmap::QtCommandUnselectEdgeTest
   ::UnselectOneOfTwoQtEdgesByName() const noexcept
 {
   QtConceptMap q;
@@ -57,7 +57,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
+void ribi::cmap::QtCommandUnselectEdgeTest
   ::UnselectOneOfTwoQtEdgesByNameAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -87,7 +87,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(!GetQtToolItemBuddy(q));
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
+void ribi::cmap::QtCommandUnselectEdgeTest
   ::UnselectTwoQtEdgesByName() const noexcept
 {
   QtConceptMap q;
@@ -110,7 +110,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
+void ribi::cmap::QtCommandUnselectEdgeTest
   ::UnselectTwoQtEdgesByNameAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -159,7 +159,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest
   assert(GetQtToolItemBuddy(q) == nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::Parse() const noexcept
+void ribi::cmap::QtCommandUnselectEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -171,7 +171,7 @@ void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::Parse() const noexcept
   QVERIFY(c != nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectEdgeTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandUnselectEdgeTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandUnselectEdge(q, "nonsense") == nullptr);

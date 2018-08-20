@@ -12,7 +12,7 @@
 #include "qtconceptmapqtedge.h"
 #include "conceptmapfactory.h"
 
-void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectLonelyQtCenterNodeByName() const noexcept
+void ribi::cmap::QtCommandUnselectTest::UnselectLonelyQtCenterNodeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
@@ -26,7 +26,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectLonelyQtCenterNodeByNa
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectQtCenterEdgeByName() const noexcept
+void ribi::cmap::QtCommandUnselectTest::UnselectQtCenterEdgeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -40,7 +40,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectQtCenterEdgeByName() c
   assert(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectOneOfTwoQtEdgesByName() const noexcept
 {
   QtConceptMap q;
@@ -57,7 +57,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectOneOfTwoQtEdgesByNameAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -86,7 +86,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   assert(GetQtToolItemBuddy(q) == nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectTwoQtEdgesByName() const noexcept
 {
   QtConceptMap q;
@@ -109,7 +109,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   assert(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectTwoQtEdgesByNameAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -158,7 +158,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   assert(GetQtToolItemBuddy(q) == nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectQtCenterNodeByName() const noexcept
+void ribi::cmap::QtCommandUnselectTest::UnselectQtCenterNodeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -172,7 +172,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest::UnselectQtCenterNodeByName() c
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectOneOfTwoQtNodesByName() const noexcept
 {
   QtConceptMap q;
@@ -187,7 +187,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectOneOfTwoQtNodesByNameAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -216,7 +216,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   assert(GetQtToolItemBuddy(q) == first_qtnode);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectTwoQtNodesByName() const noexcept
 {
   QtConceptMap q;
@@ -239,7 +239,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest
+void ribi::cmap::QtCommandUnselectTest
   ::UnselectTwoQtNodesByNameAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -288,7 +288,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest
   assert(GetQtToolItemBuddy(q) == qtnode2);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest::Parse() const noexcept
+void ribi::cmap::QtCommandUnselectTest::Parse() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -300,7 +300,7 @@ void ribi::cmap::QtConceptMapCommandUnselectTest::Parse() const noexcept
   QVERIFY(c != nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandUnselectTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandUnselectTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandUnselect(q, "nonsense") == nullptr);

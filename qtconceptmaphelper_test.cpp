@@ -4,7 +4,7 @@
 
 #include "qtconceptmap.h"
 
-void ribi::cmap::QtConceptMapHelperTest::ExtractTheOneSelectedQtEdge() const noexcept
+void ribi::cmap::HelperTest::ExtractTheOneSelectedQtEdge() const noexcept
 {
   //Should throw on empty Scene
   try
@@ -32,7 +32,7 @@ void ribi::cmap::QtConceptMapHelperTest::ExtractTheOneSelectedQtEdge() const noe
 }
 
 
-void ribi::cmap::QtConceptMapHelperTest::FindQtCenterNode() const noexcept
+void ribi::cmap::HelperTest::FindQtCenterNode() const noexcept
 {
   //No concept map, thus no center node
   {
@@ -53,7 +53,7 @@ void ribi::cmap::QtConceptMapHelperTest::FindQtCenterNode() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapHelperTest::GetQtCenterNode() const noexcept
+void ribi::cmap::HelperTest::GetQtCenterNode() const noexcept
 {
   //No concept map, thus no center node
   {
@@ -69,7 +69,7 @@ void ribi::cmap::QtConceptMapHelperTest::GetQtCenterNode() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapHelperTest::GetQtEdges() const noexcept
+void ribi::cmap::HelperTest::GetQtEdges() const noexcept
 {
   {
     QtConceptMap m;
@@ -88,14 +88,14 @@ void ribi::cmap::QtConceptMapHelperTest::GetQtEdges() const noexcept
   }
 }
 
-void ribi::cmap::QtConceptMapHelperTest::GetQtNodeBrushFunction() const noexcept
+void ribi::cmap::HelperTest::GetQtNodeBrushFunction() const noexcept
 {
   ::ribi::cmap::GetQtNodeBrushFunction(Mode::edit);
   ::ribi::cmap::GetQtNodeBrushFunction(Mode::rate);
   ::ribi::cmap::GetQtNodeBrushFunction(Mode::uninitialized);
 }
 
-void ribi::cmap::QtConceptMapHelperTest::MessUp() const noexcept
+void ribi::cmap::HelperTest::MessUp() const noexcept
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());

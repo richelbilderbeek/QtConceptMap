@@ -6,7 +6,7 @@
 
 #include <QDebug>
 
-void ribi::cmap::QtConceptMapCommandSetModeTest::Parse() const noexcept
+void ribi::cmap::QtCommandSetModeTest::Parse() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandSetMode(q, "nonsense") == nullptr);

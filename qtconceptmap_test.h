@@ -14,7 +14,6 @@ private slots:
 
   //To do/review
 
-
   //Done
   void CannotDeleteCenterNode() const; //#114
   void CannotEditCenterNode() const; //#104
@@ -105,6 +104,8 @@ private slots:
   ///When setting a ConceptMap, the number of Edges and QtEdges,
   /// and Nodes and QtNodes must match
   void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const;
+
+  void SetMode() const;
 
   void SingleClickOnEmptyConceptMap() const;
   void SingleClickOnEmptyConceptMapIsNotAccepted() const;

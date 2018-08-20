@@ -90,8 +90,6 @@ public:
 public slots:
 
   void changeEvent(QEvent *) override;
-  void dragEnterEvent(QDragEnterEvent *event) override;
-  void dragLeaveEvent(QDragLeaveEvent *event) override;
   void focusInEvent(QFocusEvent *event) override;
   void focusOutEvent(QFocusEvent *event) override;
   void hideEvent(QHideEvent *) override;

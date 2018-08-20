@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapCommandToggleArrowHeadTest : public QObject
+class QtCommandToggleArrowHeadTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

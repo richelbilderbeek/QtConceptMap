@@ -210,15 +210,6 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
   //All QtEdges, their QtNodes and Arrows must have a scene
   for (const auto qtedge: GetQtEdges(*q.scene()))
   {
-    if (!qtedge->GetFrom()->scene())
-    {
-      qCritical()
-        << "QtEdge '"
-        << GetText(*qtedge).c_str()
-        << "' has source QtNode '"
-        << GetText(*qtedge->GetFrom()).c_str()
-        << "' without scene";
-    }
     assert(qtedge);
     assert(qtedge->scene());
     assert(qtedge->GetArrow());
@@ -280,12 +271,6 @@ void ribi::cmap::CheckInvariantNoUnknownItems(const QtConceptMap& q) noexcept
 void ribi::cmap::CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(const QtConceptMap& q) noexcept
 {
   QtNode * const qtnode = q.GetQtToolItem().GetBuddyItem();
-  #ifndef NDEBUG
-  if (qtnode && !IsQtNodeNotOnEdge(qtnode))
-  {
-    qCritical() << "Should not associate a QtEdge";
-  }
-  #endif
   assert(!qtnode || IsQtNodeNotOnEdge(qtnode));
 }
 
@@ -348,22 +333,9 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateFlags(const QtNode& qtnode, c
   {
     case Mode::edit: return CreateEditFlags(qtnode);
     case Mode::rate: return CreateRateFlags(qtnode);
-    case Mode::uninitialized: return CreateUninitializedFlags(qtnode);
+    case Mode::uninitialized: break;
   }
-  assert(!"Should not get here"); //!OCLINT accepted idiom
-  return 0;
-}
-
-void ribi::cmap::QtConceptMap::dragEnterEvent(QDragEnterEvent * event)
-{
-  assert(!"ribi::cmap::QtConceptMap::dragEnterEvent is never called");
-  QtKeyboardFriendlyGraphicsView::dragEnterEvent(event);
-}
-
-void ribi::cmap::QtConceptMap::dragLeaveEvent(QDragLeaveEvent * event)
-{
-  assert(!"ribi::cmap::QtConceptMap::dragLeaveEvent is never called");
-  QtKeyboardFriendlyGraphicsView::dragLeaveEvent(event);
+  return CreateUninitializedFlags(qtnode);
 }
 
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
@@ -510,13 +482,9 @@ ribi::cmap::QtNode* ribi::cmap::GetItemBelowCursor(
   const QPointF& pos
 ) noexcept
 {
-  #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
   const QList<QGraphicsItem*> v = q.scene()->items(
     pos.x(),pos.y(), 2.0, 2.0, Qt::IntersectsItemShape, Qt::AscendingOrder
   );
-  #else
-  const QList<QGraphicsItem*> v = q.scene()->items(pos.x(),pos.y(), 2.0, 2.0);
-  #endif
   std::vector<QtNode*> qtnodes;
   std::for_each(v.begin(),v.end(),
     [&qtnodes](QGraphicsItem* const item)

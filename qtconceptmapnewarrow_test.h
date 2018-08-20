@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapNewArrowTest : public QObject
+class QtNewArrowTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

@@ -27,7 +27,7 @@
 
 using namespace ribi::cmap;
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithEmptyConceptmap()
+void ribi::cmap::QtRateConceptTallyDialogTest::ConstructWithEmptyConceptmap()
 {
   const ConceptMap empty_conceptmap;
   try
@@ -46,7 +46,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithEmptyConce
 }
 
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithTestConceptmap()
+void ribi::cmap::QtRateConceptTallyDialogTest::ConstructWithTestConceptmap()
 {
   const ConceptMap conceptmap{
     ConceptMapFactory().GetRateConceptTallyDialogExample()
@@ -55,7 +55,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::ConstructWithTestConcep
   QVERIFY("Should be no throw");
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions()
+void ribi::cmap::QtRateConceptTallyDialogTest::GivesCorrectSuggestions()
 {
   // From https://github.com/richelbilderbeek/BrainWeaver/issues/293
   // [...] bij 2 complexe relaties en 0 of 1 complexe voorbeelden
@@ -72,7 +72,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::GivesCorrectSuggestions
   QVERIFY(d.GetSuggestedComplexity() == 1);
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()
+void ribi::cmap::QtRateConceptTallyDialogTest::KeyPresses()
 {
   const ConceptMap conceptmap = ConceptMapFactory().Get6();
   QtRateConceptTallyDialog d(conceptmap, CreateDefaultRating());
@@ -83,7 +83,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::KeyPresses()
   QVERIFY(d.isHidden());
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::MeasureUiFromTestConceptmap()
+void ribi::cmap::QtRateConceptTallyDialogTest::MeasureUiFromTestConceptmap()
 {
   const ConceptMap conceptmap{
     ConceptMapFactory().GetRateConceptTallyDialogExample()
@@ -133,7 +133,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::MeasureUiFromTestConcep
   QVERIFY(d.ui->table->item(4, 3)->text() == "Students teaching each other, get to know each other");
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::UncheckingDecreasesSuggestion()
+void ribi::cmap::QtRateConceptTallyDialogTest::UncheckingDecreasesSuggestion()
 {
 
   const ConceptMap conceptmap{
@@ -165,7 +165,7 @@ void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::UncheckingDecreasesSugg
   QVERIFY(d.GetSuggestedSpecificity() == 0);
 }
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogTest::UserHasNotClickedOkAtConstruction()
+void ribi::cmap::QtRateConceptTallyDialogTest::UserHasNotClickedOkAtConstruction()
 {
   const ConceptMap conceptmap{
     ConceptMapFactory().GetRateConceptTallyDialogExample()

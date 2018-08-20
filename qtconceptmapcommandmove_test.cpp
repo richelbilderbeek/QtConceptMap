@@ -8,7 +8,7 @@
 #include "qtconceptmaphelper.h"
 
 
-void ribi::cmap::QtConceptMapCommandMoveTest::MoveAbsentItemByNameFails() const noexcept
+void ribi::cmap::QtCommandMoveTest::MoveAbsentItemByNameFails() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
@@ -23,7 +23,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveAbsentItemByNameFails() const 
   }
 }
 
-void ribi::cmap::QtConceptMapCommandMoveTest::MoveCenterQtNodeByNameFails() const noexcept
+void ribi::cmap::QtCommandMoveTest::MoveCenterQtNodeByNameFails() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
@@ -38,7 +38,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveCenterQtNodeByNameFails() cons
   }
 }
 
-void ribi::cmap::QtConceptMapCommandMoveTest::MoveOneOfTwoQtEdgesByName() const noexcept
+void ribi::cmap::QtCommandMoveTest::MoveOneOfTwoQtEdgesByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
@@ -55,7 +55,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveOneOfTwoQtEdgesByName() const 
   QVERIFY(GetY(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "second"; })) == 400);
 }
 
-void ribi::cmap::QtConceptMapCommandMoveTest::MoveOneOfTwoQtEdgesConnectedToCenterQtNodeByName() const noexcept
+void ribi::cmap::QtCommandMoveTest::MoveOneOfTwoQtEdgesConnectedToCenterQtNodeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
@@ -73,7 +73,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveOneOfTwoQtEdgesConnectedToCent
 }
 
 
-void ribi::cmap::QtConceptMapCommandMoveTest::MoveOnlyQtEdgeByName() const noexcept
+void ribi::cmap::QtCommandMoveTest::MoveOnlyQtEdgeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
@@ -113,7 +113,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveOnlyQtEdgeByName() const noexc
   QVERIFY(std::abs(expected_y - measured_y4) < 2.0);
 }
 
-void ribi::cmap::QtConceptMapCommandMoveTest::MoveOnlyQtEdgeConnectedToCenterQtNode() const noexcept
+void ribi::cmap::QtCommandMoveTest::MoveOnlyQtEdgeConnectedToCenterQtNode() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -130,7 +130,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveOnlyQtEdgeConnectedToCenterQtN
   QVERIFY(GetY(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "first"; })) == 350);
 }
 
-void ribi::cmap::QtConceptMapCommandMoveTest::MoveQtNodeByName() const noexcept
+void ribi::cmap::QtCommandMoveTest::MoveQtNodeByName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
@@ -142,7 +142,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::MoveQtNodeByName() const noexcept
   QVERIFY(GetY(*FindFirstQtNode(q, [](QtNode * qtnode) { return GetText(*qtnode) == "one"; })) == 375);
 }
 
-void ribi::cmap::QtConceptMapCommandMoveTest::Parse() const noexcept
+void ribi::cmap::QtCommandMoveTest::Parse() const noexcept
 {
   QtConceptMap q;
   const auto c = ParseCommandMove(q, "move(node label, 10, 20)");
@@ -152,7 +152,7 @@ void ribi::cmap::QtConceptMapCommandMoveTest::Parse() const noexcept
   QVERIFY(c->GetDy() == 20.0);
 }
 
-void ribi::cmap::QtConceptMapCommandMoveTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandMoveTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandMove(q, "nonsense") == nullptr);

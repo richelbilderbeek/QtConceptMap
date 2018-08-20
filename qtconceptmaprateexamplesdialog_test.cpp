@@ -14,7 +14,7 @@
 #include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmaprateexamplesdialog.h"
 
-void ribi::cmap::QtConceptMapRateExamplesDialogTest::GetRatedExamples()
+void ribi::cmap::QtRateExamplesDialogTest::GetRatedExamples()
 {
   const int sz = ConceptFactory().GetTests().size();
   for (int i=0; i!=sz; ++i)
@@ -37,7 +37,7 @@ void ribi::cmap::QtConceptMapRateExamplesDialogTest::GetRatedExamples()
   }
 }
 
-void ribi::cmap::QtConceptMapRateExamplesDialogTest::KeyPresses()
+void ribi::cmap::QtRateExamplesDialogTest::KeyPresses()
 {
   QtRateExamplesDialog d(ConceptFactory().Get1());
   d.show();
@@ -71,7 +71,7 @@ void ribi::cmap::QtConceptMapRateExamplesDialogTest::KeyPresses()
   QTest::qWait(delay);
 }
 
-void ribi::cmap::QtConceptMapRateExamplesDialogTest::KeyPressesFromSlots()
+void ribi::cmap::QtRateExamplesDialogTest::KeyPressesFromSlots()
 {
   QtRateExamplesDialog d(ConceptFactory().Get1());
   d.show();
@@ -103,7 +103,7 @@ void ribi::cmap::QtConceptMapRateExamplesDialogTest::KeyPressesFromSlots()
   QTest::qWait(delay);
 }
 
-void ribi::cmap::QtConceptMapRateExamplesDialogTest::UserHasNotClickedOkAtConstruction()
+void ribi::cmap::QtRateExamplesDialogTest::UserHasNotClickedOkAtConstruction()
 {
   const QtRateExamplesDialog d{Concept()};
   QVERIFY(!d.HasClickedOk());

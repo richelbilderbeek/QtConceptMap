@@ -8,19 +8,19 @@
 #include "qtconceptmapqtedge.h"
 #include <QDebug>
 
-void ribi::cmap::QtConceptMapCommandToggleArrowTailTest::Parse() const noexcept
+void ribi::cmap::QtCommandToggleArrowTailTest::Parse() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandToggleArrowTail(q, "toggle_arrow_tail()") != nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowTailTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandToggleArrowTailTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandToggleArrowTail(q, "nonsense") == nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowTailTest
+void ribi::cmap::QtCommandToggleArrowTailTest
   ::ToggleAbsentEdgeShouldFail() const noexcept
 {
   QtConceptMap q;
@@ -35,7 +35,7 @@ void ribi::cmap::QtConceptMapCommandToggleArrowTailTest
   }
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowTailTest
+void ribi::cmap::QtCommandToggleArrowTailTest
   ::ToggleEdge() const noexcept
 {
   QtConceptMap q;
@@ -46,7 +46,7 @@ void ribi::cmap::QtConceptMapCommandToggleArrowTailTest
   assert(CountQtArrowTails(q) == 1);
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowTailTest
+void ribi::cmap::QtCommandToggleArrowTailTest
   ::ToggleEdgeConnectedToCenterNode() const noexcept
 {
   QtConceptMap q;

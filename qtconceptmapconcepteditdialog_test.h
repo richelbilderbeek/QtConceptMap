@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class QtConceptEditDialogTest : public QObject
+class QtEditDialogTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

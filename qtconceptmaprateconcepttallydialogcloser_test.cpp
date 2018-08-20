@@ -7,7 +7,7 @@
 
 using namespace ribi::cmap;
 
-void ribi::cmap::QtConceptMapRateConceptTallyDialogCloserTest::Close()
+void ribi::cmap::QtRateConceptTallyDialogCloserTest::Close()
 {
   QtRateConceptTallyDialogCloser c;
 

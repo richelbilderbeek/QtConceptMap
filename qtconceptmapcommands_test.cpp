@@ -10,7 +10,7 @@
 #include "QEventLogger.h"
 #include <QDebug>
 
-void ribi::cmap::QtConceptMapCommandsTest::GetCommands() const noexcept
+void ribi::cmap::QtCommandsTest::GetCommands() const noexcept
 {
   const std::string cmds = "some commands";
   const std::vector<std::string> args = { "--command", cmds };
@@ -19,14 +19,14 @@ void ribi::cmap::QtConceptMapCommandsTest::GetCommands() const noexcept
   QVERIFY(s == cmds);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::NonsenseToEmpty() const noexcept
+void ribi::cmap::QtCommandsTest::NonsenseToEmpty() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q, { "--command", "nonsense" } );
   QVERIFY(q.GetUndo().count() == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeCommand() const noexcept
+void ribi::cmap::QtCommandsTest::CreateOneNewNodeCommand() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q, { "--command", "create_new_node(my text, 10, 20, normal)" } );
@@ -36,7 +36,7 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeCommand() const noexc
   CheckInvariants(q);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeThenUnselect() const noexcept
+void ribi::cmap::QtCommandsTest::CreateOneNewNodeThenUnselect() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -52,7 +52,7 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateOneNewNodeThenUnselect() const 
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::CreateRelationOverCenterNode() const noexcept
+void ribi::cmap::QtCommandsTest::CreateRelationOverCenterNode() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -69,7 +69,7 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateRelationOverCenterNode() const 
   QVERIFY(CountQtNodes(q) == 3);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::CreateTwoNewNodeCommands() const noexcept
+void ribi::cmap::QtCommandsTest::CreateTwoNewNodeCommands() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -82,7 +82,7 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateTwoNewNodeCommands() const noex
   QVERIFY(q.GetUndo().count() == 2);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::CreateNewEdgeBetweenTwoSelectedNodesCommand() const noexcept
+void ribi::cmap::QtCommandsTest::CreateNewEdgeBetweenTwoSelectedNodesCommand() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -96,7 +96,7 @@ void ribi::cmap::QtConceptMapCommandsTest::CreateNewEdgeBetweenTwoSelectedNodesC
   QVERIFY(q.GetUndo().count() == 3);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::LoadCommand() const noexcept
+void ribi::cmap::QtCommandsTest::LoadCommand() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) { QFile::remove(filename.c_str()); }
@@ -117,7 +117,7 @@ void ribi::cmap::QtConceptMapCommandsTest::LoadCommand() const noexcept
   if (QFile::exists(filename.c_str())) { QFile::remove(filename.c_str()); }
 }
 
-void ribi::cmap::QtConceptMapCommandsTest
+void ribi::cmap::QtCommandsTest
   ::MoveCommandFailsOnNonexistingItem() const noexcept
 {
   QtConceptMap q;
@@ -141,7 +141,7 @@ void ribi::cmap::QtConceptMapCommandsTest
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnEdge() const noexcept
+void ribi::cmap::QtCommandsTest::MoveCommandOnEdge() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -166,7 +166,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnEdge() const noexcept
   QVERIFY(std::abs(expected_y - measured_y2) < 1.0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnNode() const noexcept
+void ribi::cmap::QtCommandsTest::MoveCommandOnNode() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -185,7 +185,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveCommandOnNode() const noexcept
   QVERIFY(std::abs(expected_y - measured_y) < 1.0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::MoveNodeCommandOnNode() const noexcept
+void ribi::cmap::QtCommandsTest::MoveNodeCommandOnNode() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -204,7 +204,7 @@ void ribi::cmap::QtConceptMapCommandsTest::MoveNodeCommandOnNode() const noexcep
   QVERIFY(std::abs(expected_y - measured_y) < 1.0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SaveCommandEmptyConceptMap() const noexcept
+void ribi::cmap::QtCommandsTest::SaveCommandEmptyConceptMap() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
@@ -222,7 +222,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveCommandEmptyConceptMap() const no
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SaveCommandTwoNodesOneEdge() const noexcept
+void ribi::cmap::QtCommandsTest::SaveCommandTwoNodesOneEdge() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
@@ -247,7 +247,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveCommandTwoNodesOneEdge() const no
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoad() const noexcept
+void ribi::cmap::QtCommandsTest::SaveAndLoad() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
@@ -286,7 +286,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoad() const noexcept
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology() const noexcept
+void ribi::cmap::QtCommandsTest::SaveAndLoadMustResultInSameTopology() const noexcept
 {
   const std::string filename{std::string(__func__) + ".cmp"};
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
@@ -357,7 +357,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SaveAndLoadMustResultInSameTopology()
   if (QFile::exists(filename.c_str())) QFile::remove(filename.c_str());
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SelectCommandIsIgnoredOnAbsentItem() const noexcept
+void ribi::cmap::QtCommandsTest::SelectCommandIsIgnoredOnAbsentItem() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -369,7 +369,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectCommandIsIgnoredOnAbsentItem() 
   assert(q.GetUndo().count() == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectAllLonelyCenterNode() const noexcept
+void ribi::cmap::QtCommandsTest::SelectAndUnselectAllLonelyCenterNode() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -383,7 +383,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectAllLonelyCenterNode(
   assert(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() const noexcept
+void ribi::cmap::QtCommandsTest::SelectAndUnselectLonelyCenterNode() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -399,7 +399,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SelectAndUnselectLonelyCenterNode() c
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::SetModeCommand() const noexcept
+void ribi::cmap::QtCommandsTest::SetModeCommand() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -411,7 +411,7 @@ void ribi::cmap::QtConceptMapCommandsTest::SetModeCommand() const noexcept
   QVERIFY(q.GetUndo().count() == 1);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowHeadCommand() const noexcept
+void ribi::cmap::QtCommandsTest::ToggleArrowHeadCommand() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -426,7 +426,7 @@ void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowHeadCommand() const noexce
   QVERIFY(q.GetUndo().count() == 4);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowTailCommand() const noexcept
+void ribi::cmap::QtCommandsTest::ToggleArrowTailCommand() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -442,7 +442,7 @@ void ribi::cmap::QtConceptMapCommandsTest::ToggleArrowTailCommand() const noexce
 }
 
 
-void ribi::cmap::QtConceptMapCommandsTest::UnselectCommandIsIgnoredOnAbsentItem() const noexcept
+void ribi::cmap::QtCommandsTest::UnselectCommandIsIgnoredOnAbsentItem() const noexcept
 {
   QtConceptMap q;
   ProcessCommands(q,
@@ -454,7 +454,7 @@ void ribi::cmap::QtConceptMapCommandsTest::UnselectCommandIsIgnoredOnAbsentItem(
   assert(q.GetUndo().count() == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandsTest::UnselectLonelyCenterNode() const noexcept
+void ribi::cmap::QtCommandsTest::UnselectLonelyCenterNode() const noexcept
 {
   QtConceptMap q;
   q.show();

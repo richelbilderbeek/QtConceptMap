@@ -6,14 +6,14 @@
 
 using namespace ribi::cmap;
 
-void ribi::cmap::QtConceptMapNumberedColumnTest::Construction()
+void ribi::cmap::QtNumberedColumnTest::Construction()
 {
   QNumberedColumn w( {} );
   w.show();
   QVERIFY(!w.isHidden());
 }
 
-void ribi::cmap::QtConceptMapNumberedColumnTest::EmptyRowIsDeleted()
+void ribi::cmap::QtNumberedColumnTest::EmptyRowIsDeleted()
 {
   QNumberedColumn w( { "A", "B", "C" } );
   w.show();
@@ -22,7 +22,7 @@ void ribi::cmap::QtConceptMapNumberedColumnTest::EmptyRowIsDeleted()
   QVERIFY(w.rowCount() == 2);
 }
 
-void ribi::cmap::QtConceptMapNumberedColumnTest::TabChangesFocus()
+void ribi::cmap::QtNumberedColumnTest::TabChangesFocus()
 {
   QNumberedColumn w( { "A", "B" } );
   w.show();

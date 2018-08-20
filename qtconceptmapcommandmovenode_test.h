@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapCommandMoveNodeTest : public QObject
+class QtCommandMoveNodeTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

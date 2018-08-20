@@ -3,7 +3,7 @@
 #include "qtconceptmapcommandload.h"
 #include "qtconceptmap.h"
 
-void ribi::cmap::QtConceptMapCommandLoadTest::Parse() const noexcept
+void ribi::cmap::QtCommandLoadTest::Parse() const noexcept
 {
   QtConceptMap q;
   const std::string filename{std::string(__func__) + ".cmp"};
@@ -12,7 +12,7 @@ void ribi::cmap::QtConceptMapCommandLoadTest::Parse() const noexcept
   QVERIFY(c->GetFilename() == filename);
 }
 
-void ribi::cmap::QtConceptMapCommandLoadTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandLoadTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandLoad(q, "nonsense") == nullptr);

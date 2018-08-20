@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapNumberedColumnTest : public QObject
+class QtNumberedColumnTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

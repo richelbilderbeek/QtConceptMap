@@ -17,7 +17,7 @@
 using namespace ribi::cmap;
 using EditType = ribi::cmap::QtConceptMapConceptEditDialog::EditType;
 
-void ribi::cmap::QtConceptEditDialogTest
+void ribi::cmap::QtEditDialogTest
   ::ConstructConceptWithOneExample() const noexcept
 {
   QtConceptMapConceptEditDialog d(
@@ -27,7 +27,7 @@ void ribi::cmap::QtConceptEditDialogTest
   d.show();
 }
 
-void ribi::cmap::QtConceptEditDialogTest
+void ribi::cmap::QtEditDialogTest
   ::ConstructConceptWithTwoExamples() const noexcept
 {
   QtConceptMapConceptEditDialog d(
@@ -38,7 +38,7 @@ void ribi::cmap::QtConceptEditDialogTest
 }
 
 
-void ribi::cmap::QtConceptEditDialogTest
+void ribi::cmap::QtEditDialogTest
   ::ConstructConceptWithoutExamples() const noexcept
 {
   QtConceptMapConceptEditDialog d(
@@ -48,7 +48,7 @@ void ribi::cmap::QtConceptEditDialogTest
   d.show();
 }
 
-void ribi::cmap::QtConceptEditDialogTest
+void ribi::cmap::QtEditDialogTest
   ::ConstructRelationWithoutExamples() const noexcept
 {
   QtConceptMapConceptEditDialog d(
@@ -58,7 +58,7 @@ void ribi::cmap::QtConceptEditDialogTest
   d.show();
 }
 
-void ribi::cmap::QtConceptEditDialogTest
+void ribi::cmap::QtEditDialogTest
   ::PressOkWithChangingExamplesResultsInChangedConcept() const noexcept
 {
   //Assume reading in a concept and clicking OK after adding an example
@@ -79,7 +79,7 @@ void ribi::cmap::QtConceptEditDialogTest
 
 
 
-void ribi::cmap::QtConceptEditDialogTest
+void ribi::cmap::QtEditDialogTest
   ::PressOkWithChangingNameResultsInChangedConcept() const noexcept
 {
   //Assume reading in a concept and clicking OK after modification of the name does modify concept
@@ -97,7 +97,7 @@ void ribi::cmap::QtConceptEditDialogTest
 }
 
 
-void ribi::cmap::QtConceptEditDialogTest
+void ribi::cmap::QtEditDialogTest
   ::PressOkWithoutChangesResultsInUnchangedConcept() const noexcept
 {
   //Assume reading in a concept and clicking OK without modification does not modify anything

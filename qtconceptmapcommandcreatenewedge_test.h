@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapCommandCreateNewEdgeTest : public QObject
+class QtCommandCreateNewEdgeTest : public QObject
 {
     Q_OBJECT //!OCLINT
 

@@ -2,7 +2,7 @@
 
 #include "qtconceptmapbrushfactory.h"
 
-void ribi::cmap::QtConceptMapBrushFactoryTest::all_tests()
+void ribi::cmap::QtBrushFactoryTest::all_tests()
 {
   QtBrushFactory b;
   QVERIFY(b.BrushToStr(b.CreateBlueGradientBrush()) == "blue");

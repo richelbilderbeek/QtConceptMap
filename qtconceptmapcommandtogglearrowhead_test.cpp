@@ -9,7 +9,7 @@
 
 #include <QDebug>
 
-void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
+void ribi::cmap::QtCommandToggleArrowHeadTest
   ::ToggleAbsentEdgeShouldFail() const noexcept
 {
   QtConceptMap q;
@@ -24,7 +24,7 @@ void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
   }
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
+void ribi::cmap::QtCommandToggleArrowHeadTest
   ::ToggleEdge() const noexcept
 {
   QtConceptMap q;
@@ -35,7 +35,7 @@ void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
   assert(CountQtArrowHeads(q) == 1);
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
+void ribi::cmap::QtCommandToggleArrowHeadTest
   ::ToggleEdgeConnectedToCenterNode() const noexcept
 {
   QtConceptMap q;
@@ -46,14 +46,14 @@ void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest
   QVERIFY(CountQtArrowHeads(q) != 1);
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest::Parse() const noexcept
+void ribi::cmap::QtCommandToggleArrowHeadTest::Parse() const noexcept
 {
   QtConceptMap q;
 
   QVERIFY(ParseCommandToggleArrowHead(q, "toggle_head()") != nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandToggleArrowHeadTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandToggleArrowHeadTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandToggleArrowHead(q, "nonsense") == nullptr);

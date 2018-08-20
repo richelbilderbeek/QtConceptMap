@@ -4,7 +4,7 @@
 #include "qtconceptmapcommands.h"
 #include "qtconceptmap.h"
 
-void ribi::cmap::QtConceptMapCommandCreateNewNodeTest
+void ribi::cmap::QtCommandCreateNewNodeTest
   ::CreateNewCenterNode() const noexcept
 {
   QtConceptMap q;
@@ -18,7 +18,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewNodeTest
   QVERIFY(CountQtCenterNodes(q) == 1);
 }
 
-void ribi::cmap::QtConceptMapCommandCreateNewNodeTest
+void ribi::cmap::QtCommandCreateNewNodeTest
   ::CreateNewNode() const noexcept
 {
   QtConceptMap q;
@@ -32,7 +32,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewNodeTest
   QVERIFY(CountQtCenterNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandCreateNewNodeTest::Parse() const noexcept
+void ribi::cmap::QtCommandCreateNewNodeTest::Parse() const noexcept
 {
   QtConceptMap q;
   {

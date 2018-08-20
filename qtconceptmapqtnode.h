@@ -12,7 +12,7 @@ namespace ribi {
 namespace cmap {
 
 class QtConceptMapTest;
-class QtConceptMapQtNodeTest;
+class QtNodeTest;
 
 ///QtNode displays a Node as a QtConceptMapElement
 ///Instead of duplicating state, Node's members
@@ -126,7 +126,7 @@ private:
   std::function<QBrush(const ribi::cmap::QtNode&)> m_vignette_brush_function;
 
   friend class QtConceptMapTest;
-  friend class QtConceptMapQtNodeTest;
+  friend class QtNodeTest;
 };
 
 ///Count the number of examples

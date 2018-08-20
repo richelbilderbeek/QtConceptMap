@@ -1490,6 +1490,22 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const
   assert(!"FIXED");
 }
 
+void ribi::cmap::QtConceptMapTest::SetMode() const
+{
+  QtConceptMap m;
+  m.show();
+  m.SetConceptMap(ConceptMapFactory().GetUnrated());
+  m.show();
+  m.SetMode(Mode::uninitialized);
+  m.show();
+  m.SetMode(Mode::edit);
+  m.show();
+  m.SetMode(Mode::rate);
+  m.show();
+  m.SetMode(Mode::uninitialized);
+  m.show();
+}
+
 void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMap() const
 {
   QtConceptMap m;

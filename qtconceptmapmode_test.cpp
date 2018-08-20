@@ -5,7 +5,7 @@
 
 #include <QDebug>
 
-void ribi::cmap::QtConceptMapModeTest::str_conversion() const noexcept
+void ribi::cmap::ModeTest::str_conversion() const noexcept
 {
   const auto v = collect_all_modes();
   for (const auto m: v)

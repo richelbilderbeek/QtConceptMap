@@ -2,7 +2,7 @@
 #include "qtconceptmapqtnodefactory.h"
 #include "qtconceptmapqtnode.h"
 
-void ribi::cmap::QtConceptMapQtNodeFactoryTest::all_tests()
+void ribi::cmap::QtNodeFactoryTest::all_tests()
 {
   using namespace ribi::cmap;
   const QtNodeFactory f;

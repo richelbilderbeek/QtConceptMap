@@ -11,7 +11,7 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest::Parse() const noexcept
+void ribi::cmap::QtCommandSetConceptTest::Parse() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q));
@@ -24,13 +24,13 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest::Parse() const noexcept
   QVERIFY(c != nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandSetConceptTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandSetConcept(q, "nonsense") == nullptr);
 }
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest
+void ribi::cmap::QtCommandSetConceptTest
   ::SetConceptWithExamplesAtQtEdge() const noexcept
 {
   QtConceptMap q;
@@ -48,7 +48,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
   QVERIFY(concept == concept_again);
 }
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest
+void ribi::cmap::QtCommandSetConceptTest
   ::SetConceptWithExamplesAtQtEdgeAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -66,7 +66,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
   QVERIFY(concept != concept_again);
 }
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest
+void ribi::cmap::QtCommandSetConceptTest
   ::SetConceptWithExamplesAtQtNode() const noexcept
 {
   QtConceptMap q;
@@ -80,7 +80,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
   QVERIFY(concept == concept_again);
 }
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest
+void ribi::cmap::QtCommandSetConceptTest
   ::SetConceptWithExamplesAtQtNodeAndUndo() const noexcept
 {
   QtConceptMap q;
@@ -96,7 +96,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
 
 
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest
+void ribi::cmap::QtCommandSetConceptTest
   ::SetConceptWithoutExamplesAtQtNodeWithExamples() const noexcept
 {
   QtConceptMap q;
@@ -110,7 +110,7 @@ void ribi::cmap::QtConceptMapCommandSetConceptTest
   q.DoCommand(new CommandSetConcept(q, concept_without_examples));
 }
 
-void ribi::cmap::QtConceptMapCommandSetConceptTest
+void ribi::cmap::QtCommandSetConceptTest
   ::SetConceptWithoutExamplesAtQtNodeWithExamplesAndUndo() const noexcept
 {
   QtConceptMap q;

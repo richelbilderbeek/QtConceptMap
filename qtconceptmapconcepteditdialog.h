@@ -15,7 +15,7 @@ namespace ribi {
 namespace cmap {
 
 struct QNumberedColumn;
-struct QtConceptEditDialogTest;
+struct QtEditDialogTest;
 
 class QtConceptMapConceptEditDialog final : public QDialog
 {
@@ -53,7 +53,7 @@ private:
   ribi::cmap::QNumberedColumn * const m_examples;
   Ui::QtConceptMapConceptEditDialog *ui;
 
-  friend class QtConceptEditDialogTest;
+  friend class QtEditDialogTest;
 };
 
 ///Get all the examples' texts

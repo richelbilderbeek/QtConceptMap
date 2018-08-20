@@ -8,61 +8,61 @@
 
 #include "qtconceptmapqtnodefactory.h"
 
-void ribi::cmap::QtConceptMapQtNodeTest::CenterQtNodeIsCenterNode()
+void ribi::cmap::QtNodeTest::CenterQtNodeIsCenterNode()
 {
   const auto qtnode = QtNodeFactory().GetCenter();
   QVERIFY(IsCenterNode(*qtnode));
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::CountExamples()
+void ribi::cmap::QtNodeTest::CountExamples()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(ribi::cmap::CountExamples(*qtnode) >= 0);
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::GetExamples()
+void ribi::cmap::QtNodeTest::GetExamples()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(!ribi::cmap::GetExamples(*qtnode).Get().empty());
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::GetName()
+void ribi::cmap::QtNodeTest::GetName()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(!ribi::cmap::GetName(*qtnode).empty());
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::GetRatingComplexity()
+void ribi::cmap::QtNodeTest::GetRatingComplexity()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(ribi::cmap::GetRatingComplexity(*qtnode) >= -1);
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::GetRatingConcreteness()
+void ribi::cmap::QtNodeTest::GetRatingConcreteness()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(ribi::cmap::GetRatingConcreteness(*qtnode) >= -1);
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::GetRatingSpecificity()
+void ribi::cmap::QtNodeTest::GetRatingSpecificity()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(ribi::cmap::GetRatingSpecificity(*qtnode) >= -1);
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::IsComplex()
+void ribi::cmap::QtNodeTest::IsComplex()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(ribi::cmap::IsComplex(*qtnode));
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::NormalQtNodeIsNotCenterNode()
+void ribi::cmap::QtNodeTest::NormalQtNodeIsNotCenterNode()
 {
   const auto qtnode = QtNodeFactory().GetNormal();
   QVERIFY(!IsCenterNode(*qtnode));
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::PressNonsenseIsRejected()
+void ribi::cmap::QtNodeTest::PressNonsenseIsRejected()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F4, Qt::NoModifier);
@@ -70,7 +70,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::PressNonsenseIsRejected()
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::QtNodeIsQtRoundedEditRectItem()
+void ribi::cmap::QtNodeTest::QtNodeIsQtRoundedEditRectItem()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   const QtRoundedEditRectItem * edit_rect{
@@ -80,7 +80,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::QtNodeIsQtRoundedEditRectItem()
   QVERIFY(qtnode.get() == edit_rect);
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualX()
+void ribi::cmap::QtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualX()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   const QtRoundedEditRectItem * edit_rect{
@@ -92,7 +92,7 @@ void ribi::cmap::QtConceptMapQtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualX
   QVERIFY(std::abs(node_x - edit_rect_x) < 2.0);
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualY()
+void ribi::cmap::QtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualY()
 {
   const auto qtnode = QtNodeFactory().GetTest(1);
   const QtRoundedEditRectItem * edit_rect{
@@ -104,13 +104,13 @@ void ribi::cmap::QtConceptMapQtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualY
   QVERIFY(std::abs(node_y - edit_rect_y) < 2.0);
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::ToStr()
+void ribi::cmap::QtNodeTest::ToStr()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   QVERIFY(!qtnode->ToStr().empty());
 }
 
-void ribi::cmap::QtConceptMapQtNodeTest::ToStream()
+void ribi::cmap::QtNodeTest::ToStream()
 {
   const std::unique_ptr<QtNode> qtnode = QtNodeFactory().GetTest(1);
   std::stringstream s;

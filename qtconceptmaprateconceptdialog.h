@@ -13,7 +13,7 @@ namespace Ui { class QtRateConceptDialog; }
 namespace ribi {
 namespace cmap {
 
-class QtConceptMapRateConceptDialogTest;
+class QtRateConceptDialogTest;
 
 ///Rate the focal concept of a sub-ConceptMap.
 class QtRateConceptDialog final : public QDialog
@@ -68,7 +68,7 @@ private:
 
   void DisplaySuggestions() noexcept;
 
-  friend class QtConceptMapRateConceptDialogTest;
+  friend class QtRateConceptDialogTest;
 };
 
 } //~namespace cmap

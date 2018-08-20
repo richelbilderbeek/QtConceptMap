@@ -7,7 +7,7 @@
 
 #include <QDebug>
 
-void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noexcept
+void ribi::cmap::QtCommandCreateNewEdgeTest::CreateNewEdge() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "from", NodeType::normal, -100, -200));
@@ -24,7 +24,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdge() const noe
   QVERIFY(!GetQtToolItemBuddy(q));
 }
 
-void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const noexcept
+void ribi::cmap::QtCommandCreateNewEdgeTest::CreateNewEdgeUndo() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "from", NodeType::normal, -100, -200));
@@ -45,7 +45,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeUndo() const
   QVERIFY(CountSelectedQtNodes(q) == 2);
 }
 
-void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNode() const noexcept
+void ribi::cmap::QtCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNode() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "center"   , NodeType::center , -100, -200));
@@ -59,7 +59,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::CreateNewEdgeFromCenterNo
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::Parse() const noexcept
+void ribi::cmap::QtCommandCreateNewEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;
   const auto c1 = ParseCommandCreateNewNode(q, "create_new_node(from, 10, 20, normal)");
@@ -76,7 +76,7 @@ void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::Parse() const noexcept
   QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtConceptMapCommandCreateNewEdgeTest::ParseNonsenseFails() const noexcept
+void ribi::cmap::QtCommandCreateNewEdgeTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandCreateNewEdge(q, "nonsense") == nullptr);

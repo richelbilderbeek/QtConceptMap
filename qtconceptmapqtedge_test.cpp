@@ -16,7 +16,7 @@
 #include "qtquadbezierarrowitem.h"
 #include "qtroundededitrectitem.h"
 
-void ribi::cmap::QtConceptMapQtEdgeTest::ChangeFocus()
+void ribi::cmap::QtEdgeTest::ChangeFocus()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -32,7 +32,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::ChangeFocus()
   m.show();
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::ShowBoundingRect()
+void ribi::cmap::QtEdgeTest::ShowBoundingRect()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -43,7 +43,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::ShowBoundingRect()
   QTest::qWait(100);
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::GetNodeMustBeCorrect()
+void ribi::cmap::QtEdgeTest::GetNodeMustBeCorrect()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -57,7 +57,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::GetNodeMustBeCorrect()
   QVERIFY(GetNode(*qtedge) == GetNode(edge));
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::NodeMustHaveDottedBlackLineWhenSelected()
+void ribi::cmap::QtEdgeTest::NodeMustHaveDottedBlackLineWhenSelected()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
@@ -73,7 +73,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::NodeMustHaveDottedBlackLineWhenSelected
 }
 
 
-void ribi::cmap::QtConceptMapQtEdgeTest::NodeMustHaveWhiteBorderWhenNotSelected()
+void ribi::cmap::QtEdgeTest::NodeMustHaveWhiteBorderWhenNotSelected()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().GetStarShaped());
@@ -84,7 +84,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::NodeMustHaveWhiteBorderWhenNotSelected(
   QVERIFY(qtnode->GetContourPen().style() == Qt::SolidLine);
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::ToStr()
+void ribi::cmap::QtEdgeTest::ToStr()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -94,7 +94,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::ToStr()
   QVERIFY(!::ribi::cmap::ToStr(*qtedge).empty());
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::ToStream()
+void ribi::cmap::QtEdgeTest::ToStream()
 {
   QtConceptMap m;
   m.SetConceptMap(ConceptMapFactory().Get11());
@@ -105,7 +105,7 @@ void ribi::cmap::QtConceptMapQtEdgeTest::ToStream()
   QVERIFY(!s.str().empty());
 }
 
-void ribi::cmap::QtConceptMapQtEdgeTest::AllTests()
+void ribi::cmap::QtEdgeTest::AllTests()
 {
   using namespace ribi;
   using namespace ribi::cmap;

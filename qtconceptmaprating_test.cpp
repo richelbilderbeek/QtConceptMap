@@ -3,7 +3,7 @@
 #include "qtconceptmaprating.h"
 #include "conceptmapfactory.h"
 
-void ribi::cmap::QtConceptMapRatingTest::default_suggestions()
+void ribi::cmap::QtRatingTest::default_suggestions()
 {
   //Number of edges, number of examples
   QVERIFY(RatingComplexity::SuggestComplexityDefault(0, 0) == 0);
