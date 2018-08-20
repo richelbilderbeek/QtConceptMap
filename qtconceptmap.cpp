@@ -1076,6 +1076,8 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
 
 void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 {
+  qDebug() << event->type() << event->localPos() << event->button() << event->modifiers();
+
   CheckInvariants(*this);
   event->ignore();
 
@@ -1165,6 +1167,8 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 
 void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
+  qDebug() << event->type() << event->localPos() << event->button() << event->modifiers();
+
   CheckInvariants(*this);
 
   m_last_mouse_click_pos.resize(1);
@@ -1298,8 +1302,10 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
   CheckInvariants(q);
 }
 
-void ribi::cmap::QtConceptMap::mouseReleaseEvent(QMouseEvent *)
+void ribi::cmap::QtConceptMap::mouseReleaseEvent(QMouseEvent * event)
 {
+  qDebug() << event->type() << event->localPos() << event->button() << event->modifiers();
+
   m_last_mouse_click_pos.resize(0);
 }
 

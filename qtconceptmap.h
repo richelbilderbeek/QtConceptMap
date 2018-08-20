@@ -106,9 +106,6 @@ public slots:
   ///is emitted
   void OnFocusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason);
 
-  ///Called when a QGraphicsItems's onDragLeave signal is emitted
-  //void OnDragEnd();
-
   void showEvent(QShowEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
 
