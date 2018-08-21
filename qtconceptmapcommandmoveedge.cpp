@@ -26,10 +26,7 @@ ribi::cmap::CommandMoveEdge::CommandMoveEdge(
   {
     throw std::invalid_argument("Cannot move nullptr QtEdge");
   }
-  if (!IsMovable(*m_qtedge))
-  {
-    throw std::invalid_argument("Cannot move unmovable QtEdge");
-  }
+  assert(IsMovable(*m_qtedge));
   //QCommands have a text
   {
     std::stringstream msg;

@@ -28,6 +28,9 @@ private slots:
   ///Does the Command move a QtEdge, in a QtConceptMap with one QtEdge?
   void MoveOnlyQtEdgeByName() const noexcept;
 
+  ///Move a QtEdge, then undo
+  void MoveOnlyQtEdgeByNameAndUndo() const noexcept;
+
   ///Does the Command move a QtEdge connected to a center QtNode, in a QtConceptMap one QtEdge?
   void MoveOnlyQtEdgeConnectedToCenterQtNode() const noexcept;
 
