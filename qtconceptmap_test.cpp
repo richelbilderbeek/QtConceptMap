@@ -820,6 +820,12 @@ void ribi::cmap::QtConceptMapTest::GetHighlighterConst() const noexcept
   QVERIFY(!h.GetItem());
 }
 
+void ribi::cmap::QtConceptMapTest::GetItemBelowCursor() const noexcept
+{
+  QtConceptMap q;
+  QVERIFY(!::ribi::cmap::GetItemBelowCursor(q, QPointF(-50.0, -50.0)));
+}
+
 void ribi::cmap::QtConceptMapTest::GetQtNodesAlsoOnQtEdge() const noexcept
 {
   QtConceptMap q;
