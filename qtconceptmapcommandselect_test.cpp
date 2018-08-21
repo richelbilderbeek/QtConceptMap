@@ -6,52 +6,62 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
-void ribi::cmap::QtCommandSelectTest::SelectQtCenterNodeByName() const noexcept
+void ribi::cmap::QtCommandSelectTest::SelectQtCenterNode() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-  assert(CountSelectedQtEdges(q) == 0);
   assert(CountSelectedQtNodes(q) == 0);
   q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("center"))));
-  QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 1);
 }
 
-void ribi::cmap::QtCommandSelectTest::SelectQtEdgeByName() const noexcept
+void ribi::cmap::QtCommandSelectTest::SelectQtEdge() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   assert(CountSelectedQtEdges(q) == 0);
-  assert(CountSelectedQtNodes(q) == 0);
-  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("second"))));
+  q.DoCommand(new CommandSelect(q, *GetFirstQtEdge(q)));
   QVERIFY(CountSelectedQtEdges(q) == 1);
-  QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtCommandSelectTest::SelectQtEdgeConnectedToCenterByName() const noexcept
+void ribi::cmap::QtCommandSelectTest::SelectQtEdgeAndUndo() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   assert(CountSelectedQtEdges(q) == 0);
-  assert(CountSelectedQtNodes(q) == 0);
-  //q.showFullScreen();
-  assert(CountSelectedQtNodes(q) == 0);
-  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("first"))));
-  assert(GetQtEdges(q).size() == 1);
+  q.DoCommand(new CommandSelect(q, *GetFirstQtEdge(q)));
   assert(CountSelectedQtEdges(q) == 1);
-  QVERIFY(CountSelectedQtEdges(q) == 1);
-  QVERIFY(CountSelectedQtNodes(q) == 0);
+  q.Undo();
+  QVERIFY(CountSelectedQtEdges(q) == 0);
 }
 
-void ribi::cmap::QtCommandSelectTest::SelectQtNodeByName() const noexcept
+void ribi::cmap::QtCommandSelectTest::SelectQtEdgeConnectedToCenter() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   assert(CountSelectedQtEdges(q) == 0);
+  q.DoCommand(new CommandSelect(q, *GetFirstQtEdge(q)));
+  QVERIFY(CountSelectedQtEdges(q) == 1);
+}
+
+void ribi::cmap::QtCommandSelectTest::SelectQtNode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   assert(CountSelectedQtNodes(q) == 0);
   q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("one"))));
-  QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 1);
+}
+
+void ribi::cmap::QtCommandSelectTest::SelectQtNodeAndUndo() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  assert(CountSelectedQtNodes(q) == 0);
+  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("one"))));
+  assert(CountSelectedQtNodes(q) == 1);
+  q.Undo();
+  QVERIFY(CountSelectedQtNodes(q) == 0);
 }
 
 void ribi::cmap::QtCommandSelectTest::ParseCenterNode() const noexcept

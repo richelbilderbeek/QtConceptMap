@@ -16,19 +16,24 @@ private slots:
 
 
   //Done:
-
   ///Select a center QtNode by name
-  void SelectQtCenterNodeByName() const noexcept;
+  void SelectQtCenterNode() const noexcept;
 
-  ///Select a QtEdge by name
-  void SelectQtEdgeByName() const noexcept;
+  ///Select a QtEdge
+  void SelectQtEdge() const noexcept;
+
+  ///Select a QtEdge and undo
+  void SelectQtEdgeAndUndo() const noexcept;
 
   ///Select a QtEdge that is connected to center by name
   ///The QtNodes on that QtEdge is disabled and invisible
-  void SelectQtEdgeConnectedToCenterByName() const noexcept;
+  void SelectQtEdgeConnectedToCenter() const noexcept;
 
-  ///Select a QtNode by name
-  void SelectQtNodeByName() const noexcept;
+  ///Select a QtNode
+  void SelectQtNode() const noexcept;
+
+  ///Select a QtNode and undo
+  void SelectQtNodeAndUndo() const noexcept;
 
   ///Parse from a string, search for a center node
   void ParseCenterNode() const noexcept;
