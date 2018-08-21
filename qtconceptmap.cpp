@@ -92,6 +92,8 @@ ribi::cmap::QtConceptMap::QtConceptMap(
   //Timer is started in showEvent
 
   CheckInvariants(*this);
+
+  this->setViewportUpdateMode(FullViewportUpdate);
 }
 
 ribi::cmap::QtConceptMap::~QtConceptMap() noexcept
@@ -1274,41 +1276,10 @@ void ribi::cmap::QtConceptMap::mouseReleaseEvent(QMouseEvent *)
 void ribi::cmap::QtConceptMap::Respond()
 {
   //Do not check invariants here! These may be checked in the middle of another process
-  //CheckInvariants(*this);
-
-  if (!this->isEnabled())
-  {
-    qDebug() << "Warning: Respond called for disabled QtConceptMap";
-    return;
-  }
-  if (!this->isVisible())
-  {
-    qDebug() << "Warning: Respond called for invisible QtConceptMap";
-    return;
-  }
-  if (!this->scene())
-  {
-    qDebug() << "Warning: Respond called when there is no scene";
-    return;
-  }
-
   assert(this->isVisible());
   assert(this->isEnabled());
-
-  //CheckInvariants(*this);
-
-
+  assert(this->scene());
   MoveQtNodesAwayFromEachOther(*this);
-
-  #ifdef REALLY_KEEP_RESPOND_OR_SHOULD_THE_COMMANDS_BE_CORRECT
-  UpdateExamplesItem(*this);
-  UpdateQtToolItem(*this);
-  #endif
-
-  //TODO: Move the QtNodes at the QtEdges connect to the center QtNode
-  //to in the middle between source and target of the QtEdge
-
-  CheckInvariants(*this);
 }
 
 void ribi::cmap::QtConceptMap::OnFocusItemChanged(
