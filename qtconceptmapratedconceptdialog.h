@@ -16,6 +16,8 @@ namespace Ui { class QtConceptMapRatedConceptDialog; }
 namespace ribi {
 namespace cmap {
 
+class QtRatedConceptDialogTest;
+
 class QtConceptMapRatedConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
@@ -51,6 +53,8 @@ private:
     const Node& node,
     const Role role
   ) noexcept;
+
+  friend class QtRatedConceptDialogTest;
 };
 
 std::string GetFromArrowText(

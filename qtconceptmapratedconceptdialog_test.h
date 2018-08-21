@@ -11,9 +11,10 @@ class QtRatedConceptDialogTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void show_assessor();
-  void show_student();
-  void show_example();
+  void AssessorHasRatings() const noexcept;
+  void LonelyNodeHasNoRelations() const noexcept;
+  void NodeWithRelationsIndicatesThis() const noexcept;
+  void StudentHasNoRatings() const noexcept;
 };
 
 } //~namespace cmap

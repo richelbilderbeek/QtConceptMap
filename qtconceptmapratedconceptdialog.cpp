@@ -6,17 +6,13 @@
 #include <QScrollBar>
 #include <QTimer>
 
-#include "conceptmapconcept.h"
 #include "conceptmap.h"
+#include "conceptmapconcept.h"
 #include "conceptmapedge.h"
 #include "conceptmapexample.h"
 #include "conceptmapexamples.h"
 #include "conceptmapnode.h"
-
-
-
 #include "ui_qtconceptmapratedconceptdialog.h"
-
 
 ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
   const ConceptMap& conceptmap,
