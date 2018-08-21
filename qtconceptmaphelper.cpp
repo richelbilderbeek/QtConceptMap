@@ -116,7 +116,7 @@ ribi::cmap::ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene)
   if (qtedges.size() != 1)
   {
     std::stringstream msg;
-    msg << __func__ << ": "
+    msg
       << "Must have one selected item, instead of "
       << qtedges.size() << " items"
     ;
@@ -442,13 +442,13 @@ ribi::cmap::GetQtNodeVignetteBrushFunctionUninitialized() noexcept
 std::vector<ribi::cmap::QtEdge *>
 ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept
 {
-  std::vector<ribi::cmap::QtEdge *> v;
+  std::set<ribi::cmap::QtEdge *> v;
   const auto selected = scene.selectedItems();
   for (const auto item: selected)
   {
     if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(item))
     {
-      v.push_back(qtedge);
+      v.insert(qtedge);
     }
     if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(item))
     {
@@ -456,11 +456,11 @@ ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept
         = qgraphicsitem_cast<QtEdge*>(qtnode->parentItem())
       )
       {
-        v.push_back(qtedge_again);
+        v.insert(qtedge_again);
       }
     }
   }
-  return v;
+  return std::vector<QtEdge*>(std::begin(v), std::end(v));
 }
 
 std::vector<ribi::cmap::QtNode *>

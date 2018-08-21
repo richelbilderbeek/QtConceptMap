@@ -1539,7 +1539,10 @@ void ribi::cmap::QtConceptMap::Redo() noexcept
 {
   CheckInvariants(*this);
 
-  qCritical() << "Redo command:" << m_undo.command(m_undo.count() - 1)->text();
+  if (m_undo.canRedo())
+  {
+    qCritical() << "Redo command:" << m_undo.command(m_undo.index())->text();
+  }
   m_undo.redo();
 
   CheckInvariants(*this);
@@ -1867,7 +1870,7 @@ void ribi::cmap::QtConceptMap::Undo()
     );
   }
   CheckInvariants(*this);
-  qCritical() << "Undo command:" << m_undo.command(m_undo.count() - 1)->text();
+  qCritical() << "Undo command:" << m_undo.command(m_undo.index() - 1)->text();
   m_undo.undo();
   CheckInvariants(*this);
 }

@@ -209,8 +209,10 @@ void ribi::cmap::CommandCreateNewEdge::Undo()
   assert(AllHaveScene(&GetQtConceptMap().GetScene()));
 
   GetQtConceptMap().GetScene().removeItem(m_added_qtedge);
+  assert(!m_added_qtedge->GetQtNode()->scene());
+  assert(!m_added_qtedge->GetArrow()->scene());
   //GetQtConceptMap().GetScene().removeItem(m_added_qtnode); //Get these for free
-  //GetQtConceptMap().GetScene().removeItem(m_added_qtedge->GetArrow()); //Get these for free
+  //GetQtConceptMap().GetScene().removeItem(m_added_qtedge->GetArrow()); //Get these for free  this->m_
 
   SetSelectedness(true, *m_added_qtedge->GetFrom());
   SetSelectedness(true, *m_added_qtedge->GetTo());

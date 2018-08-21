@@ -31,6 +31,7 @@ void ribi::cmap::QtCommandToggleArrowHeadTest
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("second"))));
   assert(CountQtArrowHeads(q) == 0);
+  assert(CountSelectedQtEdges(q) == 1);
   q.DoCommand(new CommandToggleArrowHead(q));
   assert(CountQtArrowHeads(q) == 1);
 }
@@ -41,6 +42,8 @@ void ribi::cmap::QtCommandToggleArrowHeadTest
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
   q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("first"))));
+  assert(CountQtArrowHeads(q) != 0);
+  assert(CountQtArrowHeads(q) != 2);
   assert(CountQtArrowHeads(q) == 1);
   q.DoCommand(new CommandToggleArrowHead(q));
   QVERIFY(CountQtArrowHeads(q) != 1);
@@ -49,7 +52,9 @@ void ribi::cmap::QtCommandToggleArrowHeadTest
 void ribi::cmap::QtCommandToggleArrowHeadTest::Parse() const noexcept
 {
   QtConceptMap q;
-
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("first"))));
+  assert(CountSelectedQtEdges(q) == 1);
   QVERIFY(ParseCommandToggleArrowHead(q, "toggle_head()") != nullptr);
 }
 
