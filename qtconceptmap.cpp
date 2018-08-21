@@ -208,8 +208,27 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
   #endif
 ) noexcept
 {
+
   #ifndef NDEBUG
   //All QtEdges, their QtNodes and Arrows must have a scene
+  #ifndef TRUST_GETQTEDGES_20180821
+  for (const QGraphicsItem * const item: q.scene()->items())
+  {
+    if (const QtEdge * const qtedge = qgraphicsitem_cast<const QtEdge*>(item))
+    {
+      assert(qtedge);
+      assert(qtedge->scene());
+      assert(qtedge->GetArrow());
+      assert(qtedge->GetArrow()->scene());
+      assert(qtedge->GetQtNode());
+      assert(qtedge->GetQtNode()->scene());
+      assert(qtedge->GetFrom());
+      assert(qtedge->GetFrom()->scene());
+      assert(qtedge->GetTo());
+      assert(qtedge->GetTo()->scene());
+    }
+  }
+  #else
   for (const auto qtedge: GetQtEdges(*q.scene()))
   {
     assert(qtedge);
@@ -223,6 +242,7 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
     assert(qtedge->GetTo());
     assert(qtedge->GetTo()->scene());
   }
+  #endif // TRUST_GETQTEDGES_20180821
   #endif
 }
 
@@ -413,7 +433,7 @@ void ribi::cmap::RemoveConceptMap(QtConceptMap& q)
   q.GetQtToolItem().SetBuddyItem(nullptr);
   assert(!q.GetQtNewArrow().isVisible());
 
-  for (auto qtedge: Collect<QtEdge>(*q.scene()))
+  for (auto qtedge: GetQtEdges(q))
   {
     assert(qtedge);
     //SetSelectedness(false, *qtedge, q);
@@ -421,7 +441,7 @@ void ribi::cmap::RemoveConceptMap(QtConceptMap& q)
     delete qtedge;
   }
 
-  for (auto qtnode: Collect<QtNode>(*q.scene()))
+  for (auto qtnode: GetQtNodes(q))
   {
     SetSelectedness(false, *qtnode);
     q.scene()->removeItem(qtnode);
@@ -512,7 +532,6 @@ ribi::cmap::QtNode * ribi::cmap::GetQtCenterNode(const QtConceptMap& q) noexcept
 
 std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(const QtConceptMap& q) noexcept
 {
-  //Unsure if this works
   return GetQtEdges(q.GetScene());
 }
 
@@ -749,6 +768,19 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
   }
 
   //Move edges
+  #ifndef TRUST_GETQTEDGES_20180821
+  for (QGraphicsItem * const item: q.scene()->items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      if (IsSelected(*qtedge))
+      {
+        q.DoCommand(new CommandMoveEdge(q, qtedge, dx, dy));
+        event->accept();
+      }
+    }
+  }
+  #else
   for (QtEdge * const qtedge: GetQtEdges(q))
   {
     if (IsSelected(*qtedge))
@@ -757,6 +789,7 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
       event->accept();
     }
   }
+  #endif
 
   //Move nodes
   for (QtNode * const qtnode: GetQtNodes(q))
@@ -1507,7 +1540,7 @@ void ribi::cmap::QtConceptMap::SetConceptMap(const ConceptMap& conceptmap)
   SetQtToolItemBuddy(*this, no_qtnode);
   CheckInvariants(*this);
 
-  assert(Collect<QtNode>(*scene()).empty());
+  assert(GetQtNodes(*this).empty());
   AddNodesToScene(*this, conceptmap);
   AddEdgesToScene(*this, conceptmap);
   CheckInvariants(*this);
@@ -1772,6 +1805,22 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
     const auto vd = add_bundled_vertex(GetNode(*qtnode), g);
     vds.insert( { qtnode, vd } );
   }
+  #ifndef TRUST_GETQTEDGES_20180821
+  for (QGraphicsItem * const item: this->scene()->items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      assert(qtedge);
+      const Edge edge = qtedge->GetEdge();
+      assert(edge.GetId() == qtedge->GetId());
+      QtNode * const qtnode_from = qtedge->GetFrom();
+      QtNode * const qtnode_to = qtedge->GetTo();
+      const VertexDescriptor vd_from = vds[qtnode_from];
+      const VertexDescriptor vd_to = vds[qtnode_to];
+      add_bundled_edge_between_vertices(edge, vd_from, vd_to, g);
+    }
+  }
+  #else
   const auto qtedges = GetQtEdges(*this);
   for (auto qtedge: qtedges)
   {
@@ -1784,6 +1833,7 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
     const VertexDescriptor vd_to = vds[qtnode_to];
     add_bundled_edge_between_vertices(edge, vd_from, vd_to, g);
   }
+  #endif // TRUST_GETQTEDGES_20180821
   assert(CountQtNodes(*this) == static_cast<int>(boost::num_vertices(g)));
   assert(CountQtEdges(*this) == static_cast<int>(boost::num_edges(g)));
   return g;

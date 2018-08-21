@@ -10,6 +10,17 @@
 
 int ribi::cmap::CountQtArrowHeads(const QGraphicsScene& scene) noexcept
 {
+  #ifndef TRUST_GETQTEDGES_20180821
+  int cnt{0};
+  for (QGraphicsItem * const item: scene.items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      if (HasHeadArrow(*qtedge)) ++cnt;
+    }
+  }
+  return cnt;
+  #else
   const auto qtedges = GetQtEdges(scene);
   return std::count_if(std::begin(qtedges), std::end(qtedges),
     [](const QtEdge* const qtedge)
@@ -17,10 +28,22 @@ int ribi::cmap::CountQtArrowHeads(const QGraphicsScene& scene) noexcept
       return HasHeadArrow(*qtedge);
     }
   );
+  #endif
 }
 
 int ribi::cmap::CountQtArrowTails(const QGraphicsScene& scene) noexcept
 {
+  #ifndef TRUST_GETQTEDGES_20180821
+  int cnt{0};
+  for (QGraphicsItem * const item: scene.items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      if (HasTailArrow(*qtedge)) ++cnt;
+    }
+  }
+  return cnt;
+  #else
   const auto qtedges = GetQtEdges(scene);
   return std::count_if(std::begin(qtedges), std::end(qtedges),
     [](const QtEdge* const qtedge)
@@ -28,6 +51,7 @@ int ribi::cmap::CountQtArrowTails(const QGraphicsScene& scene) noexcept
       return HasTailArrow(*qtedge);
     }
   );
+  #endif
 }
 
 int ribi::cmap::CountQtCenterNodes(const QGraphicsScene& scene) noexcept
@@ -185,9 +209,20 @@ ribi::cmap::GetQtCenterNode(const QGraphicsScene& scene)
 
 ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QGraphicsScene& scene) noexcept
 {
+  #ifndef TRUST_GETQTEDGES_20180821
+  for (QGraphicsItem * const item: scene.items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      return qtedge;
+    }
+  }
+  return nullptr;
+  #else
   const auto qtedges = GetQtEdges(scene);
   if (qtedges.empty()) return nullptr;
   return qtedges.front();
+  #endif
 }
 
 ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QGraphicsScene& scene) noexcept
@@ -199,7 +234,7 @@ ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QGraphicsScene& scene) noe
 
 ribi::cmap::QtEdge * ribi::cmap::GetLastQtEdge(const QGraphicsScene& scene) noexcept
 {
-  const auto qtedges = GetQtEdges(scene);
+  const std::vector<QtEdge*> qtedges = GetQtEdges(scene);
   if (qtedges.empty()) return nullptr;
   return qtedges.back();
 }
@@ -223,14 +258,27 @@ std::vector<ribi::cmap::QtEdge*> ribi::cmap::GetQtEdges(
 ) noexcept
 {
   assert(from);
-  const std::vector<QtEdge*> v = GetQtEdges(scene);
   std::vector<QtEdge*> w;
+  #ifndef TRUST_GETQTEDGES_20180821
+  for (QGraphicsItem * const item: scene.items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      if (qtedge->GetFrom() == from || qtedge->GetTo() == from)
+      {
+        w.push_back(qtedge);
+      }
+    }
+  }
+  #else
+  const std::vector<QtEdge*> v = GetQtEdges(scene);
   std::copy_if(v.begin(),v.end(), std::back_inserter(w),
     [from](const QtEdge* const qtedge)
     {
       return qtedge->GetFrom() == from || qtedge->GetTo() == from;
     }
   );
+  #endif
   return w;
 }
 
@@ -239,8 +287,20 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(
   const QGraphicsScene& scene
 ) noexcept
 {
+  #ifndef TRUST_COLLECT_QTEDGES_20180821
+  std::vector<QtEdge *> qtedges;
+  for (QGraphicsItem * const item: scene.items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      qtedges.push_back(qtedge);
+    }
+  }
+  return qtedges;
+  #else
   //Unsure if this works
   return Collect<QtEdge>(scene);
+  #endif // TRUST_COLLECT_QTEDGES_20180821
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
@@ -325,7 +385,7 @@ ribi::cmap::GetQtNodeBrushFunctionUninitialized() noexcept
 std::vector<ribi::cmap::QtNode *>
 ribi::cmap::GetQtNodes(const QGraphicsScene& scene) noexcept
 {
-  const auto qtnodes_all = Collect<QtNode>(scene);
+  const auto qtnodes_all = GetQtNodesAlsoOnQtEdge(scene);
   std::vector<QtNode*> qtnodes;
   std::copy_if(std::begin(qtnodes_all), std::end(qtnodes_all),
     std::back_inserter(qtnodes),
@@ -340,7 +400,15 @@ ribi::cmap::GetQtNodes(const QGraphicsScene& scene) noexcept
 std::vector<ribi::cmap::QtNode *>
 ribi::cmap::GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept
 {
-  return Collect<QtNode>(scene);
+  std::vector<QtNode*> qtnodes;
+  for (QGraphicsItem * const item: scene.items())
+  {
+    if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
+    {
+      qtnodes.push_back(qtnode);
+    }
+  }
+  return qtnodes;
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
@@ -437,7 +505,7 @@ std::vector<ribi::cmap::QtNode *>
 ribi::cmap::GetSelectedQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept
 {
   //All QtNodes, also those on QtEdge
-  const auto qtnodes = Collect<QtNode>(scene);
+  const auto qtnodes = GetQtNodesAlsoOnQtEdge(scene);
   std::vector<ribi::cmap::QtNode *> selected;
   std::copy_if(
     std::begin(qtnodes),

@@ -299,7 +299,7 @@ void ribi::cmap::QtConceptMapTest::create_one_node_mouse() const
   q.showFullScreen();
   QTest::mouseDClick(q.viewport(), Qt::MouseButton::LeftButton, 0, QPoint(0.0,0.0), 100);
   q.show();
-  const int n_nodes_in_scene{static_cast<int>(Collect<QtNode>(q.GetScene()).size())};
+  const int n_nodes_in_scene{static_cast<int>(GetQtNodes(q).size())};
   const int n_nodes_in_conceptmap{static_cast<int>(boost::num_vertices(q.ToConceptMap()))};
   QVERIFY(n_nodes_in_scene == n_nodes_in_conceptmap);
 }

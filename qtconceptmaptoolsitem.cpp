@@ -82,7 +82,6 @@ void ribi::cmap::QtTool::SetBuddyItem(QtNode * const qtnode)
   m_qtnode = qtnode;
   this->setVisible(m_qtnode != nullptr);
   Reposition();
-  //this->update();
 }
 
 void ribi::cmap::QtTool::setVisible(bool visible)

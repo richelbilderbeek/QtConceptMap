@@ -19,7 +19,7 @@
 #include "find_first_custom_vertex_with_my_vertex.h"
 #include "remove_selected_custom_edges_and_vertices.h"
 #include "qtconceptmaptoolsitem.h"
-
+#include "qtquadbezierarrowitem.h"
 ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   QtConceptMap& qtconceptmap
 )
@@ -40,16 +40,24 @@ ribi::cmap::CommandDeleteSelected::~CommandDeleteSelected()
 
 void ribi::cmap::CommandDeleteSelected::AddDeletedQtEdges()
 {
-  std::vector<QtEdge *> qtedges_removed = m_selected_qtedges_removed;
-  std::copy(std::begin(m_unselected_qtedges_removed), std::end(m_unselected_qtedges_removed),
-    std::back_inserter(qtedges_removed)
+  std::set<QtEdge *> qtedges_removed(
+    std::begin(m_selected_qtedges_removed),
+    std::end(m_selected_qtedges_removed)
+  );
+  std::copy(
+    std::begin(m_unselected_qtedges_removed),
+    std::end(m_unselected_qtedges_removed),
+    std::inserter(qtedges_removed, std::begin(qtedges_removed))
   );
 
   for (const auto qtedge: qtedges_removed)
   {
     assert(qtedge);
+    assert(!qtedge->scene());
+    assert(!qtedge->GetArrow()->scene());
     GetQtConceptMap().GetScene().addItem(qtedge);
     assert(qtedge->scene());
+    assert(qtedge->GetArrow()->scene());
     assert(qtedge->zValue() == GetQtEdgeZvalue());
   }
 }
@@ -103,6 +111,19 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
   m_selected_qtedges_removed = GetSelectedQtEdges(GetQtConceptMap());
   m_unselected_qtedges_removed = {};
 
+
+  #ifndef TRUST_GETQTEDGES_20180821
+  for (QGraphicsItem * const item: GetQtConceptMap().scene()->items())
+  {
+    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
+    {
+      if (qtedge->GetFrom()->isSelected() || qtedge->GetTo()->isSelected())
+      {
+        m_unselected_qtedges_removed.push_back(qtedge);
+      }
+    }
+  }
+  #else
   for (QtEdge * qtedge: GetQtEdges(GetQtConceptMap()))
   {
     if (qtedge->GetFrom()->isSelected() || qtedge->GetTo()->isSelected())
@@ -110,6 +131,7 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
       m_unselected_qtedges_removed.push_back(qtedge);
     }
   }
+  #endif // TRUST_GETQTEDGES_20180821
 
   std::set<QtEdge *> qtedges_to_remove(
     std::begin(m_selected_qtedges_removed),
@@ -124,8 +146,11 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
   for (QtEdge * const qtedge: qtedges_to_remove)
   {
     SetSelectedness(false, *qtedge);
+    assert(qtedge->scene());
+    assert(qtedge->GetArrow()->scene());
     GetQtConceptMap().GetScene().removeItem(qtedge);
     assert(!qtedge->scene());
+    assert(!qtedge->GetArrow()->scene());
   }
 }
 

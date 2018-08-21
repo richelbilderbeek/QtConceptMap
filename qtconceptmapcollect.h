@@ -6,6 +6,10 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmapqtedge.h"
 
+#ifndef TRUST_COLLECT_QTEDGES_20180821
+template <class T>
+[[deprecated]]
+std::vector<T*> Collect(const QGraphicsScene&);
 ///Collect all QGraphicsItems with class T in an unorderly way
 template <class T>
 std::vector<T*> Collect(const QGraphicsScene& scene)
@@ -23,5 +27,6 @@ std::vector<T*> Collect(const QGraphicsScene& scene)
   assert(std::count(v.begin(), v.end(), nullptr)==0);
   return v;
 }
+#endif // TRUST_COLLECT_QTEDGES_20180821
 
 #endif // QTCONCEPTMAPCOLLECT_CPP
