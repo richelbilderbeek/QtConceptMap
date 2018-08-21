@@ -30,8 +30,14 @@ private slots:
   ///Select a QtNode by name
   void SelectQtNodeByName() const noexcept;
 
-  ///Parse from a string
-  void Parse() const noexcept;
+  ///Parse from a string, search for a center node
+  void ParseCenterNode() const noexcept;
+
+  ///Parse from a string, search for an edge
+  void ParseEdge() const noexcept;
+
+  ///Parse from a string, search for a node
+  void ParseNode() const noexcept;
 
   ///Parsing a nonsense string should fails
   void ParseNonsenseFails() const noexcept;

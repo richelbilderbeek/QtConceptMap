@@ -54,7 +54,23 @@ void ribi::cmap::QtCommandSelectTest::SelectQtNodeByName() const noexcept
   QVERIFY(CountSelectedQtNodes(q) == 1);
 }
 
-void ribi::cmap::QtCommandSelectTest::Parse() const noexcept
+void ribi::cmap::QtCommandSelectTest::ParseCenterNode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  const auto c = ParseCommandSelect(q, "select(center)");
+  QVERIFY(c != nullptr);
+}
+
+void ribi::cmap::QtCommandSelectTest::ParseEdge() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  const auto c = ParseCommandSelect(q, "select(first)");
+  QVERIFY(c != nullptr);
+}
+
+void ribi::cmap::QtCommandSelectTest::ParseNode() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
