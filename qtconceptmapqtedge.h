@@ -108,7 +108,7 @@ protected:
     QPainter* painter,
     const QStyleOptionGraphicsItem* option,
     QWidget* widget
-  ) noexcept override final;
+  ) override final;
 
   ///Obtain a detailed shape of this QGraphicsItem
   QPainterPath shape() const noexcept override final;

@@ -41,7 +41,11 @@ struct QtNewArrow : public QtArrowItem
 
   private:
   ///Must be suppplied
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+  void paint(
+    QPainter* painter,
+    const QStyleOptionGraphicsItem* option,
+    QWidget* widget
+  ) override;
 
   ///The source node
   ///Cannot be const as the user might want to edit it

@@ -53,7 +53,11 @@ struct QtTool final : public QGraphicsPixmapItem
   protected:
   void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
   void mousePressEvent(QGraphicsSceneMouseEvent *event);
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem *, QWidget *);
+  void paint(
+    QPainter* painter,
+    const QStyleOptionGraphicsItem *,
+    QWidget *
+  ) override;
 
   private:
   ///Make private to ensure use of other setPos member function

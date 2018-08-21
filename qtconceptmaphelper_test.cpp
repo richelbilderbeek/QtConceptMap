@@ -18,16 +18,14 @@ void ribi::cmap::HelperTest::ExtractTheOneSelectedQtEdge() const noexcept
   }
 
   //Should throw when there is no selected QtEdge
-  try
   {
     QtConceptMap q;
     q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-    ::ribi::cmap::ExtractTheOneSelectedQtEdge(q.GetScene());
-    assert(!"Should not get here");
-  }
-  catch(const std::invalid_argument&)
-  {
-    QVERIFY("Should get here");
+    assert(CountSelectedQtEdges(q) == 0);
+    QVERIFY_EXCEPTION_THROWN(
+      ::ribi::cmap::ExtractTheOneSelectedQtEdge(q),
+      std::invalid_argument
+    );
   }
 }
 

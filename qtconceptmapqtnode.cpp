@@ -278,8 +278,10 @@ void ribi::cmap::Move(QtNode& qtnode, const double dx, const double dy)
 }
 
 void ribi::cmap::QtNode::paint(
-  QPainter* painter, const QStyleOptionGraphicsItem* item, QWidget* widget
-) noexcept
+  QPainter* painter,
+  const QStyleOptionGraphicsItem* item,
+  QWidget* widget
+)
 {
   assert(painter);
 

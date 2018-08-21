@@ -98,6 +98,7 @@ public slots:
   void mouseMoveEvent(QMouseEvent * event) override;
   void mousePressEvent(QMouseEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 
   ///No override, this is the slot called
   ///whenever a GraphicsScene::onFocusItemChanged signal
@@ -193,6 +194,10 @@ int CountSelectedQtEdges(const QtConceptMap& q) noexcept;
 
 ///Create the flags for a QtNode in a certain Mode
 QGraphicsItem::GraphicsItemFlags CreateFlags(const QtNode& qtnode, const Mode mode) noexcept;
+
+///Extract the singly selected QtEdge
+///Will throw if there are zero, two or more QtEdges selected
+QtEdge * ExtractTheOneSelectedQtEdge(const QtConceptMap& q);
 
 ///Finds the first QtEdge by a predicate
 ///Returns nullptr if there is none

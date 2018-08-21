@@ -308,7 +308,7 @@ void ribi::cmap::QtEdge::paint(
   QPainter* painter,
   const QStyleOptionGraphicsItem* /*option*/,
   QWidget* /*widget*/
-) noexcept
+)
 {
   CheckInvariants(*this);
 

@@ -360,6 +360,11 @@ QGraphicsItem::GraphicsItemFlags ribi::cmap::CreateFlags(const QtNode& qtnode, c
   return CreateUninitializedFlags(qtnode);
 }
 
+ribi::cmap::QtEdge * ribi::cmap::ExtractTheOneSelectedQtEdge(const QtConceptMap& q)
+{
+  return ExtractTheOneSelectedQtEdge(q.GetScene());
+}
+
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
   const QtConceptMap& q,
   const std::function<bool(QtEdge*)> predicate) noexcept
@@ -456,7 +461,7 @@ void ribi::cmap::QtConceptMap::DoCommand(Command * const command)
   if (!command) return;
 
   CheckInvariants(*this);
-
+  qCritical() << "Do command:" << command;
   m_undo.push(command);
 
   CheckInvariants(*this);
@@ -1304,6 +1309,18 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
 void ribi::cmap::QtConceptMap::mouseReleaseEvent(QMouseEvent *)
 {
   m_last_mouse_click_pos.resize(0);
+}
+
+void ribi::cmap::QtConceptMap::paintEvent(QPaintEvent *event)
+{
+  try
+  {
+    QtKeyboardFriendlyGraphicsView::paintEvent(event);
+  }
+  catch (const std::exception& e)
+  {
+    qCritical() << e.what();
+  }
 }
 
 void ribi::cmap::QtConceptMap::Respond()

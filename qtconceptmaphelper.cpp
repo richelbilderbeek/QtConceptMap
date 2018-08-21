@@ -112,36 +112,17 @@ int ribi::cmap::CountSelectedQtNodes(const QGraphicsScene& scene) noexcept
 ribi::cmap::QtEdge *
 ribi::cmap::ExtractTheOneSelectedQtEdge(const QGraphicsScene& scene)
 {
-  if (CountSelectedQtEdges(scene) != 1)
+  const auto qtedges = GetSelectedQtEdges(scene);
+  if (qtedges.size() != 1)
   {
     std::stringstream msg;
     msg << __func__ << ": "
       << "Must have one selected item, instead of "
-      << scene.selectedItems().size() << " items"
+      << qtedges.size() << " items"
     ;
     throw std::invalid_argument(msg.str());
   }
-  auto item = scene.selectedItems().front();
-
-  //Is it an edge?
-  if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-  {
-    return qtedge;
-  }
-  else if (QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item))
-  {
-    //Or is it the node on an edge?
-    QtEdge * const qtedge_behind_node = FindQtEdge(qtnode, scene);
-    if (qtedge_behind_node) return qtedge_behind_node;
-  }
-
-  //Nope, it cannot be found
-  std::stringstream msg;
-  msg << __func__ << ": "
-    << "The selected item must be a QtEdge, "
-    << "or a QtNode on a QtEdge"
-  ;
-  throw std::invalid_argument(msg.str());
+  return qtedges[0];
 }
 
 ribi::cmap::QtEdge * ribi::cmap::FindFirstQtEdge(
@@ -310,10 +291,10 @@ ribi::cmap::GetQtNodeBrushFunction(const Mode mode) noexcept
   {
     case Mode::edit: return GetQtNodeBrushFunctionEdit();
     case Mode::rate: return GetQtNodeBrushFunctionRate();
-    default:
-      assert(!"Should not get here"); //!OCLINT accepted idiom
-    case Mode::uninitialized: return GetQtNodeBrushFunctionUninitialized();
+    default: break;
   }
+  assert(mode == Mode::uninitialized);
+  return GetQtNodeBrushFunctionUninitialized();
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>

@@ -81,7 +81,11 @@ struct QtNode final : public QtRoundedEditRectItem
 
   std::string ToStr() const noexcept;
 
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem *, QWidget *) noexcept final;
+  virtual void paint(
+    QPainter* painter,
+    const QStyleOptionGraphicsItem *,
+    QWidget *
+  ) override final;
 
   ///Define a usertype for this QGraphicsItem, must be unique
   enum { Type = UserType + 3 };
