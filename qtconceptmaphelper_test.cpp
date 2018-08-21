@@ -32,7 +32,6 @@ void ribi::cmap::HelperTest::ExtractTheOneSelectedQtEdge() const noexcept
   }
 }
 
-
 void ribi::cmap::HelperTest::FindQtCenterNode() const noexcept
 {
   //No concept map, thus no center node

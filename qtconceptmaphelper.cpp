@@ -399,9 +399,9 @@ ribi::cmap::GetQtNodeVignetteBrushFunction(const Mode mode) noexcept
   {
     case Mode::edit: return GetQtNodeVignetteBrushFunctionEdit();
     case Mode::rate: return GetQtNodeVignetteBrushFunctionRate();
-    case Mode::uninitialized: return GetQtNodeVignetteBrushFunctionUninitialized();
+    default: break;
   }
-  assert(!"Should not get here"); //!OCLINT accepted idiom
+  assert(mode == Mode::uninitialized);
   return GetQtNodeVignetteBrushFunctionUninitialized();
 }
 
