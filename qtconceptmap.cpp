@@ -1505,7 +1505,7 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     case Qt::Key_Delete: keyPressEventDelete(q, event); break;
     case Qt::Key_E: keyPressEventE(q, event); break;
     case Qt::Key_Equal:
-      if (q.GetMode() == Mode::edit) q.scale(1.1, 1.1);
+      if (q.GetMode() != Mode::uninitialized) q.scale(1.1, 1.1);
       break;
     case Qt::Key_Escape: keyPressEventEscape(q, event); break;
     case Qt::Key_F1: keyPressEventF1(q, event); break;
@@ -1518,7 +1518,7 @@ void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT 
     #endif
     case Qt::Key_H: keyPressEventH(q, event); break;
     case Qt::Key_Minus:
-      if (q.GetMode() == Mode::edit) q.scale(0.9, 0.9);
+      if (q.GetMode() != Mode::uninitialized) q.scale(0.9, 0.9);
       break;
     case Qt::Key_N: keyPressEventN(q, event); break;
     case Qt::Key_T: keyPressEventT(q, event); break;
