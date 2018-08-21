@@ -807,6 +807,14 @@ void ribi::cmap::QtConceptMapTest::RateModeFlags() const
 void ribi::cmap::QtConceptMapTest::GetHighlighter() const noexcept
 {
   QtConceptMap m;
+  auto& h = m.GetQtHighlighter();
+  //Nothing to highlight, thus not item
+  QVERIFY(!h.GetItem());
+}
+
+void ribi::cmap::QtConceptMapTest::GetHighlighterConst() const noexcept
+{
+  const QtConceptMap m;
   const auto& h = m.GetQtHighlighter();
   //Nothing to highlight, thus not item
   QVERIFY(!h.GetItem());
