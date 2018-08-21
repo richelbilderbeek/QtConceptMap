@@ -30,7 +30,9 @@ private slots:
   void CreateRelationOverCenterNode() const noexcept;
   void CreateTwoNewNodeCommands() const noexcept;
   void CreateNewEdgeBetweenTwoSelectedNodesCommand() const noexcept;
-  void GetCommands() const noexcept;
+  void GetCommandsEmptyWhenOneWord() const noexcept;
+  void GetCommandsEmptyWhenTwoWords() const noexcept;
+  void GetCommandsEmptyWithManyNonsenseWords() const noexcept;
   void LoadCommand() const noexcept;
   void MoveCommandFailsOnNonexistingItem() const noexcept;
   void MoveCommandOnEdge() const noexcept;

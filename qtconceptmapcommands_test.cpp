@@ -10,9 +10,27 @@
 #include "QEventLogger.h"
 #include <QDebug>
 
-void ribi::cmap::QtCommandsTest::GetCommands() const noexcept
+void ribi::cmap::QtCommandsTest::GetCommandsEmptyWhenOneWord() const noexcept
 {
-  const std::string cmds = "some commands";
+  const std::string cmds = "single-word";
+  const std::vector<std::string> args = { "--command", cmds };
+  const auto s = ::ribi::cmap::GetCommands(args);
+  QVERIFY(!s.empty());
+  QVERIFY(s == cmds);
+}
+
+void ribi::cmap::QtCommandsTest::GetCommandsEmptyWhenTwoWords() const noexcept
+{
+  const std::string cmds = "two words";
+  const std::vector<std::string> args = { "--command", cmds };
+  const auto s = ::ribi::cmap::GetCommands(args);
+  QVERIFY(!s.empty());
+  QVERIFY(s == cmds);
+}
+
+void ribi::cmap::QtCommandsTest::GetCommandsEmptyWithManyNonsenseWords() const noexcept
+{
+  const std::string cmds = "many and many nonsense words without minus minus command";
   const std::vector<std::string> args = { "--command", cmds };
   const auto s = ::ribi::cmap::GetCommands(args);
   QVERIFY(!s.empty());
