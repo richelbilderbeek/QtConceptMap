@@ -804,13 +804,22 @@ void ribi::cmap::QtConceptMapTest::RateModeFlags() const
   }
 }
 
-void ribi::cmap::QtConceptMapTest::GetHighlighter() const
+void ribi::cmap::QtConceptMapTest::GetHighlighter() const noexcept
 {
   QtConceptMap m;
   const auto& h = m.GetQtHighlighter();
   //Nothing to highlight, thus not item
   QVERIFY(!h.GetItem());
 }
+
+void ribi::cmap::QtConceptMapTest::GetQtNodesAlsoOnQtEdge() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  const auto qtnodes = ::ribi::cmap::GetQtNodesAlsoOnQtEdge(q);
+  QVERIFY(qtnodes.size() == 3);
+}
+
 
 void ribi::cmap::QtConceptMapTest::IsCommandPutOnUndoStack() const
 {
