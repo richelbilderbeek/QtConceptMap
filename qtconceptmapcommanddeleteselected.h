@@ -6,7 +6,7 @@
 namespace ribi {
 namespace cmap {
 
-///Delete all selecteded edges and node
+///Delete all selecteded edges and nodes, except the center node
 class CommandDeleteSelected final : public Command
 {
   public:

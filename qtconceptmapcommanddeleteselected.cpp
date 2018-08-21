@@ -20,6 +20,7 @@
 #include "remove_selected_custom_edges_and_vertices.h"
 #include "qtconceptmaptoolsitem.h"
 #include "qtquadbezierarrowitem.h"
+
 ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
   QtConceptMap& qtconceptmap
 )
@@ -156,9 +157,18 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
 
 void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
 {
-  m_qtnodes_removed = GetSelectedQtNodes(GetQtConceptMap());
+  m_qtnodes_removed.clear();
   for (QtNode * const qtnode: GetSelectedQtNodes(GetQtConceptMap()))
   {
+    assert(!IsOnEdge(*qtnode));
+    if (!IsQtCenterNode(*qtnode))
+    {
+      m_qtnodes_removed.push_back(qtnode);
+    }
+  }
+  for (QtNode * const qtnode: m_qtnodes_removed)
+  {
+    assert(!IsQtCenterNode(qtnode));
     SetSelectedness(false, *qtnode);
     GetScene(*this).removeItem(qtnode);
     assert(!qtnode->scene());
