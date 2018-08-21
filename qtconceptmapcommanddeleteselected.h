@@ -1,12 +1,7 @@
 #ifndef CONCEPTMAPCOMMANDDELETENODE_H
 #define CONCEPTMAPCOMMANDDELETENODE_H
 
-//
-//
-//
-//
 #include "qtconceptmapcommand.h"
-//
 
 namespace ribi {
 namespace cmap {

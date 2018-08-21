@@ -4,20 +4,20 @@
 #include "qtconceptmapbrushfactory_test.h"
 #include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
+#include "qtconceptmapcommanddeleteselected_test.h"
 #include "qtconceptmapcommandload_test.h"
 #include "qtconceptmapcommandmove_test.h"
 #include "qtconceptmapcommandmoveedge_test.h"
 #include "qtconceptmapcommandmovenode_test.h"
+#include "qtconceptmapcommands_test.h"
 #include "qtconceptmapcommandsave_test.h"
 #include "qtconceptmapcommandselect_test.h"
 #include "qtconceptmapcommandselectedge_test.h"
 #include "qtconceptmapcommandselectnode_test.h"
 #include "qtconceptmapcommandsetconcept_test.h"
-#include "qtconceptmapnumberedcolumn_test.h"
 #include "qtconceptmapcommandsetmode_test.h"
 #include "qtconceptmapcommandtogglearrowhead_test.h"
 #include "qtconceptmapcommandtogglearrowtail_test.h"
-#include "qtconceptmapcommands_test.h"
 #include "qtconceptmapcommandunselect_test.h"
 #include "qtconceptmapcommandunselectall_test.h"
 #include "qtconceptmapcommandunselectedge_test.h"
@@ -28,6 +28,7 @@
 #include "qtconceptmapitemhighlighter_test.h"
 #include "qtconceptmapmode_test.h"
 #include "qtconceptmapnewarrow_test.h"
+#include "qtconceptmapnumberedcolumn_test.h"
 #include "qtconceptmapqtedge_test.h"
 #include "qtconceptmapqtnodefactory_test.h"
 #include "qtconceptmapqtnode_test.h"
@@ -63,7 +64,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ QtEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtCommandDeleteSelectedTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
@@ -73,6 +74,7 @@ int main(int argc, char *argv[])
   { QtBrushFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtCommandDeleteSelectedTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandLoadTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandMoveEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandMoveNodeTest t; error |= QTest::qExec(&t, argc, argv); }
