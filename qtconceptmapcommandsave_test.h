@@ -11,7 +11,9 @@ class QtCommandSaveTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void parse() const noexcept;
+  void Parse() const noexcept;
+  void ParseNonsense() const noexcept;
+  void Saves() const noexcept;
 };
 
 } //~namespace cmap
