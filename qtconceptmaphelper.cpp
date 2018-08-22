@@ -346,11 +346,10 @@ ribi::cmap::GetQtNodeBrushFunctionRate() noexcept
       case 1:
       case 2:
         return QtBrushFactory().CreateYellowGradientBrush();
-      case 3:
-        return QtBrushFactory().CreateGreenGradientBrush();
-      default:
-        throw std::logic_error("GetNodeBrushFunction: unimplemented rating");
+      default: break;
     }
+    assert(n_rated == 3);
+    return QtBrushFactory().CreateGreenGradientBrush();
   };
 }
 

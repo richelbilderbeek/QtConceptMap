@@ -293,13 +293,12 @@ void ribi::cmap::QtNode::paint(
   if (HasExamples(*this))
   {
     painter->setBrush(m_vignette_brush_function(*this));
-    //painter->setBrush(Qt::transparent);
     painter->setPen(Qt::black);
     painter->drawRect(
-      (GetInnerRect().width() / 2.0) - 5.0,
-      -(GetInnerRect().height() / 2.0) + 3.0,
-      3.0,
-      3.0
+      (GetInnerRect().width() / 2.0) - 5.0 - 2.0,
+      -(GetInnerRect().height() / 2.0) + 3.0 - 0.0,
+      3.0 + 2.0,
+      3.0 + 2.0
     );
   }
 
