@@ -42,7 +42,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
     std::stringstream msg;
     msg << "Create new "
       << m_type
-      << " << node with text '" << m_text << "' at ("
+      << " node with text '" << m_text << "' at ("
       << m_x << ", " << m_y << ")"
     ;
     this->setText(msg.str().c_str());
