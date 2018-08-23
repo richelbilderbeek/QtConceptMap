@@ -28,7 +28,6 @@ void ribi::cmap::QtNumberedColumnTest::RandomKeyPress()
   w.show();
   QKeyEvent e(QEvent::KeyPress, Qt::Key_X, Qt::NoModifier);
   w.keyPressEvent(&e);
-  QVERIFY(e.isAccepted());
 }
 
 void ribi::cmap::QtNumberedColumnTest::TabChangesFocus()
