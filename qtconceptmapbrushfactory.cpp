@@ -17,8 +17,8 @@ std::string ribi::cmap::QtBrushFactory::BrushToStr(const QBrush& brush)
   if (brush == CreateGreenGradientBrush()) return "green";
   if (brush == CreateRedGradientBrush()) return "red";
   if (brush == CreateYellowGradientBrush()) return "yellow";
-  if (brush == CreateWhiteGradientBrush()) return "white";
-  return "unknown";
+  assert(brush == CreateWhiteGradientBrush());
+  return "white";
 }
 
 QBrush ribi::cmap::QtBrushFactory::CreateBlueGradientBrush() noexcept

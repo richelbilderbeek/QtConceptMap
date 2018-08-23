@@ -16,6 +16,9 @@ private slots:
   ///Unselecting an absent item fails
   void UnselectAbsentItemFails() const noexcept;
 
+  ///Unselecting a non-selected item fails
+  void UnselectNonSelectedItemFails() const noexcept;
+
   ///Unselect one of two QtEdges by name
   void UnselectOneOfTwoQtEdgesByName() const noexcept;
 

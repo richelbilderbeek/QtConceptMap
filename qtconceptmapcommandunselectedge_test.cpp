@@ -20,7 +20,27 @@ void ribi::cmap::QtCommandUnselectEdgeTest::UnselectAbsentItemFails() const noex
     q.DoCommand(new CommandUnselectEdge(q, first_qtedge));
     QVERIFY(!"Should not get here");
   }
-  catch (std::exception&)
+  catch (const std::exception&)
+  {
+    QVERIFY("OK");
+  }
+}
+
+void ribi::cmap::QtCommandUnselectEdgeTest::UnselectNonSelectedItemFails() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  q.show();
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 0);
+  try
+  {
+    QtEdge * const qtedge = GetFirstQtEdge(q);
+    assert(!IsSelected(*qtedge));
+    q.DoCommand(new CommandUnselectEdge(q, qtedge));
+    QVERIFY(!"Should not get here");
+  }
+  catch (const std::exception&)
   {
     QVERIFY("OK");
   }
