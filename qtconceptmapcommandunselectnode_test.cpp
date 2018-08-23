@@ -10,13 +10,10 @@
 void ribi::cmap::QtCommandUnselectNodeTest::UnselectAbsentItemFails() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
-  assert(CountSelectedQtEdges(q) == 0);
-  assert(CountSelectedQtNodes(q) == 0);
   try
   {
-    QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("absent"));
-    q.DoCommand(new CommandUnselectNode(q, first_qtnode));
+    QtNode * const qtnode = nullptr;
+    q.DoCommand(new CommandUnselectNode(q, qtnode));
     QVERIFY(!"Should not get here");
   }
   catch (std::exception&)

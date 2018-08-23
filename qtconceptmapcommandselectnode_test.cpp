@@ -79,6 +79,43 @@ void ribi::cmap::QtCommandSelectNodeTest
   QVERIFY(tool_buddy_before == tool_buddy_after);
 }
 
+void ribi::cmap::QtCommandSelectNodeTest::SelectQtNodeOnQtEdgeFails() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+
+  QtNode * const qtnode = GetFirstQtEdge(q)->GetQtNode();
+  try
+  {
+    q.DoCommand(new CommandSelectNode(q, qtnode));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("OK");
+  }
+}
+
+void ribi::cmap::QtCommandSelectNodeTest::SelectSelectedQtNodeFails() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  QtNode * const qtnode = GetFirstQtNode(q);
+  SetSelectedness(true, *qtnode);
+  q.show();
+
+  try
+  {
+    q.DoCommand(new CommandSelectNode(q, qtnode));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("OK");
+  }
+
+}
+
 void ribi::cmap::QtCommandSelectNodeTest
   ::SelectTwoQtNodesByName() const noexcept
 {

@@ -12,10 +12,6 @@ class QtCommandSelectNodeTest : public QObject
 
 private slots:
 
-  //To do/review:
-
-  //Done:
-
   ///Selecting an absent item fails
   void SelectAbsentItemFails() const noexcept;
 
@@ -24,6 +20,13 @@ private slots:
 
   ///Select one of two QtNodes by name and undo
   void SelectOneOfTwoQtNodesByNameAndUndo() const noexcept;
+
+  ///Selecting a QtNode on a QtEdge fails
+  ///(one should select the QtEdge)
+  void SelectQtNodeOnQtEdgeFails() const noexcept;
+
+  ///Selecting a QtNode that is already selected fails
+  void SelectSelectedQtNodeFails() const noexcept;
 
   ///Select two QtNodes by name
   void SelectTwoQtNodesByName() const noexcept;
