@@ -10,6 +10,42 @@
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
+#include "conceptmapfactory.h"
+
+void ribi::cmap::QtCommandSetConceptTest::FailsOnCenterNode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  q.show();
+  assert(CountSelectedQtNodes(q) == 0);
+  try
+  {
+    q.DoCommand(new CommandSetConcept(q, Concept()));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
+
+void ribi::cmap::QtCommandSetConceptTest::FailsWithoutSelected() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.show();
+  assert(CountSelectedQtNodes(q) == 1);
+  try
+  {
+    q.DoCommand(new CommandSetConcept(q, Concept()));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
 
 void ribi::cmap::QtCommandSetConceptTest::Parse() const noexcept
 {

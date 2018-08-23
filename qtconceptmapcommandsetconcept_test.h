@@ -12,12 +12,11 @@ class QtCommandSetConceptTest : public QObject
 
 private slots:
 
-  //To do/review:
+  ///Cannot set the concept of a center QtNode
+  void FailsOnCenterNode() const noexcept;
 
-  ///Give an empty QtEdge Concept with examples and undo
-  void SetConceptWithExamplesAtQtEdgeAndUndo() const noexcept;
-
-  //Done:
+  ///Cannot set a concept if there is no QtNode (also on QtEdge) selected
+  void FailsWithoutSelected() const noexcept;
 
   ///Parse from a string
   void Parse() const noexcept;
@@ -27,6 +26,9 @@ private slots:
 
   ///Give an empty QtEdge Concept with examples
   void SetConceptWithExamplesAtQtEdge() const noexcept;
+
+  ///Give an empty QtEdge Concept with examples and undo
+  void SetConceptWithExamplesAtQtEdgeAndUndo() const noexcept;
 
   ///Give an empty QtNode a Concept with examples
   void SetConceptWithExamplesAtQtNode() const noexcept;

@@ -24,11 +24,7 @@ ribi::cmap::CommandUnselectAll::CommandUnselectAll(
       )
     )
     {
-      try
-      {
-        new CommandUnselect(GetQtConceptMap(), *item, m_cmd);
-      }
-      catch (const std::exception&) {} //!OCLINT indeed, an empty catch
+      new CommandUnselect(GetQtConceptMap(), *item, m_cmd);
     }
   }
   if (!m_cmd->childCount())

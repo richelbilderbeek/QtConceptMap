@@ -13,6 +13,7 @@ class QtNumberedColumnTest : public QObject
 private slots:
   void Construction();
   void EmptyRowIsDeleted();
+  void RandomKeyPress();
   void TabChangesFocus();
 };
 
