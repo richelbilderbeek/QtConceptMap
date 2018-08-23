@@ -11,7 +11,7 @@ class QtRateConceptTallyDialogCloserTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void Close();
+  void Close() const noexcept;
 };
 
 } //~namespace cmap
