@@ -31,9 +31,6 @@ class CommandDeleteSelected final : public Command
 
   std::vector<QtNode *> m_qtnodes_removed;
 
-  //QGraphicsScene& m_scene;
-  const QList<QGraphicsItem *> m_selected_before;
-  //QtTool& m_tool_item;
   QtNode * const m_tool_item_old_buddy;
 
   void AddDeletedQtEdges();

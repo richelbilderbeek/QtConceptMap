@@ -28,7 +28,6 @@ ribi::cmap::CommandDeleteSelected::CommandDeleteSelected(
     m_focus_item_before{qtconceptmap.GetScene().focusItem()},
     m_selected_qtedges_removed{},
     m_qtnodes_removed{},
-    m_selected_before{qtconceptmap.GetScene().selectedItems()},
     m_tool_item_old_buddy{qtconceptmap.GetQtToolItem().GetBuddyItem()}
 {
   setText("delete selected nodes and edges");
@@ -41,17 +40,18 @@ ribi::cmap::CommandDeleteSelected::~CommandDeleteSelected()
 
 void ribi::cmap::CommandDeleteSelected::AddDeletedQtEdges()
 {
-  std::set<QtEdge *> qtedges_removed(
-    std::begin(m_selected_qtedges_removed),
-    std::end(m_selected_qtedges_removed)
-  );
-  std::copy(
-    std::begin(m_unselected_qtedges_removed),
-    std::end(m_unselected_qtedges_removed),
-    std::inserter(qtedges_removed, std::begin(qtedges_removed))
-  );
-
-  for (const auto qtedge: qtedges_removed)
+  for (const auto qtedge: m_selected_qtedges_removed)
+  {
+    assert(qtedge);
+    assert(!qtedge->scene());
+    assert(!qtedge->GetArrow()->scene());
+    GetQtConceptMap().GetScene().addItem(qtedge);
+    SetSelectedness(true, *qtedge);
+    assert(qtedge->scene());
+    assert(qtedge->GetArrow()->scene());
+    assert(qtedge->zValue() == GetQtEdgeZvalue());
+  }
+  for (const auto qtedge: m_unselected_qtedges_removed)
   {
     assert(qtedge);
     assert(!qtedge->scene());
@@ -113,26 +113,14 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
   m_unselected_qtedges_removed = {};
 
 
-  #ifndef TRUST_GETQTEDGES_20180821
-  for (QGraphicsItem * const item: GetQtConceptMap().scene()->items())
-  {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      if (qtedge->GetFrom()->isSelected() || qtedge->GetTo()->isSelected())
-      {
-        m_unselected_qtedges_removed.push_back(qtedge);
-      }
-    }
-  }
-  #else
   for (QtEdge * qtedge: GetQtEdges(GetQtConceptMap()))
   {
+    if (IsSelected(*qtedge)) continue;
     if (qtedge->GetFrom()->isSelected() || qtedge->GetTo()->isSelected())
     {
       m_unselected_qtedges_removed.push_back(qtedge);
     }
   }
-  #endif // TRUST_GETQTEDGES_20180821
 
   std::set<QtEdge *> qtedges_to_remove(
     std::begin(m_selected_qtedges_removed),
@@ -142,6 +130,9 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
     std::begin(m_unselected_qtedges_removed),
     std::end(m_unselected_qtedges_removed),
     std::inserter(qtedges_to_remove, std::begin(qtedges_to_remove))
+  );
+  assert(qtedges_to_remove.size()
+    == m_unselected_qtedges_removed.size() + m_selected_qtedges_removed.size()
   );
 
   for (QtEdge * const qtedge: qtedges_to_remove)
@@ -168,6 +159,7 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
   }
   for (QtNode * const qtnode: m_qtnodes_removed)
   {
+    assert(!IsOnEdge(*qtnode));
     assert(!IsQtCenterNode(qtnode));
     SetSelectedness(false, *qtnode);
     GetScene(*this).removeItem(qtnode);
@@ -177,6 +169,10 @@ void ribi::cmap::CommandDeleteSelected::RemoveSelectedQtNodes()
 
 void ribi::cmap::CommandDeleteSelected::Redo()
 {
+  #ifdef GET_SELECTION_IN_REDO_20180823
+  m_selected_before = qtconceptmap.GetScene().selectedItems();
+  #endif // GET_SELECTION_IN_REDO_20180823
+
   assert(AllHaveSameScene());
 
   if (IsQtCenterNodeSelected(GetQtConceptMap()))
@@ -217,7 +213,6 @@ void ribi::cmap::CommandDeleteSelected::SelectAllQtEdgesOnSelectedQtNodes()
     }
   }
 }
-*/
 
 void ribi::cmap::CommandDeleteSelected::SetSelected(
   const QList<QGraphicsItem *>& v,
@@ -241,6 +236,8 @@ void ribi::cmap::CommandDeleteSelected::SetSelected(
     }
   }
 }
+*/
+
 
 void ribi::cmap::CommandDeleteSelected::Undo()
 {
@@ -248,8 +245,6 @@ void ribi::cmap::CommandDeleteSelected::Undo()
 
   AddDeletedQtNodes();
   AddDeletedQtEdges();
-
-  SetSelected(m_selected_before, true);
 
   GetQtConceptMap().GetQtToolItem().SetBuddyItem(m_tool_item_old_buddy);
   GetQtConceptMap().GetScene().setFocusItem(m_focus_item_before);
