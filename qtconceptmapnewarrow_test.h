@@ -11,7 +11,9 @@ class QtNewArrowTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void all_tests();
+  void CancelActiveArrow() const noexcept;
+  void CreateNewQtEdge() const noexcept;
+  void StartSetsSourceQtNode() const noexcept;
 };
 
 } //~namespace cmap

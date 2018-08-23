@@ -240,6 +240,10 @@ std::vector<QGraphicsItem *> GetFocusableNonselectedItems(const QtConceptMap& q)
 ///Returns nullptr if none is present
 QtNode* GetItemBelowCursor(const QtConceptMap& q, const QPointF& pos) noexcept;
 
+///Find the last QtNode
+///Returns nullpt if there are no QtNodes in the scene
+QtNode * GetLastQtNode(const QtConceptMap& q) noexcept;
+
 ///Obtain the center node, if there is any.
 ///Will return nullptr is there is no center node.
 QtNode * GetQtCenterNode(const QtConceptMap& q) noexcept;

@@ -397,6 +397,11 @@ ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QtConceptMap& q) noexcept
   return GetFirstQtNode(q.GetScene());
 }
 
+ribi::cmap::QtNode * ribi::cmap::GetLastQtNode(const QtConceptMap& q) noexcept
+{
+  return ::ribi::cmap::GetLastQtNode(q.GetScene());
+}
+
 void ribi::cmap::QtConceptMap::focusInEvent(QFocusEvent *event)
 {
   QLinearGradient linearGradient(-500, -500, 500, 500);
