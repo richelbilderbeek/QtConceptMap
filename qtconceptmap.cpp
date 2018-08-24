@@ -934,11 +934,8 @@ void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::ControlModifier)
   {
-    try
-    {
-      q.DoCommand(new CommandCreateNewNode(q, "", NodeType::normal, 0.0, 0.0));
-    }
-    catch (std::exception& e) {} //!OCLINT Correct, nothing happens in catch
+    //Always works
+    q.DoCommand(new CommandCreateNewNode(q));
   }
 }
 
@@ -1072,18 +1069,15 @@ void ribi::cmap::QtConceptMap::mouseDoubleClickEvent(QMouseEvent *event)
   if (scene()->itemAt(pos, QTransform())) return;
 
   //Create new node at the mouse cursor its position
-  try
-  {
-    this->DoCommand(
-      new CommandCreateNewNode(
-        *this,
-        "",
-        NodeType::normal,
-        pos.x(), pos.y()
-      )
-    );
-  }
-  catch (const std::logic_error& ) {} //!OCLINT This should be an empty catch statement
+  DoCommand(
+    new CommandCreateNewNode(
+      *this,
+      "",
+      NodeType::normal,
+      pos.x(), pos.y()
+    )
+  );
+
   CheckInvariants(*this);
 }
 
@@ -1280,30 +1274,22 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
   assert(!q.GetQtNewArrow().isSelected());
   if (q.GetQtNewArrow().isVisible())
   {
-    assert(!q.GetQtNewArrow().isSelected());
-    if (q.GetQtHighlighter().GetItem()
-      && q.GetQtNewArrow().GetFrom() != q.GetQtHighlighter().GetItem())
+    QtNode * const from{q.GetQtNewArrow().GetFrom()};
+    assert(from);
+    assert(!IsOnEdge(*from));
+    QtNode * const to{q.GetQtHighlighter().GetItem()};
+    assert(!IsOnEdge(*to));
+    if (to && from != to)
     {
       //The command needs to find the two selected vertices
+      assert(!q.GetQtNewArrow().isSelected());
       for (auto& i: q.GetScene().selectedItems()) { i->setSelected(false); }
-      q.GetQtHighlighter().GetItem()->setSelected(true);
-      q.GetQtNewArrow().GetFrom()->setSelected(true);
-      try
-      {
-        const auto command = new CommandCreateNewEdge(
-          q,
-          q.GetQtNewArrow().GetFrom(),
-          q.GetQtHighlighter().GetItem(),
-          ""
-        );
-        q.DoCommand(command);
-        q.GetQtNewArrow().hide();
-        q.GetQtHighlighter().SetItem(nullptr);
-      }
-      catch (const std::logic_error&)
-      {
-        return;
-      }
+      to->setSelected(true);
+      from->setSelected(true);
+      const auto command = new CommandCreateNewEdge(q, from, to);
+      q.DoCommand(command);
+      q.GetQtNewArrow().hide();
+      q.GetQtHighlighter().SetItem(nullptr);
     }
   }
 

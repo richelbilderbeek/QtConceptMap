@@ -19,7 +19,7 @@ class CommandCreateNewNode final : public Command
     const NodeType type = NodeType::normal,
     const double x = 0.0,
     const double y = 0.0
-  );
+  ) noexcept;
   CommandCreateNewNode(const CommandCreateNewNode&) = delete;
   CommandCreateNewNode& operator=(const CommandCreateNewNode&) = delete;
   ~CommandCreateNewNode() noexcept;

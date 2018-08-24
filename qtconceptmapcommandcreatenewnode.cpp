@@ -27,7 +27,7 @@ ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   const NodeType type,
   const double x,
   const double y
-)
+) noexcept
   : Command(qtconceptmap),
     m_added_qtnode{nullptr},
     m_type{type},
