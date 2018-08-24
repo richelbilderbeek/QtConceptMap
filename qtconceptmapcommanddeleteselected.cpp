@@ -198,47 +198,6 @@ void ribi::cmap::CommandDeleteSelected::Redo()
   assert(AllHaveSameScene());
 }
 
-/*
-void ribi::cmap::CommandDeleteSelected::SelectAllQtEdgesOnSelectedQtNodes()
-{
-  for (QtEdge * qtedge: GetQtEdges(GetQtConceptMap()))
-  {
-    if (qtedge->GetFrom()->isSelected())
-    {
-      SetSelectedness(true, *qtedge);
-    }
-    else if (qtedge->GetTo()->isSelected())
-    {
-      SetSelectedness(true, *qtedge);
-    }
-  }
-}
-
-void ribi::cmap::CommandDeleteSelected::SetSelected(
-  const QList<QGraphicsItem *>& v,
-  const bool is_selected
-) noexcept
-{
-  for (auto item: v)
-  {
-    if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(item))
-    {
-      SetSelectedness(is_selected, *qtnode);
-    }
-    else if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      SetSelectedness(is_selected, *qtedge);
-    }
-    else
-    {
-      assert(!"Do not expect to get here"); //!OCLINT accepted idiom
-      item->setSelected(is_selected);
-    }
-  }
-}
-*/
-
-
 void ribi::cmap::CommandDeleteSelected::Undo()
 {
   assert(AllHaveSameScene());

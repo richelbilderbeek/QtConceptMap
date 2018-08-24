@@ -8,7 +8,6 @@ HEADERS += \
     $$PWD/qtconceptmapcommandcreatenewedge.h \
     $$PWD/qtconceptmapcommandcreatenewnode.h \
     $$PWD/qtconceptmapcommanddeleteselected.h \
-    $$PWD/qtconceptmapcommandload.h \
     $$PWD/qtconceptmapcommandmove.h \
     $$PWD/qtconceptmapcommandmoveedge.h \
     $$PWD/qtconceptmapcommandmovenode.h \
@@ -51,7 +50,6 @@ SOURCES += \
     $$PWD/qtconceptmapcommandcreatenewedge.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode.cpp \
     $$PWD/qtconceptmapcommanddeleteselected.cpp \
-    $$PWD/qtconceptmapcommandload.cpp \
     $$PWD/qtconceptmapcommandmove.cpp \
     $$PWD/qtconceptmapcommandmoveedge.cpp \
     $$PWD/qtconceptmapcommandmovenode.cpp \

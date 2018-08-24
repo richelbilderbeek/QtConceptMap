@@ -3,7 +3,6 @@
 #include "container.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommandcreatenewedge.h"
-#include "qtconceptmapcommandload.h"
 #include "qtconceptmapcommandmove.h"
 #include "qtconceptmapcommandmoveedge.h"
 #include "qtconceptmapcommandmovenode.h"
@@ -40,7 +39,7 @@ ribi::cmap::Command* ribi::cmap::ParseCommand(QtConceptMap& q, const std::string
   {
     ParseCommandCreateNewEdge,
     ParseCommandCreateNewNode,
-    ParseCommandLoad,
+    //ParseCommandCreateDeleteSelected,
     ParseCommandMove,
     ParseCommandMoveEdge,
     ParseCommandMoveNode,

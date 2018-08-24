@@ -5,7 +5,6 @@
 #include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
 #include "qtconceptmapcommanddeleteselected_test.h"
-#include "qtconceptmapcommandload_test.h"
 #include "qtconceptmapcommandmove_test.h"
 #include "qtconceptmapcommandmoveedge_test.h"
 #include "qtconceptmapcommandmovenode_test.h"
@@ -74,11 +73,9 @@ int main(int argc, char *argv[])
   { QtCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandDeleteSelectedTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtCommandLoadTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandMoveEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandMoveNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandMoveTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtCommandSaveTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandSelectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandSelectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandSelectTest t; error |= QTest::qExec(&t, argc, argv); }
