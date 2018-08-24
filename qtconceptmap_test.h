@@ -15,108 +15,110 @@ private slots:
   //To do/review
 
   //Done
-  void CannotDeleteCenterNode() const; //#114
-  void CannotEditCenterNode() const; //#104
-  void CannotMoveCenterNode() const; //#115
-  void ChangeModes() const;
-  void ClickOnNothingShouldUnselectAll() const;
-  void CreateOneEdgeCommandAndCheckZorder() const;
-  void CreateOneEdgeCommand() const;
-  void CreateOneEdgeKeyboard() const;
-  void CreateOneEdgeKeyboardAndUndo() const;
-  void CreateOneEdgeWithHeadAndToggleKeyboard() const;
-  void CreateOneEdgeWithHeadAndUndoKeyboard() const;
-  void CreateOneEdgeWithHeadCommand() const;
-  void CreateOneEdgeWithHeadKeyboard() const;
-  void CreateOneEdgeWithTailCommand() const;
-  void CreateOneEdgeWithTailKeyboard() const;
+  void CannotDeleteCenterNode() const noexcept; //#114
+  void CannotEditCenterNode() const noexcept; //#104
+  void CannotMoveCenterNode() const noexcept; //#115
+  void ChangeModes() const noexcept;
+  void ClickOnNothingShouldUnselectAll() const noexcept;
+  void CreateOneEdgeCommandAndCheckZorder() const noexcept;
+  void CreateOneEdgeCommand() const noexcept;
+  void CreateOneEdgeKeyboard() const noexcept;
+  void CreateOneEdgeKeyboardAndUndo() const noexcept;
+  void CreateOneEdgeWithHeadAndToggleKeyboard() const noexcept;
+  void CreateOneEdgeWithHeadAndUndoKeyboard() const noexcept;
+  void CreateOneEdgeWithHeadCommand() const noexcept;
+  void CreateOneEdgeWithHeadKeyboard() const noexcept;
+  void CreateOneEdgeWithTailCommand() const noexcept;
+  void CreateOneEdgeWithTailKeyboard() const noexcept;
   //void create_one_edge_with_tail_and_undo_keyboard() const;
   //void create_one_edge_with_tail_and_toggle_keyboard() const;
-  void create_one_node_and_undo_command() const;
-  void create_one_node_and_undo_keyboard() const;
-  void create_one_node_command() const;
-  void create_one_node_keyboard() const;
-  void create_one_node_mouse() const;
-  void create_ten_nodes_and_undo_command() const;
-  void create_ten_nodes_and_undo_keyboard() const;
-  void create_two_nodes_command() const;
-  void create_two_nodes_keyboard() const;
-  void DefaultConstruction() const;
-  void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const;
-  void DeleteNodeThatIsHeadOfEdgeKeyboard() const;
-  void DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const;
-  void DeleteNodeThatIsTailOfEdgeKeyboard() const;
-  void DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const;
-  void delete_one_edge_by_node_command() const;
-  void delete_one_edge_by_node_keyboard() const;
-  void delete_one_edge_command() const;
-  void delete_one_edge_keyboard() const;
-  void delete_one_node_command() const;
-  void delete_one_node_command_and_undo() const;
-  void delete_one_node_keyboard() const;
-  void delete_two_nodes_command() const;
-  void DeleteTwoNodesKeyboard() const;
-  void DoubleClick() const;
-  void DoubleClickTwice() const;
-  void EditModeFlags() const;
+  void CreateOneNodeAndUndoCommand() const noexcept;
+  void CreateOneNodeAndUndoKeyboard() const noexcept;
+  void CreateOneNodeCommand() const noexcept;
+  void CreateOneNodeKeyboard() const noexcept;
+  void CreateOneNodeMouse() const noexcept;
+  void CreateTenNodesAndUndoCommand() const noexcept;
+  void CreateTenNodesAndUndoKeyboard() const noexcept;
+  void CreateTwoNodesCommand() const noexcept;
+  void CreateTwoNodesKeyboard() const noexcept;
+  void DefaultConstruction() const noexcept;
+  void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept;
+  void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
+  void DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const noexcept;
+  void DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept;
+  void DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const noexcept;
+  void DeleteOneEdgeByNodeCommand() const noexcept;
+  void DeleteOneEdgeByNodeKeyboard() const noexcept;
+  void DeleteOneEdgeCommand() const noexcept;
+  void DeleteOneEdgeKeyboard() const noexcept;
+  void DeleteOneNodeCommand() const noexcept;
+  void DeleteOneNodeCommandAndUndo() const noexcept;
+  void DeleteOneNodeKeyboard() const noexcept;
+  void DeleteTwoNodesCommand() const noexcept;
+  void DeleteTwoNodesKeyboard() const noexcept;
+  void DoubleClick() const noexcept;
+  void DoubleClickTwice() const noexcept;
+  void EditModeFlags() const noexcept;
   void GetHighlighter() const noexcept;
   void GetHighlighterConst() const noexcept;
   void GetItemBelowCursor() const noexcept;
   void GetQtNodesAlsoOnQtEdge() const noexcept;
-  void IsCommandPutOnUndoStack() const;
-  void MouseWheel() const;
-  void NcenterNodesAndQtCenterNodesMustMatchEdit() const; //#113
-  void NcenterNodesAndQtCenterNodesMustMatchRate() const; //#113
-  void NcenterNodesAndQtCenterNodesMustMatchUninitialized() const; //#113
-  void PressCtrlRightMovesNonCentralNode() const;
-  void PressEscapeMustBeIgnored() const;
-  void PressF2CanEditNonFocalQuestion() const;
-  void PressF2CannotEditFocalQuestion() const;
-  void PressF1OnEmptyConceptMapIsRejected() const;
-  void PressF2OnEmptyConceptMapIsRejected() const;
-  void PressF4IsRejected() const;
-  void PressH() const;
-  void PressN() const;
-  void PressQuestionMark() const;
-  void PressRightSelectsEdgeExclusively() const;
-  void PressRightSelectsNodeExclusively() const;
-  void PressShiftRightSelectsEdgeAdditively() const;
-  void PressShiftRightSelectsNodeAdditively() const;
-  void PressSpaceOnEmptyConceptMapIsRejected() const;
-  void PressT() const;
-  void PressZ() const;
-  void QtNodeInCenterMustBeGold() const; //#111
-  void RateModeFlags() const;
-  void SelectRandomNodeKeyboardEdit() const; //#138, skip on Travis
-
-  void SetConceptMap4() const;
-  void SetConceptMaps() const;
+  void HasSelectedItems() const noexcept;
+  void IsCommandPutOnUndoStack() const noexcept;
+  void MouseWheel() const noexcept;
+  void NcenterNodesAndQtCenterNodesMustMatchEdit() const noexcept; //#113
+  void NcenterNodesAndQtCenterNodesMustMatchRate() const noexcept; //#113
+  void NcenterNodesAndQtCenterNodesMustMatchUninitialized() const noexcept; //#113
+  void Press1TogglesTail() const noexcept;
+  void Press2TogglesHead() const noexcept;
+  void PressCtrlHTogglesHead() const noexcept;
+  void PressCtrlRightMovesNonCentralNode() const noexcept;
+  void PressCtrlTTogglesTail() const noexcept;
+  void PressEscapeMustBeIgnored() const noexcept;
+  void PressF1OnEmptyConceptMapIsRejected() const noexcept;
+  void PressF2CanEditNonFocalQuestion() const noexcept;
+  void PressF2CannotEditFocalQuestion() const noexcept;
+  void PressF2OnEmptyConceptMapIsRejected() const noexcept;
+  void PressF4IsRejected() const noexcept;
+  void PressN() const noexcept;
+  void PressQuestionMark() const noexcept;
+  void PressRightSelectsEdgeExclusively() const noexcept;
+  void PressRightSelectsNodeExclusively() const noexcept;
+  void PressShiftRightSelectsEdgeAdditively() const noexcept;
+  void PressShiftRightSelectsNodeAdditively() const noexcept;
+  void PressSpaceOnEmptyConceptMapIsRejected() const noexcept;
+  void PressZ() const noexcept;
+  void QtNodeInCenterMustBeGold() const noexcept; //#111
+  void RateModeFlags() const noexcept;
+  void SelectRandomNodeKeyboardEdit() const noexcept; //#138, skip on Travis
+  void SetConceptMap4() const noexcept;
+  void SetConceptMaps() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtEdge is selected
-  void SetEmptyConceptMapOneSelectedEdge() const;
+  void SetEmptyConceptMapOneSelectedEdge() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when one QtNode is selected
-  void SetEmptyConceptMapOneSelectedNode() const;
+  void SetEmptyConceptMapOneSelectedNode() const noexcept;
 
   ///Set an empty ConceptMap in a QtConcepytMap
   ///when two QtNodes are selected, one of which on an edge
-  void SetEmptyConceptMapTwoSelectedNodes() const;
+  void SetEmptyConceptMapTwoSelectedNodes() const noexcept;
 
   ///When setting a ConceptMap, the number of Edges and QtEdges,
   /// and Nodes and QtNodes must match
-  void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const;
+  void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept;
 
-  void SetMode() const;
+  void SetMode() const noexcept;
 
-  void SingleClickOnEmptyConceptMap() const;
-  void SingleClickOnEmptyConceptMapIsNotAccepted() const;
-  void SingleClickOnNodeIsAccepted() const;
-  void SingleClickOnNodeSelectsNode() const;
-  void TwoClicksOnEdgeSelectsAndUnselectsIt() const;
-  void TwoClicksOnNodeSelectsAndUnselectsIt() const;
-  void UninitializedModeFlags() const;
+  void SingleClickOnEmptyConceptMap() const noexcept;
+  void SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept;
+  void SingleClickOnNodeIsAccepted() const noexcept;
+  void SingleClickOnNodeSelectsNode() const noexcept;
+  void TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept;
+  void TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept;
+  void UninitializedModeFlags() const noexcept;
 };
 
 } //~namespace cmap
