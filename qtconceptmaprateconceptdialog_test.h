@@ -11,14 +11,13 @@ class QtRateConceptDialogTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void EscapeClosesDialog() const;
-  void ShowNormalConceptMap() const;
-  void ShowConceptMapWithOnlyCenterNode() const;
-
-  //compleXity, Concreteness, Specificity
-  void XcsAreReadFromQtConceptMap() const;
-
-  void Write() const;
+  void EscapeClosesDialog() const noexcept;
+  void PressCancelIsKnown() const noexcept;
+  void PressOkIsStored() const noexcept;
+  void ShowConceptMapWithOnlyCenterNode() const noexcept;
+  void ShowNormalConceptMap() const noexcept;
+  void Write() const noexcept;
+  void XcsAreReadFromQtConceptMap() const noexcept;
 };
 
 } //~namespace cmap

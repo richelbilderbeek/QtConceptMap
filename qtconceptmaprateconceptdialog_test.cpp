@@ -9,7 +9,7 @@
 #include "qtconceptmaprateconcepttallydialogcloser.h"
 #include "conceptmaphelper.h"
 
-void ribi::cmap::QtRateConceptDialogTest::EscapeClosesDialog() const
+void ribi::cmap::QtRateConceptDialogTest::EscapeClosesDialog() const noexcept
 {
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
@@ -27,7 +27,7 @@ void ribi::cmap::QtRateConceptDialogTest::EscapeClosesDialog() const
   QVERIFY(d->isHidden());
 }
 
-void ribi::cmap::QtRateConceptDialogTest::ShowNormalConceptMap() const
+void ribi::cmap::QtRateConceptDialogTest::ShowNormalConceptMap() const noexcept
 {
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
@@ -43,7 +43,41 @@ void ribi::cmap::QtRateConceptDialogTest::ShowNormalConceptMap() const
   d->show();
 }
 
-void ribi::cmap::QtRateConceptDialogTest::ShowConceptMapWithOnlyCenterNode() const
+void ribi::cmap::QtRateConceptDialogTest::PressCancelIsKnown() const noexcept
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->ui->button_cancel->click();
+  QVERIFY(!d->HasUserClickedOk());
+}
+
+void ribi::cmap::QtRateConceptDialogTest::PressOkIsStored() const noexcept
+{
+  auto qtconceptmap{
+    std::make_unique<QtConceptMap>()
+  };
+  qtconceptmap->SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
+  assert(qtnode);
+  auto d{
+    std::make_unique<QtRateConceptDialog>(
+      *qtconceptmap, *qtnode
+    )
+  };
+  d->ui->button_ok->click();
+  QVERIFY(d->HasUserClickedOk());
+}
+
+void ribi::cmap::QtRateConceptDialogTest::ShowConceptMapWithOnlyCenterNode() const noexcept
 {
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
@@ -59,8 +93,9 @@ void ribi::cmap::QtRateConceptDialogTest::ShowConceptMapWithOnlyCenterNode() con
   d->show();
 }
 
-void ribi::cmap::QtRateConceptDialogTest::XcsAreReadFromQtConceptMap() const
+void ribi::cmap::QtRateConceptDialogTest::XcsAreReadFromQtConceptMap() const noexcept
 {
+  //compleXity, Concreteness, Specificity
   ConceptMap conceptmap;
   const bool is_complex{true};
   const int complexity{0};
@@ -90,7 +125,7 @@ void ribi::cmap::QtRateConceptDialogTest::XcsAreReadFromQtConceptMap() const
   QVERIFY(d->GetSpecificity() == specificity);
 }
 
-void ribi::cmap::QtRateConceptDialogTest::Write() const
+void ribi::cmap::QtRateConceptDialogTest::Write() const noexcept
 {
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
