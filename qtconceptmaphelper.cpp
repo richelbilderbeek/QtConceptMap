@@ -10,17 +10,6 @@
 
 int ribi::cmap::CountQtArrowHeads(const QGraphicsScene& scene) noexcept
 {
-  #ifndef TRUST_GETQTEDGES_20180821
-  int cnt{0};
-  for (QGraphicsItem * const item: scene.items())
-  {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      if (HasHeadArrow(*qtedge)) ++cnt;
-    }
-  }
-  return cnt;
-  #else
   const auto qtedges = GetQtEdges(scene);
   return std::count_if(std::begin(qtedges), std::end(qtedges),
     [](const QtEdge* const qtedge)
@@ -28,22 +17,10 @@ int ribi::cmap::CountQtArrowHeads(const QGraphicsScene& scene) noexcept
       return HasHeadArrow(*qtedge);
     }
   );
-  #endif
 }
 
 int ribi::cmap::CountQtArrowTails(const QGraphicsScene& scene) noexcept
 {
-  #ifndef TRUST_GETQTEDGES_20180821
-  int cnt{0};
-  for (QGraphicsItem * const item: scene.items())
-  {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      if (HasTailArrow(*qtedge)) ++cnt;
-    }
-  }
-  return cnt;
-  #else
   const auto qtedges = GetQtEdges(scene);
   return std::count_if(std::begin(qtedges), std::end(qtedges),
     [](const QtEdge* const qtedge)
@@ -51,7 +28,6 @@ int ribi::cmap::CountQtArrowTails(const QGraphicsScene& scene) noexcept
       return HasTailArrow(*qtedge);
     }
   );
-  #endif
 }
 
 int ribi::cmap::CountQtCenterNodes(const QGraphicsScene& scene) noexcept
@@ -247,18 +223,6 @@ std::vector<ribi::cmap::QtEdge*> ribi::cmap::GetQtEdges(
 {
   assert(from);
   std::vector<QtEdge*> w;
-  #ifndef TRUST_GETQTEDGES_20180821
-  for (QGraphicsItem * const item: scene.items())
-  {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      if (qtedge->GetFrom() == from || qtedge->GetTo() == from)
-      {
-        w.push_back(qtedge);
-      }
-    }
-  }
-  #else
   const std::vector<QtEdge*> v = GetQtEdges(scene);
   std::copy_if(v.begin(),v.end(), std::back_inserter(w),
     [from](const QtEdge* const qtedge)
@@ -266,7 +230,6 @@ std::vector<ribi::cmap::QtEdge*> ribi::cmap::GetQtEdges(
       return qtedge->GetFrom() == from || qtedge->GetTo() == from;
     }
   );
-  #endif
   return w;
 }
 
@@ -302,11 +265,8 @@ ribi::cmap::GetQtNodeBrushFunction(const Mode mode) noexcept
   {
     return GetQtNodeBrushFunctionRate();
   }
-  else
-  {
-    assert(mode == Mode::uninitialized);
-    return GetQtNodeBrushFunctionUninitialized();
-  }
+  assert(mode == Mode::uninitialized);
+  return GetQtNodeBrushFunctionUninitialized();
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
@@ -414,11 +374,8 @@ ribi::cmap::GetQtNodeVignetteBrushFunction(const Mode mode) noexcept
   {
     return GetQtNodeVignetteBrushFunctionRate();
   }
-  else
-  {
-    assert(mode == Mode::uninitialized);
-    return GetQtNodeVignetteBrushFunctionUninitialized();
-  }
+  assert(mode == Mode::uninitialized);
+  return GetQtNodeVignetteBrushFunctionUninitialized();
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
