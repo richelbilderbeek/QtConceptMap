@@ -329,9 +329,9 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
     {
       case 0: item->setCheckState(ToCheckState(example.GetIsComplex())); break;
       case 1: item->setCheckState(ToCheckState(example.GetIsConcrete())); break;
-      case 2: item->setCheckState(ToCheckState(example.GetIsSpecific())); break;
       default:
-        assert(!"ribi::cmap::QtRateConceptTallyDialog::QtRateConceptTallyDialog: Unknown col index"); //!OCLINT accepted idiom
+        assert(col_index == 2);
+        item->setCheckState(ToCheckState(example.GetIsSpecific()));
       break;
     }
     ui->table->setItem(row_index, col_index, item);

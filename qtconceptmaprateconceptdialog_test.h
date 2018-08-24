@@ -16,8 +16,6 @@ private slots:
   void OkStoresOkayness() const;
   void ShowNormalConceptMap() const;
   void ShowConceptMapWithOnlyCenterNode() const;
-  void TallyRelevanciesCloses() const;
-  void TallyRelevanciesPopsUp() const;
   void UserHasNotPressedOkAtConstruction() const;
 
   //compleXity, Concreteness, Specificity

@@ -146,6 +146,22 @@ void ribi::cmap::QtCommandMoveNodeTest::Parse() const noexcept
   QVERIFY(c->GetDy() == 20.0);
 }
 
+void ribi::cmap::QtCommandMoveNodeTest::ParseMoveAbsentNodeReturnsNullptr() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  const auto c = ParseCommandMoveNode(q, "move_node(absent, 10, 20)");
+  QVERIFY(!c);
+}
+
+void ribi::cmap::QtCommandMoveNodeTest::ParseMoveCenterNodeReturnsNullptr() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  const auto c = ParseCommandMoveNode(q, "move_node(center, 10, 20)");
+  QVERIFY(!c);
+}
+
 void ribi::cmap::QtCommandMoveNodeTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;

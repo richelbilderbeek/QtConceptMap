@@ -173,3 +173,18 @@ void ribi::cmap::QtRateConceptTallyDialogTest::UserHasNotClickedOkAtConstruction
   QtRateConceptTallyDialog d{conceptmap, CreateDefaultRating()};
   QVERIFY(!d.HasUserClickedOk());
 }
+
+void ribi::cmap::QtRateConceptTallyDialogTest::Write() const noexcept
+{
+  const ConceptMap conceptmap{
+    ConceptMapFactory().GetRateConceptTallyDialogExample()
+  };
+  QtRateConceptTallyDialog d{conceptmap, CreateDefaultRating()};
+  ConceptMap conceptmap_out = conceptmap;
+  d.Write(conceptmap_out);
+  assert(HasSimilarData(conceptmap, conceptmap_out, 0.0001));
+  assert(d.ui->table->item(0, 0)->checkState() == Qt::Checked);
+  d.ui->table->item(0, 0)->setCheckState(Qt::Unchecked);
+  d.Write(conceptmap_out);
+  QVERIFY(!HasSimilarData(conceptmap, conceptmap_out, 0.0001));
+}

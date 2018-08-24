@@ -18,6 +18,7 @@ private slots:
   void MeasureUiFromTestConceptmap() const noexcept;
   void UncheckingDecreasesSuggestion() const noexcept;
   void UserHasNotClickedOkAtConstruction() const noexcept;
+  void Write() const noexcept;
 };
 
 } //~namespace cmap

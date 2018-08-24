@@ -37,6 +37,12 @@ private slots:
   ///Can the Command be created by parsing a string?
   void Parse() const noexcept;
 
+  ///Parsing a string to move a center node returns nullptr
+  void ParseMoveAbsentNodeReturnsNullptr() const noexcept;
+
+  ///Parsing a string to move a center node returns nullptr
+  void ParseMoveCenterNodeReturnsNullptr() const noexcept;
+
   ///The Command cannot created by parsing nonsense
   void ParseNonsenseFails() const noexcept;
 };

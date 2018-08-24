@@ -98,54 +98,6 @@ void ribi::cmap::QtRateConceptDialogTest::ShowConceptMapWithOnlyCenterNode() con
   d->show();
 }
 
-void ribi::cmap::QtRateConceptDialogTest::TallyRelevanciesCloses() const
-{
-  if (OnTravis()) return;
-  auto qtconceptmap{
-    std::make_unique<QtConceptMap>()
-  };
-  qtconceptmap->SetConceptMap(ConceptMapFactory().Get1());
-  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
-  assert(qtnode);
-  auto d{
-    std::make_unique<QtRateConceptDialog>(
-      *qtconceptmap, *qtnode
-    )
-  };
-  d->show();
-  QTest::qWaitForWindowActive(d.get());
-  assert(qApp->activeWindow() == d.get());
-  QtRateConceptTallyDialogCloser p;
-  QTimer::singleShot(
-    100,
-    &p,
-    SLOT(Close())
-  );
-  d->ui->button_tally_relevancies->click(); //Closed by QTimer
-}
-
-void ribi::cmap::QtRateConceptDialogTest::TallyRelevanciesPopsUp() const
-{
-  if (OnTravis()) return;
-  auto qtconceptmap{
-    std::make_unique<QtConceptMap>()
-  };
-  qtconceptmap->SetConceptMap(ConceptMapFactory().Get1());
-  const auto * const qtnode = GetFirstQtNode(*qtconceptmap);
-  assert(qtnode);
-  auto d{
-    std::make_unique<QtRateConceptDialog>(
-      *qtconceptmap, *qtnode
-    )
-  };
-  d->show();
-  QTest::qWaitForWindowActive(d.get());
-  assert(qApp->activeWindow() == d.get());
-  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
-  d->ui->button_tally_relevancies->click();
-  QVERIFY(qApp->activeWindow() != d.get());
-}
-
 void ribi::cmap::QtRateConceptDialogTest::UserHasNotPressedOkAtConstruction() const
 {
   auto qtconceptmap{
