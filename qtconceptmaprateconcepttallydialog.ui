@@ -14,7 +14,7 @@
    <string>De relevantie van voorbeelden en relaties</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1" colspan="3">
+   <item row="0" column="1" colspan="4">
     <widget class="QLabel" name="label_concept_name">
      <property name="text">
       <string>Voorbeelden/toelichting bij concept: [CONCEPTNAME]</string>
@@ -24,14 +24,17 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
+   <item row="2" column="4">
     <widget class="QPushButton" name="button_ok">
+     <property name="toolTip">
+      <string>Dit scherm sluiten met behoud van gedane wijzigingen</string>
+     </property>
      <property name="text">
       <string>&amp;OK</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="3">
+   <item row="1" column="1" colspan="4">
     <widget class="QTableWidget" name="table">
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>32</number>
@@ -86,6 +89,16 @@
      </property>
      <property name="text">
       <string>X: ?, C:?, S:?</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QPushButton" name="button_cancel">
+     <property name="toolTip">
+      <string>Dit scherm sluiten met verlies van gedane wijzigingen</string>
+     </property>
+     <property name="text">
+      <string>&amp;Afbreken</string>
      </property>
     </widget>
    </item>

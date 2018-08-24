@@ -37,11 +37,6 @@ public:
   ///examples in the table
   int GetNumberOfCheckedComplexExamples() const;
 
-  ///Count the number of checked complex items
-  ///(examples and relations) in the table
-  int GetNumberOfCheckedComplexItems() const;
-
-
   ///Count the number of checked concrete examples in the table
   int GetNumberOfCheckedConcreteExamples() const;
 
@@ -78,6 +73,8 @@ protected:
 private slots:
   void on_button_ok_clicked();
   void OnCellChanged(int row, int col);
+
+  void on_button_cancel_clicked();
 
 private:
   Ui::QtRateConceptTallyDialog *ui;

@@ -170,20 +170,6 @@ int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedComplexExamples() co
   return n_x_items;
 }
 
-int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedComplexItems() const
-{
-  const int n_rows{ui->table->rowCount()};
-  int n_x_items{0};
-  for (int i{0}; i != n_rows; ++i)
-  {
-    if (ui->table->item(i, 0)->checkState() == Qt::Checked)
-    {
-      ++n_x_items;
-    }
-  }
-  return n_x_items;
-}
-
 int ribi::cmap::QtRateConceptTallyDialog::GetNumberOfCheckedConcreteExamples() const
 {
   const int n_rows{ui->table->rowCount()};
@@ -432,9 +418,6 @@ void ribi::cmap::QtRateConceptTallyDialog::UpdateRatingLabel() const noexcept
 
   ui->label_concept_name->setToolTip(
       QString("<ul>\n")
-    //+ QString("  <li><nobr>Aantal aangevinkte complexe voorbeelden en relaties: ")
-    //+ QString::number(GetNumberOfCheckedComplexItems())
-    //+ QString("  </nobr></li>\n")
     + QString("  <li><p style='white-space:pre'>Aantal aangevinkte complex voorbeelden: ")
     + QString::number(GetNumberOfCheckedComplexExamples())
     + QString("  </p></li>\n")
@@ -534,4 +517,9 @@ void ribi::cmap::QtRateConceptTallyDialog::Write(
       } // if node's name
     } // if node
   } // next row_index
+}
+
+void ribi::cmap::QtRateConceptTallyDialog::on_button_cancel_clicked()
+{
+  close();
 }

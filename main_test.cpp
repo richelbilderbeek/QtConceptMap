@@ -8,6 +8,7 @@
 #include "qtconceptmapcommandmove_test.h"
 #include "qtconceptmapcommandmoveedge_test.h"
 #include "qtconceptmapcommandmovenode_test.h"
+#include "qtconceptmapcommand_test.h"
 #include "qtconceptmapcommands_test.h"
 #include "qtconceptmapcommandselect_test.h"
 #include "qtconceptmapcommandselectedge_test.h"
@@ -81,6 +82,7 @@ int main(int argc, char *argv[])
   { QtCommandSelectTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandSetConceptTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandSetModeTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtCommandTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandToggleArrowHeadTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandToggleArrowTailTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandUnselectAllTest t; error |= QTest::qExec(&t, argc, argv); }

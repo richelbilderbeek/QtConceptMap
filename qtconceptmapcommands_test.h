@@ -33,18 +33,12 @@ private slots:
   void GetCommandsEmptyWhenOneWord() const noexcept;
   void GetCommandsEmptyWhenTwoWords() const noexcept;
   void GetCommandsEmptyWithManyNonsenseWords() const noexcept;
-  void LoadCommand() const noexcept;
   void MoveCommandFailsOnNonexistingItem() const noexcept;
   void MoveCommandOnEdge() const noexcept;
   void MoveCommandOnNode() const noexcept;
   void MoveNodeCommandOnNode() const noexcept;
   void NonsenseToEmpty() const noexcept;
-  void SaveAndLoad() const noexcept; //#137
-  void SaveAndLoadMustResultInSameTopology() const noexcept;
-  void SaveCommandEmptyConceptMap() const noexcept;
-  void SaveCommandTwoNodesOneEdge() const noexcept;
   void SelectCommandIsIgnoredOnAbsentItem() const noexcept;
-
   void SetModeCommand() const noexcept;
   void ToggleArrowHeadCommand() const noexcept;
   void ToggleArrowTailCommand() const noexcept;

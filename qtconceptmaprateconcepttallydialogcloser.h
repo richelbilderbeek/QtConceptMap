@@ -15,7 +15,8 @@ class QtRateConceptTallyDialogCloser : public QObject
   QtRateConceptTallyDialogCloser();
   virtual ~QtRateConceptTallyDialogCloser();
   public slots:
-  void Close();
+  void PressCancel();
+  void PressOk();
 };
 
 } //~namespace cmap

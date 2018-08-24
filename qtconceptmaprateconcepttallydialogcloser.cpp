@@ -19,7 +19,18 @@ ribi::cmap::QtRateConceptTallyDialogCloser::~QtRateConceptTallyDialogCloser()
 
 }
 
-void ribi::cmap::QtRateConceptTallyDialogCloser::Close()
+void ribi::cmap::QtRateConceptTallyDialogCloser::PressCancel()
+{
+  ribi::cmap::QtRateConceptTallyDialog* const pop_up
+    = qobject_cast<ribi::cmap::QtRateConceptTallyDialog*>(
+      qApp->activeWindow()
+    );
+  assert(pop_up);
+  pop_up->ui->button_cancel->click();
+  assert(pop_up->isHidden());
+}
+
+void ribi::cmap::QtRateConceptTallyDialogCloser::PressOk()
 {
   ribi::cmap::QtRateConceptTallyDialog* const pop_up
     = qobject_cast<ribi::cmap::QtRateConceptTallyDialog*>(

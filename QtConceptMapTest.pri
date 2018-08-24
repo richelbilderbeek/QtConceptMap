@@ -1,6 +1,7 @@
 SOURCES += \
     $$PWD/qtconceptmap_test.cpp \
     $$PWD/qtconceptmapbrushfactory_test.cpp \
+    $$PWD/qtconceptmapcommand_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewedge_test.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode_test.cpp \
     $$PWD/qtconceptmapcommanddeleteselected_test.cpp \
