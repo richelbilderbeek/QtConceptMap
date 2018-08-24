@@ -9,7 +9,7 @@ namespace cmap {
 ///Object to close a popped-up QtRateConceptDialog
 class QtRateConceptDialogCloser : public QObject
 {
-  Q_OBJECT
+  Q_OBJECT //!OCLINT
 
   public:
   QtRateConceptDialogCloser();

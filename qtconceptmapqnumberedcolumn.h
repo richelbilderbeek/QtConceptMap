@@ -8,7 +8,7 @@ namespace cmap {
 
 class QNumberedColumn : public QTableWidget
 {
-  Q_OBJECT
+  Q_OBJECT //!OCLINT
 
 public:
   explicit QNumberedColumn(
