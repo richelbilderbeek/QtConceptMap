@@ -4,10 +4,6 @@
 #include <string>
 #include <vector>
 
-
-
-
-
 #include <QBrush>
 #include <QGraphicsPixmapItem>
 #include "conceptmapnode.h"

@@ -43,7 +43,7 @@ ribi::cmap::QtConceptMapRatedConceptDialog::QtConceptMapRatedConceptDialog(
 }
 
 ribi::cmap::QtConceptMapRatedConceptDialog
-  ::~QtConceptMapRatedConceptDialog()
+  ::~QtConceptMapRatedConceptDialog() noexcept
 {
   delete ui;
 }
