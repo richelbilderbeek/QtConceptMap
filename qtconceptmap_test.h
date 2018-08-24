@@ -13,6 +13,7 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void CreateOneEdgeWithTailKeyboard() const noexcept;
   //void PressF2OnSingleEdgeEditConceptMapIsAccepted() const noexcept;
   //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
@@ -31,12 +32,9 @@ private slots:
   void CreateOneEdgeKeyboardAndUndo() const noexcept;
   void CreateOneEdgeWithHeadAndToggleKeyboard() const noexcept;
   void CreateOneEdgeWithHeadAndUndoKeyboard() const noexcept;
+  void CreateOneEdgeWithTailCommand() const noexcept;
   void CreateOneEdgeWithHeadCommand() const noexcept;
   void CreateOneEdgeWithHeadKeyboard() const noexcept;
-  void CreateOneEdgeWithTailCommand() const noexcept;
-  void CreateOneEdgeWithTailKeyboard() const noexcept;
-  //void create_one_edge_with_tail_and_undo_keyboard() const;
-  //void create_one_edge_with_tail_and_toggle_keyboard() const;
   void CreateOneNodeAndUndoCommand() const noexcept;
   void CreateOneNodeAndUndoKeyboard() const noexcept;
   void CreateOneNodeCommand() const noexcept;

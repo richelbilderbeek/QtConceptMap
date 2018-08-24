@@ -1574,8 +1574,6 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithHeadAndUndoKeyboard() const 
 
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const noexcept
 {
-  QSKIP("Arrow tail", "");
-
   //When there are two selected nodes, an edge can be created
   //After adding the edges, only the edge will be selected
   //The edge its center concept will be between the two nodes
@@ -1625,12 +1623,10 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailCommand() const noexcept
     };
     QVERIFY(has_tail_arrow_before != has_tail_arrow_after);
   }
-  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const noexcept
 {
-  QSKIP("Arrow tail", "");
   QtConceptMap m;
   m.show();
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
@@ -1664,7 +1660,6 @@ void ribi::cmap::QtConceptMapTest::CreateOneEdgeWithTailKeyboard() const noexcep
   };
 
   QVERIFY(has_tail_arrow_before != has_tail_arrow_after);
-  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::SetMode() const noexcept
