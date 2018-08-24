@@ -888,6 +888,9 @@ void ribi::cmap::keyPressEventF1(
 
 void ribi::cmap::keyPressEventF2(QtConceptMap& q, QKeyEvent * const event) noexcept
 {
+  //Cannot edit/rate in uninitialized mode
+  if (q.GetMode() == Mode::uninitialized) return;
+
   CheckInvariants(q);
   try
   {

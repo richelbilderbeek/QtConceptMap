@@ -13,9 +13,10 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void PressF1OnSingleNodeEditConceptMapIsRejected() const noexcept;
-  void PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept;
-  void PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept;
+  //void PressF2OnSingleEdgeEditConceptMapIsAccepted() const noexcept;
+  //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
+  //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
+  //void PressF2OnSingleEdgeUninitializedConceptMapIsRejected() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -82,6 +83,10 @@ private slots:
   void PressF1OnCenterNodeIsRejected() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;
   void PressF1OnMultipleSelectedQtNodesIsRejected() const noexcept;
+  void PressF1OnSingleNodeEditConceptMapIsRejected() const noexcept;
+  void PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept;
+  void PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept;
+
   void PressF2CanEditNonFocalQuestion() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
   void PressF2OnCenterNodeIsRejected() const noexcept;
