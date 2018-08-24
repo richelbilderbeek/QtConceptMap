@@ -13,6 +13,7 @@ echo $h_files
   -- \
   -c -std=c++14 -fPIE \
   -I../ConceptMap \
+  -I../gsl \
   -I../RibiClasses/CppContainer \
   -I../RibiClasses/CppFileIo \
   -I../RibiClasses/CppFuzzy_equal_to \
