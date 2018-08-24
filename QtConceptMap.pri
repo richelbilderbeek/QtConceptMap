@@ -13,7 +13,6 @@ HEADERS += \
     $$PWD/qtconceptmapcommandmoveedge.h \
     $$PWD/qtconceptmapcommandmovenode.h \
     $$PWD/qtconceptmapcommands.h \
-    $$PWD/qtconceptmapcommandsave.h \
     $$PWD/qtconceptmapcommandselect.h \
     $$PWD/qtconceptmapcommandselectedge.h \
     $$PWD/qtconceptmapcommandselectnode.h \
@@ -57,7 +56,6 @@ SOURCES += \
     $$PWD/qtconceptmapcommandmoveedge.cpp \
     $$PWD/qtconceptmapcommandmovenode.cpp \
     $$PWD/qtconceptmapcommands.cpp \
-    $$PWD/qtconceptmapcommandsave.cpp \
     $$PWD/qtconceptmapcommandselect.cpp \
     $$PWD/qtconceptmapcommandselectedge.cpp \
     $$PWD/qtconceptmapcommandselectnode.cpp \

@@ -9,7 +9,6 @@ SOURCES += \
     $$PWD/qtconceptmapcommandmoveedge_test.cpp \
     $$PWD/qtconceptmapcommandmovenode_test.cpp \
     $$PWD/qtconceptmapcommands_test.cpp \
-    $$PWD/qtconceptmapcommandsave_test.cpp \
     $$PWD/qtconceptmapcommandselect_test.cpp \
     $$PWD/qtconceptmapcommandselectedge_test.cpp \
     $$PWD/qtconceptmapcommandselectnode_test.cpp \

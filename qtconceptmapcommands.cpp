@@ -7,7 +7,6 @@
 #include "qtconceptmapcommandmove.h"
 #include "qtconceptmapcommandmoveedge.h"
 #include "qtconceptmapcommandmovenode.h"
-#include "qtconceptmapcommandsave.h"
 #include "qtconceptmapcommandselect.h"
 #include "qtconceptmapcommandselectedge.h"
 #include "qtconceptmapcommandselectnode.h"

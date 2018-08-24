@@ -10,7 +10,6 @@
 #include "qtconceptmapcommandmoveedge_test.h"
 #include "qtconceptmapcommandmovenode_test.h"
 #include "qtconceptmapcommands_test.h"
-#include "qtconceptmapcommandsave_test.h"
 #include "qtconceptmapcommandselect_test.h"
 #include "qtconceptmapcommandselectedge_test.h"
 #include "qtconceptmapcommandselectnode_test.h"
