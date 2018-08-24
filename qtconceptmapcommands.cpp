@@ -44,7 +44,6 @@ ribi::cmap::Command* ribi::cmap::ParseCommand(QtConceptMap& q, const std::string
     ParseCommandMove,
     ParseCommandMoveEdge,
     ParseCommandMoveNode,
-    ParseCommandSave,
     ParseCommandSelect,
     ParseCommandSelectEdge,
     ParseCommandSelectNode,
