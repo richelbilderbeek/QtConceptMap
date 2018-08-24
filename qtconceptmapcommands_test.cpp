@@ -7,7 +7,6 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
-#include "QEventLogger.h"
 #include <QDebug>
 
 void ribi::cmap::QtCommandsTest::GetCommandsEmptyWhenOneWord() const noexcept

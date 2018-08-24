@@ -38,7 +38,6 @@ install:
   - git clone -b develop https://github.com/richelbilderbeek/QtKeyboardFriendlyGraphicsView
   - git clone -b develop https://github.com/richelbilderbeek/RibiClasses
   - git clone -b develop https://github.com/richelbilderbeek/RibiLibraries
-  - git clone https://github.com/richelbilderbeek/QEventLogger
   - cd $my_github
 
 # Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/

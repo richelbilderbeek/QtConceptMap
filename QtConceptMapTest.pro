@@ -102,8 +102,3 @@ QMAKE_CXXFLAGS += -fext-numeric-literals
 
 # QTest
 QT += testlib
-
-# wimleers' QEventLogger
-INCLUDEPATH += ../QEventLogger
-SOURCES += ../QEventLogger/QEventLogger.cpp
-HEADERS += ../QEventLogger/QEventLogger.h
