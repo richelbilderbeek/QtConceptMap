@@ -81,7 +81,9 @@ private slots:
   void PressF1OnMultipleSelectedQtNodesIsRejected() const noexcept;
   void PressF2CanEditNonFocalQuestion() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
+  void PressF2OnCenterNodeIsRejected() const noexcept;
   void PressF2OnEmptyConceptMapIsRejected() const noexcept;
+  void PressF2OnMultipleSelectedQtNodesIsRejected() const noexcept;
   void PressF4IsRejected() const noexcept;
   void PressN() const noexcept;
   void PressQuestionMark() const noexcept;
