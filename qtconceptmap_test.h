@@ -23,6 +23,7 @@ private slots:
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeCommand() const noexcept;
   void CreateOneEdgeKeyboard() const noexcept;
+  void CreateOneEdgeKeyboardIncorrectly() const noexcept;
   void CreateOneEdgeKeyboardAndUndo() const noexcept;
   void CreateOneEdgeWithHeadAndToggleKeyboard() const noexcept;
   void CreateOneEdgeWithHeadAndUndoKeyboard() const noexcept;

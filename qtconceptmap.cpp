@@ -771,9 +771,9 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
     case Qt::Key_Up: dy = -10.0; break;
     case Qt::Key_Right: dx =  10.0; break;
     case Qt::Key_Down: dy =  10.0; break;
-    case Qt::Key_Left: dx = -10.0; break;
     default:
-      assert(!"Should not get here"); //!OCLINT accepted idiom
+      assert(event->key() == Qt::Key_Left);
+      dx = -10.0;
       break;
   }
 
