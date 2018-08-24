@@ -76,7 +76,9 @@ private slots:
   void PressCtrlRightMovesNonCentralNode() const noexcept;
   void PressCtrlTTogglesTail() const noexcept;
   void PressEscapeMustBeIgnored() const noexcept;
+  void PressF1OnCenterNodeIsRejected() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;
+  void PressF1OnMultipleSelectedQtNodesIsRejected() const noexcept;
   void PressF2CanEditNonFocalQuestion() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
   void PressF2OnEmptyConceptMapIsRejected() const noexcept;
