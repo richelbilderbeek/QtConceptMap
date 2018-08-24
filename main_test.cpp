@@ -82,10 +82,11 @@ int main(int argc, char *argv[])
   { QtNodeFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtNumberedColumnTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtRateExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatedConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatingTest t; error |= QTest::qExec(&t, argc, argv); }
 
