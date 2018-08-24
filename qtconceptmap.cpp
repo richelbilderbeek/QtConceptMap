@@ -1464,7 +1464,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
   q.setEnabled(false);
   d.exec();
   q.setEnabled(true);
-  if (d.GetOkClicked())
+  if (d.HasUserClickedOk())
   {
     d.Write(q, qtnode);
     q.update();

@@ -31,11 +31,12 @@ SOURCES += \
     $$PWD/qtconceptmapqtnode_test.cpp \
     $$PWD/qtconceptmapqtnodefactory_test.cpp \
     $$PWD/qtconceptmaprateconceptdialog_test.cpp \
+    $$PWD/qtconceptmaprateconceptdialogcloser_test.cpp \
     $$PWD/qtconceptmaprateconcepttallydialog_test.cpp \
+    $$PWD/qtconceptmaprateconcepttallydialogcloser_test.cpp \
     $$PWD/qtconceptmapratedconceptdialog_test.cpp \
     $$PWD/qtconceptmaprateexamplesdialog_test.cpp \
-    $$PWD/qtconceptmaprating_test.cpp \
-    $$PWD/qtconceptmaprateconcepttallydialogcloser_test.cpp
+    $$PWD/qtconceptmaprating_test.cpp
 
 HEADERS += \
     $$PWD/*_test.h

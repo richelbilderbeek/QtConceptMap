@@ -13,6 +13,7 @@ namespace Ui { class QtRateConceptDialog; }
 namespace ribi {
 namespace cmap {
 
+class QtRateConceptDialogCloser;
 class QtRateConceptDialogTest;
 
 ///Rate the focal concept of a sub-ConceptMap.
@@ -33,7 +34,7 @@ class QtRateConceptDialog final : public QDialog
   ~QtRateConceptDialog() noexcept;
 
   ///To distinguish between closing the dialog by clicking OK, or by ALT-F4
-  bool GetOkClicked() const noexcept;
+  bool HasUserClickedOk() const noexcept;
 
   int GetComplexity() const noexcept;
   int GetConcreteness() const noexcept;
@@ -47,7 +48,7 @@ protected:
 private slots:
   void on_button_ok_clicked();
   void on_button_tally_relevancies_clicked();
-
+  void on_button_cancel_clicked();
 
 private:
   Ui::QtRateConceptDialog *ui;
@@ -69,6 +70,7 @@ private:
   void DisplaySuggestions() noexcept;
 
   friend class QtRateConceptDialogTest;
+  friend class QtRateConceptDialogCloser;
 };
 
 } //~namespace cmap

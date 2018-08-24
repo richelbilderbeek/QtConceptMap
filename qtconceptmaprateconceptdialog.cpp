@@ -141,7 +141,7 @@ int ribi::cmap::QtRateConceptDialog::GetConcreteness() const noexcept
   return ui->box_concreteness->currentIndex();
 }
 
-bool ribi::cmap::QtRateConceptDialog::GetOkClicked() const noexcept {
+bool ribi::cmap::QtRateConceptDialog::HasUserClickedOk() const noexcept {
   return m_button_ok_clicked;
 }
 
@@ -158,7 +158,6 @@ void ribi::cmap::QtRateConceptDialog::keyPressEvent(QKeyEvent* e)
 
 void ribi::cmap::QtRateConceptDialog::on_button_ok_clicked()
 {
-  //Ratings already set by comboboxes
   m_button_ok_clicked = true;
   close();
 }
@@ -223,4 +222,9 @@ void ribi::cmap::QtRateConceptDialog::Write(
   focal_qtnode.SetRatingComplexity(GetComplexity());
   focal_qtnode.SetRatingConcreteness(GetConcreteness());
   focal_qtnode.SetRatingSpecificity(GetSpecificity());
+}
+
+void ribi::cmap::QtRateConceptDialog::on_button_cancel_clicked()
+{
+  close();
 }

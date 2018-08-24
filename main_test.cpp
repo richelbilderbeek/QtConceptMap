@@ -1,14 +1,15 @@
 #include <cassert>
 #include <iostream>
 #include <QtTest/QtTest>
+#include "qtconceptmap_test.h"
 #include "qtconceptmapbrushfactory_test.h"
+#include "qtconceptmapcommand_test.h"
 #include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
 #include "qtconceptmapcommanddeleteselected_test.h"
 #include "qtconceptmapcommandmove_test.h"
 #include "qtconceptmapcommandmoveedge_test.h"
 #include "qtconceptmapcommandmovenode_test.h"
-#include "qtconceptmapcommand_test.h"
 #include "qtconceptmapcommands_test.h"
 #include "qtconceptmapcommandselect_test.h"
 #include "qtconceptmapcommandselectedge_test.h"
@@ -29,16 +30,15 @@
 #include "qtconceptmapnewarrow_test.h"
 #include "qtconceptmapnumberedcolumn_test.h"
 #include "qtconceptmapqtedge_test.h"
-#include "qtconceptmapqtnodefactory_test.h"
 #include "qtconceptmapqtnode_test.h"
+#include "qtconceptmapqtnodefactory_test.h"
 #include "qtconceptmaprateconceptdialog_test.h"
+#include "qtconceptmaprateconceptdialogcloser_test.h"
 #include "qtconceptmaprateconcepttallydialog_test.h"
 #include "qtconceptmaprateconcepttallydialogcloser_test.h"
 #include "qtconceptmapratedconceptdialog_test.h"
 #include "qtconceptmaprateexamplesdialog_test.h"
 #include "qtconceptmaprating_test.h"
-#include "qtconceptmap_test.h"
-//#include "QEventLogger.h"
 
 using namespace ribi::cmap;
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ QtRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtRateConceptDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
@@ -83,9 +83,9 @@ int main(int argc, char *argv[])
   { QtNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtNumberedColumnTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtRateConceptDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtRateExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatedConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatingTest t; error |= QTest::qExec(&t, argc, argv); }
 

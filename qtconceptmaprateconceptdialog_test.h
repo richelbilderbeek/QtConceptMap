@@ -12,11 +12,8 @@ class QtRateConceptDialogTest : public QObject
 
 private slots:
   void EscapeClosesDialog() const;
-  void OkClosesDialog() const;
-  void OkStoresOkayness() const;
   void ShowNormalConceptMap() const;
   void ShowConceptMapWithOnlyCenterNode() const;
-  void UserHasNotPressedOkAtConstruction() const;
 
   //compleXity, Concreteness, Specificity
   void XcsAreReadFromQtConceptMap() const;
