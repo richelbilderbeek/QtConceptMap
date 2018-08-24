@@ -1008,26 +1008,27 @@ void ribi::cmap::QtConceptMapTest::PressF1OnEmptyConceptMapIsRejected() const no
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeEditConceptMapIsAccepted() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeEditConceptMapIsRejected() const noexcept
 {
+  if (OnTravis()) return;
+
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   q.SetMode(Mode::edit);
   SetSelectedness(true, *GetFirstQtNode(q));
-  q.show();
+  q.showFullScreen();
   assert(CountSelectedQtNodes(q) == 1);
   QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
-
   QtRateConceptDialogCloser c;
-
-  if (OnTravis()) return;
   QTimer::singleShot(100, &c, SLOT(PressOk()));
   q.keyPressEvent(&e);
-  QVERIFY(e.isAccepted());
+  QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept
 {
+  if (OnTravis()) return;
+
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   q.SetMode(Mode::rate);
@@ -1035,10 +1036,7 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeRateConceptMapIsAccepted()
   q.show();
   assert(CountSelectedQtNodes(q) == 1);
   QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
-
   QtRateConceptDialogCloser c;
-
-  if (OnTravis()) return;
   QTimer::singleShot(100, &c, SLOT(PressOk()));
   q.keyPressEvent(&e);
   QVERIFY(e.isAccepted());
@@ -1046,17 +1044,16 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeRateConceptMapIsAccepted()
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept
 {
+  if (OnTravis()) return;
+
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   q.SetMode(Mode::uninitialized);
   SetSelectedness(true, *GetFirstQtNode(q));
   q.show();
-  assert(CountSelectedQtNodes(q) == 1);
+  assert(CountSelectedQtNodes(q) == 0); //Cannot select nodes in uninitialized mode
   QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
-
   QtRateConceptDialogCloser c;
-
-  if (OnTravis()) return;
   QTimer::singleShot(100, &c, SLOT(PressOk()));
   q.keyPressEvent(&e);
   QVERIFY(!e.isAccepted());

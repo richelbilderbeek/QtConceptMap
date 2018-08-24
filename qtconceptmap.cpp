@@ -863,6 +863,9 @@ void ribi::cmap::keyPressEventF1(
   QKeyEvent * const event
 ) noexcept
 {
+  //Cannot edit/rate in uninitialized mode
+  if (q.GetMode() == Mode::uninitialized) return;
+
   try
   {
     const auto items = q.scene()->selectedItems();
@@ -1360,11 +1363,16 @@ void ribi::cmap::OnNodeKeyDownPressed(
   QKeyEvent * const event
 )
 {
+  //Cannot select a QtNode in uninitialized mode
+  assert(q.GetMode() != Mode::uninitialized);
+
+  //Cannot edit center nodes
   if (IsQtCenterNode(&qtnode))
   {
     event->ignore();
     return;
   }
+
   const int key{event->key()};
 
   //Note: item can also be the QtNode on a QtEdge
