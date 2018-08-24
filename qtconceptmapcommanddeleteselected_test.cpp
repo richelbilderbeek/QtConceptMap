@@ -12,7 +12,7 @@
 void ribi::cmap::QtCommandDeleteSelectedTest::DeleteSelectedCenterNodeThrows() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
   QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("center"));
   assert(IsQtCenterNode(*first_qtnode));
   q.DoCommand(new CommandSelectNode(q, first_qtnode));

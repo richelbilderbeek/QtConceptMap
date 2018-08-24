@@ -43,7 +43,7 @@ ribi::cmap::CommandToggleArrowTail * ribi::cmap::ParseCommandToggleArrowTail(
 void ribi::cmap::CommandToggleArrowTail::Redo()
 {
   QtEdge * const qtedge = ExtractTheOneSelectedQtEdge(GetScene(*this));
-
+  assert(qtedge); //TODO: fix what to do here, probably throw an exception
   qtedge->SetHasTailArrow(
     !HasTailArrow(*qtedge)
   );

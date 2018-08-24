@@ -157,7 +157,7 @@ void ribi::cmap::QtCommandMoveNodeTest::ParseMoveAbsentNodeReturnsNullptr() cons
 void ribi::cmap::QtCommandMoveNodeTest::ParseMoveCenterNodeReturnsNullptr() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
   const auto c = ParseCommandMoveNode(q, "move_node(center, 10, 20)");
   QVERIFY(!c);
 }

@@ -16,7 +16,7 @@ void ribi::cmap::QtRatedConceptDialogTest::AssessorHasRatings() const noexcept
 
 void ribi::cmap::QtRatedConceptDialogTest::LonelyNodeHasNoRelations() const noexcept
 {
-  const auto conceptmap = ConceptMapFactory().GetLonelyQtCenterNode();
+  const auto conceptmap = ConceptMapFactory().GetLonelyCenterNode();
   const auto node = GetFirstNode(conceptmap);
   QtConceptMapRatedConceptDialog d(conceptmap, node, Role::student);
   QVERIFY(QRegExp("geen").indexIn(d.ui->label_cluster_relations->text()) >= 0);

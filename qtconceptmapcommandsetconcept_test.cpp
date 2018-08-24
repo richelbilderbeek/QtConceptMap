@@ -15,7 +15,7 @@
 void ribi::cmap::QtCommandSetConceptTest::FailsOnCenterNode() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
   q.show();
   assert(CountSelectedQtNodes(q) == 0);
   try
@@ -32,7 +32,7 @@ void ribi::cmap::QtCommandSetConceptTest::FailsOnCenterNode() const noexcept
 void ribi::cmap::QtCommandSetConceptTest::FailsWithoutSelected() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
   SetSelectedness(true, *GetFirstQtNode(q));
   q.show();
   assert(CountSelectedQtNodes(q) == 1);

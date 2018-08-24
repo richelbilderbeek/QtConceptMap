@@ -25,7 +25,7 @@ void ribi::cmap::QtCommandUnselectNodeTest::UnselectAbsentItemFails() const noex
 void ribi::cmap::QtCommandUnselectNodeTest::UnselectLonelyQtCenterNodeByName() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
   QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("center"));
   q.DoCommand(new CommandSelectNode(q, first_qtnode));
   assert(CountSelectedQtEdges(q) == 0);

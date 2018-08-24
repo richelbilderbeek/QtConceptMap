@@ -73,7 +73,7 @@ void ribi::cmap::HelperTest::GetQtEdges() const noexcept
 {
   {
     QtConceptMap m;
-    m.SetConceptMap(ConceptMapFactory().GetLonelyQtCenterNode());
+    m.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
     QVERIFY(::ribi::cmap::GetQtEdges(m.GetScene()).size() == 0);
   }
   {
