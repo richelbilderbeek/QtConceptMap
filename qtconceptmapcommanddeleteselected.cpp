@@ -137,6 +137,7 @@ void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
 
   for (QtEdge * const qtedge: qtedges_to_remove)
   {
+    assert(qtedge);
     SetSelectedness(false, *qtedge);
     assert(qtedge->scene());
     assert(qtedge->GetArrow()->scene());

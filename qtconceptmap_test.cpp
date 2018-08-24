@@ -339,7 +339,20 @@ void ribi::cmap::QtConceptMapTest::CreateTenNodesAndUndoCommand() const noexcept
 
 void ribi::cmap::QtConceptMapTest::CreateTenNodesAndUndoKeyboard() const noexcept
 {
-  //TODO
+  QtConceptMap q;
+  q.showFullScreen();
+  for (int i = 0; i != 10; ++i)
+  {
+    QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier, 10);
+    q.show();
+  }
+  assert(CountQtNodes(q) == 10);
+  for (int i = 0; i != 10; ++i)
+  {
+    QTest::keyClick(&q, Qt::Key_Z, Qt::ControlModifier, 10);
+    q.show();
+  }
+  QVERIFY(CountQtNodes(q) == 0);
 }
 
 void ribi::cmap::QtConceptMapTest::CreateTwoNodesCommand() const noexcept
@@ -584,38 +597,49 @@ void ribi::cmap::QtConceptMapTest::DeleteNodesThatAreHeadAndTailOfEdgeKeyboard()
 
 void ribi::cmap::QtConceptMapTest::DeleteOneEdgeByNodeCommand() const noexcept
 {
-  //TODO
+  QSKIP("BUG", "TODO");
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  q.showFullScreen();
+  SetSelectedness(true, *GetFirstQtNode(q));
+  assert(CountQtEdges(q) == 1);
+  assert(CountQtNodes(q) == 2);
+  q.DoCommand(new CommandDeleteSelected(q));
+  QVERIFY(CountQtEdges(q) == 0);
+  QVERIFY(CountQtNodes(q) == 1);
+  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::DeleteOneEdgeByNodeKeyboard() const noexcept
 {
-  //TODO
+  QSKIP("BUG", "TODO");
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  q.showFullScreen();
+  SetSelectedness(true, *GetFirstQtNode(q));
+  assert(CountQtEdges(q) == 1);
+  assert(CountQtNodes(q) == 2);
+  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier, 100);
+  QVERIFY(CountQtEdges(q) == 0);
+  QVERIFY(CountQtNodes(q) == 1);
+  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::DeleteOneEdgeCommand() const noexcept
 {
   QtConceptMap m;
-  m.show();
-  QVERIFY(CountSelectedQtEdges(m) == 0);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
-  const int n{2};
-  for (int i=0; i!=n; ++i)
+  m.showFullScreen();
+  for (int i = 0; i != 2; ++i)
   {
     m.DoCommand(new CommandCreateNewNode(m));
     m.show();
   }
-  QVERIFY(CountSelectedQtEdges(m) == 0);
-  QVERIFY(CountSelectedQtNodes(m) == 2);
   m.DoCommand(new CommandCreateNewEdge(m));
   m.show();
-  QVERIFY(CountQtEdges(m) == 1);
-  QVERIFY(CountQtNodes(m) == 2);
-  QVERIFY(CountSelectedQtEdges(m) == 1);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
+  assert(CountQtEdges(m) == 1);
   m.DoCommand(new CommandDeleteSelected(m));
   m.show();
   QVERIFY(CountQtEdges(m) == 0);
-  QVERIFY(CountQtNodes(m) == 2);
 }
 
 void ribi::cmap::QtConceptMapTest::DeleteOneEdgeKeyboard() const noexcept

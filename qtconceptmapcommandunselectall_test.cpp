@@ -42,8 +42,7 @@ void ribi::cmap::QtCommandUnselectAllTest::UnselectAllQtCenterEdgeByName() const
   assert(CountSelectedQtNodes(q) == 0);
 }
 
-void ribi::cmap::QtCommandUnselectAllTest
-  ::UnselectAllOneOfTwoQtEdgesByName() const noexcept
+void ribi::cmap::QtCommandUnselectAllTest::UnselectAllOneOfTwoQtEdgesByName() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q));

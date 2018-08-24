@@ -11,25 +11,11 @@ class QtCommandsTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-
-  //TODO
-
-  //https://github.com/richelbilderbeek/QtConceptMap/issues/5
-  void UnselectLonelyCenterNode() const noexcept;
-
-  //https://github.com/richelbilderbeek/Brainweaver/issues/139
-  //https://github.com/richelbilderbeek/QtConceptMap/issues/2
-  void SelectAndUnselectAllLonelyCenterNode() const noexcept;
-
-  //https://github.com/richelbilderbeek/Brainweaver/issues/139
-  void SelectAndUnselectLonelyCenterNode() const noexcept;
-
-  //DONE
+  void CreateNewEdgeBetweenTwoSelectedNodesCommand() const noexcept;
   void CreateOneNewNodeCommand() const noexcept;
   void CreateOneNewNodeThenUnselect() const noexcept;
   void CreateRelationOverCenterNode() const noexcept;
   void CreateTwoNewNodeCommands() const noexcept;
-  void CreateNewEdgeBetweenTwoSelectedNodesCommand() const noexcept;
   void GetCommandsEmptyWhenOneWord() const noexcept;
   void GetCommandsEmptyWhenTwoWords() const noexcept;
   void GetCommandsEmptyWithManyNonsenseWords() const noexcept;
@@ -38,12 +24,14 @@ private slots:
   void MoveCommandOnNode() const noexcept;
   void MoveNodeCommandOnNode() const noexcept;
   void NonsenseToEmpty() const noexcept;
+  void SelectAndUnselectAllLonelyCenterNode() const noexcept;
+  void SelectAndUnselectLonelyCenterNode() const noexcept;
   void SelectCommandIsIgnoredOnAbsentItem() const noexcept;
   void SetModeCommand() const noexcept;
   void ToggleArrowHeadCommand() const noexcept;
   void ToggleArrowTailCommand() const noexcept;
   void UnselectCommandIsIgnoredOnAbsentItem() const noexcept;
-
+  void UnselectLonelyCenterNode() const noexcept;
 };
 
 } //~namespace cmap

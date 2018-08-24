@@ -13,7 +13,9 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void CreateOneEdgeWithTailKeyboard() const noexcept;
+  void DeleteOneEdgeByNodeCommand() const noexcept;
+  void DeleteOneEdgeByNodeKeyboard() const noexcept;
+
   //void PressF2OnSingleEdgeEditConceptMapIsAccepted() const noexcept;
   //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
@@ -25,33 +27,32 @@ private slots:
   void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
   void ClickOnNothingShouldUnselectAll() const noexcept;
-  void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeCommand() const noexcept;
+  void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeKeyboard() const noexcept;
-  void CreateOneEdgeKeyboardIncorrectly() const noexcept;
+  void CreateTenNodesAndUndoKeyboard() const noexcept;
   void CreateOneEdgeKeyboardAndUndo() const noexcept;
+  void CreateOneEdgeKeyboardIncorrectly() const noexcept;
   void CreateOneEdgeWithHeadAndToggleKeyboard() const noexcept;
   void CreateOneEdgeWithHeadAndUndoKeyboard() const noexcept;
-  void CreateOneEdgeWithTailCommand() const noexcept;
   void CreateOneEdgeWithHeadCommand() const noexcept;
   void CreateOneEdgeWithHeadKeyboard() const noexcept;
+  void CreateOneEdgeWithTailCommand() const noexcept;
+  void CreateOneEdgeWithTailKeyboard() const noexcept;
   void CreateOneNodeAndUndoCommand() const noexcept;
   void CreateOneNodeAndUndoKeyboard() const noexcept;
   void CreateOneNodeCommand() const noexcept;
   void CreateOneNodeKeyboard() const noexcept;
   void CreateOneNodeMouse() const noexcept;
   void CreateTenNodesAndUndoCommand() const noexcept;
-  void CreateTenNodesAndUndoKeyboard() const noexcept;
   void CreateTwoNodesCommand() const noexcept;
   void CreateTwoNodesKeyboard() const noexcept;
   void DefaultConstruction() const noexcept;
   void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept;
-  void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
   void DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const noexcept;
+  void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
   void DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept;
   void DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const noexcept;
-  void DeleteOneEdgeByNodeCommand() const noexcept;
-  void DeleteOneEdgeByNodeKeyboard() const noexcept;
   void DeleteOneEdgeCommand() const noexcept;
   void DeleteOneEdgeKeyboard() const noexcept;
   void DeleteOneNodeCommand() const noexcept;
@@ -84,7 +85,6 @@ private slots:
   void PressF1OnSingleNodeEditConceptMapIsRejected() const noexcept;
   void PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept;
   void PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept;
-
   void PressF2CanEditNonFocalQuestion() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
   void PressF2OnCenterNodeIsRejected() const noexcept;
@@ -104,25 +104,11 @@ private slots:
   void SelectRandomNodeKeyboardEdit() const noexcept; //#138, skip on Travis
   void SetConceptMap4() const noexcept;
   void SetConceptMaps() const noexcept;
-
-  ///Set an empty ConceptMap in a QtConcepytMap
-  ///when one QtEdge is selected
   void SetEmptyConceptMapOneSelectedEdge() const noexcept;
-
-  ///Set an empty ConceptMap in a QtConcepytMap
-  ///when one QtNode is selected
   void SetEmptyConceptMapOneSelectedNode() const noexcept;
-
-  ///Set an empty ConceptMap in a QtConcepytMap
-  ///when two QtNodes are selected, one of which on an edge
   void SetEmptyConceptMapTwoSelectedNodes() const noexcept;
-
-  ///When setting a ConceptMap, the number of Edges and QtEdges,
-  /// and Nodes and QtNodes must match
-  void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept;
-
   void SetMode() const noexcept;
-
+  void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept;
   void SingleClickOnEmptyConceptMap() const noexcept;
   void SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept;
   void SingleClickOnNodeIsAccepted() const noexcept;
