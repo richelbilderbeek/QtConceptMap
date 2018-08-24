@@ -597,7 +597,6 @@ void ribi::cmap::QtConceptMapTest::DeleteNodesThatAreHeadAndTailOfEdgeKeyboard()
 
 void ribi::cmap::QtConceptMapTest::DeleteOneEdgeByNodeCommand() const noexcept
 {
-  QSKIP("BUG", "TODO");
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   q.showFullScreen();
@@ -607,12 +606,10 @@ void ribi::cmap::QtConceptMapTest::DeleteOneEdgeByNodeCommand() const noexcept
   q.DoCommand(new CommandDeleteSelected(q));
   QVERIFY(CountQtEdges(q) == 0);
   QVERIFY(CountQtNodes(q) == 1);
-  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::DeleteOneEdgeByNodeKeyboard() const noexcept
 {
-  QSKIP("BUG", "TODO");
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
   q.showFullScreen();
@@ -622,7 +619,6 @@ void ribi::cmap::QtConceptMapTest::DeleteOneEdgeByNodeKeyboard() const noexcept
   QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier, 100);
   QVERIFY(CountQtEdges(q) == 0);
   QVERIFY(CountQtNodes(q) == 1);
-  assert(!"FIXED");
 }
 
 void ribi::cmap::QtConceptMapTest::DeleteOneEdgeCommand() const noexcept

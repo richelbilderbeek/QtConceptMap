@@ -429,6 +429,7 @@ ribi::cmap::GetSelectedQtEdges(const QGraphicsScene& scene) noexcept
       if (qtnode)
       {
         QtEdge* const qtedge_again = qgraphicsitem_cast<QtEdge*>(qtnode->parentItem());
+        if (qtedge_again)
         {
           v.insert(qtedge_again);
         }
