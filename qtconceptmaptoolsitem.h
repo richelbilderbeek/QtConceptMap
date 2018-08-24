@@ -51,8 +51,8 @@ struct QtTool final : public QGraphicsPixmapItem
   }
 
   protected:
-  void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-  void mousePressEvent(QGraphicsSceneMouseEvent *event);
+  void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
   void paint(
     QPainter* painter,
     const QStyleOptionGraphicsItem *,

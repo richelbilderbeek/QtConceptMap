@@ -33,7 +33,7 @@ ribi::cmap::QtTool::QtTool()
   this->setZValue(GetQtToolZvalue());
 }
 
-ribi::cmap::QtTool::~QtTool()
+ribi::cmap::QtTool::~QtTool() noexcept
 {
 
 }
