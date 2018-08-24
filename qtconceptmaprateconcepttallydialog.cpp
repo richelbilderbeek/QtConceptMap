@@ -325,14 +325,18 @@ void ribi::cmap::QtRateConceptTallyDialog::ShowExample(
     item->setFlags(
       Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable
     );
-    switch (col_index)
+    if (col_index == 0)
     {
-      case 0: item->setCheckState(ToCheckState(example.GetIsComplex())); break;
-      case 1: item->setCheckState(ToCheckState(example.GetIsConcrete())); break;
-      default:
-        assert(col_index == 2);
-        item->setCheckState(ToCheckState(example.GetIsSpecific()));
-      break;
+      item->setCheckState(ToCheckState(example.GetIsComplex()));
+    }
+    else if (col_index == 1)
+    {
+      item->setCheckState(ToCheckState(example.GetIsConcrete()));
+    }
+    else
+    {
+      assert(col_index == 2);
+      item->setCheckState(ToCheckState(example.GetIsSpecific()));
     }
     ui->table->setItem(row_index, col_index, item);
   }

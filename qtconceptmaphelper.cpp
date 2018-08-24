@@ -294,14 +294,19 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(
 std::function<QBrush(const ribi::cmap::QtNode&)>
 ribi::cmap::GetQtNodeBrushFunction(const Mode mode) noexcept
 {
-  switch (mode)
+  if (mode == Mode::edit)
   {
-    case Mode::edit: return GetQtNodeBrushFunctionEdit();
-    case Mode::rate: return GetQtNodeBrushFunctionRate();
-    default: break;
+    return GetQtNodeBrushFunctionEdit();
   }
-  assert(mode == Mode::uninitialized);
-  return GetQtNodeBrushFunctionUninitialized();
+  else if (mode == Mode::rate)
+  {
+    return GetQtNodeBrushFunctionRate();
+  }
+  else
+  {
+    assert(mode == Mode::uninitialized);
+    return GetQtNodeBrushFunctionUninitialized();
+  }
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
@@ -401,14 +406,19 @@ ribi::cmap::GetQtNodesAlsoOnQtEdge(const QGraphicsScene& scene) noexcept
 std::function<QBrush(const ribi::cmap::QtNode&)>
 ribi::cmap::GetQtNodeVignetteBrushFunction(const Mode mode) noexcept
 {
-  switch (mode)
+  if (mode == Mode::edit)
   {
-    case Mode::edit: return GetQtNodeVignetteBrushFunctionEdit();
-    case Mode::rate: return GetQtNodeVignetteBrushFunctionRate();
-    default: break;
+    return GetQtNodeVignetteBrushFunctionEdit();
   }
-  assert(mode == Mode::uninitialized);
-  return GetQtNodeVignetteBrushFunctionUninitialized();
+  else if (mode == Mode::rate)
+  {
+    return GetQtNodeVignetteBrushFunctionRate();
+  }
+  else
+  {
+    assert(mode == Mode::uninitialized);
+    return GetQtNodeVignetteBrushFunctionUninitialized();
+  }
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
