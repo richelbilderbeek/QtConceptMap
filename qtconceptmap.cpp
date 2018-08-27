@@ -1234,9 +1234,11 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   //Clicking on the quad Bezier arrow anyway ...
   if (qgraphicsitem_cast<QtQuadBezierArrowItem*>(item))
   {
+    #ifndef NDEBUG
     qDebug() << "Should not click on the QtQuadBezierArrow,"
       "but on the QtEdge instead"
     ;
+    #endif // NDEBUG
     event->ignore();
     return;
   }
