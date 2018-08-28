@@ -68,6 +68,9 @@ void ribi::cmap::QtRateConceptTallyDialogTest::GivesCorrectSuggestions() const n
     conceptmap, CreateDefaultRating()
   };
   d.show();
+  qDebug() << d.GetSuggestedConcreteness() << d.GetSuggestedSpecificity();
+  QVERIFY(d.GetSuggestedConcreteness() == 0); //Unsure
+  QVERIFY(d.GetSuggestedSpecificity() == 0); //Unsure
   assert(d.GetSuggestedComplexity() == 1);
   QVERIFY(d.GetSuggestedComplexity() == 1);
 }
