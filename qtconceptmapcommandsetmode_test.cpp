@@ -33,3 +33,23 @@ void ribi::cmap::QtCommandSetModeTest::Parse() const noexcept
     QVERIFY(q.GetMode() == Mode::uninitialized);
   }
 }
+
+void ribi::cmap::QtCommandSetModeTest::SetToEditMode() const noexcept
+{
+  QtConceptMap q;
+  q.showFullScreen();
+  assert(q.GetMode() == Mode::uninitialized);
+  q.DoCommand(new CommandSetMode(q, Mode::edit));
+  QVERIFY(q.GetMode() == Mode::edit);
+}
+
+void ribi::cmap::QtCommandSetModeTest::SetToEditModeAndUndo() const noexcept
+{
+  QtConceptMap q;
+  q.showFullScreen();
+  assert(q.GetMode() == Mode::uninitialized);
+  q.DoCommand(new CommandSetMode(q, Mode::edit));
+  assert(q.GetMode() != Mode::uninitialized);
+  q.Undo();
+  QVERIFY(q.GetMode() == Mode::uninitialized);
+}
