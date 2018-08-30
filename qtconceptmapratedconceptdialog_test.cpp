@@ -42,13 +42,12 @@ void ribi::cmap::QtRatedConceptDialogTest::StudentHasNoRatings() const noexcept
 
 void ribi::cmap::QtRatedConceptDialogTest::ToHtml() const noexcept
 {
-  const auto conceptmap = ConceptMapFactory().GetTwoNodeFourEdges();
+  const auto conceptmap = ConceptMapFactory().GetTwoNodeFourEdgesNoCenter();
   const auto node = GetFirstNode(conceptmap);
   for (const Edge& edge: GetEdges(conceptmap))
   {
     const auto html = ToHtmlListItems(edge, conceptmap, node, Role::student);
     QVERIFY(!html.empty());
   }
-  assert(!"WORKS");
 }
 

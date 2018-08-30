@@ -47,8 +47,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  { QtRatedConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  assert(!"Don't forget to let Travis test everything");
+  //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
   { CompetencyTest t; error |= QTest::qExec(&t, argc, argv); }
