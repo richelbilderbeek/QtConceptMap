@@ -47,8 +47,6 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ QtCommandToggleArrowHeadTest t; error |= QTest::qExec(&t, argc, argv); }
-  //{ QtCommandDeleteSelectedTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
