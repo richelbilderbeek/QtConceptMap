@@ -73,7 +73,9 @@ private slots:
   void NcenterNodesAndQtCenterNodesMustMatchEdit() const noexcept; //#113
   void NcenterNodesAndQtCenterNodesMustMatchRate() const noexcept; //#113
   void NcenterNodesAndQtCenterNodesMustMatchUninitialized() const noexcept; //#113
+  void Press1DoesNothingWithoutSelectedEdge() const noexcept;
   void Press1TogglesTail() const noexcept;
+  void Press2DoesNothingWithoutSelectedEdge() const noexcept;
   void Press2TogglesHead() const noexcept;
   void PressCtrlHTogglesHead() const noexcept;
   void PressCtrlRightMovesNonCentralNode() const noexcept;

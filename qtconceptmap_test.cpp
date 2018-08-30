@@ -931,6 +931,18 @@ void ribi::cmap::QtConceptMapTest::NcenterNodesAndQtCenterNodesMustMatchUninitia
   }
 }
 
+void ribi::cmap::QtConceptMapTest::Press1DoesNothingWithoutSelectedEdge() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  SetSelectedness(false, *GetFirstQtEdge(q));
+  q.showFullScreen();
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountQtArrowTails(q) == 0);
+  QTest::keyClick(&q, Qt::Key_1, Qt::NoModifier);
+  QVERIFY(CountQtArrowTails(q) == 0);
+}
+
 void ribi::cmap::QtConceptMapTest::Press1TogglesTail() const noexcept
 {
   QtConceptMap q;
@@ -941,6 +953,18 @@ void ribi::cmap::QtConceptMapTest::Press1TogglesTail() const noexcept
   assert(CountQtArrowTails(q) == 0);
   QTest::keyClick(&q, Qt::Key_1, Qt::NoModifier);
   QVERIFY(CountQtArrowTails(q) != 0);
+}
+
+void ribi::cmap::QtConceptMapTest::Press2DoesNothingWithoutSelectedEdge() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  SetSelectedness(false, *GetFirstQtEdge(q));
+  q.showFullScreen();
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountQtArrowHeads(q) == 1);
+  QTest::keyClick(&q, Qt::Key_2, Qt::NoModifier);
+  QVERIFY(CountQtArrowHeads(q) == 1);
 }
 
 void ribi::cmap::QtConceptMapTest::Press2TogglesHead() const noexcept
