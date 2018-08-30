@@ -77,6 +77,7 @@ SOURCES += \
     $$PWD/qtconceptmapqtnode.cpp \
     $$PWD/qtconceptmapqtnodefactory.cpp \
     $$PWD/qtconceptmaprateconceptdialog.cpp \
+    $$PWD/qtconceptmaprateconceptdialog_no_codecov.cpp \
     $$PWD/qtconceptmaprateconceptdialogcloser.cpp \
     $$PWD/qtconceptmaprateconcepttallydialog.cpp \
     $$PWD/qtconceptmaprateconcepttallydialogcloser.cpp \
