@@ -130,72 +130,58 @@ void ribi::cmap::QtRateExamplesDialog::keyPressEvent(QKeyEvent* e)
 
 void ribi::cmap::QtRateExamplesDialog::on_button_prof_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::profession));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::profession));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_organisations_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::organisations));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::organisations));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_social_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::social_surroundings));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::social_surroundings));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_target_audience_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::target_audience));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::target_audience));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_prof_development_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::prof_growth));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::prof_growth));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_misc_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-      = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::misc));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+    = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::misc));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_ti_knowledge_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-      = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::ti_knowledge));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+    = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::ti_knowledge));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_ok_clicked()
