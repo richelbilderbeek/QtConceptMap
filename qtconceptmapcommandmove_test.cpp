@@ -170,4 +170,7 @@ void ribi::cmap::QtCommandMoveTest::ParseNonsenseFails() const noexcept
 {
   QtConceptMap q;
   QVERIFY(ParseCommandMove(q, "nonsense") == nullptr);
+  QVERIFY(ParseCommandMove(q, "move(nonsense") == nullptr);
+  QVERIFY(ParseCommandMove(q, "move(nonsense)") == nullptr);
+  QVERIFY(ParseCommandMove(q, "move(non, sense)") == nullptr);
 }
