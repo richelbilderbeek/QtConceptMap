@@ -13,6 +13,7 @@ class QtCommandDeleteSelectedTest : public QObject
 private slots:
   void DeleteSelectedCenterNodeThrows() const noexcept;
   void DeleteSelectedEdge() const noexcept;
+  void DeleteSelectedEdges() const noexcept;
   void DeleteSelectedNode() const noexcept;
 };
 
