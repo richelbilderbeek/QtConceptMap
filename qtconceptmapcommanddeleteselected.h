@@ -40,10 +40,6 @@ class CommandDeleteSelected final : public Command
   /// either (1) no scene, or (2) the same scene
   bool AllHaveSameScene() const noexcept;
 
-
-  ///Checks if the QtNodes are in a valid state before deletion
-  void CheckQtNodesBeforeDelete() const noexcept;
-
   ///Remove the selected QtEdges and the QtEdges connected to a selected QtNode
   void RemoveQtEdges();
 
