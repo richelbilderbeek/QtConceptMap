@@ -1,6 +1,9 @@
 #include "qtconceptmaphelper_test.h"
 #include "qtconceptmaphelper.h"
+#include "qtconceptmapqtnode.h"
 #include "conceptmapfactory.h"
+#include "qtconceptmapbrushfactory.h"
+#include "qtconceptmapqtedge.h"
 
 #include "qtconceptmap.h"
 
@@ -106,9 +109,99 @@ void ribi::cmap::HelperTest::GetQtEdges() const noexcept
 
 void ribi::cmap::HelperTest::GetQtNodeBrushFunction() const noexcept
 {
-  ::ribi::cmap::GetQtNodeBrushFunction(Mode::edit);
-  ::ribi::cmap::GetQtNodeBrushFunction(Mode::rate);
-  ::ribi::cmap::GetQtNodeBrushFunction(Mode::uninitialized);
+  //Edit + no examples = Gray
+  {
+    const auto f = ::ribi::cmap::GetQtNodeBrushFunction(Mode::edit);
+    const QtNode qtnode;
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateGrayGradientBrush());
+  }
+  //Rate + unrated rated = Red
+  {
+    const auto f = ::ribi::cmap::GetQtNodeBrushFunction(Mode::rate);
+    const QtNode qtnode;
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateRedGradientBrush());
+  }
+  //Uninitialized = White
+  {
+    const auto f = ::ribi::cmap::GetQtNodeBrushFunction(Mode::uninitialized);
+    const QtNode qtnode;
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateWhiteGradientBrush());
+  }
+}
+
+void ribi::cmap::HelperTest::GetQtNodeBrushFunctionEdit() const noexcept
+{
+  const auto f = ::ribi::cmap::GetQtNodeBrushFunctionEdit();
+  //Gold if center node
+  {
+    const QtNode qtnode(Node(Concept(), NodeType::center));
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateGoldGradientBrush());
+  }
+  //Grey if no examples
+  {
+    const QtNode qtnode;
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateGrayGradientBrush());
+  }
+  //Red if solitary node (that is, a concept) with examples
+  {
+    const QtNode qtnode(Node(Concept("", Examples( { Example("A") } ))));
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateRedGradientBrush());
+  }
+  //Blue if relation node with examples
+  {
+    QtNode from;
+    QtNode to;
+    const QtEdge qtedge(Edge(Node(Concept("", Examples( { Example("A") } )))), &from, &to);
+    QVERIFY(f(*qtedge.GetQtNode()) == QtBrushFactory().CreateBlueGradientBrush());
+  }
+}
+
+void ribi::cmap::HelperTest::GetQtNodeBrushFunctionRate() const noexcept
+{
+  const auto f = ::ribi::cmap::GetQtNodeBrushFunctionEdit();
+  //Gold if center node
+  {
+    const QtNode qtnode(Node(Concept(), NodeType::center));
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateGoldGradientBrush());
+  }
+  //Blue if relation node with examples
+  {
+    QtNode from;
+    QtNode to;
+    const QtEdge qtedge(Edge(Node(Concept("", Examples( { Example("A") } )))), &from, &to);
+    QVERIFY(f(*qtedge.GetQtNode()) == QtBrushFactory().CreateBlueGradientBrush());
+  }
+
+  //Red if none rated
+  {
+    const QtNode qtnode;
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateRedGradientBrush());
+  }
+  //Yellow if one rated
+  {
+    const QtNode qtnode(Node(Concept("", Examples(), true, 2, -1, -1)));
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateYellowGradientBrush());
+  }
+  //Yellow if two rated
+  {
+    const QtNode qtnode(Node(Concept("", Examples(), true, 2, 2, -1)));
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateYellowGradientBrush());
+  }
+  //Green if fully rated
+  {
+    const QtNode qtnode(Node(Concept("", Examples(), true, 2, 2, 2)));
+    QVERIFY(f(qtnode) == QtBrushFactory().CreateGreenGradientBrush());
+  }
+
+}
+
+
+void ribi::cmap::HelperTest::GetQtNodeBrushFunctionUninitialized() const noexcept
+{
+  const auto f = ::ribi::cmap::GetQtNodeBrushFunctionUninitialized();
+  //Always white
+  const QtNode qtnode;
+  QVERIFY(f(qtnode) == QtBrushFactory().CreateWhiteGradientBrush());
 }
 
 void ribi::cmap::HelperTest::MessUp() const noexcept

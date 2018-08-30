@@ -17,6 +17,9 @@ private slots:
   void GetQtCenterNode() const noexcept;
   void GetQtEdges() const noexcept;
   void GetQtNodeBrushFunction() const noexcept;
+  void GetQtNodeBrushFunctionEdit() const noexcept;
+  void GetQtNodeBrushFunctionRate() const noexcept;
+  void GetQtNodeBrushFunctionUninitialized() const noexcept;
   void MessUp() const noexcept;
 };
 
