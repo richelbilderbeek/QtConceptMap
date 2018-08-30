@@ -53,6 +53,22 @@ void ribi::cmap::HelperTest::FindQtCenterNode() const noexcept
   }
 }
 
+void ribi::cmap::HelperTest::GetFirstQtEdge() const noexcept
+{
+  //No concept map, thus no first edge
+  {
+    QtConceptMap q;
+    const auto qtnode = ::ribi::cmap::GetFirstQtEdge(q);
+    QVERIFY(!qtnode);
+  }
+  //Concept map of one edge
+  {
+    QtConceptMap m;
+    m.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+    QVERIFY(::ribi::cmap::GetFirstQtEdge(m));
+  }
+}
+
 void ribi::cmap::HelperTest::GetQtCenterNode() const noexcept
 {
   //No concept map, thus no center node

@@ -13,6 +13,7 @@ class HelperTest : public QObject
 private slots:
   void ExtractTheOneSelectedQtEdge() const noexcept;
   void FindQtCenterNode() const noexcept;
+  void GetFirstQtEdge() const noexcept;
   void GetQtCenterNode() const noexcept;
   void GetQtEdges() const noexcept;
   void GetQtNodeBrushFunction() const noexcept;

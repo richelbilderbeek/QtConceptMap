@@ -166,20 +166,9 @@ ribi::cmap::GetQtCenterNode(const QGraphicsScene& scene)
 
 ribi::cmap::QtEdge * ribi::cmap::GetFirstQtEdge(const QGraphicsScene& scene) noexcept
 {
-  #ifndef TRUST_GETQTEDGES_20180821
-  for (QGraphicsItem * const item: scene.items())
-  {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      return qtedge;
-    }
-  }
-  return nullptr;
-  #else
   const auto qtedges = GetQtEdges(scene);
   if (qtedges.empty()) return nullptr;
   return qtedges.front();
-  #endif
 }
 
 ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QGraphicsScene& scene) noexcept
