@@ -14,17 +14,20 @@
 #include "qtconceptmapcompetency.h"
 #include "ui_qtconceptmaprateexamplesdialog.h"
 
-void ribi::cmap::QtRateExamplesDialogTest::GetRatedExamples()
+void ribi::cmap::QtRateExamplesDialogTest::GetRatedExamples() const noexcept
 {
+
   const int sz = ConceptFactory().GetTests().size();
   for (int i=0; i!=sz; ++i)
   {
-    QVERIFY(i < static_cast<int>(ConceptFactory().GetTests().size()));
-    const auto a = QtRateExamplesDialog(ConceptFactory().GetTests()[i]).GetRatedExamples();
+    const Concept concept_1 = ConceptFactory().GetTests().at(i);
+    if (CountExamples(concept_1) == 0) continue;
+    const auto a = QtRateExamplesDialog(concept_1).GetRatedExamples();
     for (int j=0; j!=sz; ++j)
     {
-      QVERIFY(j < static_cast<int>(ConceptFactory().GetTests().size()));
-      const auto b = QtRateExamplesDialog(ConceptFactory().GetTests()[j]).GetRatedExamples();
+      const Concept concept_2 = ConceptFactory().GetTests().at(j);
+      if (CountExamples(concept_2) == 0) continue;
+      const auto b = QtRateExamplesDialog(concept_2).GetRatedExamples();
       if (i == j)
       {
         QVERIFY(a == b);
@@ -37,7 +40,7 @@ void ribi::cmap::QtRateExamplesDialogTest::GetRatedExamples()
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogTest::KeyPresses()
+void ribi::cmap::QtRateExamplesDialogTest::KeyPresses() const noexcept
 {
   QtRateExamplesDialog d(ConceptFactory().Get1());
   d.show();
@@ -71,7 +74,7 @@ void ribi::cmap::QtRateExamplesDialogTest::KeyPresses()
   QTest::qWait(delay);
 }
 
-void ribi::cmap::QtRateExamplesDialogTest::KeyPressesFromSlots()
+void ribi::cmap::QtRateExamplesDialogTest::KeyPressesFromSlots() const noexcept
 {
   QtRateExamplesDialog d(ConceptFactory().Get1());
   d.show();
@@ -103,8 +106,25 @@ void ribi::cmap::QtRateExamplesDialogTest::KeyPressesFromSlots()
   QTest::qWait(delay);
 }
 
-void ribi::cmap::QtRateExamplesDialogTest::UserHasNotClickedOkAtConstruction()
+void ribi::cmap::QtRateExamplesDialogTest::ThrowsIfNoExamples() const noexcept
 {
-  const QtRateExamplesDialog d{Concept()};
+  const Concept empty_concept;
+  assert(CountExamples(empty_concept) == 0);
+  try
+  {
+    const QtRateExamplesDialog d{empty_concept};
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
+
+void ribi::cmap::QtRateExamplesDialogTest::UserHasNotClickedOkAtConstruction() const noexcept
+{
+  const QtRateExamplesDialog d{
+    Concept("A", Examples( { Example("1") } ))
+  };
   QVERIFY(!d.HasClickedOk());
 }

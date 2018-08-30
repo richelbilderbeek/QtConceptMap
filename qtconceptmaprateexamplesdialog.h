@@ -10,11 +10,13 @@ namespace Ui { class QtRateExamplesDialog; }
 namespace ribi {
 namespace cmap {
 
+class QtRateExamplesDialogTest;
+
 ///Allows the user to rate the examples of a concept
 class QtRateExamplesDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
-  
+
 public:
   explicit QtRateExamplesDialog(
     const Concept& concept,
@@ -47,6 +49,8 @@ private:
 
   ///Was the OK button clicked to close?
   bool m_clicked_ok = false;
+
+  friend class QtRateExamplesDialogTest;
 };
 
 } //~namespace cmap

@@ -43,7 +43,20 @@ void ribi::cmap::QtCommandToggleArrowTailTest
   q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("second"))));
   assert(CountQtArrowTails(q) == 0);
   q.DoCommand(new CommandToggleArrowTail(q));
+  QVERIFY(CountQtArrowTails(q) == 1);
+}
+
+void ribi::cmap::QtCommandToggleArrowTailTest
+  ::ToggleEdgeAndUndo() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("second"))));
+  assert(CountQtArrowTails(q) == 0);
+  q.DoCommand(new CommandToggleArrowTail(q));
   assert(CountQtArrowTails(q) == 1);
+  q.Undo();
+  QVERIFY(CountQtArrowTails(q) == 0);
 }
 
 void ribi::cmap::QtCommandToggleArrowTailTest

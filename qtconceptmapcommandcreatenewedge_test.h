@@ -12,6 +12,9 @@ class QtCommandCreateNewEdgeTest : public QObject
 
 private slots:
 
+  void CannotCreateNewEdgeWithoutSelectedNodes() const noexcept;
+  void CannotCreateNewEdgeWithSelectedEdge() const noexcept;
+
   void CreateNewEdge() const noexcept;
 
   void CreateNewEdgeUndo() const noexcept;

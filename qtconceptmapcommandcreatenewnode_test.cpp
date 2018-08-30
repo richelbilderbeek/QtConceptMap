@@ -37,6 +37,10 @@ void ribi::cmap::QtCommandCreateNewNodeTest::Parse() const noexcept
   QtConceptMap q;
   {
     QVERIFY(ParseCommandCreateNewNode(q, "nonsense") == nullptr);
+    QVERIFY(ParseCommandCreateNewNode(q, "create_new_node(nonsense") == nullptr);
+    QVERIFY(ParseCommandCreateNewNode(q, "create_new_node(nonsense)") == nullptr);
+    QVERIFY(ParseCommandCreateNewNode(q, "create_new_node(non, sense)") == nullptr);
+    QVERIFY(ParseCommandCreateNewNode(q, "create_new_node(non, sen, se)") == nullptr);
   }
   {
     const auto c = ParseCommandCreateNewNode(

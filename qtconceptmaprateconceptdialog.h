@@ -20,7 +20,7 @@ class QtRateConceptDialogTest;
 class QtRateConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
-    
+
   public:
 
   explicit QtRateConceptDialog(
@@ -47,6 +47,8 @@ protected:
 
 private slots:
   void on_button_ok_clicked();
+
+  ///In qtconceptmaprateconceptdialog_no_codecov.cpp
   void on_button_tally_relevancies_clicked();
   void on_button_cancel_clicked();
 

@@ -4,24 +4,63 @@
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtnode.h"
+#include "conceptmapfactory.h"
 
 #include <QDebug>
+
+void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeWithoutSelectedNodes() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  assert(!IsSelected(*GetLastQtNode(q)));
+  try
+  {
+    q.DoCommand(new CommandCreateNewEdge(q, "between"));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
+
+void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeWithSelectedEdge() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdgeNoCenter());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  SetSelectedness(true, *GetLastQtNode(q));
+  SetSelectedness(true, *GetFirstQtEdge(q));
+  assert(CountSelectedQtNodes(q) == 2);
+  assert(CountSelectedQtEdges(q) == 1);
+  try
+  {
+    q.DoCommand(new CommandCreateNewEdge(q, "between"));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
 
 void ribi::cmap::QtCommandCreateNewEdgeTest::CreateNewEdge() const noexcept
 {
   QtConceptMap q;
   q.DoCommand(new CommandCreateNewNode(q, "from", NodeType::normal, -100, -200));
   q.DoCommand(new CommandCreateNewNode(q, "to"  , NodeType::normal,  300,  400));
-  QVERIFY(CountQtNodes(q) == 2);
-  QVERIFY(CountQtEdges(q) == 0);
-  QVERIFY(CountSelectedQtNodes(q) == 2);
-  QVERIFY(CountSelectedQtEdges(q) == 0);
+  assert(CountQtNodes(q) == 2);
+  assert(CountQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 2);
+  assert(CountSelectedQtEdges(q) == 0);
   q.DoCommand(new CommandCreateNewEdge(q, "between"));
-  QVERIFY(CountQtNodes(q) == 2);
+  assert(CountQtNodes(q) == 2);
   QVERIFY(CountQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 0);
   QVERIFY(CountSelectedQtEdges(q) == 1);
-  QVERIFY(!GetQtToolItemBuddy(q));
+  assert(!GetQtToolItemBuddy(q));
 }
 
 void ribi::cmap::QtCommandCreateNewEdgeTest::CreateNewEdgeUndo() const noexcept

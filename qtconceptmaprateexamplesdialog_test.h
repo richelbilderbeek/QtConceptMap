@@ -11,10 +11,11 @@ class QtRateExamplesDialogTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void GetRatedExamples();
-  void KeyPresses();
-  void KeyPressesFromSlots();
-  void UserHasNotClickedOkAtConstruction();
+  void GetRatedExamples() const noexcept;
+  void KeyPresses() const noexcept;
+  void KeyPressesFromSlots() const noexcept;
+  void ThrowsIfNoExamples() const noexcept;
+  void UserHasNotClickedOkAtConstruction() const noexcept;
 };
 
 } //~namespace cmap

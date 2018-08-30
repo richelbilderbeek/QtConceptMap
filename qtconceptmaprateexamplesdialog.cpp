@@ -31,6 +31,11 @@ ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
   : QDialog(parent),
     ui(new Ui::QtRateExamplesDialog)
 {
+  if (CountExamples(concept) == 0)
+  {
+    throw std::invalid_argument("concept must have at least one example");
+  }
+
   ui->setupUi(this);
 
   //Ensure that the dialog does not resize beyond the screen's size
@@ -50,8 +55,10 @@ ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
       QtConceptMapListWidgetItem * const item
         = new QtConceptMapListWidgetItem(example);
       ui->list->addItem(item);
+      ui->list->setCurrentItem(item);
     }
   }
+  assert(ui->list->currentItem());
   //Align the button icons and texts to the left
   {
     const std::vector<QPushButton*> v
@@ -130,72 +137,58 @@ void ribi::cmap::QtRateExamplesDialog::keyPressEvent(QKeyEvent* e)
 
 void ribi::cmap::QtRateExamplesDialog::on_button_prof_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::profession));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::profession));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_organisations_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::organisations));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::organisations));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_social_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::social_surroundings));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::social_surroundings));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_target_audience_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::target_audience));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::target_audience));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_prof_development_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-     = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::prof_growth));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+   = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::prof_growth));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_misc_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-      = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::misc));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+    = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::misc));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_ti_knowledge_clicked()
 {
-  if (ui->list->currentItem())
-  {
-    QtConceptMapListWidgetItem* const item
-      = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
-    item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::ti_knowledge));
-  }
+  assert(ui->list->currentItem());
+  QtConceptMapListWidgetItem* const item
+    = dynamic_cast<QtConceptMapListWidgetItem*>(ui->list->currentItem());
+  item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::ti_knowledge));
 }
 
 void ribi::cmap::QtRateExamplesDialog::on_button_ok_clicked()

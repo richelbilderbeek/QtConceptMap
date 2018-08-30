@@ -96,17 +96,6 @@ bool ribi::cmap::CommandDeleteSelected::AllHaveSameScene() const noexcept
 }
 
 
-void ribi::cmap::CommandDeleteSelected::CheckQtNodesBeforeDelete() const noexcept
-{
-  for (const auto qtnode: m_qtnodes_removed)
-  {
-    assert(qtnode->scene());
-    assert(!qtnode->parentItem()); //Just to measure
-    assert(!qtnode->parentObject()); //Just to measure
-    assert(!qtnode->parentWidget()); //Just to measure
-  }
-}
-
 void ribi::cmap::CommandDeleteSelected::RemoveQtEdges()
 {
   m_selected_qtedges_removed = GetSelectedQtEdges(GetQtConceptMap());
@@ -211,5 +200,5 @@ void ribi::cmap::CommandDeleteSelected::Undo()
 
   assert(AllHaveSameScene());
 
-  
+
 }

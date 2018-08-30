@@ -26,11 +26,6 @@ ribi::cmap::CommandToggleArrowHead::CommandToggleArrowHead(
   QtConceptMap& qtconceptmap
 ) : Command(qtconceptmap)
 {
-  if (CountSelectedQtEdges(GetQtConceptMap()) != 1)
-  {
-    throw std::invalid_argument("Cannot toggle arrow head of multiple edges");
-  }
-
   {
     std::stringstream msg;
     msg << "Toggle arrow head";

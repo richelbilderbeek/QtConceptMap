@@ -130,7 +130,7 @@ void ribi::cmap::QtRateConceptDialogTest::Write() const noexcept
   auto qtconceptmap{
     std::make_unique<QtConceptMap>()
   };
-  qtconceptmap->SetConceptMap(ConceptMapFactory().Get1());
+  qtconceptmap->SetConceptMap(ConceptMapFactory().GetUnrated());
   auto * const qtnode = GetFirstQtNode(*qtconceptmap);
   assert(qtnode);
   auto d{

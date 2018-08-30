@@ -12,6 +12,8 @@ class QtCommandSetModeTest : public QObject
 
 private slots:
   void Parse() const noexcept;
+  void SetToEditMode() const noexcept;
+  void SetToEditModeAndUndo() const noexcept;
 };
 
 } //~namespace cmap

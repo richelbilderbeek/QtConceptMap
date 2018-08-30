@@ -13,8 +13,8 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void DeleteOneEdgeByNodeCommand() const noexcept;
-  void DeleteOneEdgeByNodeKeyboard() const noexcept;
+
+  void PressCtrlDeleteIsIgnored() const noexcept; // https://github.com/richelbilderbeek/BrainWeaver/issues/289
 
   //void PressF2OnSingleEdgeEditConceptMapIsAccepted() const noexcept;
   //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
@@ -53,10 +53,12 @@ private slots:
   void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
   void DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept;
   void DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const noexcept;
+  void DeleteOneEdgeByNodeCommand() const noexcept;
+  void DeleteOneEdgeByNodeKeyboard() const noexcept;
   void DeleteOneEdgeCommand() const noexcept;
   void DeleteOneEdgeKeyboard() const noexcept;
-  void DeleteOneNodeCommand() const noexcept;
   void DeleteOneNodeCommandAndUndo() const noexcept;
+  void DeleteOneNodeCommand() const noexcept;
   void DeleteOneNodeKeyboard() const noexcept;
   void DeleteTwoNodesCommand() const noexcept;
   void DeleteTwoNodesKeyboard() const noexcept;
@@ -73,7 +75,9 @@ private slots:
   void NcenterNodesAndQtCenterNodesMustMatchEdit() const noexcept; //#113
   void NcenterNodesAndQtCenterNodesMustMatchRate() const noexcept; //#113
   void NcenterNodesAndQtCenterNodesMustMatchUninitialized() const noexcept; //#113
+  void Press1DoesNothingWithoutSelectedEdge() const noexcept;
   void Press1TogglesTail() const noexcept;
+  void Press2DoesNothingWithoutSelectedEdge() const noexcept;
   void Press2TogglesHead() const noexcept;
   void PressCtrlHTogglesHead() const noexcept;
   void PressCtrlRightMovesNonCentralNode() const noexcept;

@@ -11,16 +11,6 @@
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaptoolsitem.h"
 
-bool str_to_bool(std::string s)
-{
-  boost::algorithm::trim(s);
-  if (s == "0") return false;
-  if (s == "1") return true;
-  if (s == "false") return false;
-  if (s == "true") return true;
-  throw std::invalid_argument("string cannot be converted to bool");
-}
-
 ribi::cmap::CommandCreateNewNode::CommandCreateNewNode(
   QtConceptMap& qtconceptmap,
   const std::string& text,
