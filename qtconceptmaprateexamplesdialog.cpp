@@ -31,6 +31,11 @@ ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
   : QDialog(parent),
     ui(new Ui::QtRateExamplesDialog)
 {
+  if (CountExamples(concept) == 0)
+  {
+    throw std::invalid_argument("concept must have at least one example");
+  }
+
   ui->setupUi(this);
 
   //Ensure that the dialog does not resize beyond the screen's size
@@ -50,8 +55,10 @@ ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
       QtConceptMapListWidgetItem * const item
         = new QtConceptMapListWidgetItem(example);
       ui->list->addItem(item);
+      ui->list->setCurrentItem(item);
     }
   }
+  assert(ui->list->currentItem());
   //Align the button icons and texts to the left
   {
     const std::vector<QPushButton*> v
