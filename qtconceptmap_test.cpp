@@ -415,7 +415,7 @@ void ribi::cmap::QtConceptMapTest::DeleteNodeThatIsConnectedToMultipleEdgesKeybo
   while (CountSelectedQtEdges(q) != 0
     || CountSelectedQtNodes(q) != 1
     || (CountSelectedQtNodes(q) > 0 && GetNode(*GetSelectedQtNodes(q)[0]).GetConcept().GetName()
-      != std::string("X"))
+      != std::string("A"))
   )
   {
     CheckInvariants(q);
@@ -979,6 +979,25 @@ void ribi::cmap::QtConceptMapTest::Press2TogglesHead() const noexcept
   QVERIFY(CountQtArrowHeads(q) != 1);
 }
 
+void ribi::cmap::QtConceptMapTest::PressCtrlDeleteIsIgnored() const noexcept
+{
+  QtConceptMap m;
+  m.show();
+  assert(CountQtEdges(m) == 0);
+  assert(CountQtNodes(m) == 0);
+  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
+  m.show();
+  assert(CountQtEdges(m) == 0);
+  assert(CountQtNodes(m) == 1);
+  assert(CountSelectedQtEdges(m) == 0);
+  assert(CountSelectedQtNodes(m) == 1);
+  QTest::keyClick(&m, Qt::Key_Delete, Qt::ControlModifier, 100);
+  m.show();
+  assert(CountQtNodes(m) == 1);
+  QVERIFY(CountQtEdges(m) == 0);
+  QVERIFY(CountQtNodes(m) == 1);
+}
+
 void ribi::cmap::QtConceptMapTest::PressCtrlRightMovesNonCentralNode() const noexcept
 {
   QtConceptMap q;
@@ -1417,8 +1436,7 @@ void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedNode() const noe
   q.SetConceptMap(ConceptMapFactory().GetStarShaped());
   q.show();
   //Select node
-  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("Useful"))));
-  //m.DoCommand(new CommandSelect(m, "Useful"));
+  q.DoCommand(new CommandSelect(q, *FindFirstQtNode(q, QtNodeHasName("B"))));
   q.show();
   q.SetConceptMap(ConceptMap());
   q.show();
@@ -1427,9 +1445,9 @@ void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapOneSelectedNode() const noe
 void ribi::cmap::QtConceptMapTest::SetEmptyConceptMapTwoSelectedNodes() const noexcept
 {
   QtConceptMap q;
-  q.SetConceptMap(ConceptMapFactory().GetStarShaped());
-  q.showFullScreen();
+  //q.SetConceptMap(ConceptMapFactory().GetStarShaped());
   q.SetConceptMap(ConceptMapFactory().GetQtRatedConceptDialogExample());
+  q.showFullScreen();
   q.show();
   //Select node on edge with examples
   q.DoCommand(new CommandSelect(q, *FindFirstQtEdge(q, QtEdgeHasName("strengthen"))));

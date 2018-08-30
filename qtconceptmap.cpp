@@ -820,6 +820,8 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
 
 void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
+  if (event->modifiers() != Qt::NoModifier) return;
+
   CheckInvariants(q);
 
   try
@@ -827,7 +829,7 @@ void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
     q.DoCommand(new CommandDeleteSelected(q));
     event->accept();
   }
-  catch (std::exception&)
+  catch (const std::exception&)
   {
     event->ignore();
   }
