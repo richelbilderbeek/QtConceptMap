@@ -15,6 +15,7 @@ private slots:
   void LonelyNodeHasNoRelations() const noexcept;
   void NodeWithRelationsIndicatesThis() const noexcept;
   void StudentHasNoRatings() const noexcept;
+  void ToHtml() const noexcept;
 };
 
 } //~namespace cmap

@@ -55,7 +55,10 @@ struct QtNode final : public QtRoundedEditRectItem
   ///m_is_complex is used to determine if a concept is complex.
   ///In this context, m_is_complex is used to determine whether a QtNode and
   ///whether a QtEdge is complex
-  void SetIsComplex(const bool is_complex = true) noexcept { m_is_complex = is_complex; }
+  void SetIsComplex(const bool is_complex = true) noexcept
+  {
+    m_is_complex = is_complex;
+  }
 
   void SetNode(
     const Concept& concept,
@@ -75,6 +78,11 @@ struct QtNode final : public QtRoundedEditRectItem
   ///Set the rating of this Concept for specificity
   ///-1: not rated, 0: lowest, 2: highest
   void SetRatingSpecificity(const int rating_specificity);
+
+  void SetShowBoundingRect(const bool show_bounding_rect) noexcept
+  {
+    m_show_bounding_rect = show_bounding_rect;
+  }
 
   ///Sets the function that determines the brush of the QtNode
   void SetVignetteBrushFunction(const std::function<QBrush(const ribi::cmap::QtNode&)>& f) noexcept;

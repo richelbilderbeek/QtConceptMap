@@ -7,6 +7,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "qtconceptmap.h"
+#include "conceptmapfactory.h"
 #include "qtconceptmapqtnodefactory.h"
 
 void ribi::cmap::QtNodeTest::CenterQtNodeIsCenterNode() const noexcept
@@ -127,6 +129,81 @@ void ribi::cmap::QtNodeTest::SetRatingComplexity() const noexcept
       QVERIFY("Should get here");
     }
   }
+}
+
+void ribi::cmap::QtNodeTest::SetRatingConcreteness() const noexcept
+{
+  QtNode qtnode;
+  //Valid rating
+  {
+    const int rating{1};
+    ::ribi::cmap::SetRatingConcreteness(qtnode, rating);
+    QVERIFY(rating == ::ribi::cmap::GetRatingConcreteness(qtnode));
+  }
+  //Invalid rating must throw
+  {
+    const int rating{-123};
+    try
+    {
+      ::ribi::cmap::SetRatingConcreteness(qtnode, rating);
+      assert(!"Should not get here");
+    }
+    catch (const std::exception&)
+    {
+      QVERIFY("Should get here");
+    }
+  }
+}
+
+void ribi::cmap::QtNodeTest::SetRatingSpecificity() const noexcept
+{
+  QtNode qtnode;
+  //Valid rating
+  {
+    const int rating{1};
+    ::ribi::cmap::SetRatingSpecificity(qtnode, rating);
+    QVERIFY(rating == ::ribi::cmap::GetRatingSpecificity(qtnode));
+  }
+  //Invalid rating must throw
+  {
+    const int rating{-123};
+    try
+    {
+      ::ribi::cmap::SetRatingSpecificity(qtnode, rating);
+      assert(!"Should not get here");
+    }
+    catch (const std::exception&)
+    {
+      QVERIFY("Should get here");
+    }
+  }
+}
+
+void ribi::cmap::QtNodeTest::SetX() const noexcept
+{
+  QtNode qtnode;
+  const int x{123};
+  ::ribi::cmap::SetX(qtnode, x);
+  QVERIFY(x == ::ribi::cmap::GetX(qtnode));
+}
+
+void ribi::cmap::QtNodeTest::SetY() const noexcept
+{
+  QtNode qtnode;
+  const int y{234};
+  ::ribi::cmap::SetY(qtnode, y);
+  QVERIFY(y == ::ribi::cmap::GetY(qtnode));
+}
+
+void ribi::cmap::QtNodeTest::ShowBoundingRect() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetUnrated());
+  const auto qtnode = GetLastQtNode(q);
+  assert(qtnode);
+  qtnode->SetShowBoundingRect(true);
+  q.show();
+  QTest::qWaitForWindowActive(&q, 1000);
 }
 
 void ribi::cmap::QtNodeTest::ToStr() const noexcept

@@ -27,6 +27,11 @@ private slots:
   void QtNodeIsQtRoundedEditRectItemWithEqualX() const noexcept;
   void QtNodeIsQtRoundedEditRectItemWithEqualY() const noexcept;
   void SetRatingComplexity() const noexcept;
+  void SetRatingConcreteness() const noexcept;
+  void SetRatingSpecificity() const noexcept;
+  void SetX() const noexcept;
+  void SetY() const noexcept;
+  void ShowBoundingRect() const noexcept;
   void ToStr() const noexcept;
   void ToStream() const noexcept;
 };
