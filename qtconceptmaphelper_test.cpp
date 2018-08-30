@@ -158,7 +158,7 @@ void ribi::cmap::HelperTest::GetQtNodeBrushFunctionEdit() const noexcept
 
 void ribi::cmap::HelperTest::GetQtNodeBrushFunctionRate() const noexcept
 {
-  const auto f = ::ribi::cmap::GetQtNodeBrushFunctionEdit();
+  const auto f = ::ribi::cmap::GetQtNodeBrushFunctionRate();
   //Gold if center node
   {
     const QtNode qtnode(Node(Concept(), NodeType::center));
