@@ -37,6 +37,8 @@ private slots:
   ///Does the Command move a QtNode?
   void MoveQtNodeByName() const noexcept;
 
+  void MoveQtNodeByNameAndUndo() const noexcept;
+
   ///Can the Command be created by parsing a string?
   void Parse() const noexcept;
 
