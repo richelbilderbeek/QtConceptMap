@@ -11,10 +11,11 @@ class QtItemHighlighterTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void NoItemAtConstruction() const noexcept;
   void ItemCanBeCenterQtNode() const noexcept;
   void ItemCanBeNormalQtNode() const noexcept;
   void ItemCannotBeQtNodeOnQtEdge() const noexcept;
+  void NoItemAtConstruction() const noexcept;
+  void PutsPreviousItemBackAtUnrotated() const noexcept;
 };
 
 } //~namespace cmap

@@ -50,3 +50,20 @@ void ribi::cmap::QtItemHighlighterTest::NoItemAtConstruction() const noexcept
   const QtItemHighlighter h;
   QVERIFY(!h.GetItem());
 }
+
+void ribi::cmap::QtItemHighlighterTest::PutsPreviousItemBackAtUnrotated() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  q.show();
+  assert(GetFirstQtNode(q)->rotation() == 0.0);
+  assert(GetLastQtNode(q)->rotation() == 0.0);
+  QtItemHighlighter& h = q.GetQtHighlighter();
+  h.SetItem(GetFirstQtNode(q));
+  QTest::qWait(100);
+  h.SetItem(GetLastQtNode(q));
+  QTest::qWait(100);
+  h.SetItem(nullptr);
+  QVERIFY(GetFirstQtNode(q)->rotation() == 0.0);
+  QVERIFY(GetLastQtNode(q)->rotation() == 0.0);
+}

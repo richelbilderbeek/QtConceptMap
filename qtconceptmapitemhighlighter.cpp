@@ -61,9 +61,9 @@ void ribi::cmap::QtItemHighlighter::SetItem(QtNode* const item)
   else
   {
     ///Set the current item in its normal rotation
-    if (m_item) m_item->setRotation(0.0);
     this->m_timer->stop();
   }
+  if (m_item) m_item->setRotation(0.0);
   m_item = item;
 }
 
