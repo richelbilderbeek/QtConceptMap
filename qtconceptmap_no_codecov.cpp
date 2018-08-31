@@ -100,7 +100,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(
   q.setEnabled(false);
   d.exec();
   q.setEnabled(true);
-  if (d.HasClickedOk())
+  if (d.HasUserClickedOk())
   {
     SetExamples(qtnode, d.GetRatedExamples());
   }

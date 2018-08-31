@@ -1,53 +1,54 @@
 INCLUDEPATH += $$PWD
 
 HEADERS += \
-    $$PWD/qtconceptmap.h \
     $$PWD/qtconceptmapbrushfactory.h \
-    $$PWD/qtconceptmapcommand.h \
+    $$PWD/qtconceptmapclassifyexamplesdialog.h \
+    $$PWD/qtconceptmapclassifyexamplesdialogcloser.h \
     $$PWD/qtconceptmapcommandcreatenewedge.h \
     $$PWD/qtconceptmapcommandcreatenewnode.h \
     $$PWD/qtconceptmapcommanddeleteselected.h \
-    $$PWD/qtconceptmapcommandmove.h \
+    $$PWD/qtconceptmapcommand.h \
     $$PWD/qtconceptmapcommandmoveedge.h \
+    $$PWD/qtconceptmapcommandmove.h \
     $$PWD/qtconceptmapcommandmovenode.h \
-    $$PWD/qtconceptmapcommands.h \
-    $$PWD/qtconceptmapcommandselect.h \
     $$PWD/qtconceptmapcommandselectedge.h \
+    $$PWD/qtconceptmapcommandselect.h \
     $$PWD/qtconceptmapcommandselectnode.h \
     $$PWD/qtconceptmapcommandsetconcept.h \
     $$PWD/qtconceptmapcommandsetmode.h \
+    $$PWD/qtconceptmapcommands.h \
     $$PWD/qtconceptmapcommandtogglearrowhead.h \
     $$PWD/qtconceptmapcommandtogglearrowtail.h \
-    $$PWD/qtconceptmapcommandunselect.h \
     $$PWD/qtconceptmapcommandunselectall.h \
     $$PWD/qtconceptmapcommandunselectedge.h \
+    $$PWD/qtconceptmapcommandunselect.h \
     $$PWD/qtconceptmapcommandunselectnode.h \
     $$PWD/qtconceptmapcompetency.h \
-    $$PWD/qtconceptmapeditconceptdialog.h \
     $$PWD/qtconceptmapeditconceptdialogcloser.h \
+    $$PWD/qtconceptmapeditconceptdialog.h \
     $$PWD/qtconceptmapfwd.h \
+    $$PWD/qtconceptmap.h \
     $$PWD/qtconceptmaphelper.h \
     $$PWD/qtconceptmapitemhighlighter.h \
     $$PWD/qtconceptmapmode.h \
     $$PWD/qtconceptmapnewarrow.h \
     $$PWD/qtconceptmapqnumberedcolumn.h \
     $$PWD/qtconceptmapqtedge.h \
-    $$PWD/qtconceptmapqtnode.h \
     $$PWD/qtconceptmapqtnodefactory.h \
-    $$PWD/qtconceptmaprateconceptdialog.h \
+    $$PWD/qtconceptmapqtnode.h \
     $$PWD/qtconceptmaprateconceptdialogcloser.h \
-    $$PWD/qtconceptmaprateconcepttallydialog.h \
+    $$PWD/qtconceptmaprateconceptdialog.h \
     $$PWD/qtconceptmaprateconcepttallydialogcloser.h \
+    $$PWD/qtconceptmaprateconcepttallydialog.h \
     $$PWD/qtconceptmapratedconceptdialog.h \
-    $$PWD/qtconceptmapclassifyexamplesdialog.h \
     $$PWD/qtconceptmaprating.h \
     $$PWD/qtconceptmaprole.h \
     $$PWD/qtconceptmaptoolsitem.h
 
 SOURCES += \
-    $$PWD/qtconceptmap.cpp \
-    $$PWD/qtconceptmap_no_codecov.cpp \
     $$PWD/qtconceptmapbrushfactory.cpp \
+    $$PWD/qtconceptmapclassifyexamplesdialog.cpp \
+    $$PWD/qtconceptmapclassifyexamplesdialogcloser.cpp \
     $$PWD/qtconceptmapcommand.cpp \
     $$PWD/qtconceptmapcommandcreatenewedge.cpp \
     $$PWD/qtconceptmapcommandcreatenewnode.cpp \
@@ -63,28 +64,29 @@ SOURCES += \
     $$PWD/qtconceptmapcommandsetmode.cpp \
     $$PWD/qtconceptmapcommandtogglearrowhead.cpp \
     $$PWD/qtconceptmapcommandtogglearrowtail.cpp \
-    $$PWD/qtconceptmapcommandunselect.cpp \
     $$PWD/qtconceptmapcommandunselectall.cpp \
+    $$PWD/qtconceptmapcommandunselect.cpp \
     $$PWD/qtconceptmapcommandunselectedge.cpp \
     $$PWD/qtconceptmapcommandunselectnode.cpp \
     $$PWD/qtconceptmapcompetency.cpp \
-    $$PWD/qtconceptmapeditconceptdialog.cpp \
+    $$PWD/qtconceptmap.cpp \
     $$PWD/qtconceptmapeditconceptdialogcloser.cpp \
+    $$PWD/qtconceptmapeditconceptdialog.cpp \
     $$PWD/qtconceptmaphelper.cpp \
     $$PWD/qtconceptmapitemhighlighter.cpp \
     $$PWD/qtconceptmapmode.cpp \
     $$PWD/qtconceptmapnewarrow.cpp \
+    $$PWD/qtconceptmap_no_codecov.cpp \
     $$PWD/qtconceptmapqnumberedcolumn.cpp \
     $$PWD/qtconceptmapqtedge.cpp \
     $$PWD/qtconceptmapqtnode.cpp \
     $$PWD/qtconceptmapqtnodefactory.cpp \
+    $$PWD/qtconceptmaprateconceptdialogcloser.cpp \
     $$PWD/qtconceptmaprateconceptdialog.cpp \
     $$PWD/qtconceptmaprateconceptdialog_no_codecov.cpp \
-    $$PWD/qtconceptmaprateconceptdialogcloser.cpp \
-    $$PWD/qtconceptmaprateconcepttallydialog.cpp \
     $$PWD/qtconceptmaprateconcepttallydialogcloser.cpp \
+    $$PWD/qtconceptmaprateconcepttallydialog.cpp \
     $$PWD/qtconceptmapratedconceptdialog.cpp \
-    $$PWD/qtconceptmapclassifyexamplesdialog.cpp \
     $$PWD/qtconceptmaprating.cpp \
     $$PWD/qtconceptmaprole.cpp \
     $$PWD/qtconceptmaptoolsitem.cpp

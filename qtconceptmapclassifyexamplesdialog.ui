@@ -291,7 +291,20 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="button_cancel">
+        <property name="toolTip">
+         <string>wijzigingen</string>
+        </property>
+        <property name="text">
+         <string>&amp;Afbreken</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="button_ok">
+        <property name="toolTip">
+         <string>Dit scherm sluiten met behoud van gedane wijzigingen</string>
+        </property>
         <property name="text">
          <string>&amp;OK</string>
         </property>

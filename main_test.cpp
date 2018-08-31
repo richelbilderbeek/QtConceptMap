@@ -2,6 +2,8 @@
 #include <iostream>
 #include <QtTest/QtTest>
 #include "qtconceptmapbrushfactory_test.h"
+#include "qtconceptmapclassifyexamplesdialog_test.h"
+#include "qtconceptmapclassifyexamplesdialogcloser_test.h"
 #include "qtconceptmapcommandcreatenewedge_test.h"
 #include "qtconceptmapcommandcreatenewnode_test.h"
 #include "qtconceptmapcommanddeleteselected_test.h"
@@ -37,7 +39,6 @@
 #include "qtconceptmaprateconcepttallydialogcloser_test.h"
 #include "qtconceptmaprateconcepttallydialog_test.h"
 #include "qtconceptmapratedconceptdialog_test.h"
-#include "qtconceptmapclassifyexamplesdialog_test.h"
 #include "qtconceptmaprating_test.h"
 #include "qtconceptmap_test.h"
 
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
-  //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
+  //{ QtClassifyExamplesDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
   { ModeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtBrushFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtClassifyExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtClassifyExamplesDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandDeleteSelectedTest t; error |= QTest::qExec(&t, argc, argv); }

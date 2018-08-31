@@ -194,7 +194,10 @@ void ribi::cmap::QtClassifyExamplesDialog::on_button_ti_knowledge_clicked()
 void ribi::cmap::QtClassifyExamplesDialog::on_button_ok_clicked()
 {
   m_clicked_ok = true;
-  //Should work somehow, but I could not get it to
-  //setResult(QDialog::Accepted);
+  close();
+}
+
+void ribi::cmap::QtClassifyExamplesDialog::on_button_cancel_clicked()
+{
   close();
 }

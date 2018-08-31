@@ -126,5 +126,5 @@ void ribi::cmap::QtClassifyExamplesDialogTest::UserHasNotClickedOkAtConstruction
   const QtClassifyExamplesDialog d{
     Concept("A", Examples( { Example("1") } ))
   };
-  QVERIFY(!d.HasClickedOk());
+  QVERIFY(!d.HasUserClickedOk());
 }

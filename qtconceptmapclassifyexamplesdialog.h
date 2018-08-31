@@ -11,6 +11,7 @@ namespace ribi {
 namespace cmap {
 
 class QtClassifyExamplesDialogTest;
+class QtClassifyExamplesDialogCloser;
 
 ///Allows the user to rate the examples of a concept
 class QtClassifyExamplesDialog final : public QDialog
@@ -29,7 +30,7 @@ public:
   ///Obtain the rated examples
   Examples GetRatedExamples() const;
 
-  bool HasClickedOk() const noexcept { return m_clicked_ok; }
+  bool HasUserClickedOk() const noexcept { return m_clicked_ok; }
 
 protected:
   void keyPressEvent(QKeyEvent *) override;
@@ -44,6 +45,9 @@ public slots:
   void on_button_ti_knowledge_clicked();
   void on_button_ok_clicked();
 
+private slots:
+  void on_button_cancel_clicked();
+
 private:
   Ui::QtClassifyExamplesDialog *ui;
 
@@ -51,6 +55,7 @@ private:
   bool m_clicked_ok = false;
 
   friend class QtClassifyExamplesDialogTest;
+  friend class QtClassifyExamplesDialogCloser;
 };
 
 } //~namespace cmap
