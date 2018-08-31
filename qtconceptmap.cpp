@@ -1834,22 +1834,6 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
     const auto vd = add_bundled_vertex(GetNode(*qtnode), g);
     vds.insert( { qtnode, vd } );
   }
-  #ifndef TRUST_GETQTEDGES_20180821
-  for (QGraphicsItem * const item: this->scene()->items())
-  {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      assert(qtedge);
-      const Edge edge = qtedge->GetEdge();
-      assert(edge.GetId() == qtedge->GetId());
-      QtNode * const qtnode_from = qtedge->GetFrom();
-      QtNode * const qtnode_to = qtedge->GetTo();
-      const VertexDescriptor vd_from = vds[qtnode_from];
-      const VertexDescriptor vd_to = vds[qtnode_to];
-      add_bundled_edge_between_vertices(edge, vd_from, vd_to, g);
-    }
-  }
-  #else
   const auto qtedges = GetQtEdges(*this);
   for (auto qtedge: qtedges)
   {
@@ -1862,7 +1846,6 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
     const VertexDescriptor vd_to = vds[qtnode_to];
     add_bundled_edge_between_vertices(edge, vd_from, vd_to, g);
   }
-  #endif // TRUST_GETQTEDGES_20180821
   assert(CountQtNodes(*this) == static_cast<int>(boost::num_vertices(g)));
   assert(CountQtEdges(*this) == static_cast<int>(boost::num_edges(g)));
   return g;
