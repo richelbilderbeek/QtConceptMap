@@ -70,18 +70,9 @@ ribi::cmap::CommandSelectNode * ribi::cmap::ParseCommandSelectNode(
 
 void ribi::cmap::CommandSelectNode::Redo()
 {
-  #ifndef NDEBUG
-  const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
-  #endif
-
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
   Select(GetQtConceptMap(), *m_qtnode);
-
-  #ifndef NDEBUG
-  const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  Ensures(n_selected_qtnodes_after > n_selected_qtnodes_before);
-  #endif
 }
 
 void ribi::cmap::CommandSelectNode::Undo()

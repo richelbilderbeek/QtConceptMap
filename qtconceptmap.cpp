@@ -1563,7 +1563,7 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
 void ribi::cmap::QtConceptMap::SetMode(const ribi::cmap::Mode mode) noexcept
 {
   CheckInvariants(*this);
-
+  this->m_arrow->Stop();
   m_mode = mode;
 
   auto qtnodes = GetQtNodesAlsoOnQtEdge(*scene());

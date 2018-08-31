@@ -1,5 +1,5 @@
-#ifndef qtconceptmaprateexamplesdialog_test_H
-#define qtconceptmaprateexamplesdialog_test_H
+#ifndef QTCONCEPTMAPRATEEXAMPLESDIALOG_TEST_H
+#define QTCONCEPTMAPRATEEXAMPLESDIALOG_TEST_H
 
 #include <QtTest/QtTest>
 
@@ -21,4 +21,4 @@ private slots:
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // qtconceptmaprateexamplesdialog_test_H
+#endif // QTCONCEPTMAPRATEEXAMPLESDIALOG_TEST_H
