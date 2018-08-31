@@ -773,8 +773,15 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
   {
     if (IsSelected(*qtedge))
     {
-      q.DoCommand(new CommandMoveEdge(q, qtedge, dx, dy));
-      event->accept();
+      try
+      {
+        q.DoCommand(new CommandMoveEdge(q, qtedge, dx, dy));
+        event->accept();
+      }
+      catch (const std::exception&)
+      {
+        //OK, get here in Rate and Uninitialized mode
+      }
     }
   }
 

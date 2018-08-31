@@ -26,7 +26,13 @@ ribi::cmap::CommandMoveEdge::CommandMoveEdge(
   {
     throw std::invalid_argument("Cannot move nullptr QtEdge");
   }
-  assert(IsMovable(*m_qtedge));
+  if (!IsMovable(*m_qtedge))
+  {
+    throw std::invalid_argument(
+      "Can only move movable edges (that is, those in Edit mode)"
+    );
+  }
+
   //QCommands have a text
   {
     std::stringstream msg;
