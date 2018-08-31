@@ -37,6 +37,8 @@
 #include "qtconceptmaphelper.h"
 #include "qtconceptmapitemhighlighter.h"
 #include "qtconceptmapqtedge.h"
+#include "qtconceptmapeditconceptdialog.h"
+#include "qtconceptmapeditconceptdialogcloser.h"
 #include "qtconceptmaprateconceptdialogcloser.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaptoolsitem.h"
@@ -1231,31 +1233,63 @@ void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexce
   QVERIFY(!event->isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::PressF2CanEditNonFocalQuestion() const noexcept
+void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const noexcept
 {
-  //Cannot do this test: the popup freezes the test
-  //Can edit a non-center node in edit mode
-  QtConceptMap m;
-  m.SetMode(Mode::edit);
-  m.SetConceptMap(ConceptMapFactory().Get2());
-  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
-  //Press space until other non-center QtNode is selected
-  while (1)
-  {
-    QTest::keyClick(&m, Qt::Key_Space);
-    const auto qtnodes = GetSelectedQtNodes(m.GetScene());
-    QVERIFY(qtnodes.size() == 1);
-    if (!IsQtCenterNode(qtnodes[0])) break;
+  QtConceptMap q;
+  q.SetMode(Mode::edit);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  QtEditConceptDialogCloser c;
 
-  }
   //F2 should activate 'Edit Concept' popup
-  QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
-  QTimer::singleShot(100, qApp, SLOT(closeAllWindows()));
-  m.keyPressEvent(event);
-  QVERIFY(event->isAccepted());
+  QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+
+  QTimer::singleShot(100, &c, SLOT(PressOk()));
+  q.keyPressEvent(&event);
+  QVERIFY(event.isAccepted());
 }
 
 
+void ribi::cmap::QtConceptMapTest
+  ::PressF2EditNormalQtNodeAndOkChangesConcept() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::edit);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  QtEditConceptDialogCloser c;
+  const Concept concept_before = GetConcept(*GetFirstQtNode(q));
+
+  //F2 should activate 'Edit Concept' popup
+  QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+
+  QTimer::singleShot(100, &c, SLOT(Modify()));
+  QTimer::singleShot(200, &c, SLOT(PressOk()));
+  q.keyPressEvent(&event);
+  assert(event.isAccepted());
+  const Concept concept_after = GetConcept(*GetFirstQtNode(q));
+  QVERIFY(concept_before != concept_after);
+}
+
+void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::edit);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  QtEditConceptDialogCloser c;
+  const Concept concept_before = GetConcept(*GetFirstQtNode(q));
+
+  //F2 should activate 'Edit Concept' popup
+  QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
+
+  QTimer::singleShot(100, &c, SLOT(Modify()));
+  QTimer::singleShot(200, &c, SLOT(PressCancel()));
+  q.keyPressEvent(&event);
+  assert(event.isAccepted());
+  const Concept concept_after = GetConcept(*GetFirstQtNode(q));
+  QVERIFY(concept_before == concept_after);
+}
 
 void ribi::cmap::QtConceptMapTest::PressF4IsRejected() const noexcept
 {

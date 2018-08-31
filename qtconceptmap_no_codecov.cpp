@@ -45,7 +45,10 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
 
   assert(GetSelectedQtNodesAlsoOnQtEdge(q).size() == 1);
   assert(GetSelectedQtNodesAlsoOnQtEdge(q)[0] == &qtnode);
-  q.DoCommand(new CommandSetConcept(q, d.ToConcept()));
+  if (d.HasUserClickedOk())
+  {
+    q.DoCommand(new CommandSetConcept(q, d.ToConcept()));
+  }
   q.setFocus();
   CheckInvariants(q);
 }

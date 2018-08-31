@@ -19,6 +19,22 @@ ribi::cmap::QtEditConceptDialogCloser::~QtEditConceptDialogCloser()
 
 }
 
+void ribi::cmap::QtEditConceptDialogCloser::Modify()
+{
+  QtEditConceptDialog* const pop_up
+    = qobject_cast<QtEditConceptDialog*>(
+      qApp->activeWindow()
+    );
+  assert(pop_up);
+  pop_up->ui->edit_text->setPlainText(
+    pop_up->ui->edit_text->toPlainText() + "!"
+  );
+  pop_up->ui->edit_concept->setPlainText(
+    pop_up->ui->edit_concept->toPlainText() + "!"
+  );
+  pop_up->ui->button_add->click();
+}
+
 void ribi::cmap::QtEditConceptDialogCloser::PressCancel()
 {
   QtEditConceptDialog* const pop_up

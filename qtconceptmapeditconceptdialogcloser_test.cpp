@@ -8,6 +8,18 @@
 
 using namespace ribi::cmap;
 
+void ribi::cmap::QtEditConceptDialogCloserTest::Modify() const noexcept
+{
+  if (OnTravis()) return;
+
+  QtEditConceptDialogCloser c;
+  QtEditConceptDialog d(Concept(), QtEditConceptDialog::EditType::concept);
+  QTimer::singleShot(100, &c, SLOT(Modify()));
+  QTimer::singleShot(200, &c, SLOT(PressOk()));
+  d.exec();
+  QVERIFY(d.ToConcept() != Concept());
+}
+
 void ribi::cmap::QtEditConceptDialogCloserTest::PressCancel() const noexcept
 {
   if (OnTravis()) return;

@@ -15,6 +15,7 @@ class QtEditConceptDialogCloser : public QObject
   QtEditConceptDialogCloser();
   virtual ~QtEditConceptDialogCloser();
   public slots:
+  void Modify();
   void PressCancel();
   void PressOk();
 };
