@@ -123,3 +123,14 @@ ribi::cmap::Concept ribi::cmap::QtEditConceptDialog::ToConcept() const noexcept
   assert(n_items == static_cast<int>(v.size()));
   return Concept(name, Examples(v));
 }
+
+void ribi::cmap::QtEditConceptDialog::on_button_ok_clicked()
+{
+  m_user_clicked_ok = true;
+  close();
+}
+
+void ribi::cmap::QtEditConceptDialog::on_button_cancel_clicked()
+{
+  close();
+}

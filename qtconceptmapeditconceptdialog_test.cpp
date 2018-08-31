@@ -15,14 +15,12 @@
 #include "ui_qtconceptmapeditconceptdialog.h"
 
 using namespace ribi::cmap;
-using EditType = ribi::cmap::QtConceptMapConceptEditDialog::EditType;
 
-void ribi::cmap::QtEditDialogTest
-  ::ConstructConceptWithOneExample() const noexcept
+void ribi::cmap::QtEditDialogTest::ConstructConceptWithOneExample() const noexcept
 {
-  QtConceptMapConceptEditDialog d(
+  QtEditConceptDialog d(
     Concept("concept", Examples( { Example("example") } ) ),
-    EditType::concept
+    QtEditConceptDialog::concept
   );
   d.show();
 }
@@ -30,9 +28,9 @@ void ribi::cmap::QtEditDialogTest
 void ribi::cmap::QtEditDialogTest
   ::ConstructConceptWithTwoExamples() const noexcept
 {
-  QtConceptMapConceptEditDialog d(
+  QtEditConceptDialog d(
     Concept("concept", Examples( { Example("example 1"), Example("example 2") } ) ),
-    EditType::concept
+    QtEditConceptDialog::concept
   );
   d.show();
 }
@@ -41,9 +39,9 @@ void ribi::cmap::QtEditDialogTest
 void ribi::cmap::QtEditDialogTest
   ::ConstructConceptWithoutExamples() const noexcept
 {
-  QtConceptMapConceptEditDialog d(
+  QtEditConceptDialog d(
     Concept("concept"),
-    EditType::concept
+    QtEditConceptDialog::concept
   );
   d.show();
 }
@@ -51,9 +49,9 @@ void ribi::cmap::QtEditDialogTest
 void ribi::cmap::QtEditDialogTest
   ::ConstructRelationWithoutExamples() const noexcept
 {
-  QtConceptMapConceptEditDialog d(
+  QtEditConceptDialog d(
     Concept("relation"),
-    EditType::relation
+    QtEditConceptDialog::relation
   );
   d.show();
 }
@@ -64,9 +62,9 @@ void ribi::cmap::QtEditDialogTest
   //Assume reading in a concept and clicking OK after adding an example
   for (const auto concept: ConceptFactory().GetTests())
   {
-    QtConceptMapConceptEditDialog d(
+    QtEditConceptDialog d(
       concept,
-      EditType::concept
+      QtEditConceptDialog::concept
     );
     QVERIFY(d.ui->edit_text->toPlainText().isEmpty());
     d.ui->edit_text->setPlainText("TO BE ADDED EXAMPLE");
@@ -85,9 +83,9 @@ void ribi::cmap::QtEditDialogTest
   //Assume reading in a concept and clicking OK after modification of the name does modify concept
   for (const auto concept: ConceptFactory().GetTests())
   {
-    QtConceptMapConceptEditDialog d(
+    QtEditConceptDialog d(
       concept,
-      EditType::concept
+      QtEditConceptDialog::concept
     );
     d.ui->edit_concept->setPlainText(d.ui->edit_concept->toPlainText() + "MODIFICATION");
     const Concept after(d.ToConcept());
@@ -103,9 +101,9 @@ void ribi::cmap::QtEditDialogTest
   //Assume reading in a concept and clicking OK without modification does not modify anything
   for (const auto concept: ConceptFactory().GetTests())
   {
-    QtConceptMapConceptEditDialog d(
+    QtEditConceptDialog d(
       concept,
-      EditType::concept
+      QtEditConceptDialog::concept
     );
     const Concept after(d.ToConcept());
     QVERIFY(concept.GetName() == after.GetName());
@@ -113,3 +111,10 @@ void ribi::cmap::QtEditDialogTest
   }
 }
 
+
+void ribi::cmap::QtEditDialogTest
+  ::UserHasNotClickedOkAtConstruction() const noexcept
+{
+  const QtEditConceptDialog d(Concept(), QtEditConceptDialog::concept);
+  QVERIFY(!d.HasUserClickedOk());
+}

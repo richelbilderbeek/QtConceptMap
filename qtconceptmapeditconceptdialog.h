@@ -16,6 +16,7 @@ namespace cmap {
 
 struct QNumberedColumn;
 struct QtEditDialogTest;
+class QtEditConceptDialogCloser;
 
 class QtEditConceptDialog final : public QDialog
 {
@@ -35,6 +36,7 @@ public:
   QtEditConceptDialog& operator=(const QtEditConceptDialog&) = delete;
   ~QtEditConceptDialog();
 
+  bool HasUserClickedOk() const noexcept { return m_user_clicked_ok; }
   ///The concept being modified
   Concept ToConcept() const noexcept;
 
@@ -47,11 +49,17 @@ private slots:
   void on_button_add_clicked();
   void RemoveEmptyItem(QTableWidgetItem * item);
 
+  void on_button_ok_clicked();
+  void on_button_cancel_clicked();
+
 private:
   ribi::cmap::QNumberedColumn * const m_examples;
   Ui::QtConceptMapEditConceptDialog *ui;
 
+  bool m_user_clicked_ok{false};
+
   friend class QtEditDialogTest;
+  friend class QtEditConceptDialogCloser;
 };
 
 ///Get all the examples' texts

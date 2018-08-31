@@ -20,6 +20,7 @@ private slots:
   void PressOkWithChangingExamplesResultsInChangedConcept() const noexcept;
   void PressOkWithChangingNameResultsInChangedConcept() const noexcept;
   void PressOkWithoutChangesResultsInUnchangedConcept() const noexcept;
+  void UserHasNotClickedOkAtConstruction() const noexcept;
 };
 
 } //~namespace cmap

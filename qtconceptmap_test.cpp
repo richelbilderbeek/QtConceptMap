@@ -22,7 +22,6 @@
 #include "conceptmapnodefactory.h"
 #include "conceptmapnode.h"
 #include "qtconceptmapbrushfactory.h"
-#include "qtconceptmapcollect.h"
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommanddeleteselected.h"

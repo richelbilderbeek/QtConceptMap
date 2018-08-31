@@ -16,22 +16,23 @@ SOURCES += \
     $$PWD/qtconceptmapcommandsetmode_test.cpp \
     $$PWD/qtconceptmapcommandtogglearrowhead_test.cpp \
     $$PWD/qtconceptmapcommandtogglearrowtail_test.cpp \
-    $$PWD/qtconceptmapcommandunselect_test.cpp \
     $$PWD/qtconceptmapcommandunselectall_test.cpp \
     $$PWD/qtconceptmapcommandunselectedge_test.cpp \
     $$PWD/qtconceptmapcommandunselectnode_test.cpp \
+    $$PWD/qtconceptmapcommandunselect_test.cpp \
     $$PWD/qtconceptmapcompetency_test.cpp \
     $$PWD/qtconceptmapeditconceptdialog_test.cpp \
+    $$PWD/qtconceptmapeditconceptdialogcloser_test.cpp \
     $$PWD/qtconceptmaphelper_test.cpp \
     $$PWD/qtconceptmapitemhighlighter_test.cpp \
     $$PWD/qtconceptmapmode_test.cpp \
     $$PWD/qtconceptmapnewarrow_test.cpp \
     $$PWD/qtconceptmapnumberedcolumn_test.cpp \
     $$PWD/qtconceptmapqtedge_test.cpp \
-    $$PWD/qtconceptmapqtnode_test.cpp \
     $$PWD/qtconceptmapqtnodefactory_test.cpp \
-    $$PWD/qtconceptmaprateconceptdialog_test.cpp \
+    $$PWD/qtconceptmapqtnode_test.cpp \
     $$PWD/qtconceptmaprateconceptdialogcloser_test.cpp \
+    $$PWD/qtconceptmaprateconceptdialog_test.cpp \
     $$PWD/qtconceptmaprateconcepttallydialog_test.cpp \
     $$PWD/qtconceptmaprateconcepttallydialogcloser_test.cpp \
     $$PWD/qtconceptmapratedconceptdialog_test.cpp \
