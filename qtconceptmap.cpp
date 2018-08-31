@@ -11,7 +11,6 @@
 #include "count_if_bundled_vertex.h"
 #include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"
 #include "find_if_first_bundled_vertex.h"
-#include "qtconceptmapcollect.h"
 #include "qtconceptmapcommand.h"
 #include "qtconceptmapcommandcreatenewedge.h"
 #include "qtconceptmapcommandcreatenewnode.h"

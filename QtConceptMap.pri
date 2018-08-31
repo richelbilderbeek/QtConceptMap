@@ -3,7 +3,6 @@ INCLUDEPATH += $$PWD
 HEADERS += \
     $$PWD/qtconceptmap.h \
     $$PWD/qtconceptmapbrushfactory.h \
-    $$PWD/qtconceptmapcollect.h \
     $$PWD/qtconceptmapcommand.h \
     $$PWD/qtconceptmapcommandcreatenewedge.h \
     $$PWD/qtconceptmapcommandcreatenewnode.h \

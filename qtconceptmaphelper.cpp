@@ -5,7 +5,6 @@
 
 #include "qtconceptmap.h"
 #include "qtconceptmapbrushfactory.h"
-#include "qtconceptmapcollect.h"
 #include "qtconceptmapqtedge.h"
 
 int ribi::cmap::CountQtArrowHeads(const QGraphicsScene& scene) noexcept

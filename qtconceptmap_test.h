@@ -13,13 +13,12 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-
-  void PressCtrlDeleteIsIgnored() const noexcept; // https://github.com/richelbilderbeek/BrainWeaver/issues/289
-
   //void PressF2OnSingleEdgeEditConceptMapIsAccepted() const noexcept;
   //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeUninitializedConceptMapIsRejected() const noexcept;
+
+
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -79,6 +78,7 @@ private slots:
   void Press1TogglesTail() const noexcept;
   void Press2DoesNothingWithoutSelectedEdge() const noexcept;
   void Press2TogglesHead() const noexcept;
+  void PressCtrlDeleteIsIgnored() const noexcept; // https://github.com/richelbilderbeek/BrainWeaver/issues/289
   void PressCtrlDownMovesSelectedQtNodeDown() const noexcept;
   void PressCtrlHTogglesHead() const noexcept;
   void PressCtrlLeftMovesSelectedQtNodeLeft() const noexcept;
