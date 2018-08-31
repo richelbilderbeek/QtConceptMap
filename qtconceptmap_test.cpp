@@ -1259,13 +1259,15 @@ void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexce
 
 void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const noexcept
 {
+  if (OnTravis()) return;
+
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   SetSelectedness(true, *GetFirstQtNode(q));
   QtEditConceptDialogCloser c;
 
-  //F2 should activate 'Edit Concept' popup
+  //F2 activates 'Edit Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
   QTimer::singleShot(100, &c, SLOT(PressOk()));
@@ -1277,6 +1279,8 @@ void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const n
 void ribi::cmap::QtConceptMapTest
   ::PressF2EditNormalQtNodeAndOkChangesConcept() const noexcept
 {
+  if (OnTravis()) return;
+
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1284,7 +1288,7 @@ void ribi::cmap::QtConceptMapTest
   QtEditConceptDialogCloser c;
   const Concept concept_before = GetConcept(*GetFirstQtNode(q));
 
-  //F2 should activate 'Edit Concept' popup
+  //F2 activates 'Edit Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
   QTimer::singleShot(100, &c, SLOT(Modify()));
@@ -1297,6 +1301,8 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
 {
+  if (OnTravis()) return;
+
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1304,7 +1310,7 @@ void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChange
   QtEditConceptDialogCloser c;
   const Concept concept_before = GetConcept(*GetFirstQtNode(q));
 
-  //F2 should activate 'Edit Concept' popup
+  //F2 activates 'Edit Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
   QTimer::singleShot(100, &c, SLOT(Modify()));

@@ -1,5 +1,5 @@
-#include "qtconceptmaprateexamplesdialog_test.h"
-#include "qtconceptmaprateexamplesdialog.h"
+#include "qtconceptmapclassifyexamplesdialog_test.h"
+#include "qtconceptmapclassifyexamplesdialog.h"
 
 
 #include <QDesktopWidget>
@@ -12,9 +12,9 @@
 #include "conceptmapexamplesfactory.h"
 #include "conceptmaphelper.h"
 #include "qtconceptmapcompetency.h"
-#include "ui_qtconceptmaprateexamplesdialog.h"
+#include "ui_qtconceptmapclassifyexamplesdialog.h"
 
-void ribi::cmap::QtRateExamplesDialogTest::GetRatedExamples() const noexcept
+void ribi::cmap::QtClassifyExamplesDialogTest::GetRatedExamples() const noexcept
 {
 
   const int sz = ConceptFactory().GetTests().size();
@@ -22,12 +22,12 @@ void ribi::cmap::QtRateExamplesDialogTest::GetRatedExamples() const noexcept
   {
     const Concept concept_1 = ConceptFactory().GetTests().at(i);
     if (CountExamples(concept_1) == 0) continue;
-    const auto a = QtRateExamplesDialog(concept_1).GetRatedExamples();
+    const auto a = QtClassifyExamplesDialog(concept_1).GetRatedExamples();
     for (int j=0; j!=sz; ++j)
     {
       const Concept concept_2 = ConceptFactory().GetTests().at(j);
       if (CountExamples(concept_2) == 0) continue;
-      const auto b = QtRateExamplesDialog(concept_2).GetRatedExamples();
+      const auto b = QtClassifyExamplesDialog(concept_2).GetRatedExamples();
       if (i == j)
       {
         QVERIFY(a == b);
@@ -40,9 +40,9 @@ void ribi::cmap::QtRateExamplesDialogTest::GetRatedExamples() const noexcept
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogTest::KeyPresses() const noexcept
+void ribi::cmap::QtClassifyExamplesDialogTest::KeyPresses() const noexcept
 {
-  QtRateExamplesDialog d(ConceptFactory().Get1());
+  QtClassifyExamplesDialog d(ConceptFactory().Get1());
   d.show();
   const int delay = 100;
   QTest::qWait(delay);
@@ -74,9 +74,9 @@ void ribi::cmap::QtRateExamplesDialogTest::KeyPresses() const noexcept
   QTest::qWait(delay);
 }
 
-void ribi::cmap::QtRateExamplesDialogTest::KeyPressesFromSlots() const noexcept
+void ribi::cmap::QtClassifyExamplesDialogTest::KeyPressesFromSlots() const noexcept
 {
-  QtRateExamplesDialog d(ConceptFactory().Get1());
+  QtClassifyExamplesDialog d(ConceptFactory().Get1());
   d.show();
   const int delay = 100;
   QTest::qWait(delay);
@@ -106,13 +106,13 @@ void ribi::cmap::QtRateExamplesDialogTest::KeyPressesFromSlots() const noexcept
   QTest::qWait(delay);
 }
 
-void ribi::cmap::QtRateExamplesDialogTest::ThrowsIfNoExamples() const noexcept
+void ribi::cmap::QtClassifyExamplesDialogTest::ThrowsIfNoExamples() const noexcept
 {
   const Concept empty_concept;
   assert(CountExamples(empty_concept) == 0);
   try
   {
-    const QtRateExamplesDialog d{empty_concept};
+    const QtClassifyExamplesDialog d{empty_concept};
     assert(!"Should not get here");
   }
   catch (const std::exception&)
@@ -121,9 +121,9 @@ void ribi::cmap::QtRateExamplesDialogTest::ThrowsIfNoExamples() const noexcept
   }
 }
 
-void ribi::cmap::QtRateExamplesDialogTest::UserHasNotClickedOkAtConstruction() const noexcept
+void ribi::cmap::QtClassifyExamplesDialogTest::UserHasNotClickedOkAtConstruction() const noexcept
 {
-  const QtRateExamplesDialog d{
+  const QtClassifyExamplesDialog d{
     Concept("A", Examples( { Example("1") } ))
   };
   QVERIFY(!d.HasClickedOk());

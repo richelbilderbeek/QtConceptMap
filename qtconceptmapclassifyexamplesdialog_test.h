@@ -1,12 +1,12 @@
-#ifndef QTCONCEPTMAPRATEEXAMPLESDIALOG_TEST_H
-#define QTCONCEPTMAPRATEEXAMPLESDIALOG_TEST_H
+#ifndef QTCONCEPTMAPCLASSIFYEXAMPLESDIALOG_TEST_H
+#define QTCONCEPTMAPCLASSIFYEXAMPLESDIALOG_TEST_H
 
 #include <QtTest/QtTest>
 
 namespace ribi {
 namespace cmap {
 
-class QtRateExamplesDialogTest : public QObject
+class QtClassifyExamplesDialogTest : public QObject
 {
     Q_OBJECT //!OCLINT
 
@@ -21,4 +21,4 @@ private slots:
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // QTCONCEPTMAPRATEEXAMPLESDIALOG_TEST_H
+#endif // QTCONCEPTMAPCLASSIFYEXAMPLESDIALOG_TEST_H

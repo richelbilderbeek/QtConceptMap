@@ -1,11 +1,11 @@
-#include "qtconceptmaprateexamplesdialog.h"
+#include "qtconceptmapclassifyexamplesdialog.h"
 
 #include <QDesktopWidget>
 #include <QKeyEvent>
 
 #include "conceptmaphelper.h"
 #include "qtconceptmapcompetency.h"
-#include "ui_qtconceptmaprateexamplesdialog.h"
+#include "ui_qtconceptmapclassifyexamplesdialog.h"
 
 struct QtConceptMapListWidgetItem : public QListWidgetItem
 {
@@ -25,11 +25,11 @@ struct QtConceptMapListWidgetItem : public QListWidgetItem
 };
 
 
-ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
+ribi::cmap::QtClassifyExamplesDialog::QtClassifyExamplesDialog(
   const Concept& concept,
   QWidget* parent)
   : QDialog(parent),
-    ui(new Ui::QtRateExamplesDialog)
+    ui(new Ui::QtClassifyExamplesDialog)
 {
   if (CountExamples(concept) == 0)
   {
@@ -83,12 +83,12 @@ ribi::cmap::QtRateExamplesDialog::QtRateExamplesDialog(
 
 }
 
-ribi::cmap::QtRateExamplesDialog::~QtRateExamplesDialog() noexcept
+ribi::cmap::QtClassifyExamplesDialog::~QtClassifyExamplesDialog() noexcept
 {
   delete ui;
 }
 
-ribi::cmap::Examples ribi::cmap::QtRateExamplesDialog::GetRatedExamples() const
+ribi::cmap::Examples ribi::cmap::QtClassifyExamplesDialog::GetRatedExamples() const
 {
   std::vector<Example> v;
 
@@ -110,7 +110,7 @@ ribi::cmap::Examples ribi::cmap::QtRateExamplesDialog::GetRatedExamples() const
   return Examples(v);
 }
 
-void ribi::cmap::QtRateExamplesDialog::keyPressEvent(QKeyEvent* e)
+void ribi::cmap::QtClassifyExamplesDialog::keyPressEvent(QKeyEvent* e)
 {
   if (e->key()  == Qt::Key_Escape) { close(); return; }
   if ( (e->modifiers() & Qt::ControlModifier)
@@ -135,7 +135,7 @@ void ribi::cmap::QtRateExamplesDialog::keyPressEvent(QKeyEvent* e)
   QDialog::keyPressEvent(e);
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_prof_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_prof_clicked()
 {
   assert(ui->list->currentItem());
   QtConceptMapListWidgetItem* const item
@@ -143,7 +143,7 @@ void ribi::cmap::QtRateExamplesDialog::on_button_prof_clicked()
   item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::profession));
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_organisations_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_organisations_clicked()
 {
   assert(ui->list->currentItem());
   QtConceptMapListWidgetItem* const item
@@ -151,7 +151,7 @@ void ribi::cmap::QtRateExamplesDialog::on_button_organisations_clicked()
   item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::organisations));
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_social_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_social_clicked()
 {
   assert(ui->list->currentItem());
   QtConceptMapListWidgetItem* const item
@@ -159,7 +159,7 @@ void ribi::cmap::QtRateExamplesDialog::on_button_social_clicked()
   item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::social_surroundings));
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_target_audience_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_target_audience_clicked()
 {
   assert(ui->list->currentItem());
   QtConceptMapListWidgetItem* const item
@@ -167,7 +167,7 @@ void ribi::cmap::QtRateExamplesDialog::on_button_target_audience_clicked()
   item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::target_audience));
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_prof_development_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_prof_development_clicked()
 {
   assert(ui->list->currentItem());
   QtConceptMapListWidgetItem* const item
@@ -175,7 +175,7 @@ void ribi::cmap::QtRateExamplesDialog::on_button_prof_development_clicked()
   item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::prof_growth));
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_misc_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_misc_clicked()
 {
   assert(ui->list->currentItem());
   QtConceptMapListWidgetItem* const item
@@ -183,7 +183,7 @@ void ribi::cmap::QtRateExamplesDialog::on_button_misc_clicked()
   item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::misc));
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_ti_knowledge_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_ti_knowledge_clicked()
 {
   assert(ui->list->currentItem());
   QtConceptMapListWidgetItem* const item
@@ -191,7 +191,7 @@ void ribi::cmap::QtRateExamplesDialog::on_button_ti_knowledge_clicked()
   item->setIcon(cmap::QtCompetency().CompetencyToIcon(cmap::Competency::ti_knowledge));
 }
 
-void ribi::cmap::QtRateExamplesDialog::on_button_ok_clicked()
+void ribi::cmap::QtClassifyExamplesDialog::on_button_ok_clicked()
 {
   m_clicked_ok = true;
   //Should work somehow, but I could not get it to

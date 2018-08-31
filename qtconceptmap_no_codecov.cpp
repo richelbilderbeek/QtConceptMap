@@ -7,7 +7,7 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaprateconceptdialog.h"
-#include "qtconceptmaprateexamplesdialog.h"
+#include "qtconceptmapclassifyexamplesdialog.h"
 
 void ribi::cmap::OnNodeKeyDownPressedEditF2(
   QtConceptMap& q,
@@ -92,7 +92,7 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(
 
   event->accept();
 
-  QtRateExamplesDialog d(GetConcept(qtnode));
+  QtClassifyExamplesDialog d(GetConcept(qtnode));
   q.setEnabled(false);
   d.exec();
   q.setEnabled(true);

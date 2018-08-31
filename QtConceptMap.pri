@@ -39,7 +39,7 @@ HEADERS += \
     $$PWD/qtconceptmaprateconcepttallydialog.h \
     $$PWD/qtconceptmaprateconcepttallydialogcloser.h \
     $$PWD/qtconceptmapratedconceptdialog.h \
-    $$PWD/qtconceptmaprateexamplesdialog.h \
+    $$PWD/qtconceptmapclassifyexamplesdialog.h \
     $$PWD/qtconceptmaprating.h \
     $$PWD/qtconceptmaprole.h \
     $$PWD/qtconceptmaptoolsitem.h
@@ -84,7 +84,7 @@ SOURCES += \
     $$PWD/qtconceptmaprateconcepttallydialog.cpp \
     $$PWD/qtconceptmaprateconcepttallydialogcloser.cpp \
     $$PWD/qtconceptmapratedconceptdialog.cpp \
-    $$PWD/qtconceptmaprateexamplesdialog.cpp \
+    $$PWD/qtconceptmapclassifyexamplesdialog.cpp \
     $$PWD/qtconceptmaprating.cpp \
     $$PWD/qtconceptmaprole.cpp \
     $$PWD/qtconceptmaptoolsitem.cpp
@@ -94,7 +94,7 @@ FORMS += \
     $$PWD/qtconceptmaprateconceptdialog.ui \
     $$PWD/qtconceptmaprateconcepttallydialog.ui \
     $$PWD/qtconceptmapratedconceptdialog.ui \
-    $$PWD/qtconceptmaprateexamplesdialog.ui
+    $$PWD/qtconceptmapclassifyexamplesdialog.ui
 
 RESOURCES += \
     $$PWD/QtConceptMap.qrc

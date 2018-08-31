@@ -36,7 +36,7 @@ SOURCES += \
     $$PWD/qtconceptmaprateconcepttallydialog_test.cpp \
     $$PWD/qtconceptmaprateconcepttallydialogcloser_test.cpp \
     $$PWD/qtconceptmapratedconceptdialog_test.cpp \
-    $$PWD/qtconceptmaprateexamplesdialog_test.cpp \
+    $$PWD/qtconceptmapclassifyexamplesdialog_test.cpp \
     $$PWD/qtconceptmaprating_test.cpp
 
 HEADERS += \

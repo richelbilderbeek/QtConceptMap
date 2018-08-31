@@ -1,30 +1,30 @@
-#ifndef QTCONCEPTMAPRATEEXAMPLESDIALOG_H
-#define QTCONCEPTMAPRATEEXAMPLESDIALOG_H
+#ifndef QTCONCEPTMAPCLASSIFYEXAMPLESDIALOG_H
+#define QTCONCEPTMAPCLASSIFYEXAMPLESDIALOG_H
 
 #include <QDialog>
 #include "qtconceptmapfwd.h"
 #include "conceptmapconcept.h"
 
-namespace Ui { class QtRateExamplesDialog; }
+namespace Ui { class QtClassifyExamplesDialog; }
 
 namespace ribi {
 namespace cmap {
 
-class QtRateExamplesDialogTest;
+class QtClassifyExamplesDialogTest;
 
 ///Allows the user to rate the examples of a concept
-class QtRateExamplesDialog final : public QDialog
+class QtClassifyExamplesDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
 
 public:
-  explicit QtRateExamplesDialog(
+  explicit QtClassifyExamplesDialog(
     const Concept& concept,
     QWidget* parent = nullptr
   );
-  QtRateExamplesDialog(const QtRateExamplesDialog&) = delete;
-  QtRateExamplesDialog& operator=(const QtRateExamplesDialog&) = delete;
-  ~QtRateExamplesDialog() noexcept;
+  QtClassifyExamplesDialog(const QtClassifyExamplesDialog&) = delete;
+  QtClassifyExamplesDialog& operator=(const QtClassifyExamplesDialog&) = delete;
+  ~QtClassifyExamplesDialog() noexcept;
 
   ///Obtain the rated examples
   Examples GetRatedExamples() const;
@@ -45,15 +45,15 @@ public slots:
   void on_button_ok_clicked();
 
 private:
-  Ui::QtRateExamplesDialog *ui;
+  Ui::QtClassifyExamplesDialog *ui;
 
   ///Was the OK button clicked to close?
   bool m_clicked_ok = false;
 
-  friend class QtRateExamplesDialogTest;
+  friend class QtClassifyExamplesDialogTest;
 };
 
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // QTCONCEPTMAPRATEEXAMPLESDIALOG_H
+#endif // QTCONCEPTMAPCLASSIFYEXAMPLESDIALOG_H

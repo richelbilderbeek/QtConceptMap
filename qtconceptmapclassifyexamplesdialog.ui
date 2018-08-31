@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QtRateExamplesDialog</class>
- <widget class="QDialog" name="QtRateExamplesDialog">
+ <class>QtClassifyExamplesDialog</class>
+ <widget class="QDialog" name="QtClassifyExamplesDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

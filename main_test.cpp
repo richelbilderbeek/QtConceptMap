@@ -37,7 +37,7 @@
 #include "qtconceptmaprateconcepttallydialogcloser_test.h"
 #include "qtconceptmaprateconcepttallydialog_test.h"
 #include "qtconceptmapratedconceptdialog_test.h"
-#include "qtconceptmaprateexamplesdialog_test.h"
+#include "qtconceptmapclassifyexamplesdialog_test.h"
 #include "qtconceptmaprating_test.h"
 #include "qtconceptmap_test.h"
 
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
   { QtRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtRateExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtClassifyExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatedConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatingTest t; error |= QTest::qExec(&t, argc, argv); }
 
