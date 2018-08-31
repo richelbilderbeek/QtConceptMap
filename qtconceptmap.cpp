@@ -767,6 +767,8 @@ void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) no
 
 void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noexcept
 {
+  assert(event->modifiers() &  Qt::ControlModifier);
+
   CheckInvariants(q);
 
   event->ignore();
@@ -785,19 +787,6 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
   }
 
   //Move edges
-  #ifndef TRUST_GETQTEDGES_20180821
-  for (QGraphicsItem * const item: q.scene()->items())
-  {
-    if (QtEdge * const qtedge = qgraphicsitem_cast<QtEdge*>(item))
-    {
-      if (IsSelected(*qtedge))
-      {
-        q.DoCommand(new CommandMoveEdge(q, qtedge, dx, dy));
-        event->accept();
-      }
-    }
-  }
-  #else
   for (QtEdge * const qtedge: GetQtEdges(q))
   {
     if (IsSelected(*qtedge))
@@ -806,7 +795,6 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
       event->accept();
     }
   }
-  #endif
 
   //Move nodes
   for (QtNode * const qtnode: GetQtNodes(q))

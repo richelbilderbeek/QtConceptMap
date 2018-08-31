@@ -1016,6 +1016,19 @@ void ribi::cmap::QtConceptMapTest::PressCtrlRightMovesNonCentralNode() const noe
   QVERIFY(y_after == y_before);
 }
 
+void ribi::cmap::QtConceptMapTest::PressCtrlDownMovesSelectedQtNodeDown() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Down, Qt::ControlModifier);
+  const double x{GetX(*GetFirstQtNode(q))};
+  const double y{GetY(*GetFirstQtNode(q))};
+  q.keyPressEvent(&e);
+  QVERIFY(GetX(*GetFirstQtNode(q)) == x);
+  QVERIFY(GetY(*GetFirstQtNode(q)) > y);
+}
+
 void ribi::cmap::QtConceptMapTest::PressCtrlHTogglesHead() const noexcept
 {
   QtConceptMap q;
@@ -1026,6 +1039,32 @@ void ribi::cmap::QtConceptMapTest::PressCtrlHTogglesHead() const noexcept
   assert(CountQtArrowHeads(q) == 1);
   QTest::keyClick(&q, Qt::Key_H, Qt::ControlModifier);
   QVERIFY(CountQtArrowHeads(q) != 1);
+}
+
+void ribi::cmap::QtConceptMapTest::PressCtrlLeftMovesSelectedQtNodeLeft() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Left, Qt::ControlModifier);
+  const double x{GetX(*GetFirstQtNode(q))};
+  const double y{GetY(*GetFirstQtNode(q))};
+  q.keyPressEvent(&e);
+  QVERIFY(GetX(*GetFirstQtNode(q)) < x);
+  QVERIFY(GetY(*GetFirstQtNode(q)) == y);
+}
+
+void ribi::cmap::QtConceptMapTest::PressCtrlRightMovesSelectedQtNodeRight() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ControlModifier);
+  const double x{GetX(*GetFirstQtNode(q))};
+  const double y{GetY(*GetFirstQtNode(q))};
+  q.keyPressEvent(&e);
+  QVERIFY(GetX(*GetFirstQtNode(q)) > x);
+  QVERIFY(GetY(*GetFirstQtNode(q)) == y);
 }
 
 
@@ -1039,6 +1078,19 @@ void ribi::cmap::QtConceptMapTest::PressCtrlTTogglesTail() const noexcept
   assert(CountQtArrowTails(q) == 0);
   QTest::keyClick(&q, Qt::Key_T, Qt::ControlModifier);
   QVERIFY(CountQtArrowTails(q) != 0);
+}
+
+void ribi::cmap::QtConceptMapTest::PressCtrlUpMovesSelectedQtNodeUp() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Up, Qt::ControlModifier);
+  const double x{GetX(*GetFirstQtNode(q))};
+  const double y{GetY(*GetFirstQtNode(q))};
+  q.keyPressEvent(&e);
+  QVERIFY(GetX(*GetFirstQtNode(q)) == x);
+  QVERIFY(GetY(*GetFirstQtNode(q)) < y);
 }
 
 void ribi::cmap::QtConceptMapTest::PressEscapeMustBeIgnored() const noexcept

@@ -79,9 +79,13 @@ private slots:
   void Press1TogglesTail() const noexcept;
   void Press2DoesNothingWithoutSelectedEdge() const noexcept;
   void Press2TogglesHead() const noexcept;
+  void PressCtrlDownMovesSelectedQtNodeDown() const noexcept;
   void PressCtrlHTogglesHead() const noexcept;
+  void PressCtrlLeftMovesSelectedQtNodeLeft() const noexcept;
   void PressCtrlRightMovesNonCentralNode() const noexcept;
+  void PressCtrlRightMovesSelectedQtNodeRight() const noexcept;
   void PressCtrlTTogglesTail() const noexcept;
+  void PressCtrlUpMovesSelectedQtNodeUp() const noexcept;
   void PressEscapeMustBeIgnored() const noexcept;
   void PressF1OnCenterNodeIsRejected() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;
