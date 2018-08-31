@@ -23,7 +23,7 @@
 #include "qtconceptmapcommandunselectedge_test.h"
 #include "qtconceptmapcommandunselectnode_test.h"
 #include "qtconceptmapcompetency_test.h"
-#include "qtconceptmapconcepteditdialog_test.h"
+#include "qtconceptmapeditconceptdialog_test.h"
 #include "qtconceptmaphelper_test.h"
 #include "qtconceptmapitemhighlighter_test.h"
 #include "qtconceptmapmode_test.h"

@@ -3,7 +3,7 @@
 #include <QKeyEvent>
 
 #include "qtconceptmapcommandsetconcept.h"
-#include "qtconceptmapconcepteditdialog.h"
+#include "qtconceptmapeditconceptdialog.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "qtconceptmaprateconceptdialog.h"
@@ -33,11 +33,11 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   event->accept();
 
   //Edit concept
-  QtConceptMapConceptEditDialog d(
+  QtEditConceptDialog d(
     GetConcept(qtnode),
     IsOnEdge(qtnode)
-    ? QtConceptMapConceptEditDialog::EditType::relation
-    : QtConceptMapConceptEditDialog::EditType::concept
+    ? QtEditConceptDialog::EditType::relation
+    : QtEditConceptDialog::EditType::concept
   );
   q.setEnabled(false);
   d.exec();

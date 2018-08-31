@@ -23,7 +23,7 @@
 #include "qtconceptmapcommandtogglearrowtail.h"
 #include "qtconceptmapcommandunselect.h"
 #include "qtconceptmapcommandunselectall.h"
-#include "qtconceptmapconcepteditdialog.h"
+#include "qtconceptmapeditconceptdialog.h"
 #include "qtconceptmaphelper.h"
 #include "qtarrowitem.h"
 #include "qtquadbezierarrowitem.h"

@@ -1,4 +1,4 @@
-#include "qtconceptmapconcepteditdialog.h"
+#include "qtconceptmapeditconceptdialog.h"
 
 #include <iostream>
 #include <cassert>
@@ -9,15 +9,15 @@
 
 #include "conceptmapexample.h"
 #include "qtconceptmapqnumberedcolumn.h"
-#include "ui_qtconceptmapconcepteditdialog.h"
+#include "ui_qtconceptmapeditconceptdialog.h"
 
-ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
+ribi::cmap::QtEditConceptDialog::QtEditConceptDialog(
   const Concept& c,
   const EditType edit_type,
   QWidget* parent)
   : QDialog(parent),
     m_examples{new QNumberedColumn(GetExamplesText(c), this)},
-    ui(new Ui::QtConceptMapConceptEditDialog)
+    ui(new Ui::QtConceptMapEditConceptDialog)
 {
   ui->setupUi(this);
 
@@ -51,7 +51,7 @@ ribi::cmap::QtConceptMapConceptEditDialog::QtConceptMapConceptEditDialog(
   );
 }
 
-ribi::cmap::QtConceptMapConceptEditDialog::~QtConceptMapConceptEditDialog()
+ribi::cmap::QtEditConceptDialog::~QtEditConceptDialog()
 {
   delete ui;
 }
@@ -66,13 +66,13 @@ QVector<QString> ribi::cmap::GetExamplesText(const Concept& concept) noexcept
   return text;
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog::keyPressEvent(QKeyEvent* e)
+void ribi::cmap::QtEditConceptDialog::keyPressEvent(QKeyEvent* e)
 {
   if (e->key() == Qt::Key_Escape) { close(); return; }
   QDialog::keyPressEvent(e);
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()//QTableView *tableView)
+void ribi::cmap::QtEditConceptDialog::on_button_add_clicked()//QTableView *tableView)
 {
   auto * const new_item = new QTableWidgetItem(
     ui->edit_text->toPlainText()
@@ -89,7 +89,7 @@ void ribi::cmap::QtConceptMapConceptEditDialog::on_button_add_clicked()//QTableV
   ui->edit_text->setFocus();
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog
+void ribi::cmap::QtEditConceptDialog
   ::RemoveEmptyItem(QTableWidgetItem * item)
 {
   if (item->text().isEmpty())
@@ -99,12 +99,12 @@ void ribi::cmap::QtConceptMapConceptEditDialog
   }
 }
 
-void ribi::cmap::QtConceptMapConceptEditDialog::showEvent(QShowEvent *)
+void ribi::cmap::QtEditConceptDialog::showEvent(QShowEvent *)
 {
   this->m_examples->resizeRowsToContents();
 }
 
-ribi::cmap::Concept ribi::cmap::QtConceptMapConceptEditDialog::ToConcept() const noexcept
+ribi::cmap::Concept ribi::cmap::QtEditConceptDialog::ToConcept() const noexcept
 {
   //Name
   const std::string name = ui->edit_concept->toPlainText().toStdString();

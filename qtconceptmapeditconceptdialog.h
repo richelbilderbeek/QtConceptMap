@@ -1,5 +1,5 @@
-#ifndef QTCONCEPTMAPCONCEPTEDITDIALOG_H
-#define QTCONCEPTMAPCONCEPTEDITDIALOG_H
+#ifndef QTCONCEPTMAPEDITCONCEPTDIALOG_H
+#define QTCONCEPTMAPEDITCONCEPTDIALOG_H
 
 #include <QDialog>
 #include <QTableView>
@@ -8,7 +8,7 @@
 class Ruffian;
 struct QTableWidgetItem;
 
-namespace Ui { class QtConceptMapConceptEditDialog; }
+namespace Ui { class QtConceptMapEditConceptDialog; }
 
 namespace ribi {
 
@@ -17,27 +17,25 @@ namespace cmap {
 struct QNumberedColumn;
 struct QtEditDialogTest;
 
-class QtConceptMapConceptEditDialog final : public QDialog
+class QtEditConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
-  
+
 public:
   /// concept: a stand-alone node
   /// relation: a node on an edge
   enum EditType { concept, relation };
 
-  explicit QtConceptMapConceptEditDialog(
+  explicit QtEditConceptDialog(
     const Concept& concept,
     const EditType edit_type,
     QWidget* parent = nullptr
   );
-  QtConceptMapConceptEditDialog(const QtConceptMapConceptEditDialog&) = delete;
-  QtConceptMapConceptEditDialog& operator=(const QtConceptMapConceptEditDialog&) = delete;
-  ~QtConceptMapConceptEditDialog();
+  QtEditConceptDialog(const QtEditConceptDialog&) = delete;
+  QtEditConceptDialog& operator=(const QtEditConceptDialog&) = delete;
+  ~QtEditConceptDialog();
 
   ///The concept being modified
-  [[deprecated]]
-  Concept GetConcept() const noexcept { return ToConcept(); }
   Concept ToConcept() const noexcept;
 
   void keyPressEvent(QKeyEvent *);
@@ -51,7 +49,7 @@ private slots:
 
 private:
   ribi::cmap::QNumberedColumn * const m_examples;
-  Ui::QtConceptMapConceptEditDialog *ui;
+  Ui::QtConceptMapEditConceptDialog *ui;
 
   friend class QtEditDialogTest;
 };
@@ -62,4 +60,4 @@ QVector<QString> GetExamplesText(const Concept& concept) noexcept;
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // QTCONCEPTMAPCONCEPTEDITDIALOG_H
+#endif // QTCONCEPTMAPEDITCONCEPTDIALOG_H

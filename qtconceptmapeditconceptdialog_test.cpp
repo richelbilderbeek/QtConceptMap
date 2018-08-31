@@ -1,5 +1,5 @@
-#include "qtconceptmapconcepteditdialog_test.h"
-#include "qtconceptmapconcepteditdialog.h"
+#include "qtconceptmapeditconceptdialog_test.h"
+#include "qtconceptmapeditconceptdialog.h"
 
 #include <QKeyEvent>
 
@@ -12,7 +12,7 @@
 #include "conceptmapconcept.h"
 #include "conceptmapconceptfactory.h"
 #include "qtconceptmapcompetency.h"
-#include "ui_qtconceptmapconcepteditdialog.h"
+#include "ui_qtconceptmapeditconceptdialog.h"
 
 using namespace ribi::cmap;
 using EditType = ribi::cmap::QtConceptMapConceptEditDialog::EditType;

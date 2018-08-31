@@ -1,5 +1,5 @@
-#ifndef qtconceptmapconcepteditdialog_test_H
-#define qtconceptmapconcepteditdialog_test_H
+#ifndef qtconceptmapeditconceptdialog_test_H
+#define qtconceptmapeditconceptdialog_test_H
 
 #include <QtTest/QtTest>
 
@@ -25,4 +25,4 @@ private slots:
 } //~namespace cmap
 } //~namespace ribi
 
-#endif // qtconceptmapconcepteditdialog_test_H
+#endif // qtconceptmapeditconceptdialog_test_H
