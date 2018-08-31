@@ -46,10 +46,16 @@ const ribi::cmap::QtNode* ribi::cmap::QtItemHighlighter::GetItem() const noexcep
 
 void ribi::cmap::QtItemHighlighter::SetItem(QtNode* const item)
 {
-  if (m_item == item) return;
+  //if (m_item == item) return;
 
   if (item)
   {
+    if (IsOnEdge(*item))
+    {
+      throw std::invalid_argument(
+        "item must be a solitary node (not a QtNode on a QtEdge)"
+      );
+    }
     this->m_timer->start();
   }
   else

@@ -6,26 +6,46 @@
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 
-void ribi::cmap::QtItemHighlighterTest::AllTests()
+void ribi::cmap::QtItemHighlighterTest::ItemCanBeCenterQtNode() const noexcept
 {
-  QtConceptMap m;
-  m.SetConceptMap(ConceptMapFactory().Get2());
-  m.show();
-  QtItemHighlighter& h = m.GetQtHighlighter();
-  const std::vector<QtNode *> qtnodes = GetQtNodes(m.GetScene());
-  assert(!qtnodes.empty());
-  const auto qtnode = qtnodes.at(1);
-  assert(qtnode);
-  assert(!IsQtCenterNode(qtnode));
-  h.SetItem(qtnode);
-  m.show();
-  QTest::qWait(1000);
-  h.Stop();
-  QTest::qWait(1000);
-  m.show();
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
+  q.show();
+  QtItemHighlighter& h = q.GetQtHighlighter();
+  h.SetItem(GetFirstQtNode(q));
+  QTest::qWait(100);
+  QVERIFY(h.GetItem() == GetFirstQtNode(q));
 }
 
-void ribi::cmap::QtItemHighlighterTest::Construction()
+void ribi::cmap::QtItemHighlighterTest::ItemCanBeNormalQtNode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.show();
+  QtItemHighlighter& h = q.GetQtHighlighter();
+  h.SetItem(GetFirstQtNode(q));
+  QTest::qWait(100);
+  QVERIFY(h.GetItem() == GetFirstQtNode(q));
+}
+
+void ribi::cmap::QtItemHighlighterTest::ItemCannotBeQtNodeOnQtEdge() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  q.show();
+  QtItemHighlighter& h = q.GetQtHighlighter();
+  try
+  {
+    h.SetItem(GetFirstQtEdge(q)->GetQtNode());
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
+
+void ribi::cmap::QtItemHighlighterTest::NoItemAtConstruction() const noexcept
 {
   const QtItemHighlighter h;
   QVERIFY(!h.GetItem());
