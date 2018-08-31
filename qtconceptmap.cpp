@@ -1386,97 +1386,26 @@ void ribi::cmap::OnNodeKeyDownPressed(
   q.scene()->update();
 }
 
+//Moved to _no_codecov.cpp
+//void ribi::cmap::OnNodeKeyDownPressedEditF2(
+//  QtConceptMap& q,
+//  QtNode& qtnode,
+//  QKeyEvent * const event
+//)
 
-void ribi::cmap::OnNodeKeyDownPressedEditF2(
-  QtConceptMap& q,
-  QtNode& qtnode,
-  QKeyEvent * const event
-)
-{
-  //Cannot edit relations connected to center node
-  if (IsOnEdge(qtnode))
-  {
-    assert(qtnode.parentItem());
-    assert(qgraphicsitem_cast<QtEdge*>(qtnode.parentItem()));
-    if (
-      IsConnectedToCenterNode(
-        *qgraphicsitem_cast<QtEdge*>(qtnode.parentItem())
-      )
-    )
-    {
-      return;
-    }
-  }
+//Moved to _no_codecov.cpp
+//void ribi::cmap::OnNodeKeyDownPressedRateF1(
+//  QtConceptMap& q,
+//  QtNode& qtnode,
+//  QKeyEvent * const event
+//)
 
-  event->accept();
-
-  //Edit concept
-  QtConceptMapConceptEditDialog d(
-    GetConcept(qtnode),
-    IsOnEdge(qtnode)
-    ? QtConceptMapConceptEditDialog::EditType::relation
-    : QtConceptMapConceptEditDialog::EditType::concept
-  );
-  q.setEnabled(false);
-  d.exec();
-  //d.setModal(true);
-  //d.show();
-  //d.setFocus();
-  q.setEnabled(true);
-
-  assert(GetSelectedQtNodesAlsoOnQtEdge(q).size() == 1);
-  assert(GetSelectedQtNodesAlsoOnQtEdge(q)[0] == &qtnode);
-  q.DoCommand(new CommandSetConcept(q, d.ToConcept()));
-  q.setFocus();
-  CheckInvariants(q);
-}
-
-void ribi::cmap::OnNodeKeyDownPressedRateF1(
-  QtConceptMap& q,
-  QtNode& qtnode,
-  QKeyEvent * const event
-)
-{
-  event->accept();
-
-  assert(!IsOnEdge(qtnode));
-  ribi::cmap::QtRateConceptDialog d(q, qtnode);
-  q.setEnabled(false);
-  d.exec();
-  q.setEnabled(true);
-  if (d.HasUserClickedOk())
-  {
-    d.Write(q, qtnode);
-    q.update();
-    qtnode.update();
-  }
-  q.setFocus();
-}
-
-void ribi::cmap::OnNodeKeyDownPressedRateF2(
-  QtConceptMap& q,
-  QtNode& qtnode,
-  QKeyEvent * const event
-)
-{
-  //Relation's examples are not rated
-  if (IsOnEdge(qtnode)) return;
-
-  //Without examples, there is nothing to rate
-  if (!HasExamples(qtnode)) return;
-
-  event->accept();
-
-  QtRateExamplesDialog d(GetConcept(qtnode));
-  q.setEnabled(false);
-  d.exec();
-  q.setEnabled(true);
-  if (d.HasClickedOk())
-  {
-    SetExamples(qtnode, d.GetRatedExamples());
-  }
-  q.setFocus();
-}
+//Moved to _no_codecov.cpp
+//void ribi::cmap::OnNodeKeyDownPressedRateF2(
+//  QtConceptMap& q,
+//  QtNode& qtnode,
+//  QKeyEvent * const event
+//)
 
 void ribi::cmap::ProcessKey(QtConceptMap& q, QKeyEvent * const event) //!OCLINT Although the NCSS is high, the code is easy to read
 {

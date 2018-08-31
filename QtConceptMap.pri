@@ -45,6 +45,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/qtconceptmap.cpp \
+    $$PWD/qtconceptmap_no_codecov.cpp \
     $$PWD/qtconceptmapbrushfactory.cpp \
     $$PWD/qtconceptmapcommand.cpp \
     $$PWD/qtconceptmapcommandcreatenewedge.cpp \
