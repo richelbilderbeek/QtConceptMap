@@ -397,6 +397,11 @@ ribi::cmap::QtNode * ribi::cmap::GetFirstQtNode(const QtConceptMap& q) noexcept
   return GetFirstQtNode(q.GetScene());
 }
 
+ribi::cmap::QtEdge * ribi::cmap::GetLastQtEdge(const QtConceptMap& q) noexcept
+{
+  return GetLastQtEdge(q.GetScene());
+}
+
 ribi::cmap::QtNode * ribi::cmap::GetLastQtNode(const QtConceptMap& q) noexcept
 {
   return ::ribi::cmap::GetLastQtNode(q.GetScene());
@@ -1290,6 +1295,7 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
     assert(from);
     assert(!IsOnEdge(*from));
     QtNode * const to{q.GetQtHighlighter().GetItem()};
+    assert(to);
     assert(!IsOnEdge(*to));
     if (to && from != to)
     {

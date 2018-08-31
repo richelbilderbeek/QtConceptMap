@@ -24,6 +24,7 @@ public:
 
   ///Get the item being highlighted
   ///Returns nullptr if no item is highlighted
+  ///Only highlights nodes on edges
   QtNode* GetItem() noexcept;
   const QtNode* GetItem() const noexcept;
 

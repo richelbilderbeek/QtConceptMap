@@ -1,7 +1,3 @@
-
-
-
-
 #include "qtconceptmapitemhighlighter.h"
 
 #include <boost/math/constants/constants.hpp>
@@ -44,6 +40,7 @@ ribi::cmap::QtNode* ribi::cmap::QtItemHighlighter::GetItem() noexcept
 
 const ribi::cmap::QtNode* ribi::cmap::QtItemHighlighter::GetItem() const noexcept
 {
+  assert(!m_item || !IsOnEdge(*m_item));
   return m_item;
 }
 

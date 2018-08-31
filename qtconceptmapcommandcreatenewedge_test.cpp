@@ -4,10 +4,32 @@
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "conceptmapfactory.h"
 
 #include <QDebug>
+
+void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeBetweenTwoRelations() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdgeNoCenter());
+  assert(!IsSelected(*GetFirstQtEdge(q)));
+  assert(!IsSelected(*GetLastQtEdge(q)));
+  assert(!IsSelected(*GetFirstQtEdge(q)->GetQtNode()));
+  assert(!IsSelected(*GetLastQtEdge(q)->GetQtNode()));
+  SetSelectedness(true, *GetFirstQtEdge(q)->GetQtNode());
+  SetSelectedness(true, *GetLastQtEdge(q)->GetQtNode());
+  try
+  {
+    q.DoCommand(new CommandCreateNewEdge(q, "between"));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
 
 void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeWithoutSelectedNodes() const noexcept
 {
