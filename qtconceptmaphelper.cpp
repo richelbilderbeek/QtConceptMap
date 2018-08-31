@@ -227,7 +227,6 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(
   const QGraphicsScene& scene
 ) noexcept
 {
-  #ifndef TRUST_COLLECT_QTEDGES_20180821
   std::vector<QtEdge *> qtedges;
   for (QGraphicsItem * const item: scene.items())
   {
@@ -237,10 +236,6 @@ std::vector<ribi::cmap::QtEdge *> ribi::cmap::GetQtEdges(
     }
   }
   return qtedges;
-  #else
-  //Unsure if this works
-  return Collect<QtEdge>(scene);
-  #endif // TRUST_COLLECT_QTEDGES_20180821
 }
 
 std::function<QBrush(const ribi::cmap::QtNode&)>
