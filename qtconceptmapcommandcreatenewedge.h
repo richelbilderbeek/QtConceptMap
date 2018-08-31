@@ -36,6 +36,7 @@ class CommandCreateNewEdge final : public Command
   ) = delete;
   ~CommandCreateNewEdge() noexcept;
 
+  const QtEdge& GetAddedQtEdge() const noexcept { return *m_added_qtedge; }
 
   void Redo() override;
   void Undo() override;

@@ -21,16 +21,19 @@ namespace cmap {
 struct QtNewArrow : public QtArrowItem
 {
   QtNewArrow();
-
-  ///Set and show the arrow in itis initial condition
-  void Start(QtNode * const from);
-
   QtNewArrow(const QtNewArrow&) = delete;
   QtNewArrow& operator=(const QtNewArrow&) = delete;
 
   ///Obtain the source node, can be nullptr
   const QtNode * GetFrom() const noexcept;
   QtNode * GetFrom() noexcept;
+
+  ///Set and show the arrow in itis initial condition
+  void Start(QtNode * const from);
+
+  ///Hide the arrow, set 'm_from' to nullptr
+  void Stop();
+
 
   ///Define a usertype for this QGraphicsItem, must be unique
   enum { Type = UserType + 5 };

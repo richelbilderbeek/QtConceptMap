@@ -86,6 +86,8 @@ bool ribi::cmap::CommandCreateNewEdge
 
 void ribi::cmap::CommandCreateNewEdge::CheckCanRedo() const
 {
+  //NONSENSE, just use 'from' and 'to'
+  /*
   if (CountSelectedQtNodes(GetQtConceptMap()) != 2)
   {
     std::stringstream msg;
@@ -104,6 +106,7 @@ void ribi::cmap::CommandCreateNewEdge::CheckCanRedo() const
     ;
     throw std::invalid_argument(msg.str());
   }
+  */
 }
 
 std::string ribi::cmap::GetText(const CommandCreateNewEdge& c) noexcept
@@ -131,15 +134,24 @@ void ribi::cmap::CommandCreateNewEdge::Redo()
 {
   CheckCanRedo(); //Throws if not
 
-  Expects(CountSelectedQtEdges(GetScene(*this)) == 0);
-  Expects(CountSelectedQtNodes(GetScene(*this)) == 2);
+  //NONSENSE, just use 'from' and 'to'
+  //Expects(CountSelectedQtEdges(GetScene(*this)) == 0);
+  //Expects(CountSelectedQtNodes(GetScene(*this)) == 2);
 
   GetQtConceptMap().GetScene().clearFocus();
 
+  assert(m_from);
+  assert(m_to);
+  assert(m_to != m_from);
+  assert(m_from->scene());
+  assert(m_to->scene());
   const auto qtnodes = { m_from, m_to };
   assert(qtnodes.size() == 2);
   assert(!IsOnEdge(*m_from));
   assert(!IsOnEdge(*m_to));
+  //NONSENSE, just use 'from' and 'to'
+  //assert(CountSelectedQtNodes(GetQtConceptMap()) == 2);
+  //assert(CountSelectedQtEdges(GetQtConceptMap()) == 0);
 
   //Create the new QtEdge
   m_added_qtedge = new QtEdge(
@@ -186,20 +198,16 @@ void ribi::cmap::CommandCreateNewEdge::Redo()
     m_added_qtedge->GetQtNode()->SetInnerHeight(8);
   }
 
-  #ifdef STRAIGHT_LINES_BETWEEN_CENTER_NODE_AND_PRIMARY_CONCEPTS
-  //Do not create a node on the edge if it is connected to a center node
-  if (IsConnectedToCenterNode(*m_added_qtedge))
-  {
-    m_added_qtedge->GetQtNode()->setVisible(false);
-  }
-  #endif
+  assert(m_added_qtedge->GetFrom()->scene());
+  assert(m_added_qtedge->GetTo()->scene());
   Ensures(::ribi::cmap::GetText(*m_added_qtedge) == m_text);
 }
 
 void ribi::cmap::CommandCreateNewEdge::Undo()
 {
-  Expects(CountSelectedQtEdges(GetScene(*this)) == 1);
-  Expects(CountSelectedQtNodes(GetScene(*this)) == 0);
+  //NONSENSE, just use 'from' and 'to'
+  //Expects(CountSelectedQtEdges(GetScene(*this)) == 1);
+  //Expects(CountSelectedQtNodes(GetScene(*this)) == 0);
 
   GetQtConceptMap().GetScene().clearFocus();
 
@@ -218,6 +226,7 @@ void ribi::cmap::CommandCreateNewEdge::Undo()
   SetSelectedness(true, *m_added_qtedge->GetTo());
   m_added_qtedge->GetTo()->setFocus();
 
-  Ensures(CountSelectedQtEdges(GetScene(*this)) == 0);
-  Ensures(CountSelectedQtNodes(GetScene(*this)) == 2);
+  //NONSENSE, just use 'from' and 'to'
+  //Ensures(CountSelectedQtEdges(GetScene(*this)) == 0);
+  //Ensures(CountSelectedQtNodes(GetScene(*this)) == 2);
 }

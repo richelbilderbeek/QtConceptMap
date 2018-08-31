@@ -291,6 +291,7 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   CheckInvariantNoLonelyQuadBezierArrows(q);
   CheckInvariantNoUnknownItems(q);
   CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
+  assert(!q.GetQtNewArrow().GetFrom() || q.GetQtNewArrow().GetFrom()->scene());
   #endif
 }
 
@@ -637,6 +638,7 @@ void ribi::cmap::QtConceptMap::keyPressEvent(QKeyEvent *event)
 
   event->ignore();
   //event->setAccepted(false);
+  this->m_arrow->Stop();
   CheckInvariants(*this);
 
   ProcessKey(*this, event);
@@ -1261,11 +1263,13 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
   {
     QtNode * const from{q.GetQtNewArrow().GetFrom()};
     assert(from);
+    assert(from->scene());
     assert(!IsOnEdge(*from));
     QtNode * const to{q.GetQtHighlighter().GetItem()};
     if (to && from != to)
     {
       assert(!IsOnEdge(*to));
+      assert(to->scene());
       //The command needs to find the two selected vertices
       assert(!q.GetQtNewArrow().isSelected());
       for (auto& i: q.GetScene().selectedItems()) { i->setSelected(false); }
@@ -1275,6 +1279,9 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
       q.DoCommand(command);
       q.GetQtNewArrow().hide();
       q.GetQtHighlighter().SetItem(nullptr);
+      assert(command->GetAddedQtEdge().GetFrom()->scene());
+      assert(command->GetAddedQtEdge().GetTo()->scene());
+
     }
   }
 
@@ -1771,7 +1778,10 @@ void ribi::cmap::QtConceptMap::Undo()
   }
   CheckInvariants(*this);
   #ifndef NDEBUG
-  qCritical() << "Undo command:" << m_undo.command(m_undo.index() - 1)->text();
+  if (m_undo.index() - 1 >= 0)
+  {
+    qCritical() << "Undo command:" << m_undo.command(m_undo.index() - 1)->text();
+  }
   #endif // NDEBUG
   m_undo.undo();
   CheckInvariants(*this);

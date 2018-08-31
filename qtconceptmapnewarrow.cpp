@@ -36,17 +36,20 @@ ribi::cmap::QtNewArrow::QtNewArrow()
 
 const ribi::cmap::QtNode * ribi::cmap::QtNewArrow::GetFrom() const noexcept
 {
+  assert(!m_from || m_from->scene());
   return m_from;
 }
 
 ribi::cmap::QtNode * ribi::cmap::QtNewArrow::GetFrom() noexcept
 {
+  assert(!m_from || m_from->scene());
   return m_from;
 }
 
 void ribi::cmap::QtNewArrow::Start(QtNode * const from)
 {
   assert(from);
+  assert(from->scene());
   m_from = from;
   this->SetTailPos(from->pos().x(), from->pos().y());
   this->SetHasTail(false);
@@ -54,6 +57,12 @@ void ribi::cmap::QtNewArrow::Start(QtNode * const from)
   this->SetHasHead(true);
   this->show();
   assert(!this->isSelected());
+}
+
+void ribi::cmap::QtNewArrow::Stop()
+{
+  m_from = nullptr;
+  this->hide();
 }
 
 void ribi::cmap::QtNewArrow::paint(
