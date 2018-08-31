@@ -1103,6 +1103,36 @@ void ribi::cmap::QtConceptMapTest::PressCtrlLeftMovesSelectedQtNodeLeft() const 
   QVERIFY(GetY(*GetFirstQtNode(q)) == y);
 }
 
+void ribi::cmap::QtConceptMapTest::PressCtrlNCreatesNewNodeInEditMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::edit);
+  q.show();
+  assert(CountQtNodes(q) == 0);
+  QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
+  QVERIFY(CountQtNodes(q) == 1);
+}
+
+void ribi::cmap::QtConceptMapTest::PressCtrlNIsIgnoredInRateMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::rate);
+  q.show();
+  assert(CountQtNodes(q) == 0);
+  QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
+  QVERIFY(CountQtNodes(q) == 0);
+}
+
+void ribi::cmap::QtConceptMapTest::PressCtrlNIsIgnoredInUninitializedMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::uninitialized);
+  q.show();
+  assert(CountQtNodes(q) == 0);
+  QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
+  QVERIFY(CountQtNodes(q) == 0);
+}
+
 void ribi::cmap::QtConceptMapTest::PressCtrlRightMovesSelectedQtNodeRight() const noexcept
 {
   QtConceptMap q;
@@ -1458,13 +1488,6 @@ void ribi::cmap::QtConceptMapTest::PressF4IsRejected() const noexcept
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_F4, Qt::NoModifier);
   m.keyPressEvent(event);
   QVERIFY(!event->isAccepted());
-}
-
-void ribi::cmap::QtConceptMapTest::PressN() const noexcept
-{
-  QtConceptMap m;
-  m.show();
-  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier);
 }
 
 void ribi::cmap::QtConceptMapTest::PressQuestionMark() const noexcept

@@ -924,6 +924,7 @@ void ribi::cmap::keyPressEventH(QtConceptMap& q, QKeyEvent *event) noexcept
 
 void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
 {
+  if (q.GetMode() != Mode::edit) return;
   if (event->modifiers() & Qt::ControlModifier)
   {
     //Always works

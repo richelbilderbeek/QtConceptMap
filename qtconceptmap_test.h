@@ -17,10 +17,7 @@ private slots:
   //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeUninitializedConceptMapIsRejected() const noexcept;
-  void PressF1RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
-  void PressF1RateNormalQtNodeAndOkChangesConcept() const noexcept;
-  void PressF2RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
-  void PressF2RateNormalQtNodeAndOkChangesConcept() const noexcept;
+
 
 
 
@@ -90,6 +87,9 @@ private slots:
   void PressCtrlF2IsRejected() const noexcept;
   void PressCtrlHTogglesHead() const noexcept;
   void PressCtrlLeftMovesSelectedQtNodeLeft() const noexcept;
+  void PressCtrlNCreatesNewNodeInEditMode() const noexcept;
+  void PressCtrlNIsIgnoredInRateMode() const noexcept;
+  void PressCtrlNIsIgnoredInUninitializedMode() const noexcept;
   void PressCtrlRightMovesNonCentralNode() const noexcept;
   void PressCtrlRightMovesSelectedQtNodeRight() const noexcept;
   void PressCtrlTTogglesTail() const noexcept;
@@ -101,15 +101,18 @@ private slots:
   void PressF1OnSingleNodeEditConceptMapIsRejected() const noexcept;
   void PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept;
   void PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept;
+  void PressF1RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
+  void PressF1RateNormalQtNodeAndOkChangesConcept() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
   void PressF2EditNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
   void PressF2EditNormalQtNodeAndOkChangesConcept() const noexcept;
   void PressF2OnCenterNodeIsRejected() const noexcept;
   void PressF2OnEmptyConceptMapIsRejected() const noexcept;
   void PressF2OnMultipleSelectedQtNodesIsRejected() const noexcept;
+  void PressF2RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
+  void PressF2RateNormalQtNodeAndOkChangesConcept() const noexcept;
   void PressF2ToEditNormalQtNodeIsAccepted() const noexcept;
   void PressF4IsRejected() const noexcept;
-  void PressN() const noexcept;
   void PressQuestionMark() const noexcept;
   void PressRightSelectsEdgeExclusively() const noexcept;
   void PressRightSelectsNodeExclusively() const noexcept;
