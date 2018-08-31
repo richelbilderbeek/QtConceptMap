@@ -15,6 +15,7 @@ class QtRateConceptDialogCloser : public QObject
   QtRateConceptDialogCloser();
   virtual ~QtRateConceptDialogCloser();
   public slots:
+  void Modify();
   void PressCancel();
   void PressOk();
 };

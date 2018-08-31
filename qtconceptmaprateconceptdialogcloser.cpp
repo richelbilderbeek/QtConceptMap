@@ -19,6 +19,27 @@ ribi::cmap::QtRateConceptDialogCloser::~QtRateConceptDialogCloser()
 
 }
 
+void ribi::cmap::QtRateConceptDialogCloser::Modify()
+{
+  ribi::cmap::QtRateConceptDialog* const pop_up
+    = qobject_cast<ribi::cmap::QtRateConceptDialog*>(
+      qApp->activeWindow()
+    );
+  assert(pop_up);
+  pop_up->ui->box_complexity->setCurrentIndex(
+    (pop_up->ui->box_complexity->currentIndex() + 1)
+    % pop_up->ui->box_complexity->count()
+  );
+  pop_up->ui->box_concreteness->setCurrentIndex(
+    (pop_up->ui->box_concreteness->currentIndex() + 1)
+    % pop_up->ui->box_concreteness->count()
+  );
+  pop_up->ui->box_specificity->setCurrentIndex(
+    (pop_up->ui->box_specificity->currentIndex() + 1)
+    % pop_up->ui->box_specificity->count()
+  );
+}
+
 void ribi::cmap::QtRateConceptDialogCloser::PressCancel()
 {
   ribi::cmap::QtRateConceptDialog* const pop_up

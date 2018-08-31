@@ -17,9 +17,11 @@ private slots:
   //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeUninitializedConceptMapIsRejected() const noexcept;
+  void PressF1RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
+  void PressF1RateNormalQtNodeAndOkChangesConcept() const noexcept;
+  void PressF2RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
+  void PressF2RateNormalQtNodeAndOkChangesConcept() const noexcept;
 
-  void PressAltF1IsRejected() const noexcept;
-  void PressCtrlF1IsRejected() const noexcept;
 
 
   //Done
@@ -80,9 +82,11 @@ private slots:
   void Press1TogglesTail() const noexcept;
   void Press2DoesNothingWithoutSelectedEdge() const noexcept;
   void Press2TogglesHead() const noexcept;
+  void PressAltF1IsRejected() const noexcept;
   void PressAltF2IsRejected() const noexcept;
   void PressCtrlDeleteIsIgnored() const noexcept; // https://github.com/richelbilderbeek/BrainWeaver/issues/289
   void PressCtrlDownMovesSelectedQtNodeDown() const noexcept;
+  void PressCtrlF1IsRejected() const noexcept;
   void PressCtrlF2IsRejected() const noexcept;
   void PressCtrlHTogglesHead() const noexcept;
   void PressCtrlLeftMovesSelectedQtNodeLeft() const noexcept;
