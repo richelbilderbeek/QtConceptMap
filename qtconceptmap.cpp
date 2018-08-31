@@ -1295,10 +1295,9 @@ void ribi::cmap::mousePressEventArrowActive(QtConceptMap& q, QMouseEvent *event)
     assert(from);
     assert(!IsOnEdge(*from));
     QtNode * const to{q.GetQtHighlighter().GetItem()};
-    assert(to);
-    assert(!IsOnEdge(*to));
     if (to && from != to)
     {
+      assert(!IsOnEdge(*to));
       //The command needs to find the two selected vertices
       assert(!q.GetQtNewArrow().isSelected());
       for (auto& i: q.GetScene().selectedItems()) { i->setSelected(false); }
