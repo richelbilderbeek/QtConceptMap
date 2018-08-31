@@ -211,24 +211,6 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
 
   #ifndef NDEBUG
   //All QtEdges, their QtNodes and Arrows must have a scene
-  #ifndef TRUST_GETQTEDGES_20180821
-  for (const QGraphicsItem * const item: q.scene()->items())
-  {
-    if (const QtEdge * const qtedge = qgraphicsitem_cast<const QtEdge*>(item))
-    {
-      assert(qtedge);
-      assert(qtedge->scene());
-      assert(qtedge->GetArrow());
-      assert(qtedge->GetArrow()->scene());
-      assert(qtedge->GetQtNode());
-      assert(qtedge->GetQtNode()->scene());
-      assert(qtedge->GetFrom());
-      assert(qtedge->GetFrom()->scene());
-      assert(qtedge->GetTo());
-      assert(qtedge->GetTo()->scene());
-    }
-  }
-  #else
   for (const auto qtedge: GetQtEdges(*q.scene()))
   {
     assert(qtedge);
@@ -242,7 +224,6 @@ void ribi::cmap::CheckInvariantAllQtEdgesHaveAscene( //!OCLINT I think the cyclo
     assert(qtedge->GetTo());
     assert(qtedge->GetTo()->scene());
   }
-  #endif // TRUST_GETQTEDGES_20180821
   #endif
 }
 
