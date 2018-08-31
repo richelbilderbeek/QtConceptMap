@@ -11,6 +11,7 @@ class QtRateConceptDialogCloserTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
+  void Modify() const noexcept;
   void PressCancel() const noexcept;
   void PressOk() const noexcept;
 };

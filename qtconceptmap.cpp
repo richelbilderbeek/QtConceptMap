@@ -1362,7 +1362,8 @@ void ribi::cmap::OnNodeKeyDownPressed(
   if (q.GetMode() == Mode::edit && key == Qt::Key_F2)
   {
     OnNodeKeyDownPressedEditF2(q, qtnode, event);
-    event->accept();
+    //Will accept at 'OnNodeKeyDownPressedEditF2' iff accepted
+    //event->accept();
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F1)
   {

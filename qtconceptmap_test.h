@@ -13,9 +13,6 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void PressF2ToEditNormalQtNodeIsAccepted() const noexcept;
-  void PressF2EditNormalQtNodeAndOkChangesConcept() const noexcept;
-  void PressF2EditNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
   //void PressF2OnSingleEdgeEditConceptMapIsAccepted() const noexcept;
   //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
@@ -81,8 +78,10 @@ private slots:
   void Press1TogglesTail() const noexcept;
   void Press2DoesNothingWithoutSelectedEdge() const noexcept;
   void Press2TogglesHead() const noexcept;
+  void PressAltF2IsRejected() const noexcept;
   void PressCtrlDeleteIsIgnored() const noexcept; // https://github.com/richelbilderbeek/BrainWeaver/issues/289
   void PressCtrlDownMovesSelectedQtNodeDown() const noexcept;
+  void PressCtrlF2IsRejected() const noexcept;
   void PressCtrlHTogglesHead() const noexcept;
   void PressCtrlLeftMovesSelectedQtNodeLeft() const noexcept;
   void PressCtrlRightMovesNonCentralNode() const noexcept;
@@ -97,9 +96,12 @@ private slots:
   void PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept;
   void PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept;
   void PressF2CannotEditFocalQuestion() const noexcept;
+  void PressF2EditNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept;
+  void PressF2EditNormalQtNodeAndOkChangesConcept() const noexcept;
   void PressF2OnCenterNodeIsRejected() const noexcept;
   void PressF2OnEmptyConceptMapIsRejected() const noexcept;
   void PressF2OnMultipleSelectedQtNodesIsRejected() const noexcept;
+  void PressF2ToEditNormalQtNodeIsAccepted() const noexcept;
   void PressF4IsRejected() const noexcept;
   void PressN() const noexcept;
   void PressQuestionMark() const noexcept;

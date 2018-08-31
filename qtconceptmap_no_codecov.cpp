@@ -15,6 +15,8 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
   QKeyEvent * const event
 )
 {
+  if (event->modifiers() != Qt::NoModifier) return;
+
   //Cannot edit relations connected to center node
   if (IsOnEdge(qtnode))
   {
@@ -29,6 +31,7 @@ void ribi::cmap::OnNodeKeyDownPressedEditF2(
       return;
     }
   }
+  assert(event->modifiers() == Qt::NoModifier);
 
   event->accept();
 
