@@ -13,6 +13,8 @@ class QtCommandCreateNewEdgeTest : public QObject
 private slots:
 
   void CannotCreateNewEdgeBetweenTwoRelations() const noexcept;
+  void CannotCreateNewEdgeFromOneRelation() const noexcept;
+  void CannotCreateNewEdgeToOneRelation() const noexcept;
   void CannotCreateNewEdgeWithoutSelectedNodes() const noexcept;
   void CannotCreateNewEdgeWithSelectedEdge() const noexcept;
 

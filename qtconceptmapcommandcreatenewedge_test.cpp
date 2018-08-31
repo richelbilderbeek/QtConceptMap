@@ -31,6 +31,44 @@ void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeBetweenTwoRelati
   }
 }
 
+void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeFromOneRelation() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdgeNoCenter());
+  assert(!IsSelected(*GetFirstQtEdge(q)->GetQtNode()));
+  assert(!IsSelected(*GetLastQtNode(q)));
+  SetSelectedness(true, *GetFirstQtEdge(q)->GetQtNode());
+  SetSelectedness(true, *GetLastQtNode(q));
+  try
+  {
+    q.DoCommand(new CommandCreateNewEdge(q, "between"));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
+
+void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeToOneRelation() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdgeNoCenter());
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  assert(!IsSelected(*GetLastQtEdge(q)->GetQtNode()));
+  SetSelectedness(true, *GetFirstQtNode(q));
+  SetSelectedness(true, *GetLastQtEdge(q)->GetQtNode());
+  try
+  {
+    q.DoCommand(new CommandCreateNewEdge(q, "between"));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("Should get here");
+  }
+}
+
 void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeWithoutSelectedNodes() const noexcept
 {
   QtConceptMap q;
