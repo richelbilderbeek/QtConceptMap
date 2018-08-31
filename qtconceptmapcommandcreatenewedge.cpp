@@ -86,8 +86,6 @@ bool ribi::cmap::CommandCreateNewEdge
 
 void ribi::cmap::CommandCreateNewEdge::CheckCanRedo() const
 {
-  //NONSENSE, just use 'from' and 'to'
-  /*
   if (CountSelectedQtNodes(GetQtConceptMap()) != 2)
   {
     std::stringstream msg;
@@ -106,7 +104,6 @@ void ribi::cmap::CommandCreateNewEdge::CheckCanRedo() const
     ;
     throw std::invalid_argument(msg.str());
   }
-  */
 }
 
 std::string ribi::cmap::GetText(const CommandCreateNewEdge& c) noexcept
