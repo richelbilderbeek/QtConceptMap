@@ -18,6 +18,8 @@ private slots:
   //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
   //void PressF2OnSingleEdgeUninitializedConceptMapIsRejected() const noexcept;
 
+  void PressAltF1IsRejected() const noexcept;
+  void PressCtrlF1IsRejected() const noexcept;
 
 
   //Done

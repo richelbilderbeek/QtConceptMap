@@ -980,6 +980,18 @@ void ribi::cmap::QtConceptMapTest::Press2TogglesHead() const noexcept
   QVERIFY(CountQtArrowHeads(q) != 1);
 }
 
+void ribi::cmap::QtConceptMapTest::PressAltF1IsRejected() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.show();
+  assert(CountSelectedQtNodes(q) == 1);
+  QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::AltModifier);
+  q.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
+}
+
 void ribi::cmap::QtConceptMapTest::PressAltF2IsRejected() const noexcept
 {
   QtConceptMap q;
@@ -1040,6 +1052,18 @@ void ribi::cmap::QtConceptMapTest::PressCtrlDownMovesSelectedQtNodeDown() const 
   q.keyPressEvent(&e);
   QVERIFY(GetX(*GetFirstQtNode(q)) == x);
   QVERIFY(GetY(*GetFirstQtNode(q)) > y);
+}
+
+void ribi::cmap::QtConceptMapTest::PressCtrlF1IsRejected() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyCenterNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.show();
+  assert(CountSelectedQtNodes(q) == 1);
+  QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::ControlModifier);
+  q.keyPressEvent(&e);
+  QVERIFY(!e.isAccepted());
 }
 
 void ribi::cmap::QtConceptMapTest::PressCtrlF2IsRejected() const noexcept

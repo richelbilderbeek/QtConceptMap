@@ -62,6 +62,8 @@ void ribi::cmap::OnNodeKeyDownPressedRateF1(
   QKeyEvent * const event
 )
 {
+  if (event->modifiers() != Qt::NoModifier) return;
+
   event->accept();
 
   assert(!IsOnEdge(qtnode));
@@ -84,6 +86,8 @@ void ribi::cmap::OnNodeKeyDownPressedRateF2(
   QKeyEvent * const event
 )
 {
+  if (event->modifiers() != Qt::NoModifier) return;
+
   //Relation's examples are not rated
   if (IsOnEdge(qtnode)) return;
 

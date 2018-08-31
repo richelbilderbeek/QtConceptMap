@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   int error = 0;
+  //{ QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   //assert(!"Don't forget to let Travis test everything");
 
   //These are all tests in alphabetical order
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
   { HelperTest t; error |= QTest::qExec(&t, argc, argv); }
   { ModeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtBrushFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtClassifyExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandCreateNewEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandCreateNewNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandDeleteSelectedTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -65,6 +67,7 @@ int main(int argc, char *argv[])
   { QtCommandSelectTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandSetConceptTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandSetModeTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandToggleArrowHeadTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandToggleArrowTailTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -72,11 +75,10 @@ int main(int argc, char *argv[])
   { QtCommandUnselectEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandUnselectNodeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtCommandUnselectTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtCommandsTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtEditConceptDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtItemHighlighterTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtNewArrowTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtNodeFactoryTest t; error |= QTest::qExec(&t, argc, argv); }
@@ -86,7 +88,6 @@ int main(int argc, char *argv[])
   { QtRateConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRateConceptTallyDialogTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtClassifyExamplesDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatedConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtRatingTest t; error |= QTest::qExec(&t, argc, argv); }
 

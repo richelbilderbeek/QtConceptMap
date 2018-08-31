@@ -1378,13 +1378,15 @@ void ribi::cmap::OnNodeKeyDownPressed(
     if (!IsOnEdge(qtnode))
     {
       OnNodeKeyDownPressedRateF1(q, qtnode, event);
-      event->accept();
+      //Will accept at 'OnNodeKeyDownPressedRateF1' iff accepted
+      //event->accept();
     }
   }
   else if (q.GetMode() == Mode::rate && key == Qt::Key_F2)
   {
     OnNodeKeyDownPressedRateF2(q, qtnode, event);
-    event->accept();
+    //Will accept at 'OnNodeKeyDownPressedRateF2' iff accepted
+    //event->accept();
   }
   q.show();
   q.setEnabled(true);
