@@ -1195,8 +1195,9 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   QGraphicsItem * const item = q.GetScene().itemAt(pos, QTransform());
 
   //If clicking in the void, unselect all if no modifier
-  if (!item && event->modifiers() == Qt::NoModifier)
+  if (!item )
   {
+    if (event->modifiers() != Qt::NoModifier) return;
     try
     {
       q.DoCommand(new CommandUnselectAll(q));
