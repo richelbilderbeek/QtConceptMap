@@ -13,15 +13,18 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void ClickLmbSelectsNormalNodeInRateMode() const noexcept;
-  void ClickLmbSelectsNothingInUninitializedMode() const noexcept;
-  void ClickLmbSelectsNormalNodeInEditMode() const noexcept;
+  void ClickLmbOnEmptyConceptMapIsNotAcceptedInEditMode() const noexcept;
+  void ClickLmbOnEmptyConceptMapIsNotAcceptedInRateMode() const noexcept;
+  void ClickLmbOnEmptyConceptMapIsNotAcceptedInUninitializedMode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
   void CannotEditCenterNode() const noexcept; //#104
   void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
+  void ClickLmbSelectsNormalNodeInEditMode() const noexcept;
+  void ClickLmbSelectsNormalNodeInRateMode() const noexcept;
+  void ClickLmbSelectsNothingInUninitializedMode() const noexcept;
   void ClickLmbSelectsSecondNode() const noexcept;
   void ClickOnNothingShouldUnselectAll() const noexcept;
   void ClickShiftLmbSelectsAdditivelyOnFirstNode() const noexcept;
@@ -133,7 +136,6 @@ private slots:
   void SetMode() const noexcept;
   void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept;
   void SingleClickOnEmptyConceptMap() const noexcept;
-  void SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept;
   void SingleClickOnNodeSelectsNode() const noexcept;
   void TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept;
   void TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept;

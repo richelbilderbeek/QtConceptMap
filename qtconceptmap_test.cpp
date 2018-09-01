@@ -142,6 +142,42 @@ void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() 
   QVERIFY(IsSelected(*GetLastQtNode(q)));
 }
 
+void ribi::cmap::QtConceptMapTest::ClickLmbOnEmptyConceptMapIsNotAcceptedInEditMode() const noexcept
+{
+  QtConceptMap m;
+  m.SetMode(Mode::edit);
+  m.showFullScreen();
+  assert(boost::num_vertices(m.ToConceptMap()) == 0);
+  const QPoint nothing;
+  QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  m.mousePressEvent(&e);
+  QVERIFY(!e.isAccepted());
+}
+
+void ribi::cmap::QtConceptMapTest::ClickLmbOnEmptyConceptMapIsNotAcceptedInRateMode() const noexcept
+{
+  QtConceptMap m;
+  m.SetMode(Mode::rate);
+  m.showFullScreen();
+  assert(boost::num_vertices(m.ToConceptMap()) == 0);
+  const QPoint nothing;
+  QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  m.mousePressEvent(&e);
+  QVERIFY(!e.isAccepted());
+}
+
+void ribi::cmap::QtConceptMapTest::ClickLmbOnEmptyConceptMapIsNotAcceptedInUninitializedMode() const noexcept
+{
+  QtConceptMap m;
+  m.SetMode(Mode::uninitialized);
+  m.showFullScreen();
+  assert(boost::num_vertices(m.ToConceptMap()) == 0);
+  const QPoint nothing;
+  QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  m.mousePressEvent(&e);
+  QVERIFY(!e.isAccepted());
+}
+
 void ribi::cmap::QtConceptMapTest::ClickLmbSelectsNormalNodeInEditMode() const noexcept
 {
   QtConceptMap q;
@@ -2204,18 +2240,6 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMap() const noexcept
   QTest::mouseClick(m.viewport(), Qt::LeftButton);
   QVERIFY(boost::num_vertices(m.ToConceptMap()) == 0);
 }
-
-void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept
-{
-  QtConceptMap m;
-  m.showFullScreen();
-  assert(boost::num_vertices(m.ToConceptMap()) == 0);
-  const QPoint nothing;
-  QMouseEvent e(QEvent::Type::MouseButtonPress, nothing, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-  m.mousePressEvent(&e);
-  QVERIFY(!e.isAccepted());
-}
-
 
 void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
 {
