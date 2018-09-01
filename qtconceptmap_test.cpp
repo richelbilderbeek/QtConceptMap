@@ -686,11 +686,12 @@ void ribi::cmap::QtConceptMapTest::DeleteOneEdgeByNodeKeyboard() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  q.SetMode(Mode::edit);
   q.showFullScreen();
   SetSelectedness(true, *GetFirstQtNode(q));
   assert(CountQtEdges(q) == 1);
   assert(CountQtNodes(q) == 2);
-  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier, 100);
+  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier);
   QVERIFY(CountQtEdges(q) == 0);
   QVERIFY(CountQtNodes(q) == 1);
 }

@@ -5,7 +5,7 @@
 ribi::cmap::Command::Command(
   QtConceptMap& qtconceptmap,
   QUndoCommand * const parent
-) noexcept
+)
   : QUndoCommand(parent),
     m_qtconceptmap(qtconceptmap)
 {

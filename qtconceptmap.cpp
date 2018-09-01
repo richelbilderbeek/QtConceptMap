@@ -1239,7 +1239,19 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     assert(item);
     if (item->isSelected())
     {
-      q.DoCommand(new CommandUnselect(q, *item));
+      try
+      {
+        q.DoCommand(new CommandUnselect(q, *item));
+      }
+      catch (const std::exception& e)
+      {
+        qCritical() << e.what();
+        assert(!"Should not get here?");
+      }
+      catch (...)
+      {
+        assert(!"Should really not get here?");
+      }
     }
     else
     {
