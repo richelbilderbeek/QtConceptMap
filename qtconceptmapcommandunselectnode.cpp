@@ -26,16 +26,19 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
 {
   if (!m_qtnode)
   {
+    qCritical() << "qCritical: Cannot unselect nullptr QtNode";
     throw std::invalid_argument("Cannot unselect nullptr QtNode");
   }
   if (IsQtNodeOnEdge(qtnode))
   {
+    qCritical() << "qCritical: Cannot unselect QtNode on QtEdge, use CommandUnselectEdge instead";
     throw std::invalid_argument(
-      "Cannot unselect QtNode on QtEdge, "
-      "use CommandUnselectEdge instead");
+      "Cannot unselect QtNode on QtEdge, use CommandUnselectEdge instead"
+    );
   }
   if (!m_qtnode->isSelected())
   {
+    qCritical() << "qCritical: Cannot unselect QtNode that is already unselected";
     throw std::invalid_argument("Cannot unselect QtNode that is already unselected");
   }
   //QCommands have a text
@@ -76,19 +79,10 @@ ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
 
 void ribi::cmap::CommandUnselectNode::Redo()
 {
-  #ifndef NDEBUG
-  const int n_selected_qtnodes_before = CountSelectedQtNodes(GetQtConceptMap());
-  #endif
-
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
   assert(m_qtnode);
   Unselect(GetQtConceptMap(), *m_qtnode);
-
-  #ifndef NDEBUG
-  const int n_selected_qtnodes_after = CountSelectedQtNodes(GetQtConceptMap());
-  Ensures(n_selected_qtnodes_after < n_selected_qtnodes_before);
-  #endif
 }
 
 void ribi::cmap::CommandUnselectNode::Undo()

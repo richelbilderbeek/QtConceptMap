@@ -12,13 +12,8 @@ class QtCommandSelectNodeTest : public QObject
 
 private slots:
 
-  ///Selecting an absent item fails
   void SelectAbsentItemFails() const noexcept;
-
-  ///Select one of two QtNodes by name
   void SelectOneOfTwoQtNodesByName() const noexcept;
-
-  ///Select one of two QtNodes by name and undo
   void SelectOneOfTwoQtNodesByNameAndUndo() const noexcept;
 
   ///Selecting a QtNode on a QtEdge fails

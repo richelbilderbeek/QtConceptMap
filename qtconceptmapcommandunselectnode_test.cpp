@@ -4,6 +4,7 @@
 #include "qtconceptmapcommandselectnode.h"
 #include "qtconceptmapcommandcreatenewnode.h"
 #include "qtconceptmap.h"
+#include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
 #include "conceptmapfactory.h"
 
@@ -48,6 +49,24 @@ void ribi::cmap::QtCommandUnselectNodeTest::UnselectQtCenterNodeByName() const n
 
   QVERIFY(CountSelectedQtEdges(q) == 0);
   QVERIFY(CountSelectedQtNodes(q) == 0);
+}
+
+void ribi::cmap::QtCommandUnselectNodeTest::UnselectQtNodeOnQtEdgeFails() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+
+  QtNode * const qtnode = GetFirstQtEdge(q)->GetQtNode();
+  qtnode->setSelected(true);
+  try
+  {
+    q.DoCommand(new CommandUnselectNode(q, qtnode));
+    assert(!"Should not get here");
+  }
+  catch (const std::exception&)
+  {
+    QVERIFY("OK");
+  }
 }
 
 void ribi::cmap::QtCommandUnselectNodeTest

@@ -25,8 +25,8 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   if (IsQtNodeOnEdge(qtnode))
   {
     throw std::invalid_argument(
-      "Cannot select QtNode on QtEdge, "
-      "use CommandSelectEdge instead");
+      "Cannot select QtNode on QtEdge, use CommandSelectEdge instead"
+    );
   }
   if (m_qtnode->isSelected())
   {

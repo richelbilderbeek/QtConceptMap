@@ -292,6 +292,22 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
   CheckInvariantNoUnknownItems(q);
   CheckInvariantQtToolItemIsNotAssociatedWithQtEdge(q);
   assert(!q.GetQtNewArrow().GetFrom() || q.GetQtNewArrow().GetFrom()->scene());
+  //Only select
+  for (const QGraphicsItem * const item: q.GetScene().selectedItems())
+  {
+    if (qgraphicsitem_cast<const QtEdge*>(item)) continue;
+    const QtNode * const qtnode = qgraphicsitem_cast<const QtNode*>(item);
+    if (qtnode)
+    {
+      if (IsQtNodeOnEdge(qtnode))
+      {
+        const QtEdge * const qtedge = FindQtEdge(qtnode, q);
+        const bool is_qtnode_selected{IsSelected(*qtnode)};
+        const bool is_qtedge_selected{IsSelected(*qtedge)};
+        assert(is_qtnode_selected == is_qtedge_selected);
+      }
+    }
+  }
   #endif
 }
 
@@ -935,10 +951,16 @@ void ribi::cmap::keyPressEventN(QtConceptMap& q, QKeyEvent *event) noexcept
 
 void ribi::cmap::keyPressEventSpace(QtConceptMap& q, QKeyEvent * event) noexcept
 {
+  if (event->modifiers() & Qt::AltModifier) return;
   const auto items = GetFocusableItems(q);
   if (items.size() == 0) return;
 
-  const bool keep_old_selection = event->modifiers() & Qt::ShiftModifier;
+  const bool holds_shift{
+    event->modifiers() == Qt::ShiftModifier
+  };
+  const bool keep_old_selection{
+    holds_shift && q.GetMode() == Mode::edit //Only additive selection in Edit mode
+  };
   SetRandomFocus(q, keep_old_selection);
   event->setAccepted(true);
 }
@@ -1167,6 +1189,7 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
   CheckInvariants(*this);
+  assert(event);
 
   if (GetMode() == Mode::uninitialized)
   {
@@ -1210,7 +1233,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
       q.DoCommand(new CommandUnselectAll(q));
       event->accept();
     }
-    catch (std::exception&)
+    catch (const std::exception&)
     {
       event->ignore();
     }
@@ -1248,6 +1271,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     {
       try
       {
+        assert(item);
         q.DoCommand(new CommandUnselect(q, *item));
       }
       catch (const std::exception& e)

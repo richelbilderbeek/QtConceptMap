@@ -17,33 +17,15 @@ private slots:
 
   //Done:
 
-  ///Unselecting an absent item fails
   void UnselectAbsentItemFails() const noexcept;
-
-  ///Unselect a lonely center QtNode by name
   void UnselectLonelyQtCenterNodeByName() const noexcept;
-
-  ///Unselect one of two QtNodes by name
   void UnselectOneOfTwoQtNodesByName() const noexcept;
-
-  ///Unselect one of two QtNodes by name and undo
   void UnselectOneOfTwoQtNodesByNameAndUndo() const noexcept;
-
-
-  ///Unselect a center QtNode by name
   void UnselectQtCenterNodeByName() const noexcept;
-
-  ///Unselect two QtNodes by name
+  void UnselectQtNodeOnQtEdgeFails() const noexcept; // (one should select the QtEdge)
   void UnselectTwoQtNodesByName() const noexcept;
-
-  ///Unselect two QtNodes by name and undo
   void UnselectTwoQtNodesByNameAndUndo() const noexcept;
-
-
-  ///Parse from a string
   void Parse() const noexcept;
-
-  ///Parsing a nonsense string should fails
   void ParseNonsenseFails() const noexcept;
 };
 

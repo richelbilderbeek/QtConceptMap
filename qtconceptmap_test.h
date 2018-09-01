@@ -13,11 +13,6 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void ClickShiftLmbSelectsAdditivelyOnFirstNodeInEditMode() const noexcept;
-  void ClickShiftLmbSelectsAdditivelyOnSecondNodeInEditMode() const noexcept;
-
-  void ClickShiftLmbSelectsExclusivelyOnFirstNodeInRateMode() const noexcept;
-  void ClickShiftLmbSelectsExclusivelyOnSecondNodeInRateMode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -32,6 +27,10 @@ private slots:
   void ClickLmbSelectsNothingInUninitializedMode() const noexcept;
   void ClickLmbSelectsSecondNode() const noexcept;
   void ClickOnNothingShouldUnselectAll() const noexcept;
+  void ClickShiftLmbSelectsAdditivelyOnFirstNodeInEditMode() const noexcept;
+  void ClickShiftLmbSelectsAdditivelyOnSecondNodeInEditMode() const noexcept;
+  void ClickShiftLmbSelectsExclusivelyOnFirstNodeInRateMode() const noexcept;
+  void ClickShiftLmbSelectsExclusivelyOnSecondNodeInRateMode() const noexcept;
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeCommand() const noexcept;
   void CreateOneEdgeKeyboardAndUndo() const noexcept;
@@ -85,6 +84,7 @@ private slots:
   void Press2TogglesHead() const noexcept;
   void PressAltF1IsRejected() const noexcept;
   void PressAltF2IsRejected() const noexcept;
+  void PressAltSpaceIsIgnored() const noexcept;
   void PressCtrlDeleteIsIgnored() const noexcept; // https://github.com/richelbilderbeek/BrainWeaver/issues/289
   void PressCtrlDownMovesSelectedQtNodeDown() const noexcept;
   void PressCtrlF1IsRejected() const noexcept;
@@ -126,7 +126,13 @@ private slots:
   void PressShiftRightSelectsEdgeAdditively() const noexcept;
   void PressShiftRightSelectsNodeAdditivelyInEditMode() const noexcept;
   void PressShiftRightSelectsNodeExclusivelyInRateMode() const noexcept;
+  void PressShiftSpaceSelectsNothingInUninitializedMode() const noexcept;
+  void PressShiftSpaceSelectsRandomNodeAdditivelyInEditMode() const noexcept;
+  void PressShiftSpaceSelectsRandomNodeExclusivelyInRateMode() const noexcept;
   void PressSpaceOnEmptyConceptMapIsRejected() const noexcept;
+  void PressSpaceSelectsNothingInUninitializedMode() const noexcept;
+  void PressSpaceSelectsRandomNodeExclusivelyInEditMode() const noexcept;
+  void PressSpaceSelectsRandomNodeExclusivelyInRateMode() const noexcept;
   void PressZ() const noexcept;
   void QtNodeInCenterMustBeGold() const noexcept; //#111
   void RateModeFlags() const noexcept;

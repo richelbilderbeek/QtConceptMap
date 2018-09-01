@@ -95,6 +95,8 @@ void ribi::cmap::QtCommandCreateNewEdgeTest::CannotCreateNewEdgeWithSelectedEdge
   SetSelectedness(true, *GetFirstQtEdge(q));
   assert(CountSelectedQtNodes(q) == 2);
   assert(CountSelectedQtEdges(q) == 1);
+  assert(IsSelected(*GetFirstQtEdge(q)));
+  assert(IsSelected(*GetFirstQtEdge(q)->GetQtNode()));
   try
   {
     q.DoCommand(new CommandCreateNewEdge(q, "between"));

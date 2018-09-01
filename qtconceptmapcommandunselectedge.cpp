@@ -21,11 +21,15 @@ ribi::cmap::CommandUnselectEdge::CommandUnselectEdge(
 {
   if (!m_qtedge)
   {
+    qCritical() << "qCritical: Cannot unselect nullptr QtEdge";
     throw std::invalid_argument("Cannot unselect nullptr QtEdge");
   }
   if (!IsSelected(*m_qtedge))
   {
-    throw std::invalid_argument("Cannot unselect QtEdge that is already unselected");
+    qCritical() << "qCritical: Cannot unselect QtEdge that is already unselected";
+    throw std::invalid_argument(
+      "Cannot unselect QtEdge that is already unselected"
+    );
   }
   //QCommands have a text
   {
@@ -58,20 +62,10 @@ ribi::cmap::CommandUnselectEdge * ribi::cmap::ParseCommandUnselectEdge(
 
 void ribi::cmap::CommandUnselectEdge::Redo()
 {
-  #ifndef NDEBUG
-  const int n_selected_qtedges_before = CountSelectedQtEdges(GetQtConceptMap());
-  Expects(n_selected_qtedges_before > 0);
-  #endif
-
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
 
   assert(m_qtedge);
   Unselect(GetQtConceptMap(), *m_qtedge);
-
-  #ifndef NDEBUG
-  const int n_selected_qtedges_after = CountSelectedQtEdges(GetQtConceptMap());
-  Ensures(n_selected_qtedges_after < n_selected_qtedges_before);
-  #endif
 }
 
 void ribi::cmap::CommandUnselectEdge::Undo()

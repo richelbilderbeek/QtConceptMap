@@ -1,4 +1,3 @@
-
 #include "qtconceptmap_test.h"
 #include "qtconceptmap.h"
 #include "qtconceptmap.h"
@@ -1212,6 +1211,16 @@ void ribi::cmap::QtConceptMapTest::PressAltF2IsRejected() const noexcept
   QVERIFY(!e.isAccepted());
 }
 
+void ribi::cmap::QtConceptMapTest::PressAltSpaceIsIgnored() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.SetMode(Mode::edit);
+  q.showFullScreen();
+  QTest::keyPress(&q, Qt::Key_Space, Qt::AltModifier);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+}
+
 void ribi::cmap::QtConceptMapTest::PressCtrlDeleteIsIgnored() const noexcept
 {
   QtConceptMap m;
@@ -1874,6 +1883,50 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(e.isAccepted());
 }
 
+void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsNothingInUninitializedMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.SetMode(Mode::uninitialized);
+  q.showFullScreen();
+  QTest::keyPress(&q, Qt::Key_Space, Qt::ShiftModifier);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomNodeAdditivelyInEditMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  q.SetMode(Mode::edit);
+  q.showFullScreen();
+  QtNode * const first_qtnode = GetFirstQtNode(q);
+  const QtNode * const last_qtnode = GetLastQtNode(q);
+  assert(first_qtnode != last_qtnode);
+  SetSelectedness(true, *first_qtnode);
+  assert( IsSelected(*first_qtnode));
+  assert(!IsSelected(*last_qtnode));
+  QTest::keyPress(&q, Qt::Key_Space, Qt::ShiftModifier);
+  assert(IsSelected(*first_qtnode));
+  assert(IsSelected(*last_qtnode));
+}
+
+void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomNodeExclusivelyInRateMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  q.SetMode(Mode::rate);
+  q.showFullScreen();
+  QtNode * const first_qtnode = GetFirstQtNode(q);
+  const QtNode * const last_qtnode = GetLastQtNode(q);
+  assert(first_qtnode != last_qtnode);
+  SetSelectedness(true, *first_qtnode);
+  assert( IsSelected(*first_qtnode));
+  assert(!IsSelected(*last_qtnode));
+  QTest::keyPress(&q, Qt::Key_Space, Qt::ShiftModifier);
+  assert(!IsSelected(*first_qtnode));
+  assert( IsSelected(*last_qtnode));
+}
+
 void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const noexcept
 {
   QtConceptMap m;
@@ -1883,6 +1936,53 @@ void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const
   QVERIFY(!e.isAccepted());
 }
 
+void ribi::cmap::QtConceptMapTest::PressSpaceSelectsNothingInUninitializedMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.SetMode(Mode::uninitialized);
+  q.showFullScreen();
+  QTest::keyPress(&q, Qt::Key_Space);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtConceptMapTest::PressSpaceSelectsRandomNodeExclusivelyInEditMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  q.SetMode(Mode::edit);
+  q.showFullScreen();
+  const QtNode * const first_qtnode = GetFirstQtNode(q);
+  const QtNode * const last_qtnode = GetLastQtNode(q);
+  assert(first_qtnode != last_qtnode);
+  while (!IsSelected(*first_qtnode))
+  {
+    QTest::keyPress(&q, Qt::Key_Space);
+  }
+  while (!IsSelected(*last_qtnode))
+  {
+    QTest::keyPress(&q, Qt::Key_Space);
+  }
+}
+
+void ribi::cmap::QtConceptMapTest::PressSpaceSelectsRandomNodeExclusivelyInRateMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  q.SetMode(Mode::rate);
+  q.showFullScreen();
+  const QtNode * const first_qtnode = GetFirstQtNode(q);
+  const QtNode * const last_qtnode = GetLastQtNode(q);
+  assert(first_qtnode != last_qtnode);
+  while (!IsSelected(*first_qtnode))
+  {
+    QTest::keyPress(&q, Qt::Key_Space);
+  }
+  while (!IsSelected(*last_qtnode))
+  {
+    QTest::keyPress(&q, Qt::Key_Space);
+  }
+}
 
 void ribi::cmap::QtConceptMapTest::PressZ() const noexcept
 {
