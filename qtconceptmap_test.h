@@ -13,15 +13,15 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void ClickLmbOnEmptyConceptMapIsNotAcceptedInEditMode() const noexcept;
-  void ClickLmbOnEmptyConceptMapIsNotAcceptedInRateMode() const noexcept;
-  void ClickLmbOnEmptyConceptMapIsNotAcceptedInUninitializedMode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
   void CannotEditCenterNode() const noexcept; //#104
   void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
+  void ClickLmbOnEmptyConceptMapIsNotAcceptedInEditMode() const noexcept;
+  void ClickLmbOnEmptyConceptMapIsNotAcceptedInRateMode() const noexcept;
+  void ClickLmbOnEmptyConceptMapIsNotAcceptedInUninitializedMode() const noexcept;
   void ClickLmbSelectsNormalNodeInEditMode() const noexcept;
   void ClickLmbSelectsNormalNodeInRateMode() const noexcept;
   void ClickLmbSelectsNothingInUninitializedMode() const noexcept;
