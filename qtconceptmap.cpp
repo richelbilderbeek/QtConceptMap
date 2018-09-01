@@ -802,6 +802,7 @@ void ribi::cmap::keyPressEventArrowsMove(QtConceptMap& q, QKeyEvent *event) noex
 
 void ribi::cmap::keyPressEventDelete(QtConceptMap& q, QKeyEvent *event) noexcept
 {
+  if (q.GetMode() != Mode::edit) return;
   if (event->modifiers() != Qt::NoModifier) return;
 
   CheckInvariants(q);

@@ -1249,7 +1249,6 @@ void ribi::cmap::QtConceptMapTest::PressDelDeletesNodeInEditMode() const noexcep
 
 void ribi::cmap::QtConceptMapTest::PressDelOnNormalNodeIsIgnoredInRateMode() const noexcept
 {
-  QSKIP("#315", "https://github.com/richelbilderbeek/BrainWeaver/issues/315");
   QtConceptMap q;
   q.SetMode(Mode::rate);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1262,12 +1261,10 @@ void ribi::cmap::QtConceptMapTest::PressDelOnNormalNodeIsIgnoredInRateMode() con
   QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier);
   assert(CountQtEdges(q) == 0);
   QVERIFY(CountQtNodes(q) == 1);
-  assert(1==2);
 }
 
 void ribi::cmap::QtConceptMapTest::PressDelOnNormalNodeIsIgnoredInUninitializedMode() const noexcept
 {
-  QSKIP("#315", "https://github.com/richelbilderbeek/BrainWeaver/issues/315");
   QtConceptMap q;
   q.SetMode(Mode::uninitialized);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1280,7 +1277,6 @@ void ribi::cmap::QtConceptMapTest::PressDelOnNormalNodeIsIgnoredInUninitializedM
   QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier);
   assert(CountQtEdges(q) == 0);
   QVERIFY(CountQtNodes(q) == 1);
-  assert(1==2);
 }
 
 void ribi::cmap::QtConceptMapTest::PressEscapeMustBeIgnored() const noexcept
