@@ -289,7 +289,7 @@ void ribi::cmap::QtEdge::keyPressEvent(QKeyEvent *event) noexcept
 }
 
 void ribi::cmap::QtEdge::mousePressEvent(QGraphicsSceneMouseEvent *event) noexcept
-{  
+{
   //Don't forward the keyPressEvent!
   //These are handled by Commands in the QtConceptMap
 }
@@ -395,6 +395,8 @@ void ribi::cmap::QtEdge::SetSelected(const bool selected)
 {
   QGraphicsItem::setSelected(selected);
   this->GetQtNode()->setSelected(selected);
+  this->update();
+  this->GetQtNode()->update();
 }
 
 QPainterPath ribi::cmap::QtEdge::shape() const noexcept

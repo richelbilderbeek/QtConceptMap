@@ -1893,6 +1893,42 @@ void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsNothingInUninitializedM
   assert(!IsSelected(*GetFirstQtNode(q)));
 }
 
+void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomEdgeAdditivelyInEditMode() const noexcept
+{
+  QSKIP("#320", "https://github.com/richelbilderbeek/BrainWeaver/issues/320");
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  q.SetMode(Mode::edit);
+  SetSelectedness(true, *GetFirstQtNode(q));
+  SetSelectedness(true, *GetLastQtNode(q));
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  for (int i = 0; i != 10; ++i)
+  {
+    assert(!IsSelected(*GetFirstQtEdge(q)));
+    assert(!IsSelected(*GetFirstQtEdge(q)->GetQtNode()));
+    QTest::keyClick(&q, Qt::Key_Space, Qt::ShiftModifier, 1000);
+    q.show();
+    CheckInvariants(q);
+    qCritical()
+      << IsSelected(*GetFirstQtNode(q))
+      << IsSelected(*GetLastQtNode(q))
+      << IsSelected(*GetFirstQtEdge(q))
+      << IsSelected(*GetFirstQtEdge(q)->GetQtNode())
+    ;
+    q.update();
+    assert( IsSelected(*GetFirstQtEdge(q)));
+    assert( IsSelected(*GetFirstQtEdge(q)->GetQtNode()));
+    SetSelectedness(false, *GetFirstQtEdge(q));
+    QTest::qWait(1000);
+    q.show();
+    assert(!IsSelected(*GetFirstQtEdge(q)));
+    assert(!IsSelected(*GetFirstQtEdge(q)->GetQtNode()));
+    q.show();
+  }
+  assert(1==2);
+}
+
 void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomNodeAdditivelyInEditMode() const noexcept
 {
   QtConceptMap q;

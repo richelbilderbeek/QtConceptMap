@@ -1600,7 +1600,19 @@ void ribi::cmap::SetFocus(QtConceptMap& q, QtNode* const new_focus_item)
   }
   else
   {
-    SetSelectedness(true, *new_focus_item);
+    QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(new_focus_item);
+    assert(qtnode);
+    if (IsOnEdge(*qtnode))
+    {
+      QtEdge * const qtedge_parent = FindQtEdge(qtnode, q);
+      assert(qtedge_parent);
+      SetSelectedness(true, *qtedge_parent);
+    }
+    else
+    {
+      assert(!IsOnEdge(*qtnode));
+      SetSelectedness(true, *qtnode);
+    }
   }
 
   //Only QtNodes (not on QtEdge) have a QtToolItem
