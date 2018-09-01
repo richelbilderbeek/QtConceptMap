@@ -1168,6 +1168,8 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
   CheckInvariants(*this);
 
+  if (GetMode() == Mode::uninitialized) return;
+
   m_last_mouse_click_pos.resize(1);
   m_last_mouse_click_pos[0] = mapToScene(event->pos());
 
@@ -1196,7 +1198,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   QGraphicsItem * const item = q.GetScene().itemAt(pos, QTransform());
 
   //If clicking in the void, unselect all if no modifier
-  if (!item )
+  if (!item)
   {
     if (event->modifiers() != Qt::NoModifier) return;
     try

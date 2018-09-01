@@ -13,8 +13,9 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  void PressShiftRightSelectsNodeAdditivelyInEditMode() const noexcept;
-  void PressShiftRightSelectsNodeExclusivelyInRateMode() const noexcept;
+  void ClickLmbSelectsNormalNodeInRateMode() const noexcept;
+  void ClickLmbSelectsNothingInUninitializedMode() const noexcept;
+  void ClickLmbSelectsNormalNodeInEditMode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -27,9 +28,8 @@ private slots:
   void ClickShiftLmbSelectsAdditivelyOnSecondNode() const noexcept;
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeCommand() const noexcept;
-  void CreateOneEdgeKeyboard() const noexcept;
-  void CreateTenNodesAndUndoKeyboard() const noexcept;
   void CreateOneEdgeKeyboardAndUndo() const noexcept;
+  void CreateOneEdgeKeyboard() const noexcept;
   void CreateOneEdgeKeyboardIncorrectly() const noexcept;
   void CreateOneEdgeWithHeadAndToggleKeyboard() const noexcept;
   void CreateOneEdgeWithHeadAndUndoKeyboard() const noexcept;
@@ -43,14 +43,15 @@ private slots:
   void CreateOneNodeKeyboard() const noexcept;
   void CreateOneNodeMouse() const noexcept;
   void CreateTenNodesAndUndoCommand() const noexcept;
+  void CreateTenNodesAndUndoKeyboard() const noexcept;
   void CreateTwoNodesCommand() const noexcept;
   void CreateTwoNodesKeyboard() const noexcept;
   void DefaultConstruction() const noexcept;
+  void DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const noexcept;
   void DeleteNodeThatIsConnectedToMultipleEdgesKeyboard() const noexcept;
   void DeleteNodeThatIsHeadOfEdgeAndUndoKeyboard() const noexcept;
   void DeleteNodeThatIsHeadOfEdgeKeyboard() const noexcept;
   void DeleteNodeThatIsTailOfEdgeKeyboard() const noexcept;
-  void DeleteNodesThatAreHeadAndTailOfEdgeKeyboard() const noexcept;
   void DeleteOneEdgeByNodeCommand() const noexcept;
   void DeleteOneEdgeByNodeKeyboard() const noexcept;
   void DeleteOneEdgeCommand() const noexcept;
@@ -62,8 +63,8 @@ private slots:
   void DoubleClick() const noexcept;
   void DoubleClickTwice() const noexcept;
   void EditModeFlags() const noexcept;
-  void GetHighlighter() const noexcept;
   void GetHighlighterConst() const noexcept;
+  void GetHighlighter() const noexcept;
   void GetItemBelowCursor() const noexcept;
   void GetQtNodesAlsoOnQtEdge() const noexcept;
   void HasSelectedItems() const noexcept;
@@ -117,6 +118,8 @@ private slots:
   void PressRightSelectsEdgeExclusively() const noexcept;
   void PressRightSelectsNodeExclusively() const noexcept;
   void PressShiftRightSelectsEdgeAdditively() const noexcept;
+  void PressShiftRightSelectsNodeAdditivelyInEditMode() const noexcept;
+  void PressShiftRightSelectsNodeExclusivelyInRateMode() const noexcept;
   void PressSpaceOnEmptyConceptMapIsRejected() const noexcept;
   void PressZ() const noexcept;
   void QtNodeInCenterMustBeGold() const noexcept; //#111
@@ -131,7 +134,6 @@ private slots:
   void SettingConceptMapsEdgesQtEdgesNodesQtNodesMustMatch() const noexcept;
   void SingleClickOnEmptyConceptMap() const noexcept;
   void SingleClickOnEmptyConceptMapIsNotAccepted() const noexcept;
-  void SingleClickOnNodeIsAccepted() const noexcept;
   void SingleClickOnNodeSelectsNode() const noexcept;
   void TwoClicksOnEdgeSelectsAndUnselectsIt() const noexcept;
   void TwoClicksOnNodeSelectsAndUnselectsIt() const noexcept;

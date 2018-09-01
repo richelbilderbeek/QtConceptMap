@@ -115,11 +115,13 @@ void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnFirstNode() c
     global_pos
   );
   assert(IsSelected(*GetFirstQtNode(q)));
+  QVERIFY(IsSelected(*GetFirstQtNode(q)));
 }
 
 void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() const noexcept
 {
   QtConceptMap q;
+  q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
   SetSelectedness(true, *GetFirstQtNode(q));
   q.showFullScreen();
@@ -136,11 +138,71 @@ void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() 
   );
   assert(IsSelected(*GetFirstQtNode(q)));
   assert(IsSelected(*GetLastQtNode(q)));
+  QVERIFY(IsSelected(*GetFirstQtNode(q)));
+  QVERIFY(IsSelected(*GetLastQtNode(q)));
+}
+
+void ribi::cmap::QtConceptMapTest::ClickLmbSelectsNormalNodeInEditMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::edit);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  const QPoint global_pos{q.mapFromScene(GetFirstQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::NoModifier,
+    global_pos
+  );
+  QVERIFY(IsSelected(*GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtConceptMapTest::ClickLmbSelectsNormalNodeInRateMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::rate);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  const QPoint global_pos{q.mapFromScene(GetFirstQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::NoModifier,
+    global_pos
+  );
+  QVERIFY(IsSelected(*GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtConceptMapTest::ClickLmbSelectsNothingInUninitializedMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::uninitialized);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  const QPoint global_pos{q.mapFromScene(GetFirstQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::NoModifier,
+    global_pos
+  );
+  assert(!IsSelected(*GetFirstQtNode(q)));
 }
 
 void ribi::cmap::QtConceptMapTest::ClickLmbSelectsSecondNode() const noexcept
 {
   QtConceptMap q;
+  q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
   SetSelectedness(true, *GetFirstQtNode(q));
   q.showFullScreen();
@@ -313,17 +375,16 @@ void ribi::cmap::QtConceptMapTest::CreateOneNodeAndUndoKeyboard() const noexcept
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.showFullScreen();
-  QVERIFY(CountQtEdges(m) == 0);
-  QVERIFY(CountQtNodes(m) == 0);
-  QVERIFY(CountSelectedQtEdges(m) == 0);
-  QVERIFY(CountSelectedQtNodes(m) == 0);
+  assert(CountQtEdges(m) == 0);
+  assert(CountQtNodes(m) == 0);
+  assert(CountSelectedQtEdges(m) == 0);
+  assert(CountSelectedQtNodes(m) == 0);
   QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  QVERIFY(CountQtEdges(m) == 0);
-  QVERIFY(CountQtNodes(m) == 1);
-  QVERIFY(CountSelectedQtEdges(m) == 0);
-  QVERIFY(CountSelectedQtNodes(m) == 1);
+  assert(CountQtEdges(m) == 0);
+  assert(CountQtNodes(m) == 1);
+  assert(CountSelectedQtEdges(m) == 0);
+  assert(CountSelectedQtNodes(m) == 1);
   QTest::keyClick(&m, Qt::Key_Z, Qt::ControlModifier, 100);
-
   QVERIFY(CountQtEdges(m) == 0);
   QVERIFY(CountQtNodes(m) == 0);
   QVERIFY(CountSelectedQtEdges(m) == 0);
@@ -2155,18 +2216,6 @@ void ribi::cmap::QtConceptMapTest::SingleClickOnEmptyConceptMapIsNotAccepted() c
   QVERIFY(!e.isAccepted());
 }
 
-void ribi::cmap::QtConceptMapTest::SingleClickOnNodeIsAccepted() const noexcept
-{
-  QtConceptMap q;
-  q.SetMode(Mode::edit);
-  QTest::keyClick(&q, Qt::Key_N, Qt::ControlModifier);
-  q.DoCommand(new CommandUnselectAll(q));
-  q.showFullScreen();
-  const auto pos = q.mapFromScene(GetFirstQtNode(q)->pos().toPoint());
-  QMouseEvent e(QEvent::Type::MouseButtonPress, pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-  q.mousePressEvent(&e);
-  QVERIFY(e.isAccepted());
-}
 
 void ribi::cmap::QtConceptMapTest::SingleClickOnNodeSelectsNode() const noexcept
 {
