@@ -119,7 +119,6 @@ void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnFirstNode() c
 
 void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() const noexcept
 {
-  QSKIP("TODO", "#297", "https://github.com/richelbilderbeek/BrainWeaver/issues/297");
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
   SetSelectedness(true, *GetFirstQtNode(q));
@@ -128,18 +127,15 @@ void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() 
   assert( IsSelected(*GetFirstQtNode(q)));
   assert(!IsSelected(*GetLastQtNode(q)));
   const QPoint global_pos{q.mapFromScene(GetLastQtNode(q)->pos())};
-  QTest::mouseMove(&q, global_pos, 1000);
+  QTest::mouseMove(&q, global_pos);
   QTest::mouseClick(
     q.viewport(),
     Qt::MouseButton::LeftButton,
     Qt::ShiftModifier,
-    global_pos,
-    1000
+    global_pos
   );
-  QTest::qWait(1000);
   assert(IsSelected(*GetFirstQtNode(q)));
   assert(IsSelected(*GetLastQtNode(q)));
-  assert(1==2);
 }
 
 void ribi::cmap::QtConceptMapTest::ClickLmbSelectsSecondNode() const noexcept

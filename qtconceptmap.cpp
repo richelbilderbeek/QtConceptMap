@@ -1194,8 +1194,8 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   const QPointF pos = q.mapToScene(event->pos());
   QGraphicsItem * const item = q.GetScene().itemAt(pos, QTransform());
 
-  //If clicking in the void, unselect all
-  if (!item)
+  //If clicking in the void, unselect all if no modifier
+  if (!item && event->modifiers() == Qt::NoModifier)
   {
     try
     {
@@ -1242,7 +1242,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     else
     {
       Command * const command{new CommandSelect(q, *item)};
-      if (HasSelectedItems(q))
+      if (HasSelectedItems(q) && event->modifiers() == Qt::NoModifier)
       {
         q.DoCommand(new CommandUnselectAll(q));
       }
