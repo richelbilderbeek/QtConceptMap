@@ -21,7 +21,7 @@ class QtRatedConceptDialogTest;
 class QtConceptMapRatedConceptDialog final : public QDialog
 {
   Q_OBJECT //!OCLINT
-  
+
 public:
 
   ///In the role of student, no ratings are shown
@@ -91,14 +91,12 @@ std::string ToHtmlListItems(
 std::string ToHtmlListItemFrom(
   const Edge& edge,
   const ConceptMap& conceptmap,
-  const Node& node,
   const Role role
 );
 
 std::string ToHtmlListItemFromTo(
   const Edge& edge,
   const ConceptMap& conceptmap,
-  const Node& node,
   const Role role,
   const std::function<std::string(const Edge&, const ConceptMap&)> arrow_text_fun
 );
@@ -106,7 +104,6 @@ std::string ToHtmlListItemFromTo(
 std::string ToHtmlListItemTo(
   const Edge& edge,
   const ConceptMap& conceptmap,
-  const Node& node,
   const Role role
 );
 

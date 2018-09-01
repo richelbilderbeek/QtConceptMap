@@ -13,6 +13,8 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void PressDelOnNormalNodeIsIgnoredInRateMode() const noexcept;
+  void PressDelOnNormalNodeIsIgnoredInUninitializedMode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -55,7 +57,6 @@ private slots:
   void DeleteOneEdgeKeyboard() const noexcept;
   void DeleteOneNodeCommandAndUndo() const noexcept;
   void DeleteOneNodeCommand() const noexcept;
-  void DeleteOneNodeKeyboard() const noexcept;
   void DeleteTwoNodesCommand() const noexcept;
   void DeleteTwoNodesKeyboard() const noexcept;
   void DoubleClick() const noexcept;
@@ -90,6 +91,7 @@ private slots:
   void PressCtrlRightMovesSelectedQtNodeRight() const noexcept;
   void PressCtrlTTogglesTail() const noexcept;
   void PressCtrlUpMovesSelectedQtNodeUp() const noexcept;
+  void PressDelDeletesNodeInEditMode() const noexcept;
   void PressEscapeMustBeIgnored() const noexcept;
   void PressF1OnCenterNodeIsRejected() const noexcept;
   void PressF1OnEmptyConceptMapIsRejected() const noexcept;

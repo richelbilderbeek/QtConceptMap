@@ -195,16 +195,9 @@ void ribi::cmap::QtConceptMapRatedConceptDialog::PutExamplesInList(
 std::string ribi::cmap::ToHtmlListItemFromTo(
   const Edge& edge,
   const ConceptMap& conceptmap,
-  const Node& node,
   const Role role,
   const std::function<std::string(const Edge&, const ConceptMap&)> arrow_text_fun
 ) {
-  assert(
-    (
-      GetFrom(edge, conceptmap) == node
-      && !IsCenterNode(GetTo(edge, conceptmap))
-    ) || GetTo(edge, conceptmap) == node
-  );
   std::stringstream s;
   s << "  <li>";
   if (role == Role::assessor)
@@ -220,22 +213,17 @@ std::string ribi::cmap::ToHtmlListItemFromTo(
 std::string ribi::cmap::ToHtmlListItemFrom(
   const Edge& edge,
   const ConceptMap& conceptmap,
-  const Node& node,
   const Role role
 ) {
-  assert(GetFrom(edge, conceptmap) == node);
-  assert(!IsCenterNode(GetTo(edge, conceptmap)));
-  return ToHtmlListItemFromTo(edge, conceptmap, node, role, GetFromArrowText);
+  return ToHtmlListItemFromTo(edge, conceptmap, role, GetFromArrowText);
 }
 
 std::string ribi::cmap::ToHtmlListItemTo(
   const Edge& edge,
   const ConceptMap& conceptmap,
-  const Node& node,
   const Role role
 ) {
-  assert(GetTo(edge, conceptmap) == node);
-  return ToHtmlListItemFromTo(edge, conceptmap, node, role, GetToArrowText);
+  return ToHtmlListItemFromTo(edge, conceptmap, role, GetToArrowText);
 }
 
 std::string ribi::cmap::ToHtmlListItems(
@@ -255,11 +243,11 @@ std::string ribi::cmap::ToHtmlListItems(
   if (GetFrom(edge, conceptmap) == node
     && !IsCenterNode(GetTo(edge, conceptmap)))
   {
-    s << ToHtmlListItemFrom(edge, conceptmap, node, role);
+    s << ToHtmlListItemFrom(edge, conceptmap, role);
   }
   else if (GetTo(edge, conceptmap) == node)
   {
-    s << ToHtmlListItemTo(edge, conceptmap, node, role);
+    s << ToHtmlListItemTo(edge, conceptmap, role);
   }
   //Indendent on arrow: all examples
   s << ToHtmlListItems(GetExamples(edge), role);

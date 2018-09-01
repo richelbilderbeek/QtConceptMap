@@ -773,24 +773,6 @@ void ribi::cmap::QtConceptMapTest::DeleteOneNodeCommandAndUndo() const noexcept
   QVERIFY(CountSelectedQtNodes(m) == 1);
 }
 
-void ribi::cmap::QtConceptMapTest::DeleteOneNodeKeyboard() const noexcept
-{
-  QtConceptMap m;
-  m.SetMode(Mode::edit);
-  m.showFullScreen();
-  assert(CountQtEdges(m) == 0);
-  assert(CountQtNodes(m) == 0);
-  QTest::keyClick(&m, Qt::Key_N, Qt::ControlModifier, 100);
-  m.showFullScreen();
-  assert(CountQtEdges(m) == 0);
-  assert(CountQtNodes(m) == 1);
-  assert(CountSelectedQtEdges(m) == 0);
-  assert(CountSelectedQtNodes(m) == 1);
-  QTest::keyClick(&m, Qt::Key_Delete, Qt::NoModifier, 100);
-  m.showFullScreen();
-  QVERIFY(CountQtEdges(m) == 0);
-  QVERIFY(CountQtNodes(m) == 0);
-}
 
 
 void ribi::cmap::QtConceptMapTest::DeleteTwoNodesCommand() const noexcept
@@ -1247,6 +1229,58 @@ void ribi::cmap::QtConceptMapTest::PressCtrlUpMovesSelectedQtNodeUp() const noex
   q.keyPressEvent(&e);
   QVERIFY(GetX(*GetFirstQtNode(q)) == x);
   QVERIFY(GetY(*GetFirstQtNode(q)) < y);
+}
+
+void ribi::cmap::QtConceptMapTest::PressDelDeletesNodeInEditMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::edit);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.showFullScreen();
+  assert(CountQtEdges(q) == 0);
+  assert(CountQtNodes(q) == 1);
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier);
+  assert(CountQtEdges(q) == 0);
+  QVERIFY(CountQtNodes(q) == 0);
+}
+
+void ribi::cmap::QtConceptMapTest::PressDelOnNormalNodeIsIgnoredInRateMode() const noexcept
+{
+  QSKIP("#315", "https://github.com/richelbilderbeek/BrainWeaver/issues/315");
+  QtConceptMap q;
+  q.SetMode(Mode::rate);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.showFullScreen();
+  assert(CountQtEdges(q) == 0);
+  assert(CountQtNodes(q) == 1);
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier);
+  assert(CountQtEdges(q) == 0);
+  QVERIFY(CountQtNodes(q) == 1);
+  assert(1==2);
+}
+
+void ribi::cmap::QtConceptMapTest::PressDelOnNormalNodeIsIgnoredInUninitializedMode() const noexcept
+{
+  QSKIP("#315", "https://github.com/richelbilderbeek/BrainWeaver/issues/315");
+  QtConceptMap q;
+  q.SetMode(Mode::uninitialized);
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.showFullScreen();
+  assert(CountQtEdges(q) == 0);
+  assert(CountQtNodes(q) == 1);
+  assert(CountSelectedQtEdges(q) == 0);
+  assert(CountSelectedQtNodes(q) == 1);
+  QTest::keyClick(&q, Qt::Key_Delete, Qt::NoModifier);
+  assert(CountQtEdges(q) == 0);
+  QVERIFY(CountQtNodes(q) == 1);
+  assert(1==2);
 }
 
 void ribi::cmap::QtConceptMapTest::PressEscapeMustBeIgnored() const noexcept
