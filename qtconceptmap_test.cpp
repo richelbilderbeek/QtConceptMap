@@ -1519,8 +1519,8 @@ void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChange
   //F2 activates 'Edit Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
-  QTimer::singleShot(200, &c, SLOT(Modify()));
-  QTimer::singleShot(400, &c, SLOT(PressCancel()));
+  QTimer::singleShot(400, &c, SLOT(Modify()));
+  QTimer::singleShot(800, &c, SLOT(PressCancel()));
   q.keyPressEvent(&event);
   assert(event.isAccepted());
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -1552,8 +1552,8 @@ void ribi::cmap::QtConceptMapTest
   //F2 activates 'Classify Examples' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
-  QTimer::singleShot(200, &c, SLOT(Modify()));
-  QTimer::singleShot(400, &c, SLOT(PressOk()));
+  QTimer::singleShot(400, &c, SLOT(Modify()));
+  QTimer::singleShot(800, &c, SLOT(PressOk()));
   q.keyPressEvent(&event);
   assert(event.isAccepted());
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -1603,6 +1603,7 @@ void ribi::cmap::QtConceptMapTest
   ::PressShiftRightSelectsEdgeAdditively() const noexcept
 {
   QtConceptMap q;
+  q.SetMode(Mode::edit);
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
   q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
   q.DoCommand(new CommandCreateNewEdge(q, "between"));
@@ -1627,27 +1628,48 @@ void ribi::cmap::QtConceptMapTest
 }
 
 void ribi::cmap::QtConceptMapTest
-  ::PressShiftRightSelectsNodeAdditively() const noexcept
+  ::PressShiftRightSelectsNodeAdditivelyInEditMode() const noexcept
 {
   QtConceptMap q;
-  q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
-  q.DoCommand(new CommandCreateNewNode(q, "right", NodeType::normal));
-  q.DoCommand(new CommandUnselectAll(q));
-  QtNode * const left_qtnode
-    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "left"; } );
-  QtNode * const right_qtnode
-    = FindFirstQtNode(q, [](QtNode * const qtnode) { return GetText(*qtnode) == "right"; } );
-  q.DoCommand(new CommandMoveNode(q, left_qtnode , -100.0, 0.0));
-  q.DoCommand(new CommandMoveNode(q, right_qtnode,  100.0, 0.0));
-  q.DoCommand(new CommandSelectNode(q, left_qtnode));
+  q.SetMode(Mode::edit);
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  const auto first_qtnode = GetFirstQtNode(q);
+  const auto last_qtnode = GetFirstQtNode(q);
+  QtNode * const left_qtnode{
+    first_qtnode->pos().x() < last_qtnode->pos().x()
+    ? first_qtnode
+    : last_qtnode
+  };
+  SetSelectedness(true, *left_qtnode);
   left_qtnode->setFocus();
   assert(CountSelectedQtNodes(q) == 1);
-
   QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ShiftModifier);
   q.keyPressEvent(&e);
 
   QVERIFY(CountSelectedQtNodes(q) == 2);
   QVERIFY(e.isAccepted());
+}
+
+void ribi::cmap::QtConceptMapTest
+  ::PressShiftRightSelectsNodeExclusivelyInRateMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::rate);
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  const auto first_qtnode = GetFirstQtNode(q);
+  const auto last_qtnode = GetFirstQtNode(q);
+  QtNode * const left_qtnode{
+    first_qtnode->pos().x() < last_qtnode->pos().x()
+    ? first_qtnode
+    : last_qtnode
+  };
+  SetSelectedness(true, *left_qtnode);
+  left_qtnode->setFocus();
+  assert(CountSelectedQtNodes(q) == 1);
+  QKeyEvent e(QEvent::Type::KeyPress, Qt::Key_Right, Qt::ShiftModifier);
+  q.keyPressEvent(&e);
+  assert(CountSelectedQtNodes(q) == 1);
+  assert(e.isAccepted());
 }
 
 void ribi::cmap::QtConceptMapTest

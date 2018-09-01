@@ -13,6 +13,8 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void PressShiftRightSelectsNodeAdditivelyInEditMode() const noexcept;
+  void PressShiftRightSelectsNodeExclusivelyInRateMode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -115,7 +117,6 @@ private slots:
   void PressRightSelectsEdgeExclusively() const noexcept;
   void PressRightSelectsNodeExclusively() const noexcept;
   void PressShiftRightSelectsEdgeAdditively() const noexcept;
-  void PressShiftRightSelectsNodeAdditively() const noexcept;
   void PressSpaceOnEmptyConceptMapIsRejected() const noexcept;
   void PressZ() const noexcept;
   void QtNodeInCenterMustBeGold() const noexcept; //#111

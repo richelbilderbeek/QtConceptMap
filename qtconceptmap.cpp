@@ -729,7 +729,7 @@ void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) no
   assert(qgraphicsitem_cast<QtNode*>(item) || qgraphicsitem_cast<QtEdge*>(item));
 
   //If select exclusively (no shift), unselect all current select items
-  if (!event->modifiers())
+  if (!event->modifiers() || q.GetMode() != Mode::edit)
   {
     //UnselectAll(q)
     if (CountSelectedQtEdges(q) + CountSelectedQtNodes(q) > 0)
