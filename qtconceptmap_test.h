@@ -13,22 +13,18 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
-  //void PressF2OnSingleEdgeEditConceptMapIsAccepted() const noexcept;
-  //void PressF2OnSingleEdgeConnectToCenterEditConceptMapIsRejected() const noexcept;
-  //void PressF2OnSingleEdgeRateConceptMapIsRejected() const noexcept;
-  //void PressF2OnSingleEdgeUninitializedConceptMapIsRejected() const noexcept;
-
-
-
+  void ClickShiftLmbSelectsAdditivelyOnSecondNode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
   void CannotEditCenterNode() const noexcept; //#104
   void CannotMoveCenterNode() const noexcept; //#115
   void ChangeModes() const noexcept;
+  void ClickLmbSelectsSecondNode() const noexcept;
+  void ClickShiftLmbSelectsAdditivelyOnFirstNode() const noexcept;
   void ClickOnNothingShouldUnselectAll() const noexcept;
-  void CreateOneEdgeCommand() const noexcept;
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;
+  void CreateOneEdgeCommand() const noexcept;
   void CreateOneEdgeKeyboard() const noexcept;
   void CreateTenNodesAndUndoKeyboard() const noexcept;
   void CreateOneEdgeKeyboardAndUndo() const noexcept;

@@ -98,6 +98,71 @@ void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
   q.showFullScreen();
 }
 
+void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnFirstNode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.SetMode(Mode::edit);
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  const QPoint global_pos{q.mapFromScene(GetFirstQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos);
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::ShiftModifier,
+    global_pos
+  );
+  assert(IsSelected(*GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() const noexcept
+{
+  QSKIP("TODO", "#297", "https://github.com/richelbilderbeek/BrainWeaver/issues/297");
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  assert( IsSelected(*GetFirstQtNode(q)));
+  assert(!IsSelected(*GetLastQtNode(q)));
+  const QPoint global_pos{q.mapFromScene(GetLastQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos, 1000);
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::ShiftModifier,
+    global_pos,
+    1000
+  );
+  QTest::qWait(1000);
+  assert(IsSelected(*GetFirstQtNode(q)));
+  assert(IsSelected(*GetLastQtNode(q)));
+  assert(1==2);
+}
+
+void ribi::cmap::QtConceptMapTest::ClickLmbSelectsSecondNode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  assert( IsSelected(*GetFirstQtNode(q)));
+  assert(!IsSelected(*GetLastQtNode(q)));
+  const QPoint global_pos{q.mapFromScene(GetLastQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos);
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::NoModifier,
+    global_pos
+  );
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  assert( IsSelected(*GetLastQtNode(q)));
+}
+
 void ribi::cmap::QtConceptMapTest::ClickOnNothingShouldUnselectAll() const noexcept
 {
   QtConceptMap q;
