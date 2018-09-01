@@ -98,7 +98,7 @@ void ribi::cmap::QtConceptMapTest::ChangeModes() const noexcept
   q.showFullScreen();
 }
 
-void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnFirstNode() const noexcept
+void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnFirstNodeInEditMode() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -118,7 +118,7 @@ void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnFirstNode() c
   QVERIFY(IsSelected(*GetFirstQtNode(q)));
 }
 
-void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() const noexcept
+void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNodeInEditMode() const noexcept
 {
   QtConceptMap q;
   q.SetMode(Mode::edit);
@@ -140,6 +140,58 @@ void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsAdditivelyOnSecondNode() 
   assert(IsSelected(*GetLastQtNode(q)));
   QVERIFY(IsSelected(*GetFirstQtNode(q)));
   QVERIFY(IsSelected(*GetLastQtNode(q)));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsExclusivelyOnFirstNodeInRateMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  q.SetMode(Mode::rate);
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  assert(!IsSelected(*GetFirstQtNode(q)));
+  const QPoint global_pos{q.mapFromScene(GetFirstQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos);
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::ShiftModifier,
+    global_pos
+  );
+  QVERIFY(IsSelected(*GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtConceptMapTest::ClickShiftLmbSelectsExclusivelyOnSecondNodeInRateMode() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::rate);
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
+  SetSelectedness(true, *GetFirstQtNode(q));
+  q.showFullScreen();
+  QTest::qWaitForWindowExposed(&q);
+  assert( IsSelected(*GetFirstQtNode(q)));
+  assert(!IsSelected(*GetLastQtNode(q)));
+  const QPoint global_pos{q.mapFromScene(GetLastQtNode(q)->pos())};
+  QTest::mouseMove(&q, global_pos);
+  QTest::mouseClick(
+    q.viewport(),
+    Qt::MouseButton::LeftButton,
+    Qt::ShiftModifier,
+    global_pos
+  );
+  QVERIFY(!IsSelected(*GetFirstQtNode(q)));
+  QVERIFY( IsSelected(*GetLastQtNode(q)));
 }
 
 void ribi::cmap::QtConceptMapTest::ClickLmbOnEmptyConceptMapIsNotAcceptedInEditMode() const noexcept

@@ -13,6 +13,11 @@ class QtConceptMapTest : public QObject
 private slots:
 
   //To do/review
+  void ClickShiftLmbSelectsAdditivelyOnFirstNodeInEditMode() const noexcept;
+  void ClickShiftLmbSelectsAdditivelyOnSecondNodeInEditMode() const noexcept;
+
+  void ClickShiftLmbSelectsExclusivelyOnFirstNodeInRateMode() const noexcept;
+  void ClickShiftLmbSelectsExclusivelyOnSecondNodeInRateMode() const noexcept;
 
   //Done
   void CannotDeleteCenterNode() const noexcept; //#114
@@ -27,8 +32,6 @@ private slots:
   void ClickLmbSelectsNothingInUninitializedMode() const noexcept;
   void ClickLmbSelectsSecondNode() const noexcept;
   void ClickOnNothingShouldUnselectAll() const noexcept;
-  void ClickShiftLmbSelectsAdditivelyOnFirstNode() const noexcept;
-  void ClickShiftLmbSelectsAdditivelyOnSecondNode() const noexcept;
   void CreateOneEdgeCommandAndCheckZorder() const noexcept;
   void CreateOneEdgeCommand() const noexcept;
   void CreateOneEdgeKeyboardAndUndo() const noexcept;

@@ -1220,6 +1220,7 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
   //If clicking on a tool icon, start a new arrow
   if (QtTool * const qtool = qgraphicsitem_cast<QtTool*>(item))
   {
+    assert(q.GetMode() == Mode::edit);
     assert(qtool->GetBuddyItem());
     q.GetQtNewArrow().Start(qtool->GetBuddyItem());
     event->accept();
@@ -1262,7 +1263,12 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
     else
     {
       Command * const command{new CommandSelect(q, *item)};
-      if (HasSelectedItems(q) && event->modifiers() == Qt::NoModifier)
+      if (HasSelectedItems(q)
+        && (
+          event->modifiers() == Qt::NoModifier //Unselect all without shift
+          || q.GetMode() != Mode::edit         //Unselect all with shift in non-edit mode
+        )
+      )
       {
         q.DoCommand(new CommandUnselectAll(q));
       }
