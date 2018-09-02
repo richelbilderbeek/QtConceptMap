@@ -97,13 +97,16 @@ void ribi::cmap::CommandMoveNode::Redo()
   assert(m_qtnode);
   assert(!IsOnEdge(*m_qtnode));
   assert(IsMovable(*m_qtnode));
-  MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());  
+  MoveQtNode(*m_qtnode, m_dx, m_dy, GetQtConceptMap());
 }
 
 void ribi::cmap::CommandMoveNode::Undo()
 {
   assert(m_qtnode);
   assert(!IsOnEdge(*m_qtnode));
-  assert(IsMovable(*m_qtnode));
+
+  //This may change, if the Mode of the concept map changes
+  //assert(IsMovable(*m_qtnode));
+
   MoveQtNode(*m_qtnode, -m_dx, -m_dy, GetQtConceptMap());
 }
