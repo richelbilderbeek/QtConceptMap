@@ -1713,11 +1713,31 @@ void ribi::cmap::SetRandomFocusAdditive(
   if (cur_focus_item)
   {
     //Really loose focus, but not selectedness
-    cur_focus_item->setEnabled(false);
-    cur_focus_item->setSelected(false);
-    cur_focus_item->clearFocus();
-    cur_focus_item->setEnabled(true);
-    cur_focus_item->setSelected(true);
+    if (QtEdge * const cur_qtedge = qgraphicsitem_cast<QtEdge*>(cur_focus_item))
+    {
+      SetSelectedness(false, *cur_qtedge);
+      cur_qtedge->clearFocus();
+      SetSelectedness(true, *cur_qtedge);
+    }
+    else
+    {
+      QtNode * const cur_qtnode = qgraphicsitem_cast<QtNode*>(cur_focus_item);
+      assert(cur_qtnode);
+      if (IsOnEdge(*cur_qtnode))
+      {
+        QtEdge * const cur_qtedge_again = FindQtEdge(cur_qtnode, q);
+        assert(cur_qtedge_again);
+        SetSelectedness(false, *cur_qtedge_again);
+        cur_qtedge_again->clearFocus();
+        SetSelectedness(true, *cur_qtedge_again);
+      }
+      else
+      {
+        SetSelectedness(false, *cur_qtnode);
+        cur_qtnode->clearFocus();
+        SetSelectedness(true, *cur_qtnode);
+      }
+    }
   }
   SetFocus(q, next_focus_item);
 
