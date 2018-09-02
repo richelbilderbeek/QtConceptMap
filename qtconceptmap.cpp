@@ -700,12 +700,6 @@ void ribi::cmap::keyPressEvent2(QtConceptMap& q, QKeyEvent *event) noexcept
 void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   if (event->modifiers() & Qt::AltModifier) return;
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  if (event->modifiers() & Qt::ShiftModifier)
-  {
-    return;
-  }
-  #endif
   CheckInvariants(q);
   if (event->modifiers() == Qt::NoModifier
     || (event->modifiers() == Qt::ShiftModifier)
@@ -1210,6 +1204,16 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
     event->ignore();
     return;
   }
+  if (event->modifiers() & Qt::AltModifier)
+  {
+    event->ignore();
+    return;
+  }
+  if (event->button() != Qt::LeftButton)
+  {
+    event->ignore();
+    return;
+  }
 
   m_last_mouse_click_pos.resize(1);
   m_last_mouse_click_pos[0] = mapToScene(event->pos());
@@ -1231,7 +1235,10 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   CheckInvariants(*this);
 }
 
-void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *event) noexcept
+void ribi::cmap::mousePressEventNoArrowActive(
+  QtConceptMap& q,
+  QMouseEvent *event
+)
 {
   CheckInvariants(q);
 

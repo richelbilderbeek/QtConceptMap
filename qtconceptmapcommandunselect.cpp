@@ -79,7 +79,7 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
       return new CommandUnselect(qtconceptmap, *qtedge);
     }
     QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item);
-    if (qtnode && !IsOnEdge(*qtnode) && GetText(*qtnode) == t)
+    if (qtnode && GetText(*qtnode) == t && !IsOnEdge(*qtnode))
     {
       return new CommandUnselect(qtconceptmap, *qtnode);
     }
@@ -89,10 +89,12 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
 
 void ribi::cmap::CommandUnselect::Redo()
 {
+  assert(m_cmd);
   m_cmd->redo();
 }
 
 void ribi::cmap::CommandUnselect::Undo()
 {
+  assert(m_cmd);
   m_cmd->undo();
 }

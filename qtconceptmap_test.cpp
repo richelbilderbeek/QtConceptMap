@@ -1742,9 +1742,6 @@ void ribi::cmap::QtConceptMapTest::PressQuestionMark() const noexcept
 void ribi::cmap::QtConceptMapTest
   ::PressShiftRightSelectsEdgeAdditively() const noexcept
 {
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  return;
-  #else
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.DoCommand(new CommandCreateNewNode(q, "left", NodeType::normal));
@@ -1768,15 +1765,11 @@ void ribi::cmap::QtConceptMapTest
   QVERIFY(CountSelectedQtEdges(q) == 1);
   QVERIFY(CountSelectedQtNodes(q) == 1);
   QVERIFY(e.isAccepted());
-  #endif
 }
 
 void ribi::cmap::QtConceptMapTest
   ::PressShiftRightSelectsNodeAdditivelyInEditMode() const noexcept
 {
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  return;
-  #else
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
@@ -1795,15 +1788,11 @@ void ribi::cmap::QtConceptMapTest
 
   QVERIFY(CountSelectedQtNodes(q) == 2);
   QVERIFY(e.isAccepted());
-  #endif
 }
 
 void ribi::cmap::QtConceptMapTest
   ::PressShiftRightSelectsNodeExclusivelyInRateMode() const noexcept
 {
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  return;
-  #else
   QtConceptMap q;
   q.SetMode(Mode::rate);
   q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
@@ -1821,7 +1810,6 @@ void ribi::cmap::QtConceptMapTest
   q.keyPressEvent(&e);
   assert(CountSelectedQtNodes(q) == 1);
   assert(e.isAccepted());
-  #endif // FIXED_SHIFT_ARROWS_20180902
 }
 
 void ribi::cmap::QtConceptMapTest
@@ -1879,23 +1867,16 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsNothingInUninitializedMode() const noexcept
 {
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  return;
-  #else
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   q.SetMode(Mode::uninitialized);
   q.showFullScreen();
   QTest::keyPress(&q, Qt::Key_Space, Qt::ShiftModifier);
   assert(!IsSelected(*GetFirstQtNode(q)));
-  #endif // FIXED_SHIFT_ARROWS_20180902
 }
 
 void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomEdgeAdditivelyInEditMode() const noexcept
 {
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  return;
-  #else
   QSKIP("#320", "https://github.com/richelbilderbeek/BrainWeaver/issues/320");
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
@@ -1928,14 +1909,10 @@ void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomEdgeAdditivelyInE
     q.show();
   }
   assert(1==2);
-  #endif // FIXED_SHIFT_ARROWS_20180902
 }
 
 void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomNodeAdditivelyInEditMode() const noexcept
 {
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  return;
-  #else
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
   q.SetMode(Mode::edit);
@@ -1949,14 +1926,10 @@ void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomNodeAdditivelyInE
   QTest::keyPress(&q, Qt::Key_Space, Qt::ShiftModifier);
   assert(IsSelected(*first_qtnode));
   assert(IsSelected(*last_qtnode));
-  #endif //FIXED_SHIFT_ARROWS_20180902
 }
 
 void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomNodeExclusivelyInRateMode() const noexcept
 {
-  #ifndef FIXED_SHIFT_ARROWS_20180902
-  return;
-  #else
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodes());
   q.SetMode(Mode::rate);
@@ -1970,7 +1943,6 @@ void ribi::cmap::QtConceptMapTest::PressShiftSpaceSelectsRandomNodeExclusivelyIn
   QTest::keyPress(&q, Qt::Key_Space, Qt::ShiftModifier);
   assert(!IsSelected(*first_qtnode));
   assert( IsSelected(*last_qtnode));
-  #endif // FIXED_SHIFT_ARROWS_20180902
 }
 
 void ribi::cmap::QtConceptMapTest::PressSpaceOnEmptyConceptMapIsRejected() const noexcept

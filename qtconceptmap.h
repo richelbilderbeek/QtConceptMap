@@ -334,7 +334,7 @@ void keyPressEventT(QtConceptMap& q, QKeyEvent *event) noexcept;
 void keyPressEventZ(QtConceptMap& q, QKeyEvent *event) noexcept;
 
 ///The default handler of a mouse press event, when there is no arrow
-void mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *event) noexcept;
+void mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *event);
 
 ///The handler of a mouse press event, when the arrow is active
 /// (it points from a selected QtNode to a potential other
