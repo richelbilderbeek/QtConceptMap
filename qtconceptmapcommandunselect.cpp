@@ -26,6 +26,9 @@ ribi::cmap::CommandUnselect::CommandUnselect(
   }
   else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
+    m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
+    assert(!IsOnEdge(*qtnode));
+    #ifdef KEEP_20180902
     if (IsOnEdge(*qtnode))
     {
       QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap);
@@ -36,6 +39,7 @@ ribi::cmap::CommandUnselect::CommandUnselect(
     {
       m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
     }
+    #endif // KEEP_20180902
   }
   if (!m_cmd)
   {
