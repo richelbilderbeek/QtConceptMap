@@ -47,9 +47,6 @@ class CommandMoveNode final : public Command
 
 };
 
-///Predicate to see if a Node has a certain (single-line) text
-std::function<bool(const QtNode&)> QtNodeHasText(const std::string& text) noexcept;
-
 /// Works on, for example  'create_new_node(0, 0, from)'
 CommandMoveNode * ParseCommandMoveNode(
   QtConceptMap& qtconceptmap, std::string s);

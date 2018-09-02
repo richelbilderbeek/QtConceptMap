@@ -50,11 +50,6 @@ ribi::cmap::CommandMoveNode::~CommandMoveNode() noexcept
 
 }
 
-std::function<bool(const ribi::cmap::QtNode&)> ribi::cmap::QtNodeHasText(
-  const std::string& text) noexcept
-{
-  return [text](const QtNode& qtnode) { return GetText(qtnode) == text; };
-}
 
 ribi::cmap::CommandMoveNode * ribi::cmap::ParseCommandMoveNode(
   QtConceptMap& qtconceptmap, std::string s)

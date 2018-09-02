@@ -336,6 +336,15 @@ std::function<bool(const ribi::cmap::QtNode* const)>
   };
 }
 
+std::function<bool(const ribi::cmap::QtNode&)> ribi::cmap::QtNodeHasText(
+  const std::string& text) noexcept
+{
+  return [text](const QtNode& qtnode)
+  {
+    return GetText(qtnode) == text;
+  };
+}
+
 void ribi::cmap::QtNode::SetBrushFunction(
   const std::function<QBrush(const ribi::cmap::QtNode&)>& f
 ) noexcept

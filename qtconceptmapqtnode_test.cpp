@@ -73,6 +73,24 @@ void ribi::cmap::QtNodeTest::PressNonsenseIsRejected() const noexcept
   QVERIFY(!event->isAccepted());
 }
 
+
+void ribi::cmap::QtNodeTest::QtNodeHasName() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  const auto name = ::ribi::cmap::GetName(*GetFirstQtNode(q));
+  assert(FindFirstQtNode(q, ::ribi::cmap::QtNodeHasName(name)));
+  assert(::ribi::cmap::QtNodeHasName(name)(GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtNodeTest::QtNodeHasText() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  const auto name = ::ribi::cmap::GetName(*GetFirstQtNode(q));
+  assert(::ribi::cmap::QtNodeHasText(name)(*GetFirstQtNode(q)));
+}
+
 void ribi::cmap::QtNodeTest::QtNodeIsQtRoundedEditRectItem() const noexcept
 {
   const auto qtnode = QtNodeFactory().GetTest(1);

@@ -211,7 +211,12 @@ bool IsSelected(const QtNode& qtnode) noexcept;
 void Move(QtNode& qtnode, const double dx, const double dy);
 
 std::function<bool(const QtNode* const)> QtNodeHasId(const int id);
+
+///Predicate to see if a QtNode* has a certain (single-line) text
 std::function<bool(const QtNode* const)> QtNodeHasName(const std::string& name);
+
+///Predicate to see if a QtNode has a certain (single-line) text
+std::function<bool(const QtNode&)> QtNodeHasText(const std::string& text) noexcept;
 
 void SetConcept(QtNode& qtnode, const Concept& concept);
 

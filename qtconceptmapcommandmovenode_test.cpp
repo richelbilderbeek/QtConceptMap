@@ -98,19 +98,42 @@ void ribi::cmap::QtCommandMoveNodeTest::MoveEdgeConnectedToCenterFails() const n
   }
 }
 
+void ribi::cmap::QtCommandMoveNodeTest::MoveQtNode() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  const double x{GetX(*GetFirstQtNode(q))};
+  const double y{GetY(*GetFirstQtNode(q))};
+  assert(x == GetX(*GetFirstQtNode(q)));
+  assert(y == GetY(*GetFirstQtNode(q)));
+  q.DoCommand(new CommandMoveNode(q, GetFirstQtNode(q), 12, 34));
+  assert(x != GetX(*GetFirstQtNode(q)));
+  assert(y != GetY(*GetFirstQtNode(q)));
+}
+
+void ribi::cmap::QtCommandMoveNodeTest::MoveQtNodeAndUndo() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
+  const double x{GetX(*GetFirstQtNode(q))};
+  const double y{GetY(*GetFirstQtNode(q))};
+  assert(x == GetX(*GetFirstQtNode(q)));
+  assert(y == GetY(*GetFirstQtNode(q)));
+  q.DoCommand(new CommandMoveNode(q, GetFirstQtNode(q), 12, 34));
+  assert(x != GetX(*GetFirstQtNode(q)));
+  assert(y != GetY(*GetFirstQtNode(q)));
+  q.Undo();
+  assert(x == GetX(*GetFirstQtNode(q)));
+  assert(y == GetY(*GetFirstQtNode(q)));
+}
+
 void ribi::cmap::QtCommandMoveNodeTest::MoveQtNodeWithName() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetThreeNodeTwoEdge());
   assert(GetX(*FindFirstQtNode(q, QtNodeHasName("one"))) == 300);
   assert(GetY(*FindFirstQtNode(q, QtNodeHasName("one"))) == 250);
-  QtNode * const first_qtnode = FindFirstQtNode(
-    q,
-    [name = "one", &q](QtNode * const qtnode)
-    {
-      return name == GetText(*qtnode);
-    }
-  );
+  QtNode * const first_qtnode = FindFirstQtNode(q, QtNodeHasName("one"));
   q.DoCommand(new CommandMoveNode(q, first_qtnode, 25, 125));
   QVERIFY(GetX(*FindFirstQtNode(q, QtNodeHasName("one"))) == 325);
   QVERIFY(GetY(*FindFirstQtNode(q, QtNodeHasName("one"))) == 375);

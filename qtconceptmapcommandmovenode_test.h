@@ -28,6 +28,9 @@ private slots:
   ///Does the Command move a QtEdge, in a QtConceptMap with two QtEdges?
   void MoveEdgeFails() const noexcept;
 
+  void MoveQtNode() const noexcept;
+  void MoveQtNodeAndUndo() const noexcept;
+
   ///Does the Command move a QtNode when search a QtNode by its name?
   void MoveQtNodeWithName() const noexcept;
 

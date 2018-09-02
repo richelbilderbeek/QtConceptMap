@@ -23,6 +23,8 @@ private slots:
   void IsComplex() const noexcept;
   void NormalQtNodeIsNotCenterNode() const noexcept;
   void PressNonsenseIsRejected() const noexcept;
+  void QtNodeHasName() const noexcept;
+  void QtNodeHasText() const noexcept;
   void QtNodeIsQtRoundedEditRectItem() const noexcept;
   void QtNodeIsQtRoundedEditRectItemWithEqualX() const noexcept;
   void QtNodeIsQtRoundedEditRectItemWithEqualY() const noexcept;
