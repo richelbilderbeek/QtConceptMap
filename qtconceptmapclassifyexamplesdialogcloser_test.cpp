@@ -11,8 +11,6 @@ using namespace ribi::cmap;
 
 void ribi::cmap::QtClassifyExamplesDialogCloserTest::Modify() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   const auto examples_before = concept.GetExamples();
@@ -27,8 +25,6 @@ void ribi::cmap::QtClassifyExamplesDialogCloserTest::Modify() const noexcept
 
 void ribi::cmap::QtClassifyExamplesDialogCloserTest::PressCancel() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   QtClassifyExamplesDialog d(concept);
@@ -39,8 +35,6 @@ void ribi::cmap::QtClassifyExamplesDialogCloserTest::PressCancel() const noexcep
 
 void ribi::cmap::QtClassifyExamplesDialogCloserTest::PressOk() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   QtClassifyExamplesDialog d(concept);

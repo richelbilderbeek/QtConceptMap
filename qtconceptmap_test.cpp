@@ -1470,8 +1470,6 @@ void ribi::cmap::QtConceptMapTest::PressF1OnEmptyConceptMapIsRejected() const no
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeEditConceptMapIsRejected() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   q.SetMode(Mode::edit);
@@ -1487,8 +1485,6 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeEditConceptMapIsRejected()
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   q.SetMode(Mode::rate);
@@ -1504,8 +1500,6 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeRateConceptMapIsAccepted()
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
   q.SetMode(Mode::uninitialized);
@@ -1535,8 +1529,6 @@ void ribi::cmap::QtConceptMapTest::PressF1OnMultipleSelectedQtNodesIsRejected() 
 void ribi::cmap::QtConceptMapTest
   ::PressF1RateNormalQtNodeAndOkChangesConcept() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetMode(Mode::rate);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1556,7 +1548,6 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressF1RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
 {
-  //if (OnTravis()) return;
   QtConceptMap q;
   q.SetMode(Mode::rate);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1622,8 +1613,6 @@ void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexce
 
 void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1642,8 +1631,6 @@ void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const n
 void ribi::cmap::QtConceptMapTest
   ::PressF2EditNormalQtNodeAndOkChangesConcept() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1663,8 +1650,6 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetMode(Mode::edit);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1683,21 +1668,9 @@ void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChange
   QVERIFY(concept_before == concept_after);
 }
 
-
-
-
-
-
-
-
-
-
-
 void ribi::cmap::QtConceptMapTest
   ::PressF2RateNormalQtNodeAndOkChangesConcept() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetMode(Mode::rate);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNodeWithExample());
@@ -1717,8 +1690,6 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressF2RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
 {
-  //if (OnTravis()) return;
-
   QtConceptMap q;
   q.SetMode(Mode::rate);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNodeWithExample());
@@ -2034,7 +2005,6 @@ void ribi::cmap::QtConceptMapTest::QtNodeInCenterMustBeGold() const noexcept
 
 void ribi::cmap::QtConceptMapTest::SelectRandomNodeKeyboardEdit() const noexcept
 {
-  //if (OnTravis()) return;
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.showFullScreen();
