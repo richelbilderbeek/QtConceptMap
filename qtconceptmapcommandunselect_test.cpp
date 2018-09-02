@@ -288,7 +288,7 @@ void ribi::cmap::QtCommandUnselectTest
   assert(GetQtToolItemBuddy(q) == qtnode2);
 }
 
-void ribi::cmap::QtCommandUnselectTest::Parse() const noexcept
+void ribi::cmap::QtCommandUnselectTest::ParseNode() const noexcept
 {
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
@@ -296,6 +296,18 @@ void ribi::cmap::QtCommandUnselectTest::Parse() const noexcept
   q.DoCommand(new CommandSelect(q, *first_qtnode));
 
   const auto c = ParseCommandUnselect(q, "unselect(one)");
+  assert(c);
+  QVERIFY(c != nullptr);
+}
+
+void ribi::cmap::QtCommandUnselectTest::ParseNodeOnEdge() const noexcept
+{
+  QtConceptMap q;
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdge());
+  assert(GetText(*GetFirstQtEdge(q)) == "first");
+  SetSelectedness(true, *GetFirstQtEdge(q));
+  assert(IsSelected(*GetFirstQtEdge(q)));
+  const auto c = ParseCommandUnselect(q, "unselect(first)");
   assert(c);
   QVERIFY(c != nullptr);
 }

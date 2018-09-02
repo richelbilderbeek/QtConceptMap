@@ -27,7 +27,8 @@ private slots:
   void UnselectTwoQtEdgesByNameAndUndo() const noexcept;
   void UnselectTwoQtNodesByName() const noexcept;
   void UnselectTwoQtNodesByNameAndUndo() const noexcept;
-  void Parse() const noexcept;
+  void ParseNode() const noexcept;
+  void ParseNodeOnEdge() const noexcept;
   void ParseNonsenseFails() const noexcept;
 };
 

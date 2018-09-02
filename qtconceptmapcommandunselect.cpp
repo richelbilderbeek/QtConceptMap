@@ -79,7 +79,7 @@ ribi::cmap::CommandUnselect * ribi::cmap::ParseCommandUnselect(
       return new CommandUnselect(qtconceptmap, *qtedge);
     }
     QtNode * const qtnode = qgraphicsitem_cast<QtNode*>(item);
-    if (qtnode && GetText(*qtnode) == t)
+    if (qtnode && !IsOnEdge(*qtnode) && GetText(*qtnode) == t)
     {
       return new CommandUnselect(qtconceptmap, *qtnode);
     }
