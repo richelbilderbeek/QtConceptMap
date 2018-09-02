@@ -22,28 +22,23 @@ ribi::cmap::CommandUnselect::CommandUnselect(
 {
   if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
-    qCritical() << "qCritical: this is an edge";
     m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge, this);
   }
   else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
-    qCritical() << "qCritical: this is a node";
     if (IsOnEdge(*qtnode))
     {
-      qCritical() << "qCritical: this is a node on an edge";
       QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap);
       assert(qtedge2);
       m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge2, this);
     }
     else
     {
-      qCritical() << "qCritical: this is node not on an edge";
       m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
     }
   }
   if (!m_cmd)
   {
-    qCritical() << "qCritical: item is not a QtEdge nor QtNode";
     throw std::invalid_argument("item is not a QtEdge nor QtNode");
   }
 

@@ -1276,7 +1276,9 @@ void ribi::cmap::mousePressEventNoArrowActive(QtConceptMap& q, QMouseEvent *even
       }
       catch (const std::exception& e)
       {
+        #ifndef NDEBUG
         qCritical() << e.what();
+        #endif
         assert(!"Should not get here?");
       }
       catch (...)

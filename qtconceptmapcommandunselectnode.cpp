@@ -26,19 +26,16 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
 {
   if (!m_qtnode)
   {
-    qCritical() << "qCritical: Cannot unselect nullptr QtNode";
     throw std::invalid_argument("Cannot unselect nullptr QtNode");
   }
   if (IsQtNodeOnEdge(qtnode))
   {
-    qCritical() << "qCritical: Cannot unselect QtNode on QtEdge, use CommandUnselectEdge instead";
     throw std::invalid_argument(
       "Cannot unselect QtNode on QtEdge, use CommandUnselectEdge instead"
     );
   }
   if (!m_qtnode->isSelected())
   {
-    qCritical() << "qCritical: Cannot unselect QtNode that is already unselected";
     throw std::invalid_argument("Cannot unselect QtNode that is already unselected");
   }
   //QCommands have a text

@@ -21,12 +21,10 @@ ribi::cmap::CommandUnselectEdge::CommandUnselectEdge(
 {
   if (!m_qtedge)
   {
-    qCritical() << "qCritical: Cannot unselect nullptr QtEdge";
     throw std::invalid_argument("Cannot unselect nullptr QtEdge");
   }
   if (!IsSelected(*m_qtedge))
   {
-    qCritical() << "qCritical: Cannot unselect QtEdge that is already unselected";
     throw std::invalid_argument(
       "Cannot unselect QtEdge that is already unselected"
     );
