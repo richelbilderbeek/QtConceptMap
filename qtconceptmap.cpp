@@ -700,7 +700,9 @@ void ribi::cmap::keyPressEvent2(QtConceptMap& q, QKeyEvent *event) noexcept
 void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
 {
   CheckInvariants(q);
-  if (!event->modifiers() || (event->modifiers() & Qt::ShiftModifier))
+  if (event->modifiers() == Qt::NoModifier
+    || (event->modifiers() == Qt::ShiftModifier)
+  )
   {
     keyPressEventArrowsSelect(q, event);
   }
@@ -711,7 +713,9 @@ void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
   CheckInvariants(q);
 }
 
-void ribi::cmap::keyPressEventArrowsSelect(QtConceptMap& q, QKeyEvent *event) noexcept
+void ribi::cmap::keyPressEventArrowsSelect(
+  QtConceptMap& q, QKeyEvent *event
+) noexcept
 {
   CheckInvariants(q);
 

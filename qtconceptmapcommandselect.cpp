@@ -47,6 +47,7 @@ ribi::cmap::CommandSelect::CommandSelect(
 
   //QCommands have a text
   {
+    assert(m_cmd);
     this->setText(m_cmd->text());
   }
 }
@@ -100,10 +101,12 @@ ribi::cmap::CommandSelect * ribi::cmap::ParseCommandSelect(
 
 void ribi::cmap::CommandSelect::Redo()
 {
+  assert(m_cmd);
   m_cmd->redo();
 }
 
 void ribi::cmap::CommandSelect::Undo()
 {
+  assert(m_cmd);
   m_cmd->undo();
 }
