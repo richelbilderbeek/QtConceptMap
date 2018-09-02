@@ -30,6 +30,7 @@ ribi::cmap::QtClassifyExamplesDialog * ribi::cmap
     );
     qApp->processEvents();
   }
+  assert(pop_up);
   return pop_up;
 }
 
