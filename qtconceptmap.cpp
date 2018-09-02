@@ -699,6 +699,13 @@ void ribi::cmap::keyPressEvent2(QtConceptMap& q, QKeyEvent *event) noexcept
 
 void ribi::cmap::keyPressEventArrows(QtConceptMap& q, QKeyEvent *event) noexcept
 {
+  if (event->modifiers() & Qt::AltModifier) return;
+  #ifndef FIXED_SHIFT_ARROWS_20180902
+  if (event->modifiers() & Qt::ShiftModifier)
+  {
+    return;
+  }
+  #endif
   CheckInvariants(q);
   if (event->modifiers() == Qt::NoModifier
     || (event->modifiers() == Qt::ShiftModifier)
@@ -718,6 +725,9 @@ void ribi::cmap::keyPressEventArrowsSelect(
 ) noexcept
 {
   CheckInvariants(q);
+
+  assert(!(event->modifiers() & Qt::AltModifier));
+  assert(!(event->modifiers() & Qt::ControlModifier));
 
   event->ignore();
 
@@ -749,7 +759,7 @@ void ribi::cmap::keyPressEventArrowsSelect(
   assert(qgraphicsitem_cast<QtNode*>(item) || qgraphicsitem_cast<QtEdge*>(item));
 
   //If select exclusively (no shift), unselect all current select items
-  if (!event->modifiers() || q.GetMode() != Mode::edit)
+  if (event->modifiers() == Qt::NoModifier || q.GetMode() != Mode::edit)
   {
     //UnselectAll(q)
     if (CountSelectedQtEdges(q) + CountSelectedQtNodes(q) > 0)
@@ -763,7 +773,7 @@ void ribi::cmap::keyPressEventArrowsSelect(
     q.DoCommand(new CommandSelect(q, *item));
     event->accept();
   }
-  catch (std::exception&) {} //OK
+  catch (const std::exception&) {} //OK
   CheckInvariants(q);
 }
 

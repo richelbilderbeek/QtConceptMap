@@ -131,6 +131,53 @@ void ribi::cmap::QtCommandMoveEdgeTest::MoveOnlyQtEdgeConnectedToCenterQtNode() 
   QVERIFY(GetY(*FindFirstQtEdge(q, [](QtEdge * qtedge) { return GetText(*qtedge) == "first"; })) == 350);
 }
 
+void ribi::cmap::QtCommandMoveEdgeTest::MoveQtEdgeInEditModeWorks() const noexcept
+{
+  QtConceptMap q;
+  q.SetMode(Mode::edit);
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  const double x{GetX(*GetFirstQtEdge(q))};
+  const double y{GetY(*GetFirstQtEdge(q))};
+  assert(x == GetX(*GetFirstQtEdge(q)));
+  assert(y == GetY(*GetFirstQtEdge(q)));
+  q.DoCommand(new CommandMoveEdge(q, GetFirstQtEdge(q), 12, 34));
+  assert(x != GetX(*GetFirstQtEdge(q)));
+  assert(y != GetY(*GetFirstQtEdge(q)));
+}
+
+void ribi::cmap::QtCommandMoveEdgeTest::MoveQtEdgeInRateModeFails() const noexcept
+{
+  QSKIP("TODO", "WIP");
+  QtConceptMap q;
+  q.SetMode(Mode::rate);
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  const double x{GetX(*GetFirstQtEdge(q))};
+  const double y{GetY(*GetFirstQtEdge(q))};
+  assert(x == GetX(*GetFirstQtEdge(q)));
+  assert(y == GetY(*GetFirstQtEdge(q)));
+  assert(!IsMovable(*GetFirstQtEdge(q)));
+  q.DoCommand(new CommandMoveEdge(q, GetFirstQtEdge(q), 12, 34));
+  assert(x == GetX(*GetFirstQtEdge(q)));
+  assert(y == GetY(*GetFirstQtEdge(q)));
+}
+
+void ribi::cmap::QtCommandMoveEdgeTest::MoveQtEdgeInUninitializedModeFails() const noexcept
+{
+  QSKIP("TODO", "WIP");
+  QtConceptMap q;
+  q.SetMode(Mode::uninitialized);
+  q.SetConceptMap(ConceptMapFactory().GetTwoNodeOneEdgeNoCenter());
+  const double x{GetX(*GetFirstQtEdge(q))};
+  const double y{GetY(*GetFirstQtEdge(q))};
+  assert(x == GetX(*GetFirstQtEdge(q)));
+  assert(y == GetY(*GetFirstQtEdge(q)));
+  assert(!IsMovable(*GetFirstQtEdge(q)));
+  q.DoCommand(new CommandMoveEdge(q, GetFirstQtEdge(q), 12, 34));
+  assert(x == GetX(*GetFirstQtEdge(q)));
+  assert(y == GetY(*GetFirstQtEdge(q)));
+  assert(1==2);
+}
+
 void ribi::cmap::QtCommandMoveEdgeTest::Parse() const noexcept
 {
   QtConceptMap q;

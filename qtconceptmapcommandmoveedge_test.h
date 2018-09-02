@@ -13,6 +13,9 @@ class QtCommandMoveEdgeTest : public QObject
 private slots:
 
   //To do/review:
+  void MoveQtEdgeInEditModeWorks() const noexcept;
+  void MoveQtEdgeInRateModeFails() const noexcept;
+  void MoveQtEdgeInUninitializedModeFails() const noexcept;
 
   //Done:
 
@@ -33,6 +36,7 @@ private slots:
 
   ///Does the Command move a QtEdge connected to a center QtNode, in a QtConceptMap one QtEdge?
   void MoveOnlyQtEdgeConnectedToCenterQtNode() const noexcept;
+
 
   ///Can the Command be created by parsing a string?
   void Parse() const noexcept;
