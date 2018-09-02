@@ -1487,7 +1487,7 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeEditConceptMapIsRejected()
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeRateConceptMapIsAccepted() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1497,14 +1497,14 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeRateConceptMapIsAccepted()
   assert(CountSelectedQtNodes(q) == 1);
   QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
   QtRateConceptDialogCloser c;
-  QTimer::singleShot(200, &c, SLOT(PressOk()));
+  QTimer::singleShot(500, &c, SLOT(PressOk()));
   q.keyPressEvent(&e);
   QVERIFY(e.isAccepted());
 }
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeUninitializedConceptMapIsRejected() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1514,7 +1514,7 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeUninitializedConceptMapIsR
   assert(CountSelectedQtNodes(q) == 0); //Cannot select nodes in uninitialized mode
   QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
   QtRateConceptDialogCloser c;
-  QTimer::singleShot(200, &c, SLOT(PressOk()));
+  QTimer::singleShot(500, &c, SLOT(PressOk()));
   q.keyPressEvent(&e);
   QVERIFY(!e.isAccepted());
 }
@@ -1535,7 +1535,7 @@ void ribi::cmap::QtConceptMapTest::PressF1OnMultipleSelectedQtNodesIsRejected() 
 void ribi::cmap::QtConceptMapTest
   ::PressF1RateNormalQtNodeAndOkChangesConcept() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetMode(Mode::rate);
@@ -1547,8 +1547,7 @@ void ribi::cmap::QtConceptMapTest
   //F1 activates 'Rate Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
 
-  QTimer::singleShot(200, &c, SLOT(Modify()));
-  QTimer::singleShot(400, &c, SLOT(PressOk()));
+  QTimer::singleShot(500, &c, SLOT(ModifyAndOk()));
   q.keyPressEvent(&event);
   assert(event.isAccepted());
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -1557,7 +1556,7 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressF1RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
   QtConceptMap q;
   q.SetMode(Mode::rate);
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1568,8 +1567,8 @@ void ribi::cmap::QtConceptMapTest::PressF1RateNormalQtNodeAndCancelDoesNotChange
   //F1 activates 'Rate Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
 
-  QTimer::singleShot(200, &c, SLOT(Modify()));
-  QTimer::singleShot(400, &c, SLOT(PressCancel()));
+  QTimer::singleShot(500, &c, SLOT(Modify()));
+  QTimer::singleShot(1000, &c, SLOT(PressCancel()));
   q.keyPressEvent(&event);
   assert(event.isAccepted());
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -1623,7 +1622,7 @@ void ribi::cmap::QtConceptMapTest::PressF2CannotEditFocalQuestion() const noexce
 
 void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetMode(Mode::edit);
@@ -1634,7 +1633,7 @@ void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const n
   //F2 activates 'Edit Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
-  QTimer::singleShot(200, &c, SLOT(PressOk()));
+  QTimer::singleShot(500, &c, SLOT(PressOk()));
   q.keyPressEvent(&event);
   QVERIFY(event.isAccepted());
 }
@@ -1643,7 +1642,7 @@ void ribi::cmap::QtConceptMapTest::PressF2ToEditNormalQtNodeIsAccepted() const n
 void ribi::cmap::QtConceptMapTest
   ::PressF2EditNormalQtNodeAndOkChangesConcept() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetMode(Mode::edit);
@@ -1655,8 +1654,7 @@ void ribi::cmap::QtConceptMapTest
   //F2 activates 'Edit Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
-  QTimer::singleShot(200, &c, SLOT(Modify()));
-  QTimer::singleShot(400, &c, SLOT(PressOk()));
+  QTimer::singleShot(500, &c, SLOT(ModifyAndOk()));
   q.keyPressEvent(&event);
   assert(event.isAccepted());
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -1665,7 +1663,7 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetMode(Mode::edit);
@@ -1677,8 +1675,8 @@ void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChange
   //F2 activates 'Edit Concept' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
-  QTimer::singleShot(400, &c, SLOT(Modify()));
-  QTimer::singleShot(800, &c, SLOT(PressCancel()));
+  QTimer::singleShot(500, &c, SLOT(Modify()));
+  QTimer::singleShot(1000, &c, SLOT(PressCancel()));
   q.keyPressEvent(&event);
   assert(event.isAccepted());
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -1698,7 +1696,7 @@ void ribi::cmap::QtConceptMapTest::PressF2EditNormalQtNodeAndCancelDoesNotChange
 void ribi::cmap::QtConceptMapTest
   ::PressF2RateNormalQtNodeAndOkChangesConcept() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetMode(Mode::rate);
@@ -1710,8 +1708,7 @@ void ribi::cmap::QtConceptMapTest
   //F2 activates 'Classify Examples' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
-  QTimer::singleShot(400, &c, SLOT(Modify()));
-  QTimer::singleShot(800, &c, SLOT(PressOk()));
+  QTimer::singleShot(500, &c, SLOT(ModifyAndOk()));
   q.keyPressEvent(&event);
   assert(event.isAccepted());
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -1720,7 +1717,7 @@ void ribi::cmap::QtConceptMapTest
 
 void ribi::cmap::QtConceptMapTest::PressF2RateNormalQtNodeAndCancelDoesNotChangeConcept() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetMode(Mode::rate);
@@ -1732,8 +1729,8 @@ void ribi::cmap::QtConceptMapTest::PressF2RateNormalQtNodeAndCancelDoesNotChange
   //F2 activates 'Classify Examples' popup
   QKeyEvent event(QEvent::KeyPress, Qt::Key_F2, Qt::NoModifier);
 
-  QTimer::singleShot(400, &c, SLOT(Modify()));
-  QTimer::singleShot(800, &c, SLOT(PressCancel()));
+  QTimer::singleShot(500, &c, SLOT(Modify()));
+  QTimer::singleShot(1000, &c, SLOT(PressCancel()));
   q.keyPressEvent(&event);
   assert(event.isAccepted()); //Will not be accepted without example
   const Concept concept_after = GetConcept(*GetFirstQtNode(q));
@@ -2037,7 +2034,7 @@ void ribi::cmap::QtConceptMapTest::QtNodeInCenterMustBeGold() const noexcept
 
 void ribi::cmap::QtConceptMapTest::SelectRandomNodeKeyboardEdit() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
   QtConceptMap m;
   m.SetMode(Mode::edit);
   m.showFullScreen();
