@@ -6,6 +6,8 @@
 namespace ribi {
 namespace cmap {
 
+class QtClassifyExamplesDialog;
+
 ///Object to close a popped-up QtClassifyExamplesDialog
 class QtClassifyExamplesDialogCloser : public QObject
 {
@@ -16,8 +18,13 @@ class QtClassifyExamplesDialogCloser : public QObject
   virtual ~QtClassifyExamplesDialogCloser();
   public slots:
   void Modify();
+  void ModifyAndOk();
   void PressCancel();
   void PressOk();
+  private:
+  ///Will return non-nullptr
+  ///Will freeze if dialog is absent
+  QtClassifyExamplesDialog * GetDialog() const noexcept;
 };
 
 } //~namespace cmap

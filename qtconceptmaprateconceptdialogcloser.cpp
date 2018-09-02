@@ -19,12 +19,24 @@ ribi::cmap::QtRateConceptDialogCloser::~QtRateConceptDialogCloser()
 
 }
 
+ribi::cmap::QtRateConceptDialog * ribi::cmap::QtRateConceptDialogCloser::GetDialog() const noexcept
+{
+  ribi::cmap::QtRateConceptDialog* pop_up = nullptr;
+  while (!pop_up)
+  {
+    pop_up
+      = qobject_cast<ribi::cmap::QtRateConceptDialog*>(
+        qApp->activeWindow()
+      );
+    qApp->processEvents();
+  }
+  assert(pop_up);
+  return pop_up;
+}
+
 void ribi::cmap::QtRateConceptDialogCloser::Modify()
 {
-  ribi::cmap::QtRateConceptDialog* const pop_up
-    = qobject_cast<ribi::cmap::QtRateConceptDialog*>(
-      qApp->activeWindow()
-    );
+  auto * const pop_up = GetDialog();
   assert(pop_up);
   pop_up->ui->box_complexity->setCurrentIndex(
     (pop_up->ui->box_complexity->currentIndex() + 1)
@@ -40,12 +52,15 @@ void ribi::cmap::QtRateConceptDialogCloser::Modify()
   );
 }
 
+void ribi::cmap::QtRateConceptDialogCloser::ModifyAndOk()
+{
+  Modify();
+  PressOk();
+}
+
 void ribi::cmap::QtRateConceptDialogCloser::PressCancel()
 {
-  ribi::cmap::QtRateConceptDialog* const pop_up
-    = qobject_cast<ribi::cmap::QtRateConceptDialog*>(
-      qApp->activeWindow()
-    );
+  auto * const pop_up = GetDialog();
   assert(pop_up);
   pop_up->ui->button_cancel->click();
   assert(pop_up->isHidden());
@@ -53,10 +68,7 @@ void ribi::cmap::QtRateConceptDialogCloser::PressCancel()
 
 void ribi::cmap::QtRateConceptDialogCloser::PressOk()
 {
-  ribi::cmap::QtRateConceptDialog* const pop_up
-    = qobject_cast<ribi::cmap::QtRateConceptDialog*>(
-      qApp->activeWindow()
-    );
+  auto * const pop_up = GetDialog();
   assert(pop_up);
   pop_up->ui->button_ok->click();
   assert(pop_up->isHidden());

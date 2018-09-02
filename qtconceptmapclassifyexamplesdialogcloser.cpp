@@ -19,12 +19,23 @@ ribi::cmap::QtClassifyExamplesDialogCloser::~QtClassifyExamplesDialogCloser()
 
 }
 
-void ribi::cmap::QtClassifyExamplesDialogCloser::Modify()
+ribi::cmap::QtClassifyExamplesDialog * ribi::cmap
+  ::QtClassifyExamplesDialogCloser::GetDialog() const noexcept
 {
-  ribi::cmap::QtClassifyExamplesDialog* const pop_up
-    = qobject_cast<ribi::cmap::QtClassifyExamplesDialog*>(
+  ribi::cmap::QtClassifyExamplesDialog* pop_up = nullptr;
+  while (!pop_up)
+  {
+    pop_up = qobject_cast<ribi::cmap::QtClassifyExamplesDialog*>(
       qApp->activeWindow()
     );
+    qApp->processEvents();
+  }
+  return pop_up;
+}
+
+void ribi::cmap::QtClassifyExamplesDialogCloser::Modify()
+{
+  auto * const pop_up = GetDialog();
   assert(pop_up);
   const auto before = pop_up->GetRatedExamples();
   pop_up->ui->button_misc->click();
@@ -33,12 +44,15 @@ void ribi::cmap::QtClassifyExamplesDialogCloser::Modify()
   assert(before != pop_up->GetRatedExamples());
 }
 
+void ribi::cmap::QtClassifyExamplesDialogCloser::ModifyAndOk()
+{
+  Modify();
+  PressOk();
+}
+
 void ribi::cmap::QtClassifyExamplesDialogCloser::PressCancel()
 {
-  ribi::cmap::QtClassifyExamplesDialog* const pop_up
-    = qobject_cast<ribi::cmap::QtClassifyExamplesDialog*>(
-      qApp->activeWindow()
-    );
+  auto * const pop_up = GetDialog();
   assert(pop_up);
   pop_up->ui->button_cancel->click();
   assert(pop_up->isHidden());
@@ -46,10 +60,7 @@ void ribi::cmap::QtClassifyExamplesDialogCloser::PressCancel()
 
 void ribi::cmap::QtClassifyExamplesDialogCloser::PressOk()
 {
-  ribi::cmap::QtClassifyExamplesDialog* const pop_up
-    = qobject_cast<ribi::cmap::QtClassifyExamplesDialog*>(
-      qApp->activeWindow()
-    );
+  auto * const pop_up = GetDialog();
   assert(pop_up);
   pop_up->ui->button_ok->click();
   assert(pop_up->isHidden());

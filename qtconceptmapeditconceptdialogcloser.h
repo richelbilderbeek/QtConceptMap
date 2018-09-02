@@ -6,6 +6,8 @@
 namespace ribi {
 namespace cmap {
 
+class QtEditConceptDialog;
+
 ///Object to close a popped-up QtEditConceptDialog
 class QtEditConceptDialogCloser : public QObject
 {
@@ -16,8 +18,13 @@ class QtEditConceptDialogCloser : public QObject
   virtual ~QtEditConceptDialogCloser();
   public slots:
   void Modify();
+  void ModifyAndOk();
   void PressCancel();
   void PressOk();
+  private:
+  ///Returns non-nullptr
+  ///Will freeze if pop-up absent
+  QtEditConceptDialog * GetDialog() const noexcept;
 };
 
 } //~namespace cmap

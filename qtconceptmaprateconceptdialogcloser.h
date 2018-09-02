@@ -6,6 +6,8 @@
 namespace ribi {
 namespace cmap {
 
+class QtRateConceptDialog;
+
 ///Object to close a popped-up QtRateConceptDialog
 class QtRateConceptDialogCloser : public QObject
 {
@@ -16,8 +18,13 @@ class QtRateConceptDialogCloser : public QObject
   virtual ~QtRateConceptDialogCloser();
   public slots:
   void Modify();
+  void ModifyAndOk();
   void PressCancel();
   void PressOk();
+  private:
+  ///Get the dialog to close, will be non-nullptr
+  ///Will freeze the application if it will not appear
+  QtRateConceptDialog * GetDialog() const noexcept;
 };
 
 } //~namespace cmap
