@@ -1470,7 +1470,7 @@ void ribi::cmap::QtConceptMapTest::PressF1OnEmptyConceptMapIsRejected() const no
 
 void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeEditConceptMapIsRejected() const noexcept
 {
-  if (OnTravis()) return;
+  //if (OnTravis()) return;
 
   QtConceptMap q;
   q.SetConceptMap(ConceptMapFactory().GetLonelyNode());
@@ -1480,7 +1480,7 @@ void ribi::cmap::QtConceptMapTest::PressF1OnSingleNodeEditConceptMapIsRejected()
   assert(CountSelectedQtNodes(q) == 1);
   QKeyEvent e(QEvent::KeyPress, Qt::Key_F1, Qt::NoModifier);
   QtRateConceptDialogCloser c;
-  QTimer::singleShot(200, &c, SLOT(PressOk()));
+  QTimer::singleShot(500, &c, SLOT(PressOk()));
   q.keyPressEvent(&e);
   QVERIFY(!e.isAccepted());
 }
