@@ -28,8 +28,6 @@ void ribi::cmap::QtClassifyExamplesDialogCloserTest::PressCancel() const noexcep
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   QtClassifyExamplesDialog d(concept);
-  d.show();
-  QTest::qWaitForWindowExposed(&d);
   QTimer::singleShot(2000, &c, SLOT(PressCancel()));
   d.exec();
   QVERIFY(!d.HasUserClickedOk());
@@ -40,7 +38,6 @@ void ribi::cmap::QtClassifyExamplesDialogCloserTest::PressOk() const noexcept
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   QtClassifyExamplesDialog d(concept);
-  d.show();
   QTimer::singleShot(2000, &c, SLOT(PressOk()));
   d.exec();
   QVERIFY(d.HasUserClickedOk());
