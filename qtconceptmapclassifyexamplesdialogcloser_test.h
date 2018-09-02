@@ -11,8 +11,7 @@ class QtClassifyExamplesDialogCloserTest : public QObject
     Q_OBJECT //!OCLINT
 
 private slots:
-  void ModifyAndCancelDiscardsChanges() const noexcept;
-  void ModifyAndOkKeespChanges() const noexcept;
+  void Modify() const noexcept;
   void PressCancel() const noexcept;
   void PressOk() const noexcept;
 };
