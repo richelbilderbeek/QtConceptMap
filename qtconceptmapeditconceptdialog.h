@@ -15,7 +15,7 @@ namespace ribi {
 namespace cmap {
 
 struct QNumberedColumn;
-struct QtEditDialogTest;
+class QtEditConceptDialogTest;
 class QtEditConceptDialogCloser;
 
 class QtEditConceptDialog final : public QDialog
@@ -40,7 +40,7 @@ public:
   ///The concept being modified
   Concept ToConcept() const noexcept;
 
-  void keyPressEvent(QKeyEvent *);
+  //void keyPressEvent(QKeyEvent *);
 
 protected:
   void showEvent(QShowEvent *);
@@ -58,7 +58,7 @@ private:
 
   bool m_user_clicked_ok{false};
 
-  friend class QtEditDialogTest;
+  friend class QtEditConceptDialogTest;
   friend class QtEditConceptDialogCloser;
 };
 

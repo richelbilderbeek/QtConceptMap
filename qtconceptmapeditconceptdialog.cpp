@@ -66,11 +66,13 @@ QVector<QString> ribi::cmap::GetExamplesText(const Concept& concept) noexcept
   return text;
 }
 
+/*
 void ribi::cmap::QtEditConceptDialog::keyPressEvent(QKeyEvent* e)
 {
   if (e->key() == Qt::Key_Escape) { close(); return; }
   QDialog::keyPressEvent(e);
 }
+*/
 
 void ribi::cmap::QtEditConceptDialog::on_button_add_clicked()//QTableView *tableView)
 {

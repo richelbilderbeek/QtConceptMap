@@ -6,12 +6,14 @@
 namespace ribi {
 namespace cmap {
 
-class QtEditDialogTest : public QObject
+class QtEditConceptDialogTest : public QObject
 {
     Q_OBJECT //!OCLINT
 
 private slots:
 
+  void ClickCancelIsNoted() const noexcept;
+  void ClickOkIsNoted() const noexcept;
   void ConstructConceptWithoutExamples() const noexcept;
   void ConstructConceptWithOneExample() const noexcept;
   void ConstructConceptWithTwoExamples() const noexcept;

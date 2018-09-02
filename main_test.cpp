@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
   { QtConceptMapTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtEdgeTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtEditConceptDialogCloserTest t; error |= QTest::qExec(&t, argc, argv); }
-  { QtEditDialogTest t; error |= QTest::qExec(&t, argc, argv); }
+  { QtEditConceptDialogTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtItemHighlighterTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtNewArrowTest t; error |= QTest::qExec(&t, argc, argv); }
   { QtNodeFactoryTest t; error |= QTest::qExec(&t, argc, argv); }

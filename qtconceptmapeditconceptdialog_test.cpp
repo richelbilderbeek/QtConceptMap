@@ -16,7 +16,24 @@
 
 using namespace ribi::cmap;
 
-void ribi::cmap::QtEditDialogTest::ConstructConceptWithOneExample() const noexcept
+void ribi::cmap::QtEditConceptDialogTest::ClickCancelIsNoted() const noexcept
+{
+  const Concept concept;
+  QtEditConceptDialog d(concept, QtEditConceptDialog::EditType::concept);
+  d.on_button_cancel_clicked();
+  QVERIFY(!d.HasUserClickedOk());
+
+}
+
+void ribi::cmap::QtEditConceptDialogTest::ClickOkIsNoted() const noexcept
+{
+  const Concept concept;
+  QtEditConceptDialog d(concept, QtEditConceptDialog::EditType::concept);
+  d.on_button_ok_clicked();
+  QVERIFY(d.HasUserClickedOk());
+}
+
+void ribi::cmap::QtEditConceptDialogTest::ConstructConceptWithOneExample() const noexcept
 {
   QtEditConceptDialog d(
     Concept("concept", Examples( { Example("example") } ) ),
@@ -25,7 +42,7 @@ void ribi::cmap::QtEditDialogTest::ConstructConceptWithOneExample() const noexce
   d.show();
 }
 
-void ribi::cmap::QtEditDialogTest
+void ribi::cmap::QtEditConceptDialogTest
   ::ConstructConceptWithTwoExamples() const noexcept
 {
   QtEditConceptDialog d(
@@ -36,7 +53,7 @@ void ribi::cmap::QtEditDialogTest
 }
 
 
-void ribi::cmap::QtEditDialogTest
+void ribi::cmap::QtEditConceptDialogTest
   ::ConstructConceptWithoutExamples() const noexcept
 {
   QtEditConceptDialog d(
@@ -46,7 +63,7 @@ void ribi::cmap::QtEditDialogTest
   d.show();
 }
 
-void ribi::cmap::QtEditDialogTest
+void ribi::cmap::QtEditConceptDialogTest
   ::ConstructRelationWithoutExamples() const noexcept
 {
   QtEditConceptDialog d(
@@ -56,7 +73,7 @@ void ribi::cmap::QtEditDialogTest
   d.show();
 }
 
-void ribi::cmap::QtEditDialogTest
+void ribi::cmap::QtEditConceptDialogTest
   ::PressOkWithChangingExamplesResultsInChangedConcept() const noexcept
 {
   //Assume reading in a concept and clicking OK after adding an example
@@ -77,7 +94,7 @@ void ribi::cmap::QtEditDialogTest
 
 
 
-void ribi::cmap::QtEditDialogTest
+void ribi::cmap::QtEditConceptDialogTest
   ::PressOkWithChangingNameResultsInChangedConcept() const noexcept
 {
   //Assume reading in a concept and clicking OK after modification of the name does modify concept
@@ -95,7 +112,7 @@ void ribi::cmap::QtEditDialogTest
 }
 
 
-void ribi::cmap::QtEditDialogTest
+void ribi::cmap::QtEditConceptDialogTest
   ::PressOkWithoutChangesResultsInUnchangedConcept() const noexcept
 {
   //Assume reading in a concept and clicking OK without modification does not modify anything
@@ -112,7 +129,7 @@ void ribi::cmap::QtEditDialogTest
 }
 
 
-void ribi::cmap::QtEditDialogTest
+void ribi::cmap::QtEditConceptDialogTest
   ::UserHasNotClickedOkAtConstruction() const noexcept
 {
   const QtEditConceptDialog d(Concept(), QtEditConceptDialog::concept);
