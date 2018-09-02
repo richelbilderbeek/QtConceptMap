@@ -11,14 +11,14 @@ using namespace ribi::cmap;
 
 void ribi::cmap::QtClassifyExamplesDialogCloserTest::Modify() const noexcept
 {
-  if (OnTravis()) return; // Even 4 full seconds did not wor
+  if (OnTravis()) return; // Even 4 full seconds did not work
 
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   const auto examples_before = concept.GetExamples();
   QtClassifyExamplesDialog d(concept);
   assert(examples_before == d.GetRatedExamples());
-  QTimer::singleShot(4000, &c, SLOT(ModifyAndOk()));
+  QTimer::singleShot(200, &c, SLOT(ModifyAndOk()));
   d.exec();
   assert(d.HasUserClickedOk());
   const auto examples_after = d.GetRatedExamples();
@@ -27,20 +27,24 @@ void ribi::cmap::QtClassifyExamplesDialogCloserTest::Modify() const noexcept
 
 void ribi::cmap::QtClassifyExamplesDialogCloserTest::PressCancel() const noexcept
 {
+  if (OnTravis()) return; // Even 4 full seconds did not work
+
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   QtClassifyExamplesDialog d(concept);
-  QTimer::singleShot(4000, &c, SLOT(PressCancel()));
+  QTimer::singleShot(200, &c, SLOT(PressCancel()));
   d.exec();
   QVERIFY(!d.HasUserClickedOk());
 }
 
 void ribi::cmap::QtClassifyExamplesDialogCloserTest::PressOk() const noexcept
 {
+  if (OnTravis()) return; // Even 4 full seconds did not work
+
   QtClassifyExamplesDialogCloser c;
   const Concept concept("A", Examples( { Example("1") } ));
   QtClassifyExamplesDialog d(concept);
-  QTimer::singleShot(4000, &c, SLOT(PressOk()));
+  QTimer::singleShot(200, &c, SLOT(PressOk()));
   d.exec();
   QVERIFY(d.HasUserClickedOk());
 }
