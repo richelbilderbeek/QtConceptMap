@@ -304,7 +304,7 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
         const QtEdge * const qtedge = FindQtEdge(qtnode, q);
         const bool is_qtnode_selected{IsSelected(*qtnode)};
         const bool is_qtedge_selected{IsSelected(*qtedge)};
-        assert(is_qtnode_selected == is_qtedge_selected);
+        assert(is_qtnode_selected == is_qtedge_selected); //
       }
     }
   }
@@ -1226,6 +1226,8 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   {
     mousePressEventNoArrowActive(*this, event);
   }
+
+  CheckInvariants(*this);
 
   if (!event->isAccepted())
   {

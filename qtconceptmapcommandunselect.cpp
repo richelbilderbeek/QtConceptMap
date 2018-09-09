@@ -22,29 +22,35 @@ ribi::cmap::CommandUnselect::CommandUnselect(
 {
   if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
   {
+    qCritical() << __func__ << ": " << __LINE__ << ": " << "qtedge start";
     m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge, this);
+    qCritical() << __func__ << ": " << __LINE__ << ": " << "qtedge end";
   }
   else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
   {
-    m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
-    assert(!IsOnEdge(*qtnode));
-    #ifdef KEEP_20180902
+    qCritical() << __func__ << ": " << __LINE__ << ": " << "qtnode start";
     if (IsOnEdge(*qtnode))
     {
       QtEdge * const qtedge2 = FindQtEdge(qtnode, qtconceptmap);
       assert(qtedge2);
+      qCritical() << __func__ << ": " << __LINE__ << ": " << "new CommandUnselectEdge start";
       m_cmd = new CommandUnselectEdge(qtconceptmap, qtedge2, this);
+      qCritical() << __func__ << ": " << __LINE__ << ": " << "new CommandUnselectEdge end";
     }
     else
     {
+      qCritical() << __func__ << ": " << __LINE__ << ": " << "new CommandUnselectNode start";
       m_cmd = new CommandUnselectNode(qtconceptmap, qtnode, this);
+      qCritical() << __func__ << ": " << __LINE__ << ": " << "new CommandUnselectNode end";
     }
-    #endif // KEEP_20180902
+    qCritical() << __func__ << ": " << __LINE__ << ": " << "qtnode end";
   }
   if (!m_cmd)
   {
+    qCritical() << __func__ << ": " << __LINE__ << ": " << "no cmd";
     throw std::invalid_argument("item is not a QtEdge nor QtNode");
   }
+  qCritical() << __func__ << ": " << __LINE__ << ": " << "start text";
 
   //QCommands have a text
   {
@@ -52,6 +58,7 @@ ribi::cmap::CommandUnselect::CommandUnselect(
     msg << "Unselect item";
     this->setText(msg.str().c_str());
   }
+    qCritical() << __func__ << ": " << __LINE__ << ": " << "end text";
 }
 
 ribi::cmap::CommandUnselect::~CommandUnselect() noexcept
