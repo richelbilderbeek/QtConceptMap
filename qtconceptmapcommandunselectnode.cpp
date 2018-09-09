@@ -24,32 +24,26 @@ ribi::cmap::CommandUnselectNode::CommandUnselectNode(
     m_prev_qttoolitem_buddy{nullptr},
     m_qtnode{qtnode}
 {
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode c'tor start";
   if (!m_qtnode)
   {
-    qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode c'tor qtnode nullptr";
     throw std::invalid_argument("Cannot unselect nullptr QtNode");
   }
   if (IsQtNodeOnEdge(qtnode))
   {
-    qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode c'tor qtnode is on edge";
     throw std::invalid_argument(
       "Cannot unselect QtNode on QtEdge, use CommandUnselectEdge instead"
     );
   }
   if (!m_qtnode->isSelected())
   {
-    qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode c'tor qtnode not seleected";
     throw std::invalid_argument("Cannot unselect QtNode that is already unselected");
   }
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode c'tor before text";
   //QCommands have a text
   {
     std::stringstream msg;
     msg << "Unselect node";
     this->setText(msg.str().c_str());
   }
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode c'tor end";
 }
 
 ribi::cmap::CommandUnselectNode::~CommandUnselectNode() noexcept
@@ -82,19 +76,13 @@ ribi::cmap::CommandUnselectNode * ribi::cmap::ParseCommandUnselectNode(
 
 void ribi::cmap::CommandUnselectNode::Redo()
 {
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode::Redo start";
   m_prev_qttoolitem_buddy = GetQtToolItemBuddy(GetQtConceptMap());
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode::Redo mid";
   assert(m_qtnode);
   Unselect(GetQtConceptMap(), *m_qtnode);
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode::Redo end";
 }
 
 void ribi::cmap::CommandUnselectNode::Undo()
 {
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode::Undo start";
   SetQtToolItemBuddy(GetQtConceptMap(), m_prev_qttoolitem_buddy);
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode::Undo mid";
   SetSelectedness(true, *m_qtnode);
-  qCritical() << __func__ << ": " << __LINE__ << ": " << "CommandUnselectNode::Undo end";
 }
