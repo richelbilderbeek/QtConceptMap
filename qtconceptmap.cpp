@@ -1227,22 +1227,15 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 
   CheckInvariants(*this);
 
-  #ifdef KEEP_OUT_OF_NOSTALGIA
-  //?Really critical?
-  if (!event->isAccepted() && false)
+  #ifdef WANT_TO_DO_SOMETHING_STUF_20180916
+  //On should not do this:
+  if (!event->isAccepted())
   {
-    std::ofstream before("/home/richel/before.txt");
-    before << *this;
-    qCritical() << "QtKeyboardFriendlyGraphicsView does its thing";
     QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
-    std::ofstream after("/home/richel/after.txt");
-    after << *this;
   }
-  else
-  {
-    qCritical() << "QtKeyboardFriendlyGraphicsView is ignored";
-  }
-  CheckInvariants(*this);
+  //This is because the View may select/unselect a QtNode/QtEdge, that this
+  //function could not. The reason the View may be able to do so,
+  //and this function not, is because of the movement of the QtNodes and QtEdges in the QTimer thread.
   #endif
   qCritical() << "QtConceptMap::mousePressEvent end";
 }
