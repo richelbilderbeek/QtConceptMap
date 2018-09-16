@@ -1192,8 +1192,6 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 
 void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
-  qCritical() << "QtConceptMap::mousePressEvent start";
-
   CheckInvariants(*this);
   assert(event);
 
@@ -1228,7 +1226,7 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   CheckInvariants(*this);
 
   #ifdef WANT_TO_DO_SOMETHING_STUF_20180916
-  //On should not do this:
+  //One should not do this:
   if (!event->isAccepted())
   {
     QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
@@ -1237,7 +1235,6 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
   //function could not. The reason the View may be able to do so,
   //and this function not, is because of the movement of the QtNodes and QtEdges in the QTimer thread.
   #endif
-  qCritical() << "QtConceptMap::mousePressEvent end";
 }
 
 void ribi::cmap::mousePressEventNoArrowActive(
@@ -1322,16 +1319,13 @@ void ribi::cmap::mousePressEventNoArrowActive(
       {
         try
         {
-          qCritical() << "Unselect all";
           q.DoCommand(new CommandUnselectAll(q));
         }
         catch (const std::exception& e)
         {
-          qCritical() << "Unselect all threw exception: " << e.what();
           //OK
         }
       }
-      qCritical() << "Select item";
       q.DoCommand(command);
 
       //Essential for having movable QtNodes and QtEdges
@@ -1342,14 +1336,7 @@ void ribi::cmap::mousePressEventNoArrowActive(
       assert(event->isAccepted());
     }
   }
-  catch (const std::exception& e)
-  {
-    qCritical() << "Click on an edge or node execption: " << e.what();
-  }
-  if (!event->isAccepted())
-  {
-    qCritical() << "mousePressEventNoArrowActive: event ignored";
-  }
+  catch (const std::exception&) {} //!OCLINT OK
   CheckInvariants(q);
 }
 

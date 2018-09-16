@@ -25,14 +25,12 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   }
   if (IsOnEdge(*qtnode))
   {
-    qCritical() << "Cannot select QtNode on QtEdge, use CommandSelectEdge instead";
     throw std::invalid_argument(
       "Cannot select QtNode on QtEdge, use CommandSelectEdge instead"
     );
   }
   if (m_qtnode->isSelected())
   {
-    qCritical() << "Cannot select QtNode that is already selected";
     throw std::invalid_argument("Cannot select QtNode that is already selected");
   }
   //QCommands have a text
