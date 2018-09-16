@@ -204,7 +204,7 @@ ribi::cmap::Concept ribi::cmap::GetConcept(const QtEdge& qtedge) noexcept
 ribi::cmap::Edge ribi::cmap::QtEdge::GetEdge() const noexcept
 {
   return Edge(
-    GetNode(*m_qtnode),
+    ToNode(*m_qtnode),
     m_arrow->HasHead(),
     m_arrow->HasTail(),
     GetId()
@@ -216,9 +216,9 @@ const ribi::cmap::Examples& ribi::cmap::GetExamples(const QtEdge& qtedge) noexce
   return GetExamples(*qtedge.GetQtNode());
 }
 
-ribi::cmap::Node ribi::cmap::GetNode(const QtEdge& qtedge) noexcept
+ribi::cmap::Node ribi::cmap::ToNode(const QtEdge& qtedge) noexcept
 {
-  return ::ribi::cmap::GetNode(*qtedge.GetQtNode());
+  return ::ribi::cmap::ToNode(*qtedge.GetQtNode());
 }
 
 std::string ribi::cmap::GetText(const QtEdge& qtedge) noexcept

@@ -19,9 +19,9 @@ ribi::cmap::CommandSelectEdge::CommandSelectEdge(
   {
     throw std::invalid_argument("Cannot select a nullptr QtEdge");
   }
-  if (IsSelected(*m_qtedge))
+  //Add mildness: we need to select. If one of the two is already selected, just select both
+  if (m_qtedge->isSelected() && m_qtedge->GetQtNode()->isSelected())
   {
-    assert(m_qtedge->isSelected() == m_qtedge->GetQtNode()->isSelected());
     throw std::invalid_argument("Cannot select a QtEdge that is already selected");
   }
 

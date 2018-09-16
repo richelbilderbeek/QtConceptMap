@@ -157,7 +157,7 @@ Concept GetConcept(const QtEdge& qtedge) noexcept;
 const Examples& GetExamples(const QtEdge& qtedge) noexcept;
 
 ///Create a Node to represent the QtEdge
-Node GetNode(const QtEdge& qtedge) noexcept;
+Node ToNode(const QtEdge& qtedge) noexcept;
 
 ///Get the Z order of each edge,
 ///which should be QtEdgeArrow < QtEdge < QtNode < QtNewArrow < QtTool

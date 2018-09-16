@@ -172,7 +172,11 @@ int GetRatingSpecificity(const QtNode& qtnode) noexcept;
 
 int GetId(const QtNode& qtnode) noexcept;
 std::string GetName(const QtNode& qtnode) noexcept;
+
+///Create a Node from a QtNode, use ToNode
+[[deprecated]]
 Node GetNode(const QtNode& qtnode) noexcept;
+
 std::string GetText(const QtNode& qtnode) noexcept;
 NodeType GetType(const QtNode& qtnode) noexcept;
 
@@ -241,6 +245,8 @@ void SetText(QtNode& qtnode, const std::string& text);
 void SetX(QtNode& qtnode, const double x);
 void SetY(QtNode& qtnode, const double y);
 
+///Create a Node from a QtNode
+Node ToNode(const QtNode& qtnode) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const QtNode& qtnode) noexcept;
 

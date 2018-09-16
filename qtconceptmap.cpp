@@ -1191,6 +1191,8 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
 
 void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 {
+  qCritical() << "QtConceptMap::mousePressEvent start";
+
   CheckInvariants(*this);
   assert(event);
 
@@ -1229,13 +1231,18 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
     qCritical() << "QtKeyboardFriendlyGraphicsView does its thing";
     QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
   }
+  else
+  {
+    qCritical() << "QtKeyboardFriendlyGraphicsView is ignored";
+  }
 
   CheckInvariants(*this);
+  qCritical() << "QtConceptMap::mousePressEvent end";
 }
 
 void ribi::cmap::mousePressEventNoArrowActive(
   QtConceptMap& q,
-  QMouseEvent *event
+  QMouseEvent * const event
 )
 {
   CheckInvariants(q);
@@ -1332,13 +1339,17 @@ void ribi::cmap::mousePressEventNoArrowActive(
 
       //Essential for selecting QtNodes and QtEdges cleanly
       event->accept();
+      assert(event->isAccepted());
     }
   }
   catch (const std::exception& e)
   {
     qCritical() << "Click on an edge or node execption: " << e.what();
   }
-
+  if (!event->isAccepted())
+  {
+    qCritical() << "mousePressEventNoArrowActive: event ignored";
+  }
   CheckInvariants(q);
 }
 
@@ -1855,7 +1866,7 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
   {
     assert(qtnode);
     if (!IsCenterNode(*qtnode)) continue;
-    const auto vd = add_bundled_vertex(GetNode(*qtnode), g);
+    const auto vd = add_bundled_vertex(ToNode(*qtnode), g);
     vds.insert( { qtnode, vd } );
   }
 
@@ -1864,7 +1875,7 @@ ribi::cmap::ConceptMap ribi::cmap::QtConceptMap::ToConceptMap() const noexcept
   {
     assert(qtnode);
     if (IsCenterNode(*qtnode)) continue;
-    const auto vd = add_bundled_vertex(GetNode(*qtnode), g);
+    const auto vd = add_bundled_vertex(ToNode(*qtnode), g);
     vds.insert( { qtnode, vd } );
   }
   const auto qtedges = GetQtEdges(*this);

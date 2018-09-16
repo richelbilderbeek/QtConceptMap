@@ -122,12 +122,22 @@ void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept
 {
   QtRoundedEditRectItem::focusInEvent(e);
   assert(hasFocus());
+  assert(this->isSelected());
+  if (this->parentItem())
+  {
+    this->parentItem()->setSelected(true);
+  }
 }
 
 void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
 {
   QtRoundedEditRectItem::focusOutEvent(e);
   assert(!hasFocus());
+  assert(!this->isSelected());
+  if (this->parentItem())
+  {
+    this->parentItem()->setSelected(false);
+  }
 }
 
 QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept
@@ -154,17 +164,17 @@ const ribi::cmap::Examples& ribi::cmap::GetExamples(const QtNode& qtnode) noexce
 
 int ribi::cmap::GetRatingComplexity(const QtNode& qtnode) noexcept
 {
-  return GetRatingComplexity(GetNode(qtnode));
+  return GetRatingComplexity(ToNode(qtnode));
 }
 
 int ribi::cmap::GetRatingConcreteness(const QtNode& qtnode) noexcept
 {
-  return GetRatingConcreteness(GetNode(qtnode));
+  return GetRatingConcreteness(ToNode(qtnode));
 }
 
 int ribi::cmap::GetRatingSpecificity(const QtNode& qtnode) noexcept
 {
-  return GetRatingSpecificity(GetNode(qtnode));
+  return GetRatingSpecificity(ToNode(qtnode));
 }
 
 int ribi::cmap::GetId(const QtNode& qtnode) noexcept
@@ -177,7 +187,7 @@ std::string ribi::cmap::GetName(const QtNode& qtnode) noexcept
   return GetText(qtnode);
 }
 
-ribi::cmap::Node ribi::cmap::GetNode(const QtNode& qtnode) noexcept
+ribi::cmap::Node ribi::cmap::ToNode(const QtNode& qtnode) noexcept
 {
   //ID is important, as it is what makes
   // a QtNode/Node uniquely identifyable

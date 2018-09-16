@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
 #include <gsl/gsl_assert>
+#include <QDebug>
 #include "conceptmaphelper.h"
 #include "qtconceptmapqtedge.h"
 #include "qtconceptmapqtnode.h"
@@ -22,14 +23,16 @@ ribi::cmap::CommandSelectNode::CommandSelectNode(
   {
     throw std::invalid_argument("Cannot select nullptr QtNode");
   }
-  if (IsQtNodeOnEdge(qtnode))
+  if (IsOnEdge(*qtnode))
   {
+    qCritical() << "Cannot select QtNode on QtEdge, use CommandSelectEdge instead";
     throw std::invalid_argument(
       "Cannot select QtNode on QtEdge, use CommandSelectEdge instead"
     );
   }
   if (m_qtnode->isSelected())
   {
+    qCritical() << "Cannot select QtNode that is already selected";
     throw std::invalid_argument("Cannot select QtNode that is already selected");
   }
   //QCommands have a text
