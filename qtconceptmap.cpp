@@ -304,7 +304,7 @@ void ribi::cmap::CheckInvariants(const QtConceptMap&
         const QtEdge * const qtedge = FindQtEdge(qtnode, q);
         const bool is_qtnode_selected{IsSelected(*qtnode)};
         const bool is_qtedge_selected{IsSelected(*qtedge)};
-        assert(is_qtnode_selected == is_qtedge_selected); //
+        assert(is_qtnode_selected == is_qtedge_selected); //CRASH
       }
     }
   }
@@ -1125,11 +1125,19 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
   }
   else
   {
+    if (m_last_mouse_click_pos.empty())
+    {
+      m_last_mouse_click_pos.resize(1);
+      m_last_mouse_click_pos[0] = mapToScene(event->pos());
+      return;
+    }
+
     m_highlighter->SetItem(nullptr); //item_below is allowed to be nullptr
 
     if (event->buttons() & Qt::LeftButton)
     {
-      assert(!m_last_mouse_click_pos.empty());
+      assert(!m_last_mouse_click_pos.empty()); //CRASH
+
       const QPointF new_pos = mapToScene(event->pos());
       const double dx{new_pos.x() - m_last_mouse_click_pos[0].x()};
       const double dy{new_pos.y() - m_last_mouse_click_pos[0].y()};
@@ -1150,15 +1158,6 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
           }
           else
           {
-            for (QGraphicsItem * const this_item: scene()->items())
-            {
-              if (QtEdge * const this_qtedge = qgraphicsitem_cast<QtEdge*>(this_item))
-              {
-                this_qtedge->update();
-                this_qtedge->GetArrow()->update();
-              }
-            }
-            #ifdef WOULD_GETQTEDGES_AND_COLLECT_WORK
             const auto qtedges = GetQtEdges(qtnode, scene());
             for (QtEdge* const qtedge: qtedges)
             {
@@ -1166,7 +1165,6 @@ void ribi::cmap::QtConceptMap::mouseMoveEvent(QMouseEvent * event)
               qtedge->GetQtNode()->update();
               qtedge->GetArrow()->update();
             }
-            #endif
           }
         }
       }
@@ -1228,6 +1226,7 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 
   if (!event->isAccepted())
   {
+    qCritical() << "QtKeyboardFriendlyGraphicsView does its thing";
     QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
   }
 
@@ -1308,16 +1307,24 @@ void ribi::cmap::mousePressEventNoArrowActive(
     }
     else
     {
+      assert(!item->isSelected());
       Command * const command{new CommandSelect(q, *item)};
-      if (HasSelectedItems(q)
-        && (
-          event->modifiers() == Qt::NoModifier //Unselect all without shift
-          || q.GetMode() != Mode::edit         //Unselect all with shift in non-edit mode
-        )
-      )
+      const bool select_single_items{q.GetMode() != Mode::edit};
+      const bool transfer_selection{event->modifiers() != Qt::ShiftModifier};
+      if (select_single_items || transfer_selection)
       {
-        q.DoCommand(new CommandUnselectAll(q));
+        try
+        {
+          qCritical() << "Unselect all";
+          q.DoCommand(new CommandUnselectAll(q));
+        }
+        catch (const std::exception& e)
+        {
+          qCritical() << "Unselect all threw exception: " << e.what();
+          //OK
+        }
       }
+      qCritical() << "Select item";
       q.DoCommand(command);
 
       //Essential for having movable QtNodes and QtEdges
@@ -1327,7 +1334,10 @@ void ribi::cmap::mousePressEventNoArrowActive(
       event->accept();
     }
   }
-  catch (std::exception&) {} //OK
+  catch (const std::exception& e)
+  {
+    qCritical() << "Click on an edge or node execption: " << e.what();
+  }
 
   CheckInvariants(q);
 }

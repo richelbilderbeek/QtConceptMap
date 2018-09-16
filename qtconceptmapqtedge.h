@@ -139,9 +139,6 @@ private:
   ///Will throw if input is invalid
   void CheckInput(QtNode * const from, QtNode * const to);
 
-  ///Use IsSelected instead
-  bool isSelected() const = delete;
-
   ///Use SetSelected instead
   void setSelected(bool selected) = delete;
 

@@ -25,20 +25,31 @@ ribi::cmap::CommandSelect::CommandSelect(
   : Command(qtconceptmap),
     m_cmd{nullptr}
 {
-  if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
+  try
   {
-    m_cmd = new CommandSelectEdge(qtconceptmap, qtedge, this);
+    if (QtEdge* const qtedge = qgraphicsitem_cast<QtEdge*>(&item))
+    {
+      qCritical() << "create CommandSelectEdge on QtEdge";
+      m_cmd = new CommandSelectEdge(qtconceptmap, qtedge, this);
+    }
+    else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
+    {
+      if (QtEdge * const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
+      {
+        qCritical() << "create CommandSelectEdge on QtEdge from QtNode";
+        m_cmd = new CommandSelectEdge(qtconceptmap, qtedge2, this);
+      }
+      else
+      {
+        qCritical() << "Create CommandSelectNode";
+        m_cmd = new CommandSelectNode(qtconceptmap, qtnode, this);
+      }
+    }
   }
-  else if (QtNode* const qtnode = qgraphicsitem_cast<QtNode*>(&item))
+  catch (const std::exception& e)
   {
-    if (QtEdge * const qtedge2 = FindQtEdge(qtnode, GetQtConceptMap()))
-    {
-      m_cmd = new CommandSelectEdge(qtconceptmap, qtedge2, this);
-    }
-    else
-    {
-      m_cmd = new CommandSelectNode(qtconceptmap, qtnode, this);
-    }
+    qCritical() << "Exception in CommandSelect constructor: " << e.what();
+    throw e;
   }
   if (!m_cmd)
   {

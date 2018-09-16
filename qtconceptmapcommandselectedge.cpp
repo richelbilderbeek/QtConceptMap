@@ -21,6 +21,7 @@ ribi::cmap::CommandSelectEdge::CommandSelectEdge(
   }
   if (IsSelected(*m_qtedge))
   {
+    assert(m_qtedge->isSelected() == m_qtedge->GetQtNode()->isSelected());
     throw std::invalid_argument("Cannot select a QtEdge that is already selected");
   }
 
