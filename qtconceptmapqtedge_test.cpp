@@ -127,7 +127,7 @@ void ribi::cmap::QtEdgeTest::GetNodeMustBeCorrect() const noexcept
   QVERIFY(HasHeadArrow(*qtedge) == HasHeadArrow(edge));
   QVERIFY(HasTailArrow(*qtedge) == HasTailArrow(edge));
   QVERIFY(qtedge->GetId() == edge.GetId());
-  QVERIFY(GetNode(*qtedge) == GetNode(edge));
+  QVERIFY(ToNode(*qtedge) == ToNode(edge));
 }
 
 void ribi::cmap::QtEdgeTest::NodeMustHaveDottedBlackLineWhenSelected() const noexcept

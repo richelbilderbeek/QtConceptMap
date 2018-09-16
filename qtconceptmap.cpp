@@ -1,5 +1,6 @@
 #include "qtconceptmap.h"
 
+#include <fstream>
 #include <QDebug>
 #include <QEvent>
 #include <QFocusEvent>
@@ -1226,17 +1227,23 @@ void ribi::cmap::QtConceptMap::mousePressEvent(QMouseEvent *event)
 
   CheckInvariants(*this);
 
-  if (!event->isAccepted())
+  #ifdef KEEP_OUT_OF_NOSTALGIA
+  //?Really critical?
+  if (!event->isAccepted() && false)
   {
+    std::ofstream before("/home/richel/before.txt");
+    before << *this;
     qCritical() << "QtKeyboardFriendlyGraphicsView does its thing";
     QtKeyboardFriendlyGraphicsView::mousePressEvent(event);
+    std::ofstream after("/home/richel/after.txt");
+    after << *this;
   }
   else
   {
     qCritical() << "QtKeyboardFriendlyGraphicsView is ignored";
   }
-
   CheckInvariants(*this);
+  #endif
   qCritical() << "QtConceptMap::mousePressEvent end";
 }
 
@@ -1832,6 +1839,11 @@ void ribi::cmap::SetSelectedness(
 )
 {
   qtnode.setSelected(is_selected);
+  //2018-09-16: NEW
+  if (qtnode.parentItem())
+  {
+    qtnode.parentItem()->setSelected(true);
+  }
 }
 
 void ribi::cmap::QtConceptMap::showEvent(QShowEvent *)
@@ -1960,7 +1972,7 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) no
     os << index << ' ' << item << ": ";
     if (const ribi::cmap::QtNode * const qtnode = qgraphicsitem_cast<const ribi::cmap::QtNode*>(item))
     {
-      os << "QtNode, has parent item " << qtnode->parentItem();
+      os << "QtNode, has parent item " << qtnode->parentItem() << ", is selected: " << qtnode->isSelected();
     }
     else if (const ribi::cmap::QtEdge * const qtedge = qgraphicsitem_cast<const ribi::cmap::QtEdge*>(item))
     {
@@ -1968,6 +1980,7 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) no
         << "from " << qtedge->GetFrom()
         << ", center " << qtedge->GetQtNode()
         << ", to " << qtedge->GetTo()
+        << ", is selected: " << qtedge->isSelected();
       ;
     }
     else if (const ribi::QtQuadBezierArrowItem * const qtarrow = qgraphicsitem_cast<const ribi::QtQuadBezierArrowItem*>(item))
@@ -1976,6 +1989,7 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) no
         << "from " << qtarrow->GetFromItem()
         << ", mid " << qtarrow->GetMidItem()
         << ", to" << qtarrow->GetToItem()
+        << ", is selected: " << qtarrow->isSelected();
       ;
     }
     else if (const ribi::cmap::QtTool * const qttool = qgraphicsitem_cast<const ribi::cmap::QtTool*>(item))
@@ -1986,7 +2000,7 @@ std::ostream& ribi::cmap::operator<<(std::ostream& os, const QtConceptMap& c) no
     }
     else if (const ribi::QtArrowItem * const qtstraightarrow = qgraphicsitem_cast<const ribi::QtArrowItem*>(item))
     {
-      os << "QtArrowItem";
+      os << "QtArrowItem , is selected: " << qtstraightarrow->isSelected();
     }
     else if (const ribi::cmap::QtNewArrow * const qtnewarrow = qgraphicsitem_cast<const ribi::cmap::QtNewArrow*>(item))
     {

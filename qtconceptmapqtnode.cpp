@@ -122,22 +122,12 @@ void ribi::cmap::QtNode::focusInEvent(QFocusEvent* e) noexcept
 {
   QtRoundedEditRectItem::focusInEvent(e);
   assert(hasFocus());
-  assert(this->isSelected());
-  if (this->parentItem())
-  {
-    this->parentItem()->setSelected(true);
-  }
 }
 
 void ribi::cmap::QtNode::focusOutEvent(QFocusEvent* e) noexcept
 {
   QtRoundedEditRectItem::focusOutEvent(e);
   assert(!hasFocus());
-  assert(!this->isSelected());
-  if (this->parentItem())
-  {
-    this->parentItem()->setSelected(false);
-  }
 }
 
 QPointF ribi::cmap::GetCenterPos(const QtNode& qtnode) noexcept

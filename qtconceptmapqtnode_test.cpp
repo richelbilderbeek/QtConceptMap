@@ -107,7 +107,7 @@ void ribi::cmap::QtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualX() const noe
   const QtRoundedEditRectItem * edit_rect{
     dynamic_cast<QtRoundedEditRectItem*>(qtnode.get())
   };
-  const auto node = GetNode(*qtnode);
+  const auto node = ToNode(*qtnode);
   const double node_x = node.GetX();
   const double edit_rect_x = edit_rect->pos().x();
   QVERIFY(std::abs(node_x - edit_rect_x) < 2.0);
@@ -119,7 +119,7 @@ void ribi::cmap::QtNodeTest::QtNodeIsQtRoundedEditRectItemWithEqualY() const noe
   const QtRoundedEditRectItem * edit_rect{
     dynamic_cast<QtRoundedEditRectItem*>(qtnode.get())
   };
-  const auto node = GetNode(*qtnode);
+  const auto node = ToNode(*qtnode);
   const double node_y = node.GetY();
   const double edit_rect_y = edit_rect->pos().y();
   QVERIFY(std::abs(node_y - edit_rect_y) < 2.0);
