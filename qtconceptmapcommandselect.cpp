@@ -2,7 +2,7 @@
 
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 
 #include <QDebug>
 

@@ -7,7 +7,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QGraphicsView>
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 
 #include "count_if_bundled_vertex.h"
 #include "create_direct_neighbour_bundled_edges_and_vertices_subgraph.h"

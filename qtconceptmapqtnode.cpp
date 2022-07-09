@@ -9,7 +9,7 @@
 #include <QPainter>
 #include <QPen>
 
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 
 #include "conceptmapconcept.h"
 #include "conceptmapexamples.h"

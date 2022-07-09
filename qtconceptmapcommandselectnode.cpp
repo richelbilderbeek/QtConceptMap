@@ -3,7 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 #include <QDebug>
 #include "conceptmaphelper.h"
 #include "qtconceptmapqtedge.h"

@@ -3,7 +3,7 @@
 #include <cassert>
 #include <sstream>
 #include <numeric>
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 #include <boost/algorithm/string/trim.hpp>
 
 #include "conceptmap.h"

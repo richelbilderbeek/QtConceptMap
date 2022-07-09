@@ -2,7 +2,7 @@
 
 #include <boost/algorithm/string/trim.hpp>
 
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 
 #include "conceptmaphelper.h"
 #include "container.h"
